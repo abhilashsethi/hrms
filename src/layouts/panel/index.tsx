@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 import { useMenuItems } from "hooks";
 import useAuth from "hooks/useAuth";
 import ICONS from "assets/icons";
-import { DEFAULTIMG } from "assets/home";
+import { LOGO } from "assets";
 type Props = {
   children: JSX.Element | JSX.Element[];
   title?: string;
@@ -227,10 +227,7 @@ const PanelLayout = ({ children, title = "Junion" }: Props) => {
                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                   >
                     <MenuItem>
-                      <Avatar
-                        src={user?.avatar || DEFAULTIMG.src}
-                        alt={user?.name}
-                      />
+                      <Avatar src={user?.avatar || LOGO.src} alt={user?.name} />
                       <ListItemText
                         primary={`${user?.name}`}
                         secondary={user?.email}

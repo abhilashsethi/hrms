@@ -19,12 +19,11 @@ import {
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import Swal from "sweetalert2";
-// import { LOGO } from "../../../assets";
 import ICONS from "../../../assets/icons";
 import { useMenuItems } from "../../../hooks";
 import useAuth from "../../../hooks/useAuth";
 import { CustomDrawer, CustomDrawerHeader } from "./custom";
-import { DEFAULTIMG } from "assets/home";
+import { LOGO } from "assets";
 // import { MAIN_LOGO } from 'assets/home'
 
 type DrawerType = {
@@ -62,9 +61,9 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
         <CustomDrawerHeader>
           <div className="flex h-16 w-full items-center justify-between my-2">
             <img
-              src={DEFAULTIMG.src}
+              src={LOGO.src}
               alt=""
-              className={`${open ? "h-14 w-full  object-contain" : "hidden"}`}
+              className={`${open ? "h-10 w-[60%]  object-contain" : "hidden"}`}
             />
             <IconButton onClick={onToggle}>
               {open ? <ChevronLeft /> : <ICONS.Menu className="" />}
