@@ -1,8 +1,8 @@
 import PanelLayout from "layouts/panel";
 
-const Cards = () => {
+const CreateUser = () => {
   return (
-    <PanelLayout title="Dashboard - Cards">
+    <PanelLayout title="Create User - SY HR MS">
       <section className="h-[70vh] w-full flex justify-center items-center">
         <p>Page in progress...</p>
       </section>
@@ -10,4 +10,4 @@ const Cards = () => {
   );
 };
 
-export default Cards;
+export default CreateUser;
