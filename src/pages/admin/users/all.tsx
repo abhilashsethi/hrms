@@ -3,19 +3,21 @@ import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Swal from "sweetalert2";
 import { User } from "types";
-import { MuiTblOptions } from "utils";
+import { MuiTblOptions, clock, getDataWithSL } from "utils";
 const AllUsers = () => {
-  const { data, msg, success } = useFetch<User[]>(`users`);
+  const { data, isLoading } = useFetch<User[]>(`users`);
   return (
     <PanelLayout title="All Users - SY HR MS">
-      <>
+      <section className="container mx-auto">
         <MaterialTable
-          data={[] as User[]}
+          title="All Users"
+          isLoading={isLoading}
+          data={data ? getDataWithSL<User>(data) : []}
           options={{ ...MuiTblOptions(), selection: true }}
           columns={[
             {
               title: "#",
-              field: "sn",
+              field: "sl",
               editable: "never",
               width: "2%",
             },
@@ -33,15 +35,20 @@ const AllUsers = () => {
             },
             {
               title: "Phone",
-              field: "phoneNumber",
+              field: "phone",
               searchable: true,
               export: true,
               emptyValue: "Not Provided",
             },
             {
-              title: "Timestamp",
-              tooltip: "timestamp",
+              title: "Last Updated",
+              field: "updatedAt",
+              render: (data) => clock(data.updatedAt).fromNow(),
+            },
+            {
+              title: "Created",
               field: "createdAt",
+              render: (data) => new Date(data.createdAt).toDateString(),
             },
           ]}
           editable={{
@@ -54,7 +61,7 @@ const AllUsers = () => {
             },
           }}
         />
-      </>
+      </section>
     </PanelLayout>
   );
 };

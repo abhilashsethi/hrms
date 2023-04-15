@@ -78,3 +78,52 @@ export const MuiTblOptionsSecondary = () => {
   };
   return options;
 };
+
+export const getDataWithSL = <T>(data: T[]) => {
+  const dataWithSL = data.map((item, index) => {
+    return {
+      sl: index + 1,
+      ...item,
+    };
+  });
+  return dataWithSL;
+};
+
+export const clock = (dateString: string | Date) => {
+  const date = new Date(dateString);
+  return {
+    fromNow: () => {
+      const now = new Date();
+
+      const diffInMs = now.getTime() - date.getTime();
+
+      const diffInSeconds = Math.floor(diffInMs / 1000);
+      if (diffInSeconds < 60) {
+        return `${diffInSeconds} seconds ago`;
+      }
+
+      const diffInMinutes = Math.floor(diffInSeconds / 60);
+      if (diffInMinutes < 60) {
+        return `${diffInMinutes} minutes ago`;
+      }
+
+      const diffInHours = Math.floor(diffInMinutes / 60);
+      if (diffInHours < 24) {
+        return `${diffInHours} hours ago`;
+      }
+
+      const diffInDays = Math.floor(diffInHours / 24);
+      if (diffInDays < 30) {
+        return `${diffInDays} days ago`;
+      }
+
+      const diffInMonths = Math.floor(diffInDays / 30);
+      if (diffInMonths < 12) {
+        return `${diffInMonths} months ago`;
+      }
+
+      const diffInYears = Math.floor(diffInMonths / 12);
+      return `${diffInYears} years ago`;
+    },
+  };
+};
