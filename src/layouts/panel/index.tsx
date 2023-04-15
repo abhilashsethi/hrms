@@ -20,7 +20,7 @@ type Props = {
   title?: string;
 };
 const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
-  const { user, setUser } = useAuth();
+  const { user, setUser, validateUser, logout } = useAuth();
   const router = useRouter();
   const MenuItems: any = useMenuItems();
   const [isOpen, setIsOpen] = useState(true);
@@ -34,10 +34,12 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
   };
 
   useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, [user]);
+    (async () => {
+      const currentUser = await validateUser();
+      if (!currentUser) return router.push(`/login`);
+      setUser(currentUser);
+    })();
+  }, []);
 
   const handleLogout = () => {
     Swal.fire({
@@ -51,7 +53,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire("Success", "Successfully logged out.", "success");
-        setUser?.({});
+        logout();
         router.push(`/login`);
       }
     });
