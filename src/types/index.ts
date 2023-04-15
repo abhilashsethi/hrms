@@ -9,4 +9,21 @@ export type EmailTemplateType = {
   updatedAt: string;
 };
 
+export type Card = {
+  id: string;
+  cardId: string;
+  isBlocked: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string | null;
+};
+
+export type Attendance = {
+  id: string;
+  date: Date;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export * from "./user";

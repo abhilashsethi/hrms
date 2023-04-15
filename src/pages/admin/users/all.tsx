@@ -1,7 +1,6 @@
 import MaterialTable from "@material-table/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import Swal from "sweetalert2";
 import { User } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 const AllUsers = () => {
@@ -52,13 +51,7 @@ const AllUsers = () => {
             },
           ]}
           editable={{
-            onRowDelete: async (oldData) => {
-              await Swal.fire(
-                `Success`,
-                `Students data removed successfully!`,
-                `success`
-              );
-            },
+            onRowDelete: async (oldData) => {},
           }}
         />
       </section>
