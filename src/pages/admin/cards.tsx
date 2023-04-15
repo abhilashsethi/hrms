@@ -1,8 +1,8 @@
 import PanelLayout from "layouts/panel";
 
-const AdminHome = () => {
+const Cards = () => {
   return (
-    <PanelLayout title="Home - Admin Panel">
+    <PanelLayout title="Dashboard - Cards">
       <section className="h-[70vh] w-full flex justify-center items-center">
         <p>Page in progress...</p>
       </section>
@@ -10,4 +10,4 @@ const AdminHome = () => {
   );
 };
 
-export default AdminHome;
+export default Cards;

@@ -60,11 +60,15 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
       <CustomDrawer variant="permanent" open={open}>
         <CustomDrawerHeader>
           <div className="flex h-16 w-full items-center justify-between my-2">
-            <img
-              src={LOGO.src}
-              alt=""
-              className={`${open ? "h-10 w-[60%]  object-contain" : "hidden"}`}
-            />
+            <div className="flex justify-center">
+              <img
+                src={LOGO.src}
+                alt=""
+                className={`${
+                  open ? "h-12 w-[80%]  object-contain" : "hidden"
+                }`}
+              />
+            </div>
             <IconButton onClick={onToggle}>
               {open ? <ChevronLeft /> : <ICONS.Menu className="" />}
             </IconButton>
