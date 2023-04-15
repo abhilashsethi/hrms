@@ -1,13 +1,15 @@
 import MaterialTable from "@material-table/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import { useRouter } from "next/router";
 import { User } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 const AllUsers = () => {
   const { data, isLoading } = useFetch<User[]>(`users`);
+  const { push } = useRouter();
   return (
     <PanelLayout title="All Users - SY HR MS">
-      <section className="container mx-auto">
+      <section className="w-11/12 mx-auto">
         <MaterialTable
           title="All Users"
           isLoading={isLoading}
@@ -50,6 +52,9 @@ const AllUsers = () => {
               render: (data) => new Date(data.createdAt).toDateString(),
             },
           ]}
+          onRowDoubleClick={(e, rowData) =>
+            push(`/admin/attendances/user/${rowData?.id}`)
+          }
           editable={{
             onRowDelete: async (oldData) => {},
           }}
