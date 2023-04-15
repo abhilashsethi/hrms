@@ -89,11 +89,7 @@ export const fetcher = (args: any) => {
   }).then((_) => _.json());
 };
 
-// export const BASE_URL: "http://192.168.0.54/api/v1" = `http://192.168.0.54/api/v1`;
-export const SOCKET_BASEURL = "https://iam-junion-api.onrender.com/chat";
-// export const SOCKET_BASEURL = "http://192.168.29.117:80/api/v1";
-export const BASE_URL: "https://iam-junion-api.onrender.com/api/v1" = `https://iam-junion-api.onrender.com/api/v1`;
-// export const BASE_URL: "http://192.168.29.117:80/api/v1" = `http://192.168.29.117:80/api/v1`;
+export const BASE_URL: "http://192.168.29.243:2023/api/v1" = `http://192.168.29.243:2023/api/v1`;
 
 type useFetchOptions = {
   BASE_URL: typeof BASE_URL | "/api";
@@ -109,7 +105,7 @@ export const useFetch = <T>(path: string, options?: useFetchOptions) => {
 
 export const useMutation = <T>(
   path: string,
-  options?: { method: "POST" | "PUT" | "DELETE" }
+  options?: { method: "POST" | "PUT" | "PATCH" | "DELETE" }
 ) => {
   const method = options?.method || "POST";
   return useSWRMutation(

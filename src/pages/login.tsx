@@ -14,62 +14,42 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { LoginSchema } from "schemas";
 import Swal from "sweetalert2";
 import { User } from "types";
-import { useChange, useMutation } from "utils";
+import { useMutation } from "utils";
 import * as Yup from "yup";
 import { LOGO } from "../assets";
 import useAuth from "../hooks/useAuth";
-import { LoginSchema } from "schemas";
 
 const Login = () => {
-  const { change } = useChange();
-  const { isMutating, trigger } = useMutation(`auth/signin`);
+  const { isMutating, trigger } = useMutation(`auth/login`);
   const router = useRouter();
-  const { setUser } = useAuth();
-
+  const { setUser, setToken } = useAuth();
   const handleLogin = async (values: any, submitProps: any) => {
     try {
-      const { error, success } = await trigger(values);
-      if (error) return Swal.fire("Error", error.message, "error");
-      const user = {
-        ...success?.data?.user,
-        token: success?.data?.token,
-      } as User;
-
-      setUser?.(user);
-      if (user.role === "ADMIN")
+      const res = await trigger(values);
+      console.log(res);
+      if (!res.success) return Swal.fire("Error", res.msg, "error");
+      const user: User = { ...res.data.user };
+      setUser(user);
+      setToken(res.data.accessToken);
+      if (user.role === "CEO")
         return Swal.fire("Welcome Back!", "Login Successful!", "success").then(
-          () => router.push(`/panel/admin`)
+          () => router.push(`/admin`)
         );
-      if (user.role === "STUDENT") {
-        const sendActivity = await change(`last-visit/create`, {
-          method: "POST",
-          body: { visitDate: [`${new Date().toISOString()}`] },
-        });
+      if (user.role === "HR")
         return Swal.fire("Welcome Back!", "Login Successful!", "success").then(
-          () => router.push(`/panel/student`)
+          () => router.push(`/admin/hr`)
         );
-      }
-      if (user.role === "UNIVERSITY")
-        return Swal.fire("Error", "Invalid login credentials", "error");
-      if (
-        user.role === "AMBASSADOR" ||
-        "FACULTY" ||
-        "MANAGER" ||
-        "UNIVERSITY_STUDENT"
-      ) {
-        return Swal.fire("Error", "Invalid login credentials", "error");
-      }
-      // return Swal.fire("Welcome Back!", "Login Successful!", "success").then(
-      //   () => router.push(`/panel/user`)
-      // );
+      return Swal.fire("Error", "You Don't Have Access To This Page", "error");
     } catch (error) {
       submitProps.setSubmitting(false);
       Swal.fire("Error", "Invalid login credentials", "error");
       console.log(error);
     }
   };
+
   const initialValues = LoginSchema().reduce((accumulator, currentValue) => {
     accumulator[currentValue?.name] = currentValue.initialValue;
     return accumulator;
@@ -94,12 +74,8 @@ const Login = () => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="h-full w-full bg-gradient-to-b from-[#ffffffdc] via-[#4ffff098] to-[#00000086] flex justify-center items-center">
+        <div className="h-full w-full bg-gradient-to-bl from-theme-100 to-secondary-100 flex justify-center items-center">
           <div className="flex flex-col items-center">
-            <div className="mt-4 md:w-28 w-24">
-              <img className="w-full object-contain" src={LOGO.src} alt="" />
-            </div>
-
             <div className="mt-4">
               <Formik
                 initialValues={initialValues}
@@ -110,11 +86,18 @@ const Login = () => {
                   <Form>
                     <Card className="md:w-[30rem] w-[22rem] px-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
                       <CardContent>
-                        <div className="flex flex-col place-content-center py-2">
-                          <p className="mt-4 text-center md:text-2xl text-xl font-semibold text-theme">
+                        <figure className="md:w-28 w-24 m-auto">
+                          <img
+                            className="w-full object-contain"
+                            src={LOGO.src}
+                            alt=""
+                          />
+                        </figure>
+                        <div className="flex flex-col place-content-center">
+                          <p className="text-center md:text-2xl text-xl font-semibold text-theme">
                             LOGIN
                           </p>
-                          <p className="mt-1 text-center font-thin md:text-sm text-xs text-[#DD3350]">
+                          <p className="mt-1 text-center font-thin md:text-sm text-xs text-secondary-600">
                             Enter your credentials to access your panel
                           </p>
                         </div>
