@@ -1,6 +1,6 @@
 import { User } from "types";
-import { BASE_URL } from "utils";
 import { create } from "zustand";
+import { BASE_URL } from "./useAPI";
 
 type AuthState = {
   user?: Partial<User>;
@@ -19,14 +19,16 @@ const useAuth = create<AuthState>((set) => ({
   },
   token:
     typeof window !== "undefined"
-      ? window.localStorage.getItem("accessToken")
+      ? typeof localStorage.getItem("accessToken") === "string"
+        ? JSON.parse(localStorage.getItem("accessToken")!)
+        : null
       : null,
   async validateUser() {
     try {
       if (typeof window === "undefined") {
         throw new Error("Window is undefined");
       }
-      const token = window.localStorage.getItem("accessToken");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         throw new Error("No Access Token Found");
       }

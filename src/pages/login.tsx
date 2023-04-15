@@ -17,10 +17,9 @@ import { useState } from "react";
 import { LoginSchema } from "schemas";
 import Swal from "sweetalert2";
 import { User } from "types";
-import { useMutation } from "utils";
+import { useMutation, useAuth } from "hooks";
 import * as Yup from "yup";
 import { LOGO } from "../assets";
-import useAuth from "../hooks/useAuth";
 
 const Login = () => {
   const { isMutating, trigger } = useMutation(`auth/login`);
