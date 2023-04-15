@@ -26,14 +26,22 @@ type MutationOptions = {
 export const useFetch = <T>(path: string, options?: useFetchOptions) => {
   const url = options?.BASE_URL || BASE_URL;
   const token = getAccessToken();
-  return useSWR<{
-    success: { data: T; haveNextPage?: boolean };
-    message: string;
+  const data = useSWR<{
+    data?: T;
+    success: boolean;
+    msg: string;
   }>(`${url}/${path}`, (args: any) => {
     const headers: HeadersInit = {};
     if (token) headers["x-access-token"] = token;
     return fetch(args, { headers }).then((_) => _.json());
   });
+  return {
+    ...data,
+    response: data,
+    success: data.data?.success,
+    msg: data.data?.msg,
+    data: data.data?.data,
+  };
 };
 
 export const useMutation = <T>(path: string, options?: MutationOptions) => {
