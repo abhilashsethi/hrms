@@ -16,27 +16,26 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { LOGO } from "assets";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import Swal from "sweetalert2";
 import ICONS from "../../../assets/icons";
-import { useMenuItems } from "../../../hooks";
-import useAuth from "../../../hooks/useAuth";
+import { useMenuItems, useAuth } from "hooks";
+
 import { CustomDrawer, CustomDrawerHeader } from "./custom";
-import { LOGO } from "assets";
-// import { MAIN_LOGO } from 'assets/home'
 
 type DrawerType = {
   onToggle?: () => void;
   open?: boolean;
-  role: "ADMIN" | "MANAGER";
+  role?: string;
 };
 
 const Drawer = ({ open, onToggle, role }: DrawerType) => {
   const router = useRouter();
   const { setUser } = useAuth();
   const [selectedSubMenu, setSelectedSubMenu] = useState("");
-  const MenuItems: any = useMenuItems();
+  const MenuItems = useMenuItems();
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",

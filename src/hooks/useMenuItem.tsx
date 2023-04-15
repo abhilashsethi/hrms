@@ -11,7 +11,7 @@ import {
 import useAuth from "./useAuth";
 export default () => {
   const { user } = useAuth();
-  if (user?.role === "ADMIN")
+  if (user?.role === "CEO")
     return [
       {
         key: "1",
@@ -83,19 +83,19 @@ export default () => {
         ],
       },
     ];
-  if (user?.role === "STUDENT")
+  if (user?.role === "HR")
     return [
       {
         key: "1",
         title: "Dashboard",
         icon: <Dashboard />,
-        route: "/panel/student",
+        route: "/admin/users",
       },
       {
         key: "1",
         title: "Profile",
         icon: <AccountCircle />,
-        route: "/panel/student/profile",
+        route: "/admin/profile",
       },
     ];
   return [];

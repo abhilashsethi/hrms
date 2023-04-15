@@ -1,3 +1,4 @@
+import { Logout, Settings } from "@mui/icons-material";
 import {
   Avatar,
   Divider,
@@ -6,22 +7,19 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import ICONS from "assets/icons";
+import { useAuth, useMenuItems } from "hooks";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { Logout, Settings } from "@mui/icons-material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Drawer from "./drawer";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { useMenuItems } from "hooks";
-import useAuth from "hooks/useAuth";
-import ICONS from "assets/icons";
-import { LOGO } from "assets";
+import Drawer from "./drawer";
 type Props = {
   children: JSX.Element | JSX.Element[];
   title?: string;
 };
-const PanelLayout = ({ children, title = "Junion" }: Props) => {
+const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
   const { user, setUser } = useAuth();
   const router = useRouter();
   const MenuItems: any = useMenuItems();
@@ -36,14 +34,10 @@ const PanelLayout = ({ children, title = "Junion" }: Props) => {
   };
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (!storedUser) {
+    if (!user) {
       router.push("/login");
     }
-    if (storedUser) {
-      setUser?.(JSON.parse(storedUser));
-    }
-  }, []);
+  }, [user]);
 
   const handleLogout = () => {
     Swal.fire({
@@ -73,11 +67,7 @@ const PanelLayout = ({ children, title = "Junion" }: Props) => {
         <Drawer
           open={isOpen}
           onToggle={() => setIsOpen(!isOpen)}
-          role={
-            router?.query?.role?.toString()?.toUpperCase() as
-              | "ADMIN"
-              | "MANAGER"
-          }
+          role={user?.role!}
         />
         <main
           className={`min-h-screen bg-white ${
@@ -89,7 +79,6 @@ const PanelLayout = ({ children, title = "Junion" }: Props) => {
           <header className={`h-16 bg-white`}>
             <div className="flex h-16 items-center justify-between px-4">
               <h1 className="lg:text-xl text-sm uppercase lg:block font-semibold text-black">
-                {/* {user?.role === "MANAGER" ? `${user?.role} / ` : ""} */}
                 {
                   MenuItems?.find(
                     (item: any) =>
@@ -147,7 +136,6 @@ const PanelLayout = ({ children, title = "Junion" }: Props) => {
                 }
               </h1>
               <div className="flex items-center gap-6">
-                {/* <Badge badgeContent={4} color="warning"> */}
                 <Link
                   href={
                     user?.role === "STUDENT"
@@ -166,8 +154,6 @@ const PanelLayout = ({ children, title = "Junion" }: Props) => {
                     <ICONS.Notification className="h-6 w-6 text-white" />
                   </p>
                 </Link>
-                {/* </Badge> */}
-
                 <div className="flex w-fit min-w-[8rem]  items-center justify-start gap-2 overflow-hidden rounded-full bg-white">
                   <Avatar
                     src=""
@@ -227,35 +213,16 @@ const PanelLayout = ({ children, title = "Junion" }: Props) => {
                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                   >
                     <MenuItem>
-                      <Avatar src={user?.avatar || LOGO.src} alt={user?.name} />
+                      <Avatar alt={user?.name} />
                       <ListItemText
                         primary={`${user?.name}`}
                         secondary={user?.email}
                       />
                     </MenuItem>
                     <Divider />
-                    {/* {user?.role !== "ADMIN" ? (
-                      <MenuItem>
-                        <ListItemIcon>
-                          <LocalGroceryStore fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={`Store Name: ${
-                            user?.store?.displayName
-                              ? user?.store?.displayName
-                              : "Not Assigned"
-                          }`}
-                          secondary={`Store Email: ${
-                            user?.store?.email
-                              ? user?.store?.email
-                              : "Not Assigned"
-                          } `}
-                        />{" "}
-                      </MenuItem>
-                    ) : null} */}
                     <Link
                       href={
-                        user?.role === "ADMIN"
+                        user?.role === "CEO"
                           ? `/panel/admin/change-password`
                           : user?.role === "STUDENT"
                           ? `/panel/student/change-password`
@@ -288,7 +255,6 @@ const PanelLayout = ({ children, title = "Junion" }: Props) => {
           {children}
         </main>
       </>
-      {/* )} */}
     </>
   );
 };
