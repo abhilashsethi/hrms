@@ -1,4 +1,4 @@
-import { Visibility, VisibilityOff, LoginOutlined } from "@mui/icons-material";
+import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
   Card,
@@ -9,20 +9,18 @@ import {
   TextField,
   TextFieldProps,
 } from "@mui/material";
+import { Field, Form, Formik } from "formik";
+import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import * as Yup from "yup";
-import { LoginSchema } from "../schemas";
-import { Formik, Form, Field } from "formik";
-import useAuth from "../hooks/useAuth";
-import { LOGO } from "../assets";
-import { LOGINBG } from "../assets/home";
-import Link from "next/link";
-import { useChange, useMutation } from "utils";
 import { User } from "types";
-import useAppContext from "hooks/useAppContext";
-import Head from "next/head";
+import { useChange, useMutation } from "utils";
+import * as Yup from "yup";
+import { LOGO } from "../assets";
+import useAuth from "../hooks/useAuth";
+import { LoginSchema } from "schemas";
 
 const Login = () => {
   const { change } = useChange();
@@ -91,7 +89,6 @@ const Login = () => {
       <section
         className="w-full h-screen bg-white flex"
         style={{
-          backgroundImage: `url(${LOGINBG.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
