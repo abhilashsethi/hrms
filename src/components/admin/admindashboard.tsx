@@ -1,4 +1,8 @@
-import { People } from "@mui/icons-material";
+import {
+  People,
+  PlaylistAddCheckCircleRounded,
+  QrCodeScannerRounded,
+} from "@mui/icons-material";
 import {
   Grid,
   IconButton,
@@ -84,13 +88,15 @@ const cards = [
   },
   {
     id: 2,
-    icon: <People fontSize="large" className="text-theme" />,
+    icon: <QrCodeScannerRounded fontSize="large" className="text-theme" />,
     count: "34",
     title: "Scanned Cards",
   },
   {
     id: 3,
-    icon: <People fontSize="large" className="text-theme" />,
+    icon: (
+      <PlaylistAddCheckCircleRounded fontSize="large" className="text-theme" />
+    ),
     count: "34",
     title: "Today's Attendance",
   },

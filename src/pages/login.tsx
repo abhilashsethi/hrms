@@ -73,7 +73,10 @@ const Login = () => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="h-full w-full bg-gradient-to-bl from-theme-100 to-secondary-100 flex justify-center items-center">
+        <div className="h-full w-full bg-gradient-to-bl from-theme-100 to-secondary-100 flex flex-col justify-center items-center">
+          <figure className="md:w-52 w-24 m-auto mb-4 mt-8">
+            <img className="w-full object-contain" src={LOGO.src} alt="" />
+          </figure>
           <div className="flex flex-col items-center">
             <div className="mt-4">
               <Formik
@@ -85,18 +88,11 @@ const Login = () => {
                   <Form>
                     <Card className="md:w-[30rem] w-[22rem] px-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
                       <CardContent>
-                        <figure className="md:w-28 w-24 m-auto">
-                          <img
-                            className="w-full object-contain"
-                            src={LOGO.src}
-                            alt=""
-                          />
-                        </figure>
-                        <div className="flex flex-col place-content-center">
+                        <div className="flex flex-col place-content-center mt-8">
                           <p className="text-center md:text-2xl text-xl font-semibold text-theme">
-                            LOGIN
+                            Login
                           </p>
-                          <p className="mt-1 text-center font-thin md:text-sm text-xs text-secondary-600">
+                          <p className="mt-1 text-center font-thin md:text-sm text-xs text-secondary-600 mb-4">
                             Enter your credentials to access your panel
                           </p>
                         </div>
