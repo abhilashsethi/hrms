@@ -39,9 +39,9 @@ const AllUsers = () => {
   return (
     <PanelLayout title="All Users - SY HR MS">
       <section className="w-11/12 mx-auto">
-        <div className="grid grid-cols-6 gap-4">
+        <span className="text-xl font-bold">ALL EMPLOYEES</span>
+        <div className="grid grid-cols-6 gap-4 py-4">
           <div className="col-start-1 col-end-3">
-            <span className="text-xl font-bold">ALL EMPLOYEES</span>
             <Breadcrumbs aria-label="breadcrumb" className="!py-4">
               <Typography
                 sx={{ display: "flex", alignItems: "center" }}
@@ -59,11 +59,11 @@ const AllUsers = () => {
               </Typography>
             </Breadcrumbs>
           </div>
-          <div className="right-0 col-span-2 col-end-9 flex gap-3">
+          <div className="right-0 col-end-9 flex gap-3">
             <button
               type="button"
               onClick={() => setOpen(true)}
-              className="inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="inline-flex items-center rounded-lg bg-blue-700 px-5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 "
             >
               <Upload /> Add Employee
             </button>
@@ -129,7 +129,7 @@ const AllUsers = () => {
             </FormControl>
           </div>
           <div>
-            <button className="w-full bg-theme-400 text-xl uppercase hover:bg-theme-500 text-white">
+            <button className="w-full py-3 rounded bg-theme-400 text-xl uppercase hover:bg-theme-500 text-white">
               Search
             </button>
           </div>
