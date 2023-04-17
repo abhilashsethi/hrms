@@ -48,7 +48,7 @@ export default () => {
             key: "3-1",
             title: "Dashboard",
             icon: <DashboardRounded />,
-            route: "/admin/users",
+            route: "/admin/employees",
           },
           {
             key: "3-2",
