@@ -7,6 +7,7 @@ import {
   DashboardRounded,
   QrCodeScannerRounded,
   PersonAddAltRounded,
+  Diversity3Rounded,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -40,7 +41,7 @@ export default () => {
       },
       {
         key: "3",
-        title: "Users",
+        title: "Employees",
         icon: <PeopleRounded />,
         submenus: [
           {
@@ -51,13 +52,19 @@ export default () => {
           },
           {
             key: "3-2",
-            title: "All Users",
+            title: "All Employees",
             icon: <PeopleRounded />,
             route: "/admin/users/all",
           },
           {
             key: "3-3",
-            title: "Create User",
+            title: "Create Employee",
+            icon: <PersonAddAltRounded />,
+            route: "/admin/users/create",
+          },
+          {
+            key: "3-4",
+            title: "Leaves",
             icon: <PersonAddAltRounded />,
             route: "/admin/users/create",
           },
@@ -65,17 +72,36 @@ export default () => {
       },
       {
         key: "4",
-        title: "Attendance",
-        icon: <PlaylistAddCheckCircleRounded />,
+        title: "Clients",
+        icon: <Diversity3Rounded />,
         submenus: [
           {
             key: "4-1",
             title: "Dashboard",
             icon: <DashboardRounded />,
-            route: "/admin/attendances",
+            route: "/admin/users",
           },
           {
             key: "4-2",
+            title: "Clients",
+            icon: <Diversity3Rounded />,
+            route: "/admin/users",
+          },
+        ],
+      },
+      {
+        key: "5",
+        title: "Attendance",
+        icon: <PlaylistAddCheckCircleRounded />,
+        submenus: [
+          {
+            key: "5-1",
+            title: "Dashboard",
+            icon: <DashboardRounded />,
+            route: "/admin/attendances",
+          },
+          {
+            key: "5-2",
             title: "Today Attendance",
             icon: <PlaylistAddCheckCircleRounded />,
             route: "/admin/attendances/today",
