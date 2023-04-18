@@ -2,12 +2,7 @@ import { Home, Person2 } from "@mui/icons-material";
 import { Breadcrumbs, Typography } from "@mui/material";
 import PanelLayout from "layouts/panel";
 import React from "react";
-import {
-  BankInfo,
-  CardHead,
-  Education,
-  PersonalInfo,
-} from "components/Profile";
+import { CardHead, ProfileTabs } from "components/Profile";
 
 const UserProfile = () => {
   return (
@@ -32,9 +27,7 @@ const UserProfile = () => {
           </Breadcrumbs>
         </div>
         <CardHead />
-        <PersonalInfo />
-        <BankInfo />
-        <Education />
+        <ProfileTabs />
       </section>
     </PanelLayout>
   );
