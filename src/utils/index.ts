@@ -1,5 +1,25 @@
 import { Options } from "@material-table/core";
 import { ExportCsv, ExportPdf } from "@material-table/exporters";
+import {
+  PutObjectCommand,
+  S3Client,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
+import {
+  CloudFrontClient,
+  CreateInvalidationCommand,
+} from "@aws-sdk/client-cloudfront";
+
+const awsCredentials = {
+  region: "ap-south-1",
+  credentials: {
+    accessKeyId: "AKIAYHHJMEKVAC4IRBN5",
+    secretAccessKey: "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",
+  },
+};
+
+const s3 = new S3Client(awsCredentials);
+const cloudFront = new CloudFrontClient(awsCredentials);
 
 export const MuiTblOptions = () => {
   const options: Options<any> = {
@@ -127,3 +147,52 @@ export const clock = (dateString: string | Date) => {
     },
   };
 };
+
+export async function uploadFile(file: File, path: string) {
+  try {
+    const command = new PutObjectCommand({
+      Bucket: "sy-hrms",
+      Key: path,
+      Body: file,
+    });
+    await s3.send(command);
+    await cloudFront.send(
+      new CreateInvalidationCommand({
+        DistributionId: "E2XO9B2CZIVKDD",
+        InvalidationBatch: {
+          CallerReference: `${Date.now()}`,
+          Paths: {
+            Quantity: 1,
+            Items: [`/${path}`],
+          },
+        },
+      })
+    );
+    return `https://dd8s6d63g76vj.cloudfront.net/${path}`;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function deleteFile(path: string) {
+  try {
+    const command = new DeleteObjectCommand({
+      Bucket: "sy-hrms",
+      Key: path,
+    });
+    await s3.send(command);
+    await cloudFront.send(
+      new CreateInvalidationCommand({
+        DistributionId: "E2XO9B2CZIVKDD",
+        InvalidationBatch: {
+          CallerReference: `${Date.now()}`,
+          Paths: {
+            Quantity: 1,
+            Items: [`/${path}`],
+          },
+        },
+      })
+    );
+  } catch (error) {
+    console.log(error);
+  }
+}
