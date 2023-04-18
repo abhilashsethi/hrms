@@ -1,13 +1,21 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import { Search } from "@mui/icons-material";
-
-const inter = Inter({ subsets: ["latin"] });
+import { uploadFile } from "utils";
 
 export default function Home() {
   return (
     <section className="h-screen w-full flex justify-center items-center">
-      <p>Home Page...</p>
+      <input
+        type="file"
+        onChange={async (e) => {
+          try {
+            const file = e?.target?.files?.[0];
+            if (!file) return;
+            const url = await uploadFile(file, "hello.png");
+            console.log(url);
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+      />
     </section>
   );
 }
