@@ -1,6 +1,10 @@
 import { Options } from "@material-table/core";
 import { ExportCsv, ExportPdf } from "@material-table/exporters";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  PutObjectCommand,
+  S3Client,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
 import {
   CloudFrontClient,
   CreateInvalidationCommand,
@@ -165,6 +169,29 @@ export async function uploadFile(file: File, path: string) {
       })
     );
     return `https://dd8s6d63g76vj.cloudfront.net/${path}`;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function deleteFile(file: File, path: string) {
+  try {
+    const command = new DeleteObjectCommand({
+      Bucket: "sy-hrms",
+      Key: path,
+    });
+    await s3.send(command);
+    await cloudFront.send(
+      new CreateInvalidationCommand({
+        DistributionId: "E2XO9B2CZIVKDD",
+        InvalidationBatch: {
+          CallerReference: `${Date.now()}`,
+          Paths: {
+            Quantity: 1,
+            Items: [`/${path}`],
+          },
+        },
+      })
+    );
   } catch (error) {
     console.log(error);
   }
