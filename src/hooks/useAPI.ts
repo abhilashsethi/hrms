@@ -10,7 +10,7 @@ export const getAccessToken = () => {
     : null;
 };
 
-export const BASE_URL: "http://192.168.29.243:2023/api/v1" = `http://192.168.29.243:2023/api/v1`;
+export const BASE_URL: "https://hrms.yardiot.com/api/v1" = `https://hrms.yardiot.com/api/v1`;
 
 type useFetchOptions = {
   BASE_URL: typeof BASE_URL | "/api";
