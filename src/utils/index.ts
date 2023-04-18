@@ -1,8 +1,18 @@
 import { Options } from "@material-table/core";
 import { ExportCsv, ExportPdf } from "@material-table/exporters";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-
-const client = new S3Client({
+import {
+  CloudFrontClient,
+  CreateInvalidationCommand,
+} from "@aws-sdk/client-cloudfront";
+const s3 = new S3Client({
+  region: "ap-south-1",
+  credentials: {
+    accessKeyId: "AKIAYHHJMEKVAC4IRBN5",
+    secretAccessKey: "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",
+  },
+});
+const cloudFront = new CloudFrontClient({
   region: "ap-south-1",
   credentials: {
     accessKeyId: "AKIAYHHJMEKVAC4IRBN5",
@@ -144,7 +154,19 @@ export async function uploadFile(file: File, path: string) {
       Key: path,
       Body: file,
     });
-    await client.send(command);
+    await s3.send(command);
+    await cloudFront.send(
+      new CreateInvalidationCommand({
+        DistributionId: "E2XO9B2CZIVKDD",
+        InvalidationBatch: {
+          CallerReference: `${Date.now()}`,
+          Paths: {
+            Quantity: 1,
+            Items: [`/${path}`],
+          },
+        },
+      })
+    );
     return `https://dd8s6d63g76vj.cloudfront.net/${path}`;
   } catch (error) {
     console.log(error);
