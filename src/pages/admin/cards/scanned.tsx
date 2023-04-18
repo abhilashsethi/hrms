@@ -18,7 +18,6 @@ const Cards = () => {
   const [isAssign, setIsAssign] = useState(false);
   const { data, isLoading, mutate } = useFetch<Card[]>(`cards`);
   const { data: users, isLoading: isUsersFetching } = useFetch<User[]>(`users`);
-  console.log(data);
   const { change, isChanging } = useChange();
   return (
     <PanelLayout title="Scanned Cards - SY HR MS">

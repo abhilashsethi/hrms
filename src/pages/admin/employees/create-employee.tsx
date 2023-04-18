@@ -1,58 +1,41 @@
 import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
+  FormControl,
   IconButton,
   InputAdornment,
   InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
 import PanelLayout from "layouts/panel";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { useChange, useFetch, useMutation } from "hooks";
+import { User } from "types";
 const initialValues = {
-  firstName: "",
-  lastName: "",
-  phoneNumber: "",
+  name: "",
+  phone: "",
   email: "",
   password: "",
   confirmPassword: "",
-  username: "",
-  date: "",
-  employeeId: "",
-  company: "",
-  department: "",
-  designation: "",
+  employeeID: "",
+  role: "",
 };
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("date is required!"),
-  employeeId: Yup.string().required("Employee Id is required!"),
-  department: Yup.string().required("Department is required!"),
-  company: Yup.string().required("Company is required!"),
-  designation: Yup.string().required("Designation is required!"),
-  username: Yup.string()
-    .matches(/^[A-Za-z ]+$/, "Username must only contain alphabetic characters")
-    .min(2, "Username must be at least 2 characters")
-    .max(50, "Username must be less than 50 characters")
-    .required("Username is required!"),
-  firstName: Yup.string()
-    .matches(
-      /^[A-Za-z ]+$/,
-      "First name must only contain alphabetic characters"
-    )
-    .min(2, "First name must be at least 2 characters")
-    .max(50, "First name must be less than 50 characters")
-    .required("First name is required!"),
-  lastName: Yup.string()
-    .matches(
-      /^[A-Za-z ]+$/,
-      "Last name must only contain alphabetic characters"
-    )
-    .min(2, "Last name must be at least 2 characters")
-    .max(50, "Last name must be less than 50 characters")
-    .required("Last name is required!"),
-  phoneNumber: Yup.string()
+  employeeID: Yup.string().required("Employee Id is required!"),
+  name: Yup.string()
+    .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name must be less than 50 characters")
+    .required("Name is required!"),
+
+  phone: Yup.string()
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
       "Phone number is not valid"
@@ -72,10 +55,46 @@ const validationSchema = Yup.object().shape({
 const CreateEmployee = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
-
+  const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { data, isLoading, mutate } = useFetch<User[]>(`roles`);
+  const { change, isChanging } = useChange();
+  const handleChangeRole = (event: SelectChangeEvent) => {
+    setRole(event.target.value as string);
+  };
   const handleSubmit = async (values: any) => {
     console.log(values);
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData?.append("email", values?.email);
+      formData?.append("name", values?.name);
+      formData?.append("password", values?.password);
+      formData?.append("phone", values?.phone);
+      formData?.append("roleId", values?.role);
+      formData?.append("employeeID", values?.employeeID);
+      const res = await change(`users`, {
+        body: formData,
+        isFormData: true,
+      });
+      console.log("res", res);
+
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully Submitted!`, `success`);
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
+  console.log(data);
   return (
     <PanelLayout title="Create Employee - SY HR MS">
       <section className="w-full px-2 py-10 flex justify-center items-center">
@@ -87,62 +106,26 @@ const CreateEmployee = () => {
           >
             {({ values, errors, touched, handleChange, handleBlur }) => (
               <Form>
-                <h1 className="text-3xl md:text-4xl lg:text-6xl text-slate-600 flex justify-center font-extrabold py-2">
+                <h1 className="text-2xl md:text-3xl lg:text-4xl text-slate-600 flex justify-center font-extrabold py-2">
                   Create Employee
                 </h1>
                 <div className="grid lg:grid-cols-2">
                   <div className="px-4 py-4">
                     <div className="py-2">
-                      <InputLabel htmlFor="firstName">
+                      <InputLabel htmlFor="name">
                         First Name <span className="text-red-600">*</span>
                       </InputLabel>
                     </div>
                     <TextField
                       fullWidth
-                      id="firstName"
-                      placeholder="First Name"
-                      name="firstName"
-                      value={values.firstName}
+                      id="name"
+                      placeholder="Name"
+                      name="name"
+                      value={values.name}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.firstName && !!errors.firstName}
-                      helperText={touched.firstName && errors.firstName}
-                    />
-                  </div>
-                  <div className="px-4 py-4">
-                    <div className="py-2">
-                      <InputLabel htmlFor="lastName">
-                        Last Name <span className="text-red-600">*</span>
-                      </InputLabel>
-                    </div>
-                    <TextField
-                      fullWidth
-                      placeholder="Last Name"
-                      id="fullWidth"
-                      name="lastName"
-                      value={values.lastName}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.lastName && !!errors.lastName}
-                      helperText={touched.lastName && errors.lastName}
-                    />
-                  </div>
-                  <div className="px-4 py-4">
-                    <div className="py-2">
-                      <InputLabel htmlFor="username">
-                        Username <span className="text-red-600">*</span>
-                      </InputLabel>
-                    </div>
-                    <TextField
-                      fullWidth
-                      placeholder="Username"
-                      id="username"
-                      name="email"
-                      value={values.username}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.username && !!errors.username}
-                      helperText={touched.username && errors.username}
+                      error={touched.name && !!errors.name}
+                      helperText={touched.name && errors.name}
                     />
                   </div>
                   <div className="px-4 py-4">
@@ -243,39 +226,20 @@ const CreateEmployee = () => {
                   </div>
                   <div className="px-4 py-4">
                     <div className="py-2">
-                      <InputLabel htmlFor="employeeId">
+                      <InputLabel htmlFor="employeeID">
                         Employee ID <span className="text-red-600">*</span>
                       </InputLabel>
                     </div>
                     <TextField
                       fullWidth
                       placeholder="Employee ID"
-                      id="employeeId"
-                      name="employeeId"
-                      value={values.employeeId}
+                      id="employeeID"
+                      name="employeeID"
+                      value={values.employeeID}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.employeeId && !!errors.employeeId}
-                      helperText={touched.employeeId && errors.employeeId}
-                    />
-                  </div>
-                  <div className="px-4 py-4">
-                    <div className="py-2">
-                      <InputLabel htmlFor="joiningDate">
-                        Joining Date <span className="text-red-600">*</span>
-                      </InputLabel>
-                    </div>
-                    <TextField
-                      fullWidth
-                      placeholder="Joining Date"
-                      id="joiningDate"
-                      type="date"
-                      name="date"
-                      value={values.date}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.date && !!errors.date}
-                      helperText={touched.date && errors.date}
+                      error={touched.employeeID && !!errors.employeeID}
+                      helperText={touched.employeeID && errors.employeeID}
                     />
                   </div>
                   <div className="px-4 py-4">
@@ -288,67 +252,33 @@ const CreateEmployee = () => {
                       fullWidth
                       placeholder="Phone"
                       id="phone"
-                      name="phoneNumber"
-                      value={values.phoneNumber}
+                      name="phone"
+                      value={values.phone}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.phoneNumber && !!errors.phoneNumber}
-                      helperText={touched.phoneNumber && errors.phoneNumber}
+                      error={touched.phone && !!errors.phone}
+                      helperText={touched.phone && errors.phone}
                     />
                   </div>
                   <div className="px-4 py-4">
                     <div className="py-2">
-                      <InputLabel htmlFor="company">
-                        Company <span className="text-red-600">*</span>
+                      <InputLabel htmlFor="role">
+                        Role <span className="text-red-600">*</span>
                       </InputLabel>
                     </div>
                     <TextField
+                      select
                       fullWidth
-                      placeholder="Company"
-                      id="company"
-                      name="company"
-                      value={values.company}
+                      name="role"
+                      value={values.role}
                       onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.company && !!errors.company}
-                      helperText={touched.company && errors.company}
-                    />
-                  </div>
-                  <div className="px-4 py-4">
-                    <div className="py-2">
-                      <InputLabel htmlFor="department">
-                        Department <span className="text-red-600">*</span>
-                      </InputLabel>
-                    </div>
-                    <TextField
-                      fullWidth
-                      placeholder="Department"
-                      id="department"
-                      name="department"
-                      value={values.department}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.department && !!errors.department}
-                      helperText={touched.department && errors.department}
-                    />
-                  </div>
-                  <div className="px-4 py-4">
-                    <div className="py-2">
-                      <InputLabel htmlFor="designation">
-                        Designation <span className="text-red-600">*</span>
-                      </InputLabel>
-                    </div>
-                    <TextField
-                      fullWidth
-                      placeholder="Designation"
-                      id="designation"
-                      name="designation"
-                      value={values.designation}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.designation && !!errors.designation}
-                      helperText={touched.designation && errors.designation}
-                    />
+                    >
+                      {data?.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                   </div>
                 </div>
                 <div className="flex justify-center py-4">

@@ -14,9 +14,11 @@ import PanelLayout from "layouts/panel";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { useMutation } from "hooks";
 const initialValues = {
   name: "",
-  phoneNumber: "",
+  phone: "",
   email: "",
   password: "",
   confirmPassword: "",
@@ -36,7 +38,7 @@ const validationSchema = Yup.object().shape({
     .max(50, "First name must be less than 50 characters")
     .required("First name is required!"),
 
-  phoneNumber: Yup.string()
+  phone: Yup.string()
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
       "Phone number is not valid"
@@ -57,12 +59,48 @@ const CreateUser = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
   const [age, setAge] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value as string);
   };
+  const { isMutating, trigger } = useMutation(`users`);
   const handleSubmit = async (values: any) => {
-    console.log(values);
+    setLoading(true);
+    try {
+      const res = await trigger(values);
+      if (!res.success) return Swal.fire("Error", res.msg, "error");
+      console.log(res);
+      // Swal.fire(`Info`, `Please Wait..., We Are Uploading Your Data!`, `info`);
+      // const formData = new FormData();
+      // formData?.append("email", values?.email);
+      // formData?.append("name", values?.name);
+      // formData?.append("password", values?.password);
+      // formData?.append("phone", values?.phone);
+      // formData?.append("roleId", values?.roleId);
+      // formData?.append("employeeID", values?.employeeID);
+      // const data: any = await useMutation(`users`, {
+      //   body: formData,
+      //   isFormData: true,
+      // });
+      // setLoading(false);
+      // if (data?.status !== 200) {
+      //   Swal.fire(
+      //     "Error",
+      //     data?.results?.error?.message || "Unable to Submit",
+      //     "error"
+      //   );
+      //   setLoading(false);
+      //   return;
+      // }
+      Swal.fire(`Success`, `You have successfully Submitted!`, `success`);
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <PanelLayout title="Create Employee - SY HR MS">
@@ -97,7 +135,6 @@ const CreateUser = () => {
                       helperText={touched.name && errors.name}
                     />
                   </div>
-
                   <div className="px-4 py-4">
                     <div className="py-2">
                       <InputLabel htmlFor="email">
@@ -222,12 +259,12 @@ const CreateUser = () => {
                       fullWidth
                       placeholder="Phone"
                       id="phone"
-                      name="phoneNumber"
-                      value={values.phoneNumber}
+                      name="phone"
+                      value={values.phone}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.phoneNumber && !!errors.phoneNumber}
-                      helperText={touched.phoneNumber && errors.phoneNumber}
+                      error={touched.phone && !!errors.phone}
+                      helperText={touched.phone && errors.phone}
                     />
                   </div>
                   <div className="px-4 py-4">
