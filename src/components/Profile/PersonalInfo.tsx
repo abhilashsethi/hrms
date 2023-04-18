@@ -4,7 +4,7 @@ const PersonalInfo = () => {
   return (
     <>
       <div className="grid md:grid-cols-2 gap-6 pt-6">
-        <div className="bg-white rounded-md shadow-md px-6 py-4">
+        <div className="bg-white rounded-md shadow-md shadow-theme px-6 py-4">
           <h1 className="text-xl font-medium py-2">Personal Informations</h1>
           <div className="grid grid-cols-3 gap-1 py-2 tracking-wide">
             <h5 className="font-medium">Passport No. :</h5>
@@ -25,7 +25,7 @@ const PersonalInfo = () => {
             <span className="col-span-2 ">2</span>
           </div>
         </div>
-        <div className="rounded-md bg-white shadow-md px-6 py-4">
+        <div className="rounded-md bg-white shadow-md shadow-theme px-6 py-4">
           <h1 className="text-xl font-medium py-2">Emergency Contact</h1>
           <h5 className="text-md font-medium py-1">Primary</h5>
           <div className="grid grid-cols-3 gap-y-1 mb-4 tracking-wide">

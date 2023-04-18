@@ -12,7 +12,7 @@ const BankInfo = () => {
   return (
     <>
       <div className="grid md:grid-cols-2 gap-6 py-6">
-        <div className="bg-white rounded-md shadow-md px-6 py-4">
+        <div className="bg-white rounded-md shadow-md shadow-theme px-6 py-4">
           <h1 className="text-xl font-medium py-2">Bank information</h1>
           <div className="grid grid-cols-3 gap-1 py-2 tracking-wide">
             <h5 className="font-medium">Bank name :</h5>
@@ -25,7 +25,7 @@ const BankInfo = () => {
             <span className="col-span-2 ">TC000Y56</span>
           </div>
         </div>
-        <div className="rounded-md bg-white shadow-md px-6 py-4">
+        <div className="rounded-md bg-white shadow-md shadow-theme px-6 py-4">
           <MaterialTable
             title="Family Information"
             isLoading={isLoading || isChanging}
