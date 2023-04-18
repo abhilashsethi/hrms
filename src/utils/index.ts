@@ -173,7 +173,7 @@ export async function uploadFile(file: File, path: string) {
     console.log(error);
   }
 }
-export async function deleteFile(file: File, path: string) {
+export async function deleteFile(path: string) {
   try {
     const command = new DeleteObjectCommand({
       Bucket: "sy-hrms",
