@@ -33,13 +33,13 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
     setAnchorEl(null);
   };
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const currentUser = await validateUser();
-  //     if (!currentUser) return router.push(`/login`);
-  //     setUser(currentUser);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const currentUser = await validateUser();
+      if (!currentUser) return router.push(`/login`);
+      setUser(currentUser);
+    })();
+  }, []);
 
   const handleLogout = () => {
     Swal.fire({
