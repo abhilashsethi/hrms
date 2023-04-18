@@ -8,13 +8,17 @@ import React from "react";
 const Employees = () => {
   return (
     <PanelLayout title="Employees Dashboard - Admin Panel">
-      <section className="bg-slate-100">
+      <>
         <WelcomeUser title="Welcome Superadmin!" />
-        <AdminBreadcrumbs />
+        <div className="px-4 pt-4">
+          <AdminBreadcrumbs links={links} />
+        </div>
         <EmployDashboard />
-      </section>
+      </>
     </PanelLayout>
   );
 };
 
 export default Employees;
+
+const links = [{ id: 1, page: "Employees", link: "/admin/employees" }];

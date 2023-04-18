@@ -28,16 +28,17 @@ const Login = () => {
   const handleLogin = async (values: any, submitProps: any) => {
     try {
       const res = await trigger(values);
-      console.log(res);
+      // console.log(res);
       if (!res.success) return Swal.fire("Error", res.msg, "error");
       const user: User = { ...res.data.user };
+      // console.log(user);
       setUser(user);
       setToken(res.data.accessToken);
-      if (user.role === "CEO")
+      if (user?.role?.name === "CEO")
         return Swal.fire("Welcome Back!", "Login Successful!", "success").then(
           () => router.push(`/admin`)
         );
-      if (user.role === "HR")
+      if (user?.role?.name === "HR")
         return Swal.fire("Welcome Back!", "Login Successful!", "success").then(
           () => router.push(`/admin/hr`)
         );

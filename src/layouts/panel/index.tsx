@@ -69,7 +69,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
         <Drawer
           open={isOpen}
           onToggle={() => setIsOpen(!isOpen)}
-          role={user?.role!}
+          role={user?.role?.name}
         />
         <main
           className={`min-h-screen bg-white ${
@@ -140,15 +140,10 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
               <div className="flex items-center gap-6">
                 <Link
                   href={
-                    user?.role === "STUDENT"
-                      ? "/panel/student/notifications"
-                      : user?.role === "ADMIN"
-                      ? "/panel/admin/notifications"
-                      : user?.role === "AMBASSADOR" ||
-                        "FACULTY" ||
-                        "MANAGER" ||
-                        "UNIVERSITY_STUDENT"
-                      ? "/panel/user/notifications"
+                    user?.role?.name === "CEO"
+                      ? "/admin"
+                      : user?.role?.name === "HR"
+                      ? "/admin"
                       : "/"
                   }
                 >
@@ -224,16 +219,9 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                     <Divider />
                     <Link
                       href={
-                        user?.role === "CEO"
-                          ? `/panel/admin/change-password`
-                          : user?.role === "STUDENT"
-                          ? `/panel/student/change-password`
-                          : user?.role === "AMBASSADOR" ||
-                            "FACULTY" ||
-                            "MANAGER" ||
-                            "UNIVERSITY_STUDENT"
-                          ? `/panel/user/change-password`
-                          : `/panel/admin/change-password`
+                        user?.role?.name === "CEO"
+                          ? `/admin/change-password`
+                          : `/admin/change-password`
                       }
                     >
                       <MenuItem>
@@ -254,7 +242,9 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
               </div>
             </div>
           </header>
-          {children}
+          <section className="min-h-screen bg-gradient-to-b from-slate-100 to-white">
+            {children}
+          </section>
         </main>
       </>
     </>

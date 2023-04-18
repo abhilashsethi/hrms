@@ -36,7 +36,7 @@ export type User = {
   phone: string;
   isBlocked: boolean;
   isOfficeAccessGranted: boolean;
-  role: string;
+  role: { name?: string; id?: string; createdAt?: string; updatedAt?: string };
   employeeID: string;
   lat: number | null;
   lng: number | null;

@@ -12,7 +12,9 @@ type AuthState = {
 };
 const useAuth = create<AuthState>((set) => ({
   setUser: async (user: Partial<User>) => {
-    set({ user: { ...user } });
+    set({
+      user: { ...user },
+    });
   },
   setToken(token) {
     localStorage.setItem("accessToken", JSON.stringify(token));

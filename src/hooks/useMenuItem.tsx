@@ -12,7 +12,7 @@ import {
 import useAuth from "./useAuth";
 export default () => {
   const { user } = useAuth();
-  if (user?.role === "CEO")
+  if (user?.role?.name === "CEO")
     return [
       {
         key: "1",
@@ -109,7 +109,7 @@ export default () => {
         ],
       },
     ];
-  if (user?.role === "HR")
+  if (user?.role?.name === "HR")
     return [
       {
         key: "1",

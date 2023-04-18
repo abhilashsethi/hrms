@@ -5,7 +5,7 @@ export const MuiTblOptions = () => {
   const options: Options<any> = {
     headerStyle: {
       whiteSpace: "nowrap",
-      backgroundColor: "rgb(162 163 232 / 35%)",
+      backgroundColor: "#9AD1F5",
       color: "#000461",
       fontWeight: "bold",
       fontSize: "0.9rem",
