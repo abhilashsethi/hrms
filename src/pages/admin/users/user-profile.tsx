@@ -2,12 +2,12 @@ import { Home, Person2 } from "@mui/icons-material";
 import { Breadcrumbs, Typography } from "@mui/material";
 import PanelLayout from "layouts/panel";
 import React from "react";
-import { CardHead, PersonalInfo } from "components/Profile";
+import { BankInfo, CardHead, PersonalInfo } from "components/Profile";
 
 const UserProfile = () => {
   return (
     <PanelLayout title="User Profile - SY HR MS">
-      <section className="w-11/12 mx-auto">
+      <section className="w-11/12 mx-auto bg-gray-200 p-4">
         <div className="py-4">
           <Breadcrumbs aria-label="breadcrumb" className="!py-4">
             <Typography
@@ -28,6 +28,7 @@ const UserProfile = () => {
         </div>
         <CardHead />
         <PersonalInfo />
+        <BankInfo />
       </section>
     </PanelLayout>
   );
