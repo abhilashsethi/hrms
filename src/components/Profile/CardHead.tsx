@@ -3,7 +3,7 @@ import React from "react";
 const CardHead = () => {
   return (
     <>
-      <div className="px-4 py-6 shadow-md shadow-theme rounded">
+      <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">
         <div className="grid md:grid-cols-2 gap-4">
           <div className="md:flex border-r-2">
             <div className="photo-wrapper p-2">
