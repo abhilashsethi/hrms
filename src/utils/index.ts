@@ -5,20 +5,17 @@ import {
   CloudFrontClient,
   CreateInvalidationCommand,
 } from "@aws-sdk/client-cloudfront";
-const s3 = new S3Client({
+
+const awsCredentials = {
   region: "ap-south-1",
   credentials: {
     accessKeyId: "AKIAYHHJMEKVAC4IRBN5",
     secretAccessKey: "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",
   },
-});
-const cloudFront = new CloudFrontClient({
-  region: "ap-south-1",
-  credentials: {
-    accessKeyId: "AKIAYHHJMEKVAC4IRBN5",
-    secretAccessKey: "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",
-  },
-});
+};
+
+const s3 = new S3Client(awsCredentials);
+const cloudFront = new CloudFrontClient(awsCredentials);
 
 export const MuiTblOptions = () => {
   const options: Options<any> = {
