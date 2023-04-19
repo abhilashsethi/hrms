@@ -3,30 +3,14 @@ import { Breadcrumbs, Typography } from "@mui/material";
 import PanelLayout from "layouts/panel";
 import React from "react";
 import { CardHead, ProfileTabs } from "components/Profile";
+import { AdminBreadcrumbs } from "components/core";
 
 const EmployeeProfile = () => {
   return (
     <PanelLayout title="User Profile - SY HR MS">
       <div className="bg-gray-200">
         <section className="w-11/12 mx-auto p-4">
-          <div className="py-4">
-            <Breadcrumbs aria-label="breadcrumb" className="!py-4">
-              <Typography
-                sx={{ display: "flex", alignItems: "center" }}
-                color="inherit"
-              >
-                <Home sx={{ mr: 0.5 }} fontSize="inherit" />
-                EMPLOYEES
-              </Typography>
-              <Typography
-                color="text.primary"
-                sx={{ display: "flex", alignItems: "center" }}
-              >
-                <Person2 sx={{ mr: 0.5 }} fontSize="inherit" />
-                ALL EMPLOYEES
-              </Typography>
-            </Breadcrumbs>
-          </div>
+          <AdminBreadcrumbs links={links} />
           <CardHead />
           <ProfileTabs />
         </section>
@@ -36,3 +20,11 @@ const EmployeeProfile = () => {
 };
 
 export default EmployeeProfile;
+const links = [
+  { id: 1, page: "All Employees", link: "/admin/employees" },
+  {
+    id: 2,
+    page: "Employee Profile",
+    link: "/admin/employees/employee-profile",
+  },
+];
