@@ -8,6 +8,7 @@ import {
   QrCodeScannerRounded,
   PersonAddAltRounded,
   Diversity3Rounded,
+  MedicalInformationRounded,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -65,7 +66,7 @@ export default () => {
           {
             key: "3-4",
             title: "Leaves",
-            icon: <PersonAddAltRounded />,
+            icon: <MedicalInformationRounded />,
             route: "/admin/employees/leaves",
           },
         ],

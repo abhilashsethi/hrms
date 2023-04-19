@@ -2,6 +2,7 @@ import MaterialTable from "@material-table/core";
 import {
   Add,
   KeyboardArrowDownRounded,
+  MedicalInformationRounded,
   PeopleAlt,
   RadioButtonChecked,
   Search,
@@ -9,17 +10,25 @@ import {
 import { Button, Grid, Menu, MenuItem, Paper, TextField } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
 import { AdminBreadcrumbs, HeadStyle } from "components/core";
+import { CreateLeave } from "components/dialogues";
 import PanelLayout from "layouts/panel";
-import React from "react";
+import React, { useState } from "react";
 import { MuiTblOptions } from "utils";
 
 const Leaves = () => {
+  const [isLeave, setIsLeave] = useState<boolean>(false);
   return (
     <PanelLayout title="Leaves - Admin Panel">
       <section className="px-8 py-6">
+        <CreateLeave open={isLeave} handleClose={() => setIsLeave(false)} />
         <AdminBreadcrumbs links={links} />
         <div className="flex justify-end mb-4">
-          <Button startIcon={<Add />} variant="contained" className="!bg-theme">
+          <Button
+            onClick={() => setIsLeave((prev) => !prev)}
+            startIcon={<Add />}
+            variant="contained"
+            className="!bg-theme"
+          >
             ADD LEAVE
           </Button>
         </div>
@@ -74,7 +83,9 @@ const Leaves = () => {
             components={{
               Container: (props) => <Paper {...props} elevation={5} />,
             }}
-            title={<HeadStyle name="Leaves" icon={<PeopleAlt />} />}
+            title={
+              <HeadStyle name="Leaves" icon={<MedicalInformationRounded />} />
+            }
             isLoading={!data}
             data={
               !data?.length
