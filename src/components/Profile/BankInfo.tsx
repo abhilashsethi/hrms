@@ -1,11 +1,14 @@
 import MaterialTable from "@material-table/core";
+import ICONS from "assets/icons";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { User } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
+import { BankInformationUpdate } from "components/Dialogs";
 
 const BankInfo = () => {
+  const [isDialogue, setIsDialogue] = useState(false);
   const { data, isLoading, mutate } = useFetch<User[]>(`users`);
   const { change, isChanging } = useChange();
   const { push } = useRouter();
@@ -13,7 +16,15 @@ const BankInfo = () => {
     <>
       <div className="grid md:grid-cols-2 gap-6 py-6">
         <div className="bg-white rounded-md shadow-md shadow-theme px-6 py-4">
-          <h1 className="text-xl font-medium py-2">Bank information</h1>
+          <div className="flex justify-between">
+            <h1 className="text-xl font-medium py-2">Bank information</h1>
+            <div className="py-2 px-2">
+              <ICONS.Edit
+                className="h-5 w-5"
+                onClick={() => setIsDialogue(true)}
+              />
+            </div>
+          </div>
           <div className="grid grid-cols-3 gap-1 py-2 tracking-wide">
             <h5 className="font-medium">Bank name :</h5>
             <span className="col-span-2">ICICI Bank</span>
@@ -81,6 +92,10 @@ const BankInfo = () => {
           />
         </div>
       </div>
+      <BankInformationUpdate
+        open={isDialogue}
+        handleClose={() => setIsDialogue(false)}
+      />
     </>
   );
 };
