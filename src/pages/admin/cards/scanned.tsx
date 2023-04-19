@@ -97,6 +97,7 @@ const Cards = () => {
               {
                 title: "Unblock / Block",
                 field: "createdAt",
+                align: "center",
                 render: (data) => (
                   <IOSSwitch
                     checked={data?.isBlocked}
