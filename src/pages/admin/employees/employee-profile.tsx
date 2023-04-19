@@ -8,13 +8,13 @@ import { AdminBreadcrumbs } from "components/core";
 const EmployeeProfile = () => {
   return (
     <PanelLayout title="User Profile - SY HR MS">
-      <div className="bg-gray-200">
-        <section className="w-11/12 mx-auto p-4">
+      <section className="px-8 mx-auto p-4">
+        <div className="pb-4">
           <AdminBreadcrumbs links={links} />
-          <CardHead />
-          <ProfileTabs />
-        </section>
-      </div>
+        </div>
+        <CardHead />
+        <ProfileTabs />
+      </section>
     </PanelLayout>
   );
 };

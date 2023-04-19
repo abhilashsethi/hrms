@@ -1,6 +1,30 @@
 import { SVGProps } from "react";
 export type IconType = JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>;
 
+export interface BloodGroup {
+  A_Positive: "A_Positive";
+
+  A_Negative: "A_Negative";
+
+  B_Positive: "B_Positive";
+
+  B_Negative: "B_Negative";
+
+  AB_Positive: "AB_Positive";
+
+  AB_Negative: "AB_Negative";
+
+  O_Positive: "O_Positive";
+
+  O_Negative: "O_Negative";
+}
+
+export interface Gender {
+  Male: "Male";
+
+  Female: "Female";
+}
+
 export type EmailTemplateType = {
   _id: string;
   content: string;
@@ -42,4 +66,20 @@ export type User = {
   lng: number | null;
   createdAt: Date;
   updatedAt: Date;
+  photo?: string | null;
+  dob?: Date | null;
+  joiningDate?: Date | null;
+  linkedin?: string | null;
+  gender?: Gender;
+  gmail?: string | null;
+  github?: string | null;
+  IFSCCode?: string | null;
+  bankName?: string | null;
+  bloodGroup?: BloodGroup;
+  accountNo?: string | null;
+  panNo?: string | null;
+  aadharNo?: string | null;
+  address?: string | null;
+  roleId?: string;
+  projectIDs?: string[];
 };

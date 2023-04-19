@@ -7,7 +7,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useAuth, useChange } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
@@ -15,40 +15,39 @@ import * as Yup from "yup";
 import { KeyedMutator } from "swr";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import { User } from "types";
 
 interface Props {
   open?: any;
   handleClose?: any;
 }
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required!"),
+  email: Yup.string().required("Email is required!"),
+  employeeID: Yup.string().required("Employee ID is required!"),
+  phone: Yup.string().required("Phone No is required!"),
+  dob: Yup.string().required("Date of Birth is required!"),
+  address: Yup.string().required("Address is required!"),
+  gender: Yup.string().required("Gender is required!"),
+  roleId: Yup.string().required("Role is required!"),
+  joiningDate: Yup.string().required("Joining Date is required!"),
+});
 
 const UpdateProfileHead = ({ open, handleClose }: Props) => {
-  const { user } = useAuth();
-  const employeeId = useRouter();
-  const [loading, setLoading] = useState(false);
-  const { change } = useChange();
+  const router = useRouter();
+  const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
+  console.log(employData);
   const initialValues = {
-    name: "",
-    employeeID: "",
-    phone: "",
-    email: "",
-    dob: "",
+    name: `${employData?.name ? employData?.name : ""}`,
+    employeeID: `${employData?.employeeID ? employData?.employeeID : ""}`,
+    phone: `${employData?.phone ? employData?.phone : ""}`,
+    email: `${employData?.email ? employData?.email : ""}`,
+    dob: `${employData?.dob ? employData?.dob : ""}`,
     address: "",
     gender: "",
     roleId: "",
     joiningDate: "",
   };
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    email: Yup.string().required("Email is required"),
-    employeeID: Yup.string().required("Employee ID is required"),
-    phone: Yup.string().required("Phone No is required"),
-    dob: Yup.string().required("Date of Birth is required"),
-    address: Yup.string().required("Address is required"),
-    gender: Yup.string().required("Gender is required"),
-    roleId: Yup.string().required("Role is required"),
-    joiningDate: Yup.string().required("Joining Date is required"),
-  });
   const handleSubmit = async (values: any) => {
     console.log(values);
     Swal.fire(`Success`, `You have successfully Updated!`, `success`).then(() =>

@@ -2,16 +2,10 @@ import {
   DeleteRounded,
   EditRounded,
   HomeRepairServiceRounded,
-  Info,
   InfoRounded,
-  Logout,
   MoreVertRounded,
-  PersonAdd,
-  Settings,
 } from "@mui/icons-material";
 import {
-  Avatar,
-  Divider,
   Grid,
   IconButton,
   ListItemIcon,
@@ -20,9 +14,13 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
+import { useFetch } from "hooks";
+import Link from "next/link";
 import React from "react";
+import { User } from "types";
 
 const EmplyeesGrid = () => {
+  const { data: employees, isLoading, mutate } = useFetch<User[]>(`users`);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,10 +29,11 @@ const EmplyeesGrid = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  console.log(employees);
   return (
     <section className="mt-8">
       <Grid container spacing={3}>
-        {cards?.map((item) => (
+        {employees?.map((item) => (
           <Grid key={item?.id} item lg={3}>
             <div className="h-60 relative bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide items-center justify-center shadow-xl">
               <div className="absolute right-[10px] top-[10px]">
@@ -78,12 +77,16 @@ const EmplyeesGrid = () => {
                   transformOrigin={{ horizontal: "right", vertical: "top" }}
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
-                  <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                      <InfoRounded fontSize="small" />
-                    </ListItemIcon>
-                    Details
-                  </MenuItem>
+                  <Link
+                    href={`/admin/employees/employee-profile?id=${item?.id}`}
+                  >
+                    <MenuItem onClick={handleClose}>
+                      <ListItemIcon>
+                        <InfoRounded fontSize="small" />
+                      </ListItemIcon>
+                      Details
+                    </MenuItem>
+                  </Link>
                   <MenuItem onClick={handleClose}>
                     <ListItemIcon>
                       <EditRounded fontSize="small" />
@@ -107,7 +110,7 @@ const EmplyeesGrid = () => {
               </div>
               <span className="mt-2 text-sm">{item?.name}</span>
               <div className="flex gap-2 items-center font-semibold text-slate-500 text-md">
-                <HomeRepairServiceRounded /> {item?.designation}
+                <HomeRepairServiceRounded /> {item?.employeeID}
               </div>
             </div>
           </Grid>
