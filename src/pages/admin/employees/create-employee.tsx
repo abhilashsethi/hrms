@@ -1,22 +1,20 @@
 import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
-  FormControl,
   IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
-  Select,
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
+import { Form, Formik } from "formik";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { useChange, useFetch, useMutation } from "hooks";
 import { User } from "types";
+import * as Yup from "yup";
 const initialValues = {
   name: "",
   phone: "",
@@ -24,7 +22,7 @@ const initialValues = {
   password: "",
   confirmPassword: "",
   employeeID: "",
-  role: "",
+  roleId: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -55,37 +53,28 @@ const validationSchema = Yup.object().shape({
 const CreateEmployee = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
-  const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
   const { data, isLoading, mutate } = useFetch<User[]>(`roles`);
   const { change, isChanging } = useChange();
-  const handleChangeRole = (event: SelectChangeEvent) => {
-    setRole(event.target.value as string);
-  };
+
   const handleSubmit = async (values: any) => {
     console.log(values);
     setLoading(true);
     try {
-      const formData = new FormData();
-      formData?.append("email", values?.email);
-      formData?.append("name", values?.name);
-      formData?.append("password", values?.password);
-      formData?.append("phone", values?.phone);
-      formData?.append("roleId", values?.role);
-      formData?.append("employeeID", values?.employeeID);
+      delete values.confirmPassword;
       const res = await change(`users`, {
-        body: formData,
-        isFormData: true,
+        body: values,
       });
+      console.log(res?.status);
       console.log("res", res);
-
+      console.log("values", values);
       setLoading(false);
-      if (res?.status !== 200) {
+      if (res?.status !== 201) {
         Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully Submitted!`, `success`);
+      Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
       console.log(error);
@@ -269,8 +258,8 @@ const CreateEmployee = () => {
                     <TextField
                       select
                       fullWidth
-                      name="role"
-                      value={values.role}
+                      name="roleId"
+                      value={values.roleId}
                       onChange={handleChange}
                     >
                       {data?.map((option) => (
