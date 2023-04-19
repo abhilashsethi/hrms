@@ -1,10 +1,5 @@
 import MaterialTable from "@material-table/core";
-import {
-  AddCardRounded,
-  Assignment,
-  CheckBoxRounded,
-  QrCodeScannerRounded,
-} from "@mui/icons-material";
+import { AddCardRounded, QrCodeScannerRounded } from "@mui/icons-material";
 import { IconButton, Paper, Tooltip } from "@mui/material";
 import { AdminBreadcrumbs, HeadStyle, IOSSwitch } from "components/core";
 import { CardAssign } from "components/drawer";
@@ -15,10 +10,15 @@ import { Card, User } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 
 const Cards = () => {
-  const [isAssign, setIsAssign] = useState(false);
+  const [isAssign, setIsAssign] = useState<{
+    drawer?: boolean;
+    activeCardId?: string | null;
+  }>({
+    drawer: false,
+    activeCardId: null,
+  });
   const { data, isLoading, mutate } = useFetch<Card[]>(`cards`);
   const { data: users, isLoading: isUsersFetching } = useFetch<User[]>(`users`);
-  console.log(data);
   const { change, isChanging } = useChange();
   return (
     <PanelLayout title="Scanned Cards - SY HR MS">
@@ -50,6 +50,7 @@ const Cards = () => {
               {
                 title: "Assigned User",
                 field: "userId",
+                editable: "never",
                 lookup: users?.reduce((lookup: any, user) => {
                   lookup[user.id] = user.name;
                   return lookup;
@@ -79,7 +80,14 @@ const Cards = () => {
                 render: (data) => (
                   <div>
                     <Tooltip title="Assign User">
-                      <IconButton onClick={() => setIsAssign(true)}>
+                      <IconButton
+                        onClick={() => {
+                          setIsAssign({
+                            drawer: true,
+                            activeCardId: data?.cardId,
+                          });
+                        }}
+                      >
                         <AddCardRounded
                           className="!text-theme"
                           fontSize="large"
@@ -106,7 +114,12 @@ const Cards = () => {
             }}
           />
         </div>
-        <CardAssign open={isAssign} onClose={() => setIsAssign(false)} />
+        <CardAssign
+          cardId={isAssign?.activeCardId}
+          open={isAssign?.drawer}
+          onClose={() => setIsAssign({ drawer: false })}
+          mutate={mutate}
+        />
       </section>
     </PanelLayout>
   );
