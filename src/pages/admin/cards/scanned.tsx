@@ -6,6 +6,7 @@ import { CardAssign } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import { Card, User } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 
@@ -20,6 +21,31 @@ const Cards = () => {
   const { data, isLoading, mutate } = useFetch<Card[]>(`cards`);
   const { data: users, isLoading: isUsersFetching } = useFetch<User[]>(`users`);
   const { change, isChanging } = useChange();
+  const handleBlock = async (e: any, cardId: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to update status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await change(`cards/${cardId}`, {
+          method: "PATCH",
+          body: { isBlocked: !e.target?.checked },
+        });
+        mutate();
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "Status updated successfully!!", "success");
+        return;
+      }
+    });
+  };
   return (
     <PanelLayout title="Scanned Cards - SY HR MS">
       <section className="px-8 py-4">
@@ -71,7 +97,12 @@ const Cards = () => {
               {
                 title: "Unblock / Block",
                 field: "createdAt",
-                render: (data) => <IOSSwitch />,
+                render: (data) => (
+                  <IOSSwitch
+                    checked={data?.isBlocked}
+                    onChange={(e) => handleBlock(e, data?.cardId)}
+                  />
+                ),
                 editable: "never",
               },
               {
