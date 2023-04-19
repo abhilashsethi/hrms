@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { User } from "types";
 
 const CardHead = () => {
-  const [isDialogue, setisDialogue] = useState(false);
+  const [isDialogue, setIsDialogue] = useState(false);
   const { data, isLoading, mutate } = useFetch<User[]>(`users`);
   const { change, isChanging } = useChange();
   const { push } = useRouter();
@@ -15,7 +15,7 @@ const CardHead = () => {
     <>
       <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">
         <div className="float-right py-2 px-2">
-          <ICONS.Edit className="h-5 w-5" onClick={() => setisDialogue(true)} />
+          <ICONS.Edit className="h-5 w-5" onClick={() => setIsDialogue(true)} />
         </div>
         <div className="grid lg:grid-cols-2 gap-4">
           <div className="md:flex border-r-2">
@@ -78,7 +78,7 @@ const CardHead = () => {
       </div>
       <UpdateProfileHead
         open={isDialogue}
-        handleClose={() => setisDialogue(false)}
+        handleClose={() => setIsDialogue(false)}
       />
     </>
   );
