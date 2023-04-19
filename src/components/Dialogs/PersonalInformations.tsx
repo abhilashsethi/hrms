@@ -21,32 +21,32 @@ interface Props {
   handleClose?: any;
 }
 
-const UpdateProfileHead = ({ open, handleClose }: Props) => {
+const PersonalInformations = ({ open, handleClose }: Props) => {
   const { user } = useAuth();
   const employeeId = useRouter();
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const initialValues = {
-    name: "",
-    employeeID: "",
-    phone: "",
-    email: "",
-    dob: "",
-    address: "",
-    gender: "",
-    roleId: "",
+    pan: "",
+    aadharNo: "",
+    tel: "",
+    gmail: "",
+    passport: "",
+    nationality: "",
+    religion: "",
+    maritalStatus: "",
     joiningDate: "",
   };
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    email: Yup.string().required("Email is required"),
-    employeeID: Yup.string().required("Employee ID is required"),
-    phone: Yup.string().required("Phone No is required"),
-    dob: Yup.string().required("Date of Birth is required"),
-    address: Yup.string().required("Address is required"),
-    gender: Yup.string().required("Gender is required"),
-    roleId: Yup.string().required("Role is required"),
+    pan: Yup.string().required("Pan is required"),
+    gmail: Yup.string().required("gmail is required"),
+    aadharNo: Yup.string().required("Aadhar No is required"),
+    tel: Yup.string().required("tel No is required"),
+    passport: Yup.string().required("Passport No is required"),
+    nationality: Yup.string().required("Nationality is required"),
+    religion: Yup.string().required("Religion is required"),
+    maritalStatus: Yup.string().required("Marital status is required"),
     joiningDate: Yup.string().required("Joining Date is required"),
   });
   const handleSubmit = async (values: any) => {
@@ -58,7 +58,7 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
   return (
     <>
       <Dialog
-        // onClose={handleClose}
+        //    onClose={handleClose}
         maxWidth="lg"
         aria-labelledby="customized-dialog-title"
         open={open}
@@ -68,7 +68,7 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
           sx={{ p: 2, minWidth: "40rem !important" }}
         >
           <p className="text-center text-md font-bold text-theme te tracking-wide">
-            UPDATE
+            Personal Information Update
           </p>
           <IconButton
             aria-label="close"
@@ -107,156 +107,142 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                       {/* name */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Name <span className="text-red-600">*</span>
+                          Pan No <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth
                           size="small"
-                          name="name"
-                          placeholder="Enter Name"
-                          value={values.name}
+                          name="pan"
+                          placeholder="Enter Pan No"
+                          value={values.pan}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.name && !!errors.name}
-                          helperText={touched.name && errors.name}
+                          error={touched.pan && !!errors.pan}
+                          helperText={touched.pan && errors.pan}
                         />
                       </div>
-                      {/* email */}
+                      {/* gmail */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Email <span className="text-red-600">*</span>
+                          Gmail <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth
                           size="small"
-                          name="email"
-                          placeholder="Enter Email"
-                          value={values.email}
+                          name="gmail"
+                          placeholder="Enter Gmail"
+                          value={values.gmail}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.email && !!errors.email}
-                          helperText={touched.email && errors.email}
+                          error={touched.gmail && !!errors.gmail}
+                          helperText={touched.gmail && errors.gmail}
                         />
                       </div>
-                      {/* employee id */}
+                      {/* Aadhar No */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Employee ID <span className="text-red-600">*</span>
+                          Aadhar No <span className="text-red-600">*</span>
                         </p>
                         <TextField
-                          name="employeeID"
+                          name="aadharNo"
                           fullWidth
                           size="small"
-                          placeholder="Enter Employee ID"
-                          value={values.employeeID}
+                          placeholder="Enter Aadhar No"
+                          value={values.aadharNo}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.employeeID && !!errors.employeeID}
-                          helperText={touched.employeeID && errors.employeeID}
+                          error={touched.aadharNo && !!errors.aadharNo}
+                          helperText={touched.aadharNo && errors.aadharNo}
                         />
                       </div>
-                      {/* phone */}
+                      {/* tel */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Phone No <span className="text-red-600">*</span>
+                          Tel No <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth
                           size="small"
-                          name="phone"
-                          placeholder="Enter Phone No"
-                          value={values.phone}
+                          name="tel"
+                          placeholder="Enter Tel No"
+                          value={values.tel}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.phone && !!errors.phone}
-                          helperText={touched.phone && errors.phone}
+                          error={touched.tel && !!errors.tel}
+                          helperText={touched.tel && errors.tel}
                         />
                       </div>
-                      {/* dob */}
+                      {/* passport */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Date of Birth <span className="text-red-600">*</span>
+                          Passport No <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth
                           size="small"
-                          name="dob"
-                          placeholder="Enter Date of Birth"
-                          value={values.dob}
+                          name="passport"
+                          placeholder="Enter Passport No"
+                          value={values.passport}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.dob && !!errors.dob}
-                          helperText={touched.dob && errors.dob}
+                          error={touched.passport && !!errors.passport}
+                          helperText={touched.passport && errors.passport}
                         />
                       </div>
-                      {/* gender */}
+                      {/* religion */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Gender <span className="text-red-600">*</span>
+                          Religion <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth
                           size="small"
-                          name="gender"
-                          placeholder="Enter Gender"
-                          value={values.gender}
+                          name="religion"
+                          placeholder="Enter Religion"
+                          value={values.religion}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.gender && !!errors.gender}
-                          helperText={touched.gender && errors.gender}
+                          error={touched.religion && !!errors.religion}
+                          helperText={touched.religion && errors.religion}
                         />
                       </div>
-                      {/* roleId */}
+                      {/* maritalStatus */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Role Id <span className="text-red-600">*</span>
+                          Marital status <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth
                           size="small"
-                          name="roleId"
-                          placeholder="Enter Role Id"
-                          value={values.roleId}
+                          name="maritalStatus"
+                          placeholder="Enter Marital status"
+                          value={values.maritalStatus}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.roleId && !!errors.roleId}
-                          helperText={touched.roleId && errors.roleId}
+                          error={
+                            touched.maritalStatus && !!errors.maritalStatus
+                          }
+                          helperText={
+                            touched.maritalStatus && errors.maritalStatus
+                          }
                         />
                       </div>
-                      {/* joiningDate */}
+
+                      {/* nationality */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Joining Date <span className="text-red-600">*</span>
+                          Nationality <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth
                           size="small"
-                          name="joiningDate"
-                          placeholder="Enter Joining Date"
-                          value={values.joiningDate}
+                          name="nationality"
+                          placeholder="Enter Nationality"
+                          value={values.nationality}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.joiningDate && !!errors.joiningDate}
-                          helperText={touched.joiningDate && errors.joiningDate}
-                        />
-                      </div>
-                      {/* address */}
-                      <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Address <span className="text-red-600">*</span>
-                        </p>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="address"
-                          multiline
-                          rows={4}
-                          placeholder="Enter Address"
-                          value={values.address}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.address && !!errors.address}
-                          helperText={touched.address && errors.address}
+                          error={touched.nationality && !!errors.nationality}
+                          helperText={touched.nationality && errors.nationality}
                         />
                       </div>
                     </div>
@@ -282,4 +268,4 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
   );
 };
 
-export default UpdateProfileHead;
+export default PersonalInformations;
