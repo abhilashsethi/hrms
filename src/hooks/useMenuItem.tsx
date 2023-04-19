@@ -9,6 +9,8 @@ import {
   PersonAddAltRounded,
   Diversity3Rounded,
   MedicalInformationRounded,
+  MeetingRoom,
+  Work,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -108,6 +110,18 @@ export default () => {
             route: "/admin/attendances/today",
           },
         ],
+      },
+      {
+        key: "6",
+        title: "Meetings",
+        icon: <MeetingRoom />,
+        route: "/admin/meetings",
+      },
+      {
+        key: "7",
+        title: "Projects",
+        icon: <Work />,
+        route: "/admin/projects",
       },
     ];
   if (user?.role?.name === "HR")
