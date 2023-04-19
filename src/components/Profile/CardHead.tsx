@@ -1,6 +1,13 @@
+import { useChange, useFetch } from "hooks";
+import { useRouter } from "next/router";
 import React from "react";
+import { User } from "types";
 
 const CardHead = () => {
+  const { data, isLoading, mutate } = useFetch<User[]>(`users`);
+  const { change, isChanging } = useChange();
+  const { push } = useRouter();
+  console.log(data);
   return (
     <>
       <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">
