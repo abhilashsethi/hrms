@@ -83,7 +83,6 @@ const CreateEmployee = () => {
       setLoading(false);
     }
   };
-  console.log(data);
   return (
     <PanelLayout title="Create Employee - SY HR MS">
       <section className="w-full px-2 py-10 flex justify-center items-center">

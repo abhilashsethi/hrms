@@ -1,9 +1,12 @@
+import ICONS from "assets/icons";
+import { UpdateProfileHead } from "components/Dialogs";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { User } from "types";
 
 const CardHead = () => {
+  const [isDialogue, setisDialogue] = useState(false);
   const { data, isLoading, mutate } = useFetch<User[]>(`users`);
   const { change, isChanging } = useChange();
   const { push } = useRouter();
@@ -11,7 +14,10 @@ const CardHead = () => {
   return (
     <>
       <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="float-right py-2 px-2">
+          <ICONS.Edit className="h-5 w-5" onClick={() => setisDialogue(true)} />
+        </div>
+        <div className="grid lg:grid-cols-2 gap-4">
           <div className="md:flex border-r-2">
             <div className="photo-wrapper p-2">
               <img
@@ -70,6 +76,10 @@ const CardHead = () => {
           </div>
         </div>
       </div>
+      <UpdateProfileHead
+        open={isDialogue}
+        handleClose={() => setisDialogue(false)}
+      />
     </>
   );
 };
