@@ -1,8 +1,8 @@
 import {
-  ContentPasteGo,
+  ContactPhone,
+  DevicesOther,
   AssignmentTurnedIn,
   PendingActions,
-  Pending,
 } from "@mui/icons-material";
 import {
   Grid,
@@ -14,7 +14,7 @@ import {
 import ICONS from "assets/icons";
 import React from "react";
 
-const ProjectDashBoard = () => {
+const MeetingDashBoard = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -42,7 +42,7 @@ const ProjectDashBoard = () => {
                       "aria-labelledby": "basic-button",
                     }}
                   >
-                    <MenuItem onClick={handleClose}>All Projects</MenuItem>
+                    <MenuItem onClick={handleClose}>All Meetings</MenuItem>
                     <MenuItem onClick={handleClose}>View Dashboard</MenuItem>
                   </Menu>
                 </div>
@@ -64,14 +64,14 @@ const ProjectDashBoard = () => {
           >
             <div className="flex justify-between items-center">
               <span className="text-theme font-semibold">
-                Upcoming Projects
+                Upcoming Meetings
               </span>
               <span className="font-semibold text-emerald-600">+10%</span>
             </div>
             <span className="text-xl font-bold">10</span>
             <div>
               <LinearProgress variant="determinate" value={20} />
-              <span className="text-sm pt-6">Overall Projects 218</span>
+              <span className="text-sm pt-6">Overall Meetings 218</span>
             </div>
           </div>
         ))}
@@ -80,30 +80,30 @@ const ProjectDashBoard = () => {
   );
 };
 
-export default ProjectDashBoard;
+export default MeetingDashBoard;
 
 const cards = [
   {
     id: 1,
-    icon: <ContentPasteGo fontSize="large" className="text-theme" />,
+    icon: <ContactPhone fontSize="large" className="text-theme" />,
     count: "34",
-    title: "Total Project",
+    title: "Total Meeting",
   },
   {
     id: 2,
     icon: <PendingActions fontSize="large" className="text-theme" />,
     count: "34",
-    title: "On Going Projects",
+    title: "On Going Meetings",
   },
   {
     id: 3,
     icon: <AssignmentTurnedIn fontSize="large" className="text-theme" />,
     count: "34",
-    title: "Finished Projects",
+    title: "Finished Meetings",
   },
   {
     id: 4,
-    icon: <Pending fontSize="large" className="text-theme" />,
+    icon: <DevicesOther fontSize="large" className="text-theme" />,
     count: "34",
     title: "Other",
   },
@@ -112,23 +112,23 @@ const cards = [
 const stats = [
   {
     id: 1,
-    title: "Upcoming Projects",
+    title: "Upcoming Meetings",
     growth: "+10%",
     value: "10",
-    sub: "Overall Projects 218",
+    sub: "Overall Meetings 218",
   },
   {
     id: 2,
-    title: "Pending Projects",
+    title: "Pending Meetings",
     growth: "+10%",
     value: "10",
-    sub: "Overall Projects 218",
+    sub: "Overall Meetings 218",
   },
   {
     id: 3,
-    title: "Dome Projects",
+    title: "Dome Meetings",
     growth: "+10%",
     value: "10",
-    sub: "Overall Projects 218",
+    sub: "Overall Meetings 218",
   },
 ];

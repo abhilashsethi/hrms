@@ -1,9 +1,11 @@
+import { MeetingDashBoard } from "components/admin";
 import PanelLayout from "layouts/panel";
 const Meetings = () => {
   return (
-    <PanelLayout title="Meetings - SY HR MS">
-      <h1>meetings</h1>
-      <h1>Work on Progress</h1>
+    <PanelLayout title="Home - Admin Panel">
+      <>
+        <MeetingDashBoard />
+      </>
     </PanelLayout>
   );
 };
