@@ -21,7 +21,6 @@ export interface BloodGroup {
 
 export interface Gender {
   Male: "Male";
-
   Female: "Female";
 }
 

@@ -3,15 +3,15 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { UpdateProfileHead } from "components/Dialogs";
 import { useFetch } from "hooks";
+import moment from "moment";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { User } from "types";
 
 const CardHead = () => {
   const router = useRouter();
   const [isDialogue, setIsDialogue] = useState(false);
-  const { data: employData } = useFetch<{ name: string; employeeID: string }>(
-    `users/${router?.query?.id}`
-  );
+  const { data: employData } = useFetch<User>(`users/${router?.query?.id}`);
   return (
     <>
       <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">
@@ -35,20 +35,20 @@ const CardHead = () => {
               <h1 className="md:text-xl text-2xl font-bold capitalize">
                 {employData?.name}
               </h1>
-              <h5 className="text-gray-400 text-sm capitalize">
-                UI/UX Design Team
-              </h5>
               <h5 className="text-gray-400 text-md py-1 capitalize">
-                Web Developer
+                {employData?.role?.name || ""}
               </h5>
               <h5 className="text-md py-1 capitalize">
                 Employee Id:{" "}
                 <span className="font-semibold pl-2">
-                  {employData?.employeeID}
+                  {employData?.employeeID || ""}
                 </span>
               </h5>
               <h5 className="text-gray-400 text-md py-1 capitalize">
-                Date of Join: <span>1st Jan 2013</span>
+                Date of Join:{" "}
+                <span>
+                  {moment(employData?.joiningDate).format("ll") || ""}
+                </span>
               </h5>
               <div className="mt-4">
                 <Button
@@ -63,11 +63,13 @@ const CardHead = () => {
           </div>
           <div className="grid grid-cols-3">
             <h5>Phone :</h5>
-            <span className="col-span-2">9934567892</span>
+            <span className="col-span-2">{employData?.phone || ""}</span>
             <h5>Email :</h5>
-            <span className="col-span-2 ">xyzcom@yard.com</span>
+            <span className="col-span-2 ">{employData?.email || ""}</span>
             <h5>Birthday :</h5>
-            <span className="col-span-2 ">24th July</span>
+            <span className="col-span-2 ">
+              {moment(employData?.dob).format("ll")}
+            </span>
             <h5>Address :</h5>
             <span className="col-span-2 ">
               1861 Bayonne Ave, Mancheswar, Bhubaneswar,7510024

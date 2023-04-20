@@ -1,26 +1,24 @@
 import {
+  Autocomplete,
+  Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
-  InputAdornment,
   MenuItem,
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { KeyedMutator } from "swr";
-import { CalendarMonthRounded, Check, Close } from "@mui/icons-material";
+import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
-import { User } from "types";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import moment from "moment";
+import { useState } from "react";
 
 interface Props {
   open?: any;
@@ -39,30 +37,42 @@ const validationSchema = Yup.object().shape({
 });
 
 const UpdateProfileHead = ({ open, handleClose }: Props) => {
+  const [loading, setLoading] = useState(false);
+  const { change } = useChange();
+  const { data: roles } = useFetch<any>(`roles`);
   const router = useRouter();
   const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
-  console.log(employData);
   const initialValues = {
     name: `${employData?.name ? employData?.name : ""}`,
     employeeID: `${employData?.employeeID ? employData?.employeeID : ""}`,
     phone: `${employData?.phone ? employData?.phone : ""}`,
     email: `${employData?.email ? employData?.email : ""}`,
     dob: `${employData?.dob ? employData?.dob : ""}`,
-    address: "",
-    gender: "",
-    roleId: "",
-    joiningDate: "",
+    address: `${employData?.address ? employData?.address : ""}`,
+    gender: `${employData?.gender ? employData?.gender : ""}`,
+    roleId: `${employData?.roleId ? employData?.roleId : ""}`,
+    joiningDate: `${employData?.joiningDate ? employData?.joiningDate : ""}`,
   };
   const handleSubmit = async (values: any) => {
-    console.log(values);
-    Swal.fire(`Success`, `You have successfully Updated!`, `success`).then(() =>
-      handleClose()
-    );
+    setLoading(true);
+    try {
+      const res = await change(`users/${router?.query?.id}`, {
+        method: "PATCH",
+        body: values,
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire("Error", res?.results?.msg || "Unable to Update", "error");
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `Updated Successfully`, `success`);
+      return;
+    } catch (error) {}
   };
   return (
     <>
       <Dialog
-        // onClose={handleClose}
         maxWidth="lg"
         aria-labelledby="customized-dialog-title"
         open={open}
@@ -108,7 +118,6 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                 }) => (
                   <Form className="w-full">
                     <div className="grid lg:grid-cols-2 gap-4">
-                      {/* name */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Name <span className="text-red-600">*</span>
@@ -124,7 +133,6 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                           helperText={touched.name && errors.name}
                         />
                       </div>
-                      {/* email */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Email <span className="text-red-600">*</span>
@@ -140,7 +148,6 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                           helperText={touched.email && errors.email}
                         />
                       </div>
-                      {/* employee id */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Employee ID <span className="text-red-600">*</span>
@@ -156,7 +163,6 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                           helperText={touched.employeeID && errors.employeeID}
                         />
                       </div>
-                      {/* phone */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Phone No <span className="text-red-600">*</span>
@@ -172,19 +178,24 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                           helperText={touched.phone && errors.phone}
                         />
                       </div>
-                      {/* dob */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Date of Birth
                         </p>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            sx={{ width: "100%" }}
-                            onChange={(e: any) =>
-                              console.log(moment(e?.$d).format("lll"))
-                            }
-                          />
-                        </LocalizationProvider>
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          name="dob"
+                          placeholder="Enter Date of Birth"
+                          value={moment(values?.dob).format("YYYY-MM-DD")}
+                          onChange={(e) => {
+                            setFieldValue("dob", new Date(e?.target.value));
+                          }}
+                          onBlur={handleBlur}
+                          error={touched.dob && !!errors.dob}
+                          type={"date"}
+                          helperText={touched.dob && errors.dob}
+                        />
                       </div>
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">Gender</p>
@@ -201,44 +212,73 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                         >
                           {genders.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
-                              {option.label}
+                              {option.value}
                             </MenuItem>
                           ))}
                         </TextField>
                       </div>
-                      {/* roleId */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Role <span className="text-red-600">*</span>
                         </p>
-                        <TextField
-                          fullWidth
-                          name="roleId"
-                          placeholder="Enter Role Id"
-                          value={values.roleId}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.roleId && !!errors.roleId}
-                          helperText={touched.roleId && errors.roleId}
+                        <Autocomplete
+                          sx={{ width: "100%" }}
+                          options={roles}
+                          autoHighlight
+                          getOptionLabel={(option: any) => option.name}
+                          isOptionEqualToValue={(option, value) =>
+                            option.id === value.roleId
+                          }
+                          value={roles.find(
+                            (option: any) => option.id === values.roleId
+                          )}
+                          onChange={(e: any, r: any) => {
+                            setFieldValue("roleId", r?.id);
+                          }}
+                          renderOption={(props, option) => (
+                            <Box
+                              component="li"
+                              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                              {...props}
+                            >
+                              {option.name}
+                            </Box>
+                          )}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Select Role"
+                              inputProps={{
+                                ...params.inputProps,
+                              }}
+                            />
+                          )}
                         />
                       </div>
-                      {/* joiningDate */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Joining Date
                         </p>
                         <TextField
                           fullWidth
+                          variant="outlined"
                           name="joiningDate"
-                          placeholder="Enter Joining Date"
-                          value={values.joiningDate}
-                          onChange={handleChange}
+                          placeholder="Enter Date of Birth"
+                          value={moment(values?.joiningDate).format(
+                            "YYYY-MM-DD"
+                          )}
+                          onChange={(e: any) => {
+                            setFieldValue(
+                              "joiningDate",
+                              new Date(e.target.value)
+                            );
+                          }}
                           onBlur={handleBlur}
                           error={touched.joiningDate && !!errors.joiningDate}
+                          type={"date"}
                           helperText={touched.joiningDate && errors.joiningDate}
                         />
                       </div>
-                      {/* address */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">Address</p>
                         <TextField
@@ -260,12 +300,13 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                         type="submit"
                         className="!bg-theme"
                         variant="contained"
-                        startIcon={<Check />}
+                        startIcon={
+                          loading ? <CircularProgress size={20} /> : <Check />
+                        }
                       >
-                        SUBMIT
+                        UPDATE
                       </Button>
                     </div>
-                    {/* <button type="submit">Submit</button> */}
                   </Form>
                 )}
               </Formik>
@@ -280,6 +321,6 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
 export default UpdateProfileHead;
 
 const genders = [
-  { id: 1, value: "male", label: "Male" },
-  { id: 2, value: "female", label: "Female" },
+  { id: 1, value: "Male" },
+  { id: 2, value: "Female" },
 ];
