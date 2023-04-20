@@ -6,3 +6,5 @@ export { default as EmployeesColumn } from "./EmployeesColumn";
 export { default as ProjectDashBoard } from "./ProjectDashBoard";
 export { default as MeetingDashBoard } from "./MeetingDashBoard";
 export { default as RolesDashBoard } from "./RolesDashBoard";
+export { default as AttendanceGrid } from "./AttendanceGrid";
+export { default as AttendanceList } from "./AttendanceList";
