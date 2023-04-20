@@ -2,7 +2,7 @@ import { MeetingDashBoard } from "components/admin";
 import PanelLayout from "layouts/panel";
 const Meetings = () => {
   return (
-    <PanelLayout title="Home - Admin Panel">
+    <PanelLayout title="Meetings - Admin Panel">
       <>
         <MeetingDashBoard />
       </>

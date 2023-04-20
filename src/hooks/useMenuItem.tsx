@@ -11,6 +11,7 @@ import {
   MedicalInformationRounded,
   MeetingRoom,
   Work,
+  CameraRoll,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -115,13 +116,58 @@ export default () => {
         key: "6",
         title: "Meetings",
         icon: <MeetingRoom />,
-        route: "/admin/meetings",
+        submenus: [
+          {
+            key: "6-1",
+            title: "Dashboard",
+            icon: <DashboardRounded />,
+            route: "/admin/meetings",
+          },
+          {
+            key: "6-2",
+            title: "Today Meetings",
+            icon: <PlaylistAddCheckCircleRounded />,
+            route: "/admin/meetings",
+          },
+        ],
       },
       {
         key: "7",
         title: "Projects",
         icon: <Work />,
-        route: "/admin/projects",
+        submenus: [
+          {
+            key: "7-1",
+            title: "Dashboard",
+            icon: <DashboardRounded />,
+            route: "/admin/projects",
+          },
+          {
+            key: "7-2",
+            title: "Today Projects",
+            icon: <PlaylistAddCheckCircleRounded />,
+            route: "/admin/projects",
+          },
+        ],
+      },
+      {
+        key: "8",
+        title: "Roles",
+        icon: <CameraRoll />,
+        submenus: [
+          {
+            key: "8-1",
+            title: "Dashboard",
+            icon: <DashboardRounded />,
+            route: "/admin/roles",
+          },
+          {
+            key: "8-2",
+            title: "Today Roles",
+            icon: <PlaylistAddCheckCircleRounded />,
+            route: "/admin/roles",
+          },
+        ],
       },
     ];
   if (user?.role?.name === "HR")
