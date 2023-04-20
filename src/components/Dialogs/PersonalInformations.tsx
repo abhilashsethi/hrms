@@ -29,25 +29,13 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
   const initialValues = {
     pan: "",
     aadharNo: "",
-    tel: "",
     gmail: "",
-    passport: "",
-    nationality: "",
-    religion: "",
-    maritalStatus: "",
-    joiningDate: "",
   };
 
   const validationSchema = Yup.object().shape({
     pan: Yup.string().required("Pan is required"),
     gmail: Yup.string().required("gmail is required"),
     aadharNo: Yup.string().required("Aadhar No is required"),
-    tel: Yup.string().required("tel No is required"),
-    passport: Yup.string().required("Passport No is required"),
-    nationality: Yup.string().required("Nationality is required"),
-    religion: Yup.string().required("Religion is required"),
-    maritalStatus: Yup.string().required("Marital status is required"),
-    joiningDate: Yup.string().required("Joining Date is required"),
   });
   const handleSubmit = async (values: any) => {
     console.log(values);
@@ -155,25 +143,9 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                           helperText={touched.aadharNo && errors.aadharNo}
                         />
                       </div>
-                      {/* tel */}
-                      <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Tel No <span className="text-red-600">*</span>
-                        </p>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="tel"
-                          placeholder="Enter Tel No"
-                          value={values.tel}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.tel && !!errors.tel}
-                          helperText={touched.tel && errors.tel}
-                        />
-                      </div>
+
                       {/* passport */}
-                      <div className="w-full">
+                      {/* <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Passport No <span className="text-red-600">*</span>
                         </p>
@@ -188,9 +160,9 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                           error={touched.passport && !!errors.passport}
                           helperText={touched.passport && errors.passport}
                         />
-                      </div>
+                      </div> */}
                       {/* religion */}
-                      <div className="w-full">
+                      {/* <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Religion <span className="text-red-600">*</span>
                         </p>
@@ -205,9 +177,9 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                           error={touched.religion && !!errors.religion}
                           helperText={touched.religion && errors.religion}
                         />
-                      </div>
+                      </div> */}
                       {/* maritalStatus */}
-                      <div className="w-full">
+                      {/* <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Marital status <span className="text-red-600">*</span>
                         </p>
@@ -226,10 +198,10 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                             touched.maritalStatus && errors.maritalStatus
                           }
                         />
-                      </div>
+                      </div> */}
 
                       {/* nationality */}
-                      <div className="w-full">
+                      {/* <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Nationality <span className="text-red-600">*</span>
                         </p>
@@ -244,7 +216,7 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                           error={touched.nationality && !!errors.nationality}
                           helperText={touched.nationality && errors.nationality}
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <div className="flex gap-3 justify-center mt-4">
                       <Button
