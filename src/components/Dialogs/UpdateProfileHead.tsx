@@ -229,9 +229,13 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                           isOptionEqualToValue={(option, value) =>
                             option.id === value.roleId
                           }
-                          value={roles.find(
-                            (option: any) => option.id === values.roleId
-                          )}
+                          value={
+                            values?.roleId
+                              ? roles?.find(
+                                  (option: any) => option.id === values.roleId
+                                )
+                              : {}
+                          }
                           onChange={(e: any, r: any) => {
                             setFieldValue("roleId", r?.id);
                           }}

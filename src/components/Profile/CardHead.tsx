@@ -1,7 +1,9 @@
-import { SendRounded } from "@mui/icons-material";
+import { Edit, SendRounded } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
+import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
 import { UpdateProfileHead } from "components/Dialogs";
+import { ChangeProfile } from "components/dialogues";
 import { useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -11,6 +13,7 @@ import { User } from "types";
 const CardHead = () => {
   const router = useRouter();
   const [isDialogue, setIsDialogue] = useState(false);
+  const [isProfile, setIsProfile] = useState(false);
   const { data: employData } = useFetch<User>(`users/${router?.query?.id}`);
   return (
     <>
@@ -23,13 +26,19 @@ const CardHead = () => {
           </Tooltip>
         </div>
         <div className="grid lg:grid-cols-2 gap-4">
-          <div className="md:flex border-r-2">
-            <div className="photo-wrapper p-2">
+          <div className="border-r-2 flex justify-center items-center">
+            <div className="pr-8 relative flex justify-center items-center group ">
               <img
-                className="w-32 h-32 rounded-full"
-                src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp"
+                className="w-28 h-28 rounded-full shadow-md"
+                src={DEFAULTPROFILE.src}
                 alt="John Doe"
               />
+              <div
+                onClick={() => setIsProfile(true)}
+                className="absolute cursor-pointer rounded-full w-28 h-28 group-hover:flex transition-all ease-in-out duration-300 justify-center items-center hidden  bg-[#0007]"
+              >
+                <Edit className="!text-white" />
+              </div>
             </div>
             <div className="px-6">
               <h1 className="md:text-xl text-2xl font-bold capitalize">
@@ -71,22 +80,9 @@ const CardHead = () => {
               {moment(employData?.dob).format("ll")}
             </span>
             <h5>Address :</h5>
-            <span className="col-span-2 ">
-              1861 Bayonne Ave, Mancheswar, Bhubaneswar,7510024
-            </span>
+            <span className="col-span-2 ">{employData?.address || "---"}</span>
             <h5>Gender :</h5>
-            <span className="col-span-2 ">Male</span>
-            <h5>Reports to :</h5>
-            <span className="col-span-2">
-              <div className="flex">
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp"
-                  alt="John Doe"
-                />
-                <span className="px-4">Ashirbad Panigrahi</span>
-              </div>
-            </span>
+            <span className="col-span-2 ">{employData?.gender as any}</span>
           </div>
         </div>
       </div>
@@ -94,6 +90,7 @@ const CardHead = () => {
         open={isDialogue}
         handleClose={() => setIsDialogue(false)}
       />
+      <ChangeProfile open={isProfile} handleClose={() => setIsProfile(false)} />
     </>
   );
 };
