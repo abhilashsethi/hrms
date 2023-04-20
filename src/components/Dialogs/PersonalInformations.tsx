@@ -7,53 +7,89 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useAuth, useChange } from "hooks";
+import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { KeyedMutator } from "swr";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 interface Props {
   open?: any;
   handleClose?: any;
+  mutate?: any;
 }
 
-const PersonalInformations = ({ open, handleClose }: Props) => {
-  const { user } = useAuth();
-  const employeeId = useRouter();
+const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const router = useRouter();
+  const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
   const initialValues = {
-    pan: "",
-    aadharNo: "",
-    tel: "",
-    gmail: "",
-    passport: "",
-    nationality: "",
-    religion: "",
-    maritalStatus: "",
-    joiningDate: "",
+    panNo: `${employData?.panNo ? employData?.panNo : ""}`,
+    aadharNo: `${employData?.aadharNo ? employData?.aadharNo : ""}`,
+    gmail: `${employData?.gmail ? employData?.gmail : ""}`,
+    linkedin: `${employData?.linkedin ? employData?.linkedin : ""}`,
+    github: `${employData?.github ? employData?.github : ""}`,
   };
 
   const validationSchema = Yup.object().shape({
-    pan: Yup.string().required("Pan is required"),
+    panNo: Yup.string()
+      .required("PAN number is required")
+      .matches(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/, "Invalid PAN number"),
     gmail: Yup.string().required("gmail is required"),
-    aadharNo: Yup.string().required("Aadhar No is required"),
-    tel: Yup.string().required("tel No is required"),
-    passport: Yup.string().required("Passport No is required"),
-    nationality: Yup.string().required("Nationality is required"),
-    religion: Yup.string().required("Religion is required"),
-    maritalStatus: Yup.string().required("Marital status is required"),
-    joiningDate: Yup.string().required("Joining Date is required"),
+    aadharNo: Yup.string()
+      .required("Aadhaar number is required")
+      .matches(/^\d{12}$/, "Invalid Aadhaar number")
+      .test("checksum", "Invalid Aadhaar number", function (value: any) {
+        if (/^\d{12}$/.test(value)) {
+          let sum = 0;
+          for (let i = 0; i < 12; i++) {
+            sum += parseInt(value.charAt(i)) * (i + 1);
+          }
+          return sum % 10 === 0;
+        }
+        return false;
+      }),
+    linkedin: Yup.string().url("Invalid link"),
+    github: Yup.string().url("Invalid link"),
   });
+  // const handleSubmit = async (values: any) => {
+  //   console.log(values);
+  //   Swal.fire(`Success`, `You have successfully Updated!`, `success`).then(() =>
+  //     handleClose()
+  //   );
+  // };
   const handleSubmit = async (values: any) => {
-    console.log(values);
-    Swal.fire(`Success`, `You have successfully Updated!`, `success`).then(() =>
-      handleClose()
-    );
+    setLoading(true);
+    try {
+      Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
+      const resData: any = await change(`users/${router?.query?.id}`, {
+        method: "PATCH",
+        body: values,
+      });
+      setLoading(false);
+      if (resData?.status !== 200) {
+        Swal.fire(
+          "Error",
+          resData?.results?.msg || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully Submitted!`, `success`);
+      handleClose();
+      mutate();
+
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -68,7 +104,7 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
           sx={{ p: 2, minWidth: "40rem !important" }}
         >
           <p className="text-center text-md font-bold text-theme te tracking-wide">
-            Personal Information Update
+            Personal Information
           </p>
           <IconButton
             aria-label="close"
@@ -112,13 +148,13 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                         <TextField
                           fullWidth
                           size="small"
-                          name="pan"
+                          name="panNo"
                           placeholder="Enter Pan No"
-                          value={values.pan}
+                          value={values.panNo}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.pan && !!errors.pan}
-                          helperText={touched.pan && errors.pan}
+                          error={touched.panNo && !!errors.panNo}
+                          helperText={touched.panNo && errors.panNo}
                         />
                       </div>
                       {/* gmail */}
@@ -155,25 +191,9 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                           helperText={touched.aadharNo && errors.aadharNo}
                         />
                       </div>
-                      {/* tel */}
-                      <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Tel No <span className="text-red-600">*</span>
-                        </p>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="tel"
-                          placeholder="Enter Tel No"
-                          value={values.tel}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.tel && !!errors.tel}
-                          helperText={touched.tel && errors.tel}
-                        />
-                      </div>
+
                       {/* passport */}
-                      <div className="w-full">
+                      {/* <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Passport No <span className="text-red-600">*</span>
                         </p>
@@ -188,9 +208,9 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                           error={touched.passport && !!errors.passport}
                           helperText={touched.passport && errors.passport}
                         />
-                      </div>
+                      </div> */}
                       {/* religion */}
-                      <div className="w-full">
+                      {/* <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Religion <span className="text-red-600">*</span>
                         </p>
@@ -205,9 +225,9 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                           error={touched.religion && !!errors.religion}
                           helperText={touched.religion && errors.religion}
                         />
-                      </div>
+                      </div> */}
                       {/* maritalStatus */}
-                      <div className="w-full">
+                      {/* <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Marital status <span className="text-red-600">*</span>
                         </p>
@@ -226,10 +246,10 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                             touched.maritalStatus && errors.maritalStatus
                           }
                         />
-                      </div>
+                      </div> */}
 
                       {/* nationality */}
-                      <div className="w-full">
+                      {/* <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Nationality <span className="text-red-600">*</span>
                         </p>
@@ -243,6 +263,40 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                           onBlur={handleBlur}
                           error={touched.nationality && !!errors.nationality}
                           helperText={touched.nationality && errors.nationality}
+                        />
+                      </div> */}
+                      {/* linkedin */}
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
+                          Linkedin Id
+                        </p>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          name="linkedin"
+                          placeholder="Enter Linkedin"
+                          value={values.linkedin}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.linkedin && !!errors.linkedin}
+                          helperText={touched.linkedin && errors.linkedin}
+                        />
+                      </div>
+                      {/* linkedin */}
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
+                          Github Id
+                        </p>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          name="github"
+                          placeholder="Enter Github Id"
+                          value={values.github}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.github && !!errors.github}
+                          helperText={touched.github && errors.github}
                         />
                       </div>
                     </div>

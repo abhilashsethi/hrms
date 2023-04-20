@@ -63,7 +63,6 @@ export default function ProfileTabs() {
       </Box>
       <TabPanel value={value} index={0}>
         <PersonalInfo />
-        <BankInfo />
         <Education />
       </TabPanel>
       <TabPanel value={value} index={1}>
