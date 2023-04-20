@@ -17,9 +17,9 @@ import { KeyedMutator } from "swr";
 import { CalendarMonthRounded, Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { User } from "types";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import { LocalizationProvider } from "@mui/x-date-pickers";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import moment from "moment";
 
 interface Props {
@@ -177,14 +177,14 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                         <p className="text-theme font-semibold my-2">
                           Date of Birth
                         </p>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DatePicker
                             sx={{ width: "100%" }}
                             onChange={(e: any) =>
                               console.log(moment(e?.$d).format("lll"))
                             }
                           />
-                        </LocalizationProvider>
+                        </LocalizationProvider> */}
                       </div>
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">Gender</p>
