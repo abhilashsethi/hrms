@@ -41,10 +41,12 @@ const validationSchema = Yup.object().shape({
     )
     .min(6)
     .max(15),
-  email: Yup.string().email("Invalid email address").required("Required!"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required!"),
   password: Yup.string()
     .min(6, "Password should minimum 6 characters!")
-    .required("password is required!"),
+    .required("Password is required!"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password Must Match!")
     .required("Confirm password is required!"),
@@ -60,6 +62,7 @@ const CreateEmployee = () => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
+      Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
       delete values.confirmPassword;
       const res = await change(`users`, {
         body: values,
