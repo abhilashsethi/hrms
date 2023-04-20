@@ -82,7 +82,7 @@ const CardHead = () => {
                   src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp"
                   alt="John Doe"
                 />
-                <span className="px-4">jcnsanclka</span>
+                <span className="px-4">Ashirbad Panigrahi</span>
               </div>
             </span>
           </div>
