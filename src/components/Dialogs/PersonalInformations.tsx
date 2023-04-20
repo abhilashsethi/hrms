@@ -26,7 +26,6 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
   const { change } = useChange();
   const router = useRouter();
   const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
-  console.log(employData);
   const initialValues = {
     panNo: `${employData?.panNo ? employData?.panNo : ""}`,
     aadharNo: `${employData?.aadharNo ? employData?.aadharNo : ""}`,

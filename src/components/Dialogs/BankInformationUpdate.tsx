@@ -7,43 +7,77 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useAuth, useChange } from "hooks";
+import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { KeyedMutator } from "swr";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
 
 interface Props {
   open?: any;
+  mutate?: any;
   handleClose?: any;
 }
 
-const BankInformationUpdate = ({ open, handleClose }: Props) => {
-  const { user } = useAuth();
-  const employeeId = useRouter();
+const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const router = useRouter();
+  const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
+
   const initialValues = {
-    bankName: "",
-    IFSCCode: "",
-    accountNo: "",
-    pan: "",
+    bankName: `${employData?.bankName ? employData?.bankName : ""}`,
+    IFSCCode: `${employData?.IFSCCode ? employData?.IFSCCode : ""}`,
+    accountNo: `${employData?.accountNo ? employData?.accountNo : ""}`,
   };
 
   const validationSchema = Yup.object().shape({
-    bankName: Yup.string().required("Bank Name is required"),
-    pan: Yup.string().required("Pan is required"),
-    IFSCCode: Yup.string().required("IFSC Code is required"),
-    accountNo: Yup.string().required("Account No is required"),
+    bankName: Yup.string()
+      .required("Bank name is required")
+      .min(2, "Bank name is too short")
+      .max(50, "Bank name is too long")
+      .matches(
+        /^[a-zA-Z\s]+$/,
+        "Bank name can only contain letters and spaces"
+      ),
+    IFSCCode: Yup.string()
+      .required("IFSC code is required")
+      .matches(/^[A-Z]{4}[0][A-Z0-9]{6}$/, "Invalid IFSC code"),
+    accountNo: Yup.string()
+      .required("Account number is required")
+      .matches(/^[0-9]{9,18}$/, "Invalid account number"),
   });
   const handleSubmit = async (values: any) => {
-    console.log(values);
-    Swal.fire(`Success`, `You have successfully Updated!`, `success`).then(() =>
-      handleClose()
-    );
+    setLoading(true);
+    try {
+      Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
+      const resData: any = await change(`users/${router?.query?.id}`, {
+        method: "PATCH",
+        body: values,
+      });
+      setLoading(false);
+      if (resData?.status !== 200) {
+        Swal.fire(
+          "Error",
+          resData?.results?.msg || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully Submitted!`, `success`);
+      handleClose();
+      mutate();
+
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -111,23 +145,7 @@ const BankInformationUpdate = ({ open, handleClose }: Props) => {
                           helperText={touched.bankName && errors.bankName}
                         />
                       </div>
-                      {/* pan */}
-                      <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Pan <span className="text-red-600">*</span>
-                        </p>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="pan"
-                          placeholder="Enter Pan"
-                          value={values.pan}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.pan && !!errors.pan}
-                          helperText={touched.pan && errors.pan}
-                        />
-                      </div>
+
                       {/* IFSC Code */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
