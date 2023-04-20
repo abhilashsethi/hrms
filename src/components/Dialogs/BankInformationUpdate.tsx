@@ -58,7 +58,7 @@ const BankInformationUpdate = ({ open, handleClose }: Props) => {
           sx={{ p: 2, minWidth: "40rem !important" }}
         >
           <p className="text-center text-md font-bold text-theme te tracking-wide">
-            Personal Information Update
+            Bank Information Update
           </p>
           <IconButton
             aria-label="close"
