@@ -33,17 +33,25 @@ const PersonalInfo = () => {
 
               <div className="grid grid-cols-3 gap-1 py-2 tracking-wide">
                 <h5 className="font-medium">Pan No. :</h5>
-                <span className="col-span-2">{employData?.panNo}</span>
+                <span className="col-span-2">{employData?.panNo || "---"}</span>
                 <h5 className="font-medium">Aadhar No :</h5>
-                <span className="col-span-2 ">{employData?.aadharNo}</span>
+                <span className="col-span-2 ">
+                  {employData?.aadharNo || "---"}
+                </span>
                 <h5 className="font-medium">Gmail :</h5>
-                <span className="col-span-2 ">{employData?.gmail}</span>
+                <span className="col-span-2 ">
+                  {employData?.gmail || "---"}
+                </span>
                 <h5 className="font-medium">Nationality :</h5>
                 <span className="col-span-2 ">Indian</span>
                 <h5 className="font-medium">Linkedin Id :</h5>
-                <span className="col-span-2 ">{employData?.linkedin}</span>
+                <span className="col-span-2 ">
+                  {employData?.linkedin || "---"}
+                </span>
                 <h5 className="font-medium">Github Id :</h5>
-                <span className="col-span-2 ">{employData?.github}</span>
+                <span className="col-span-2 ">
+                  {employData?.github || "---"}
+                </span>
               </div>
             </>
           ) : (

@@ -12,6 +12,8 @@ import {
   MeetingRoom,
   Work,
   CameraRoll,
+  Key,
+  Settings,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -167,6 +169,25 @@ export default () => {
             icon: <PlaylistAddCheckCircleRounded />,
             route: "/admin/roles/today",
           },
+        ],
+      },
+      {
+        key: "9",
+        title: "Settings",
+        icon: <Settings />,
+        submenus: [
+          {
+            key: "9-1",
+            title: "Change Password",
+            icon: <Key />,
+            route: "/admin/change-password",
+          },
+          // {
+          //   key: "9-2",
+          //   title: "Profile Update",
+          //   icon: <PlaylistAddCheckCircleRounded />,
+          //   route: "/admin/",
+          // },
         ],
       },
     ];

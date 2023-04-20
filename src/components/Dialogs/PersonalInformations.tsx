@@ -52,15 +52,15 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
         }
         return false;
       }),
-    linkedin: Yup.string().url("Invalid link"),
-    github: Yup.string().url("Invalid link"),
+    linkedin: Yup.string().matches(
+      /^(https?:\/\/)?(www\.)?linkedin\.com\/(in|pub|company)\/[A-Za-z0-9_-]+\/?$/,
+      "Invalid LinkedIn profile link"
+    ),
+    github: Yup.string().matches(
+      /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*\/?$/,
+      "Invalid GitHub profile link"
+    ),
   });
-  // const handleSubmit = async (values: any) => {
-  //   console.log(values);
-  //   Swal.fire(`Success`, `You have successfully Updated!`, `success`).then(() =>
-  //     handleClose()
-  //   );
-  // };
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
