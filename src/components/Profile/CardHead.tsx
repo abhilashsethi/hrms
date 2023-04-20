@@ -1,5 +1,5 @@
 import { SendRounded } from "@mui/icons-material";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { UpdateProfileHead } from "components/Dialogs";
 import { useFetch } from "hooks";
@@ -16,9 +16,11 @@ const CardHead = () => {
     <>
       <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">
         <div className="float-right py-2 px-2">
-          <IconButton onClick={() => setIsDialogue(true)}>
-            <ICONS.Edit className="h-5 w-5" />
-          </IconButton>
+          <Tooltip title="Edit">
+            <IconButton onClick={() => setIsDialogue(true)}>
+              <ICONS.Edit className="h-5 w-5" />
+            </IconButton>
+          </Tooltip>
         </div>
         <div className="grid lg:grid-cols-2 gap-4">
           <div className="md:flex border-r-2">

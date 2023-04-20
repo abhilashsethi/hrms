@@ -4,18 +4,23 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  InputAdornment,
+  MenuItem,
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useAuth, useChange, useFetch } from "hooks";
+import { useFetch } from "hooks";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { KeyedMutator } from "swr";
-import { Check, Close } from "@mui/icons-material";
+import { CalendarMonthRounded, Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { User } from "types";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import moment from "moment";
 
 interface Props {
   open?: any;
@@ -110,7 +115,6 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                         </p>
                         <TextField
                           fullWidth
-                          size="small"
                           name="name"
                           placeholder="Enter Name"
                           value={values.name}
@@ -127,7 +131,6 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                         </p>
                         <TextField
                           fullWidth
-                          size="small"
                           name="email"
                           placeholder="Enter Email"
                           value={values.email}
@@ -145,7 +148,6 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                         <TextField
                           name="employeeID"
                           fullWidth
-                          size="small"
                           placeholder="Enter Employee ID"
                           value={values.employeeID}
                           onChange={handleChange}
@@ -161,7 +163,6 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                         </p>
                         <TextField
                           fullWidth
-                          size="small"
                           name="phone"
                           placeholder="Enter Phone No"
                           value={values.phone}
@@ -174,45 +175,44 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                       {/* dob */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Date of Birth <span className="text-red-600">*</span>
+                          Date of Birth
                         </p>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="dob"
-                          placeholder="Enter Date of Birth"
-                          value={values.dob}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.dob && !!errors.dob}
-                          helperText={touched.dob && errors.dob}
-                        />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DatePicker
+                            sx={{ width: "100%" }}
+                            onChange={(e: any) =>
+                              console.log(moment(e?.$d).format("lll"))
+                            }
+                          />
+                        </LocalizationProvider>
                       </div>
-                      {/* gender */}
                       <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Gender <span className="text-red-600">*</span>
-                        </p>
+                        <p className="text-theme font-semibold my-2">Gender</p>
                         <TextField
+                          select
                           fullWidth
-                          size="small"
                           name="gender"
-                          placeholder="Enter Gender"
+                          placeholder="Gender"
                           value={values.gender}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.gender && !!errors.gender}
                           helperText={touched.gender && errors.gender}
-                        />
+                        >
+                          {genders.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
                       </div>
                       {/* roleId */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Role Id <span className="text-red-600">*</span>
+                          Role <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth
-                          size="small"
                           name="roleId"
                           placeholder="Enter Role Id"
                           value={values.roleId}
@@ -225,11 +225,10 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                       {/* joiningDate */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Joining Date <span className="text-red-600">*</span>
+                          Joining Date
                         </p>
                         <TextField
                           fullWidth
-                          size="small"
                           name="joiningDate"
                           placeholder="Enter Joining Date"
                           value={values.joiningDate}
@@ -241,12 +240,9 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
                       </div>
                       {/* address */}
                       <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Address <span className="text-red-600">*</span>
-                        </p>
+                        <p className="text-theme font-semibold my-2">Address</p>
                         <TextField
                           fullWidth
-                          size="small"
                           name="address"
                           multiline
                           rows={4}
@@ -282,3 +278,8 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
 };
 
 export default UpdateProfileHead;
+
+const genders = [
+  { id: 1, value: "male", label: "Male" },
+  { id: 2, value: "female", label: "Female" },
+];
