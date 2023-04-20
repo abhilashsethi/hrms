@@ -7,7 +7,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useAuth, useChange } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Formik, Form, ErrorMessage } from "formik";
@@ -22,14 +22,13 @@ interface Props {
 }
 
 const PersonalInformations = ({ open, handleClose }: Props) => {
-  const { user } = useAuth();
-  const employeeId = useRouter();
-  const [loading, setLoading] = useState(false);
-  const { change } = useChange();
+  const router = useRouter();
+  const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
+  console.log(employData);
   const initialValues = {
-    pan: "",
-    aadharNo: "",
-    gmail: "",
+    pan: `${employData?.pan ? employData?.pan : ""}`,
+    aadharNo: `${employData?.aadharNo ? employData?.aadharNo : ""}`,
+    gmail: `${employData?.gmail ? employData?.gmail : ""}`,
   };
 
   const validationSchema = Yup.object().shape({

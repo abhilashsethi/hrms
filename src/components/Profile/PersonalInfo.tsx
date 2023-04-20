@@ -7,10 +7,12 @@ import { User } from "types";
 import BankInfo from "./BankInfo";
 const PersonalInfo = () => {
   const [isDialogue, setIsDialogue] = useState(false);
-  const { data, isLoading, mutate } = useFetch<User[]>(`users`);
-  const { change, isChanging } = useChange();
-  const { push } = useRouter();
-  console.log(data);
+  const router = useRouter();
+  const { data: employData } = useFetch<{
+    pan: string;
+    gmail: string;
+    aadharNo: number;
+  }>(`users/${router?.query?.id}`);
   return (
     <>
       <div className="grid lg:grid-cols-2 gap-6 pt-6">
@@ -26,11 +28,11 @@ const PersonalInfo = () => {
           </div>
           <div className="grid grid-cols-3 gap-1 py-2 tracking-wide">
             <h5 className="font-medium">Pan No. :</h5>
-            <span className="col-span-2">9934567892</span>
+            <span className="col-span-2">{employData?.pan}</span>
             <h5 className="font-medium">Aadhar No :</h5>
-            <span className="col-span-2 ">9876543210</span>
+            <span className="col-span-2 ">{employData?.aadharNo}</span>
             <h5 className="font-medium">Gmail :</h5>
-            <span className="col-span-2 ">gmail.cdjvnkdv.com</span>
+            <span className="col-span-2 ">{employData?.gmail}</span>
             <h5 className="font-medium">Nationality :</h5>
             <span className="col-span-2 ">Indian</span>
             <h5 className="font-medium">Religion :</h5>
