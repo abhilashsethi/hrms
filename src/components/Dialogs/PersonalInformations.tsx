@@ -14,7 +14,6 @@ import * as Yup from "yup";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useState } from "react";
-import { KeyedMutator } from "swr";
 
 interface Props {
   open?: any;
@@ -37,11 +36,25 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
   };
 
   const validationSchema = Yup.object().shape({
-    panNo: Yup.string().required("panNo is required"),
+    panNo: Yup.string()
+      .required("PAN number is required")
+      .matches(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/, "Invalid PAN number"),
     gmail: Yup.string().required("gmail is required"),
-    aadharNo: Yup.string().required("Aadhar No is required"),
-    linkedin: Yup.string().required("Linkedin Id is required"),
-    github: Yup.string().required("Github Id is required"),
+    aadharNo: Yup.string()
+      .required("Aadhaar number is required")
+      .matches(/^\d{12}$/, "Invalid Aadhaar number")
+      .test("checksum", "Invalid Aadhaar number", function (value: any) {
+        if (/^\d{12}$/.test(value)) {
+          let sum = 0;
+          for (let i = 0; i < 12; i++) {
+            sum += parseInt(value.charAt(i)) * (i + 1);
+          }
+          return sum % 10 === 0;
+        }
+        return false;
+      }),
+    linkedin: Yup.string().url("Invalid link"),
+    github: Yup.string().url("Invalid link"),
   });
   // const handleSubmit = async (values: any) => {
   //   console.log(values);
@@ -256,7 +269,7 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
                       {/* linkedin */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Linkedin <span className="text-red-600">*</span>
+                          Linkedin Id
                         </p>
                         <TextField
                           fullWidth
@@ -273,7 +286,7 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
                       {/* linkedin */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Github Id <span className="text-red-600">*</span>
+                          Github Id
                         </p>
                         <TextField
                           fullWidth
