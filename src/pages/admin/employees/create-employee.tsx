@@ -58,16 +58,13 @@ const CreateEmployee = () => {
   const { change, isChanging } = useChange();
 
   const handleSubmit = async (values: any) => {
-    console.log(values);
     setLoading(true);
     try {
       delete values.confirmPassword;
       const res = await change(`users`, {
         body: values,
       });
-      console.log(res?.status);
-      console.log("res", res);
-      console.log("values", values);
+
       setLoading(false);
       if (res?.status !== 201) {
         Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");

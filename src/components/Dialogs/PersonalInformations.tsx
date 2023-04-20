@@ -7,40 +7,77 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useAuth, useChange, useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { KeyedMutator } from "swr";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import { KeyedMutator } from "swr";
 
 interface Props {
   open?: any;
   handleClose?: any;
+  mutate?: any;
 }
 
-const PersonalInformations = ({ open, handleClose }: Props) => {
+const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
+  const [loading, setLoading] = useState(false);
+  const { change } = useChange();
   const router = useRouter();
   const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
   console.log(employData);
   const initialValues = {
-    pan: `${employData?.pan ? employData?.pan : ""}`,
+    panNo: `${employData?.panNo ? employData?.panNo : ""}`,
     aadharNo: `${employData?.aadharNo ? employData?.aadharNo : ""}`,
     gmail: `${employData?.gmail ? employData?.gmail : ""}`,
+    linkedin: `${employData?.linkedin ? employData?.linkedin : ""}`,
+    github: `${employData?.github ? employData?.github : ""}`,
   };
 
   const validationSchema = Yup.object().shape({
-    pan: Yup.string().required("Pan is required"),
+    panNo: Yup.string().required("panNo is required"),
     gmail: Yup.string().required("gmail is required"),
     aadharNo: Yup.string().required("Aadhar No is required"),
+    linkedin: Yup.string().required("Linkedin Id is required"),
+    github: Yup.string().required("Github Id is required"),
   });
+  // const handleSubmit = async (values: any) => {
+  //   console.log(values);
+  //   Swal.fire(`Success`, `You have successfully Updated!`, `success`).then(() =>
+  //     handleClose()
+  //   );
+  // };
   const handleSubmit = async (values: any) => {
-    console.log(values);
-    Swal.fire(`Success`, `You have successfully Updated!`, `success`).then(() =>
-      handleClose()
-    );
+    setLoading(true);
+    try {
+      Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
+      const resData: any = await change(`users/${router?.query?.id}`, {
+        method: "PATCH",
+        body: values,
+      });
+      setLoading(false);
+      if (resData?.status !== 200) {
+        Swal.fire(
+          "Error",
+          resData?.results?.msg || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully Submitted!`, `success`);
+      handleClose();
+      mutate();
+
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -55,7 +92,7 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
           sx={{ p: 2, minWidth: "40rem !important" }}
         >
           <p className="text-center text-md font-bold text-theme te tracking-wide">
-            Personal Information Update
+            Personal Information
           </p>
           <IconButton
             aria-label="close"
@@ -99,13 +136,13 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                         <TextField
                           fullWidth
                           size="small"
-                          name="pan"
+                          name="panNo"
                           placeholder="Enter Pan No"
-                          value={values.pan}
+                          value={values.panNo}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.pan && !!errors.pan}
-                          helperText={touched.pan && errors.pan}
+                          error={touched.panNo && !!errors.panNo}
+                          helperText={touched.panNo && errors.panNo}
                         />
                       </div>
                       {/* gmail */}
@@ -216,6 +253,40 @@ const PersonalInformations = ({ open, handleClose }: Props) => {
                           helperText={touched.nationality && errors.nationality}
                         />
                       </div> */}
+                      {/* linkedin */}
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
+                          Linkedin <span className="text-red-600">*</span>
+                        </p>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          name="linkedin"
+                          placeholder="Enter Linkedin"
+                          value={values.linkedin}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.linkedin && !!errors.linkedin}
+                          helperText={touched.linkedin && errors.linkedin}
+                        />
+                      </div>
+                      {/* linkedin */}
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
+                          Github Id <span className="text-red-600">*</span>
+                        </p>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          name="github"
+                          placeholder="Enter Github Id"
+                          value={values.github}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.github && !!errors.github}
+                          helperText={touched.github && errors.github}
+                        />
+                      </div>
                     </div>
                     <div className="flex gap-3 justify-center mt-4">
                       <Button
