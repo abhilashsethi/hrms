@@ -146,9 +146,15 @@ export default () => {
           },
           {
             key: "7-2",
-            title: "Today Projects",
+            title: "All Projects",
             icon: <PlaylistAddCheckCircleRounded />,
-            route: "/admin/projects/today",
+            route: "/admin/projects/all-projects",
+          },
+          {
+            key: "7-3",
+            title: "Create Projects",
+            icon: <PlaylistAddCheckCircleRounded />,
+            route: "/admin/projects/create-projects",
           },
         ],
       },
