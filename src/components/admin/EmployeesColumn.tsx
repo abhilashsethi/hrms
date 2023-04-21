@@ -121,11 +121,15 @@ const EmployeesColumn = () => {
             const res = await change(`users/${oldData.id}`, {
               method: "DELETE",
             });
-            console.log(res);
+            if (res?.status !== 200) {
+              Swal.fire(`Error`, "Something went wrong!", "error");
+              return;
+            }
+            Swal.fire(`Success`, "Deleted Successfully!", "success");
             mutate();
+            return;
           },
           onRowUpdate: async (newData: any) => {
-            // console.log(newData?.isOfficeAccessGranted);
             const res = await change(`users/${newData?.id}`, {
               method: "PATCH",
               body: {
