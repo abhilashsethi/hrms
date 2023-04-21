@@ -85,7 +85,6 @@ export type User = {
 
 export type Projects = {
 
- id: string;
  name: string;
  description: string | null;
  devURL: string | null;
