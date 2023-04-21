@@ -35,12 +35,12 @@ const validationSchema = Yup.object().shape({
     .min(5, "Description must be at least 2 characters")
     .max(500, "Description must be less than 500 characters")
     .required("Description is required!"),
-  //   github: Yup.string()
-  //     .required("GitHub repository link is required")
-  //     .matches(
-  //       /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
-  //       "Invalid GitHub repository link"
-  //     ),
+  github: Yup.string()
+    .required("GitHub repository link is required")
+    .matches(
+      /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
+      "Invalid GitHub repository link"
+    ),
   gmail: Yup.string().email("Invalid gmail address"),
 });
 
