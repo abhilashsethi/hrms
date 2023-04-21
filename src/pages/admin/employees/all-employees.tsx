@@ -19,6 +19,7 @@ import {
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const AllEmployees = () => {
@@ -53,13 +54,15 @@ const AllEmployees = () => {
                 </div>
               </IconButton>
             </div>
-            <Button
-              className="!bg-theme"
-              variant="contained"
-              startIcon={<Add />}
-            >
-              ADD EMPLOYEE
-            </Button>
+            <Link href="/admin/employees/create-employee">
+              <Button
+                className="!bg-theme"
+                variant="contained"
+                startIcon={<Add />}
+              >
+                ADD EMPLOYEE
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

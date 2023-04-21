@@ -77,6 +77,7 @@ const Cards = () => {
                 title: "Assigned User",
                 field: "userId",
                 editable: "never",
+                emptyValue: "Not Assigned",
                 lookup: users?.reduce((lookup: any, user) => {
                   lookup[user.id] = user.name;
                   return lookup;

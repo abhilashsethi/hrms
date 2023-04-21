@@ -67,6 +67,7 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
         return;
       }
       Swal.fire(`Success`, `Updated Successfully`, `success`);
+      handleClose();
       return;
     } catch (error) {}
   };

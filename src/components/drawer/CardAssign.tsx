@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
 import { useChange, useFetch } from "hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 
@@ -22,9 +22,19 @@ type Props = {
 
 const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
+  const [searchedUser, setSearchedUser] = useState<any>([]);
   const { change } = useChange();
-  const { data: users, isLoading: isUsersFetching } = useFetch<User[]>(`users`);
+  const { data: users } = useFetch<User[]>(`users`);
+  useEffect(() => {
+    if (users) {
+      const filtered = users.filter((user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSearchedUser(filtered);
+    }
+  }, [users, searchTerm]);
   const handleAssign = async () => {
     setLoading(true);
     try {
@@ -43,6 +53,8 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
       }
       Swal.fire("Success", "User assigned successfully!", "success");
       mutate();
+      setSelectedUser(null);
+      onClose();
       return;
     } catch (err) {
       console.log(err);
@@ -74,6 +86,7 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
                 variant="outlined"
                 size="small"
                 placeholder="Enter name"
+                onChange={(e: any) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="w-1/3">
@@ -88,15 +101,27 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
             </div>
           </div>
           <div className="mt-4 flex flex-col gap-4">
-            {users?.map((item) => (
-              <div className="w-full h-[4.5rem] rounded-l-full shadow-md flex items-center gap-2">
+            {!searchedUser?.length && (
+              <p className="py-8 text-center flex gap-3 items-center justify-center">
+                <Search /> No results found!
+              </p>
+            )}
+            {searchedUser?.map((item: any) => (
+              <div className="w-full rounded-l-full shadow-xl border-t flex items-center gap-2 px-4 py-2">
                 <div className="w-1/5">
-                  <div className="h-[4.5rem] w-[4.5rem] border-2 rounded-full overflow-hidden">
-                    <img
-                      className="h-full object-cover"
-                      src={SAMPLEDP.src}
-                      alt=""
-                    />
+                  <div className="h-[4rem] w-[4rem] rounded-full overflow-hidden shadow-lg">
+                    {item?.photo && (
+                      <img
+                        className="h-full object-cover"
+                        src={SAMPLEDP.src}
+                        alt=""
+                      />
+                    )}
+                    {!item?.photo ? (
+                      <div className="h-full w-full rounded-full flex justify-center items-center text-2xl font-semibold bg-slate-300">
+                        {item?.name?.slice(0, 1)}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
                 <div className="w-4/5 flex justify-between items-start h-full">
@@ -119,16 +144,18 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
             ))}
           </div>
           <div className="flex justify-end mt-4">
-            <Button
-              onClick={handleAssign}
-              startIcon={
-                loading ? <CircularProgress size={20} /> : <CheckCircle />
-              }
-              className="!bg-emerald-500"
-              variant="contained"
-            >
-              ASSIGN
-            </Button>
+            {selectedUser && (
+              <Button
+                onClick={handleAssign}
+                startIcon={
+                  loading ? <CircularProgress size={20} /> : <CheckCircle />
+                }
+                className="!bg-emerald-500"
+                variant="contained"
+              >
+                ASSIGN
+              </Button>
+            )}
           </div>
         </Container>
       </Drawer>
