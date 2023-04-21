@@ -8,7 +8,11 @@ import { User } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 
 const EmployeesColumn = () => {
-  const { data, isLoading, mutate } = useFetch<User[]>(`users`);
+  const { data: employees, isLoading, mutate } = useFetch<User[]>(`users`);
+  const sortData = employees?.sort(
+    (a: any, b: any) =>
+      (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
+  );
   const { change, isChanging } = useChange();
   // const { push } = useRouter();
   const handleBlock = async (e: any, userId: string) => {
@@ -41,7 +45,7 @@ const EmployeesColumn = () => {
       <MaterialTable
         title={<HeadStyle name="All Employees" icon={<PeopleRounded />} />}
         isLoading={isLoading || isChanging}
-        data={data ? getDataWithSL<User>(data) : []}
+        data={sortData ? getDataWithSL<User>(sortData) : []}
         options={{ ...MuiTblOptions(), selection: true }}
         columns={[
           {
