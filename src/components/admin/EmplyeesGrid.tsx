@@ -21,7 +21,7 @@ import Swal from "sweetalert2";
 import { User } from "types";
 
 const EmplyeesGrid = () => {
-  const { data: employees, isLoading, mutate } = useFetch<User[]>(`users`);
+  const { data: employees, mutate } = useFetch<User[]>(`users`);
 
   return (
     <section className="mt-8">
