@@ -113,7 +113,7 @@ export default () => {
             key: "5-2",
             title: "All Attendance",
             icon: <RuleFolder />,
-            route: "/admin/attendances/all",
+            route: "/admin/attendances/all-attendance",
           },
           {
             key: "5-3",
