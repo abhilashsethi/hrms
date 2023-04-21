@@ -30,10 +30,7 @@ const TodayAttendance = () => {
           <TextTitles title="ATTENDANCE" />
           <div className="flex gap-4 items-center">
             <div className="flex gap-1">
-              <IconButton
-                onClick={() => setIsGrid((prev: any) => !prev)}
-                size="small"
-              >
+              <IconButton onClick={() => setIsGrid(true)} size="small">
                 <div
                   className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
                     isGrid && `border-2 border-theme`
@@ -42,10 +39,7 @@ const TodayAttendance = () => {
                   <GridViewRounded className={`${isGrid && `!text-theme`}`} />
                 </div>
               </IconButton>
-              <IconButton
-                onClick={() => setIsGrid((prev: any) => !prev)}
-                size="small"
-              >
+              <IconButton onClick={() => setIsGrid(false)} size="small">
                 <div
                   className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
                     !isGrid && `border-2 border-theme`
