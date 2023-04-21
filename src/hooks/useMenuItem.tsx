@@ -165,9 +165,9 @@ export default () => {
           },
           {
             key: "8-2",
-            title: "Today Roles",
+            title: "All Roles",
             icon: <PlaylistAddCheckCircleRounded />,
-            route: "/admin/roles/today",
+            route: "/admin/roles/all-roles",
           },
         ],
       },
