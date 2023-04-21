@@ -22,6 +22,7 @@ import { Projects } from "components/Profile";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const AllProjects = () => {
@@ -36,13 +37,15 @@ const AllProjects = () => {
         <div className="flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
-            <Button
-              className="!bg-theme"
-              variant="contained"
-              startIcon={<Add />}
-            >
-              ADD PROJECTS
-            </Button>
+            <Link href="/admin/projects/create-projects">
+              <Button
+                className="!bg-theme"
+                variant="contained"
+                startIcon={<Add />}
+              >
+                ADD PROJECTS
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
