@@ -13,10 +13,13 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import React from "react";
+import { useFetch } from "hooks";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { User } from "types";
 
 const Projects = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -24,9 +27,13 @@ const Projects = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const [isDialogue, setIsDialogue] = useState(false);
+  const router = useRouter();
+  const { data: projectsData, mutate } = useFetch<any>(`projects`);
+  console.log(projectsData);
   return (
     <div className="grid gap-6 lg:grid-cols-3">
-      {projectsData?.map((items: any) => (
+      {projectsData2?.map((items: any) => (
         <div className="relative bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide shadow-xl">
           <div className="absolute right-[10px] top-[10px]">
             <Tooltip title="More">
@@ -148,7 +155,7 @@ const Projects = () => {
 };
 
 export default Projects;
-const projectsData = [
+const projectsData2 = [
   {
     projectName: "Office Management",
     openTast: 1,

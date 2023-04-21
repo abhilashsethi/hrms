@@ -82,3 +82,18 @@ export type User = {
   roleId?: string;
   projectIDs?: string[];
 };
+
+export type Projects = {
+
+ id: string;
+ name: string;
+ description: string | null;
+ devURL: string | null;
+ prodURL: string | null;
+ gmail: string | null;
+ github: string | null;
+ startDate: Date;
+ userIDs: string;
+ createdAt: Date;
+ updatedAt: Date;
+};
