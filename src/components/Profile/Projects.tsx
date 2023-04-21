@@ -57,7 +57,7 @@ const Projects = () => {
                     width: 32,
                     height: 32,
                     ml: -0.5,
-                    mr: 1,
+                    mr: "15th June 2021",
                   },
                   "&:before": {
                     content: '""',
@@ -95,9 +95,7 @@ const Projects = () => {
               {items?.projectName}
             </h1>
             <div className="text-sm text-gray-400 ">
-              <span>{items?.openTast}</span> <span>open task</span>
-              {", "}
-              <span>{items?.taskCompllete}</span> <span>task completed</span>
+              <span>Start Date -</span> <span>{items?.startDate}</span>
             </div>
             <div className="py-4 text-md text-gray-400 tracking-wide">
               <p>{items?.description}</p>
@@ -105,12 +103,6 @@ const Projects = () => {
             <div className="py-2 text-md">
               <h2>Deadline :</h2>
               <span className="text-gray-400 text-sm">{items?.deadline}</span>
-            </div>
-            <div className="py-2 text-md">
-              <h2>Project Leader :</h2>
-              <div className="py-2">
-                <Avatar alt="Remy Sharp" src={items?.led} />
-              </div>
             </div>
             <div className="py-2 text-md">
               <h2>Team :</h2>
@@ -127,7 +119,11 @@ const Projects = () => {
               <Link href="#">{items?.github}</Link>
             </div>
             <div className="py-2 text-md">
-              <h2>Linkedin :</h2>
+              <h2>Developing URL :</h2>
+              <Link href="#">{items?.linkedin} </Link>
+            </div>
+            <div className="py-2 text-md">
+              <h2>Production URL :</h2>
               <Link href="#">{items?.linkedin} </Link>
             </div>
             <div className="p-2 py-2">
@@ -158,7 +154,7 @@ export default Projects;
 const projectsData2 = [
   {
     projectName: "Office Management",
-    openTast: 1,
+    startDate: "15th June 2021",
     taskCompllete: 9,
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. When an unknown printer took a galley of type and scrambled it",
@@ -205,7 +201,7 @@ const projectsData2 = [
   },
   {
     projectName: "Office Management",
-    openTast: 1,
+    startDate: "15th June 2021",
     taskCompllete: 9,
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. When an unknown printer took a galley of type and scrambled it",
@@ -252,7 +248,7 @@ const projectsData2 = [
   },
   {
     projectName: "Office Management",
-    openTast: 1,
+    startDate: "15th June 2021",
     taskCompllete: 9,
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. When an unknown printer took a galley of type and scrambled it",
