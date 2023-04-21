@@ -4,6 +4,7 @@ import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
@@ -15,6 +16,7 @@ const initialValues = {
   gmail: "",
   github: "",
   startDate: "",
+  endDate: "",
   userIDs: [],
 };
 
@@ -22,6 +24,7 @@ const validationSchema = Yup.object().shape({
   devURL: Yup.string().required("Dev URL is required!").url("Invalid Url"),
   userIDs: Yup.array().required("Please assign users!"),
   startDate: Yup.string().required("Start Date is required!"),
+  endDate: Yup.string().required("End Date is required!"),
   prodURL: Yup.string().required("Prod URL is required!").url("Invalid Url"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
@@ -32,15 +35,13 @@ const validationSchema = Yup.object().shape({
     .min(5, "Description must be at least 2 characters")
     .max(500, "Description must be less than 500 characters")
     .required("Description is required!"),
-  // github: Yup.string()
-  //   .required("GitHub repository link is required")
-  //   .matches(
-  //     /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
-  //     "Invalid GitHub repository link"
-  //   ),
-  gmail: Yup.string()
-    .email("Invalid gmail address")
-    .required("Gmail is required!"),
+  //   github: Yup.string()
+  //     .required("GitHub repository link is required")
+  //     .matches(
+  //       /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
+  //       "Invalid GitHub repository link"
+  //     ),
+  gmail: Yup.string().email("Invalid gmail address"),
 });
 
 const CreateProjects = () => {
@@ -53,7 +54,7 @@ const CreateProjects = () => {
     setLoading(true);
     console.log(values);
     try {
-      Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
+      Swal.fire(`Info`, `Please Wait..., It will take Some time!`, `info`);
       const res = await change(`projects`, {
         body: values,
       });
@@ -64,7 +65,7 @@ const CreateProjects = () => {
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      Swal.fire(`Success`, `You have successfully created!`, `success`);
       return;
     } catch (error) {
       console.log(error);
@@ -99,9 +100,7 @@ const CreateProjects = () => {
                   <div className="grid lg:grid-cols-2">
                     <div className="px-4 py-2">
                       <div className="py-2">
-                        <InputLabel htmlFor="name">
-                          Project Name <span className="text-red-600">*</span>
-                        </InputLabel>
+                        <InputLabel htmlFor="name">Project Name</InputLabel>
                       </div>
                       <TextField
                         fullWidth
@@ -118,9 +117,7 @@ const CreateProjects = () => {
                     </div>
                     <div className="px-4 py-2">
                       <div className="py-2">
-                        <InputLabel htmlFor="gmail">
-                          Gmail <span className="text-red-600">*</span>
-                        </InputLabel>
+                        <InputLabel htmlFor="gmail">Gmail</InputLabel>
                       </div>
                       <TextField
                         size="small"
@@ -138,9 +135,7 @@ const CreateProjects = () => {
 
                     <div className="px-4 py-2">
                       <div className="py-2">
-                        <InputLabel htmlFor="devURL">
-                          Dev URL <span className="text-red-600">*</span>
-                        </InputLabel>
+                        <InputLabel htmlFor="devURL">Dev URL</InputLabel>
                       </div>
                       <TextField
                         size="small"
@@ -200,8 +195,12 @@ const CreateProjects = () => {
                         placeholder="Start Date"
                         id="startDate"
                         name="startDate"
-                        value={values.startDate}
-                        onChange={handleChange}
+                        value={moment(values?.startDate).format("YYYY-MM-DD")}
+                        onChange={(e) => {
+                          setFieldValue("startDate", new Date(e?.target.value));
+                        }}
+                        //     value={values.startDate}
+                        //     onChange={handleChange}
                         onBlur={handleBlur}
                         error={touched.startDate && !!errors.startDate}
                         helperText={touched.startDate && errors.startDate}
@@ -209,8 +208,30 @@ const CreateProjects = () => {
                     </div>
                     <div className="px-4 py-2">
                       <div className="py-2">
+                        <InputLabel htmlFor="endDate">End Date</InputLabel>
+                      </div>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        type="date"
+                        placeholder="End Date"
+                        id="endDate"
+                        name="endDate"
+                        value={moment(values?.endDate).format("YYYY-MM-DD")}
+                        onChange={(e) => {
+                          setFieldValue("endDate", new Date(e?.target.value));
+                        }}
+                        //     value={values.endDate}
+                        //     onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.endDate && !!errors.endDate}
+                        helperText={touched.endDate && errors.endDate}
+                      />
+                    </div>
+                    <div className="px-4 py-2">
+                      <div className="py-2">
                         <InputLabel htmlFor="employee">
-                          Employee Name <span className="text-red-600">*</span>
+                          Employee Name
                         </InputLabel>
                       </div>
                       {/* <TextField
