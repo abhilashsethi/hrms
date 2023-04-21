@@ -16,6 +16,7 @@ import {
   Settings,
   AddCircle,
   Rule,
+  RuleFolder,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -111,7 +112,7 @@ export default () => {
           {
             key: "5-2",
             title: "All Attendance",
-            icon: <AddCircle />,
+            icon: <RuleFolder />,
             route: "/admin/attendances/all",
           },
           {
