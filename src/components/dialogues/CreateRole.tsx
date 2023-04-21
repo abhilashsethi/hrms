@@ -32,7 +32,7 @@ const CreateRole = ({ open, handleClose, mutate }: Props) => {
       try {
         const res = await change(`roles`, { body: values });
         setLoading(false);
-        if (res?.status !== 200) {
+        if (res?.status !== 201) {
           Swal.fire(
             "Error",
             res?.results?.msg || "Something went wrong!",

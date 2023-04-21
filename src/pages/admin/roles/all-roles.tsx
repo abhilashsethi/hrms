@@ -1,13 +1,22 @@
 import { Add, Delete, Edit, Info } from "@mui/icons-material";
-import { Button, Grid, Tooltip } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { AdminBreadcrumbs, TextTitles } from "components/core";
 import { CreateRole, UpdateRole } from "components/dialogues";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const AllRoles = () => {
   const [isCreate, setIsCreate] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { change } = useChange();
   const [isUpdate, setisUpdate] = useState<{
     dialogue?: boolean;
     id?: string | null;
@@ -15,6 +24,43 @@ const AllRoles = () => {
   const { data: roleData, mutate } =
     useFetch<[{ id: string; name: string }]>(`roles`);
   console.log(roleData);
+  const handleDelete = async (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        Swal.fire("", "Please Wait...", "info");
+        try {
+          const res = await change(`roles/${id}`, { method: "DELETE" });
+          setLoading(false);
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            setLoading(false);
+            return;
+          }
+          mutate();
+          Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+          return;
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
+  };
   return (
     <PanelLayout title="All Roles - Admin Panel">
       <section className="px-8 py-4">
@@ -53,7 +99,9 @@ const AllRoles = () => {
                     <div className="flex gap-2">
                       <div className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-red-600 to-red-400 flex justify-center items-center text-lg font-semibold">
                         <Tooltip title="Delete">
-                          <Delete className="!text-white" />
+                          <IconButton onClick={() => handleDelete(item?.id)}>
+                            <Delete className="!text-white" />
+                          </IconButton>
                         </Tooltip>
                       </div>
                       <div
