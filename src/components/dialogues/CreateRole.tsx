@@ -44,6 +44,7 @@ const CreateRole = ({ open, handleClose, mutate }: Props) => {
         mutate();
         handleClose();
         Swal.fire(`Success`, `Created Successfully!`, `success`);
+        formik.resetForm();
         return;
       } catch (error) {
         console.log(error);
