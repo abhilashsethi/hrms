@@ -108,7 +108,7 @@ export default () => {
           },
           {
             key: "5-2",
-            title: "Today Attendance",
+            title: "All Attendance",
             icon: <PlaylistAddCheckCircleRounded />,
             route: "/admin/attendances/today",
           },
@@ -127,7 +127,7 @@ export default () => {
           },
           {
             key: "6-2",
-            title: "Today Meetings",
+            title: "All Meetings",
             icon: <PlaylistAddCheckCircleRounded />,
             route: "/admin/meetings/",
           },
@@ -152,7 +152,7 @@ export default () => {
           },
           {
             key: "7-3",
-            title: "Create Projects",
+            title: "Create Project",
             icon: <PlaylistAddCheckCircleRounded />,
             route: "/admin/projects/create-projects",
           },
