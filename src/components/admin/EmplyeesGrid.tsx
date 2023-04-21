@@ -24,10 +24,15 @@ import { User } from "types";
 const EmplyeesGrid = () => {
   const { data: employees, mutate } = useFetch<User[]>(`users`);
 
+  const sortData = employees?.sort(
+    (a: any, b: any) =>
+      (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
+  );
+
   return (
     <section className="mt-8">
       <Grid container spacing={3}>
-        {employees?.map((item) => (
+        {sortData?.map((item) => (
           <Grid key={item?.id} item lg={3}>
             <CardContent item={item} mutate={mutate} />
           </Grid>
@@ -98,6 +103,31 @@ const CardContent = ({ item, mutate }: any) => {
           return;
         }
         Swal.fire(`Success`, "User Blocked successfully!!", "success");
+        return;
+      }
+    });
+  };
+  const handleAssign = async (e: any, userId: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to change status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, change!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await change(`users/${userId}`, {
+          method: "PATCH",
+          body: { isOfficeAccessGranted: e.target?.checked },
+        });
+        mutate();
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "Updated successfully!", "success");
         return;
       }
     });
@@ -195,7 +225,10 @@ const CardContent = ({ item, mutate }: any) => {
         </div>
         <div className="w-1/2 py-1.5 rounded-lg border-2 flex flex-col items-center gap-1">
           <p className="font-semibold tracking-wide text-sm">ACCESS</p>
-          <IOSSwitch checked={!item?.isOfficeAccessGranted} />
+          <IOSSwitch
+            onChange={(e) => handleAssign(e, item?.id)}
+            checked={!item?.isOfficeAccessGranted}
+          />
         </div>
       </div>
     </div>
