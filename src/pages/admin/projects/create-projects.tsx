@@ -1,22 +1,11 @@
-import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-  Autocomplete,
-  Box,
-  Button,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material";
+import { Check } from "@mui/icons-material";
+import { Autocomplete, Button, InputLabel, TextField } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
 import * as Yup from "yup";
 const initialValues = {
   name: "",
@@ -26,12 +15,12 @@ const initialValues = {
   gmail: "",
   github: "",
   startDate: "",
-  userIDs: "",
+  userIDs: [],
 };
 
 const validationSchema = Yup.object().shape({
   devURL: Yup.string().required("Dev URL is required!").url("Invalid Url"),
-  userIDs: Yup.string().required("User Name is required!"),
+  userIDs: Yup.array().required("Please assign users!"),
   startDate: Yup.string().required("Start Date is required!"),
   prodURL: Yup.string().required("Prod URL is required!").url("Invalid Url"),
   name: Yup.string()
@@ -43,13 +32,12 @@ const validationSchema = Yup.object().shape({
     .min(5, "Description must be at least 2 characters")
     .max(500, "Description must be less than 500 characters")
     .required("Description is required!"),
-  github: Yup.string()
-    .required("GitHub repository link is required")
-    .matches(
-      /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
-      "Invalid GitHub repository link"
-    ),
-
+  // github: Yup.string()
+  //   .required("GitHub repository link is required")
+  //   .matches(
+  //     /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
+  //     "Invalid GitHub repository link"
+  //   ),
   gmail: Yup.string()
     .email("Invalid gmail address")
     .required("Gmail is required!"),
@@ -64,12 +52,12 @@ const CreateProjects = () => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     console.log(values);
-    return;
     try {
       Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
       const res = await change(`projects`, {
         body: values,
       });
+      console.log(res);
       setLoading(false);
       if (res?.status !== 201) {
         Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
@@ -244,10 +232,13 @@ const CreateProjects = () => {
                         fullWidth
                         limitTags={2}
                         size="small"
-                        id="userIds"
+                        id="userIDs"
                         options={data || []}
                         onChange={(e: any, r: any) => {
-                          setFieldValue("userIds", r?.id);
+                          setFieldValue(
+                            "userIDs",
+                            r?.map((data: { id: string }) => data?.id)
+                          );
                         }}
                         getOptionLabel={(option: any) => option.name}
                         renderInput={(params) => (
@@ -255,6 +246,9 @@ const CreateProjects = () => {
                             {...params}
                             label="Employee Name"
                             placeholder="Assigned"
+                            onBlur={handleBlur}
+                            error={touched.userIDs && !!errors.userIDs}
+                            helperText={touched.userIDs && errors.userIDs}
                           />
                         )}
                       />
