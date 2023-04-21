@@ -82,7 +82,7 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
   return (
     <>
       <Dialog
-        //    onClose={handleClose}
+        onClose={handleClose}
         maxWidth="lg"
         aria-labelledby="customized-dialog-title"
         open={open}

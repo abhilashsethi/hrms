@@ -5,6 +5,7 @@ import BankInfo from "./BankInfo";
 import Education from "./Education";
 import AttendanceCard from "./AttendanceCard";
 import AttendanceTable from "./AttendanceTable";
+import Projects from "./Projects";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -70,7 +71,7 @@ export default function ProfileTabs() {
         <AttendanceTable />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <Projects />
       </TabPanel>
       <TabPanel value={value} index={3}>
         Item Two

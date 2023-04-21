@@ -94,7 +94,7 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
   return (
     <>
       <Dialog
-        //    onClose={handleClose}
+        onClose={handleClose}
         maxWidth="lg"
         aria-labelledby="customized-dialog-title"
         open={open}
