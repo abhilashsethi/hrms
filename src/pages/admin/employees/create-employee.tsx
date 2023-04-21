@@ -1,6 +1,8 @@
 import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Autocomplete,
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -12,6 +14,7 @@ import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
@@ -27,6 +30,7 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
+  roleId: Yup.string().required("Employee Id is required!"),
   employeeID: Yup.string().required("Employee Id is required!"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
@@ -62,7 +66,6 @@ const CreateEmployee = () => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
       delete values.confirmPassword;
       const res = await change(`users`, {
         body: values,
@@ -73,6 +76,7 @@ const CreateEmployee = () => {
         setLoading(false);
         return;
       }
+      router?.push("/admin/employees/all-employees");
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
@@ -93,7 +97,14 @@ const CreateEmployee = () => {
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
-              {({ values, errors, touched, handleChange, handleBlur }) => (
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                setFieldValue,
+              }) => (
                 <Form>
                   <h1 className="text-2xl uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
                     Create Employee
@@ -260,7 +271,7 @@ const CreateEmployee = () => {
                           Role <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
-                      <TextField
+                      {/* <TextField
                         size="small"
                         select
                         fullWidth
@@ -273,7 +284,27 @@ const CreateEmployee = () => {
                             {option.name}
                           </MenuItem>
                         ))}
-                      </TextField>
+                      </TextField> */}
+                      <Autocomplete
+                        fullWidth
+                        size="small"
+                        id="roleId"
+                        options={data || []}
+                        onChange={(e: any, r: any) => {
+                          setFieldValue("roleId", r?.id);
+                        }}
+                        getOptionLabel={(option: any) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Employee Name"
+                            placeholder="Assigned"
+                            onBlur={handleBlur}
+                            error={touched.roleId && !!errors.roleId}
+                            helperText={touched.roleId && errors.roleId}
+                          />
+                        )}
+                      />
                     </div>
                   </div>
                   <div className="flex justify-center py-4">
@@ -281,7 +312,9 @@ const CreateEmployee = () => {
                       type="submit"
                       variant="contained"
                       className="!bg-theme !px-10 !py-3 hover:!bg-sky-800 hover:!shadow-xl"
-                      startIcon={<Check />}
+                      startIcon={
+                        loading ? <CircularProgress size={20} /> : <Check />
+                      }
                     >
                       Submit
                     </Button>

@@ -1,6 +1,6 @@
 import MaterialTable from "@material-table/core";
 import { PeopleRounded } from "@mui/icons-material";
-import { HeadStyle, IOSSwitch } from "components/core";
+import { HeadStyle, IOSSwitch, RoleComponent } from "components/core";
 import { useChange, useFetch } from "hooks";
 // import { useRouter } from "next/router";
 import Swal from "sweetalert2";
@@ -153,14 +153,3 @@ const EmployeesColumn = () => {
 };
 
 export default EmployeesColumn;
-interface Props {
-  roleId?: string;
-}
-const RoleComponent = ({ roleId }: Props) => {
-  const { data } = useFetch<{ name: string }>(`roles/${roleId}`);
-  return (
-    <span className="py-1 px-3 bg-gradient-to-r from-theme to-secondary-300 rounded-full text-white tracking-wide shadow-md">
-      {data?.name}
-    </span>
-  );
-};

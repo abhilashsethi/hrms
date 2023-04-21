@@ -8,6 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
+import { RoleComponent } from "components/core";
 import { useChange, useFetch } from "hooks";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -129,7 +130,7 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
                     <>
                       <p className="text-md">{item?.name}</p>
                       <p className="mt-1 text-sm font-semibold text-gray-500">
-                        Web Developer
+                        <RoleComponent roleId={item?.roleId} />
                       </p>
                     </>
                   </div>

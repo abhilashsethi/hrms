@@ -2,6 +2,7 @@ import {
   Add,
   ChevronLeftRounded,
   ChevronRightRounded,
+  CreditCardRounded,
   GridViewRounded,
   InsertInvitationRounded,
   Search,
@@ -29,10 +30,7 @@ const TodayAttendance = () => {
           <TextTitles title="ATTENDANCE" />
           <div className="flex gap-4 items-center">
             <div className="flex gap-1">
-              <IconButton
-                onClick={() => setIsGrid((prev: any) => !prev)}
-                size="small"
-              >
+              <IconButton onClick={() => setIsGrid(true)} size="small">
                 <div
                   className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
                     isGrid && `border-2 border-theme`
@@ -41,10 +39,7 @@ const TodayAttendance = () => {
                   <GridViewRounded className={`${isGrid && `!text-theme`}`} />
                 </div>
               </IconButton>
-              <IconButton
-                onClick={() => setIsGrid((prev: any) => !prev)}
-                size="small"
-              >
+              <IconButton onClick={() => setIsGrid(false)} size="small">
                 <div
                   className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
                     !isGrid && `border-2 border-theme`
@@ -63,6 +58,21 @@ const TodayAttendance = () => {
               <ChevronRightRounded />
             </div>
           </div>
+        </div>
+
+        <div className="mt-4">
+          <Grid container spacing={2}>
+            {cards?.map((item) => (
+              <Grid key={item?.id} item lg={3}>
+                <div className="w-full tracking-wide border-b-4 hover:bg-theme hover:text-white hover:border-white border-theme h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center">
+                  <p className="text-base font-semibold text-center">
+                    {item?.title}
+                  </p>
+                  <p className="text-lg font-bold">{item?.value}</p>
+                </div>
+              </Grid>
+            ))}
+          </Grid>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 mb-4">
           <TextField
@@ -146,5 +156,32 @@ const links = [
     id: 2,
     page: "Datewise",
     link: "/admin/attendances/today",
+  },
+];
+
+const cards = [
+  {
+    id: 1,
+
+    title: "Total Users",
+    value: "12",
+  },
+  {
+    id: 2,
+
+    title: "Present",
+    value: "1",
+  },
+  {
+    id: 3,
+
+    title: "Absent",
+    value: "2",
+  },
+  {
+    id: 4,
+
+    title: "Leave",
+    value: "3",
   },
 ];
