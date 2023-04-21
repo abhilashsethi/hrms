@@ -96,12 +96,14 @@ const CardContent = ({ item }: any) => {
               Details
             </MenuItem>
           </Link>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <EditRounded fontSize="small" />
-            </ListItemIcon>
-            Edit
-          </MenuItem>
+          <Link href={`/admin/employees/employee-profile?id=${item?.id}`}>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <EditRounded fontSize="small" />
+              </ListItemIcon>
+              Edit
+            </MenuItem>
+          </Link>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <DeleteRounded fontSize="small" />

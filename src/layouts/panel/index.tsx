@@ -63,7 +63,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
     <>
       <Head>
         <title>{title}</title>
-        <link rel="icon" href="/favicon2.png" />
+        <link rel="icon" href="/favicone.ico" />
       </Head>
       <>
         <Drawer

@@ -64,7 +64,7 @@ const Login = () => {
     <>
       <Head>
         <title>Login Page</title>
-        <link rel="icon" href="/favicon2.png" />
+        <link rel="icon" href="/favicone.ico" />
       </Head>
       <section
         className="w-full h-screen bg-white flex"
