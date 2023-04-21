@@ -14,6 +14,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
+import { IOSSwitch } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import React from "react";
@@ -76,8 +77,33 @@ const CardContent = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
+  const handleBlock = async (e: any, userId: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to update status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await change(`users/${userId}`, {
+          method: "PATCH",
+          body: { isBlocked: !e.target?.checked },
+        });
+        mutate();
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "User Blocked successfully!!", "success");
+        return;
+      }
+    });
+  };
   return (
-    <div className="h-60 relative bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide items-center justify-center shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
+    <div className="h-full relative bg-white w-full rounded-xl flex flex-col gap-1.5 py-6 tracking-wide items-center justify-center shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
       <div className="absolute right-[10px] top-[10px]">
         <Tooltip title="More">
           <IconButton onClick={handleClick}>
@@ -158,6 +184,19 @@ const CardContent = ({ item, mutate }: any) => {
       </span>
       <div className="flex gap-2 items-center font-semibold text-sm">
         <HomeRepairServiceRounded /> {item?.employeeID}
+      </div>
+      <div className="w-full px-8 flex gap-2 mt-2">
+        <div className="w-1/2 py-1.5 rounded-lg border-2 flex flex-col items-center gap-1">
+          <p className="font-semibold tracking-wide text-sm">STATUS</p>
+          <IOSSwitch
+            checked={item?.isBlocked}
+            onChange={(e) => handleBlock(e, item?.id)}
+          />
+        </div>
+        <div className="w-1/2 py-1.5 rounded-lg border-2 flex flex-col items-center gap-1">
+          <p className="font-semibold tracking-wide text-sm">ACCESS</p>
+          <IOSSwitch checked={!item?.isOfficeAccessGranted} />
+        </div>
       </div>
     </div>
   );
