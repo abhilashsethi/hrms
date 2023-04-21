@@ -14,19 +14,21 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import React from "react";
+import Swal from "sweetalert2";
 import { User } from "types";
 
 const EmplyeesGrid = () => {
   const { data: employees, isLoading, mutate } = useFetch<User[]>(`users`);
+
   return (
     <section className="mt-8">
       <Grid container spacing={3}>
         {employees?.map((item) => (
           <Grid key={item?.id} item lg={3}>
-            <CardContent item={item} />
+            <CardContent item={item} mutate={mutate} />
           </Grid>
         ))}
       </Grid>
@@ -36,7 +38,7 @@ const EmplyeesGrid = () => {
 
 export default EmplyeesGrid;
 
-const CardContent = ({ item }: any) => {
+const CardContent = ({ item, mutate }: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -44,6 +46,35 @@ const CardContent = ({ item }: any) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const { change } = useChange();
+  const handleDelete = async (userId: string) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to delete user?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const res = await change(`users/${userId}`, {
+            method: "DELETE",
+          });
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="h-60 relative bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide items-center justify-center shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
@@ -104,7 +135,7 @@ const CardContent = ({ item }: any) => {
               Edit
             </MenuItem>
           </Link>
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={() => handleDelete(item?.id)}>
             <ListItemIcon>
               <DeleteRounded fontSize="small" />
             </ListItemIcon>
