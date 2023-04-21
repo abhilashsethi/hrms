@@ -46,7 +46,7 @@ const CardContent = ({ item }: any) => {
     setAnchorEl(null);
   };
   return (
-    <div className="h-60 relative bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide items-center justify-center shadow-xl">
+    <div className="h-60 relative bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide items-center justify-center shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
       <div className="absolute right-[10px] top-[10px]">
         <Tooltip title="More">
           <IconButton onClick={handleClick}>
@@ -110,11 +110,20 @@ const CardContent = ({ item }: any) => {
           </MenuItem>
         </Menu>
       </div>
-      <div className="h-24 w-24 border-2 rounded-full overflow-hidden">
-        <img className="h-full object-cover" src={DEFAULTIMG.src} alt="" />
+      <div className="h-20 w-20 rounded-full overflow-hidden shadow-xl">
+        {item?.photo && (
+          <img className="h-full object-cover" src={DEFAULTIMG.src} alt="" />
+        )}
+        {!item?.photo ? (
+          <div className="h-full w-full uppercase flex justify-center items-center text-4xl font-bold text-white bg-gradient-to-br from-theme-200 via-theme-50 to-secondary-200">
+            {item?.name?.slice(0, 1)}
+          </div>
+        ) : null}
       </div>
-      <span className="mt-2 text-sm">{item?.name}</span>
-      <div className="flex gap-2 items-center font-semibold text-slate-500 text-md">
+      <span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
+        {item?.name}
+      </span>
+      <div className="flex gap-2 items-center font-semibold text-sm">
         <HomeRepairServiceRounded /> {item?.employeeID}
       </div>
     </div>
