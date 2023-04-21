@@ -1,5 +1,7 @@
 import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Autocomplete,
+  Box,
   Button,
   IconButton,
   InputAdornment,
@@ -17,7 +19,6 @@ import Swal from "sweetalert2";
 import { User } from "types";
 import * as Yup from "yup";
 const initialValues = {
-  id: "",
   name: "",
   description: "",
   devURL: "",
@@ -29,13 +30,25 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  devURL: Yup.string().required("Dev URL is required!"),
-  prodURL: Yup.string().required("Prod URL is required!"),
+  devURL: Yup.string().required("Dev URL is required!").url("Invalid Url"),
+  userIDs: Yup.string().required("User Name is required!"),
+  startDate: Yup.string().required("Start Date is required!"),
+  prodURL: Yup.string().required("Prod URL is required!").url("Invalid Url"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name must be less than 50 characters")
     .required("Name is required!"),
+  description: Yup.string()
+    .min(5, "Description must be at least 2 characters")
+    .max(500, "Description must be less than 500 characters")
+    .required("Description is required!"),
+  github: Yup.string()
+    .required("GitHub repository link is required")
+    .matches(
+      /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
+      "Invalid GitHub repository link"
+    ),
 
   gmail: Yup.string()
     .email("Invalid gmail address")
@@ -44,7 +57,8 @@ const validationSchema = Yup.object().shape({
 
 const CreateProjects = () => {
   const [loading, setLoading] = useState(false);
-  const { data, isLoading, mutate } = useFetch<User[]>(`users`);
+  const { data, isLoading, mutate } = useFetch<any>(`users`);
+  console.log(data);
   const { change, isChanging } = useChange();
 
   const handleSubmit = async (values: any) => {
@@ -53,7 +67,6 @@ const CreateProjects = () => {
     return;
     try {
       Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
-      delete values.confirmPassword;
       const res = await change(`projects`, {
         body: values,
       });
@@ -83,7 +96,14 @@ const CreateProjects = () => {
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
             >
-              {({ values, errors, touched, handleChange, handleBlur }) => (
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                setFieldValue,
+              }) => (
                 <Form>
                   <h1 className="text-2xl uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
                     Create Project
@@ -188,6 +208,7 @@ const CreateProjects = () => {
                       <TextField
                         size="small"
                         fullWidth
+                        type="date"
                         placeholder="Start Date"
                         id="startDate"
                         name="startDate"
@@ -204,7 +225,7 @@ const CreateProjects = () => {
                           Employee Name <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
-                      <TextField
+                      {/* <TextField
                         size="small"
                         select
                         fullWidth
@@ -217,7 +238,48 @@ const CreateProjects = () => {
                             {option.name}
                           </MenuItem>
                         ))}
-                      </TextField>
+                      </TextField> */}
+                      <Autocomplete
+                        multiple
+                        fullWidth
+                        limitTags={2}
+                        size="small"
+                        id="userIds"
+                        options={data || []}
+                        onChange={(e: any, r: any) => {
+                          setFieldValue("userIds", r?.id);
+                        }}
+                        getOptionLabel={(option: any) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Employee Name"
+                            placeholder="Assigned"
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="px-4 py-2">
+                      <div className="py-2">
+                        <InputLabel htmlFor="description">
+                          Description
+                        </InputLabel>
+                      </div>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        multiline
+                        maxRows={3}
+                        type="text"
+                        placeholder="Description"
+                        id="description"
+                        name="description"
+                        value={values.description}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.description && !!errors.description}
+                        helperText={touched.description && errors.description}
+                      />
                     </div>
                   </div>
                   <div className="flex justify-center py-4">
