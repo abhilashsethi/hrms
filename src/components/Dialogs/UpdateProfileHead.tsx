@@ -73,6 +73,7 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
   return (
     <>
       <Dialog
+        onClose={handleClose}
         maxWidth="lg"
         aria-labelledby="customized-dialog-title"
         open={open}
