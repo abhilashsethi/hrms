@@ -14,6 +14,7 @@ import {
   CameraRoll,
   Key,
   Settings,
+  AddCircle,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -109,7 +110,7 @@ export default () => {
           {
             key: "5-2",
             title: "All Attendance",
-            icon: <PlaylistAddCheckCircleRounded />,
+            icon: <AddCircle />,
             route: "/admin/attendances/today",
           },
         ],
@@ -153,7 +154,7 @@ export default () => {
           {
             key: "7-3",
             title: "Create Project",
-            icon: <PlaylistAddCheckCircleRounded />,
+            icon: <AddCircle />,
             route: "/admin/projects/create-projects",
           },
         ],
