@@ -16,7 +16,7 @@ import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 
 interface Props {
-  open: boolean;
+  open: any;
   handleClose: any;
   mutate?: any;
   id?: any;

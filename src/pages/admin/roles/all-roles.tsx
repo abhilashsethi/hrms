@@ -9,8 +9,8 @@ import { useState } from "react";
 const AllRoles = () => {
   const [isCreate, setIsCreate] = useState(false);
   const [isUpdate, setisUpdate] = useState<{
-    dialogue: boolean;
-    id: string | null;
+    dialogue?: boolean;
+    id?: string | null;
   }>({ dialogue: false, id: null });
   const { data: roleData, mutate } =
     useFetch<[{ id: string; name: string }]>(`roles`);
