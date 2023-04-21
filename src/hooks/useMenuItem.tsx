@@ -15,6 +15,7 @@ import {
   Key,
   Settings,
   AddCircle,
+  Rule,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -111,6 +112,12 @@ export default () => {
             key: "5-2",
             title: "All Attendance",
             icon: <AddCircle />,
+            route: "/admin/attendances/all",
+          },
+          {
+            key: "5-3",
+            title: "Date Wise Attendance",
+            icon: <Rule />,
             route: "/admin/attendances/today",
           },
         ],
