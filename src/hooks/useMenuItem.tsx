@@ -9,14 +9,14 @@ import {
   PersonAddAltRounded,
   Diversity3Rounded,
   MedicalInformationRounded,
-  MeetingRoom,
-  Work,
-  CameraRoll,
   Key,
   Settings,
-  AddCircle,
   Rule,
   RuleFolder,
+  Groups,
+  DesignServicesRounded,
+  AddRounded,
+  ManageAccountsRounded,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -126,7 +126,7 @@ export default () => {
       {
         key: "6",
         title: "Meetings",
-        icon: <MeetingRoom />,
+        icon: <Groups />,
         submenus: [
           {
             key: "6-1",
@@ -137,7 +137,7 @@ export default () => {
           {
             key: "6-2",
             title: "All Meetings",
-            icon: <PlaylistAddCheckCircleRounded />,
+            icon: <Groups />,
             route: "/admin/meetings/",
           },
         ],
@@ -145,7 +145,7 @@ export default () => {
       {
         key: "7",
         title: "Projects",
-        icon: <Work />,
+        icon: <DesignServicesRounded />,
         submenus: [
           {
             key: "7-1",
@@ -156,13 +156,13 @@ export default () => {
           {
             key: "7-2",
             title: "All Projects",
-            icon: <PlaylistAddCheckCircleRounded />,
+            icon: <DesignServicesRounded />,
             route: "/admin/projects/all-projects",
           },
           {
             key: "7-3",
             title: "Create Project",
-            icon: <AddCircle />,
+            icon: <AddRounded />,
             route: "/admin/projects/create-projects",
           },
         ],
@@ -170,7 +170,7 @@ export default () => {
       {
         key: "8",
         title: "Roles",
-        icon: <CameraRoll />,
+        icon: <ManageAccountsRounded />,
         submenus: [
           {
             key: "8-1",
@@ -181,7 +181,7 @@ export default () => {
           {
             key: "8-2",
             title: "All Roles",
-            icon: <PlaylistAddCheckCircleRounded />,
+            icon: <ManageAccountsRounded />,
             route: "/admin/roles/all-roles",
           },
         ],
