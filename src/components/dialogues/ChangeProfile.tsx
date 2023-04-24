@@ -1,32 +1,75 @@
-import { Close } from "@mui/icons-material";
+import { Check, Close } from "@mui/icons-material";
 import {
   Button,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
-  TextField,
   Tooltip,
 } from "@mui/material";
-import { DEFAULTPROFILE } from "assets/home";
-import { useFormik } from "formik";
+import { ErrorMessage, useFormik } from "formik";
+import { useChange, useFetch } from "hooks";
+import { useRouter } from "next/router";
 import { useRef } from "react";
+import Swal from "sweetalert2";
+import { User } from "types";
+import { uploadFile } from "utils";
 import * as yup from "yup";
 
 interface Props {
   open: boolean;
   handleClose: any;
+  mutate?: any;
 }
 
-const ChangeProfile = ({ open, handleClose }: Props) => {
+const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
+  const router = useRouter();
+  const { data: employData } = useFetch<User>(`users/${router?.query?.id}`);
+  const { change } = useChange();
   const imgRef = useRef<any>();
   const formik = useFormik({
-    initialValues: { photo: "" },
-    validationSchema: yup.object({ photo: yup.string().required("Required!") }),
-    onSubmit: async (values) => {
-      console.log(values);
+    initialValues: { photo: employData?.photo ? employData?.photo : null },
+    // enableReinitialize: true,
+    validationSchema: yup.object().shape({
+      photo: yup
+        .mixed()
+        .test(
+          "fileSize",
+          "File size is too large",
+          (value: any) => value && value.size <= 5000000
+        )
+        .test(
+          "fileType",
+          "Unsupported file format",
+          (value: any) =>
+            value &&
+            ["image/jpeg", "image/png", "image/jpg", "image/gif"].includes(
+              value.type
+            )
+        ),
+    }),
+    onSubmit: async (values: any) => {
+      const uniId = new Date().toString();
+      try {
+        const url = await uploadFile(values?.photo, `photo.png`);
+        const res = await change(`users/${router?.query?.id}`, {
+          method: "PATCH",
+          body: { photo: url },
+        });
+        console.log(res);
+        if (res.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire("Success", "Profile updated successfully!", "success");
+        mutate();
+        return;
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
+  console.log(formik);
   return (
     <Dialog
       onClose={handleClose}
@@ -38,7 +81,7 @@ const ChangeProfile = ({ open, handleClose }: Props) => {
         sx={{ p: 2, minWidth: "18rem !important" }}
       >
         <p className="text-center text-xl font-bold text-theme tracking-wide">
-          PROFILE PICTURE
+          UPDATE PICTURE
         </p>
         <IconButton
           aria-label="close"
@@ -57,22 +100,44 @@ const ChangeProfile = ({ open, handleClose }: Props) => {
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
         <div className="md:w-[25rem] w-[72vw] md:px-4 px-2 tracking-wide">
-          <form className="flex justify-center py-6 flex-col gap-4 items-center">
-            <input className="hidden" type="file" ref={imgRef} />
-            <div className="h-40 w-40 shadow-lg">
-              <img
-                className="h-full object-cover"
-                src={DEFAULTPROFILE.src}
-                alt="imagefile"
-              />
+          <form
+            onSubmit={formik.handleSubmit}
+            className="flex justify-center py-6 flex-col gap-4 items-center"
+          >
+            <input
+              name="photo"
+              onChange={(e: any) => {
+                formik.setFieldValue("photo", e.target.files[0]);
+              }}
+              className="hidden"
+              type="file"
+              ref={imgRef}
+            />
+            <div
+              className="h-40 w-40 shadow-lg cursor-pointer overflow-hidden rounded-md"
+              onClick={() => imgRef?.current?.click()}
+            >
+              {formik?.values?.photo && (
+                <img
+                  className="h-full object-cover"
+                  src={URL.createObjectURL(formik?.values?.photo as any)}
+                  alt="Preview"
+                />
+              )}
+              {/* {formik.touched.photo && formik.errors.photo ? (
+                <div>{formik.errors.photo}</div>
+              ) : null} */}
             </div>
+            {/* <ErrorMessage name="photo" /> */}
             <div className="">
               <Button
-                onClick={() => imgRef.current.click()}
+                // onClick={() => imgRef.current.click()}
+                type="submit"
                 className="!bg-theme"
                 variant="contained"
+                startIcon={<Check />}
               >
-                CHANGE PROFILE
+                SUBMIT
               </Button>
             </div>
           </form>

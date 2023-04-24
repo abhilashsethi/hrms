@@ -14,7 +14,10 @@ const CardHead = () => {
   const router = useRouter();
   const [isDialogue, setIsDialogue] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
-  const { data: employData } = useFetch<User>(`users/${router?.query?.id}`);
+  const { data: employData, mutate } = useFetch<User>(
+    `users/${router?.query?.id}`
+  );
+  // console.log(employData);
   return (
     <>
       <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">
@@ -30,16 +33,16 @@ const CardHead = () => {
             <div className="pr-8 relative flex justify-center items-center group ">
               {employData?.photo && (
                 <img
-                  className="w-28 h-28 rounded-full shadow-md"
-                  src={DEFAULTPROFILE.src}
+                  className="h-28 w-28 object-contain rounded-full shadow-md"
+                  src={employData?.photo}
                   alt="John Doe"
                 />
               )}
-              {
+              {!employData?.photo && (
                 <div className="h-28 w-28 rounded-full uppercase shadow-lg flex justify-center items-center text-4xl font-bold border-[1px]">
                   {employData?.name.slice(0, 1)}
                 </div>
-              }
+              )}
               <div
                 onClick={() => setIsProfile(true)}
                 className="absolute cursor-pointer rounded-full w-28 h-28 group-hover:flex transition-all ease-in-out duration-300 justify-center items-center hidden  bg-[#0007]"
@@ -89,7 +92,9 @@ const CardHead = () => {
             <h5>Address :</h5>
             <span className="col-span-2 ">{employData?.address || "---"}</span>
             <h5>Gender :</h5>
-            <span className="col-span-2 ">{employData?.gender as any}</span>
+            <span className="col-span-2 ">
+              {(employData?.gender as any) || "---"}
+            </span>
           </div>
         </div>
       </div>
@@ -97,7 +102,11 @@ const CardHead = () => {
         open={isDialogue}
         handleClose={() => setIsDialogue(false)}
       />
-      <ChangeProfile open={isProfile} handleClose={() => setIsProfile(false)} />
+      <ChangeProfile
+        open={isProfile}
+        handleClose={() => setIsProfile(false)}
+        mutate={mutate}
+      />
     </>
   );
 };
