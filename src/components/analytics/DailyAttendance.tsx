@@ -58,7 +58,7 @@ const DailyAttendance = ({
 			},
 		},
 		title: {
-			text: "Attendance",
+			text: text,
 			floating: true,
 			offsetY: 1,
 			align: "center",
@@ -102,7 +102,7 @@ const DailyAttendance = ({
 					},
 				},
 				title: {
-					text: "Attendance",
+					text: text,
 					floating: true,
 					offsetY: 1,
 					align: "center",

@@ -1,13 +1,25 @@
+import { Home } from "@mui/icons-material";
+import { Breadcrumbs } from "@mui/material";
+import { EmployDashboard, WelcomeUser } from "components/admin";
+import AttendanceDashBoard from "components/admin/AttendanceDashBoard";
+import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
+import React from "react";
 
 const Attendance = () => {
-  return (
-    <PanelLayout title="Attendance Dashboard - SY HR MS">
-      <section className="h-[70vh] w-full flex justify-center items-center">
-        <p>Page in progress...</p>
-      </section>
-    </PanelLayout>
-  );
+	return (
+		<PanelLayout title="Employees Dashboard - Admin Panel">
+			<>
+				<WelcomeUser title="Welcome Superadmin!" />
+				<div className="px-4 pt-4">
+					<AdminBreadcrumbs links={links} />
+				</div>
+				<AttendanceDashBoard />
+			</>
+		</PanelLayout>
+	);
 };
 
 export default Attendance;
+
+const links = [{ id: 1, page: "Attendance", link: "/admin/attendance" }];
