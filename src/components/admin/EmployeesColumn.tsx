@@ -1,5 +1,6 @@
 import MaterialTable from "@material-table/core";
 import { PeopleRounded } from "@mui/icons-material";
+import { RenderIconRow } from "components/common";
 import { HeadStyle, IOSSwitch, RoleComponent } from "components/core";
 import { useChange, useFetch } from "hooks";
 // import { useRouter } from "next/router";
@@ -65,12 +66,14 @@ const EmployeesColumn = () => {
             tooltip: "Email",
             field: "email",
             editable: "never",
+            render: ({ email }) => <RenderIconRow value={email} isEmail />,
           },
           {
             title: "Phone",
             field: "phone",
             emptyValue: "Not Provided",
             editable: "never",
+            render: ({ phone }) => <RenderIconRow value={phone} isPhone />,
           },
           {
             title: "Role",

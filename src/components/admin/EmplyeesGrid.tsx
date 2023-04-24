@@ -14,7 +14,8 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
-import { IOSSwitch } from "components/core";
+import { RenderIconRow } from "components/common";
+import { IOSSwitch, ReverseIOSSwitch } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import React from "react";
@@ -120,7 +121,7 @@ const CardContent = ({ item, mutate }: any) => {
       if (result.isConfirmed) {
         const res = await change(`users/${userId}`, {
           method: "PATCH",
-          body: { isOfficeAccessGranted: e.target?.checked },
+          body: { isOfficeAccessGranted: !e.target?.checked },
         });
         mutate();
         if (res?.status !== 200) {
@@ -212,6 +213,9 @@ const CardContent = ({ item, mutate }: any) => {
       <span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
         {item?.name}
       </span>
+      <span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
+        <RenderIconRow value={item?.email} isEmail />
+      </span>
       <div className="flex gap-2 items-center font-semibold text-sm">
         <HomeRepairServiceRounded /> {item?.employeeID}
       </div>
@@ -225,9 +229,9 @@ const CardContent = ({ item, mutate }: any) => {
         </div>
         <div className="w-1/2 py-1.5 rounded-lg border-2 flex flex-col items-center gap-1">
           <p className="font-semibold tracking-wide text-sm">ACCESS</p>
-          <IOSSwitch
+          <ReverseIOSSwitch
             onChange={(e) => handleAssign(e, item?.id)}
-            checked={!item?.isOfficeAccessGranted}
+            checked={item?.isOfficeAccessGranted}
           />
         </div>
       </div>
