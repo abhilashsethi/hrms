@@ -14,6 +14,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
+import { RenderIconRow } from "components/common";
 import { IOSSwitch } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
@@ -211,6 +212,9 @@ const CardContent = ({ item, mutate }: any) => {
       </div>
       <span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
         {item?.name}
+      </span>
+      <span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
+        <RenderIconRow value={item?.email} isEmail />
       </span>
       <div className="flex gap-2 items-center font-semibold text-sm">
         <HomeRepairServiceRounded /> {item?.employeeID}
