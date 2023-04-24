@@ -78,8 +78,8 @@ const TodayAttendance = () => {
         <div className="mt-4">
           <Grid container spacing={2}>
             {cards?.map((item) => (
-              <Grid key={item?.id} item lg={3}>
-                <div className="w-full tracking-wide border-b-4 hover:bg-theme hover:text-white hover:border-white border-theme h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center">
+              <Grid key={item?.id} item lg={4}>
+                <div className="w-full tracking-wide border-b-4 hover:bg-theme hover:text-white hover:border-white border-theme h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center transition-all ease duration-300">
                   <p className="text-base font-semibold text-center">
                     {item?.title}
                   </p>
@@ -118,46 +118,6 @@ const TodayAttendance = () => {
           </Button>
         </div>
         {isGrid ? <AttendanceGrid /> : <AttendanceList />}
-        {/* <MaterialTable
-          title={"Today Attendance"}
-          isLoading={isLoading}
-          data={data ? getDataWithSL<Attendance>(data) : []}
-          options={{ ...MuiTblOptions(), selection: true }}
-          columns={[
-            {
-              title: "#",
-              field: "sl",
-              editable: "never",
-              width: "2%",
-            },
-            {
-              title: "Name",
-              field: "user.name",
-            },
-            {
-              title: "Email",
-              field: "user.email",
-            },
-            {
-              title: "Date",
-              field: "date",
-              render: (data) => new Date(data.date).toDateString(),
-            },
-            {
-              title: "In Time",
-              field: "createdAt",
-              render: (data) => new Date(data.createdAt).toTimeString(),
-            },
-            {
-              title: "Out Time",
-              field: "updatedAt",
-              render: (data) => new Date(data.updatedAt).toTimeString(),
-            },
-          ]}
-          onRowDoubleClick={(e, rowData) =>
-            push(`/admin/attendances/user/${rowData?.id}`)
-          }
-        /> */}
       </section>
     </PanelLayout>
   );
@@ -192,11 +152,5 @@ const cards = [
 
     title: "Absent",
     value: "2",
-  },
-  {
-    id: 4,
-
-    title: "Leave",
-    value: "3",
   },
 ];
