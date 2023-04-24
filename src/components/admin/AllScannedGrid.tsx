@@ -1,6 +1,11 @@
 import { AddCardRounded, Edit, Info } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
-import { CardNameComponent, RoleComponent, TextTitles } from "components/core";
+import {
+  CardNameComponent,
+  IOSSwitch,
+  RoleComponent,
+  TextTitles,
+} from "components/core";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { useState } from "react";
@@ -50,7 +55,7 @@ const AllScannedGrid = () => {
         <Grid container spacing={2}>
           {data?.map((item) => (
             <Grid key={item?.id} item lg={3}>
-              <div className="h-40 w-full shadow-lg rounded-lg flex justify-center items-center">
+              <div className="py-6 px-4 bg-slate-50 w-full shadow-lg rounded-lg flex justify-center items-center">
                 <div className="flex flex-col items-center gap-3">
                   <p className="text-lg font-semibold tracking-wide capitalize">
                     Card Id: {item?.cardId}
@@ -59,7 +64,7 @@ const AllScannedGrid = () => {
                     User name: <CardNameComponent userId={item?.userId} />
                   </p>
 
-                  <div className="flex gap-2">
+                  <div className="grid justify-items-center gap-2">
                     <div className="h-10 w-10 cursor-pointer hover:shadow-xl flex justify-center items-center text-lg font-semibold">
                       <Tooltip title="Assign User">
                         <IconButton
@@ -77,6 +82,13 @@ const AllScannedGrid = () => {
                         </IconButton>
                       </Tooltip>
                     </div>
+                    <p className="font-semibold tracking-wide text-sm">
+                      Unblock/Block
+                    </p>
+                    <IOSSwitch
+                      checked={item?.isBlocked}
+                      onChange={(e) => handleBlock(e, item?.cardId)}
+                    />
                   </div>
                 </div>
               </div>
