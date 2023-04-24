@@ -18,7 +18,6 @@ const CardHead = () => {
   const { data: employData, mutate } = useFetch<User>(
     `users/${router?.query?.id}`
   );
-  // console.log(employData);
   return (
     <>
       <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">
@@ -31,13 +30,15 @@ const CardHead = () => {
         </div>
         <div className="grid lg:grid-cols-2 gap-4">
           <div className="border-r-2 flex justify-center items-center">
-            <div className="pr-8 relative flex justify-center items-center group ">
+            <div className="pr-8 relative flex justify-center items-center group">
               {employData?.photo && (
-                <img
-                  className="h-28 w-28 object-contain rounded-full shadow-md"
-                  src={employData?.photo}
-                  alt="John Doe"
-                />
+                <div className="h-28 w-28 bg-slate-300 rounded-full">
+                  <img
+                    className="h-full w-full object-contain rounded-full shadow-md"
+                    src={employData?.photo}
+                    alt="John Doe"
+                  />
+                </div>
               )}
               {!employData?.photo && (
                 <div className="h-28 w-28 rounded-full uppercase shadow-lg flex justify-center items-center text-4xl font-bold border-[1px]">
@@ -59,13 +60,13 @@ const CardHead = () => {
                 {employData?.role?.name || "---"}
               </h5>
               <h5 className="text-md py-1 capitalize">
-                Employee Id:{" "}
+                Employee Id:
                 <span className="font-semibold pl-2">
                   {employData?.employeeID || "---"}
                 </span>
               </h5>
               <h5 className="text-gray-400 text-md py-1 capitalize">
-                Date of Join:{" "}
+                Date of Join:
                 <span>
                   {moment(employData?.joiningDate).format("ll") || "---"}
                 </span>

@@ -1,5 +1,3 @@
-import { Home, Person2 } from "@mui/icons-material";
-import { Breadcrumbs, Typography } from "@mui/material";
 import PanelLayout from "layouts/panel";
 import React from "react";
 import { CardHead, ProfileTabs } from "components/Profile";
@@ -21,7 +19,7 @@ const EmployeeProfile = () => {
 
 export default EmployeeProfile;
 const links = [
-  { id: 1, page: "All Employees", link: "/admin/employees" },
+  { id: 1, page: "Employees", link: "/admin/employees" },
   {
     id: 2,
     page: "Employee Profile",
