@@ -1,8 +1,7 @@
 import MaterialTable from "@material-table/core";
 import { Search } from "@mui/icons-material";
 import { Button, MenuItem, TextField } from "@mui/material";
-import React, { useState } from "react";
-import { User } from "types";
+import { useState } from "react";
 import { MuiTblOptions, getDataWithSL } from "utils";
 
 const AttendanceTable = () => {

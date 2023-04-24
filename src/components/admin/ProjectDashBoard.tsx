@@ -12,12 +12,12 @@ import {
   MenuItem,
 } from "@mui/material";
 import ICONS from "assets/icons";
-import React from "react";
+import { useState, MouseEvent } from "react";
 
 const ProjectDashBoard = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

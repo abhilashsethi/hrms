@@ -8,7 +8,7 @@ import { ChangeProfile } from "components/dialogues";
 import { useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { User } from "types";
 
 const CardHead = () => {

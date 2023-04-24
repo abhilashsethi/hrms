@@ -9,12 +9,12 @@ import ICONS from "assets/icons";
 import DailyAttendance from "components/analytics/DailyAttendance";
 import RolewiseStrength from "components/analytics/RolewiseStrength";
 import GenderRation from "components/analytics/GenderRation";
-import React from "react";
+import { useState, MouseEvent } from "react";
 
 const EmployDashboard = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

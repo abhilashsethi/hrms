@@ -19,12 +19,12 @@ import CardStatus from "components/analytics/CardStatus";
 import ProjectOverview from "components/analytics/ProjectOverview";
 import RolewiseStrength from "components/analytics/RolewiseStrength";
 import TaskOverview from "components/analytics/TaskOverview";
-import React from "react";
+import { useState, MouseEvent } from "react";
 
 const AdminDashboard = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

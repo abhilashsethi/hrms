@@ -18,7 +18,7 @@ import { RenderIconRow } from "components/common";
 import { IOSSwitch, ReverseIOSSwitch } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
-import React from "react";
+import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 
@@ -46,9 +46,9 @@ const EmplyeesGrid = () => {
 export default EmplyeesGrid;
 
 const CardContent = ({ item, mutate }: any) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

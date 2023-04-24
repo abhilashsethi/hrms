@@ -15,13 +15,13 @@ import {
 } from "@mui/material";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { User } from "types";
 
 const Projects = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

@@ -2,7 +2,7 @@ import MaterialTable from "@material-table/core";
 import ICONS from "assets/icons";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { User } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
 import { BankInformationUpdate } from "components/Dialogs";
