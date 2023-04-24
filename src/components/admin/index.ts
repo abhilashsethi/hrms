@@ -8,3 +8,5 @@ export { default as MeetingDashBoard } from "./MeetingDashBoard";
 export { default as RolesDashBoard } from "./RolesDashBoard";
 export { default as AttendanceGrid } from "./AttendanceGrid";
 export { default as AttendanceList } from "./AttendanceList";
+export { default as AllRollColumn } from "./AllRollColumn";
+export { default as AllRollGrid } from "./AllRollGrid";

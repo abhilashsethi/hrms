@@ -1,27 +1,30 @@
 import {
-  Add,
   ChevronLeftRounded,
   ChevronRightRounded,
-  CreditCardRounded,
   GridViewRounded,
   InsertInvitationRounded,
   Search,
   TableRowsRounded,
 } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button, Grid, IconButton, TextField } from "@mui/material";
-import { DEFAULTPROFILE } from "assets/home";
 import { AttendanceGrid, AttendanceList } from "components/admin";
 import { AdminBreadcrumbs, TextTitles } from "components/core";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const today = new Date().toISOString();
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
-  // const { data, isLoading } = useFetch<Attendance[]>(
-  //   `attendances/date/${today}`
-  // );
-  // const { push } = useRouter();
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const dateRef = useRef<any>();
+
+  function handleDateChange(date: any) {
+    setSelectedDate(date);
+    console.log(date);
+  }
   return (
     <PanelLayout title="Today Attendance - SY HR MS">
       <section className="px-8 py-4">
@@ -51,15 +54,27 @@ const TodayAttendance = () => {
             </div>
             <div className="flex gap-3 items-center">
               <ChevronLeftRounded />
-              <p className="tracking-wide flex gap-4 items-center font-semibold">
-                {moment(new Date().toISOString()).format("ll")}{" "}
-                <InsertInvitationRounded className="!cursor-pointer" />
-              </p>
+              <div className="tracking-wide flex gap-4 items-center font-semibold">
+                {moment(selectedDate).format("ll")}
+                <IconButton onClick={() => dateRef.current.setOpen(true)}>
+                  <InsertInvitationRounded className="!cursor-pointer" />
+                </IconButton>
+                <div className="">
+                  <DatePicker
+                    ref={dateRef}
+                    selected={selectedDate}
+                    onChange={handleDateChange}
+                    dateFormat="dd/MM/yyyy"
+                    // isClearable
+                    showYearDropdown
+                    className="hidden"
+                  />
+                </div>
+              </div>
               <ChevronRightRounded />
             </div>
           </div>
         </div>
-
         <div className="mt-4">
           <Grid container spacing={2}>
             {cards?.map((item) => (
