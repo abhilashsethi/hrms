@@ -12,7 +12,7 @@ import { SAMPLEDP } from "assets/home";
 import { AdminBreadcrumbs, HeadStyle } from "components/core";
 import { CreateLeave } from "components/dialogues";
 import PanelLayout from "layouts/panel";
-import React, { useState } from "react";
+import { useState, MouseEvent } from "react";
 import { MuiTblOptions } from "utils";
 
 const Leaves = () => {
@@ -183,9 +183,9 @@ const Leaves = () => {
 export default Leaves;
 
 const LeaveStatus = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

@@ -1,5 +1,4 @@
 import PanelLayout from "layouts/panel";
-import React from "react";
 
 const AllAttendance = () => {
   return (

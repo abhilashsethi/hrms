@@ -1,21 +1,16 @@
-import {
-  AccessTime,
-  InfoRounded,
-  MoreHorizRounded,
-  RemoveRedEyeOutlined,
-} from "@mui/icons-material";
+import { MoreHorizRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
 import { Grid, IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
 import moment from "moment";
 import Link from "next/link";
-import React from "react";
+import { useState, MouseEvent } from "react";
 
 const AttendanceGrid = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

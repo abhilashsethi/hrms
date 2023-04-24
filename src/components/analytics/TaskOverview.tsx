@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const GenderRation = ({
+const TaskOverview = ({
   type,
   text = "",
 }: {
@@ -9,8 +9,14 @@ const GenderRation = ({
   text?: string;
 }) => {
   const options = {
-    labels: ["Blocked", "Un-Blocked"],
-    series: [120, 80],
+    labels: [
+      "Completed Task",
+      "Inprogress Tasks",
+      "On Hold Tasks",
+      "Pending Tasks",
+      "Review Tasks",
+    ],
+    series: [166, 115, 31, 47, 27],
     chart: {
       type: "donut",
     },
@@ -31,7 +37,7 @@ const GenderRation = ({
     title: {
       text: text,
       floating: true,
-      offsetY: -4,
+      offsetY: -5,
       offsetX: -50,
       align: "center",
       style: {
@@ -44,7 +50,7 @@ const GenderRation = ({
     <ApexCharts
       height={"500"}
       options={{
-        series: [44, 55, 41, 17, 15],
+        series: [166, 115, 31, 47, 27],
         chart: {
           type: "donut",
         },
@@ -62,14 +68,20 @@ const GenderRation = ({
           },
         ],
 
-        labels: ["Blocked", "Un-Blocked"],
+        labels: [
+          "Completed Task",
+          "Inprogress Tasks",
+          "On Hold Tasks",
+          "Pending Tasks",
+          "Review Tasks",
+        ],
 
         // colors: ["#db2777", "#C04000", "#E97451", "#F2D2BD"],
 
         title: {
           text: text,
           floating: true,
-          offsetY: -4,
+          offsetY: -5,
           offsetX: -50,
           align: "center",
           style: {
@@ -83,4 +95,4 @@ const GenderRation = ({
   );
 };
 
-export default GenderRation;
+export default TaskOverview;

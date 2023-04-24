@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const UserRole = ({
+const ProjectOverview = ({
   type,
   text = "",
 }: {
@@ -10,27 +10,14 @@ const UserRole = ({
   text?: string;
 }) => {
   const [monthlyData, setMonthlyData] = useState([]);
-  const months: any = {
-    1: "JAN",
-    2: "FEB",
-    3: "MAR",
-    4: "APR",
-    5: "MAY",
-    6: "JUN",
-    7: "JUL",
-    8: "AUG",
-    9: "SEP",
-    10: "OCT",
-    11: "NOV",
-    12: "DEC",
-  };
+
   let mounted = false;
 
   const options = {
     series: [
       {
-        name: "Patient  ",
-        data: [100, 80, 90, 120, 150, 180, 100, 60, 90, 110, 140, 80],
+        name: "Projects",
+        data: [23, 8, 10, 10, 20, 10, 15, 23, 14, 8, 10, 9],
       },
     ],
     chart: {
@@ -48,9 +35,9 @@ const UserRole = ({
     dataLabels: {
       enabled: true,
       // formatter: function (val) {
-      // 	return val + "%";
+      //   return val + "%";
       // },
-      offsetY: -20,
+      offsetY: 475,
       style: {
         fontSize: "12px",
         colors: ["#304758"],
@@ -103,16 +90,16 @@ const UserRole = ({
         show: false,
       },
       labels: {
-        show: false,
+        // show: false,
         // formatter: function (val) {
-        // 	return val + "%";
-        // },
+        //   return val + "%";
+        // }
       },
     },
     title: {
-      text: "Registered Users",
+      text: text,
       floating: true,
-      offsetY: 130,
+      offsetY: 470,
       align: "center",
       style: {
         color: "#444",
@@ -126,8 +113,8 @@ const UserRole = ({
       options={{
         series: [
           {
-            name: "Patient",
-            data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2],
+            name: "Projects",
+            data: [23, 8, 10, 10, 20, 10, 15, 23, 14, 8, 10, 9],
           },
         ],
         chart: {
@@ -144,9 +131,9 @@ const UserRole = ({
         },
         dataLabels: {
           enabled: true,
-          // formatter: function (val) {
-          // 	return val + "%";
-          // },
+          formatter: function (val) {
+            return val + "";
+          },
           offsetY: -20,
           style: {
             fontSize: "12px",
@@ -201,15 +188,15 @@ const UserRole = ({
           },
           labels: {
             show: false,
-            // formatter: function (val) {
-            // 	return val + "%";
-            // },
+            formatter: function (val) {
+              return val + "";
+            },
           },
         },
         title: {
-          text: "Registered Users",
+          text: text,
           floating: true,
-          offsetY: 480,
+          offsetY: 475,
           align: "center",
           style: {
             color: "#444",
@@ -222,4 +209,4 @@ const UserRole = ({
   );
 };
 
-export default UserRole;
+export default ProjectOverview;
