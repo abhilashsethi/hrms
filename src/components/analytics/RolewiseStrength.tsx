@@ -18,16 +18,18 @@ const RolewiseStrength = ({
 		series: [
 			{
 				name: "Inflation",
-				data: [23, 21, 15, 10, 14, 13, 10],
+				data: [23, 21, 15, 10, 14, 13, 10, 5],
 			},
 		],
 		chart: {
 			height: 400,
 			type: "bar",
+			width: "100%",
 		},
 		plotOptions: {
 			bar: {
 				borderRadius: 10,
+				columnWidth: "40%",
 				dataLabels: {
 					position: "top", // top, center, bottom
 				},
@@ -54,6 +56,7 @@ const RolewiseStrength = ({
 				"Support Management",
 				"Marketing",
 				"Ui/UX",
+				"SEO Analyst",
 			],
 			position: "top",
 			axisBorder: {
@@ -110,16 +113,18 @@ const RolewiseStrength = ({
 				series: [
 					{
 						name: "Inflation",
-						data: [23, 21, 15, 10, 14, 13, 10],
+						data: [23, 21, 15, 10, 14, 13, 10, 5],
 					},
 				],
 				chart: {
 					height: 400,
 					type: "bar",
+					width: "100%",
 				},
 				plotOptions: {
 					bar: {
 						borderRadius: 10,
+						columnWidth: "40%",
 						dataLabels: {
 							position: "top", // top, center, bottom
 						},
@@ -146,6 +151,7 @@ const RolewiseStrength = ({
 						"Support Management",
 						"Marketing",
 						"Ui/UX",
+						"SEO Analyst",
 					],
 					position: "top",
 					axisBorder: {
