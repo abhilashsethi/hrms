@@ -45,7 +45,7 @@ const Cards = () => {
 						<AttendanceReport text="Repairs Report" type="bar" />
 					</div>
 					<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-						<CardStatus text="Patient's Gender Ratio" type="donut" />
+						<CardStatus text="" type="donut" />
 					</div>
 					{/* attandance section */}
 					<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-4 !border-gray-500 rounded-xl !shadow-xl">
