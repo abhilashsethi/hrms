@@ -3,3 +3,4 @@ export { default as HeadStyle } from "./HeadStyle";
 export { default as IOSSwitch } from "./IOSSwitch";
 export { default as TextTitles } from "./TextTitles";
 export { default as RoleComponent } from "./RoleComponent";
+export { default as CardNameComponent } from "./CardNameComponent";
