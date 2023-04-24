@@ -3,6 +3,7 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
 import { UpdateProfileHead } from "components/Dialogs";
+import { RenderIconRow } from "components/common";
 import { ChangeProfile } from "components/dialogues";
 import { useFetch } from "hooks";
 import moment from "moment";
@@ -52,18 +53,18 @@ const CardHead = () => {
                 {employData?.name}
               </h1>
               <h5 className="text-gray-400 text-md py-1 capitalize">
-                {employData?.role?.name || ""}
+                {employData?.role?.name || "---"}
               </h5>
               <h5 className="text-md py-1 capitalize">
                 Employee Id:{" "}
                 <span className="font-semibold pl-2">
-                  {employData?.employeeID || ""}
+                  {employData?.employeeID || "---"}
                 </span>
               </h5>
               <h5 className="text-gray-400 text-md py-1 capitalize">
                 Date of Join:{" "}
                 <span>
-                  {moment(employData?.joiningDate).format("ll") || ""}
+                  {moment(employData?.joiningDate).format("ll") || "---"}
                 </span>
               </h5>
               <div className="mt-4">
@@ -79,9 +80,13 @@ const CardHead = () => {
           </div>
           <div className="grid grid-cols-3">
             <h5>Phone :</h5>
-            <span className="col-span-2">{employData?.phone || ""}</span>
+            <span className="col-span-2">
+              <RenderIconRow value={employData?.phone || "---"} isPhone />
+            </span>
             <h5>Email :</h5>
-            <span className="col-span-2 ">{employData?.email || ""}</span>
+            <span className="col-span-2 ">
+              <RenderIconRow value={employData?.email || "---"} isEmail />
+            </span>
             <h5>Birthday :</h5>
             <span className="col-span-2 ">
               {moment(employData?.dob).format("ll")}
