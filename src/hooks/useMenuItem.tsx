@@ -111,14 +111,8 @@ export default () => {
           },
           {
             key: "5-2",
-            title: "All Attendance",
-            icon: <RuleFolder />,
-            route: "/admin/attendances/all-attendance",
-          },
-          {
-            key: "5-3",
             title: "Date Wise Attendance",
-            icon: <Rule />,
+            icon: <PlaylistAddCheckCircleRounded />,
             route: "/admin/attendances/today",
           },
         ],

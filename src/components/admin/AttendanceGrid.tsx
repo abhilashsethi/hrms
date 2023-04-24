@@ -1,5 +1,8 @@
-import { Grid } from "@mui/material";
+import { AccessTime, MoreHorizRounded } from "@mui/icons-material";
+import { Grid, IconButton } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
+import ICONS from "assets/icons";
+import moment from "moment";
 import React from "react";
 
 const AttendanceGrid = () => {
@@ -7,9 +10,25 @@ const AttendanceGrid = () => {
     <div className="mt-6">
       <Grid container spacing={2}>
         {cards?.map((item) => (
-          <Grid key={item?.id} item lg={2.4}>
-            <div className="h-60 w-full bg-white shadow-xl rounded-2xl flex flex-col items-center justify-between py-8 px-4">
-              <div className="h-20 w-20 overflow-hidden rounded-full shadow-xl">
+          <Grid key={item?.id} item lg={3}>
+            <div className="h-full w-full bg-white shadow-xl rounded-2xl flex flex-col items-center gap-4 py-4 px-4">
+              <div className="w-full flex justify-end">
+                <div className="flex gap-2 items-center">
+                  <span
+                    className={`border-[1px] rounded-lg font-medium tracking-wide text-sm px-3 py-0.5 ${
+                      item?.status === "present"
+                        ? "bg-emerald-200 text-green-600 border-green-500"
+                        : "bg-red-200 text-red-600 border-red-500"
+                    }`}
+                  >
+                    {item?.status === "present" ? "PRESENT" : "ABSENT"}
+                  </span>
+                  <IconButton>
+                    <MoreHorizRounded />
+                  </IconButton>
+                </div>
+              </div>
+              <div className="h-16 w-16 overflow-hidden rounded-full shadow-xl">
                 <img
                   className="h-full object-cover"
                   src={item?.img || DEFAULTPROFILE.src}
@@ -19,34 +38,35 @@ const AttendanceGrid = () => {
               <p className="text-center font-semibold tracking-wide">
                 {item?.name}
               </p>
-              <div className="flex gap-2">
-                <div
-                  className={`h-12 w-12 rounded-full flex justify-center items-center text-lg font-semibold ${
-                    item?.status === "present"
-                      ? `bg-gradient-to-r from-green-600 to-green-400 text-white shadow-md`
-                      : "shadow-xl bg-white border-[1px]"
-                  }`}
-                >
-                  P
-                </div>
-                <div
-                  className={`h-12 w-12 rounded-full flex justify-center items-center text-lg font-semibold ${
-                    item?.status === "absent"
-                      ? `bg-gradient-to-r from-red-600 to-red-400 text-white shadow-md`
-                      : "shadow-xl bg-white border-[1px]"
-                  }`}
-                >
-                  A
-                </div>
-                <div
-                  className={`h-12 w-12 rounded-full flex justify-center items-center text-lg font-semibold ${
-                    item?.status === "leave"
-                      ? `bg-gradient-to-r from-yellow-600 to-yellow-400 text-white shadow-md`
-                      : "shadow-xl bg-white border-[1px]"
-                  }`}
-                >
-                  L
-                </div>
+              <div className="w-full bg-slate-100 p-3 border-[1px] border-gray-200 rounded-lg">
+                <p className="py-1 text-sm font-medium tracking-wide text-center">
+                  ID : S10007
+                </p>
+                {item?.status === "present" ? (
+                  <div className="flex gap-3">
+                    <div className="w-1/2 py-2 px-2 flex flex-col gap-2 tracking-wide items-center">
+                      <div className="flex gap-2 items-center text-sm tracking-wide font-medium">
+                        <ICONS.Entry /> IN TIME
+                      </div>
+                      <p className="font-semibold text-slate-600 text-sm">
+                        {moment(new Date()).format("HH:MM A")}
+                      </p>
+                    </div>
+                    <div className="w-1/2 py-2 px-2 flex flex-col gap-2 tracking-wide items-center">
+                      <div className="flex gap-2 items-center text-sm tracking-wide font-medium ">
+                        <span className="text-red-500">
+                          <ICONS.Exit />
+                        </span>
+                        OUT TIME
+                      </div>
+                      <p className="font-semibold text-slate-600 text-sm">
+                        {moment(new Date()).format("HH:MM A")}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-center py-4">Employee is absent...</p>
+                )}
               </div>
             </div>
           </Grid>
@@ -80,13 +100,13 @@ const cards = [
   {
     id: 4,
     name: "Chinmay ",
-    status: "leave",
+    status: "present",
     img: "https://img.freepik.com/free-photo/portrait-handsome-young-man-with-crossed-arms_176420-15569.jpg?w=996&t=st=1681991061~exp=1681991661~hmac=c192bbb72f055cf2c2881c308ecce14a94f5ababecedea5a856a81aadf2ea231",
   },
   {
     id: 5,
     name: "Aliva ",
-    status: "leave",
+    status: "present",
     img: "https://img.freepik.com/free-photo/young-beautiful-woman-pink-warm-sweater-natural-look-smiling-portrait-isolated-long-hair_285396-896.jpg?w=996&t=st=1681991188~exp=1681991788~hmac=40be4031faf7ac40ce36a113a6a9f12e99151d058ec93abdabd6d86b32226cb5",
   },
 ];
