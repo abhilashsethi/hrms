@@ -1,11 +1,26 @@
-import { AccessTime, MoreHorizRounded } from "@mui/icons-material";
-import { Grid, IconButton } from "@mui/material";
+import {
+  AccessTime,
+  InfoRounded,
+  MoreHorizRounded,
+  RemoveRedEyeOutlined,
+} from "@mui/icons-material";
+import { Grid, IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
+import { RenderIconRow } from "components/common";
 import moment from "moment";
+import Link from "next/link";
 import React from "react";
 
 const AttendanceGrid = () => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <div className="mt-6">
       <Grid container spacing={2}>
@@ -23,9 +38,55 @@ const AttendanceGrid = () => {
                 >
                   {item?.status === "present" ? "PRESENT" : "ABSENT"}
                 </span>
-                <IconButton>
+                <IconButton onClick={handleClick}>
                   <MoreHorizRounded />
                 </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  id="account-menu"
+                  open={open}
+                  onClose={handleClose}
+                  onClick={handleClose}
+                  PaperProps={{
+                    elevation: 0,
+                    sx: {
+                      overflow: "visible",
+                      filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
+                      mt: 1.5,
+                      "& .MuiAvatar-root": {
+                        width: 32,
+                        height: 32,
+                        ml: -0.5,
+                        mr: 1,
+                      },
+                      "&:before": {
+                        content: '""',
+                        display: "block",
+                        position: "absolute",
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: "background.paper",
+                        transform: "translateY(-50%) rotate(45deg)",
+                        zIndex: 0,
+                      },
+                    },
+                  }}
+                  transformOrigin={{ horizontal: "right", vertical: "top" }}
+                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                >
+                  <Link
+                    href={`/admin/employees/employee-profile?id=${item?.id}`}
+                  >
+                    <MenuItem onClick={handleClose}>
+                      <ListItemIcon>
+                        <RemoveRedEyeOutlined fontSize="small" />
+                      </ListItemIcon>
+                      Visit Profile
+                    </MenuItem>
+                  </Link>
+                </Menu>
                 {/* </div> */}
               </div>
               <div className="h-16 w-16 overflow-hidden rounded-full shadow-xl">
@@ -39,7 +100,9 @@ const AttendanceGrid = () => {
                 <p className="text-center font-semibold tracking-wide">
                   {item?.name}
                 </p>
-                <span className="text-sm text-slate-500">{item?.email}</span>
+                <span className="text-sm text-slate-500">
+                  <RenderIconRow value={item?.email} isEmail />
+                </span>
               </div>
               <div className="w-full bg-slate-100 p-3 border-[1px] border-gray-200 rounded-lg">
                 <p className="py-1 text-sm font-medium tracking-wide text-center">
