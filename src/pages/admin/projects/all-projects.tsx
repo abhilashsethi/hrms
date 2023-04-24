@@ -23,11 +23,11 @@ import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const AllProjects = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const [value, setValue] = React.useState("Web Developer");
+  const [value, setValue] = useState("Web Developer");
   const handleChange = (event: any) => {
     setValue(event.target.value);
   };

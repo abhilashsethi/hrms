@@ -2,7 +2,7 @@ import ICONS from "assets/icons";
 import { PersonalInformations } from "components/Dialogs";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { User } from "types";
 import BankInfo from "./BankInfo";
 import { Button } from "@mui/material";

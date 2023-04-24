@@ -1,6 +1,5 @@
 import { AdminDashboard, WelcomeUser } from "components/admin";
 import PanelLayout from "layouts/panel";
-import React from "react";
 
 const AdminHome = () => {
   return (

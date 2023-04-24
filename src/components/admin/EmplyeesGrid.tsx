@@ -18,7 +18,7 @@ import { RenderIconRow } from "components/common";
 import { IOSSwitch, ReverseIOSSwitch } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
-import React from "react";
+import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 
@@ -46,9 +46,9 @@ const EmplyeesGrid = () => {
 export default EmplyeesGrid;
 
 const CardContent = ({ item, mutate }: any) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -202,7 +202,13 @@ const CardContent = ({ item, mutate }: any) => {
       </div>
       <div className="h-20 w-20 rounded-full overflow-hidden shadow-xl">
         {item?.photo && (
-          <img className="h-full object-cover" src={DEFAULTIMG.src} alt="" />
+          <div className="bg-slate-200">
+            <img
+              className="h-full object-cover"
+              src={item?.photo || DEFAULTIMG.src}
+              alt=""
+            />
+          </div>
         )}
         {!item?.photo ? (
           <div className="h-full w-full uppercase flex justify-center items-center text-4xl font-bold text-white bg-gradient-to-br from-theme-200 via-theme-50 to-secondary-200">

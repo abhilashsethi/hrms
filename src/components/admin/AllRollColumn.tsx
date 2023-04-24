@@ -1,6 +1,6 @@
 import MaterialTable from "@material-table/core";
 import { PeopleRounded } from "@mui/icons-material";
-import { HeadStyle, IOSSwitch, RoleComponent } from "components/core";
+import { HeadStyle } from "components/core";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";

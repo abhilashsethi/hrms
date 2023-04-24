@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import React from "react";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const DailyAttendance = ({

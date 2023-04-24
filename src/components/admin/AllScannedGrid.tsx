@@ -1,15 +1,10 @@
-import { AddCardRounded, Edit, Info } from "@mui/icons-material";
+import { AddCardRounded } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
-import {
-  CardNameComponent,
-  IOSSwitch,
-  RoleComponent,
-  TextTitles,
-} from "components/core";
+import { CardNameComponent, IOSSwitch, TextTitles } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { useState } from "react";
-import { Card, User } from "types";
+import { Card } from "types";
 import { CardAssign } from "components/drawer";
 const AllScannedGrid = () => {
   const [isAssign, setIsAssign] = useState<{
@@ -20,8 +15,7 @@ const AllScannedGrid = () => {
     activeCardId: null,
   });
   const { data, isLoading, mutate } = useFetch<Card[]>(`cards`);
-  const { data: users, isLoading: isUsersFetching } = useFetch<User[]>(`users`);
-  const { change, isChanging } = useChange();
+  const { change } = useChange();
   const handleBlock = async (e: any, cardId: string) => {
     Swal.fire({
       title: "Are you sure?",

@@ -1,5 +1,4 @@
 import ICONS from "assets/icons";
-import React from "react";
 
 const Education = () => {
   return (

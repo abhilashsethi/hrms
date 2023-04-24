@@ -1,16 +1,18 @@
 import { Check, Close } from "@mui/icons-material";
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
   Tooltip,
 } from "@mui/material";
-import { ErrorMessage, useFormik } from "formik";
+import { DEFAULTPROFILE } from "assets/home";
+import { useFormik } from "formik";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 import { uploadFile } from "utils";
@@ -23,13 +25,14 @@ interface Props {
 }
 
 const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { data: employData } = useFetch<User>(`users/${router?.query?.id}`);
   const { change } = useChange();
   const imgRef = useRef<any>();
   const formik = useFormik({
-    initialValues: { photo: employData?.photo ? employData?.photo : null },
-    // enableReinitialize: true,
+    initialValues: { photo: null },
+    enableReinitialize: true,
     validationSchema: yup.object().shape({
       photo: yup
         .mixed()
@@ -49,23 +52,29 @@ const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
         ),
     }),
     onSubmit: async (values: any) => {
+      setLoading(true);
       const uniId = new Date().toString();
       try {
         const url = await uploadFile(values?.photo, `photo.png`);
+        console.log(url);
         const res = await change(`users/${router?.query?.id}`, {
           method: "PATCH",
           body: { photo: url },
         });
-        console.log(res);
+        mutate();
+        setLoading(false);
         if (res.status !== 200) {
           Swal.fire(`Error`, "Something went wrong!", "error");
           return;
         }
         Swal.fire("Success", "Profile updated successfully!", "success");
-        mutate();
+        handleClose();
         return;
       } catch (error) {
         console.log(error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
       }
     },
   });
@@ -117,25 +126,31 @@ const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
               className="h-40 w-40 shadow-lg cursor-pointer overflow-hidden rounded-md"
               onClick={() => imgRef?.current?.click()}
             >
-              {formik?.values?.photo && (
+              {formik?.values?.photo ? (
                 <img
                   className="h-full object-cover"
                   src={URL.createObjectURL(formik?.values?.photo as any)}
                   alt="Preview"
                 />
+              ) : (
+                <img
+                  className="h-full object-cover"
+                  src={employData?.photo || DEFAULTPROFILE.src}
+                  alt="Preview"
+                />
               )}
-              {/* {formik.touched.photo && formik.errors.photo ? (
-                <div>{formik.errors.photo}</div>
-              ) : null} */}
             </div>
             {/* <ErrorMessage name="photo" /> */}
+            {formik.errors.photo && (
+              <p className="text-red-600">{formik.errors.photo}</p>
+            )}
             <div className="">
               <Button
                 // onClick={() => imgRef.current.click()}
                 type="submit"
                 className="!bg-theme"
                 variant="contained"
-                startIcon={<Check />}
+                startIcon={loading ? <CircularProgress size={20} /> : <Check />}
               >
                 SUBMIT
               </Button>

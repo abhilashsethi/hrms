@@ -1,20 +1,9 @@
 import MaterialTable from "@material-table/core";
-import {
-  GridViewRounded,
-  QrCodeScannerRounded,
-  AddCardRounded,
-  TableRowsRounded,
-} from "@mui/icons-material";
+import { QrCodeScannerRounded, AddCardRounded } from "@mui/icons-material";
 import { IconButton, Paper, Tooltip } from "@mui/material";
-import {
-  AdminBreadcrumbs,
-  HeadStyle,
-  IOSSwitch,
-  TextTitles,
-} from "components/core";
+import { HeadStyle, IOSSwitch } from "components/core";
 import { CardAssign } from "components/drawer";
 import { useChange, useFetch } from "hooks";
-import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Card, User } from "types";
