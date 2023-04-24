@@ -7,7 +7,7 @@ const today = new Date().toISOString();
 
 const AttendanceList = () => {
   const { data, isLoading } = useFetch<Attendance[]>(
-    `attendances/date/${today}`
+    `attendances/user/6442769c801d963c999b31db`
   );
   const { push } = useRouter();
   return (
