@@ -1,4 +1,11 @@
-import { Add, Delete, Edit, Info } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  GridViewRounded,
+  Info,
+  TableRowsRounded,
+} from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
@@ -6,6 +13,7 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
+import { AllRollColumn, AllRollGrid } from "components/admin";
 import { AdminBreadcrumbs, TextTitles } from "components/core";
 import { CreateRole, UpdateRole } from "components/dialogues";
 import { useChange, useFetch } from "hooks";
@@ -14,6 +22,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 
 const AllRoles = () => {
+  const [isGrid, setIsGrid] = useState(true);
   const [isCreate, setIsCreate] = useState(false);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
@@ -69,63 +78,43 @@ const AllRoles = () => {
           handleClose={() => setIsCreate(false)}
           mutate={mutate}
         />
-        <UpdateRole
-          id={isUpdate?.id}
-          open={isUpdate?.dialogue}
-          handleClose={() => setisUpdate({ dialogue: false })}
-          mutate={mutate}
-        />
-        <AdminBreadcrumbs links={links} />
-        <div className="mt-4 flex justify-between">
-          <TextTitles title="ALL ROLES" />
-          <Button
-            onClick={() => setIsCreate(true)}
-            variant="contained"
-            className="!bg-theme"
-            startIcon={<Add />}
-          >
-            CREATE ROLE
-          </Button>
-        </div>
-        <div className="mt-4">
-          <Grid container spacing={2}>
-            {roleData?.map((item) => (
-              <Grid key={item?.id} item lg={3}>
-                <div className="h-40 w-full bg-gradient-to-b from-theme-50/50 via-white to-white shadow-lg rounded-lg flex justify-center items-center">
-                  <div className="flex flex-col items-center gap-3">
-                    <p className="text-lg font-semibold tracking-wide capitalize">
-                      {item?.name}
-                    </p>
-                    <div className="flex gap-2">
-                      <div className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-red-600 to-red-400 flex justify-center items-center text-lg font-semibold">
-                        <Tooltip title="Delete">
-                          <IconButton onClick={() => handleDelete(item?.id)}>
-                            <Delete className="!text-white" />
-                          </IconButton>
-                        </Tooltip>
-                      </div>
-                      <div
-                        onClick={() =>
-                          setisUpdate({ dialogue: true, id: item?.id })
-                        }
-                        className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-blue-600 to-blue-400 flex justify-center items-center text-lg font-semibold"
-                      >
-                        <Tooltip title="Edit">
-                          <Edit className="!text-white" />
-                        </Tooltip>
-                      </div>
-                      <div className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-yellow-600 to-yellow-400 flex justify-center items-center text-lg font-semibold">
-                        <Tooltip title="Information">
-                          <Info className="!text-white" />
-                        </Tooltip>
-                      </div>
-                    </div>
-                  </div>
+
+        <div className="flex justify-between items-center py-4">
+          <AdminBreadcrumbs links={links} />
+          <div className="flex gap-4 items-center">
+            <div className="flex gap-1">
+              <IconButton onClick={() => setIsGrid(true)} size="small">
+                <div
+                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+                    isGrid && `border-2 border-theme`
+                  }`}
+                >
+                  <GridViewRounded className={`${isGrid && `!text-theme`}`} />
                 </div>
-              </Grid>
-            ))}
-          </Grid>
+              </IconButton>
+              <IconButton onClick={() => setIsGrid(false)} size="small">
+                <div
+                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+                    !isGrid && `border-2 border-theme`
+                  }`}
+                >
+                  <TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
+                </div>
+              </IconButton>
+            </div>
+            <Button
+              onClick={() => setIsCreate(true)}
+              variant="contained"
+              className="!bg-theme"
+              startIcon={<Add />}
+            >
+              CREATE ROLE
+            </Button>
+          </div>
         </div>
+        <TextTitles title="ALL ROLES" />
+
+        {isGrid ? <AllRollGrid /> : <AllRollColumn />}
       </section>
     </PanelLayout>
   );
