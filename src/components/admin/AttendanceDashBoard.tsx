@@ -1,28 +1,6 @@
-import {
-	AccountTreeRounded,
-	DoNotTouchRounded,
-	Groups,
-	HourglassBottomRounded,
-	HowToReg,
-	MoreVert,
-	People,
-	PersonOff,
-	PlaylistAddCheckCircleRounded,
-} from "@mui/icons-material";
-import {
-	Grid,
-	IconButton,
-	LinearProgress,
-	Menu,
-	MenuItem,
-} from "@mui/material";
-import { DEFAULTIMG } from "assets/home";
-import ICONS from "assets/icons";
-import AttendanceReport from "components/analytics/AttendanceReport";
-import CardStatus from "components/analytics/CardStatus";
+import { Groups, HowToReg, MoreVert, PersonOff } from "@mui/icons-material";
+import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
 import DailyAttendance from "components/analytics/DailyAttendance";
-import RolewiseStrength from "components/analytics/RolewiseStrength";
-import GenderRation from "components/analytics/GenderRation";
 import React from "react";
 
 const AttendanceDashBoard = () => {

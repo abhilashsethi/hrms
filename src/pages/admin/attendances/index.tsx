@@ -1,6 +1,4 @@
-import { Home } from "@mui/icons-material";
-import { Breadcrumbs } from "@mui/material";
-import { EmployDashboard, WelcomeUser } from "components/admin";
+import { WelcomeUser } from "components/admin";
 import AttendanceDashBoard from "components/admin/AttendanceDashBoard";
 import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
