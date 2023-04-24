@@ -1,7 +1,6 @@
 import MaterialTable from "@material-table/core";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
-import React from "react";
 import { Attendance } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
 const today = new Date().toISOString();
