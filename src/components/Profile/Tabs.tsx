@@ -74,7 +74,7 @@ export default function ProfileTabs() {
         <Projects />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Two
+        Page in progress...
       </TabPanel>
     </Box>
   );
