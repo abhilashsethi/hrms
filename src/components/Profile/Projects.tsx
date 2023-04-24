@@ -29,7 +29,7 @@ const Projects = () => {
   };
   const [isDialogue, setIsDialogue] = useState(false);
   const router = useRouter();
-  const { data: projectsData, mutate } = useFetch<any>(`projects`);
+  const { data: projectsData } = useFetch<any>(`projects`);
   console.log(projectsData);
   return (
     <div className="grid gap-6 lg:grid-cols-3">
