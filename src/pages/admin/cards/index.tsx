@@ -4,7 +4,7 @@ import {
 	CreditScore,
 	QrCodeScanner,
 } from "@mui/icons-material";
-import { Grid } from "@mui/material";
+import { Avatar, Grid } from "@mui/material";
 import ICONS from "assets/icons";
 import CardStatus from "components/analytics/CardStatus";
 import AttendanceReport from "components/analytics/AttendanceReport";
@@ -46,6 +46,72 @@ const Cards = () => {
 					</div>
 					<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 						<CardStatus text="Patient's Gender Ratio" type="donut" />
+					</div>
+					{/* card section */}
+					<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-4 !border-gray-500 rounded-xl !shadow-xl">
+						<div className="font-semibold pl-2 py-3 space-y-2">
+							<p>
+								Total Present :{" "}
+								<span className="p-[1px] rounded-md text-green-700 bg-green-300">
+									50
+								</span>
+							</p>
+							<p>
+								Total Absent :{" "}
+								<span className="p-[1px] rounded-md text-red-700 bg-red-300">
+									06
+								</span>
+							</p>
+						</div>
+						<div className="border border-1 rounded-lg p-5 mb-2">
+							<div className="flex items-center gap-3">
+								<Avatar />
+								<div className="flex flex-col">
+									<p className="font-medium text-sm">
+										Name:{" "}
+										<span className="font-semibold text-sm">Abhilash</span>
+									</p>
+									<p className="font-medium text-sm">
+										Id: <span className="font-semibold text-sm">1234</span>
+									</p>
+								</div>
+							</div>
+							<div className="flex justify-between items-center mt-3">
+								<div className="text-sm font-semibold ">
+									<p>Leave Date</p>
+									<p>4 May 2023</p>
+								</div>
+								<button className="hover:scale-105 transition duration-500 ease-in-out text-xs font-medium text-red-700 bg-red-300 p-1 h-7 rounded-lg text-center">
+									Pending
+								</button>
+							</div>
+						</div>
+						<div className="border border-1 rounded-lg p-5 mb-2">
+							<div className="flex items-center gap-3">
+								<Avatar />
+								<div className="flex flex-col">
+									<p className="font-medium text-sm">
+										Name:{" "}
+										<span className="font-semibold text-sm">Abhilash</span>
+									</p>
+									<p className="font-medium text-sm">
+										Id: <span className="font-semibold text-sm">1234</span>
+									</p>
+								</div>
+							</div>
+							<div className="flex justify-between items-center mt-3">
+								<div className="text-sm font-semibold ">
+									<p>Leave Date</p>
+									<p>4 May 2023</p>
+								</div>
+								<button className="hover:scale-105 transition duration-500 ease-in-out text-xs font-medium text-green-700 bg-green-300 p-1 h-7 rounded-lg text-center">
+									Approved
+								</button>
+							</div>
+						</div>
+						<button className="w-1/4 p-1 mb-3 hover:scale-105 transition duration-500 ease-in-out rounded-lg m-auto border border-1 bg-slate-400 text-sm font-semibold">
+							Load More
+						</button>
 					</div>
 				</div>
 			</section>
