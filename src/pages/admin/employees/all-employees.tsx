@@ -8,12 +8,14 @@ import {
 import { Button, IconButton, MenuItem, TextField } from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
+import { UploadEmployData } from "components/dialogues";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
 
 const AllEmployees = () => {
   const [isGrid, setIsGrid] = useState(true);
+  const [isUpload, setIsUpload] = useState(false);
   const [value, setValue] = useState("Web Developer");
   const handleChange = (event: any) => {
     setValue(event.target.value);
@@ -21,6 +23,10 @@ const AllEmployees = () => {
   return (
     <PanelLayout title="All Users - SY HR MS">
       <section className="px-8">
+        <UploadEmployData
+          open={isUpload}
+          handleClose={() => setIsUpload(false)}
+        />
         <div className="flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
@@ -54,6 +60,7 @@ const AllEmployees = () => {
               </Button>
             </Link>
             <Button
+              onClick={() => setIsUpload(true)}
               className="!bg-slate-600"
               variant="contained"
               startIcon={<Upload />}

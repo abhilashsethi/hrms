@@ -204,7 +204,7 @@ const CardContent = ({ item, mutate }: any) => {
         {item?.photo && (
           <div className="bg-slate-200">
             <img
-              className="h-full object-cover"
+              className="h-full w-full object-cover"
               src={item?.photo || DEFAULTIMG.src}
               alt=""
             />

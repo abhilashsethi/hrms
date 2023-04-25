@@ -53,9 +53,9 @@ const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
     }),
     onSubmit: async (values: any) => {
       setLoading(true);
-      const uniId = new Date().toString();
+      const uniId = new Date().getTime();
       try {
-        const url = await uploadFile(values?.photo, `photo.png`);
+        const url = await uploadFile(values?.photo, `${uniId}.png`);
         console.log(url);
         const res = await change(`users/${router?.query?.id}`, {
           method: "PATCH",
@@ -127,13 +127,13 @@ const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
             >
               {formik?.values?.photo ? (
                 <img
-                  className="h-full object-cover"
+                  className="h-full w-full object-cover"
                   src={URL.createObjectURL(formik?.values?.photo as any)}
                   alt="Preview"
                 />
               ) : (
                 <img
-                  className="h-full object-cover"
+                  className="h-full w-full object-cover"
                   src={employData?.photo || DEFAULTPROFILE.src}
                   alt="Preview"
                 />
