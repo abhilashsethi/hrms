@@ -31,7 +31,7 @@ const EmplyeesGrid = () => {
   );
 
   return (
-    <section className="mt-8">
+    <section className="my-8">
       <Grid container spacing={3}>
         {sortData?.map((item) => (
           <Grid key={item?.id} item lg={3}>
