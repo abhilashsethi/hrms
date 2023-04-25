@@ -3,6 +3,7 @@ import { Grid, IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
+import { useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
@@ -16,6 +17,10 @@ const AttendanceGrid = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { data: attendance } = useFetch(
+    `attendances/date/${new Date().toISOString().slice(0, 10)}`
+  );
+  console.log(attendance);
   return (
     <div className="mt-6">
       <Grid container spacing={2}>

@@ -1,11 +1,16 @@
 import { Delete, Edit, Info } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import { UpdateRole } from "components/dialogues";
+import { RoleInformation } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
 const AllRollGrid = () => {
   const [loading, setLoading] = useState(false);
+  const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
+    dialogue: false,
+    role: null,
+  });
   const { change } = useChange();
   const [isUpdate, setisUpdate] = useState<{
     dialogue?: boolean;
@@ -58,6 +63,11 @@ const AllRollGrid = () => {
         handleClose={() => setisUpdate({ dialogue: false })}
         mutate={mutate}
       />
+      <RoleInformation
+        open={isInfo?.dialogue}
+        onClose={() => setIsInfo({ dialogue: false })}
+        role={isInfo?.role}
+      />
       <div className="mt-4">
         <Grid container spacing={2}>
           {roleData?.map((item) => (
@@ -87,7 +97,13 @@ const AllRollGrid = () => {
                     </div>
                     <div className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-yellow-600 to-yellow-400 flex justify-center items-center text-lg font-semibold">
                       <Tooltip title="Information">
-                        <Info className="!text-white" />
+                        <IconButton
+                          onClick={() =>
+                            setIsInfo({ dialogue: true, role: item })
+                          }
+                        >
+                          <Info className="!text-white" />
+                        </IconButton>
                       </Tooltip>
                     </div>
                   </div>

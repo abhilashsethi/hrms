@@ -5,7 +5,7 @@ export function RenderIconRow({
   isEmail,
   isPhone,
 }: {
-  value: string;
+  value: any;
   isEmail?: boolean;
   isPhone?: boolean;
 }) {

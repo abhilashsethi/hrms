@@ -55,7 +55,7 @@ const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
       setLoading(true);
       const uniId = new Date().toString();
       try {
-        const url = await uploadFile(values?.photo, `photo.png`);
+        const url = await uploadFile(values?.photo, `${uniId}`);
         console.log(url);
         const res = await change(`users/${router?.query?.id}`, {
           method: "PATCH",
@@ -78,7 +78,6 @@ const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
       }
     },
   });
-  console.log(formik);
   return (
     <Dialog
       onClose={handleClose}
