@@ -1,7 +1,6 @@
 import MaterialTable from "@material-table/core";
 import { useFetch } from "hooks";
 import moment from "moment";
-import { useRouter } from "next/router";
 import { Attendance } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
 
@@ -9,7 +8,7 @@ const AttendanceList = () => {
   const { data, isLoading } = useFetch<any>(
     `attendances/preset_absent/date/${new Date().toISOString().slice(0, 10)}`
   );
-  const { push } = useRouter();
+  console.log(data);
   return (
     <div className="mt-4">
       <MaterialTable
