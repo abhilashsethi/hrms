@@ -18,7 +18,6 @@ const CardHead = () => {
   const { data: employData, mutate } = useFetch<User>(
     `users/${router?.query?.id}`
   );
-  console.log(employData);
   return (
     <>
       <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">
@@ -114,6 +113,7 @@ const CardHead = () => {
         </div>
       </div>
       <UpdateProfileHead
+        mutate={mutate}
         open={isDialogue}
         handleClose={() => setIsDialogue(false)}
       />
