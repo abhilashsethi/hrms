@@ -1,27 +1,12 @@
 import MaterialTable from "@material-table/core";
 import {
-  Add,
-  GridViewRounded,
   KeyboardArrowDownRounded,
   MedicalInformationRounded,
-  PeopleAlt,
   RadioButtonChecked,
-  Search,
-  TableRowsRounded,
 } from "@mui/icons-material";
-import {
-  Button,
-  Grid,
-  IconButton,
-  Menu,
-  MenuItem,
-  Paper,
-  TextField,
-} from "@mui/material";
+import { Menu, MenuItem, Paper } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
-import { AdminBreadcrumbs, HeadStyle } from "components/core";
-import { CreateLeave } from "components/dialogues";
-import PanelLayout from "layouts/panel";
+import { HeadStyle } from "components/core";
 import { useState, MouseEvent } from "react";
 import { MuiTblOptions } from "utils";
 
