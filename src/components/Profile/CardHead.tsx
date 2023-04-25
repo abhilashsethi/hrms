@@ -4,7 +4,7 @@ import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
 import { UpdateProfileHead } from "components/Dialogs";
 import { RenderIconRow } from "components/common";
-import { ChangeProfile } from "components/dialogues";
+import { ChangeProfile } from "components/Dialogs";
 import { useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
