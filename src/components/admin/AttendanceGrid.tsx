@@ -8,7 +8,15 @@ import moment from "moment";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
 
-const AttendanceGrid = () => {
+interface ARRAY {
+  id?: string;
+}
+
+interface Props {
+  data: ARRAY[];
+}
+
+const AttendanceGrid = ({ data }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -17,22 +25,26 @@ const AttendanceGrid = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { data: attendance } = useFetch<any>(
-    `attendances/preset_absent/date/${new Date().toISOString().slice(0, 10)}`
-  );
+  // const { data: attendance } = useFetch<any>(
+  //   `attendances/isPresent/date/${new Date().toISOString().slice(0, 10)}`
+  // );
   // console.log(attendance);
   return (
     <div className="mt-6">
       <Grid container spacing={2}>
-        {attendance?.presentUsers?.map((item: any) => (
+        {data?.map((item: any) => (
           <Grid key={item?.id} item lg={3}>
             <div className="h-full w-full bg-white shadow-xl rounded-2xl flex flex-col items-center gap-4 py-4 px-4 hover:scale-105 ease-in-out transition-all duration-150">
               <div className="w-full flex justify-between items-center">
                 {/* <div className="flex gap-2 items-center"> */}
                 <span
-                  className={`border-[1px] rounded-lg font-medium tracking-wide text-sm px-3 py-0.5 bg-emerald-200 text-green-600 border-green-500`}
+                  className={`border-[1px] rounded-lg font-medium tracking-wide text-sm px-3 py-0.5 ${
+                    item?.isPresent
+                      ? `bg-emerald-200 text-green-600 border-green-500`
+                      : `bg-red-200 text-red-600 border-red-500`
+                  }`}
                 >
-                  PRESENT
+                  {item?.isPresent ? `PRESENT` : `ABSENT`}
                 </span>
                 <IconButton onClick={handleClick}>
                   <MoreHorizRounded />
@@ -111,31 +123,31 @@ const AttendanceGrid = () => {
                 <p className="py-1 text-sm font-medium tracking-wide text-center">
                   EID : {item?.employeeID}
                 </p>
-                {/* {item?.status === "present" ? ( */}
-                <div className="flex gap-3">
-                  <div className="w-1/2 py-2 px-2 flex flex-col gap-2 tracking-wide items-center">
-                    <div className="flex gap-2 items-center text-sm tracking-wide font-medium">
-                      <ICONS.Entry /> IN TIME
+                {item?.ispresent ? (
+                  <div className="flex gap-3">
+                    <div className="w-1/2 py-2 px-2 flex flex-col gap-2 tracking-wide items-center">
+                      <div className="flex gap-2 items-center text-sm tracking-wide font-medium">
+                        <ICONS.Entry /> IN TIME
+                      </div>
+                      <p className="font-semibold text-slate-600 text-sm">
+                        {moment(item?.createdAt).format("HH:MM A")}
+                      </p>
                     </div>
-                    <p className="font-semibold text-slate-600 text-sm">
-                      {moment(item?.createdAt).format("HH:MM A")}
-                    </p>
-                  </div>
-                  <div className="w-1/2 py-2 px-2 flex flex-col gap-2 tracking-wide items-center">
-                    <div className="flex gap-2 items-center text-sm tracking-wide font-medium ">
-                      <span className="text-red-500">
-                        <ICONS.Exit />
-                      </span>
-                      OUT TIME
+                    <div className="w-1/2 py-2 px-2 flex flex-col gap-2 tracking-wide items-center">
+                      <div className="flex gap-2 items-center text-sm tracking-wide font-medium ">
+                        <span className="text-red-500">
+                          <ICONS.Exit />
+                        </span>
+                        OUT TIME
+                      </div>
+                      <p className="font-semibold text-slate-600 text-sm">
+                        {moment(item?.updatedAt).format("HH:MM A")}
+                      </p>
                     </div>
-                    <p className="font-semibold text-slate-600 text-sm">
-                      {moment(item?.updatedAt).format("HH:MM A")}
-                    </p>
                   </div>
-                </div>
-                {/* ) : (
+                ) : (
                   <p className="text-center py-4">Employee is absent...</p>
-                )} */}
+                )}
               </div>
             </div>
           </Grid>
