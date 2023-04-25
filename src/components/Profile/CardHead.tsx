@@ -1,6 +1,5 @@
 import { Edit, SendRounded } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
-import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
 import { UpdateProfileHead } from "components/Dialogs";
 import { RenderIconRow } from "components/common";
