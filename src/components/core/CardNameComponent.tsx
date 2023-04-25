@@ -1,15 +1,32 @@
 import { useFetch } from "hooks";
+import RoleComponent from "./RoleComponent";
 
 interface Props {
   userId?: any;
+  isEmail?: boolean;
+  isPhone?: boolean;
+  isName?: boolean;
 }
-const CardNameComponent = ({ userId }: Props) => {
-  const { data } = useFetch<{ name: string }>(`users/${userId}`);
+const CardNameComponent = ({ userId, isEmail, isPhone, isName }: Props) => {
+  const { data, isLoading } = useFetch<any>(`users/${userId}`);
 
   return (
     <>
-      {data?.name ? (
-        <span className="py-1 px-3 tracking-wide">{data.name}</span>
+      {!isLoading ? (
+        <>
+          {isEmail ? (
+            <span className="tracking-wide">{data?.email}</span>
+          ) : isPhone ? (
+            <span className="tracking-wide">{data?.phone}</span>
+          ) : isName ? (
+            <>
+              <p className="py-1 px-3 tracking-wide">{data?.name}</p>
+              <p className="text-sm text-gray-600 font-medium">
+                <RoleComponent roleId={data?.roleId} />
+              </p>
+            </>
+          ) : null}
+        </>
       ) : (
         <span>Not Assigned</span>
       )}

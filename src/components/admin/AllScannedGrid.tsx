@@ -47,26 +47,22 @@ const AllScannedGrid = () => {
 
       <div className="mt-4">
         <Grid container spacing={3}>
-          {data?.map((item) => (
+          {data?.map((item: any) => (
             <Grid key={item?.id} item lg={3}>
               <div className="w-full flex flex-col items-center justify-center gap-4  ">
                 <div className="relative overflow-hidden w-full flex h-[32rem] flex-col shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] px-6 py-4 rounded-lg gap-3">
                   <div className="h-[18rem] w-[36rem] bg-indigo-400  rotate-[36deg] absolute top-[-38px] left-[-11px]"></div>
                   {/* company logo */}
                   <div className="w-full flex flex-col items-center justify-center pt-4 relative">
-                    <div className="w-24 h-10 absolute top-0">
+                    <div className="w-[10rem] h-20 absolute top-0">
                       <img
                         src="https://www.searchingyard.com/_next/static/media/icon.e85db0e4.svg"
                         alt="Logo"
                       />
                     </div>
-                    <p className="text-sm font-semibold text-white">
-                      SEARCHINGYARD
-                    </p>
-                    <p className="text-sm text-white">YOUR TAGLINE</p>
                   </div>
                   {/* user Photo */}
-                  <div className="w-full flex items-center justify-center">
+                  <div className="w-full mt-10 flex items-center justify-center">
                     <div className="w-[12rem] h-[12rem] rounded-full bg-indigo-700 relative">
                       <div className="w-[10rem] h-[10rem] rounded-full bg-cyan-400 absolute top-4 left-4"></div>
                       <img
@@ -77,16 +73,52 @@ const AllScannedGrid = () => {
                     </div>
                   </div>
                   {/* user Details */}
-                  <div className="flex flex-col gap-2">
-                    <div className="w-full flex flex-col">
-                      <p className="text-lg font-semibold text-blue-950">
-                        <CardNameComponent userId={item?.userId} />
-                      </p>
-                      <p className="text-sm">Job Title</p>
+                  {item?.userId ? (
+                    <div className="flex flex-col gap-2">
+                      <div className="w-full flex flex-col">
+                        <p className="text-lg font-semibold text-blue-950">
+                          <CardNameComponent userId={item?.userId} isName />
+                        </p>
+                      </div>
+                      {/* profile Details */}
+
+                      <div className="w-full flex justify-between gap-8">
+                        <div className="flex flex-col item-end justify-end">
+                          <Tooltip title="Assign User">
+                            <IconButton
+                              onClick={() => {
+                                setIsAssign({
+                                  drawer: true,
+                                  activeCardId: item?.cardId,
+                                });
+                              }}
+                            >
+                              <AddCardRounded
+                                className="!text-theme"
+                                fontSize="large"
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </div>
+
+                        <div className="flex flex-col justify-end items-end text-blue-900">
+                          <p className="text-sm ">{item?.cardId}</p>
+                          <p className="text-sm">
+                            <CardNameComponent userId={item?.userId} isEmail />
+                          </p>
+                          <p className="text-sm">
+                            <CardNameComponent userId={item?.userId} isPhone />
+                          </p>
+                          <p className="text-sm">O +ve</p>
+                        </div>
+                      </div>
                     </div>
-                    {/* profile Details */}
-                    <div className="w-full flex justify-between gap-8">
-                      <div className="w-full flex flex-col item-end justify-end">
+                  ) : (
+                    <>
+                      <div className="w-full grid justify-items-center">
+                        <p className="pt-6 text-lg font-semibold text-red-600">
+                          Not Assigned
+                        </p>
                         <Tooltip title="Assign User">
                           <IconButton
                             onClick={() => {
@@ -103,14 +135,8 @@ const AllScannedGrid = () => {
                           </IconButton>
                         </Tooltip>
                       </div>
-                      <div className="flex flex-col items-end text-blue-900">
-                        <p className="text-sm ">{item?.cardId}</p>
-                        <p className="text-sm">yourGmail@company.com</p>
-                        <p className="text-sm">+63 0000000000</p>
-                        <p className="text-sm">O +ve</p>
-                      </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
                   <div className="w-full flex items-center justify-center gap-2">
                     <p className="font-semibold tracking-wide text-sm">
                       Unblock/Block
