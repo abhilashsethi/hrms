@@ -4,7 +4,6 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import { Attendance } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
-const today = new Date().toISOString();
 
 const AttendanceList = () => {
   const { data, isLoading } = useFetch<any>(
