@@ -52,9 +52,6 @@ const AttendanceList = () => {
             render: (data) => moment(data?.updatedAt).format("lll"),
           },
         ]}
-        onRowDoubleClick={(e, rowData) =>
-          push(`/admin/attendances/user/${rowData?.id}`)
-        }
       />
     </div>
   );
