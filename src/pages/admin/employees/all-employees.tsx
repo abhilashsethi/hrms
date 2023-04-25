@@ -3,6 +3,7 @@ import {
   GridViewRounded,
   Search,
   TableRowsRounded,
+  Upload,
 } from "@mui/icons-material";
 import { Button, IconButton, MenuItem, TextField } from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
@@ -52,6 +53,13 @@ const AllEmployees = () => {
                 ADD EMPLOYEE
               </Button>
             </Link>
+            <Button
+              className="!bg-slate-600"
+              variant="contained"
+              startIcon={<Upload />}
+            >
+              UPLOAD EMPLOYEES DATA
+            </Button>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
