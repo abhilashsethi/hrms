@@ -1,13 +1,14 @@
 import MaterialTable from "@material-table/core";
 import { useFetch } from "hooks";
+import moment from "moment";
 import { useRouter } from "next/router";
 import { Attendance } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
 const today = new Date().toISOString();
 
 const AttendanceList = () => {
-  const { data, isLoading } = useFetch<Attendance[]>(
-    `attendances/user/6442769c801d963c999b31db`
+  const { data, isLoading } = useFetch<any>(
+    `attendances/preset_absent/date/${new Date().toISOString().slice(0, 10)}`
   );
   const { push } = useRouter();
   return (
@@ -15,7 +16,11 @@ const AttendanceList = () => {
       <MaterialTable
         title={"Today Attendance"}
         isLoading={isLoading}
-        data={data ? getDataWithSL<Attendance>(data) : []}
+        data={
+          data?.presentUsers
+            ? getDataWithSL<Attendance>(data?.presentUsers)
+            : []
+        }
         options={{ ...MuiTblOptions(), selection: true }}
         columns={[
           {
@@ -26,26 +31,26 @@ const AttendanceList = () => {
           },
           {
             title: "Name",
-            field: "user.name",
+            field: "name",
           },
           {
             title: "Email",
-            field: "user.email",
+            field: "email",
           },
           {
             title: "Date",
             field: "date",
-            render: (data) => new Date(data.date).toDateString(),
+            render: (data) => new Date().toISOString().slice(0, 10),
           },
           {
             title: "In Time",
             field: "createdAt",
-            render: (data) => new Date(data.createdAt).toTimeString(),
+            render: (data) => moment(data?.createdAt).format("lll"),
           },
           {
             title: "Out Time",
             field: "updatedAt",
-            render: (data) => new Date(data.updatedAt).toTimeString(),
+            render: (data) => moment(data?.updatedAt).format("lll"),
           },
         ]}
         onRowDoubleClick={(e, rowData) =>
