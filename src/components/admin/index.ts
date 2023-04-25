@@ -12,3 +12,5 @@ export { default as AllRollColumn } from "./AllRollColumn";
 export { default as AllRollGrid } from "./AllRollGrid";
 export { default as AllScannedColumn } from "./AllScannedColumn";
 export { default as AllScannedGrid } from "./AllScannedGrid";
+export { default as LeavesColumn } from "./LeavesColumn";
+export { default as LeavesGrid } from "./LeavesGrid";
