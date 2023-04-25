@@ -46,10 +46,109 @@ const AllScannedGrid = () => {
       <TextTitles title="Scanned Cards" />
 
       <div className="mt-4">
-        <Grid container spacing={2}>
-          {data?.map((item) => (
+        <Grid container spacing={3}>
+          {data?.map((item: any) => (
             <Grid key={item?.id} item lg={3}>
-              <div className="py-6 px-4 bg-slate-50 w-full shadow-lg rounded-lg flex justify-center items-center">
+              <div className="w-full flex flex-col items-center justify-center gap-4  ">
+                <div className="relative overflow-hidden w-full flex h-[32rem] flex-col shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] px-6 py-4 rounded-lg gap-3">
+                  <div className="h-[18rem] w-[36rem] bg-theme-900 rotate-[36deg] absolute top-[-38px] left-[-11px]"></div>
+                  {/* company logo */}
+                  <div className="w-full flex flex-col items-center justify-center pt-4 relative">
+                    <div className="w-[10rem] mt-5 h-20 absolute top-0">
+                      <img
+                        src="https://www.searchingyard.com/_next/static/media/icon.e85db0e4.svg"
+                        alt="Logo"
+                      />
+                    </div>
+                  </div>
+                  {/* user Photo */}
+                  <div className="w-full mt-8 flex items-center justify-center">
+                    <div className="w-[12rem] h-[12rem] rounded-full relative">
+                      <div className="w-[10rem] h-[10rem] rounded-full bg-cyan-400 absolute top-4 left-4"></div>
+                      <img
+                        src="https://picsum.photos/200"
+                        alt="User Photo"
+                        className="w-[8rem] h-[8rem] rounded-full absolute top-8 left-8"
+                      />
+                    </div>
+                  </div>
+                  {/* user Details */}
+                  {item?.userId ? (
+                    <div className="flex flex-col gap-2">
+                      <div className="w-full flex flex-col">
+                        <p className="text-lg font-semibold text-blue-950">
+                          <CardNameComponent userId={item?.userId} isName />
+                        </p>
+                      </div>
+                      {/* profile Details */}
+
+                      <div className="w-full flex justify-between gap-8">
+                        <div className="flex flex-col item-end justify-end">
+                          <Tooltip title="Assign User">
+                            <IconButton
+                              onClick={() => {
+                                setIsAssign({
+                                  drawer: true,
+                                  activeCardId: item?.cardId,
+                                });
+                              }}
+                            >
+                              <AddCardRounded
+                                className="!text-theme"
+                                fontSize="large"
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </div>
+
+                        <div className="flex flex-col justify-end items-end text-blue-900">
+                          <p className="text-sm ">{item?.cardId}</p>
+                          <p className="text-sm">
+                            <CardNameComponent userId={item?.userId} isEmail />
+                          </p>
+                          <p className="text-sm">
+                            <CardNameComponent userId={item?.userId} isPhone />
+                          </p>
+                          <p className="text-sm">O +ve</p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="w-full grid justify-items-center">
+                        <p className="pt-6 text-lg font-semibold text-red-600">
+                          Not Assigned
+                        </p>
+                        <Tooltip title="Assign User">
+                          <IconButton
+                            onClick={() => {
+                              setIsAssign({
+                                drawer: true,
+                                activeCardId: item?.cardId,
+                              });
+                            }}
+                          >
+                            <AddCardRounded
+                              className="!text-theme"
+                              fontSize="large"
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    </>
+                  )}
+                  <div className="w-full flex items-center justify-center gap-2">
+                    <p className="font-semibold tracking-wide text-sm">
+                      Unblock/Block
+                    </p>
+                    <IOSSwitch
+                      checked={item?.isBlocked}
+                      onChange={(e) => handleBlock(e, item?.cardId)}
+                    />
+                  </div>
+                </div>
+              </div>
+              {/* <div className="py-6 px-4 bg-slate-50 w-full shadow-lg rounded-lg flex justify-center items-center">
                 <div className="flex flex-col items-center gap-3">
                   <p className="text-lg font-semibold tracking-wide capitalize">
                     Card Id: {item?.cardId}
@@ -85,7 +184,7 @@ const AllScannedGrid = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </Grid>
           ))}
         </Grid>
