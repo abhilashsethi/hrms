@@ -68,11 +68,11 @@ const CardHead = () => {
               <h5 className="text-gray-400 text-md py-1 capitalize">
                 Date of Join:
                 {employData?.joiningDate ? (
-                  <span>
+                  <span className="px-2">
                     {moment(employData?.joiningDate).format("ll") || "---"}
                   </span>
                 ) : (
-                  <span> {" ---"} </span>
+                  <span className="px-2">{" ---"}</span>
                 )}
               </h5>
               <div className="mt-4">
@@ -97,7 +97,7 @@ const CardHead = () => {
             </span>
             <h5>Birthday :</h5>
             {employData?.dob ? (
-              <span className="col-span-2 ">
+              <span className="col-span-2">
                 {moment(employData?.dob).format("ll")}
               </span>
             ) : (
