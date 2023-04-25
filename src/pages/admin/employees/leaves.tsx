@@ -21,7 +21,7 @@ import {
 import { SAMPLEDP } from "assets/home";
 import { LeavesColumn, LeavesGrid } from "components/admin";
 import { AdminBreadcrumbs, HeadStyle } from "components/core";
-import { CreateLeave } from "components/Dialogs";
+import { CreateLeave } from "components/dialogues";
 import PanelLayout from "layouts/panel";
 import { useState, MouseEvent } from "react";
 import { MuiTblOptions } from "utils";

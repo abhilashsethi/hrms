@@ -1,9 +1,8 @@
 import { Edit, SendRounded } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
-import { UpdateProfileHead } from "components/Dialogs";
+import { UpdateProfileHead, ChangeProfile } from "components/dialogues";
 import { RenderIconRow } from "components/common";
-import { ChangeProfile } from "components/Dialogs";
 import { useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";

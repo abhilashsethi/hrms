@@ -1,6 +1,6 @@
 import { Delete, Edit, Info } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
-import { UpdateRole } from "components/Dialogs";
+import { UpdateRole } from "components/dialogues";
 import { RoleInformation } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";

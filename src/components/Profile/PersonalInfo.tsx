@@ -1,5 +1,5 @@
 import ICONS from "assets/icons";
-import { PersonalInformations } from "components/Dialogs";
+import { PersonalInformations } from "components/dialogues";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";

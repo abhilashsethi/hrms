@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { User } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
-import { BankInformationUpdate } from "components/Dialogs";
+import { BankInformationUpdate } from "components/dialogues";
 import { Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
