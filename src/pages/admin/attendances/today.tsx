@@ -105,7 +105,7 @@ const TodayAttendance = () => {
           <TextField
             fullWidth
             size="small"
-            placeholder="Role"
+            placeholder="Status"
             name="employeeName"
           />
           <Button
