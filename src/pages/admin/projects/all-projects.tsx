@@ -1,32 +1,12 @@
-import {
-  Add,
-  GridViewRounded,
-  Home,
-  Search,
-  TableRowsRounded,
-  Whatshot,
-} from "@mui/icons-material";
-import {
-  Breadcrumbs,
-  Button,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Add, Search } from "@mui/icons-material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import { Projects } from "components/Profile";
-import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
 
 const AllProjects = () => {
-  const [isGrid, setIsGrid] = useState(true);
   const [value, setValue] = useState("Web Developer");
   const handleChange = (event: any) => {
     setValue(event.target.value);

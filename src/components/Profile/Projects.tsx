@@ -13,10 +13,10 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
+import { ProjectUpdate } from "components/dialogues";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { MouseEvent, useState } from "react";
-import { User } from "types";
 
 const Projects = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -29,10 +29,20 @@ const Projects = () => {
   };
   const [isDialogue, setIsDialogue] = useState(false);
   const router = useRouter();
-  const { data: projectsData } = useFetch<any>(`projects`);
-  console.log(projectsData);
+  const [isUpdate, setisUpdate] = useState<{
+    dialogue?: boolean;
+    id?: string | null;
+  }>({ dialogue: false, id: null });
+  const { data: roleData, mutate } =
+    useFetch<[{ id: string; name: string }]>(`projects`);
   return (
     <div className="grid gap-6 lg:grid-cols-3">
+      <ProjectUpdate
+        id={isUpdate?.id}
+        open={isUpdate?.dialogue}
+        handleClose={() => setisUpdate({ dialogue: false })}
+        mutate={mutate}
+      />
       {projectsData2?.map((items: any) => (
         <div className="relative bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide shadow-xl">
           <div className="absolute right-[10px] top-[10px]">
@@ -76,12 +86,14 @@ const Projects = () => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                  <EditRounded fontSize="small" />
-                </ListItemIcon>
-                Edit
-              </MenuItem>
+              <div onClick={() => setisUpdate({ dialogue: true, id: "xx" })}>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <EditRounded fontSize="small" />
+                  </ListItemIcon>
+                  Edit
+                </MenuItem>
+              </div>
               <MenuItem onClick={handleClose}>
                 <ListItemIcon>
                   <DeleteRounded fontSize="small" />
