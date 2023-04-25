@@ -106,7 +106,7 @@ const cards = [
     id: 2,
     icon: <AccountTreeRounded fontSize="large" className="text-theme" />,
     count: "34",
-    title: "Total projects",
+    title: "Active Employees",
   },
   {
     id: 3,
@@ -114,12 +114,12 @@ const cards = [
       <PlaylistAddCheckCircleRounded fontSize="large" className="text-theme" />
     ),
     count: "34",
-    title: "Today's Attendance",
+    title: "Inactive Employees",
   },
   {
     id: 4,
     icon: <DoNotTouchRounded fontSize="large" className="text-theme" />,
     count: "34",
-    title: "Absentees",
+    title: "Total Office Access",
   },
 ];
