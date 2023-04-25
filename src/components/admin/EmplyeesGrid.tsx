@@ -202,7 +202,7 @@ const CardContent = ({ item, mutate }: any) => {
       </div>
       <div className="h-20 w-20 rounded-full overflow-hidden shadow-xl">
         {item?.photo && (
-          <div className="bg-slate-200">
+          <div className="bg-slate-200 h-full w-full">
             <img
               className="h-full w-full object-cover"
               src={item?.photo || DEFAULTIMG.src}
