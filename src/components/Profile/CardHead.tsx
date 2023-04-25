@@ -1,10 +1,9 @@
 import { Edit, SendRounded } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
-import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
 import { UpdateProfileHead } from "components/Dialogs";
 import { RenderIconRow } from "components/common";
-import { ChangeProfile } from "components/dialogues";
+import { ChangeProfile } from "components/Dialogs";
 import { useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -67,9 +66,13 @@ const CardHead = () => {
               </h5>
               <h5 className="text-gray-400 text-md py-1 capitalize">
                 Date of Join:
-                <span>
-                  {moment(employData?.joiningDate).format("ll") || "---"}
-                </span>
+                {employData?.joiningDate ? (
+                  <span className="px-2">
+                    {moment(employData?.joiningDate).format("ll") || "---"}
+                  </span>
+                ) : (
+                  <span className="px-2">{" ---"}</span>
+                )}
               </h5>
               <div className="mt-4">
                 <Button
@@ -92,9 +95,13 @@ const CardHead = () => {
               <RenderIconRow value={employData?.email || "---"} isEmail />
             </span>
             <h5>Birthday :</h5>
-            <span className="col-span-2 ">
-              {moment(employData?.dob).format("ll")}
-            </span>
+            {employData?.dob ? (
+              <span className="col-span-2">
+                {moment(employData?.dob).format("ll")}
+              </span>
+            ) : (
+              <span className="col-span-2 "> {" ---"} </span>
+            )}
             <h5>Address :</h5>
             <span className="col-span-2 ">{employData?.address || "---"}</span>
             <h5>Gender :</h5>
@@ -105,6 +112,7 @@ const CardHead = () => {
         </div>
       </div>
       <UpdateProfileHead
+        mutate={mutate}
         open={isDialogue}
         handleClose={() => setIsDialogue(false)}
       />

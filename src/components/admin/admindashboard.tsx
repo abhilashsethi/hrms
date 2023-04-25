@@ -13,11 +13,7 @@ import {
   MenuItem,
   Radio,
 } from "@mui/material";
-import ICONS from "assets/icons";
-import AttendanceReport from "components/analytics/AttendanceReport";
-import CardStatus from "components/analytics/CardStatus";
 import ProjectOverview from "components/analytics/ProjectOverview";
-import RolewiseStrength from "components/analytics/RolewiseStrength";
 import TaskOverview from "components/analytics/TaskOverview";
 import { useState, MouseEvent } from "react";
 
@@ -35,8 +31,8 @@ const AdminDashboard = () => {
       <div className="flex gap-2 py-4">
         <div className="w-3/4 px-4 ">
           <Grid container spacing={2}>
-            {cards?.map((item) => (
-              <Grid key={item?.id} item lg={3}>
+            {cards?.map((item, index) => (
+              <Grid key={index} item lg={3}>
                 <div className="deals-card h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between group">
                   <div className="flex justify-end">
                     <IconButton size="small" onClick={handleClick}>

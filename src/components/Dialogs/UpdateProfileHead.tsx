@@ -23,6 +23,7 @@ import { useState } from "react";
 interface Props {
   open?: any;
   handleClose?: any;
+  mutate?: any;
 }
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required!"),
@@ -36,7 +37,7 @@ const validationSchema = Yup.object().shape({
   joiningDate: Yup.string().required("Joining Date is required!"),
 });
 
-const UpdateProfileHead = ({ open, handleClose }: Props) => {
+const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { data: roles } = useFetch<any>(`roles`);
@@ -66,6 +67,7 @@ const UpdateProfileHead = ({ open, handleClose }: Props) => {
         setLoading(false);
         return;
       }
+      mutate();
       Swal.fire(`Success`, `Updated Successfully`, `success`);
       handleClose();
       return;
