@@ -18,6 +18,7 @@ const CardHead = () => {
   const { data: employData, mutate } = useFetch<User>(
     `users/${router?.query?.id}`
   );
+  console.log(employData);
   return (
     <>
       <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">
@@ -67,9 +68,13 @@ const CardHead = () => {
               </h5>
               <h5 className="text-gray-400 text-md py-1 capitalize">
                 Date of Join:
-                <span>
-                  {moment(employData?.joiningDate).format("ll") || "---"}
-                </span>
+                {employData?.joiningDate ? (
+                  <span>
+                    {moment(employData?.joiningDate).format("ll") || "---"}
+                  </span>
+                ) : (
+                  <span> {" ---"} </span>
+                )}
               </h5>
               <div className="mt-4">
                 <Button
@@ -92,9 +97,13 @@ const CardHead = () => {
               <RenderIconRow value={employData?.email || "---"} isEmail />
             </span>
             <h5>Birthday :</h5>
-            <span className="col-span-2 ">
-              {moment(employData?.dob).format("ll")}
-            </span>
+            {employData?.dob ? (
+              <span className="col-span-2 ">
+                {moment(employData?.dob).format("ll")}
+              </span>
+            ) : (
+              <span className="col-span-2 "> {" ---"} </span>
+            )}
             <h5>Address :</h5>
             <span className="col-span-2 ">{employData?.address || "---"}</span>
             <h5>Gender :</h5>
