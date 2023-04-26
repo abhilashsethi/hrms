@@ -40,13 +40,11 @@ const TodayAttendance = () => {
   const cards = [
     {
       id: 1,
-
       title: "Total Users",
       value: `${attendance?.length ? attendance?.length : `0`}`,
     },
     {
       id: 2,
-
       title: "Present",
       value: `${
         attendance?.length
@@ -56,7 +54,6 @@ const TodayAttendance = () => {
     },
     {
       id: 3,
-
       title: "Absent",
       value: `${
         attendance?.length
@@ -65,9 +62,7 @@ const TodayAttendance = () => {
       }`,
     },
   ];
-
   // console.log(searchedUser);
-
   return (
     <PanelLayout title="Today Attendance - SY HR MS">
       <section className="px-8 py-4">
