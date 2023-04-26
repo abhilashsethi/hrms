@@ -88,7 +88,7 @@ export default () => {
             key: "4-2",
             title: "Clients",
             icon: <Diversity3Rounded />,
-            route: "/admin/users",
+            route: "/admin/clients/all-clients",
           },
         ],
       },
