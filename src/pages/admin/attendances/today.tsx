@@ -169,7 +169,11 @@ const TodayAttendance = () => {
             Search
           </Button>
         </div>
-        {isGrid ? <AttendanceGrid data={searchedUser} /> : <AttendanceList />}
+        {isGrid ? (
+          <AttendanceGrid data={searchedUser} />
+        ) : (
+          <AttendanceList data={searchedUser} />
+        )}
       </section>
     </PanelLayout>
   );
