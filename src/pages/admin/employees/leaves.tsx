@@ -67,7 +67,7 @@ const Leaves = () => {
           </div>
         </div>
 
-        <Grid container spacing={3}>
+        {/* <Grid container spacing={3}>
           {cards?.map((item) => (
             <Grid key={item?.id} item lg={3}>
               <div className="w-full h-32 bg-gradient-to-b from-theme-50 via-white to-white tracking-wide border-b-4 border-theme shadow-md rounded-xl flex justify-center items-center flex-col gap-4">
@@ -81,7 +81,7 @@ const Leaves = () => {
               </div>
             </Grid>
           ))}
-        </Grid>
+        </Grid> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
           <TextField
             fullWidth
