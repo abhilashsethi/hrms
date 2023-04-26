@@ -4,7 +4,7 @@ const LeavesGrid = () => {
       <section className="py-6 ">
         <div className="flex flex-col items-center justify-center">
           <div className="flex flex-row flex-wrap-reverse justify-center mt-8">
-            <div className="flex flex-col justify-center w-full px-8 mx-4 my-6 text-center rounded-md md:w-96 lg:w-80 xl:w- shadow-xl drop-shadow-lg bg-white">
+            <div className="flex flex-col justify-center w-full px-8 mx-4 my-8 text-center rounded-md md:w-96 lg:w-80 xl:w- shadow-xl drop-shadow-lg bg-white">
               <img
                 alt=""
                 className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full bg-gray-500"
@@ -28,7 +28,7 @@ const LeavesGrid = () => {
                 </button>
               </div>
             </div>
-            <div className="flex flex-col justify-center w-full px-8 mx-4 my-6 text-center rounded-md md:w-96 lg:w-80 xl:w- shadow-xl drop-shadow-lg bg-white">
+            <div className="flex flex-col justify-center w-full px-8 mx-4 my-8 text-center rounded-md md:w-96 lg:w-80 xl:w- shadow-xl drop-shadow-lg bg-white">
               <img
                 alt=""
                 className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full bg-gray-500"
@@ -52,7 +52,7 @@ const LeavesGrid = () => {
                 </button>
               </div>
             </div>
-            <div className="flex flex-col justify-center w-full px-8 mx-4 my-6 text-center rounded-md md:w-96 lg:w-80 xl:w- shadow-xl drop-shadow-lg bg-white">
+            <div className="flex flex-col justify-center w-full px-8 mx-4 my-8 text-center rounded-md md:w-96 lg:w-80 xl:w- shadow-xl drop-shadow-lg bg-white">
               <img
                 alt=""
                 className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full bg-gray-500"
@@ -76,7 +76,7 @@ const LeavesGrid = () => {
                 </button>
               </div>
             </div>
-            <div className="flex flex-col justify-center w-full px-8 mx-4 my-6 text-center rounded-md md:w-96 lg:w-80 xl:w- shadow-xl drop-shadow-lg bg-white">
+            <div className="flex flex-col justify-center w-full px-8 mx-4 my-8 text-center rounded-md md:w-96 lg:w-80 xl:w- shadow-xl drop-shadow-lg bg-white">
               <img
                 alt=""
                 className="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full bg-gray-500"

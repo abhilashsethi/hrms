@@ -1,14 +1,11 @@
 import {
   Autocomplete,
-  Box,
   Button,
-  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
   InputLabel,
-  MenuItem,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -57,7 +54,7 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
   const { change } = useChange();
   const { data: roles } = useFetch<any>(`roles`);
   const router = useRouter();
-  const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
+  const { data: employData } = useFetch<any>(`projects/${id}`);
   const initialValues = {
     name: `${employData?.name ? employData?.name : ""}`,
     github: `${employData?.github ? employData?.github : ""}`,
