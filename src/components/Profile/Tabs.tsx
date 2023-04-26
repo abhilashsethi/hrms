@@ -1,11 +1,11 @@
 import { Box, Typography, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import PersonalInfo from "./PersonalInfo";
-import BankInfo from "./BankInfo";
 import Education from "./Education";
 import AttendanceCard from "./AttendanceCard";
 import AttendanceTable from "./AttendanceTable";
 import Projects from "./Projects";
+import LeaveCard from "./LeaveCard";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,7 +59,7 @@ export default function ProfileTabs() {
           <Tab label="Profile" {...a11yProps(0)} />
           <Tab label="Attendance" {...a11yProps(1)} />
           <Tab label="Projects" {...a11yProps(2)} />
-          <Tab label="Bank & Statutory" {...a11yProps(3)} />
+          <Tab label="Leaves" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -74,7 +74,7 @@ export default function ProfileTabs() {
         <Projects />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Page in progress...
+        <LeaveCard />
       </TabPanel>
     </Box>
   );

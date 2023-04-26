@@ -39,19 +39,10 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
       .required("PAN number is required")
       .matches(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/, "Invalid PAN number"),
     gmail: Yup.string().required("gmail is required"),
-    aadharNo: Yup.string()
-      .required("Aadhaar number is required")
-      .matches(/^\d{12}$/, "Invalid Aadhaar number")
-      .test("checksum", "Invalid Aadhaar number", function (value: any) {
-        if (/^\d{12}$/.test(value)) {
-          let sum = 0;
-          for (let i = 0; i < 12; i++) {
-            sum += parseInt(value.charAt(i)) * (i + 1);
-          }
-          return sum % 10 === 0;
-        }
-        return false;
-      }),
+    aadharNo: Yup.string().matches(
+      /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
+      "Invalid Aadhaar number"
+    ),
     linkedin: Yup.string().matches(
       /^(https?:\/\/)?(www\.)?linkedin\.com\/(in|pub|company)\/[A-Za-z0-9_-]+\/?$/,
       "Invalid LinkedIn profile link"
