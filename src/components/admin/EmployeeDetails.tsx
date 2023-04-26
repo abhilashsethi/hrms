@@ -1,5 +1,12 @@
 import { Edit, SendRounded } from "@mui/icons-material";
-import { Button, Grid, IconButton, Tooltip } from "@mui/material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  MenuItem,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
 import { HeadText } from "components/core";
@@ -14,6 +21,9 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { User } from "types";
+import EmpAttendanceIndividual from "./EmpAttendanceIndividual";
+import EmployProjects from "./EmployProjects";
+import EmployLeaves from "./EmployLeaves";
 
 const EmployeeDetails = () => {
   const router = useRouter();
@@ -295,7 +305,11 @@ const EmployeeDetails = () => {
             </div>
           </Grid>
           <Grid item lg={4}>
-            <div className="w-full h-full rounded-lg bg-white shadow-xl border-2"></div>
+            <div className="w-full h-full">
+              <EmpAttendanceIndividual />
+              <EmployProjects />
+              <EmployLeaves />
+            </div>
           </Grid>
         </Grid>
       </section>

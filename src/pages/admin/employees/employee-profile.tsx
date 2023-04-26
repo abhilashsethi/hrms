@@ -11,8 +11,8 @@ const EmployeeProfile = () => {
           <AdminBreadcrumbs links={links} />
         </div>
         <EmployeeDetails />
-        <CardHead />
-        <ProfileTabs />
+        {/* <CardHead />
+        <ProfileTabs /> */}
       </section>
     </PanelLayout>
   );

@@ -15,3 +15,6 @@ export { default as AllScannedGrid } from "./AllScannedGrid";
 export { default as LeavesColumn } from "./LeavesColumn";
 export { default as LeavesGrid } from "./LeavesGrid";
 export { default as EmployeeDetails } from "./EmployeeDetails";
+export { default as EmpAttendanceIndividual } from "./EmpAttendanceIndividual";
+export { default as EmployProjects } from "./EmployProjects";
+export { default as EmployLeaves } from "./EmployLeaves";
