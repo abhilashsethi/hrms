@@ -1,6 +1,9 @@
 import {
   Add,
+  ChevronLeftRounded,
+  ChevronRightRounded,
   GridViewRounded,
+  InsertInvitationRounded,
   Search,
   TableRowsRounded,
   Upload,
@@ -15,15 +18,24 @@ import {
 import { AdminBreadcrumbs } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import PanelLayout from "layouts/panel";
+import moment from "moment";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const AllMeetings = () => {
+  const dateRef = useRef<any>();
+  const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [isGrid, setIsGrid] = useState(true);
   const [isUpload, setIsUpload] = useState(false);
   const [value, setValue] = useState("Web Developer");
   const handleChange = (event: any) => {
     setValue(event.target.value);
   };
+  function handleDateChange(date: any) {
+    setSelectedDate(date);
+    console.log(date);
+  }
   return (
     <>
       <PanelLayout title="Meetings - Admin Panel">
@@ -56,6 +68,27 @@ const AllMeetings = () => {
                     />
                   </div>
                 </IconButton>
+              </div>
+              <div className="flex gap-3 items-center">
+                <ChevronLeftRounded />
+                <div className="tracking-wide flex gap-4 items-center font-semibold">
+                  {moment(selectedDate).format("ll")}
+                  <IconButton onClick={() => dateRef.current.setOpen(true)}>
+                    <InsertInvitationRounded className="!cursor-pointer" />
+                  </IconButton>
+                  <div className="">
+                    <DatePicker
+                      ref={dateRef}
+                      selected={selectedDate}
+                      onChange={handleDateChange}
+                      dateFormat="dd/MM/yyyy"
+                      // isClearable
+                      showYearDropdown
+                      className="hidden"
+                    />
+                  </div>
+                </div>
+                <ChevronRightRounded />
               </div>
               <Link href="/admin/employees/create-employee">
                 <Button
