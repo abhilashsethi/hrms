@@ -190,9 +190,9 @@ const AllUsers = () => {
                 editable: "never",
               },
             ]}
-            onRowDoubleClick={(e, rowData) =>
-              push(`/admin/attendances/user/${rowData?.id}`)
-            }
+            // onRowDoubleClick={(e, rowData) =>
+            //   push(`/admin/attendances/user/${rowData?.id}`)
+            // }
             editable={{
               onRowDelete: async (oldData) => {
                 const res = await change(`users/${oldData.id}`, {
