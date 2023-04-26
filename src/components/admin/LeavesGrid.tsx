@@ -23,9 +23,19 @@ const LeavesGrid = () => {
         );
       case "Pending":
         return (
-          <span className="bg-yellow-300 text-yellow-600 rounded-full px-6 py-1 font-semibold">
-            {status}
-          </span>
+          <>
+            {/* <span className="bg-yellow-300 text-yellow-600 rounded-full px-6 py-1 font-semibold">
+              {status}
+            </span> */}
+            <div className="flex items-center justify-center mt-2 pt-2 space-x-3 border-t-2">
+              <button className="bg-green-600 text-white font-semibold rounded-md px-6 py-2 hover:bg-green-700">
+                Accept
+              </button>
+              <button className="bg-red-600 text-white font-semibold rounded-md px-6 py-2 hover:bg-red-700">
+                Decline
+              </button>
+            </div>
+          </>
         );
       case "Decline":
         return (
@@ -45,7 +55,7 @@ const LeavesGrid = () => {
             <>
               <div
                 key={index}
-                className="flex flex-col justify-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-white  hover:scale-105 ease-in-out transition-all duration-200"
+                className="flex  flex-col h-full justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-white  hover:scale-105 ease-in-out transition-all duration-200"
               >
                 <div className="absolute right-[10px] top-[10px]">
                   <IconButton onClick={handleClick}>
@@ -108,7 +118,7 @@ const LeavesGrid = () => {
                     {item?.name}
                   </p>
                   <p className="mb-2">{item.role}</p>
-                  <span className=" ">{renderStatus(item.status)}</span>
+                  <div className="">{renderStatus(item.status)}</div>
                 </div>
               </div>
             </>
