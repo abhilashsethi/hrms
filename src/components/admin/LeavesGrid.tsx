@@ -25,7 +25,7 @@ const LeavesGrid = () => {
             {/* <span className="bg-yellow-300 text-yellow-600 rounded-full px-6 py-1 font-semibold">
               {status}
             </span> */}
-            <div className="flex items-center justify-center mt-2 pt-2 space-x-3 border-t-2">
+            <div className="flex items-center justify-center mt-2 pt-2 space-x-3">
               <button className="bg-green-600 text-white font-semibold rounded-md px-6 py-2 hover:bg-green-700">
                 Accept
               </button>
