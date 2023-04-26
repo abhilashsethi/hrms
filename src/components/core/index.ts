@@ -5,3 +5,4 @@ export { default as ReverseIOSSwitch } from "./ReverseIOSSwitch";
 export { default as TextTitles } from "./TextTitles";
 export { default as RoleComponent } from "./RoleComponent";
 export { default as CardNameComponent } from "./CardNameComponent";
+export { default as HeadText } from "./HeadText";

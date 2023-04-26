@@ -1,6 +1,7 @@
 import PanelLayout from "layouts/panel";
 import { CardHead, ProfileTabs } from "components/Profile";
 import { AdminBreadcrumbs } from "components/core";
+import { EmployeeDetails } from "components/admin";
 
 const EmployeeProfile = () => {
   return (
@@ -9,6 +10,7 @@ const EmployeeProfile = () => {
         <div className="pb-4">
           <AdminBreadcrumbs links={links} />
         </div>
+        <EmployeeDetails />
         <CardHead />
         <ProfileTabs />
       </section>
