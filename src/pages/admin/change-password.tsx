@@ -1,6 +1,7 @@
 import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -162,7 +163,10 @@ const ChangePassword = () => {
                     type="submit"
                     variant="contained"
                     className="!bg-theme !px-10 !py-3 hover:!bg-sky-800 hover:!shadow-xl"
-                    startIcon={<Check />}
+                    disabled={loading}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
                   >
                     Submit
                   </Button>

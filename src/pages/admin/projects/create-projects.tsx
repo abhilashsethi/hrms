@@ -1,5 +1,11 @@
 import { Check } from "@mui/icons-material";
-import { Autocomplete, Button, InputLabel, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  CircularProgress,
+  InputLabel,
+  TextField,
+} from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
@@ -304,7 +310,10 @@ const CreateProjects = () => {
                       type="submit"
                       variant="contained"
                       className="!bg-theme !px-10 !py-3 hover:!bg-sky-800 hover:!shadow-xl"
-                      startIcon={<Check />}
+                      disabled={loading}
+                      startIcon={
+                        loading ? <CircularProgress size={20} /> : <Check />
+                      }
                     >
                       Submit
                     </Button>

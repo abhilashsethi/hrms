@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -186,7 +187,10 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
                         type="submit"
                         className="!bg-theme"
                         variant="contained"
-                        startIcon={<Check />}
+                        disabled={loading}
+                        startIcon={
+                          loading ? <CircularProgress size={20} /> : <Check />
+                        }
                       >
                         SUBMIT
                       </Button>
