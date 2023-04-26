@@ -51,7 +51,19 @@ const AllScannedGrid = () => {
             <Grid key={item?.id} item lg={3}>
               <div className="w-full flex flex-col items-center justify-center gap-4  ">
                 <div className="relative overflow-hidden w-full flex h-[32rem] flex-col shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] px-6 py-4 rounded-lg gap-3">
-                  <div className="h-[18rem] w-[36rem] bg-theme-900 rotate-[36deg] absolute top-[-38px] left-[-11px]"></div>
+                  <div className="h-[18rem] overflow-hidden w-[36rem] rotate-[36deg] absolute top-[-38px] left-[-11px]">
+                    <div
+                      className="w-full h-[130%] rotate-[144deg]"
+                      style={{
+                        backgroundImage:
+                          "url(" +
+                          "https://img.freepik.com/free-vector/gradient-abstract-background_23-2149101392.jpg?w=996&t=st=1682488853~exp=1682489453~hmac=7d07aa079e3ca4dd1b7f0e661c299fed4f919886deddfe8f6acf9a9db159201d" +
+                          ")",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    ></div>
+                  </div>
                   {/* company logo */}
                   <div className="w-full flex flex-col items-center justify-center pt-4 relative">
                     <div className="w-[10rem] mt-5 h-20 absolute top-0">
