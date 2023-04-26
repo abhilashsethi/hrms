@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -239,55 +240,19 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
                               new Date(e?.target.value)
                             );
                           }}
-                          //     value={values.startDate}
-                          //     onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.startDate && !!errors.startDate}
                           helperText={touched.startDate && errors.startDate}
                         />
                       </div>
-                      {/* <div className="px-4 py-2">
-                      <div className="py-2">
-                        <InputLabel htmlFor="endDate">End Date</InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        type="date"
-                        placeholder="End Date"
-                        id="endDate"
-                        name="endDate"
-                        value={moment(values?.endDate).format("YYYY-MM-DD")}
-                        onChange={(e) => {
-                          setFieldValue("endDate", new Date(e?.target.value));
-                        }}
-                        //     value={values.endDate}
-                        //     onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.endDate && !!errors.endDate}
-                        helperText={touched.endDate && errors.endDate}
-                      />
-                    </div> */}
+
                       <div className="px-4 py-2">
                         <div className="py-2">
                           <InputLabel htmlFor="employee">
                             Employee Name
                           </InputLabel>
                         </div>
-                        {/* <TextField
-                        size="small"
-                        select
-                        fullWidth
-                        name="userIDs"
-                        value={values.userIDs}
-                        onChange={handleChange}
-                      >
-                        {data?.map((option) => (
-                          <MenuItem key={option.id} value={option.id}>
-                            {option.name}
-                          </MenuItem>
-                        ))}
-                      </TextField> */}
+
                         <Autocomplete
                           multiple
                           fullWidth
@@ -342,7 +307,10 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
                         type="submit"
                         variant="contained"
                         className="!bg-theme !px-10 !py-3 hover:!bg-sky-800 hover:!shadow-xl"
-                        startIcon={<Check />}
+                        disabled={loading}
+                        startIcon={
+                          loading ? <CircularProgress size={20} /> : <Check />
+                        }
                       >
                         Submit
                       </Button>

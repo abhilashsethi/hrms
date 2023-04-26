@@ -4,8 +4,6 @@ import {
   MoreVertRounded,
 } from "@mui/icons-material";
 import {
-  Avatar,
-  AvatarGroup,
   IconButton,
   Link,
   ListItemIcon,
@@ -13,11 +11,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { ProjectUpdate } from "components/dialogues";
-import { useFetch } from "hooks";
-import moment from "moment";
-import { MouseEvent, useEffect, useState } from "react";
-import { Projects } from "types";
+import { MouseEvent, useState } from "react";
 
 const MeetingsGrid = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -33,13 +27,11 @@ const MeetingsGrid = () => {
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
-  //   const { data: projectData, mutate } = useFetch<Projects[]>(`projects`);
-  //   console.log(projectData);
   return (
     <>
       <div className="grid py-4 gap-6 lg:grid-cols-3">
         {projectData?.map((items: any) => (
-          <div className="relative bg-white w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
+          <div className="relative py-4 bg-white w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
             <div className="absolute right-[10px] top-[10px]">
               <Tooltip title="More">
                 <IconButton onClick={handleClick}>
@@ -107,30 +99,42 @@ const MeetingsGrid = () => {
                 {items?.mode}{" "}
               </span>
               <div className="text-sm py-1 text-gray-400 ">
-                <span>Start Date -</span>{" "}
-                <span>{moment(items?.startDate).format("ll")}</span>
+                <span>{items?.startLine}</span>
               </div>
               <div className="py-2 text-md text-gray-400 tracking-wide">
                 <p>{items?.description}</p>
               </div>
-              <div className="py-2 text-md">
-                <h2>Deadline :</h2>
-                <span className="text-gray-400 text-sm">{items.deadLine}</span>
+              <div className="py-2 text-md tracking-wide">
+                <p className="">Longitude :</p>
+                <Link href="#">{items?.longitude}</Link>
               </div>
-              <div className="py-2 text-md">
-                <h2>Team :</h2>
-                <div className="py-2 flex justify-start">
-                  <AvatarGroup max={5}>
-                    {items?.team?.map((teams: any) => (
-                      <>
-                        <Avatar alt={teams?.name} src={teams?.photo || " "} />
-                      </>
-                    ))}
-                  </AvatarGroup>
+              <div className="py-2 text-md tracking-wide">
+                <p className="">Latitude :</p>
+                <Link href="#">{items?.latitude}</Link>
+              </div>
+              <div className="flex gap-2 py-1 justify-center">
+                <div className="text-md hover:scale-105 ease-in-out transition-all duration-200 rounded-lg shadow-lg border-2 px-10 py-2 grid justify-items-center">
+                  <h1 className="text-md pb-2 font-semibold">Client</h1>
+                  <img
+                    alt=""
+                    className="self-center flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-full bg-gray-500"
+                    src={items?.photo}
+                  />
+                  <span className="text-sm pt-2 text-slate-400 font-medium">
+                    {items?.client}
+                  </span>
                 </div>
-              </div>
-              <div className="py-2 text-md">
-                <h2>Location : {items?.location} </h2>
+                <div className="text-md hover:scale-105 ease-in-out transition-all duration-200 rounded-lg shadow-lg border-2 px-10 py-2 grid justify-items-center">
+                  <h1 className="text-md pb-2 font-semibold">Member</h1>
+                  <img
+                    alt=""
+                    className="self-center flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-full bg-gray-500"
+                    src={items?.memberPhoto}
+                  />
+                  <span className="text-sm pt-2 text-slate-400 font-medium">
+                    {items?.member}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -144,74 +148,40 @@ export default MeetingsGrid;
 
 const projectData = [
   {
-    name: "Univer Smart Educaton",
-    startLine: "25th April 10:00:00 AM",
+    name: "Kendriya Vidyalaya",
+    startLine: "10:00:00 AM - 12:00:01 PM",
     description: " Lorem ipsum dolor sit, amet consectetur adipisicing elit. ",
-    deadLine: "26th April 4:00:00 PM",
-    team: [
-      {
-        name: "Kumar",
-        photo: "https://source.unsplash.com/100x100/?portrait?0",
-      },
-      {
-        name: "Srinu",
-        photo: "https://source.unsplash.com/100x100/?portrait?2",
-      },
-    ],
-    location: "SY Office",
+    photo: "https://source.unsplash.com/100x100/?portrait?30",
     mode: "Virtual",
+    client: "John Done",
+    longitude: "https://source.unsplash.com/100x100/?portrait?300",
+    latitude: "https://source.unsplash.com/100x100/?portrait?300",
+    memberPhoto: "https://source.unsplash.com/100x100/?portrait?300",
+    member: "Srinu Ready",
   },
   {
-    name: "Study In Rusia",
-    startLine: "20th April 10:00:00 AM",
+    name: "Trident Academy",
+    startLine: "10:00:00 AM - 12:00:01 PM",
     description:
       " Lorem ipsum dolor sit, amet consectetur ipsum dolor sit, amet consectetur adipisicing elit. ",
-    deadLine: "28th April 4:00:00 PM",
-    team: [
-      {
-        name: "Kumar",
-        photo: "https://source.unsplash.com/100x100/?portrait?10",
-      },
-      {
-        name: "Srinu",
-        photo: "https://source.unsplash.com/100x100/?portrait?20",
-      },
-      {
-        name: "Kumar",
-        photo: "https://source.unsplash.com/100x100/?portrait?3",
-      },
-      {
-        name: "Srinu",
-        photo: "https://source.unsplash.com/100x100/?portrait?4",
-      },
-      {
-        name: "Kumar",
-        photo: "https://source.unsplash.com/100x100/?portrait?5",
-      },
-      {
-        name: "Srinu",
-        photo: "https://source.unsplash.com/100x100/?portrait?6",
-      },
-    ],
-    location: "SY Office",
     mode: "Virtual",
+    photo: "https://source.unsplash.com/100x100/?portrait?20",
+    memberPhoto: "https://source.unsplash.com/100x100/?portrait?200",
+    client: "John Done",
+    member: "Srinu Ready",
+    longitude: "https://source.unsplash.com/100x100/?portrait?300",
+    latitude: "https://source.unsplash.com/100x100/?portrait?300",
   },
   {
-    name: "Political Web Application",
-    startLine: "26th April 10:00:00 AM",
+    name: "Litu Bittle Shop",
+    startLine: "10:00:00 AM - 12:00:01 PM",
     description: " Lorem ipsum dolor sit, amet consectetur adipisicing elit. ",
-    deadLine: "26th April 4:00:00 PM",
-    team: [
-      {
-        name: "Kumar",
-        photo: "https://source.unsplash.com/100x100/?portrait?100",
-      },
-      {
-        name: "Srinu",
-        photo: "https://source.unsplash.com/100x100/?portrait?99",
-      },
-    ],
-    location: "SY Office",
     mode: "Physical",
+    photo: "https://source.unsplash.com/100x100/?portrait?10",
+    memberPhoto: "https://source.unsplash.com/100x100/?portrait?28",
+    client: "John Done",
+    member: "Srinu Ready",
+    longitude: "https://source.unsplash.com/100x100/?portrait?300",
+    latitude: "https://source.unsplash.com/100x100/?portrait?300",
   },
 ];

@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -183,80 +184,6 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
                         />
                       </div>
 
-                      {/* passport */}
-                      {/* <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Passport No <span className="text-red-600">*</span>
-                        </p>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="passport"
-                          placeholder="Enter Passport No"
-                          value={values.passport}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.passport && !!errors.passport}
-                          helperText={touched.passport && errors.passport}
-                        />
-                      </div> */}
-                      {/* religion */}
-                      {/* <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Religion <span className="text-red-600">*</span>
-                        </p>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="religion"
-                          placeholder="Enter Religion"
-                          value={values.religion}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.religion && !!errors.religion}
-                          helperText={touched.religion && errors.religion}
-                        />
-                      </div> */}
-                      {/* maritalStatus */}
-                      {/* <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Marital status <span className="text-red-600">*</span>
-                        </p>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="maritalStatus"
-                          placeholder="Enter Marital status"
-                          value={values.maritalStatus}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={
-                            touched.maritalStatus && !!errors.maritalStatus
-                          }
-                          helperText={
-                            touched.maritalStatus && errors.maritalStatus
-                          }
-                        />
-                      </div> */}
-
-                      {/* nationality */}
-                      {/* <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Nationality <span className="text-red-600">*</span>
-                        </p>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="nationality"
-                          placeholder="Enter Nationality"
-                          value={values.nationality}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.nationality && !!errors.nationality}
-                          helperText={touched.nationality && errors.nationality}
-                        />
-                      </div> */}
-                      {/* linkedin */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Linkedin Id
@@ -296,7 +223,10 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
                         type="submit"
                         className="!bg-theme"
                         variant="contained"
-                        startIcon={<Check />}
+                        disabled={loading}
+                        startIcon={
+                          loading ? <CircularProgress size={20} /> : <Check />
+                        }
                       >
                         SUBMIT
                       </Button>

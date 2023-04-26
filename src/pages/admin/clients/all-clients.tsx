@@ -1,44 +1,28 @@
 import {
   Add,
-  ChevronLeftRounded,
-  ChevronRightRounded,
   GridViewRounded,
-  InsertInvitationRounded,
   Search,
   TableRowsRounded,
   Upload,
 } from "@mui/icons-material";
 import { Button, IconButton, MenuItem, TextField } from "@mui/material";
-import {
-  EmployeesColumn,
-  EmplyeesGrid,
-  MeetingsColumn,
-  MeetingsGrid,
-} from "components/admin";
+import { ClientsGrid, EmployeesColumn, EmplyeesGrid } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import PanelLayout from "layouts/panel";
-import moment from "moment";
 import Link from "next/link";
-import { useRef, useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-const AllMeetings = () => {
-  const dateRef = useRef<any>();
-  const [selectedDate, setSelectedDate] = useState<any>(new Date());
+import { useState } from "react";
+
+const AllClients = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [isUpload, setIsUpload] = useState(false);
   const [value, setValue] = useState("Web Developer");
   const handleChange = (event: any) => {
     setValue(event.target.value);
   };
-  function handleDateChange(date: any) {
-    setSelectedDate(date);
-    console.log(date);
-  }
   return (
     <>
-      <PanelLayout title="Meetings - Admin Panel">
+      <PanelLayout title="All Users - SY HR MS">
         <section className="px-8">
           <UploadEmployData
             open={isUpload}
@@ -69,36 +53,23 @@ const AllMeetings = () => {
                   </div>
                 </IconButton>
               </div>
-              <div className="flex gap-3 items-center">
-                <ChevronLeftRounded />
-                <div className="tracking-wide flex gap-4 items-center font-semibold">
-                  {moment(selectedDate).format("ll")}
-                  <IconButton onClick={() => dateRef.current.setOpen(true)}>
-                    <InsertInvitationRounded className="!cursor-pointer" />
-                  </IconButton>
-                  <div className="">
-                    <DatePicker
-                      ref={dateRef}
-                      selected={selectedDate}
-                      onChange={handleDateChange}
-                      dateFormat="dd/MM/yyyy"
-                      // isClearable
-                      showYearDropdown
-                      className="hidden"
-                    />
-                  </div>
-                </div>
-                <ChevronRightRounded />
-              </div>
               <Link href="/admin/employees/create-employee">
                 <Button
                   className="!bg-theme"
                   variant="contained"
                   startIcon={<Add />}
                 >
-                  ADD MEETINGS
+                  ADD CLIENTS
                 </Button>
               </Link>
+              <Button
+                onClick={() => setIsUpload(true)}
+                className="!bg-slate-600"
+                variant="contained"
+                startIcon={<Upload />}
+              >
+                UPLOAD CLIENTS DATA
+              </Button>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -106,14 +77,14 @@ const AllMeetings = () => {
               fullWidth
               size="small"
               id="employeeId"
-              placeholder="Employee Id"
+              placeholder="Client Id"
               name="employeeId"
             />
             <TextField
               fullWidth
               size="small"
               id="employeeName"
-              placeholder="Employee Name"
+              placeholder="Client Name"
               name="employeeName"
             />
             <TextField
@@ -139,23 +110,23 @@ const AllMeetings = () => {
               Search
             </Button>
           </div>
-          {isGrid ? <MeetingsGrid /> : <MeetingsColumn />}
+          {isGrid ? <ClientsGrid /> : <EmployeesColumn />}
         </section>
       </PanelLayout>
     </>
   );
 };
 
-export default AllMeetings;
+export default AllClients;
 
 const roles = [
-  { id: 1, value: "Web Developer" },
-  { id: 2, value: "IOS Developer" },
-  { id: 3, value: "Android Developer" },
-  { id: 4, value: "Team Leader" },
+  { id: 1, value: "CEO" },
+  { id: 2, value: "Manager" },
+  { id: 3, value: "Director" },
+  { id: 4, value: "Founder" },
 ];
 
 const links = [
-  { id: 1, page: "Employees", link: "/admin/employees" },
-  { id: 2, page: "All Employees", link: "/admin/employees/all-employees" },
+  { id: 1, page: "Clients", link: "/admin/Clients" },
+  { id: 2, page: "All Clients", link: "/admin/clients/all-clients" },
 ];

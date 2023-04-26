@@ -47,7 +47,7 @@ const AttendanceList = ({ data }: Props) => {
                       : `bg-red-300 border-[1px] border-red-500 text-red-600`
                   }`}
                 >
-                  {item?.isPresent ? `PRESET` : `ABSENT`}
+                  {item?.isPresent ? `PRESENT` : `ABSENT`}
                 </span>
               );
             },
@@ -60,12 +60,12 @@ const AttendanceList = ({ data }: Props) => {
           {
             title: "In Time",
             field: "createdAt",
-            render: (data) => moment(data?.createdAt).format("lll"),
+            render: (data) => moment(data?.createdAt).format("HH:MM:A"),
           },
           {
             title: "Out Time",
             field: "updatedAt",
-            render: (data) => moment(data?.updatedAt).format("lll"),
+            render: (data) => moment(data?.updatedAt).format("HH:MM:A"),
           },
         ]}
       />
