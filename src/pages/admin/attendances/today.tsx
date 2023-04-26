@@ -6,25 +6,68 @@ import {
   Search,
   TableRowsRounded,
 } from "@mui/icons-material";
-import { useState, useRef } from "react";
-import { Button, Grid, IconButton, TextField } from "@mui/material";
+import { useState, useRef, useEffect } from "react";
+import { Button, Grid, IconButton, MenuItem, TextField } from "@mui/material";
 import { AttendanceGrid, AttendanceList } from "components/admin";
 import { AdminBreadcrumbs, TextTitles } from "components/core";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-const today = new Date().toISOString();
+import { useFetch } from "hooks";
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<any>(new Date());
+  const [searchedUser, setSearchedUser] = useState<any>([]);
+  const [userName, setUsername] = useState("");
+  const [empId, setEmpId] = useState("");
   const dateRef = useRef<any>();
-
   function handleDateChange(date: any) {
     setSelectedDate(date);
     console.log(date);
   }
+  const { data: attendance } = useFetch<any>(
+    `attendances/isPresent/date/${selectedDate.toISOString().slice(0, 10)}`
+  );
+  useEffect(() => {
+    if (attendance) {
+      const filtered = attendance.filter((user: any) => {
+        return user?.name?.toLowerCase().includes(userName?.toLowerCase());
+      });
+      setSearchedUser(filtered);
+    }
+  }, [attendance, userName]);
+  const cards = [
+    {
+      id: 1,
+
+      title: "Total Users",
+      value: `${attendance?.length ? attendance?.length : `0`}`,
+    },
+    {
+      id: 2,
+
+      title: "Present",
+      value: `${
+        attendance?.length
+          ? attendance?.filter((item: any) => item?.isPresent)?.length
+          : `0`
+      }`,
+    },
+    {
+      id: 3,
+
+      title: "Absent",
+      value: `${
+        attendance?.length
+          ? attendance?.filter((item: any) => !item?.isPresent)?.length
+          : `0`
+      }`,
+    },
+  ];
+
+  // console.log(searchedUser);
+
   return (
     <PanelLayout title="Today Attendance - SY HR MS">
       <section className="px-8 py-4">
@@ -95,19 +138,28 @@ const TodayAttendance = () => {
             size="small"
             placeholder="Employee Id"
             name="employeeId"
+            onChange={(e) => setEmpId(e.target.value)}
           />
           <TextField
             fullWidth
             size="small"
             placeholder="Employee Name"
+            onChange={(e) => setUsername(e.target.value)}
             name="employeeName"
           />
           <TextField
-            fullWidth
             size="small"
-            placeholder="Status"
-            name="employeeName"
-          />
+            fullWidth
+            select
+            label="Status"
+            defaultValue="EUR"
+          >
+            {selects.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.value}
+              </MenuItem>
+            ))}
+          </TextField>
           <Button
             fullWidth
             startIcon={<Search />}
@@ -117,7 +169,7 @@ const TodayAttendance = () => {
             Search
           </Button>
         </div>
-        {isGrid ? <AttendanceGrid /> : <AttendanceList />}
+        {isGrid ? <AttendanceGrid data={searchedUser} /> : <AttendanceList />}
       </section>
     </PanelLayout>
   );
@@ -125,32 +177,17 @@ const TodayAttendance = () => {
 
 export default TodayAttendance;
 
+const selects = [
+  { id: 1, value: "Present" },
+  { id: 2, value: "Absent" },
+  { id: 3, value: "All" },
+];
+
 const links = [
   { id: 1, page: "Attendances", link: "/admin/attendances" },
   {
     id: 2,
     page: "Datewise",
     link: "/admin/attendances/today",
-  },
-];
-
-const cards = [
-  {
-    id: 1,
-
-    title: "Total Users",
-    value: "12",
-  },
-  {
-    id: 2,
-
-    title: "Present",
-    value: "1",
-  },
-  {
-    id: 3,
-
-    title: "Absent",
-    value: "2",
   },
 ];
