@@ -21,11 +21,16 @@ import Link from "next/link";
 import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
-
-const EmplyeesGrid = () => {
+interface ARRAY {
+  id?: string;
+}
+interface Props {
+  data?: ARRAY[];
+}
+const EmplyeesGrid = ({ data }: Props) => {
   const { data: employees, mutate } = useFetch<User[]>(`users`);
 
-  const sortData = employees?.sort(
+  const sortData = data?.sort(
     (a: any, b: any) =>
       (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
   );

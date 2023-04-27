@@ -9,17 +9,31 @@ import { Button, IconButton, MenuItem, TextField } from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
 import { UploadEmployData } from "components/dialogues";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { User } from "types";
 
 const AllEmployees = () => {
   const [isGrid, setIsGrid] = useState(true);
+  const [userName, setUsername] = useState("");
+  const [searchedUser, setSearchedUser] = useState<any>([]);
   const [isUpload, setIsUpload] = useState(false);
   const [value, setValue] = useState("Web Developer");
   const handleChange = (event: any) => {
     setValue(event.target.value);
   };
+  const { data: employees, mutate } = useFetch<User[]>(`users`);
+  useEffect(() => {
+    if (employees) {
+      const filtered = employees.filter((user: any) => {
+        return user?.name?.toLowerCase().includes(userName?.toLowerCase());
+      });
+      setSearchedUser(filtered);
+    }
+  }, [employees, userName]);
+
   return (
     <PanelLayout title="All Users - SY HR MS">
       <section className="px-8">
@@ -81,6 +95,7 @@ const AllEmployees = () => {
             fullWidth
             size="small"
             id="employeeName"
+            onChange={(e) => setUsername(e.target.value)}
             placeholder="Employee Name"
             name="employeeName"
           />
@@ -107,7 +122,11 @@ const AllEmployees = () => {
             Search
           </Button>
         </div>
-        {isGrid ? <EmplyeesGrid /> : <EmployeesColumn />}
+        {isGrid ? (
+          <EmplyeesGrid data={searchedUser} />
+        ) : (
+          <EmployeesColumn data={searchedUser} />
+        )}
       </section>
     </PanelLayout>
   );

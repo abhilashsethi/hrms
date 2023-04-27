@@ -7,10 +7,15 @@ import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { User } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
-
-const EmployeesColumn = () => {
+interface ARRAY {
+  id?: string;
+}
+interface Props {
+  data?: ARRAY[];
+}
+const EmployeesColumn = ({ data }: Props) => {
   const { data: employees, isLoading, mutate } = useFetch<User[]>(`users`);
-  const sortData = employees?.sort(
+  const sortData: any = data?.sort(
     (a: any, b: any) =>
       (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
   );

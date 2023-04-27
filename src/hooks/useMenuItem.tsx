@@ -109,12 +109,6 @@ export default () => {
             icon: <PlaylistAddCheckCircleRounded />,
             route: "/admin/attendances/today",
           },
-          {
-            key: "5-2",
-            title: "Month Wise Attendance",
-            icon: <PlaylistAddCheckCircleRounded />,
-            route: "/admin/attendances/month",
-          },
         ],
       },
       {

@@ -9,18 +9,20 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { Button, Grid, IconButton, MenuItem, TextField } from "@mui/material";
 import { AttendanceGrid, AttendanceList } from "components/admin";
-import { AdminBreadcrumbs, TextTitles } from "components/core";
+import { AdminBreadcrumbs, Empty, TextTitles } from "components/core";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useFetch } from "hooks";
 import { addDays } from "date-fns";
+import { DOCUMENT_NOT_FOUND } from "assets/animations";
 
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [searchedUser, setSearchedUser] = useState<any>([]);
+  const [status, setStatus] = useState(false);
   const [userName, setUsername] = useState("");
   const [empId, setEmpId] = useState("");
   const dateRef = useRef<any>();
@@ -29,7 +31,9 @@ const TodayAttendance = () => {
     console.log(date);
   }
   const { data: attendance } = useFetch<any>(
-    `attendances/isPresent/date/${selectedDate.toISOString().slice(0, 10)}`
+    `attendances/isPresent/date/${selectedDate.toISOString().slice(0, 10)}${
+      status ? `?isPresent=true` : ``
+    }`
   );
   useEffect(() => {
     if (attendance) {
@@ -39,6 +43,16 @@ const TodayAttendance = () => {
       setSearchedUser(filtered);
     }
   }, [attendance, userName]);
+
+  useEffect(() => {
+    if (attendance) {
+      const filtered = attendance.filter((user: any) => {
+        return user?.employeeID?.toLowerCase().includes(empId?.toLowerCase());
+      });
+      setSearchedUser(filtered);
+    }
+  }, [attendance, empId]);
+
   const cards = [
     {
       id: 1,
@@ -64,7 +78,6 @@ const TodayAttendance = () => {
       }`,
     },
   ];
-  // console.log(searchedUser);
   const tomorrow = addDays(new Date(), 1);
   const disabledDates = [];
   for (let i = 0; i < 365; i++) {
@@ -158,10 +171,11 @@ const TodayAttendance = () => {
             select
             label="Status"
             defaultValue="EUR"
+            onChange={(e: any) => setStatus(e.target.value)}
           >
-            {selects.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.value}
+            {selects.map((option: any) => (
+              <MenuItem key={option.id} value={option.value}>
+                {option.label}
               </MenuItem>
             ))}
           </TextField>
@@ -175,7 +189,17 @@ const TodayAttendance = () => {
           </Button>
         </div>
         {isGrid ? (
-          <AttendanceGrid data={searchedUser} />
+          searchedUser.length > 0 ? (
+            <AttendanceGrid data={searchedUser} />
+          ) : (
+            <>
+              <Empty
+                title="No Result Found"
+                src={DOCUMENT_NOT_FOUND.src}
+                className="h-80 w-80"
+              />
+            </>
+          )
         ) : (
           <AttendanceList data={searchedUser} />
         )}
@@ -187,9 +211,8 @@ const TodayAttendance = () => {
 export default TodayAttendance;
 
 const selects = [
-  { id: 1, value: "Present" },
-  { id: 2, value: "Absent" },
-  { id: 3, value: "All" },
+  { id: 1, value: true, label: "Present" },
+  { id: 2, value: false, label: "All" },
 ];
 
 const links = [

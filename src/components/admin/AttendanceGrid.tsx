@@ -67,7 +67,7 @@ const AttendanceGrid = ({ data }: Props) => {
                 <p className="py-1 text-sm font-medium tracking-wide text-center">
                   EID : {item?.employeeID}
                 </p>
-                {item?.ispresent ? (
+                {item?.isPresent ? (
                   <div className="flex gap-3">
                     <div className="w-1/2 py-2 px-2 flex flex-col gap-2 tracking-wide items-center">
                       <div className="flex gap-2 items-center text-sm tracking-wide font-medium">
