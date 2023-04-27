@@ -12,6 +12,7 @@ import { AttendanceGrid, AttendanceList } from "components/admin";
 import {
   AdminBreadcrumbs,
   Empty,
+  Loader,
   LoaderAnime,
   TextTitles,
 } from "components/core";
@@ -34,9 +35,12 @@ const TodayAttendance = () => {
     setSelectedDate(date);
     console.log(date);
   }
-  const { data: attendance } = useFetch<any>(
+  const { data: attendance, isLoading } = useFetch<any>(
     `attendances/${selectedDate.toISOString().slice(0, 10)}/${status}`
   );
+  if (isLoading) {
+    return <Loader />;
+  }
   useEffect(() => {
     if (attendance) {
       const filtered = attendance.filter((user: any) => {

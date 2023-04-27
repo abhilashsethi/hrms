@@ -8,14 +8,20 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { User } from "types";
+import { Loader } from "components/core";
 
 const CardHead = () => {
   const router = useRouter();
   const [isDialogue, setIsDialogue] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
-  const { data: employData, mutate } = useFetch<User>(
-    `users/${router?.query?.id}`
-  );
+  const {
+    data: employData,
+    mutate,
+    isLoading,
+  } = useFetch<User>(`users/${router?.query?.id}`);
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="bg-white border-b-2 border-theme px-4 py-6 shadow-md shadow-theme rounded">

@@ -1,7 +1,7 @@
 import MaterialTable from "@material-table/core";
 import { PeopleRounded } from "@mui/icons-material";
 import { RenderIconRow } from "components/common";
-import { HeadStyle, IOSSwitch, RoleComponent } from "components/core";
+import { HeadStyle, IOSSwitch, Loader, RoleComponent } from "components/core";
 import { useChange, useFetch } from "hooks";
 // import { useRouter } from "next/router";
 import Swal from "sweetalert2";

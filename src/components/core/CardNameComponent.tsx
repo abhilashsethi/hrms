@@ -1,5 +1,6 @@
 import { useFetch } from "hooks";
 import RoleComponent from "./RoleComponent";
+import Loader from "./Loader";
 
 interface Props {
   userId?: any;
@@ -9,7 +10,9 @@ interface Props {
 }
 const CardNameComponent = ({ userId, isEmail, isPhone, isName }: Props) => {
   const { data, isLoading } = useFetch<any>(`users/${userId}`);
-
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       {!isLoading ? (

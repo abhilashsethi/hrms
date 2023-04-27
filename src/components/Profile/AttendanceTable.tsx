@@ -1,6 +1,7 @@
 import MaterialTable from "@material-table/core";
 import { Search } from "@mui/icons-material";
 import { Button, MenuItem, TextField } from "@mui/material";
+import { Loader } from "components/core";
 import { useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -15,10 +16,12 @@ const AttendanceTable = () => {
   };
   const router = useRouter();
   const { data: employData } = useFetch<User>(`users/${router?.query?.id}`);
-  const { data: userAttendance } = useFetch<Attendance[]>(
+  const { data: userAttendance, isLoading } = useFetch<Attendance[]>(
     `attendances/user/${router?.query?.id}`
   );
-  console.log(userAttendance);
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-6">
