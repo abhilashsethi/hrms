@@ -44,6 +44,7 @@
     "@types/nprogress": "^0.2.0",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
+    "@types/react-lottie": "^1.2.6",
     "@types/react-datepicker": "^4.10.0",
     "@types/react-slick": "^0.23.10",
     "postcss": "8.4.21",

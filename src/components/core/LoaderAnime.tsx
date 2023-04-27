@@ -1,4 +1,4 @@
-import { LOADING, LOADING2 } from "assets/animations";
+import { NORESULTS } from "assets/animations";
 import React from "react";
 import Lottie from "react-lottie";
 
@@ -6,7 +6,7 @@ const LoaderAnimeLarge = ({ image }: { image?: any }) => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: image ? image : LOADING,
+    animationData: image ? image : NORESULTS,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
