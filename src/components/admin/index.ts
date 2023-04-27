@@ -17,4 +17,7 @@ export { default as LeavesGrid } from "./LeavesGrid";
 export { default as MeetingsGrid } from "./MeetingsGrid";
 export { default as MeetingsColumn } from "./MeetingsColumn";
 export { default as EmployeeDetails } from "./EmployeeDetails";
+export { default as EmpAttendanceIndividual } from "./EmpAttendanceIndividual";
+export { default as EmployProjects } from "./EmployProjects";
+export { default as EmployLeaves } from "./EmployLeaves";
 export { default as ClientsGrid } from "./ClientsGrid";
