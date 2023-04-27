@@ -21,6 +21,7 @@ const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [searchedUser, setSearchedUser] = useState<any>([]);
+  const [status, setStatus] = useState(false);
   const [userName, setUsername] = useState("");
   const [empId, setEmpId] = useState("");
   const dateRef = useRef<any>();
@@ -29,7 +30,9 @@ const TodayAttendance = () => {
     console.log(date);
   }
   const { data: attendance } = useFetch<any>(
-    `attendances/isPresent/date/${selectedDate.toISOString().slice(0, 10)}`
+    `attendances/isPresent/date/${selectedDate.toISOString().slice(0, 10)}${
+      status ? `?isPresent=true` : ``
+    }`
   );
   useEffect(() => {
     if (attendance) {
@@ -158,10 +161,11 @@ const TodayAttendance = () => {
             select
             label="Status"
             defaultValue="EUR"
+            onChange={(e: any) => setStatus(e.target.value)}
           >
-            {selects.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.value}
+            {selects.map((option: any) => (
+              <MenuItem key={option.id} value={option.value}>
+                {option.label}
               </MenuItem>
             ))}
           </TextField>
@@ -187,9 +191,8 @@ const TodayAttendance = () => {
 export default TodayAttendance;
 
 const selects = [
-  { id: 1, value: "Present" },
-  { id: 2, value: "Absent" },
-  { id: 3, value: "All" },
+  { id: 1, value: true, label: "Present" },
+  { id: 2, value: false, label: "All" },
 ];
 
 const links = [
