@@ -27,7 +27,7 @@ const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [searchedUser, setSearchedUser] = useState<any>([]);
-  const [status, setStatus] = useState("all");
+  const [status, setStatus] = useState("present");
   const [userName, setUsername] = useState("");
   const [empId, setEmpId] = useState("");
   const dateRef = useRef<any>();
@@ -38,9 +38,7 @@ const TodayAttendance = () => {
   const { data: attendance, isLoading } = useFetch<any>(
     `attendances/${selectedDate.toISOString().slice(0, 10)}/${status}`
   );
-  if (isLoading) {
-    return <Loader />;
-  }
+
   useEffect(() => {
     if (attendance) {
       const filtered = attendance.filter((user: any) => {
@@ -91,7 +89,9 @@ const TodayAttendance = () => {
     // disable dates for the next year
     disabledDates.push(addDays(tomorrow, i));
   }
-
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <PanelLayout title="Today Attendance - SY HR MS">
       <section className="px-8 py-4">

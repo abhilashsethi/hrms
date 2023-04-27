@@ -1,5 +1,6 @@
 import { Delete, Edit, Info } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
+import { Loader } from "components/core";
 import { UpdateRole } from "components/dialogues";
 import { RoleInformation } from "components/drawer";
 import { useChange, useFetch } from "hooks";
