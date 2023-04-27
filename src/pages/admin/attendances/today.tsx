@@ -15,6 +15,8 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useFetch } from "hooks";
+import { addDays } from "date-fns";
+
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [selectedDate, setSelectedDate] = useState<any>(new Date());
@@ -63,6 +65,13 @@ const TodayAttendance = () => {
     },
   ];
   // console.log(searchedUser);
+  const tomorrow = addDays(new Date(), 1);
+  const disabledDates = [];
+  for (let i = 0; i < 365; i++) {
+    // disable dates for the next year
+    disabledDates.push(addDays(tomorrow, i));
+  }
+
   return (
     <PanelLayout title="Today Attendance - SY HR MS">
       <section className="px-8 py-4">
@@ -105,6 +114,7 @@ const TodayAttendance = () => {
                     dateFormat="dd/MM/yyyy"
                     // isClearable
                     showYearDropdown
+                    excludeDates={disabledDates}
                     className="hidden"
                   />
                 </div>
