@@ -9,13 +9,14 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { Button, Grid, IconButton, MenuItem, TextField } from "@mui/material";
 import { AttendanceGrid, AttendanceList } from "components/admin";
-import { AdminBreadcrumbs, TextTitles } from "components/core";
+import { AdminBreadcrumbs, Empty, TextTitles } from "components/core";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useFetch } from "hooks";
 import { addDays } from "date-fns";
+import { DOCUMENT_NOT_FOUND } from "assets/animations";
 
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
@@ -42,6 +43,16 @@ const TodayAttendance = () => {
       setSearchedUser(filtered);
     }
   }, [attendance, userName]);
+
+  useEffect(() => {
+    if (attendance) {
+      const filtered = attendance.filter((user: any) => {
+        return user?.employeeID?.toLowerCase().includes(empId?.toLowerCase());
+      });
+      setSearchedUser(filtered);
+    }
+  }, [attendance, empId]);
+
   const cards = [
     {
       id: 1,
@@ -178,7 +189,17 @@ const TodayAttendance = () => {
           </Button>
         </div>
         {isGrid ? (
-          <AttendanceGrid data={searchedUser} />
+          searchedUser.length > 0 ? (
+            <AttendanceGrid data={searchedUser} />
+          ) : (
+            <>
+              <Empty
+                title="No Result Found"
+                src={DOCUMENT_NOT_FOUND.src}
+                className="h-80 w-80"
+              />
+            </>
+          )
         ) : (
           <AttendanceList data={searchedUser} />
         )}
