@@ -67,7 +67,6 @@ const TodayAttendance = () => {
       }`,
     },
   ];
-  // console.log(searchedUser);
   const tomorrow = addDays(new Date(), 1);
   const disabledDates = [];
   for (let i = 0; i < 365; i++) {
