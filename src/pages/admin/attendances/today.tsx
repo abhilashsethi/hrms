@@ -17,6 +17,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useFetch } from "hooks";
 import { addDays } from "date-fns";
 import { DOCUMENT_NOT_FOUND } from "assets/animations";
+import LoaderAnimeLarge from "components/core/LoaderAnime";
 
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
@@ -193,11 +194,9 @@ const TodayAttendance = () => {
             <AttendanceGrid data={searchedUser} />
           ) : (
             <>
-              <Empty
-                title="No Result Found"
-                src={DOCUMENT_NOT_FOUND.src}
-                className="h-80 w-80"
-              />
+              <div>
+                <LoaderAnimeLarge />
+              </div>
             </>
           )
         ) : (
