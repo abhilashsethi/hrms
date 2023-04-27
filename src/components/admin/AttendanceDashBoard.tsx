@@ -1,11 +1,4 @@
-import {
-  Check,
-  Close,
-  Groups,
-  HowToReg,
-  MoreVert,
-  PersonOff,
-} from "@mui/icons-material";
+import { Groups, HowToReg, MoreVert, PersonOff } from "@mui/icons-material";
 import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
 import DailyAttendance from "components/analytics/DailyAttendance";
 import GenderRation from "components/analytics/GenderRation";
@@ -13,10 +6,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 // import RolewiseStrength from "components/analytics/RolewiseStrength";
 import React from "react";
-import { HeadText } from "components/core";
-import EmpAttendanceIndividual from "./EmpAttendanceIndividual";
-import EmployProjects from "./EmployProjects";
-import EmployLeaves from "./EmployLeaves";
+import { HeadText, UpcomingLeaves } from "components/core";
 import EmployeeAllAttendance from "./EmployeeAllAttendance";
 
 const AttendanceDashBoard = () => {
@@ -26,10 +16,10 @@ const AttendanceDashBoard = () => {
         {eventInfo.event.title === "PRESENT" && (
           <div className="flex flex-col">
             <div className="flex justify-center bg-green-300 text-green-600">
-              PRESENT : 24
+              <span className="font-semibold">PRESENT</span> : 24
             </div>
             <div className="flex justify-center bg-red-300 text-red-600">
-              ABSENT : 04
+              <span className="font-semibold">ABSENT</span> : 04
             </div>
           </div>
         )}
@@ -105,7 +95,7 @@ const AttendanceDashBoard = () => {
             <div className="w-full h-full">
               <div className="w-full h-full">
                 <EmployeeAllAttendance />
-                <EmployLeaves />
+                <UpcomingLeaves />
               </div>
             </div>
           </Grid>
