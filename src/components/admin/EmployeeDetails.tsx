@@ -2,7 +2,7 @@ import { Edit, SendRounded } from "@mui/icons-material";
 import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
-import { HeadText } from "components/core";
+import { HeadText, Loader } from "components/core";
 import {
   BankInformationUpdate,
   ChangeProfile,
@@ -24,9 +24,11 @@ const EmployeeDetails = () => {
   const [isProfile, setIsProfile] = useState(false);
   const [isPersonal, setIsPersonal] = useState(false);
   const [isBank, setIsBank] = useState(false);
-  const { data: employData, mutate } = useFetch<User>(
-    `users/${router?.query?.id}`
-  );
+  const {
+    data: employData,
+    mutate,
+    isLoading,
+  } = useFetch<User>(`users/${router?.query?.id}`);
   const basicDetails = [
     {
       id: 1,
@@ -119,6 +121,9 @@ const EmployeeDetails = () => {
       value: `${employData?.IFSCCode ? employData?.IFSCCode : "---"}`,
     },
   ];
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <section>
       <ChangeProfile

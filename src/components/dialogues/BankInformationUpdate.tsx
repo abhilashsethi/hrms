@@ -15,6 +15,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import { Loader } from "components/core";
 
 interface Props {
   open?: any;
@@ -26,8 +27,12 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
-  const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
-
+  const { data: employData, isLoading } = useFetch<any>(
+    `users/${router?.query?.id}`
+  );
+  if (isLoading) {
+    return <Loader />;
+  }
   const initialValues = {
     bankName: `${employData?.bankName ? employData?.bankName : ""}`,
     IFSCCode: `${employData?.IFSCCode ? employData?.IFSCCode : ""}`,

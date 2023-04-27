@@ -7,12 +7,18 @@ import { User } from "types";
 import BankInfo from "./BankInfo";
 import { Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import { Loader } from "components/core";
 const PersonalInfo = () => {
   const [isDialogue, setIsDialogue] = useState(false);
   const router = useRouter();
-  const { data: employData, mutate } = useFetch<User>(
-    `users/${router?.query?.id}`
-  );
+  const {
+    data: employData,
+    mutate,
+    isLoading,
+  } = useFetch<User>(`users/${router?.query?.id}`);
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="grid lg:grid-cols-2 gap-6 pt-6">

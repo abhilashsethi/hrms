@@ -8,7 +8,7 @@ import {
   InputLabel,
   TextField,
 } from "@mui/material";
-import { AdminBreadcrumbs } from "components/core";
+import { AdminBreadcrumbs, Loader } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -84,6 +84,9 @@ const CreateEmployee = () => {
       setLoading(false);
     }
   };
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <PanelLayout title="Create Employee - SY HR MS">
       <section className="px-8 py-4">

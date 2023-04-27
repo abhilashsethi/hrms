@@ -16,8 +16,11 @@ const AllRollGrid = () => {
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
-  const { data: roleData, mutate } =
-    useFetch<[{ id: string; name: string }]>(`roles`);
+  const {
+    data: roleData,
+    isLoading,
+    mutate,
+  } = useFetch<[{ id: string; name: string }]>(`roles`);
   const handleDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -55,6 +58,9 @@ const AllRollGrid = () => {
       }
     });
   };
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <UpdateRole

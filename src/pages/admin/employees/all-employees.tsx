@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import { Button, IconButton, MenuItem, TextField } from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
-import { AdminBreadcrumbs } from "components/core";
+import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -25,7 +25,7 @@ const AllEmployees = () => {
   const handleChange = (event: any) => {
     setValue(event.target.value);
   };
-  const { data: employees, mutate } = useFetch<User[]>(`users`);
+  const { data: employees, mutate, isLoading } = useFetch<User[]>(`users`);
   useEffect(() => {
     if (employees) {
       const filtered = employees.filter((user: any) => {
@@ -42,7 +42,9 @@ const AllEmployees = () => {
       setSearchedUser(filtered);
     }
   }, [employees, empId]);
-
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <PanelLayout title="All Users - SY HR MS">
       <section className="px-8">
@@ -133,7 +135,13 @@ const AllEmployees = () => {
           </Button>
         </div>
         {isGrid ? (
-          <EmplyeesGrid data={searchedUser} />
+          !searchedUser.length ? (
+            <LoaderAnime />
+          ) : (
+            <EmplyeesGrid data={searchedUser} />
+          )
+        ) : !searchedUser.length ? (
+          <LoaderAnime />
         ) : (
           <EmployeesColumn data={searchedUser} />
         )}

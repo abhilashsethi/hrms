@@ -6,7 +6,7 @@ import {
   InputLabel,
   TextField,
 } from "@mui/material";
-import { AdminBreadcrumbs } from "components/core";
+import { AdminBreadcrumbs, Loader } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -54,7 +54,6 @@ const validationSchema = Yup.object().shape({
 const CreateProjects = () => {
   const [loading, setLoading] = useState(false);
   const { data, isLoading, mutate } = useFetch<any>(`users`);
-  console.log(data);
   const { change, isChanging } = useChange();
 
   const handleSubmit = async (values: any) => {
@@ -82,6 +81,9 @@ const CreateProjects = () => {
       setLoading(false);
     }
   };
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <PanelLayout title="Projects - SY HR MS">
       <section className="px-8 py-4">

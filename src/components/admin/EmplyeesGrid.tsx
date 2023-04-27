@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
 import { RenderIconRow } from "components/common";
-import { IOSSwitch, ReverseIOSSwitch } from "components/core";
+import { IOSSwitch, Loader, ReverseIOSSwitch } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
@@ -28,13 +28,15 @@ interface Props {
   data?: ARRAY[];
 }
 const EmplyeesGrid = ({ data }: Props) => {
-  const { data: employees, mutate } = useFetch<User[]>(`users`);
+  const { data: employees, mutate, isLoading } = useFetch<User[]>(`users`);
 
   const sortData = data?.sort(
     (a: any, b: any) =>
       (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
   );
-
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <section className="my-8">
       <Grid container spacing={3}>

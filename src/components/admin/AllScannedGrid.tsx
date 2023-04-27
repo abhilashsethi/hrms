@@ -1,6 +1,11 @@
 import { AddCardRounded } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
-import { CardNameComponent, IOSSwitch, TextTitles } from "components/core";
+import {
+  CardNameComponent,
+  IOSSwitch,
+  Loader,
+  TextTitles,
+} from "components/core";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { useState } from "react";
@@ -41,6 +46,9 @@ const AllScannedGrid = () => {
       }
     });
   };
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <TextTitles title="Scanned Cards" />

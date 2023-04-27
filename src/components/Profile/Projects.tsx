@@ -13,6 +13,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
+import { Loader } from "components/core";
 import { ProjectUpdate } from "components/dialogues";
 import { useFetch } from "hooks";
 import moment from "moment";
@@ -150,12 +151,14 @@ interface Props {
 
 const ProfilesView = ({ item }: Props) => {
   const [myData, setMyData] = useState<any>([]);
-  const { data: usersData } = useFetch<any>(`users`);
+  const { data: usersData, isLoading } = useFetch<any>(`users`);
   useEffect(() => {
     let reqData = usersData?.filter((dt: any) => item?.includes(dt?.id));
     setMyData(reqData);
   }, [item]);
-  console.log(myData);
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className="py-2 flex justify-start">
       <AvatarGroup max={5}>

@@ -3,7 +3,6 @@ import { Grid, IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
-import { useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
@@ -17,10 +16,6 @@ interface Props {
 }
 
 const AttendanceGrid = ({ data }: Props) => {
-  // const { data: attendance } = useFetch<any>(
-  //   `attendances/isPresent/date/${new Date().toISOString().slice(0, 10)}`
-  // );
-  // console.log(attendance);
   return (
     <div className="mt-6">
       <Grid container spacing={2}>
@@ -31,14 +26,14 @@ const AttendanceGrid = ({ data }: Props) => {
                 {/* <div className="flex gap-2 items-center"> */}
                 <span
                   className={`border-[1px] rounded-lg font-medium tracking-wide text-sm px-3 py-0.5 ${
-                    item?.isPresent
+                    item?.status === "present"
                       ? `bg-emerald-200 text-green-600 border-green-500`
                       : `bg-red-200 text-red-600 border-red-500`
                   }`}
                 >
-                  {item?.isPresent ? `PRESENT` : `ABSENT`}
+                  {item?.status === "present" ? `PRESENT` : `ABSENT`}
                 </span>
-                <MenuComponent id={item?.id} />
+                <MenuComponent id={item?.userId} />
                 {/* </div> */}
               </div>
               <div className="h-16 w-16 overflow-hidden rounded-full shadow-xl">
@@ -67,7 +62,7 @@ const AttendanceGrid = ({ data }: Props) => {
                 <p className="py-1 text-sm font-medium tracking-wide text-center">
                   EID : {item?.employeeID}
                 </p>
-                {item?.isPresent ? (
+                {item?.status === "present" ? (
                   <div className="flex gap-3">
                     <div className="w-1/2 py-2 px-2 flex flex-col gap-2 tracking-wide items-center">
                       <div className="flex gap-2 items-center text-sm tracking-wide font-medium">

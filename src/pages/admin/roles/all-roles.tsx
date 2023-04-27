@@ -1,7 +1,7 @@
 import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
 import { Button, IconButton } from "@mui/material";
 import { AllRollColumn, AllRollGrid } from "components/admin";
-import { AdminBreadcrumbs, TextTitles } from "components/core";
+import { AdminBreadcrumbs, Loader, TextTitles } from "components/core";
 import { CreateRole } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -14,9 +14,14 @@ const AllRoles = () => {
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
-  const { data: roleData, mutate } =
-    useFetch<[{ id: string; name: string }]>(`roles`);
-
+  const {
+    data: roleData,
+    mutate,
+    isLoading,
+  } = useFetch<[{ id: string; name: string }]>(`roles`);
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <PanelLayout title="All Roles - Admin Panel">
       <section className="px-8 py-4">

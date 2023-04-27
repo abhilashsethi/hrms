@@ -5,6 +5,7 @@ import {
 } from "@mui/icons-material";
 import { Container, Drawer, Grid } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
+import { Loader } from "components/core";
 import { useFetch } from "hooks";
 import { User } from "types";
 
@@ -15,11 +16,12 @@ type Props = {
 };
 
 const RoleInformation = ({ open, onClose, role }: Props) => {
-  const { data: users } = useFetch<User[]>(`users`);
-  console.log(users);
+  const { data: users, isLoading } = useFetch<User[]>(`users`);
 
   const reqData = users?.filter((item) => item?.roleId === role?.id);
-
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
