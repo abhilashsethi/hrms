@@ -42,12 +42,12 @@ const AttendanceList = ({ data }: Props) => {
               return (
                 <span
                   className={`px-4 py-1 rounded-lg ${
-                    item?.isPresent
+                    item?.status === "present"
                       ? `bg-green-300 border-[1px] text-green-600 border-green-400`
                       : `bg-red-300 border-[1px] border-red-500 text-red-600`
                   }`}
                 >
-                  {item?.isPresent ? `PRESENT` : `ABSENT`}
+                  {item?.status === "present" ? `PRESENT` : `ABSENT`}
                 </span>
               );
             },

@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import { Button, IconButton, MenuItem, TextField } from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
-import { AdminBreadcrumbs } from "components/core";
+import { AdminBreadcrumbs, LoaderAnime } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -133,7 +133,13 @@ const AllEmployees = () => {
           </Button>
         </div>
         {isGrid ? (
-          <EmplyeesGrid data={searchedUser} />
+          !searchedUser.length ? (
+            <LoaderAnime />
+          ) : (
+            <EmplyeesGrid data={searchedUser} />
+          )
+        ) : !searchedUser.length ? (
+          <LoaderAnime />
         ) : (
           <EmployeesColumn data={searchedUser} />
         )}

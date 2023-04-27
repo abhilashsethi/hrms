@@ -9,7 +9,12 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { Button, Grid, IconButton, MenuItem, TextField } from "@mui/material";
 import { AttendanceGrid, AttendanceList } from "components/admin";
-import { AdminBreadcrumbs, Empty, TextTitles } from "components/core";
+import {
+  AdminBreadcrumbs,
+  Empty,
+  LoaderAnime,
+  TextTitles,
+} from "components/core";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import DatePicker from "react-datepicker";
@@ -17,13 +22,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useFetch } from "hooks";
 import { addDays } from "date-fns";
 import { DOCUMENT_NOT_FOUND } from "assets/animations";
-import LoaderAnimeLarge from "components/core/LoaderAnime";
 
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [searchedUser, setSearchedUser] = useState<any>([]);
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState("all");
   const [userName, setUsername] = useState("");
   const [empId, setEmpId] = useState("");
   const dateRef = useRef<any>();
@@ -32,9 +36,7 @@ const TodayAttendance = () => {
     console.log(date);
   }
   const { data: attendance } = useFetch<any>(
-    `attendances/isPresent/date/${selectedDate.toISOString().slice(0, 10)}${
-      status ? `?isPresent=true` : ``
-    }`
+    `attendances/${selectedDate.toISOString().slice(0, 10)}/${status}`
   );
   useEffect(() => {
     if (attendance) {
@@ -65,7 +67,8 @@ const TodayAttendance = () => {
       title: "Present",
       value: `${
         attendance?.length
-          ? attendance?.filter((item: any) => item?.isPresent)?.length
+          ? attendance?.filter((item: any) => item?.status === "present")
+              ?.length
           : `0`
       }`,
     },
@@ -74,7 +77,7 @@ const TodayAttendance = () => {
       title: "Absent",
       value: `${
         attendance?.length
-          ? attendance?.filter((item: any) => !item?.isPresent)?.length
+          ? attendance?.filter((item: any) => item?.status === "absent")?.length
           : `0`
       }`,
     },
@@ -190,15 +193,13 @@ const TodayAttendance = () => {
           </Button>
         </div>
         {isGrid ? (
-          searchedUser.length > 0 ? (
-            <AttendanceGrid data={searchedUser} />
+          !searchedUser.length ? (
+            <LoaderAnime />
           ) : (
-            <>
-              <div>
-                <LoaderAnimeLarge />
-              </div>
-            </>
+            <AttendanceGrid data={searchedUser} />
           )
+        ) : !searchedUser.length ? (
+          <LoaderAnime />
         ) : (
           <AttendanceList data={searchedUser} />
         )}
@@ -210,8 +211,9 @@ const TodayAttendance = () => {
 export default TodayAttendance;
 
 const selects = [
-  { id: 1, value: true, label: "Present" },
-  { id: 2, value: false, label: "All" },
+  { id: 1, value: "present", label: "Present" },
+  { id: 2, value: "absent", label: "Absent" },
+  { id: 3, value: "all", label: "All" },
 ];
 
 const links = [
