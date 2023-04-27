@@ -23,6 +23,12 @@ const EmployeeProfile = () => {
           )}
           {eventInfo.event.title === "PRESENT" ? "PRESENT" : "ABSENT"}
         </span>
+        {eventInfo.event.title === "PRESENT" && (
+          <div className="flex flex-col">
+            <span>IN TIME : 12:20 PM</span>
+            <span>OUT TIME : 12:20 PM</span>
+          </div>
+        )}
       </>
     );
   }
@@ -35,7 +41,7 @@ const EmployeeProfile = () => {
         <EmployeeDetails />
         {/* <CardHead /> */}
         {/* <ProfileTabs /> */}
-        <div className="w-2/3">
+        <div className="w-full">
           <div className="mb-4">
             <HeadText title="Month wise attendance" />
           </div>
