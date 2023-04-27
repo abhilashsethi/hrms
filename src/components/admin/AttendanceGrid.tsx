@@ -39,7 +39,7 @@ const AttendanceGrid = ({ data }: Props) => {
                 >
                   {item?.status === "present" ? `PRESENT` : `ABSENT`}
                 </span>
-                <MenuComponent id={item?.id} />
+                <MenuComponent id={item?.userId} />
                 {/* </div> */}
               </div>
               <div className="h-16 w-16 overflow-hidden rounded-full shadow-xl">
