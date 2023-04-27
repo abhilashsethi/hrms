@@ -1,5 +1,4 @@
 import MaterialTable from "@material-table/core";
-import { useFetch } from "hooks";
 import moment from "moment";
 import { Attendance } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
@@ -9,10 +8,6 @@ interface Props {
 }
 
 const AttendanceList = ({ data }: Props) => {
-  // const { data, isLoading } = useFetch<any>(
-  //   `attendances/preset_absent/date/${new Date().toISOString().slice(0, 10)}`
-  // );
-  console.log(data);
   return (
     <div className="mt-4">
       <MaterialTable

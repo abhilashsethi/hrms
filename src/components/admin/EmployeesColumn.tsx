@@ -46,6 +46,9 @@ const EmployeesColumn = ({ data }: Props) => {
       }
     });
   };
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <section className="mt-8">
       <MaterialTable

@@ -2,7 +2,7 @@ import { Edit, SendRounded } from "@mui/icons-material";
 import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
-import { HeadText, LoaderAnime } from "components/core";
+import { HeadText, Loader } from "components/core";
 import {
   BankInformationUpdate,
   ChangeProfile,
@@ -122,7 +122,7 @@ const EmployeeDetails = () => {
     },
   ];
   if (isLoading) {
-    return <LoaderAnime />;
+    return <Loader />;
   }
   return (
     <section>

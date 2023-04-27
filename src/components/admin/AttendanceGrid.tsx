@@ -3,7 +3,6 @@ import { Grid, IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
-import { useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
@@ -17,11 +16,6 @@ interface Props {
 }
 
 const AttendanceGrid = ({ data }: Props) => {
-  // const { data: attendance } = useFetch<any>(
-  //   `attendances/isPresent/date/${new Date().toISOString().slice(0, 10)}`
-  // );
-  // console.log(attendance);
-  console.log(data);
   return (
     <div className="mt-6">
       <Grid container spacing={2}>
