@@ -21,7 +21,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useFetch } from "hooks";
 import { addDays } from "date-fns";
-import { DOCUMENT_NOT_FOUND } from "assets/animations";
 
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
