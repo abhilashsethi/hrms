@@ -20,6 +20,7 @@ const AllEmployees = () => {
   const [userName, setUsername] = useState("");
   const [searchedUser, setSearchedUser] = useState<any>([]);
   const [isUpload, setIsUpload] = useState(false);
+  const [empId, setEmpId] = useState("");
   const [value, setValue] = useState("Web Developer");
   const handleChange = (event: any) => {
     setValue(event.target.value);
@@ -33,6 +34,14 @@ const AllEmployees = () => {
       setSearchedUser(filtered);
     }
   }, [employees, userName]);
+  useEffect(() => {
+    if (employees) {
+      const filtered = employees.filter((user: any) => {
+        return user?.employeeID?.toLowerCase().includes(empId?.toLowerCase());
+      });
+      setSearchedUser(filtered);
+    }
+  }, [employees, empId]);
 
   return (
     <PanelLayout title="All Users - SY HR MS">
@@ -89,6 +98,7 @@ const AllEmployees = () => {
             size="small"
             id="employeeId"
             placeholder="Employee Id"
+            onChange={(e) => setEmpId(e.target.value)}
             name="employeeId"
           />
           <TextField
