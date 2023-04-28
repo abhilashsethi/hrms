@@ -6,7 +6,7 @@ import {
   Upload,
 } from "@mui/icons-material";
 import { Button, IconButton, MenuItem, TextField } from "@mui/material";
-import { ClientsGrid, EmployeesColumn, EmplyeesGrid } from "components/admin";
+import { ClientsGrid, EmployeesColumn } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import PanelLayout from "layouts/panel";
@@ -22,7 +22,7 @@ const AllClients = () => {
   };
   return (
     <>
-      <PanelLayout title="All Users - SY HR MS">
+      <PanelLayout title="All Clients - SY HR MS">
         <section className="px-8">
           <UploadEmployData
             open={isUpload}
@@ -53,7 +53,7 @@ const AllClients = () => {
                   </div>
                 </IconButton>
               </div>
-              <Link href="/admin/employees/create-employee">
+              <Link href="/admin/clients/add-clients">
                 <Button
                   className="!bg-theme"
                   variant="contained"
@@ -127,6 +127,6 @@ const roles = [
 ];
 
 const links = [
-  { id: 1, page: "Clients", link: "/admin/Clients" },
+  { id: 1, page: "Clients", link: "/admin/clients" },
   { id: 2, page: "All Clients", link: "/admin/clients/all-clients" },
 ];
