@@ -3,9 +3,17 @@ import { AdminBreadcrumbs, HeadText } from "components/core";
 import { EmployeeDetails } from "components/admin";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import { Check, Close } from "@mui/icons-material";
+import { useFetch } from "hooks";
+import { useRouter } from "next/router";
+import { useEffect, useState, useRef } from "react";
+import moment from "moment";
 
 const EmployeeProfile = () => {
+  const [activeMonth, setActiveMonth] = useState();
+  const router = useRouter();
+  const [attendances, setAttendances] = useState<any>([]);
   function renderEventContent(eventInfo: any) {
     return (
       <>
@@ -25,13 +33,35 @@ const EmployeeProfile = () => {
         </span>
         {eventInfo.event.title === "PRESENT" && (
           <div className="flex flex-col">
-            <span>IN TIME : 12:20 PM</span>
-            <span>OUT TIME : 12:20 PM</span>
+            <span>
+              IN TIME :{" "}
+              {moment(eventInfo.event.extendedProps.inTime).format("hh:mm A")}
+            </span>
+            <span>
+              OUT TIME :{" "}
+              {moment(eventInfo.event.extendedProps.outTime).format("hh:mm A")}
+            </span>
           </div>
         )}
       </>
     );
   }
+  console.log(new Date().getMonth());
+  const { data: attendanceData } = useFetch<any>(
+    `attendances/${router?.query?.id}`
+  );
+  useEffect(() => {
+    let reqData = attendanceData?.map((item: any) => {
+      return {
+        ...item,
+        title: "PRESENT",
+        date: `${moment(item?.date).format("YYYY-MM-DD")}`,
+      };
+    });
+    setAttendances(reqData);
+  }, [attendanceData]);
+  console.log(attendances);
+
   return (
     <PanelLayout title="User Profile - SY HR MS">
       <section className="px-8 mx-auto p-4">
@@ -46,11 +76,17 @@ const EmployeeProfile = () => {
             <HeadText title="Month wise attendance" />
           </div>
           <FullCalendar
-            plugins={[dayGridPlugin]}
+            plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             weekends={true}
             eventContent={renderEventContent}
-            events={attendance}
+            events={attendances}
+            // viewDidMount={handleViewRender}
+            // dateClick={handleDateClick}
+            // eventClick={handleViewRender}
+            // dateClick={handleDateClick}
+            // viewSkeletonRender={handleMonthChange}
+            // initialDate={new Date("2023-03-28")}
           />
         </div>
       </section>

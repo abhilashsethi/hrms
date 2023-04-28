@@ -5,21 +5,26 @@ import GenderRation from "components/analytics/GenderRation";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 // import RolewiseStrength from "components/analytics/RolewiseStrength";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HeadText, UpcomingLeaves } from "components/core";
 import EmployeeAllAttendance from "./EmployeeAllAttendance";
+import { useFetch } from "hooks";
+import moment from "moment";
 
 const AttendanceDashBoard = () => {
+  const [attendances, setAttendances] = useState([]);
   function renderEventContent(eventInfo: any) {
     return (
       <>
         {eventInfo.event.title === "PRESENT" && (
           <div className="flex flex-col">
             <div className="flex justify-center bg-green-300 text-green-600">
-              <span className="font-semibold">PRESENT</span> : 24
+              <span className="font-semibold">PRESENT</span> :{" "}
+              {eventInfo?.event?.extendedProps?.present}
             </div>
             <div className="flex justify-center bg-red-300 text-red-600">
-              <span className="font-semibold">ABSENT</span> : 04
+              <span className="font-semibold">ABSENT</span> :{" "}
+              {eventInfo?.event?.extendedProps?.absent}
             </div>
           </div>
         )}
@@ -34,6 +39,62 @@ const AttendanceDashBoard = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { data: attendanceData } = useFetch<any>(
+    `attendances/get-by-month?month=3`
+  );
+  useEffect(() => {
+    let reqData = attendanceData?.map((item: any) => {
+      return {
+        ...item,
+        date: `${moment(item?.date).format("YYYY-MM-DD")}`,
+        title: "PRESENT",
+        present: item?.present,
+        absent: item?.absent,
+      };
+    });
+    const myData = reqData?.filter((item: any) => item?.present);
+    setAttendances(myData);
+  }, [attendanceData]);
+
+  console.log(attendances);
+
+  const cards = [
+    {
+      id: 1,
+      icon: (
+        <HowToReg
+          fontSize="large"
+          className="text-theme group-hover:text-white shadow-xl rounded-lg"
+        />
+      ),
+      count: "34",
+      title: "Today Present",
+    },
+    {
+      id: 2,
+      icon: (
+        <PersonOff
+          fontSize="large"
+          className="text-theme group-hover:text-white shadow-xl rounded-lg"
+        />
+      ),
+      count: "10",
+      title: "Today Absent",
+    },
+    {
+      id: 3,
+      icon: (
+        <Groups
+          fontSize="large"
+          className="text-theme group-hover:text-white shadow-xl rounded-lg"
+        />
+      ),
+      count: "44",
+      title: "Total Employees",
+    },
+  ];
+
   return (
     <>
       <div className="flex gap-2 py-4">
@@ -85,7 +146,7 @@ const AttendanceDashBoard = () => {
                     initialView="dayGridMonth"
                     weekends={true}
                     eventContent={renderEventContent}
-                    events={attendance}
+                    events={attendances}
                   />
                 </div>
               </div>
@@ -115,59 +176,23 @@ const AttendanceDashBoard = () => {
 
 export default AttendanceDashBoard;
 
-const cards = [
-  {
-    id: 1,
-    icon: (
-      <HowToReg
-        fontSize="large"
-        className="text-theme group-hover:text-white shadow-xl rounded-lg"
-      />
-    ),
-    count: "34",
-    title: "Today Present",
-  },
-  {
-    id: 2,
-    icon: (
-      <PersonOff
-        fontSize="large"
-        className="text-theme group-hover:text-white shadow-xl rounded-lg"
-      />
-    ),
-    count: "10",
-    title: "Today Absent",
-  },
-  {
-    id: 3,
-    icon: (
-      <Groups
-        fontSize="large"
-        className="text-theme group-hover:text-white shadow-xl rounded-lg"
-      />
-    ),
-    count: "44",
-    title: "Total Employees",
-  },
-];
-
-const attendance = [
-  { title: "PRESENT", date: "2023-04-03" },
-  { title: "PRESENT", date: "2023-04-04" },
-  { title: "PRESENT", date: "2023-04-05" },
-  { title: "PRESENT", date: "2023-04-06" },
-  { title: "PRESENT", date: "2023-04-07" },
-  { title: "PRESENT", date: "2023-04-10" },
-  { title: "PRESENT", date: "2023-04-11" },
-  { title: "PRESENT", date: "2023-04-12" },
-  { title: "PRESENT", date: "2023-04-13" },
-  { title: "PRESENT", date: "2023-04-14" },
-  { title: "PRESENT", date: "2023-04-17" },
-  { title: "PRESENT", date: "2023-04-18" },
-  { title: "PRESENT", date: "2023-04-19" },
-  { title: "PRESENT", date: "2023-04-20" },
-  { title: "PRESENT", date: "2023-04-21" },
-  { title: "PRESENT", date: "2023-04-24" },
-  { title: "PRESENT", date: "2023-04-25" },
-  { title: "PRESENT", date: "2023-04-26" },
-];
+// const attendance = [
+//   { title: "PRESENT", date: "2023-04-03" },
+//   { title: "PRESENT", date: "2023-04-04" },
+//   { title: "PRESENT", date: "2023-04-05" },
+//   { title: "PRESENT", date: "2023-04-06" },
+//   { title: "PRESENT", date: "2023-04-07" },
+//   { title: "PRESENT", date: "2023-04-10" },
+//   { title: "PRESENT", date: "2023-04-11" },
+//   { title: "PRESENT", date: "2023-04-12" },
+//   { title: "PRESENT", date: "2023-04-13" },
+//   { title: "PRESENT", date: "2023-04-14" },
+//   { title: "PRESENT", date: "2023-04-17" },
+//   { title: "PRESENT", date: "2023-04-18" },
+//   { title: "PRESENT", date: "2023-04-19" },
+//   { title: "PRESENT", date: "2023-04-20" },
+//   { title: "PRESENT", date: "2023-04-21" },
+//   { title: "PRESENT", date: "2023-04-24" },
+//   { title: "PRESENT", date: "2023-04-25" },
+//   { title: "PRESENT", date: "2023-04-26" },
+// ];
