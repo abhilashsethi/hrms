@@ -33,7 +33,7 @@ const AdminDashboard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item, index) => (
 							<Grid key={index} item lg={3}>
-								<div className=" h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-500 ease-in-out">
+								<div className=" h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-500 ease-in-out border-b-4 border-theme">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
 											<MoreVert className="" />
