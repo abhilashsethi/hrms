@@ -63,7 +63,7 @@ const CardStatus = ({
 
         labels: ["Blocked", "Un-Blocked"],
 
-        colors: ["#106EAD", "#C33C5E", "#25d366", "#E60023"],
+        colors: ["#106EAD", "#C33C5E", "#25d366", "#BD33B5", "#E60023"],
 
         title: {
           text: "Scanned Users",

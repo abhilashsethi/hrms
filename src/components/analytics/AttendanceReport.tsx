@@ -146,7 +146,7 @@ const AttendanceReport = ({
         fill: {
           opacity: 1,
         },
-        colors: ["#106EAD", "#C33C5E", "#25d366", "#E60023"],
+        colors: ["#106EAD", "#C33C5E", "#25d366", "#BD33B5", "#E60023"],
 
         tooltip: {
           y: {
