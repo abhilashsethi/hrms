@@ -27,7 +27,7 @@ interface Props {
 }
 const validationSchema = Yup.object().shape({
   devURL: Yup.string().required("Dev URL is required!").url("Invalid Url"),
-  userIDs: Yup.array().required("Please assign users!").nullable(),
+  // userIDs: Yup.array().required("Please assign users!").nullable(),
   startDate: Yup.string().required("Start Date is required!"),
   endDate: Yup.string().required("End Date is required!"),
   prodURL: Yup.string().required("Prod URL is required!").url("Invalid Url"),
@@ -67,6 +67,8 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
     endDate: `${employData?.endDate ? employData?.endDate : ""}`,
   };
   const handleSubmit = async (values: any) => {
+    console.log("=============", values);
+    // return;
     setLoading(true);
     try {
       const form = new FormData();
@@ -79,13 +81,13 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
       form.append("devURL", values?.devURL);
       form.append("endDate", values?.endDate);
 
-      values?.userIDs?.forach((item: string) => {
+      values?.userIDs?.forEach((item: string) => {
         return form.append("userIDs", item);
       });
       const res = await change(`projects/${id}`, {
         method: "PATCH",
-        isFormData: true,
-        body: form,
+        // isFormData: true,
+        body: values,
       });
       setLoading(false);
       if (res?.status !== 200) {
