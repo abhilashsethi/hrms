@@ -7,6 +7,7 @@ import {
 import { Grid } from "@mui/material";
 import CardStatus from "components/analytics/CardStatus";
 import AttendanceReport from "components/analytics/AttendanceReport";
+import CardsAreaChart from "components/analytics/CardsAreaChart";
 import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
 
@@ -21,10 +22,6 @@ const Cards = () => {
 							<Grid key={item?.id} item lg={3}>
 								<div className="deals-card group hover:bg-theme transition duration-500 ease-in-out w-full tracking-wide  h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center">
 									<div className=" flex justify-center items-center">
-										{/* <CreditCardRounded
-											fontSize="large"
-											className="text-theme group-hover:text-white"
-										/> */}
 										{item?.icon}
 									</div>
 									<p className="text-base font-semibold text-center group-hover:text-white">
@@ -40,7 +37,7 @@ const Cards = () => {
 				</div>
 				<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 					<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
-						<AttendanceReport text="Repairs Report" type="bar" />
+						<CardsAreaChart text="Repairs Report" type="area" />
 					</div>
 					<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 						<CardStatus text="" type="donut" />

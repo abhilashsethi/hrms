@@ -11,12 +11,12 @@ import {
   MedicalInformationRounded,
   Key,
   Settings,
+  Rule,
+  RuleFolder,
   Groups,
   DesignServicesRounded,
   AddRounded,
   ManageAccountsRounded,
-  AccessTimeFilled,
-  AddCircle,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -71,6 +71,12 @@ export default () => {
             icon: <PersonAddAltRounded />,
             route: "/admin/employees/create-employee",
           },
+          {
+            key: "3-4",
+            title: "Leaves",
+            icon: <MedicalInformationRounded />,
+            route: "/admin/employees/leaves",
+          },
         ],
       },
       {
@@ -82,13 +88,19 @@ export default () => {
             key: "4-1",
             title: "Dashboard",
             icon: <DashboardRounded />,
-            route: "/admin/users",
+            route: "/admin/clients",
           },
           {
             key: "4-2",
-            title: "Clients",
+            title: "All Clients",
             icon: <Diversity3Rounded />,
             route: "/admin/clients/all-clients",
+          },
+          {
+            key: "4-3",
+            title: "Add Clients",
+            icon: <Diversity3Rounded />,
+            route: "/admin/clients/add-clients",
           },
         ],
       },
@@ -126,7 +138,7 @@ export default () => {
             key: "6-2",
             title: "All Meetings",
             icon: <Groups />,
-            route: "/admin/meetings/all-meetings",
+            route: "/admin/meetings/",
           },
         ],
       },
@@ -176,36 +188,17 @@ export default () => {
       },
       {
         key: "9",
-        title: "Leaves",
-        icon: <MedicalInformationRounded />,
-        submenus: [
-          {
-            key: "9-1",
-            title: "Apply Leave",
-            icon: <AddCircle />,
-            route: "#",
-          },
-          {
-            key: "9-2",
-            title: "All Leaves",
-            icon: <AccessTimeFilled />,
-            route: "/admin/employees/leaves",
-          },
-        ],
-      },
-      {
-        key: "11",
         title: "Settings",
         icon: <Settings />,
         submenus: [
           {
-            key: "11-1",
+            key: "9-1",
             title: "Change Password",
             icon: <Key />,
             route: "/admin/change-password",
           },
           // {
-          //   key: "11-2",
+          //   key: "9-2",
           //   title: "Profile Update",
           //   icon: <PlaylistAddCheckCircleRounded />,
           //   route: "/admin/",
@@ -222,48 +215,10 @@ export default () => {
         route: "/admin/users",
       },
       {
-        key: "2",
+        key: "1",
         title: "Profile",
         icon: <AccountCircle />,
         route: "/admin/profile",
-      },
-      {
-        key: "5",
-        title: "Attendance",
-        icon: <PlaylistAddCheckCircleRounded />,
-        submenus: [
-          {
-            key: "5-1",
-            title: "Dashboard",
-            icon: <DashboardRounded />,
-            route: "/admin/attendances",
-          },
-          {
-            key: "5-2",
-            title: "Date Wise Attendance",
-            icon: <PlaylistAddCheckCircleRounded />,
-            route: "/admin/attendances/today",
-          },
-        ],
-      },
-      {
-        key: "6",
-        title: "Meetings",
-        icon: <Groups />,
-        submenus: [
-          {
-            key: "6-1",
-            title: "Dashboard",
-            icon: <DashboardRounded />,
-            route: "/admin/meetings/today",
-          },
-          {
-            key: "6-2",
-            title: "All Meetings",
-            icon: <Groups />,
-            route: "/admin/meetings/",
-          },
-        ],
       },
     ];
   return [];

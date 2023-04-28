@@ -76,7 +76,7 @@ const TaskOverview = ({
           "Review Tasks",
         ],
 
-        // colors: ["#db2777", "#C04000", "#E97451", "#F2D2BD"],
+        colors: ["#106EAD", "#C33C5E", "#25d366", "#BD33B5", "#E60023"],
 
         title: {
           text: text,

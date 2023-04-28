@@ -84,9 +84,7 @@ const CreateEmployee = () => {
       setLoading(false);
     }
   };
-  if (isLoading) {
-    return <Loader />;
-  }
+
   return (
     <PanelLayout title="Create Employee - SY HR MS">
       <section className="px-8 py-4">

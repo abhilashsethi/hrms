@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const DailyAttendance = ({
+const CardsAreaChart = ({
   type,
   text = "",
 }: {
@@ -29,12 +29,12 @@ const DailyAttendance = ({
   const options = {
     series: [
       {
-        name: "Present",
-        data: [31, 40, 28, 51, 42],
+        name: "Cards Assigned",
+        data: [31, 40, 28, 51, 42, 109, 100],
       },
       {
-        name: "Absent",
-        data: [11, 32, 45, 32, 34],
+        name: "Scanned Cards",
+        data: [11, 32, 45, 32, 34, 52, 41],
       },
     ],
     chart: {
@@ -49,20 +49,24 @@ const DailyAttendance = ({
     },
     xaxis: {
       type: "category",
-      categories: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+      categories: [
+        "JAN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAY",
+        "JUN",
+        "JUL",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC",
+      ],
     },
     tooltip: {
       x: {
-        // format: "dd/MM/yy HH:mm",
-      },
-    },
-    title: {
-      text: text,
-      floating: true,
-      offsetY: 1,
-      align: "center",
-      style: {
-        color: "#444",
+        //    format: "dd/MM/yy HH:mm",
       },
     },
   };
@@ -73,12 +77,12 @@ const DailyAttendance = ({
       options={{
         series: [
           {
-            name: "Present",
-            data: [31, 40, 28, 51, 42],
+            name: "Cards Assigned",
+            data: [31, 40, 28, 51, 42, 109, 100],
           },
           {
-            name: "Absent",
-            data: [11, 32, 45, 32, 34],
+            name: "Scanned Cards",
+            data: [11, 32, 45, 32, 34, 52, 41],
           },
         ],
         chart: {
@@ -93,22 +97,26 @@ const DailyAttendance = ({
         },
         xaxis: {
           type: "category",
-          categories: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-        },
-        tooltip: {
-          x: {
-            // format: "dd/MM/yy HH:mm",
-          },
+          categories: [
+            "JAN",
+            "FEB",
+            "MAR",
+            "APR",
+            "MAY",
+            "JUN",
+            "JUL",
+            "AUG",
+            "SEP",
+            "OCT",
+            "NOV",
+            "DEC",
+          ],
         },
         colors: ["#106EAD", "#C33C5E", "#25d366", "#BD33B5", "#E60023"],
 
-        title: {
-          text: text,
-          floating: true,
-          offsetY: 1,
-          align: "center",
-          style: {
-            color: "#444",
+        tooltip: {
+          x: {
+            //   format: "dd/MM/yy HH:mm",
           },
         },
       }}
@@ -118,4 +126,4 @@ const DailyAttendance = ({
   );
 };
 
-export default DailyAttendance;
+export default CardsAreaChart;

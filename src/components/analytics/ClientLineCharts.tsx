@@ -2,38 +2,21 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const DailyAttendance = ({
+const ClientLineCharts = ({
   type,
   text = "",
 }: {
   type: "bar" | "area" | "line";
   text?: string;
 }) => {
-  const [monthlyData, setMonthlyData] = useState([]);
-  const months: any = {
-    1: "JAN",
-    2: "FEB",
-    3: "MAR",
-    4: "APR",
-    5: "MAY",
-    6: "JUN",
-    7: "JUL",
-    8: "AUG",
-    9: "SEP",
-    10: "OCT",
-    11: "NOV",
-    12: "DEC",
-  };
-  let mounted = false;
-
   const options = {
     series: [
       {
-        name: "Present",
+        name: "Block",
         data: [31, 40, 28, 51, 42],
       },
       {
-        name: "Absent",
+        name: "Unblock",
         data: [11, 32, 45, 32, 34],
       },
     ],
@@ -73,11 +56,11 @@ const DailyAttendance = ({
       options={{
         series: [
           {
-            name: "Present",
+            name: "Block",
             data: [31, 40, 28, 51, 42],
           },
           {
-            name: "Absent",
+            name: "Unblock",
             data: [11, 32, 45, 32, 34],
           },
         ],
@@ -118,4 +101,4 @@ const DailyAttendance = ({
   );
 };
 
-export default DailyAttendance;
+export default ClientLineCharts;
