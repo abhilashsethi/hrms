@@ -54,7 +54,7 @@ const AttendanceReport = ({
     stroke: {
       show: true,
       width: 2,
-      colors: ["transparent"],
+      colors: ["#transparent"],
     },
     xaxis: {
       categories: [
@@ -146,6 +146,8 @@ const AttendanceReport = ({
         fill: {
           opacity: 1,
         },
+        colors: ["#106EAD", "#C33C5E", "#25d366", "#E60023"],
+
         tooltip: {
           y: {
             formatter: function (val) {
