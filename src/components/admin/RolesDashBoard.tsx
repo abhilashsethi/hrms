@@ -13,6 +13,8 @@ import {
 	MenuItem,
 } from "@mui/material";
 import ICONS from "assets/icons";
+import ProjectOverview from "components/analytics/ProjectOverview";
+import RoleBarChart from "components/analytics/RoleBarChart";
 import { useState, MouseEvent } from "react";
 
 const RolesDashBoard = () => {
@@ -56,6 +58,11 @@ const RolesDashBoard = () => {
 						</Grid>
 					))}
 				</Grid>
+				<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
+					<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-12 !border-gray-500 rounded-xl !shadow-xl">
+						<RoleBarChart type="bar" text="Role Overview" />
+					</div>
+				</div>
 			</div>
 			<div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col gap-3">
 				{stats.map((item) => (
