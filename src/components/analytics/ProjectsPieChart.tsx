@@ -9,7 +9,7 @@ type Props = {
 	title: string;
 	className?: string;
 };
-const HomePieChart = ({ pieLabel, pieSeries, title, className }: Props) => {
+const ProjectsPieChart = ({ pieLabel, pieSeries, title, className }: Props) => {
 	return (
 		<div className={`${className}`}>
 			<h3 className="font-semibold w-full text-left tracking-wide text-black text-lg">
@@ -80,4 +80,4 @@ const HomePieChart = ({ pieLabel, pieSeries, title, className }: Props) => {
 	);
 };
 
-export default HomePieChart;
+export default ProjectsPieChart;

@@ -58,7 +58,7 @@ Props) {
 						strokeWidth: 0,
 						// strokeColor: '#fff',
 						// fillColors: undefined,
-						radius: 12,
+						radius: 22,
 						// customHTML: undefined,
 						onClick: undefined,
 						offsetX: 0,
@@ -73,7 +73,7 @@ Props) {
 					plotOptions: {
 						radialBar: {
 							hollow: {
-								size: "60%",
+								size: "45%",
 								dropShadow: {
 									enabled: true,
 									top: 0,

@@ -10,8 +10,8 @@ export default function ProgressBarDealsDashboard() {
 				<CardContent>
 					<div className="flex flex-col gap-[1.9rem]">
 						<div className="flex items-center gap-5">
-							<span className="w-20 bg-primary rounded-full p-3">
-								<img src="/admin/project/initiated_icon.png" alt="initiated" />
+							<span className="w-20 bg-theme rounded-full p-3">
+								<img src="/leader.png" alt="initiated" />
 							</span>
 
 							<span className="w-full">
@@ -31,8 +31,8 @@ export default function ProgressBarDealsDashboard() {
 							</span>
 						</div>
 						<div className="flex items-center gap-4">
-							<span className="w-20 bg-primary rounded-full p-3">
-								<img src="/admin/project/received_icon.png" alt="received" />
+							<span className="w-20 bg-theme rounded-full p-3">
+								<img src="/receiver.png" alt="received" />
 							</span>
 							<span className="w-full">
 								<div className="flex flex-row justify-between">
@@ -51,8 +51,8 @@ export default function ProgressBarDealsDashboard() {
 							</span>
 						</div>
 						<div className="flex items-center gap-4">
-							<span className="w-20 bg-primary rounded-full p-3">
-								<img src="/admin/project/completed_icon.png" alt="completed" />
+							<span className="w-20 bg-theme rounded-full p-3">
+								<img src="/tasks.png" alt="completed" />
 							</span>
 							<span className="w-full">
 								<div className="flex flex-row justify-between">
@@ -71,8 +71,8 @@ export default function ProgressBarDealsDashboard() {
 							</span>
 						</div>
 						<div className="flex items-center gap-4">
-							<span className="w-20 bg-primary rounded-full p-3">
-								<img src="/admin/project/cancel_icon.png" alt="cancel" />
+							<span className="w-20 bg-theme rounded-full p-3">
+								<img src="/cancel.png" alt="cancel" />
 							</span>
 							<span className="w-full">
 								<div className="flex flex-row justify-between">
