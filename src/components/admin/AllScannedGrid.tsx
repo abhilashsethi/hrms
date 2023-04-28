@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import { Card } from "types";
 import { CardAssign } from "components/drawer";
+import { DEFAULTPROFILE } from "assets/home";
 const AllScannedGrid = () => {
   const [isAssign, setIsAssign] = useState<{
     drawer?: boolean;
@@ -83,7 +84,7 @@ const AllScannedGrid = () => {
                     <div className="w-[12rem] h-[12rem] rounded-full relative">
                       <div className="w-[10rem] h-[10rem] rounded-full bg-cyan-400 absolute top-4 left-4"></div>
                       <img
-                        src="https://picsum.photos/200"
+                        src={DEFAULTPROFILE.src}
                         alt="User Photo"
                         className="w-[8rem] h-[8rem] rounded-full absolute top-8 left-8"
                       />
