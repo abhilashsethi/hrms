@@ -90,7 +90,7 @@ const MeetingDashBoard = () => {
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 				<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
-					<MeetingAnalytics text="Projects Overview" type="line" />
+					<MeetingAnalytics text="Meetings Overview" type="line" />
 				</div>
 				<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 					<MeetingDonutChart text="Meeting Overview" type="donut" />
