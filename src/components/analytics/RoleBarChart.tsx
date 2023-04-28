@@ -17,7 +17,7 @@ const RoleBarChart = ({
 		series: [
 			{
 				name: "Projects",
-				data: [23, 8, 10, 10, 20, 10, 15, 23, 14, 8, 10, 9],
+				data: [5, 8, 10, 10, 8, 5],
 			},
 		],
 		chart: {
@@ -26,6 +26,7 @@ const RoleBarChart = ({
 		},
 		plotOptions: {
 			bar: {
+				columnWidth: "40%",
 				borderRadius: 10,
 				dataLabels: {
 					position: "top", // top, center, bottom
@@ -46,18 +47,12 @@ const RoleBarChart = ({
 
 		xaxis: {
 			categories: [
-				"Jan",
-				"Feb",
-				"Mar",
-				"Apr",
-				"May",
-				"Jun",
-				"Jul",
-				"Aug",
-				"Sep",
-				"Oct",
-				"Nov",
-				"Dec",
+				"HR",
+				"CEO",
+				"DEVELOPER",
+				"SALES EXECUTIVE",
+				"ANDROID DEVELOPER",
+				"OTHER",
 			],
 			position: "top",
 			axisBorder: {
@@ -116,7 +111,7 @@ const RoleBarChart = ({
 				series: [
 					{
 						name: "Projects",
-						data: [23, 8, 10, 10, 20, 10, 15, 23, 14, 8, 10, 9],
+						data: [5, 8, 10, 10, 8, 5],
 					},
 				],
 				chart: {
@@ -125,6 +120,7 @@ const RoleBarChart = ({
 				},
 				plotOptions: {
 					bar: {
+						columnWidth: "40%",
 						borderRadius: 10,
 						dataLabels: {
 							position: "top", // top, center, bottom
@@ -145,18 +141,12 @@ const RoleBarChart = ({
 
 				xaxis: {
 					categories: [
-						"Jan",
-						"Feb",
-						"Mar",
-						"Apr",
-						"May",
-						"Jun",
-						"Jul",
-						"Aug",
-						"Sep",
-						"Oct",
-						"Nov",
-						"Dec",
+						"HR",
+						"CEO",
+						"DEVELOPER",
+						"SALES EXECUTIVE",
+						"ANDROID DEVELOPER",
+						"OTHER",
 					],
 					position: "top",
 					axisBorder: {
