@@ -1,5 +1,4 @@
-import { WelcomeUser } from "components/admin";
-import AttendanceDashBoard from "components/admin/AttendanceDashBoard";
+import { AttendanceDashBoard, WelcomeUser } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
 import React from "react";
