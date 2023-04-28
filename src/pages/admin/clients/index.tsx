@@ -1,5 +1,5 @@
 import PanelLayout from "layouts/panel";
-import { EmployDashboard } from "components/admin";
+import { ClientDashboard } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
 
 const index = () => {
@@ -8,7 +8,7 @@ const index = () => {
       <div className="px-4 pt-4">
         <AdminBreadcrumbs links={links} />
       </div>
-      <EmployDashboard />
+      <ClientDashboard />
     </PanelLayout>
   );
 };
