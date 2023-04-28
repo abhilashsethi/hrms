@@ -5,19 +5,9 @@ import {
 	PendingActions,
 	MoreVert,
 } from "@mui/icons-material";
-import {
-	Grid,
-	IconButton,
-	LinearProgress,
-	Menu,
-	MenuItem,
-} from "@mui/material";
-import ICONS from "assets/icons";
-import { UpcomingLeaves } from "components/core";
+import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
 import { useState, MouseEvent } from "react";
-import MeetingStats from "./MeetingStats";
 import MeetingAnalytics from "components/analytics/MeetingAnalytics";
-import TaskOverview from "components/analytics/TaskOverview";
 import MeetingDonutChart from "components/analytics/MeetingDonutChart";
 
 const MeetingDashBoard = () => {
