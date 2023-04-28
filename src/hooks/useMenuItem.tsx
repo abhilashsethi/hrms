@@ -138,7 +138,7 @@ export default () => {
             key: "6-2",
             title: "All Meetings",
             icon: <Groups />,
-            route: "/admin/meetings/",
+            route: "/admin/meetings/all-meetings",
           },
         ],
       },

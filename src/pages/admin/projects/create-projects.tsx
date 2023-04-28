@@ -23,7 +23,7 @@ const initialValues = {
   gmail: "",
   github: "",
   startDate: "",
-  // endDate: "",
+  endDate: "",
   userIDs: [],
 };
 
@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
   devURL: Yup.string().required("Dev URL is required!").url("Invalid Url"),
   userIDs: Yup.array().required("Please assign users!"),
   startDate: Yup.string().required("Start Date is required!"),
-  // endDate: Yup.string().required("End Date is required!"),
+  endDate: Yup.string().required("End Date is required!"),
   prodURL: Yup.string().required("Prod URL is required!").url("Invalid Url"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
@@ -216,7 +216,7 @@ const CreateProjects = () => {
                         helperText={touched.startDate && errors.startDate}
                       />
                     </div>
-                    {/* <div className="px-4 py-2">
+                    <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="endDate">End Date</InputLabel>
                       </div>
@@ -237,27 +237,13 @@ const CreateProjects = () => {
                         error={touched.endDate && !!errors.endDate}
                         helperText={touched.endDate && errors.endDate}
                       />
-                    </div> */}
+                    </div>
                     <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="employee">
                           Employee Name
                         </InputLabel>
                       </div>
-                      {/* <TextField
-                        size="small"
-                        select
-                        fullWidth
-                        name="userIDs"
-                        value={values.userIDs}
-                        onChange={handleChange}
-                      >
-                        {data?.map((option) => (
-                          <MenuItem key={option.id} value={option.id}>
-                            {option.name}
-                          </MenuItem>
-                        ))}
-                      </TextField> */}
                       <Autocomplete
                         multiple
                         fullWidth
