@@ -187,7 +187,7 @@ const EmployeeDetails = () => {
                           {employData?.photo && (
                             <div className="h-full w-full bg-slate-300 rounded-full">
                               <img
-                                className="h-full w-full object-contain rounded-full shadow-md"
+                                className="h-full w-full object-cover rounded-full shadow-md"
                                 src={employData?.photo}
                                 alt="John Doe"
                               />

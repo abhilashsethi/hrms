@@ -52,7 +52,6 @@ const AllScannedGrid = () => {
   return (
     <>
       <TextTitles title="Scanned Cards" />
-
       <div className="mt-4">
         <Grid container spacing={3}>
           {data?.map((item: any) => (
@@ -65,14 +64,13 @@ const AllScannedGrid = () => {
                       style={{
                         backgroundImage:
                           "url(" +
-                          "https://img.freepik.com/free-vector/gradient-abstract-background_23-2149101392.jpg?w=996&t=st=1682488853~exp=1682489453~hmac=7d07aa079e3ca4dd1b7f0e661c299fed4f919886deddfe8f6acf9a9db159201d" +
+                          "https://img.freepik.com/free-vector/violet-mandala-design_53876-80479.jpg?w=740&t=st=1682683386~exp=1682683986~hmac=c7baa05e610b52e68afe4a8c0b92987c323e862744375f7bbe588beeb41bc151" +
                           ")",
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                       }}
                     ></div>
                   </div>
-                  {/* company logo */}
                   <div className="w-full flex flex-col items-center justify-center pt-4 relative">
                     <div className="w-[10rem] mt-5 h-20 absolute top-0">
                       <img
@@ -81,7 +79,6 @@ const AllScannedGrid = () => {
                       />
                     </div>
                   </div>
-                  {/* user Photo */}
                   <div className="w-full mt-8 flex items-center justify-center">
                     <div className="w-[12rem] h-[12rem] rounded-full relative">
                       <div className="w-[10rem] h-[10rem] rounded-full bg-cyan-400 absolute top-4 left-4"></div>
@@ -92,7 +89,6 @@ const AllScannedGrid = () => {
                       />
                     </div>
                   </div>
-                  {/* user Details */}
                   {item?.userId ? (
                     <div className="flex flex-col gap-2">
                       <div className="w-full flex flex-col">
@@ -100,7 +96,6 @@ const AllScannedGrid = () => {
                           <CardNameComponent userId={item?.userId} isName />
                         </p>
                       </div>
-                      {/* profile Details */}
 
                       <div className="w-full flex justify-between gap-8">
                         <div className="flex flex-col item-end justify-end">
@@ -168,43 +163,6 @@ const AllScannedGrid = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className="py-6 px-4 bg-slate-50 w-full shadow-lg rounded-lg flex justify-center items-center">
-                <div className="flex flex-col items-center gap-3">
-                  <p className="text-lg font-semibold tracking-wide capitalize">
-                    Card Id: {item?.cardId}
-                  </p>
-                  <p className="text-lg font-semibold tracking-wide capitalize">
-                    User name: <CardNameComponent userId={item?.userId} />
-                  </p>
-
-                  <div className="grid justify-items-center gap-2">
-                    <div className="h-10 w-10 cursor-pointer hover:shadow-xl flex justify-center items-center text-lg font-semibold">
-                      <Tooltip title="Assign User">
-                        <IconButton
-                          onClick={() => {
-                            setIsAssign({
-                              drawer: true,
-                              activeCardId: item?.cardId,
-                            });
-                          }}
-                        >
-                          <AddCardRounded
-                            className="!text-theme"
-                            fontSize="large"
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                    <p className="font-semibold tracking-wide text-sm">
-                      Unblock/Block
-                    </p>
-                    <IOSSwitch
-                      checked={item?.isBlocked}
-                      onChange={(e) => handleBlock(e, item?.cardId)}
-                    />
-                  </div>
-                </div>
-              </div> */}
             </Grid>
           ))}
         </Grid>
@@ -220,3 +178,5 @@ const AllScannedGrid = () => {
 };
 
 export default AllScannedGrid;
+
+// const rests = [1];

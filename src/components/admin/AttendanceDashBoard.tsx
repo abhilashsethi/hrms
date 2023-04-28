@@ -10,6 +10,7 @@ import { HeadText, UpcomingLeaves } from "components/core";
 import EmployeeAllAttendance from "./EmployeeAllAttendance";
 import { useFetch } from "hooks";
 import moment from "moment";
+import { DonutChart } from "components/analytics";
 
 const AttendanceDashBoard = () => {
   const [attendances, setAttendances] = useState([]);
@@ -167,7 +168,12 @@ const AttendanceDashBoard = () => {
           <DailyAttendance text="Attendance from last week" type="area" />
         </div>
         <div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-          <GenderRation text="Today's Attendance" type="donut" />
+          <DonutChart
+            labels={["Present", "Absent"]}
+            series={[44, 55]}
+            text="Today's Attendance"
+            type="donut"
+          />
         </div>
       </div>
     </>

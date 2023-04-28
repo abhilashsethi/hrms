@@ -9,35 +9,43 @@ import { useFetch } from "hooks";
 
 const EmployeeAllAttendance = () => {
   const [status, setStatus] = useState<{
-    totalPresent?: number;
-    totalAbsent?: number;
+    totalPresent?: number | undefined;
+    totalAbsent?: number | undefined;
   }>({
     totalPresent: 0,
     totalAbsent: 0,
   });
   const [progress, setProgress] = React.useState(0);
   const [activeMonth, setActiveMonth] = useState(new Date().getMonth());
+  const { data: currentDateData } = useFetch<any>(
+    `attendances/${new Date().toISOString()}/all`
+  );
   const { data: attendanceData } = useFetch<any>(
     `attendances/get-by-month?month=${activeMonth}`
   );
 
   useEffect(() => {
     const data = attendanceData?.filter((item: any) => item?.present);
-    let present = data?.reduce((acc: any, obj: any) => {
-      return acc + Number(obj?.present);
-    }, 0);
-    let absent = data?.reduce((acc: any, obj: any) => {
-      return acc + Number(obj?.absent);
-    }, 0);
+    let present = Number(
+      data?.reduce((acc: any, obj: any) => {
+        return acc + Number(obj?.present);
+      }, 0)
+    );
+    let absent = Number(
+      data?.reduce((acc: any, obj: any) => {
+        return acc + Number(obj?.absent);
+      }, 0)
+    );
     setStatus({ totalPresent: present, totalAbsent: absent });
-    // let percentage =
-    //   (status?.totalPresent | 0 / (status?.totalPresent + status?.totalAbsent)) *
-    //   100;
-    // setProgress(percentage);
   }, [attendanceData]);
 
-  console.log(status);
-  console.log(attendanceData);
+  useEffect(() => {
+    let total = Number(status?.totalPresent) + Number(status?.totalAbsent);
+    const percentage = (Number(status?.totalPresent) / total) * 100;
+    setProgress(percentage);
+  }, [attendanceData, status?.totalPresent]);
+
+  console.log(currentDateData);
 
   function CircularProgressWithLabel(
     props: CircularProgressProps & { value: number }
