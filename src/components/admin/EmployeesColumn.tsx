@@ -1,16 +1,21 @@
 import MaterialTable from "@material-table/core";
 import { PeopleRounded } from "@mui/icons-material";
 import { RenderIconRow } from "components/common";
-import { HeadStyle, IOSSwitch, RoleComponent } from "components/core";
+import { HeadStyle, IOSSwitch, Loader, RoleComponent } from "components/core";
 import { useChange, useFetch } from "hooks";
 // import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { User } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
-
-const EmployeesColumn = () => {
+interface ARRAY {
+  id?: string;
+}
+interface Props {
+  data?: ARRAY[];
+}
+const EmployeesColumn = ({ data }: Props) => {
   const { data: employees, isLoading, mutate } = useFetch<User[]>(`users`);
-  const sortData = employees?.sort(
+  const sortData: any = data?.sort(
     (a: any, b: any) =>
       (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
   );
@@ -41,6 +46,9 @@ const EmployeesColumn = () => {
       }
     });
   };
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <section className="mt-8">
       <MaterialTable

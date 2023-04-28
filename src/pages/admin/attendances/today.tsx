@@ -6,24 +6,91 @@ import {
   Search,
   TableRowsRounded,
 } from "@mui/icons-material";
-import { useState, useRef } from "react";
-import { Button, Grid, IconButton, TextField } from "@mui/material";
+import { useState, useRef, useEffect } from "react";
+import { Button, Grid, IconButton, MenuItem, TextField } from "@mui/material";
 import { AttendanceGrid, AttendanceList } from "components/admin";
-import { AdminBreadcrumbs, TextTitles } from "components/core";
+import {
+  AdminBreadcrumbs,
+  Empty,
+  Loader,
+  LoaderAnime,
+  TextTitles,
+} from "components/core";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useFetch } from "hooks";
+import { addDays } from "date-fns";
 
-const today = new Date().toISOString();
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<any>(new Date());
+  const [searchedUser, setSearchedUser] = useState<any>([]);
+  const [status, setStatus] = useState("present");
+  const [userName, setUsername] = useState("");
+  const [empId, setEmpId] = useState("");
   const dateRef = useRef<any>();
-
   function handleDateChange(date: any) {
     setSelectedDate(date);
     console.log(date);
+  }
+  const { data: attendance, isLoading } = useFetch<any>(
+    `attendances/${selectedDate.toISOString().slice(0, 10)}/${status}`
+  );
+
+  useEffect(() => {
+    if (attendance) {
+      const filtered = attendance.filter((user: any) => {
+        return user?.name?.toLowerCase().includes(userName?.toLowerCase());
+      });
+      setSearchedUser(filtered);
+    }
+  }, [attendance, userName]);
+
+  useEffect(() => {
+    if (attendance) {
+      const filtered = attendance.filter((user: any) => {
+        return user?.employeeID?.toLowerCase().includes(empId?.toLowerCase());
+      });
+      setSearchedUser(filtered);
+    }
+  }, [attendance, empId]);
+
+  const cards = [
+    {
+      id: 1,
+      title: "Total Users",
+      value: `${attendance?.length ? attendance?.length : `0`}`,
+    },
+    {
+      id: 2,
+      title: "Present",
+      value: `${
+        attendance?.length
+          ? attendance?.filter((item: any) => item?.status === "present")
+              ?.length
+          : `0`
+      }`,
+    },
+    {
+      id: 3,
+      title: "Absent",
+      value: `${
+        attendance?.length
+          ? attendance?.filter((item: any) => item?.status === "absent")?.length
+          : `0`
+      }`,
+    },
+  ];
+  const tomorrow = addDays(new Date(), 1);
+  const disabledDates = [];
+  for (let i = 0; i < 365; i++) {
+    // disable dates for the next year
+    disabledDates.push(addDays(tomorrow, i));
+  }
+  if (isLoading) {
+    return <Loader />;
   }
   return (
     <PanelLayout title="Today Attendance - SY HR MS">
@@ -67,6 +134,7 @@ const TodayAttendance = () => {
                     dateFormat="dd/MM/yyyy"
                     // isClearable
                     showYearDropdown
+                    excludeDates={disabledDates}
                     className="hidden"
                   />
                 </div>
@@ -95,19 +163,29 @@ const TodayAttendance = () => {
             size="small"
             placeholder="Employee Id"
             name="employeeId"
+            onChange={(e) => setEmpId(e.target.value)}
           />
           <TextField
             fullWidth
             size="small"
             placeholder="Employee Name"
+            onChange={(e) => setUsername(e.target.value)}
             name="employeeName"
           />
           <TextField
-            fullWidth
             size="small"
-            placeholder="Role"
-            name="employeeName"
-          />
+            fullWidth
+            select
+            label="Status"
+            defaultValue="EUR"
+            onChange={(e: any) => setStatus(e.target.value)}
+          >
+            {selects.map((option: any) => (
+              <MenuItem key={option.id} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
           <Button
             fullWidth
             startIcon={<Search />}
@@ -117,7 +195,17 @@ const TodayAttendance = () => {
             Search
           </Button>
         </div>
-        {isGrid ? <AttendanceGrid /> : <AttendanceList />}
+        {isGrid ? (
+          !searchedUser.length ? (
+            <LoaderAnime />
+          ) : (
+            <AttendanceGrid data={searchedUser} />
+          )
+        ) : !searchedUser.length ? (
+          <LoaderAnime />
+        ) : (
+          <AttendanceList data={searchedUser} />
+        )}
       </section>
     </PanelLayout>
   );
@@ -125,32 +213,17 @@ const TodayAttendance = () => {
 
 export default TodayAttendance;
 
+const selects = [
+  { id: 1, value: "present", label: "Present" },
+  { id: 2, value: "absent", label: "Absent" },
+  { id: 3, value: "all", label: "All" },
+];
+
 const links = [
   { id: 1, page: "Attendances", link: "/admin/attendances" },
   {
     id: 2,
     page: "Datewise",
     link: "/admin/attendances/today",
-  },
-];
-
-const cards = [
-  {
-    id: 1,
-
-    title: "Total Users",
-    value: "12",
-  },
-  {
-    id: 2,
-
-    title: "Present",
-    value: "1",
-  },
-  {
-    id: 3,
-
-    title: "Absent",
-    value: "2",
   },
 ];

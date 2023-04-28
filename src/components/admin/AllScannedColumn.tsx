@@ -1,7 +1,7 @@
 import MaterialTable from "@material-table/core";
 import { QrCodeScannerRounded, AddCardRounded } from "@mui/icons-material";
 import { IconButton, Paper, Tooltip } from "@mui/material";
-import { HeadStyle, IOSSwitch } from "components/core";
+import { HeadStyle, IOSSwitch, Loader } from "components/core";
 import { CardAssign } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";
@@ -45,6 +45,9 @@ const AllScannedColumn = () => {
       }
     });
   };
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div>
       <CardAssign

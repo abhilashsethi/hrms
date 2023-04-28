@@ -100,6 +100,7 @@ const CreateRole = ({ open, handleClose, mutate }: Props) => {
               fullWidth
               variant="contained"
               className="!bg-theme"
+              disabled={loading}
               startIcon={loading ? <CircularProgress size={20} /> : <Check />}
             >
               CREATE ROLE

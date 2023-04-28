@@ -1,7 +1,12 @@
 import MaterialTable from "@material-table/core";
 import { Search } from "@mui/icons-material";
 import { Button, MenuItem, TextField } from "@mui/material";
+import { Loader } from "components/core";
+import { useFetch } from "hooks";
+import moment from "moment";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { Attendance, User } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
 
 const AttendanceTable = () => {
@@ -9,6 +14,14 @@ const AttendanceTable = () => {
   const handleChange = (event: any) => {
     setValue(event.target.value);
   };
+  const router = useRouter();
+  const { data: employData } = useFetch<User>(`users/${router?.query?.id}`);
+  const { data: userAttendance, isLoading } = useFetch<Attendance[]>(
+    `attendances/user/${router?.query?.id}`
+  );
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-6">
@@ -58,11 +71,11 @@ const AttendanceTable = () => {
       </div>
 
       <MaterialTable
-        title="All Users"
+        title={employData?.name}
         data={
-          !data
+          !userAttendance
             ? []
-            : (data?.map((item: any, i: number) => ({
+            : (userAttendance?.map((item: any, i: number) => ({
                 ...item,
                 sn: i + 1,
               })) as any)
@@ -79,31 +92,19 @@ const AttendanceTable = () => {
             title: "Date",
             tooltip: "Date",
             field: "date",
+            render: (data) => new Date().toISOString().slice(0, 10),
           },
           {
             title: "Punch In",
             tooltip: "Punch In",
-            field: "punchIn",
+            field: "createdAt",
+            render: (data) => moment(data?.createdAt).format("lll"),
           },
           {
             title: "Punch Out",
             tooltip: "Punch Out",
-            field: "punchOut",
-          },
-          {
-            title: "Production",
-            tooltip: "Production",
-            field: "production",
-          },
-          {
-            title: "Break",
-            tooltip: "Break",
-            field: "break",
-          },
-          {
-            title: "Overtime",
-            tooltip: "Overtime",
-            field: "overtime",
+            field: "updatedAt",
+            render: (data) => moment(data?.updatedAt).format("lll"),
           },
         ]}
       />

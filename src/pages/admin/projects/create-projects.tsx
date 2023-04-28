@@ -1,10 +1,17 @@
 import { Check } from "@mui/icons-material";
-import { Autocomplete, Button, InputLabel, TextField } from "@mui/material";
-import { AdminBreadcrumbs } from "components/core";
+import {
+  Autocomplete,
+  Button,
+  CircularProgress,
+  InputLabel,
+  TextField,
+} from "@mui/material";
+import { AdminBreadcrumbs, Loader } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
+import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
@@ -16,7 +23,7 @@ const initialValues = {
   gmail: "",
   github: "",
   startDate: "",
-  endDate: "",
+  // endDate: "",
   userIDs: [],
 };
 
@@ -24,7 +31,7 @@ const validationSchema = Yup.object().shape({
   devURL: Yup.string().required("Dev URL is required!").url("Invalid Url"),
   userIDs: Yup.array().required("Please assign users!"),
   startDate: Yup.string().required("Start Date is required!"),
-  endDate: Yup.string().required("End Date is required!"),
+  // endDate: Yup.string().required("End Date is required!"),
   prodURL: Yup.string().required("Prod URL is required!").url("Invalid Url"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
@@ -47,7 +54,6 @@ const validationSchema = Yup.object().shape({
 const CreateProjects = () => {
   const [loading, setLoading] = useState(false);
   const { data, isLoading, mutate } = useFetch<any>(`users`);
-  console.log(data);
   const { change, isChanging } = useChange();
 
   const handleSubmit = async (values: any) => {
@@ -65,6 +71,7 @@ const CreateProjects = () => {
         setLoading(false);
         return;
       }
+      router?.push("/admin/projects/all-projects");
       Swal.fire(`Success`, `You have successfully created!`, `success`);
       return;
     } catch (error) {
@@ -74,6 +81,9 @@ const CreateProjects = () => {
       setLoading(false);
     }
   };
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <PanelLayout title="Projects - SY HR MS">
       <section className="px-8 py-4">
@@ -206,7 +216,7 @@ const CreateProjects = () => {
                         helperText={touched.startDate && errors.startDate}
                       />
                     </div>
-                    <div className="px-4 py-2">
+                    {/* <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="endDate">End Date</InputLabel>
                       </div>
@@ -227,7 +237,7 @@ const CreateProjects = () => {
                         error={touched.endDate && !!errors.endDate}
                         helperText={touched.endDate && errors.endDate}
                       />
-                    </div>
+                    </div> */}
                     <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="employee">
@@ -302,7 +312,10 @@ const CreateProjects = () => {
                       type="submit"
                       variant="contained"
                       className="!bg-theme !px-10 !py-3 hover:!bg-sky-800 hover:!shadow-xl"
-                      startIcon={<Check />}
+                      disabled={loading}
+                      startIcon={
+                        loading ? <CircularProgress size={20} /> : <Check />
+                      }
                     >
                       Submit
                     </Button>
@@ -320,5 +333,5 @@ const CreateProjects = () => {
 export default CreateProjects;
 const links = [
   { id: 1, page: "Projects", link: "/admin/projects" },
-  { id: 2, page: "All Projects", link: "/admin/projects/all-projects" },
+  { id: 2, page: "Create Projects", link: "/admin/projects/create-projects" },
 ];

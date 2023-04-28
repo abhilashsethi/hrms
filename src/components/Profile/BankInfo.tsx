@@ -1,20 +1,24 @@
-import MaterialTable from "@material-table/core";
 import ICONS from "assets/icons";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { User } from "types";
-import { MuiTblOptions, getDataWithSL } from "utils";
-import { BankInformationUpdate } from "components/Dialogs";
+import { BankInformationUpdate } from "components/dialogues";
 import { Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import { Loader } from "components/core";
 
 const BankInfo = () => {
   const [isDialogue, setIsDialogue] = useState(false);
   const router = useRouter();
-  const { data: employData, mutate } = useFetch<User>(
-    `users/${router?.query?.id}`
-  );
+  const {
+    data: employData,
+    mutate,
+    isLoading,
+  } = useFetch<User>(`users/${router?.query?.id}`);
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="bg-white rounded-md shadow-md shadow-theme px-6 py-4">

@@ -1,6 +1,6 @@
 import MaterialTable from "@material-table/core";
 import { PeopleRounded } from "@mui/icons-material";
-import { HeadStyle } from "components/core";
+import { HeadStyle, Loader } from "components/core";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -14,7 +14,9 @@ const AllRollColumn = () => {
     mutate,
   } = useFetch<[{ id: string; name: string }]>(`roles`);
   const { change, isChanging } = useChange();
-
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <section className="mt-8">
       <MaterialTable

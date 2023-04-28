@@ -15,23 +15,30 @@ import {
 } from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
 import { RenderIconRow } from "components/common";
-import { IOSSwitch, ReverseIOSSwitch } from "components/core";
+import { IOSSwitch, Loader, ReverseIOSSwitch } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
+interface ARRAY {
+  id?: string;
+}
+interface Props {
+  data?: ARRAY[];
+}
+const EmplyeesGrid = ({ data }: Props) => {
+  const { data: employees, mutate, isLoading } = useFetch<User[]>(`users`);
 
-const EmplyeesGrid = () => {
-  const { data: employees, mutate } = useFetch<User[]>(`users`);
-
-  const sortData = employees?.sort(
+  const sortData = data?.sort(
     (a: any, b: any) =>
       (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
   );
-
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
-    <section className="mt-8">
+    <section className="my-8">
       <Grid container spacing={3}>
         {sortData?.map((item) => (
           <Grid key={item?.id} item lg={3}>
@@ -202,9 +209,9 @@ const CardContent = ({ item, mutate }: any) => {
       </div>
       <div className="h-20 w-20 rounded-full overflow-hidden shadow-xl">
         {item?.photo && (
-          <div className="bg-slate-200">
+          <div className="bg-slate-200 h-full w-full">
             <img
-              className="h-full object-cover"
+              className="h-full w-full object-cover"
               src={item?.photo || DEFAULTIMG.src}
               alt=""
             />

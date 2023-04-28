@@ -1,14 +1,25 @@
 import MaterialTable from "@material-table/core";
 import {
   Add,
+  GridViewRounded,
   KeyboardArrowDownRounded,
   MedicalInformationRounded,
   PeopleAlt,
   RadioButtonChecked,
   Search,
+  TableRowsRounded,
 } from "@mui/icons-material";
-import { Button, Grid, Menu, MenuItem, Paper, TextField } from "@mui/material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+  Paper,
+  TextField,
+} from "@mui/material";
 import { SAMPLEDP } from "assets/home";
+import { LeavesColumn, LeavesGrid } from "components/admin";
 import { AdminBreadcrumbs, HeadStyle } from "components/core";
 import { CreateLeave } from "components/dialogues";
 import PanelLayout from "layouts/panel";
@@ -16,23 +27,47 @@ import { useState, MouseEvent } from "react";
 import { MuiTblOptions } from "utils";
 
 const Leaves = () => {
+  const [isGrid, setIsGrid] = useState(true);
   const [isLeave, setIsLeave] = useState<boolean>(false);
   return (
     <PanelLayout title="Leaves - Admin Panel">
       <section className="px-8 py-6">
         <CreateLeave open={isLeave} handleClose={() => setIsLeave(false)} />
-        <AdminBreadcrumbs links={links} />
-        <div className="flex justify-end mb-4">
-          <Button
-            onClick={() => setIsLeave((prev) => !prev)}
-            startIcon={<Add />}
-            variant="contained"
-            className="!bg-theme"
-          >
-            ADD LEAVE
-          </Button>
+        <div className="flex justify-between items-center py-4">
+          <AdminBreadcrumbs links={links} />
+          <div className="flex gap-4 items-center">
+            <div className="flex gap-1">
+              <IconButton onClick={() => setIsGrid(true)} size="small">
+                <div
+                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+                    isGrid && `border-2 border-theme`
+                  }`}
+                >
+                  <GridViewRounded className={`${isGrid && `!text-theme`}`} />
+                </div>
+              </IconButton>
+              <IconButton onClick={() => setIsGrid(false)} size="small">
+                <div
+                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+                    !isGrid && `border-2 border-theme`
+                  }`}
+                >
+                  <TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
+                </div>
+              </IconButton>
+            </div>
+            <Button
+              onClick={() => setIsLeave((prev) => !prev)}
+              startIcon={<Add />}
+              variant="contained"
+              className="!bg-theme"
+            >
+              ADD LEAVE
+            </Button>
+          </div>
         </div>
-        <Grid container spacing={3}>
+
+        {/* <Grid container spacing={3}>
           {cards?.map((item) => (
             <Grid key={item?.id} item lg={3}>
               <div className="w-full h-32 bg-gradient-to-b from-theme-50 via-white to-white tracking-wide border-b-4 border-theme shadow-md rounded-xl flex justify-center items-center flex-col gap-4">
@@ -46,7 +81,7 @@ const Leaves = () => {
               </div>
             </Grid>
           ))}
-        </Grid>
+        </Grid> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
           <TextField
             fullWidth
@@ -78,103 +113,7 @@ const Leaves = () => {
             Search
           </Button>
         </div>
-        <div className="mt-6">
-          <MaterialTable
-            components={{
-              Container: (props) => <Paper {...props} elevation={5} />,
-            }}
-            title={
-              <HeadStyle name="Leaves" icon={<MedicalInformationRounded />} />
-            }
-            isLoading={!data}
-            data={
-              !data?.length
-                ? []
-                : data?.map((_: any, i: number) => ({ ..._, sn: i + 1 }))
-            }
-            options={{
-              ...MuiTblOptions(),
-            }}
-            columns={[
-              {
-                title: "#",
-                field: "sn",
-                editable: "never",
-                width: "2%",
-              },
-              {
-                title: "Employee",
-                tooltip: "Employee",
-                searchable: true,
-                field: "name",
-                render: (item) => (
-                  <div className="flex gap-3 items-center">
-                    <div className="h-12 w-12 rounded-full bg-slate-300 overflow-hidden shadow-lg">
-                      <img
-                        className="h-full object-cover"
-                        src={SAMPLEDP.src}
-                        alt=""
-                      />
-                    </div>
-                    <p className="font-semibold">{item?.name}</p>
-                  </div>
-                ),
-              },
-              {
-                title: "Leave Type",
-                tooltip: "Leave Type",
-                searchable: true,
-                field: "type",
-              },
-              {
-                title: "From",
-                tooltip: "From",
-                searchable: true,
-                field: "from",
-              },
-              {
-                title: "To",
-                tooltip: "To",
-                searchable: true,
-                field: "to",
-              },
-              {
-                title: "No of Days",
-                tooltip: "No of Days",
-                searchable: true,
-                field: "days",
-              },
-              {
-                title: "Reason",
-                tooltip: "Reason",
-                searchable: true,
-                field: "reason",
-              },
-              {
-                title: "Status",
-                tooltip: "Status",
-                field: "status",
-                render: (item) => <LeaveStatus />,
-              },
-              // {
-              //   title: "Status",
-              //   tooltip: "Status",
-              //   field: "status",
-              //   lookup: {
-              //     ACTIVE: "ACTIVE",
-              //     PENDING: "PENDING",
-              //     BLOCK: "BLOCK",
-              //   },
-              // },
-            ]}
-            // cellEditable={{
-            //   isCellEditable: (_, columnDef) => columnDef.field === "status",
-            //   onCellEditApproved: async (status, oldValue, rowData) => {
-            //     console.log(status, oldValue, rowData);
-            //   },
-            // }}
-          />
-        </div>
+        {isGrid ? <LeavesGrid /> : <LeavesColumn />}
       </section>
     </PanelLayout>
   );

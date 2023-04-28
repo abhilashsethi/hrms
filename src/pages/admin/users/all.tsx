@@ -20,6 +20,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { Loader } from "components/core";
 import { useChange, useFetch, useMutation } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
@@ -36,6 +37,9 @@ const AllUsers = () => {
   const { data, isLoading, mutate } = useFetch<User[]>(`users`);
   const { change, isChanging } = useChange();
   const { push } = useRouter();
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <PanelLayout title="All Users - SY HR MS">
       <section className="w-11/12 mx-auto">
@@ -190,9 +194,9 @@ const AllUsers = () => {
                 editable: "never",
               },
             ]}
-            onRowDoubleClick={(e, rowData) =>
-              push(`/admin/attendances/user/${rowData?.id}`)
-            }
+            // onRowDoubleClick={(e, rowData) =>
+            //   push(`/admin/attendances/user/${rowData?.id}`)
+            // }
             editable={{
               onRowDelete: async (oldData) => {
                 const res = await change(`users/${oldData.id}`, {

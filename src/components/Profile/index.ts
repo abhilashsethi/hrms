@@ -6,3 +6,4 @@ export { default as ProfileTabs } from "./Tabs";
 export { default as AttendanceCard } from "./AttendanceCard";
 export { default as AttendanceTable } from "./AttendanceTable";
 export { default as Projects } from "./Projects";
+export { default as LeaveCard } from "./LeaveCard";

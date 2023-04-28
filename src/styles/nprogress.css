@@ -8,8 +8,8 @@
 }
 
 #nprogress .bar {
-  /* background-image: linear-gradient(to right, #0d70ae, #b1336e); */
-  background-color: #000461;
+  background-image: linear-gradient(to right, #106ead, #b1336e);
+  /* background-color: #106EAD; */
   position: fixed;
   z-index: 9999;
   top: 0;
@@ -47,8 +47,8 @@
   box-sizing: border-box;
 
   border: solid 2px transparent;
-  border-top-color: #0017ff;
-  border-left-color: #0017ff;
+  border-top-color: #106ead;
+  border-left-color: #106ead;
   border-radius: 50%;
 
   -webkit-animation: nprogress-spinner 400ms linear infinite;
