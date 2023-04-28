@@ -27,9 +27,9 @@ interface Props {
 }
 const validationSchema = Yup.object().shape({
   devURL: Yup.string().required("Dev URL is required!").url("Invalid Url"),
-  userIDs: Yup.array().required("Please assign users!"),
+  userIDs: Yup.array().required("Please assign users!").nullable(),
   startDate: Yup.string().required("Start Date is required!"),
-  // endDate: Yup.string().required("End Date is required!"),
+  endDate: Yup.string().required("End Date is required!"),
   prodURL: Yup.string().required("Prod URL is required!").url("Invalid Url"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
@@ -53,7 +53,6 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
   const { data, isLoading } = useFetch<any>(`users`);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const { data: roles } = useFetch<any>(`roles`);
   const router = useRouter();
   const { data: employData } = useFetch<any>(`projects/${id}`);
   const initialValues = {
@@ -63,15 +62,30 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
     gmail: `${employData?.gmail ? employData?.gmail : ""}`,
     prodURL: `${employData?.prodURL ? employData?.prodURL : ""}`,
     startDate: `${employData?.startDate ? employData?.startDate : ""}`,
-    userIDs: `${employData?.userIDs ? employData?.userIDs : ""}`,
+    userIDs: `${employData?.userIDs ? employData?.userIDs : []}`,
     devURL: `${employData?.devURL ? employData?.devURL : ""}`,
+    endDate: `${employData?.endDate ? employData?.endDate : ""}`,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      const res = await change(`projects`, {
+      const form = new FormData();
+      form.append("name", values?.name);
+      form.append("github", values?.github);
+      form.append("description", values?.description);
+      form.append("gmail", values?.gmail);
+      form.append("prodURL", values?.prodURL);
+      form.append("startDate", values?.startDate);
+      form.append("devURL", values?.devURL);
+      form.append("endDate", values?.endDate);
+
+      values?.userIDs?.forach((item: string) => {
+        return form.append("userIDs", item);
+      });
+      const res = await change(`projects/${id}`, {
         method: "PATCH",
-        body: values,
+        isFormData: true,
+        body: form,
       });
       setLoading(false);
       if (res?.status !== 200) {
@@ -245,20 +259,21 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
                           helperText={touched.startDate && errors.startDate}
                         />
                       </div>
-
                       <div className="px-4 py-2">
                         <div className="py-2">
                           <InputLabel htmlFor="employee">
                             Employee Name
                           </InputLabel>
                         </div>
-
                         <Autocomplete
                           multiple
                           fullWidth
                           limitTags={2}
                           size="small"
                           id="userIDs"
+                          value={data?.filter((item: any) => {
+                            return values?.userIDs?.includes(item.id);
+                          })}
                           options={data || []}
                           onChange={(e: any, r: any) => {
                             setFieldValue(
@@ -270,6 +285,7 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
                           renderInput={(params) => (
                             <TextField
                               {...params}
+                              // value={values.userIDs}
                               label="Employee Name"
                               placeholder="Assigned"
                               onBlur={handleBlur}
@@ -277,6 +293,26 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
                               helperText={touched.userIDs && errors.userIDs}
                             />
                           )}
+                        />
+                      </div>
+                      <div className="px-4 py-2">
+                        <div className="py-2">
+                          <InputLabel htmlFor="startDate">End Date</InputLabel>
+                        </div>
+                        <TextField
+                          size="small"
+                          fullWidth
+                          type="date"
+                          placeholder="Start Date"
+                          id="endDate"
+                          name="endDate"
+                          value={moment(values?.endDate).format("YYYY-MM-DD")}
+                          onChange={(e) => {
+                            setFieldValue("endDate", new Date(e?.target.value));
+                          }}
+                          onBlur={handleBlur}
+                          error={touched.endDate && !!errors.endDate}
+                          helperText={touched.endDate && errors.endDate}
                         />
                       </div>
                       <div className="px-4 py-2">
