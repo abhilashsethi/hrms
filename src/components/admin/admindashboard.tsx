@@ -33,10 +33,10 @@ const AdminDashboard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item, index) => (
 							<Grid key={index} item lg={3}>
-								<div className="deals-card h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between group">
+								<div className=" h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-500 ease-in-out">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
-											<MoreVert className="group-hover:text-white" />
+											<MoreVert className="" />
 										</IconButton>
 										<Menu
 											anchorEl={anchorEl}
@@ -51,10 +51,8 @@ const AdminDashboard = () => {
 										</Menu>
 									</div>
 									<div className="">{item?.icon}</div>
-									<span className="text-lg group-hover:text-white">
-										{item?.count}
-									</span>
-									<span className="font-semibold tracking-wide text-sm group-hover:text-white">
+									<span className="text-lg ">{item?.count}</span>
+									<span className="font-semibold tracking-wide text-sm ">
 										{item?.title}
 									</span>
 								</div>
@@ -209,39 +207,27 @@ export default AdminDashboard;
 const cards = [
 	{
 		id: 1,
-		icon: (
-			<People fontSize="large" className="text-theme group-hover:text-white" />
-		),
+		icon: <People fontSize="large" className="text-theme " />,
 		count: "34",
 		title: "Total Users",
 	},
 	{
 		id: 2,
-		icon: (
-			<QrCodeScannerRounded
-				fontSize="large"
-				className="text-theme group-hover:text-white"
-			/>
-		),
+		icon: <QrCodeScannerRounded fontSize="large" className="text-theme " />,
 		count: "34",
 		title: "Scanned Cards",
 	},
 	{
 		id: 3,
 		icon: (
-			<PlaylistAddCheckCircleRounded
-				fontSize="large"
-				className="text-theme group-hover:text-white"
-			/>
+			<PlaylistAddCheckCircleRounded fontSize="large" className="text-theme " />
 		),
 		count: "34",
 		title: "Today's Attendance",
 	},
 	{
 		id: 4,
-		icon: (
-			<People fontSize="large" className="text-theme group-hover:text-white" />
-		),
+		icon: <People fontSize="large" className="text-theme " />,
 		count: "34",
 		title: "Other",
 	},

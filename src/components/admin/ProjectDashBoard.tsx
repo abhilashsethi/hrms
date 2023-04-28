@@ -58,6 +58,9 @@ const ProjectDashBoard = () => {
 						</Grid>
 					))}
 				</Grid>
+				<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
+					<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl"></div>
+				</div>
 			</div>
 			<div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col gap-3">
 				{stats.map((item) => (
@@ -66,9 +69,7 @@ const ProjectDashBoard = () => {
 						className="h-40 w-full border-2 rounded-xl py-4 px-6 flex flex-col justify-between tracking-wide"
 					>
 						<div className="flex justify-between items-center">
-							<span className="text-theme font-semibold">
-								Upcoming Projects
-							</span>
+							<span className="text-theme font-semibold">{item?.title}</span>
 							<span className="font-semibold text-emerald-600">+10%</span>
 						</div>
 						<span className="text-xl font-bold">10</span>
@@ -139,14 +140,14 @@ const stats = [
 	},
 	{
 		id: 2,
-		title: "Pending Projects",
+		title: "On Going Projects",
 		growth: "+10%",
 		value: "10",
 		sub: "Overall Projects 218",
 	},
 	{
 		id: 3,
-		title: "Dome Projects",
+		title: "Completed Projects",
 		growth: "+10%",
 		value: "10",
 		sub: "Overall Projects 218",
