@@ -16,8 +16,8 @@ const CardStatus = ({
 	const options = {
 		labels: ["Blocked", "Un-Blocked"],
 		series: [
-			cardData?.filter((item) => item?.isBlocked)?.length,
-			cardData?.filter((item) => item?.isBlocked === false)?.length,
+			cardData?.filter((item) => item?.isBlocked)?.length || 0,
+			cardData?.filter((item) => item?.isBlocked === false)?.length || 0,
 		],
 		chart: {
 			type: "donut",

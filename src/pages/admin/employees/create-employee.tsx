@@ -25,10 +25,12 @@ const initialValues = {
   confirmPassword: "",
   employeeID: "",
   roleId: "",
+  departmentId: "",
 };
 
 const validationSchema = Yup.object().shape({
   roleId: Yup.string().required("Employee Id is required!"),
+  departmentId: Yup.string().required("Department Id is required!"),
   employeeID: Yup.string().required("Employee Id is required!"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
@@ -58,9 +60,9 @@ const CreateEmployee = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { data, isLoading, mutate } = useFetch<User[]>(`roles`);
+  const { data: departmentsData } = useFetch<any>(`departments`);
+  const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
   const { change, isChanging } = useChange();
-
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
@@ -270,25 +272,12 @@ const CreateEmployee = () => {
                           Role <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
-                      {/* <TextField
-                        size="small"
-                        select
-                        fullWidth
-                        name="roleId"
-                        value={values.roleId}
-                        onChange={handleChange}
-                      >
-                        {data?.map((option) => (
-                          <MenuItem key={option.id} value={option.id}>
-                            {option.name}
-                          </MenuItem>
-                        ))}
-                      </TextField> */}
+
                       <Autocomplete
                         fullWidth
                         size="small"
                         id="roleId"
-                        options={data || []}
+                        options={roleData?.roles || []}
                         onChange={(e: any, r: any) => {
                           setFieldValue("roleId", r?.id);
                         }}
@@ -301,6 +290,38 @@ const CreateEmployee = () => {
                             onBlur={handleBlur}
                             error={touched.roleId && !!errors.roleId}
                             helperText={touched.roleId && errors.roleId}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="px-4 py-2">
+                      <div className="py-2">
+                        <InputLabel htmlFor="departmentId">
+                          Department Name{" "}
+                          <span className="text-red-600">*</span>
+                        </InputLabel>
+                      </div>
+                      <Autocomplete
+                        fullWidth
+                        size="small"
+                        id="departmentId"
+                        options={departmentsData?.departments || []}
+                        onChange={(e: any, r: any) => {
+                          setFieldValue("departmentId", r?.id);
+                        }}
+                        getOptionLabel={(option: any) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Department Name"
+                            placeholder="Assigned"
+                            onBlur={handleBlur}
+                            error={
+                              touched.departmentId && !!errors.departmentId
+                            }
+                            helperText={
+                              touched.departmentId && errors.departmentId
+                            }
                           />
                         )}
                       />

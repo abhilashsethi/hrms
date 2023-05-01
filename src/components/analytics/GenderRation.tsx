@@ -1,4 +1,6 @@
+import { useFetch } from "hooks";
 import dynamic from "next/dynamic";
+import { User, Gender } from "types";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const GenderRation = ({
@@ -8,9 +10,15 @@ const GenderRation = ({
 	type: "bar" | "area" | "line" | "pie" | "donut";
 	text?: string;
 }) => {
+	const { data: employeeData, mutate } = useFetch<any[]>(`users`);
+	// console.log(employeeData);
+
 	const options = {
 		labels: ["Male", "Female"],
-		series: [120, 80],
+		series: [
+			employeeData?.filter((item) => item?.gender === "Male")?.length || 0,
+			employeeData?.filter((item) => item?.gender === "Female")?.length || 0,
+		],
 		chart: {
 			type: "donut",
 		},
@@ -77,7 +85,7 @@ const GenderRation = ({
 					},
 				},
 			}}
-			series={options.series}
+			series={options.series as any}
 			type={type}
 		/>
 	);

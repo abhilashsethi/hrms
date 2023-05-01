@@ -18,7 +18,7 @@ const AllDepartmentGrid = () => {
     id?: string | null;
   }>({ dialogue: false, id: null });
   const {
-    data: roleData,
+    data: departmentsData,
     isLoading,
     mutate,
   } = useFetch<[{ id: string; name: string }]>(`departments`);
@@ -77,7 +77,7 @@ const AllDepartmentGrid = () => {
       />
       <div className="mt-4">
         <Grid container spacing={2}>
-          {roleData?.map((item) => (
+          {departmentsData?.map((item) => (
             <Grid key={item?.id} item lg={3}>
               <div className="h-40 w-full bg-gradient-to-b from-theme-50/50 via-white to-white shadow-lg rounded-lg flex justify-center items-center">
                 <div className="flex flex-col items-center gap-3">
