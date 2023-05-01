@@ -1,6 +1,7 @@
 import {
 	AccountTreeRounded,
 	DoNotTouchRounded,
+	MoreVert,
 	People,
 	PlaylistAddCheckCircleRounded,
 } from "@mui/icons-material";
@@ -10,6 +11,7 @@ import DailyAttendance from "components/analytics/DailyAttendance";
 import RolewiseStrength from "components/analytics/RolewiseStrength";
 import GenderRation from "components/analytics/GenderRation";
 import { useState, MouseEvent } from "react";
+import { UpcomingLeaves } from "components/core";
 
 const EmployDashboard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -27,10 +29,10 @@ const EmployDashboard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="cursor-pointer hover:scale-105 h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between border-b-4 border-theme">
+								<div className="cursor-pointer hover:scale-105 transition duration-500 ease-in-out h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between border-b-4 border-theme">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
-											<ICONS.More />
+											<MoreVert />
 										</IconButton>
 										<Menu
 											anchorEl={anchorEl}
@@ -79,6 +81,7 @@ const EmployDashboard = () => {
 					<div className="w-full h-16 border-2 grid place-items-center text-sm tracking-wide rounded-xl border-secondary-600">
 						Mon 20 May 2023 - Ramzan
 					</div>
+					<UpcomingLeaves />
 				</div>
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
