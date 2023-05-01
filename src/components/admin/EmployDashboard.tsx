@@ -27,7 +27,7 @@ const EmployDashboard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between border-b-4 border-theme">
+								<div className="cursor-pointer hover:scale-105 h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between border-b-4 border-theme">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
 											<ICONS.More />
