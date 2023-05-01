@@ -7,7 +7,7 @@ import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClic
 import { Check, Close } from "@mui/icons-material";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 
 const EmployeeProfile = () => {
@@ -34,11 +34,11 @@ const EmployeeProfile = () => {
         {eventInfo.event.title === "PRESENT" && (
           <div className="flex flex-col">
             <span>
-              IN TIME :{" "}
+              IN TIME :
               {moment(eventInfo.event.extendedProps.inTime).format("hh:mm A")}
             </span>
             <span>
-              OUT TIME :{" "}
+              OUT TIME :
               {moment(eventInfo.event.extendedProps.outTime).format("hh:mm A")}
             </span>
           </div>
@@ -60,7 +60,7 @@ const EmployeeProfile = () => {
     });
     setAttendances(reqData);
   }, [attendanceData]);
-  console.log(attendances);
+  // console.log(attendances);
 
   return (
     <PanelLayout title="User Profile - SY HR MS">
@@ -71,23 +71,26 @@ const EmployeeProfile = () => {
         <EmployeeDetails />
         {/* <CardHead /> */}
         {/* <ProfileTabs /> */}
-        <div className="w-full">
-          <div className="mb-4">
-            <HeadText title="Month wise attendance" />
+        <div className="flex gap-3">
+          <div className="w-[30%] h-80 border-2"></div>
+          <div className="w-[70%]">
+            <div className="mb-4">
+              <HeadText title="Month wise attendance" />
+            </div>
+            <FullCalendar
+              plugins={[dayGridPlugin, interactionPlugin]}
+              initialView="dayGridMonth"
+              weekends={true}
+              eventContent={renderEventContent}
+              events={attendances}
+              // viewDidMount={handleViewRender}
+              // dateClick={handleDateClick}
+              // eventClick={handleViewRender}
+              // dateClick={handleDateClick}
+              // viewSkeletonRender={handleMonthChange}
+              // initialDate={new Date("2023-03-28")}
+            />
           </div>
-          <FullCalendar
-            plugins={[dayGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
-            weekends={true}
-            eventContent={renderEventContent}
-            events={attendances}
-            // viewDidMount={handleViewRender}
-            // dateClick={handleDateClick}
-            // eventClick={handleViewRender}
-            // dateClick={handleDateClick}
-            // viewSkeletonRender={handleMonthChange}
-            // initialDate={new Date("2023-03-28")}
-          />
         </div>
       </section>
     </PanelLayout>
@@ -104,23 +107,8 @@ const links = [
   },
 ];
 
-const attendance = [
-  { title: "PRESENT", date: "2023-04-03" },
-  { title: "ABSENT", date: "2023-04-04" },
-  { title: "PRESENT", date: "2023-04-05" },
-  { title: "PRESENT", date: "2023-04-06" },
-  { title: "PRESENT", date: "2023-04-07" },
-  { title: "PRESENT", date: "2023-04-10" },
-  { title: "PRESENT", date: "2023-04-11" },
-  { title: "PRESENT", date: "2023-04-12" },
-  { title: "PRESENT", date: "2023-04-13" },
-  { title: "PRESENT", date: "2023-04-14" },
-  { title: "PRESENT", date: "2023-04-17" },
-  { title: "PRESENT", date: "2023-04-18" },
-  { title: "PRESENT", date: "2023-04-19" },
-  { title: "PRESENT", date: "2023-04-20" },
-  { title: "PRESENT", date: "2023-04-21" },
-  { title: "PRESENT", date: "2023-04-24" },
-  { title: "PRESENT", date: "2023-04-25" },
-  { title: "PRESENT", date: "2023-04-26" },
-];
+// const attendance = [
+//   { title: "PRESENT", date: "2023-04-03" },
+//   { title: "ABSENT", date: "2023-04-04" },
+//   { title: "PRESENT", date: "2023-04-05" },
+// ];

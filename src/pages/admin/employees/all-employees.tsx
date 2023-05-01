@@ -26,7 +26,7 @@ const AllEmployees = () => {
     setIsRole(event.target.value);
   };
   const { data: roleData } = useFetch<[{ id: string; name: string }]>(`roles`);
-  // console.log("roleData------------", roleData);
+  console.log("roleData------------", roleData);
   const { data: employees, mutate, isLoading } = useFetch<User[]>(`users`);
   useEffect(() => {
     if (employees) {
@@ -53,9 +53,6 @@ const AllEmployees = () => {
     }
   }, [isRole]);
   // console.log("allemployees--------------", searchedUser);
-  if (isLoading) {
-    return <Loader />;
-  }
   return (
     <PanelLayout title="All Users - SY HR MS">
       <section className="px-8">
@@ -145,16 +142,16 @@ const AllEmployees = () => {
             Search
           </Button>
         </div>
-        {isGrid ? (
-          !searchedUser.length ? (
-            <LoaderAnime />
-          ) : (
-            <EmplyeesGrid data={searchedUser} />
-          )
-        ) : !searchedUser.length ? (
-          <LoaderAnime />
+        {isLoading ? (
+          <Loader />
         ) : (
-          <EmployeesColumn data={searchedUser} />
+          <section>
+            {isGrid ? (
+              <EmplyeesGrid data={searchedUser} />
+            ) : (
+              <EmployeesColumn data={searchedUser} />
+            )}
+          </section>
         )}
       </section>
     </PanelLayout>
@@ -162,13 +159,6 @@ const AllEmployees = () => {
 };
 
 export default AllEmployees;
-
-const roles = [
-  { id: 1, value: "Web Developer" },
-  { id: 2, value: "IOS Developer" },
-  { id: 3, value: "Android Developer" },
-  { id: 4, value: "Team Leader" },
-];
 
 const links = [
   { id: 1, page: "Employees", link: "/admin/employees" },

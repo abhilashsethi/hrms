@@ -17,14 +17,8 @@ const Loader = ({ image, animeHight = 250, animeWidth = 250 }: Props) => {
   };
 
   return (
-    <div className="h-[60vh] w-full flex flex-col justify-center items-center">
-      <div>
-        <Lottie
-          options={defaultOptions}
-          height={animeHight}
-          width={animeWidth}
-        />
-      </div>
+    <div className="h-[70vh] w-full flex flex-col justify-center items-center">
+      <Lottie options={defaultOptions} height={animeHight} width={animeWidth} />
     </div>
   );
 };

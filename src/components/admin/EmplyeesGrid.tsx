@@ -3,14 +3,19 @@ import {
   EditRounded,
   HomeRepairServiceRounded,
   InfoRounded,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
   MoreVertRounded,
 } from "@mui/icons-material";
 import {
+  Button,
   Grid,
   IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
+  Pagination,
+  Stack,
   Tooltip,
 } from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
@@ -29,6 +34,8 @@ interface Props {
 }
 const EmplyeesGrid = ({ data }: Props) => {
   const { data: employees, mutate, isLoading } = useFetch<User[]>(`users`);
+  console.log("employees----", employees);
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
 
   const sortData = data?.sort(
     (a: any, b: any) =>
@@ -46,6 +53,36 @@ const EmplyeesGrid = ({ data }: Props) => {
           </Grid>
         ))}
       </Grid>
+      {/* <Pagination
+        chunk={chunk}
+        isLastChunk={data?.data?.data?.isLastChunk}
+        isLoading={isLoading}
+        setChunk={setChunk}
+      /> */}
+      <Stack spacing={2}>
+        <Pagination count={10} variant="outlined" />
+      </Stack>
+      {/* <div className="flex justify-between items-center py-4">
+        <Button
+          className="!bg-theme"
+          variant="contained"
+          startIcon={<KeyboardArrowLeft />}
+          onClick={() => setCurrentPage((prev: any) => prev - 1)}
+        >
+          PREV
+        </Button>
+        <div className="h-8 flex justify-center items-center w-8 bg-slate-300 rounded-full tracking-wide font-semibold">
+          {currentPage}
+        </div>
+        <Button
+          className="!bg-theme"
+          variant="contained"
+          endIcon={<KeyboardArrowRight />}
+          onClick={() => setCurrentPage((prev: any) => prev + 1)}
+        >
+          NEXT
+        </Button>
+      </div> */}
     </section>
   );
 };
