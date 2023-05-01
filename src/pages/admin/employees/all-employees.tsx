@@ -25,7 +25,7 @@ const AllEmployees = () => {
   const handleChange = (event: any) => {
     setIsRole(event.target.value);
   };
-  const { data: roleData } = useFetch<[{ id: string; name: string }]>(`roles`);
+  const { data: roleData } = useFetch<any>(`roles`);
   // console.log("roleData------------", roleData);
   const { data: employees, mutate, isLoading } = useFetch<User[]>(`users`);
   useEffect(() => {
@@ -130,7 +130,7 @@ const AllEmployees = () => {
             value={isRole}
             onChange={handleChange}
           >
-            {roleData?.map((option) => (
+            {roleData?.roles?.map((option: any) => (
               <MenuItem key={option.id} value={option.id}>
                 {option.name}
               </MenuItem>

@@ -140,7 +140,6 @@ const EmployeeDetails = () => {
   if (isLoading) {
     return <Loader />;
   }
-  console.log("basic", employData);
   return (
     <section>
       <ChangeProfile
