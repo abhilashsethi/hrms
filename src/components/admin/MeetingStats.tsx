@@ -5,8 +5,6 @@ import CircularProgress, {
 } from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import moment from "moment";
-import { DEFAULTPROFILE } from "assets/home";
 
 const MeetingStats = () => {
 	function CircularProgressWithLabel(

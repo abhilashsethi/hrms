@@ -12,8 +12,6 @@ import {
 	Menu,
 	MenuItem,
 } from "@mui/material";
-import ICONS from "assets/icons";
-import ProjectOverview from "components/analytics/ProjectOverview";
 import RoleBarChart from "components/analytics/RoleBarChart";
 import RoleDonutChart from "components/analytics/RoleDonutChart";
 import TaskOverview from "components/analytics/TaskOverview";

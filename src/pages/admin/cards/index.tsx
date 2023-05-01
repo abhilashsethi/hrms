@@ -6,7 +6,6 @@ import {
 } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import CardStatus from "components/analytics/CardStatus";
-import AttendanceReport from "components/analytics/AttendanceReport";
 import CardsAreaChart from "components/analytics/CardsAreaChart";
 import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";

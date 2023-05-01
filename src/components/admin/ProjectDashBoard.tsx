@@ -12,7 +12,6 @@ import {
 	Menu,
 	MenuItem,
 } from "@mui/material";
-import ICONS from "assets/icons";
 import ProgressBarDealsDashboard from "components/analytics/ProgressBarDealsDashboard";
 import ProjectBarGraph from "components/analytics/ProjectBarGraph";
 import ProjectsPieChart from "components/analytics/ProjectsPieChart";
