@@ -71,12 +71,6 @@ export default () => {
             icon: <PersonAddAltRounded />,
             route: "/admin/employees/create-employee",
           },
-          {
-            key: "3-4",
-            title: "Leaves",
-            icon: <MedicalInformationRounded />,
-            route: "/admin/employees/leaves",
-          },
         ],
       },
       {
@@ -188,11 +182,30 @@ export default () => {
       },
       {
         key: "9",
+        title: "Leaves",
+        icon: <ManageAccountsRounded />,
+        submenus: [
+          {
+            key: "9-1",
+            title: "Dashboard",
+            icon: <DashboardRounded />,
+            route: "/admin/leaves",
+          },
+          {
+            key: "9-2",
+            title: "Leaves",
+            icon: <MedicalInformationRounded />,
+            route: "/admin/leaves/all-leaves",
+          },
+        ],
+      },
+      {
+        key: "11",
         title: "Settings",
         icon: <Settings />,
         submenus: [
           {
-            key: "9-1",
+            key: "11-1",
             title: "Change Password",
             icon: <Key />,
             route: "/admin/change-password",
