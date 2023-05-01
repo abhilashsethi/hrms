@@ -97,17 +97,17 @@ const MeetingsGrid = () => {
               <span className="py-1 pr-4 text-xl font-semibold capitalize tracking-wide">
                 {items?.name}
               </span>
-              <div className="py-1 group flex items-center gap-x-2 ">
+              <div className="py-1 group flex items-center gap-x-2 tracking-wide">
                 <AccessTime />
                 <span>{items?.startLine}</span>
               </div>
               <div className="py-2 text-lg tracking-wide">
-                <span>Purpose :</span>
+                <span className="text-md font-medium">Purpose :</span>
                 <p>{items?.description}</p>
               </div>
               <div className=" group flex items-center py-2 text-md tracking-wide text-lg">
                 <Place />
-                <span>Location :</span>
+                <span className="text-md font-medium">Location :</span>
               </div>
               <iframe
                 className="w-full py-2"

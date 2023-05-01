@@ -90,7 +90,7 @@ const AllMeetings = () => {
                 </div>
                 <ChevronRightRounded />
               </div>
-              <Link href="/admin/employees/create-employee">
+              {/* <Link href="/admin/employees/create-employee">
                 <Button
                   className="!bg-theme"
                   variant="contained"
@@ -98,7 +98,7 @@ const AllMeetings = () => {
                 >
                   ADD MEETINGS
                 </Button>
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -156,6 +156,6 @@ const roles = [
 ];
 
 const links = [
-  { id: 1, page: "Employees", link: "/admin/employees" },
-  { id: 2, page: "All Employees", link: "/admin/employees/all-employees" },
+  { id: 1, page: "Meetings", link: "/admin/meetings" },
+  { id: 2, page: "All Meetings", link: "/admin/meetings/all-meetings" },
 ];
