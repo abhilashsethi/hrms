@@ -32,7 +32,7 @@ const validationSchema = Yup.object().shape({
   userIDs: Yup.array().required("Please assign users!"),
   startDate: Yup.string().required("Start Date is required!"),
   endDate: Yup.string().required("End Date is required!"),
-  prodURL: Yup.string().required("Prod URL is required!").url("Invalid Url"),
+  prodURL: Yup.string().url("Invalid Url"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
     .min(2, "Name must be at least 2 characters")
@@ -40,14 +40,11 @@ const validationSchema = Yup.object().shape({
     .required("Name is required!"),
   description: Yup.string()
     .min(5, "Description must be at least 2 characters")
-    .max(500, "Description must be less than 500 characters")
-    .required("Description is required!"),
-  github: Yup.string()
-    .required("GitHub repository link is required")
-    .matches(
-      /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
-      "Invalid GitHub repository link"
-    ),
+    .max(500, "Description must be less than 500 characters"),
+  github: Yup.string().matches(
+    /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
+    "Invalid GitHub repository link"
+  ),
   gmail: Yup.string().email("Invalid gmail address"),
 });
 
@@ -110,7 +107,10 @@ const CreateProjects = () => {
                   <div className="grid lg:grid-cols-2">
                     <div className="px-4 py-2">
                       <div className="py-2">
-                        <InputLabel htmlFor="name">Project Name</InputLabel>
+                        <InputLabel htmlFor="name">
+                          Project Name{" "}
+                          <span className="text-red-600 px-2 ">*</span>
+                        </InputLabel>
                       </div>
                       <TextField
                         fullWidth
@@ -127,22 +127,85 @@ const CreateProjects = () => {
                     </div>
                     <div className="px-4 py-2">
                       <div className="py-2">
-                        <InputLabel htmlFor="gmail">Gmail</InputLabel>
+                        <InputLabel htmlFor="startDate">
+                          Start Date
+                          <span className="text-red-600 px-2 ">*</span>
+                        </InputLabel>
                       </div>
                       <TextField
                         size="small"
                         fullWidth
-                        placeholder="Gmail"
-                        id="gmail"
-                        name="gmail"
-                        value={values.gmail}
-                        onChange={handleChange}
+                        type="date"
+                        placeholder="Start Date"
+                        id="startDate"
+                        name="startDate"
+                        value={moment(values?.startDate).format("YYYY-MM-DD")}
+                        onChange={(e) => {
+                          setFieldValue("startDate", new Date(e?.target.value));
+                        }}
+                        //     value={values.startDate}
+                        //     onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.gmail && !!errors.gmail}
-                        helperText={touched.gmail && errors.gmail}
+                        error={touched.startDate && !!errors.startDate}
+                        helperText={touched.startDate && errors.startDate}
                       />
                     </div>
-
+                    <div className="px-4 py-2">
+                      <div className="py-2">
+                        <InputLabel htmlFor="endDate">
+                          End Date
+                          <span className="text-red-600 px-2 ">*</span>
+                        </InputLabel>
+                      </div>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        type="date"
+                        placeholder="End Date"
+                        id="endDate"
+                        name="endDate"
+                        value={moment(values?.endDate).format("YYYY-MM-DD")}
+                        onChange={(e) => {
+                          setFieldValue("endDate", new Date(e?.target.value));
+                        }}
+                        onBlur={handleBlur}
+                        error={touched.endDate && !!errors.endDate}
+                        helperText={touched.endDate && errors.endDate}
+                      />
+                    </div>
+                    <div className="px-4 py-2">
+                      <div className="py-2">
+                        <InputLabel htmlFor="employee">
+                          Select Team Member
+                          <span className="text-red-600 px-2 ">*</span>
+                        </InputLabel>
+                      </div>
+                      <Autocomplete
+                        multiple
+                        fullWidth
+                        limitTags={2}
+                        size="small"
+                        id="userIDs"
+                        options={data || []}
+                        onChange={(e: any, r: any) => {
+                          setFieldValue(
+                            "userIDs",
+                            r?.map((data: { id: string }) => data?.id)
+                          );
+                        }}
+                        getOptionLabel={(option: any) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Employee Name"
+                            placeholder="Assigned"
+                            onBlur={handleBlur}
+                            error={touched.userIDs && !!errors.userIDs}
+                            helperText={touched.userIDs && errors.userIDs}
+                          />
+                        )}
+                      />
+                    </div>
                     <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="devURL">Dev URL</InputLabel>
@@ -194,82 +257,7 @@ const CreateProjects = () => {
                         helperText={touched.github && errors.github}
                       />
                     </div>
-                    <div className="px-4 py-2">
-                      <div className="py-2">
-                        <InputLabel htmlFor="startDate">Start Date</InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        type="date"
-                        placeholder="Start Date"
-                        id="startDate"
-                        name="startDate"
-                        value={moment(values?.startDate).format("YYYY-MM-DD")}
-                        onChange={(e) => {
-                          setFieldValue("startDate", new Date(e?.target.value));
-                        }}
-                        //     value={values.startDate}
-                        //     onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.startDate && !!errors.startDate}
-                        helperText={touched.startDate && errors.startDate}
-                      />
-                    </div>
-                    <div className="px-4 py-2">
-                      <div className="py-2">
-                        <InputLabel htmlFor="endDate">End Date</InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        type="date"
-                        placeholder="End Date"
-                        id="endDate"
-                        name="endDate"
-                        value={moment(values?.endDate).format("YYYY-MM-DD")}
-                        onChange={(e) => {
-                          setFieldValue("endDate", new Date(e?.target.value));
-                        }}
-                        //     value={values.endDate}
-                        //     onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.endDate && !!errors.endDate}
-                        helperText={touched.endDate && errors.endDate}
-                      />
-                    </div>
-                    <div className="px-4 py-2">
-                      <div className="py-2">
-                        <InputLabel htmlFor="employee">
-                          Employee Name
-                        </InputLabel>
-                      </div>
-                      <Autocomplete
-                        multiple
-                        fullWidth
-                        limitTags={2}
-                        size="small"
-                        id="userIDs"
-                        options={data || []}
-                        onChange={(e: any, r: any) => {
-                          setFieldValue(
-                            "userIDs",
-                            r?.map((data: { id: string }) => data?.id)
-                          );
-                        }}
-                        getOptionLabel={(option: any) => option.name}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Employee Name"
-                            placeholder="Assigned"
-                            onBlur={handleBlur}
-                            error={touched.userIDs && !!errors.userIDs}
-                            helperText={touched.userIDs && errors.userIDs}
-                          />
-                        )}
-                      />
-                    </div>
+
                     <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="description">
