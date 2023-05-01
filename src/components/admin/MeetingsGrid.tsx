@@ -7,12 +7,12 @@ import {
 } from "@mui/icons-material";
 import {
   IconButton,
-  Link,
   ListItemIcon,
   Menu,
   MenuItem,
   Tooltip,
 } from "@mui/material";
+import { SAMPLEDP } from "assets/home";
 import { MouseEvent, useState } from "react";
 
 const MeetingsGrid = () => {
@@ -121,7 +121,7 @@ const MeetingsGrid = () => {
                   <img
                     alt=""
                     className="self-center flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-full bg-gray-500"
-                    src={items?.photo}
+                    src={SAMPLEDP.src}
                   />
                   <span className="text-sm pt-2 text-slate-400 font-medium">
                     {items?.client}
@@ -132,7 +132,7 @@ const MeetingsGrid = () => {
                   <img
                     alt=""
                     className="self-center flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-full bg-gray-500"
-                    src={items?.memberPhoto}
+                    src={SAMPLEDP.src}
                   />
                   <span className="text-sm pt-2 text-slate-400 font-medium">
                     {items?.member}
