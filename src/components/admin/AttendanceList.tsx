@@ -1,4 +1,5 @@
 import MaterialTable from "@material-table/core";
+import { RenderIconRow } from "components/common";
 import moment from "moment";
 import { Attendance } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
@@ -29,10 +30,14 @@ const AttendanceList = ({ data }: Props) => {
           {
             title: "Email",
             field: "email",
+            render: ({ email }) => <RenderIconRow value={email} isEmail />,
           },
           {
             title: "Employee ID",
             field: "employeeID",
+            render: ({ employeeID }) => (
+              <RenderIconRow value={employeeID} isId />
+            ),
           },
           {
             title: "Status",
