@@ -227,13 +227,13 @@ const EmployeeDetails = () => {
                   </Grid>
                 </Grid>
                 <div className="flex justify-between items-center pt-4">
-                  <p className="font-medium text-sm">
+                  {/* <p className="font-medium text-sm">
                     <span className="font-extrabold pr-2">16</span> PROJECTS
                     COMPLETED
                   </p>
                   <p className="font-medium text-sm">
                     <span className="font-extrabold pr-2">2</span> ONGOING
-                  </p>
+                  </p> */}
                   <div className="font-medium text-sm">
                     <Button
                       className="!bg-theme"
