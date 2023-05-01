@@ -30,12 +30,12 @@ const AttendanceList = ({ data }: Props) => {
           {
             title: "Email",
             field: "email",
-            render: ({ email }) => <RenderIconRow value={email} isEmail />,
+            render: ({ email }: any) => <RenderIconRow value={email} isEmail />,
           },
           {
             title: "Employee ID",
             field: "employeeID",
-            render: ({ employeeID }) => (
+            render: ({ employeeID }: any) => (
               <RenderIconRow value={employeeID} isId />
             ),
           },
