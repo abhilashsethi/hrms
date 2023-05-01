@@ -1,4 +1,6 @@
+import { useFetch } from "hooks";
 import dynamic from "next/dynamic";
+import { Card } from "types";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const CardStatus = ({
@@ -8,9 +10,15 @@ const CardStatus = ({
 	type: "bar" | "area" | "line" | "pie" | "donut";
 	text?: string;
 }) => {
+	const { data: cardData, mutate } = useFetch<Card[]>(`cards`);
+	console.log(cardData);
+
 	const options = {
 		labels: ["Blocked", "Un-Blocked"],
-		series: [120, 80],
+		series: [
+			cardData?.filter((item) => item?.isBlocked)?.length,
+			cardData?.filter((item) => item?.isBlocked === false)?.length,
+		],
 		chart: {
 			type: "donut",
 		},
@@ -36,6 +44,11 @@ const CardStatus = ({
 			style: {
 				color: "#444",
 			},
+		},
+		legend: {
+			position: "bottom",
+			// offsetX: 0,
+			// offsetY: 50,
 		},
 	};
 
@@ -75,8 +88,13 @@ const CardStatus = ({
 						color: "#444",
 					},
 				},
+				legend: {
+					position: "bottom",
+					// offsetX: 0,
+					// offsetY: 50,
+				},
 			}}
-			series={options.series}
+			series={options.series as any}
 			type={type}
 		/>
 	);
