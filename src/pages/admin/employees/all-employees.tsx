@@ -18,13 +18,15 @@ import { User } from "types";
 const AllEmployees = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [userName, setUsername] = useState("");
+  const [isRole, setIsRole] = useState<string | null>(null);
   const [searchedUser, setSearchedUser] = useState<any>([]);
   const [isUpload, setIsUpload] = useState(false);
   const [empId, setEmpId] = useState("");
-  const [value, setValue] = useState("Web Developer");
   const handleChange = (event: any) => {
-    setValue(event.target.value);
+    setIsRole(event.target.value);
   };
+  const { data: roleData } = useFetch<[{ id: string; name: string }]>(`roles`);
+  console.log("roleData------------", roleData);
   const { data: employees, mutate, isLoading } = useFetch<User[]>(`users`);
   useEffect(() => {
     if (employees) {
@@ -42,6 +44,15 @@ const AllEmployees = () => {
       setSearchedUser(filtered);
     }
   }, [employees, empId]);
+  useEffect(() => {
+    if (isRole) {
+      const filtered = employees?.filter((user: any) => {
+        return user?.roleId === isRole;
+      });
+      setSearchedUser(filtered);
+    }
+  }, [isRole]);
+  console.log("allemployees--------------", searchedUser);
   if (isLoading) {
     return <Loader />;
   }
@@ -116,12 +127,12 @@ const AllEmployees = () => {
             select
             label="Select Role"
             size="small"
-            value={value}
+            value={isRole}
             onChange={handleChange}
           >
-            {roles.map((option) => (
-              <MenuItem key={option.id} value={option.value}>
-                {option.value}
+            {roleData?.map((option) => (
+              <MenuItem key={option.id} value={option.id}>
+                {option.name}
               </MenuItem>
             ))}
           </TextField>
