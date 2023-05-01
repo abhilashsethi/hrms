@@ -27,7 +27,7 @@ interface Props {
 }
 const validationSchema = Yup.object().shape({
   devURL: Yup.string().required("Dev URL is required!").url("Invalid Url"),
-  // userIDs: Yup.array().required("Please assign users!").nullable(),
+  userIDs: Yup.array().required("Please assign users!").nullable(),
   startDate: Yup.string().required("Start Date is required!"),
   endDate: Yup.string().required("End Date is required!"),
   prodURL: Yup.string().required("Prod URL is required!").url("Invalid Url"),
