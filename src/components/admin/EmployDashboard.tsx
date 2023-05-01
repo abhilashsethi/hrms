@@ -12,6 +12,8 @@ import RolewiseStrength from "components/analytics/RolewiseStrength";
 import GenderRation from "components/analytics/GenderRation";
 import { useState, MouseEvent } from "react";
 import { UpcomingLeaves } from "components/core";
+import { useFetch } from "hooks";
+import { User, Attendance } from "types";
 
 const EmployDashboard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -22,6 +24,43 @@ const EmployDashboard = () => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
+	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
+	console.log(employeeData);
+
+	const cards = [
+		{
+			id: 1,
+			icon: <People fontSize="large" className="text-theme" />,
+			count: employeeData?.length,
+			title: "Total Employees",
+		},
+		{
+			id: 2,
+			icon: <AccountTreeRounded fontSize="large" className="text-theme" />,
+			count: employeeData?.filter((item) => item?.isBlocked === false)?.length,
+			title: "Active Employees",
+		},
+		{
+			id: 3,
+			icon: (
+				<PlaylistAddCheckCircleRounded
+					fontSize="large"
+					className="text-theme"
+				/>
+			),
+			count: employeeData?.filter((item) => item?.isBlocked === true)?.length,
+			title: "Inactive Employees",
+		},
+		{
+			id: 4,
+			icon: <DoNotTouchRounded fontSize="large" className="text-theme" />,
+			count: employeeData?.filter((item) => item?.isOfficeAccessGranted)
+				?.length,
+			title: "Total Office Access",
+		},
+	];
+
 	return (
 		<>
 			<div className="flex gap-2 py-4">
@@ -97,32 +136,3 @@ const EmployDashboard = () => {
 };
 
 export default EmployDashboard;
-
-const cards = [
-	{
-		id: 1,
-		icon: <People fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "Total Employees",
-	},
-	{
-		id: 2,
-		icon: <AccountTreeRounded fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "Active Employees",
-	},
-	{
-		id: 3,
-		icon: (
-			<PlaylistAddCheckCircleRounded fontSize="large" className="text-theme" />
-		),
-		count: "34",
-		title: "Inactive Employees",
-	},
-	{
-		id: 4,
-		icon: <DoNotTouchRounded fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "Total Office Access",
-	},
-];
