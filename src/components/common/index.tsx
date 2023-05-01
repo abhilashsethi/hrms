@@ -1,13 +1,16 @@
+import { HomeRepairServiceRounded } from "@mui/icons-material";
 import ICONS from "assets/icons";
 
 export function RenderIconRow({
   value,
   isEmail,
   isPhone,
+  isId,
 }: {
   value: any;
   isEmail?: boolean;
   isPhone?: boolean;
+  isId?: boolean;
 }) {
   return (
     <>
@@ -20,6 +23,13 @@ export function RenderIconRow({
           <a href={`tel:${value}`} className="hover:text-blue-500">
             <ICONS.Call />
           </a>
+        ) : isId ? (
+          <>
+            {" "}
+            <span className="hover:text-blue-500">
+              <HomeRepairServiceRounded />
+            </span>
+          </>
         ) : null}
         <span>{value}</span>
         <button

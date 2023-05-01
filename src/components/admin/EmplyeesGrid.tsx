@@ -230,7 +230,8 @@ const CardContent = ({ item, mutate }: any) => {
         <RenderIconRow value={item?.email} isEmail />
       </span>
       <div className="flex gap-2 items-center font-semibold text-sm">
-        <HomeRepairServiceRounded /> {item?.employeeID}
+        <RenderIconRow value={item?.employeeID} isId />
+        {/* <HomeRepairServiceRounded /> {item?.employeeID} */}
       </div>
       <div className="w-full px-8 flex gap-2 mt-2">
         <div className="w-1/2 py-1.5 rounded-lg border-2 flex flex-col items-center gap-1">
