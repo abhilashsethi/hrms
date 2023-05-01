@@ -8,9 +8,63 @@ import { Grid } from "@mui/material";
 import CardStatus from "components/analytics/CardStatus";
 import CardsAreaChart from "components/analytics/CardsAreaChart";
 import { AdminBreadcrumbs } from "components/core";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
+import { Card } from "types";
 
 const Cards = () => {
+	const { data: cardData, mutate } = useFetch<Card[]>(`cards`);
+	console.log(cardData);
+
+	const cards = [
+		{
+			id: 1,
+			title: "Total Cards",
+			value: cardData?.length,
+			route: "",
+			icon: (
+				<CreditCardRounded
+					fontSize="large"
+					className="text-theme group-hover:text-white"
+				/>
+			),
+		},
+		{
+			id: 2,
+			title: "Cards Assigned",
+			value: cardData?.filter((item) => item?.userId)?.length,
+			route: "",
+			icon: (
+				<CreditScore
+					fontSize="large"
+					className="text-theme  group-hover:text-white"
+				/>
+			),
+		},
+		{
+			id: 3,
+			title: "Blocked Cards",
+			value: cardData?.filter((item) => item?.isBlocked)?.length,
+			route: "",
+			icon: (
+				<Block fontSize="large" className="text-theme group-hover:text-white" />
+			),
+		},
+		{
+			id: 4,
+			title: "Scanned Cards",
+			value: cardData?.length,
+			route: "/admin/cards/scanned",
+			icon: (
+				<QrCodeScanner
+					fontSize="large"
+					className="text-theme group-hover:text-white"
+				/>
+			),
+		},
+	];
+
 	return (
 		<PanelLayout title="Cards Dashboard - SY HR MS">
 			<section className="px-8 py-4">
@@ -19,17 +73,19 @@ const Cards = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="deals-card group hover:bg-theme transition duration-500 ease-in-out w-full tracking-wide  h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center">
-									<div className=" flex justify-center items-center">
-										{item?.icon}
+								<Link href={item?.route && item?.route}>
+									<div className="deals-card group hover:bg-theme transition duration-500 ease-in-out w-full tracking-wide  h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center">
+										<div className=" flex justify-center items-center">
+											{item?.icon}
+										</div>
+										<p className="text-base font-semibold text-center group-hover:text-white">
+											{item?.title}
+										</p>
+										<p className="text-lg font-bold text-gray-600 group-hover:text-white">
+											{item?.value}
+										</p>
 									</div>
-									<p className="text-base font-semibold text-center group-hover:text-white">
-										{item?.title}
-									</p>
-									<p className="text-lg font-bold text-gray-600 group-hover:text-white">
-										{item?.value}
-									</p>
-								</div>
+								</Link>
 							</Grid>
 						))}
 					</Grid>
@@ -39,6 +95,7 @@ const Cards = () => {
 						<CardsAreaChart text="Repairs Report" type="area" />
 					</div>
 					<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
+						<p className="text-lg font-bold text-center">Scanned Users</p>
 						<CardStatus text="" type="donut" />
 					</div>
 				</div>
@@ -50,50 +107,6 @@ const Cards = () => {
 export default Cards;
 
 const links = [{ id: 1, page: "Cards", link: "/admin/cards" }];
-
-const cards = [
-	{
-		id: 1,
-		title: "Total Cards",
-		value: "12",
-		icon: (
-			<CreditCardRounded
-				fontSize="large"
-				className="text-theme group-hover:text-white"
-			/>
-		),
-	},
-	{
-		id: 2,
-		title: "Cards Assigned",
-		value: "1",
-		icon: (
-			<CreditScore
-				fontSize="large"
-				className="text-theme  group-hover:text-white"
-			/>
-		),
-	},
-	{
-		id: 3,
-		title: "Blocked Cards",
-		value: "2",
-		icon: (
-			<Block fontSize="large" className="text-theme group-hover:text-white" />
-		),
-	},
-	{
-		id: 4,
-		title: "Scanned Cards",
-		value: "4",
-		icon: (
-			<QrCodeScanner
-				fontSize="large"
-				className="text-theme group-hover:text-white"
-			/>
-		),
-	},
-];
 
 const leave_status = [
 	{
