@@ -200,6 +200,25 @@ export default () => {
         ],
       },
       {
+        key: "10",
+        title: "Department",
+        icon: <ManageAccountsRounded />,
+        submenus: [
+          {
+            key: "10-1",
+            title: "Dashboard",
+            icon: <DashboardRounded />,
+            route: "/admin/department",
+          },
+          {
+            key: "10-2",
+            title: "All Department",
+            icon: <MedicalInformationRounded />,
+            route: "/admin/department/all-department",
+          },
+        ],
+      },
+      {
         key: "11",
         title: "Settings",
         icon: <Settings />,
