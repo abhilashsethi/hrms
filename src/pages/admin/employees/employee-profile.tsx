@@ -46,7 +46,7 @@ const EmployeeProfile = () => {
       </>
     );
   }
-  console.log(new Date().getMonth());
+  // console.log(new Date().getMonth());
   const { data: attendanceData } = useFetch<any>(
     `attendances/${router?.query?.id}`
   );

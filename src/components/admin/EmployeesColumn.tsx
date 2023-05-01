@@ -94,6 +94,9 @@ const EmployeesColumn = ({ data }: Props) => {
             title: "Employee ID",
             field: "employeeID",
             emptyValue: "Not Provided",
+            render: ({ employeeID }) => (
+              <RenderIconRow value={employeeID} isId />
+            ),
             editable: "never",
           },
           {

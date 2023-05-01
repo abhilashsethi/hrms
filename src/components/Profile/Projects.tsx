@@ -55,7 +55,24 @@ const Projects = () => {
               <h2>Team :</h2>
               <ProfilesView item={item?.userIDs} />
             </div>
-            <div className="py-2 text-md">
+            <div className="flex gap-2 justify-center py-2">
+              <Link href={item?.github}>
+                <button className="hover:scale-105 ease-in-out transition-all duration-200 px-4 py-1 text-sm bg-theme rounded-md text-white font-semibold">
+                  Github
+                </button>
+              </Link>
+              <Link href={item?.devURL}>
+                <button className="hover:scale-105 ease-in-out transition-all duration-200 px-4 py-1 text-sm bg-theme rounded-md text-white font-semibold">
+                  Developing URL
+                </button>
+              </Link>
+              <Link href={item?.prodURL}>
+                <button className="hover:scale-105 ease-in-out transition-all duration-200 px-4 py-1 text-sm bg-theme rounded-md text-white font-semibold">
+                  Production URL
+                </button>
+              </Link>
+            </div>
+            {/* <div className="py-2 text-md">
               <h2>Github :</h2>
               <Link href="#">{item?.github}</Link>
             </div>
@@ -66,7 +83,7 @@ const Projects = () => {
             <div className="py-2 text-md">
               <h2>Production URL :</h2>
               <Link href="#">{item?.prodURL} </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       ))}

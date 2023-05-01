@@ -12,6 +12,8 @@ import RolewiseStrength from "components/analytics/RolewiseStrength";
 import GenderRation from "components/analytics/GenderRation";
 import { useState, MouseEvent } from "react";
 import { UpcomingLeaves } from "components/core";
+import { useFetch } from "hooks";
+import { User, Attendance } from "types";
 
 const EmployDashboard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -22,10 +24,47 @@ const EmployDashboard = () => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
+	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
+	console.log(employeeData);
+
+	const cards = [
+		{
+			id: 1,
+			icon: <People fontSize="large" className="text-theme" />,
+			count: employeeData?.length,
+			title: "Total Employees",
+		},
+		{
+			id: 2,
+			icon: <AccountTreeRounded fontSize="large" className="text-theme" />,
+			count: employeeData?.filter((item) => item?.isBlocked === false)?.length,
+			title: "Active Employees",
+		},
+		{
+			id: 3,
+			icon: (
+				<PlaylistAddCheckCircleRounded
+					fontSize="large"
+					className="text-theme"
+				/>
+			),
+			count: employeeData?.filter((item) => item?.isBlocked)?.length,
+			title: "Inactive Employees",
+		},
+		{
+			id: 4,
+			icon: <DoNotTouchRounded fontSize="large" className="text-theme" />,
+			count: employeeData?.filter((item) => item?.isOfficeAccessGranted)
+				?.length,
+			title: "Total Office Access",
+		},
+	];
+
 	return (
 		<>
 			<div className="flex gap-2 py-4">
-				<div className="w-3/4 px-4 ">
+				<div className="w-2/3 px-4 ">
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
@@ -55,13 +94,13 @@ const EmployDashboard = () => {
 							</Grid>
 						))}
 					</Grid>
-					<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
-						<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
+					<div className="grid grid-cols-12 content-between gap-10 m-5 !mb-6">
+						<div className="col-span-12 pt-20 w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
 							<DailyAttendance text="Employee's Report" type="area" />
 						</div>
 					</div>
 				</div>
-				<div className="w-1/4 p-3 bg-white rounded-xl shadow-xl flex flex-col gap-3">
+				<div className="w-1/3 p-3 bg-white rounded-xl shadow-xl flex flex-col gap-3">
 					<h1 className="mt-2 font-bold text-theme">PROJECTS</h1>
 					<div className="h-40 w-full border-2 rounded-xl py-4 px-6 flex tracking-wide">
 						<div className="w-1/2 border-r-2 h-full flex flex-col gap-3 justify-center items-center">
@@ -77,19 +116,17 @@ const EmployDashboard = () => {
 							</span>
 						</div>
 					</div>
-					<h1 className="mt-2 font-bold text-theme ">UPCOMING HOLIDAY</h1>
-					<div className="w-full h-16 border-2 grid place-items-center text-sm tracking-wide rounded-xl border-secondary-600">
-						Mon 20 May 2023 - Ramzan
-					</div>
 					<UpcomingLeaves />
 				</div>
 			</div>
-			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
+			<div className="grid grid-cols-12 content-between gap-6 mx-5 -mt-7 !mb-6">
 				<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
-					<RolewiseStrength text="Role-wise Strength" type="bar" />
+					<p className="text-lg font-bold text-center">Role-wise Strength</p>
+					<RolewiseStrength text="" type="bar" />
 				</div>
 				<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-					<GenderRation text="Employee Gender Ratio" type="donut" />
+					<p className="text-lg font-bold text-center">Employee Gender Ratio</p>
+					<GenderRation text="" type="donut" />
 				</div>
 			</div>
 		</>
@@ -97,32 +134,3 @@ const EmployDashboard = () => {
 };
 
 export default EmployDashboard;
-
-const cards = [
-	{
-		id: 1,
-		icon: <People fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "Total Employees",
-	},
-	{
-		id: 2,
-		icon: <AccountTreeRounded fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "Active Employees",
-	},
-	{
-		id: 3,
-		icon: (
-			<PlaylistAddCheckCircleRounded fontSize="large" className="text-theme" />
-		),
-		count: "34",
-		title: "Inactive Employees",
-	},
-	{
-		id: 4,
-		icon: <DoNotTouchRounded fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "Total Office Access",
-	},
-];

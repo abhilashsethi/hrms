@@ -1,85 +1,103 @@
+import { useFetch } from "hooks";
 import dynamic from "next/dynamic";
+import { Card } from "types";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const CardStatus = ({
-  type,
-  text = "",
+	type,
+	text = "",
 }: {
-  type: "bar" | "area" | "line" | "pie" | "donut";
-  text?: string;
+	type: "bar" | "area" | "line" | "pie" | "donut";
+	text?: string;
 }) => {
-  const options = {
-    labels: ["Blocked", "Un-Blocked"],
-    series: [120, 80],
-    chart: {
-      type: "donut",
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
-    colors: ["#b00b13", "#005d32"],
-    title: {
-      text: "Scanned Users",
-      floating: true,
-      offsetY: 130,
-      align: "center",
-      style: {
-        color: "#444",
-      },
-    },
-  };
+	const { data: cardData, mutate } = useFetch<Card[]>(`cards`);
+	console.log(cardData);
 
-  return (
-    <ApexCharts
-      height={"500"}
-      options={{
-        series: [44, 55, 41, 17, 15],
-        chart: {
-          type: "donut",
-        },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                position: "bottom",
-              },
-            },
-          },
-        ],
+	const options = {
+		labels: ["Blocked", "Un-Blocked"],
+		series: [
+			cardData?.filter((item) => item?.isBlocked)?.length,
+			cardData?.filter((item) => item?.isBlocked === false)?.length,
+		],
+		chart: {
+			type: "donut",
+		},
+		responsive: [
+			{
+				breakpoint: 480,
+				options: {
+					chart: {
+						width: 200,
+					},
+					legend: {
+						position: "bottom",
+					},
+				},
+			},
+		],
+		colors: ["#b00b13", "#005d32"],
+		title: {
+			text: text,
+			floating: true,
+			offsetY: 130,
+			align: "center",
+			style: {
+				color: "#444",
+			},
+		},
+		legend: {
+			position: "bottom",
+			// offsetX: 0,
+			// offsetY: 50,
+		},
+	};
 
-        labels: ["Blocked", "Un-Blocked"],
+	return (
+		<ApexCharts
+			height={"500"}
+			options={{
+				series: [44, 55, 41, 17, 15],
+				chart: {
+					type: "donut",
+				},
+				responsive: [
+					{
+						breakpoint: 480,
+						options: {
+							chart: {
+								width: 200,
+							},
+							legend: {
+								position: "bottom",
+							},
+						},
+					},
+				],
 
-        colors: ["#106EAD", "#C33C5E", "#25d366", "#BD33B5", "#E60023"],
+				labels: ["Blocked", "Un-Blocked"],
 
-        title: {
-          text: "Scanned Users",
-          floating: true,
-          offsetY: -5,
-          offsetX: -50,
-          align: "center",
-          style: {
-            color: "#444",
-          },
-        },
-      }}
-      series={options.series}
-      type={type}
-    />
-  );
+				colors: ["#106EAD", "#C33C5E", "#25d366", "#BD33B5", "#E60023"],
+
+				title: {
+					text: text,
+					floating: true,
+					offsetY: -5,
+					offsetX: -50,
+					align: "center",
+					style: {
+						color: "#444",
+					},
+				},
+				legend: {
+					position: "bottom",
+					// offsetX: 0,
+					// offsetY: 50,
+				},
+			}}
+			series={options.series as any}
+			type={type}
+		/>
+	);
 };
 
 export default CardStatus;

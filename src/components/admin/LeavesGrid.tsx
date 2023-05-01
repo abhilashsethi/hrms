@@ -1,5 +1,6 @@
 import { MoreVertRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
+import { SAMPLEDP } from "assets/home";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
 const LeavesGrid = () => {
@@ -109,7 +110,7 @@ const LeavesGrid = () => {
                 <img
                   alt=""
                   className="self-center flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-full bg-gray-500"
-                  src={item?.photo}
+                  src={SAMPLEDP.src}
                 />
                 <div className="flex-1 my-6">
                   <p className="text-xl font-semibold leading-snug">

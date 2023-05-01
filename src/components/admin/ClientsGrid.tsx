@@ -1,5 +1,6 @@
 import { MoreVertRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
+import { SAMPLEDP } from "assets/home";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
 const ClientsGrid = () => {
@@ -20,7 +21,7 @@ const ClientsGrid = () => {
             <>
               <div
                 key={index}
-                className="flex flex-col py-4 h-full justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-white  hover:scale-105 ease-in-out transition-all duration-200"
+                className="flex flex-col px-4 py-4 h-full justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-white  hover:scale-105 ease-in-out transition-all duration-200"
               >
                 <div className="absolute right-[10px] top-[10px]">
                   <IconButton onClick={handleClick}>
@@ -76,24 +77,24 @@ const ClientsGrid = () => {
                 <img
                   alt=""
                   className="self-center flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-full bg-gray-500"
-                  src={item?.photo}
+                  src={SAMPLEDP.src}
                 />
                 <div className="flex-1 mt-6">
-                  <h1 className="text-xl font-semibold leading-snug">
+                  <h1 className="text-lg font-semibold leading-snug">
                     {item?.company}
                   </h1>
-                  <p className="text-md font-semibold leading-snug">
+                  <p className="text-sm font-semibold leading-snug">
                     {item?.name}
                   </p>
-                  <p className="mb-2 text-md text-slate-400 font-medium">
+                  <p className="mb-2 text-sm text-slate-400 font-medium">
                     {item.role}
                   </p>
                 </div>
-                <div className="flex gap-4 justify-center">
-                  <button className="rounded-md bg-theme text-white font-semibold shadow-md px-4 py-2">
+                <div className="flex gap-3 justify-center">
+                  <button className="rounded-md text-sm bg-theme text-white font-semibold shadow-md px-4 py-1.5">
                     Message
                   </button>
-                  <button className="rounded-md bg-secondary text-white font-semibold shadow-md px-4 py-2">
+                  <button className="rounded-md text-sm bg-secondary text-white font-semibold shadow-md px-4 py-1.5">
                     View Profile
                   </button>
                 </div>
@@ -109,25 +110,25 @@ const ClientsGrid = () => {
 export default ClientsGrid;
 const leavData = [
   {
-    photo: "https://source.unsplash.com/100x100/?portrait?0",
+    photo: { SAMPLEDP },
     company: "CSS Technology",
     name: "Srinu Redy",
     role: "CEO",
   },
   {
-    photo: "https://source.unsplash.com/100x100/?portrait?1",
+    photo: { SAMPLEDP },
     company: "CSS Technology",
     name: "Kumara Gourav",
     role: "Manager",
   },
   {
-    photo: "https://source.unsplash.com/100x100/?portrait?2",
+    photo: { SAMPLEDP },
     company: "CSS Technology",
     name: "Sunil Mishra",
     role: "Director",
   },
   {
-    photo: "https://source.unsplash.com/100x100/?portrait?3",
+    photo: { SAMPLEDP },
     company: "CSS Technology",
     name: "Prasad Murmu",
     role: "CEO",

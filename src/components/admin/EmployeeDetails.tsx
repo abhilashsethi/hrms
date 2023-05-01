@@ -45,6 +45,7 @@ const EmployeeDetails = () => {
       title: "Emp Id",
       value: `${employData?.employeeID ? employData?.employeeID : "---"}`,
     },
+
     {
       id: 4,
       title: "Date Of Joining",
@@ -75,6 +76,21 @@ const EmployeeDetails = () => {
       id: 8,
       title: "Gender",
       value: `${employData?.gender ? employData?.gender : "---"}`,
+    },
+    {
+      id: 9,
+      title: "Blood Group",
+      value: `${employData?.bloodGroup ? employData?.bloodGroup : "---"}`,
+    },
+    {
+      id: 9,
+      title: "Department Id",
+      value: `${employData?.departmentId ? employData?.departmentId : "---"}`,
+    },
+    {
+      id: 9,
+      title: "Wallet",
+      value: `${employData?.wallet ? employData?.wallet : "---"}`,
     },
   ];
   const personalDetails = [
@@ -124,6 +140,7 @@ const EmployeeDetails = () => {
   if (isLoading) {
     return <Loader />;
   }
+  console.log("basic", employData);
   return (
     <section>
       <ChangeProfile
@@ -210,13 +227,13 @@ const EmployeeDetails = () => {
                   </Grid>
                 </Grid>
                 <div className="flex justify-between items-center pt-4">
-                  <p className="font-medium text-sm">
+                  {/* <p className="font-medium text-sm">
                     <span className="font-extrabold pr-2">16</span> PROJECTS
                     COMPLETED
                   </p>
                   <p className="font-medium text-sm">
                     <span className="font-extrabold pr-2">2</span> ONGOING
-                  </p>
+                  </p> */}
                   <div className="font-medium text-sm">
                     <Button
                       className="!bg-theme"
