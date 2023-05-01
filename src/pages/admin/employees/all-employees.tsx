@@ -26,7 +26,7 @@ const AllEmployees = () => {
     setIsRole(event.target.value);
   };
   const { data: roleData } = useFetch<[{ id: string; name: string }]>(`roles`);
-  console.log("roleData------------", roleData);
+  // console.log("roleData------------", roleData);
   const { data: employees, mutate, isLoading } = useFetch<User[]>(`users`);
   useEffect(() => {
     if (employees) {
@@ -52,7 +52,7 @@ const AllEmployees = () => {
       setSearchedUser(filtered);
     }
   }, [isRole]);
-  console.log("allemployees--------------", searchedUser);
+  // console.log("allemployees--------------", searchedUser);
   if (isLoading) {
     return <Loader />;
   }
