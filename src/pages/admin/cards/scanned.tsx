@@ -94,7 +94,11 @@ const Cards = () => {
             </div>
           </div>
         </div>
-        {isGrid ? <AllScannedGrid /> : <AllScannedColumn />}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div>{isGrid ? <AllScannedGrid /> : <AllScannedColumn />}</div>
+        )}
 
         <CardAssign
           cardId={isAssign?.activeCardId}

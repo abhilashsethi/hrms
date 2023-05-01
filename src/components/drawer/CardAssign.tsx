@@ -7,7 +7,7 @@ import {
   Radio,
   TextField,
 } from "@mui/material";
-import { SAMPLEDP } from "assets/home";
+import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
 import { RoleComponent } from "components/core";
 import { useChange, useFetch } from "hooks";
 import { useEffect, useState } from "react";
@@ -113,13 +113,13 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
                   <div className="h-[4rem] w-[4rem] rounded-full overflow-hidden shadow-lg">
                     {item?.photo && (
                       <img
-                        className="h-full object-cover"
-                        src={SAMPLEDP.src}
+                        className="h-full w-full object-cover"
+                        src={item?.photo || DEFAULTPROFILE.src}
                         alt=""
                       />
                     )}
                     {!item?.photo ? (
-                      <div className="h-full w-full rounded-full flex justify-center items-center text-2xl font-semibold bg-slate-300">
+                      <div className="h-full w-full text-white rounded-full flex justify-center items-center text-2xl font-semibold bg-gradient-to-br from-theme-100 via-theme-50 to-secondary-300">
                         {item?.name?.slice(0, 1)}
                       </div>
                     ) : null}
