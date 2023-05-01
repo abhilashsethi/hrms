@@ -1,3 +1,11 @@
+import RolewiseStrength from "components/analytics/RolewiseStrength";
+import DailyAttendance from "components/analytics/DailyAttendance";
+import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
+import GenderRation from "components/analytics/GenderRation";
+import { UpcomingLeaves } from "components/core";
+import { useState, MouseEvent } from "react";
+import ICONS from "assets/icons";
+import { useFetch } from "hooks";
 import {
 	AccountTreeRounded,
 	DoNotTouchRounded,
@@ -5,15 +13,8 @@ import {
 	People,
 	PlaylistAddCheckCircleRounded,
 } from "@mui/icons-material";
-import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
-import ICONS from "assets/icons";
-import DailyAttendance from "components/analytics/DailyAttendance";
-import RolewiseStrength from "components/analytics/RolewiseStrength";
-import GenderRation from "components/analytics/GenderRation";
-import { useState, MouseEvent } from "react";
-import { UpcomingLeaves } from "components/core";
-import { useFetch } from "hooks";
-import { User, Attendance } from "types";
+import { User } from "types";
+import Link from "next/link";
 
 const EmployDashboard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -26,19 +27,22 @@ const EmployDashboard = () => {
 	};
 
 	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
-	console.log(employeeData);
+	// console.log(employeeData);
 
 	const cards = [
 		{
 			id: 1,
 			icon: <People fontSize="large" className="text-theme" />,
 			count: employeeData?.length,
+			route: "/admin/employees/all-employees",
 			title: "Total Employees",
 		},
 		{
 			id: 2,
 			icon: <AccountTreeRounded fontSize="large" className="text-theme" />,
-			count: employeeData?.filter((item) => item?.isBlocked === false)?.length,
+			count:
+				employeeData?.filter((item) => item?.isBlocked === false)?.length || 0,
+			route: "",
 			title: "Active Employees",
 		},
 		{
@@ -49,14 +53,17 @@ const EmployDashboard = () => {
 					className="text-theme"
 				/>
 			),
-			count: employeeData?.filter((item) => item?.isBlocked)?.length,
+			route: "",
+			count: employeeData?.filter((item) => item?.isBlocked)?.length || 0,
 			title: "Inactive Employees",
 		},
 		{
 			id: 4,
 			icon: <DoNotTouchRounded fontSize="large" className="text-theme" />,
-			count: employeeData?.filter((item) => item?.isOfficeAccessGranted)
-				?.length,
+			count:
+				employeeData?.filter((item) => item?.isOfficeAccessGranted)?.length ||
+				0,
+			route: "",
 			title: "Total Office Access",
 		},
 	];
@@ -68,29 +75,33 @@ const EmployDashboard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="cursor-pointer hover:scale-105 transition duration-500 ease-in-out h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between border-b-4 border-theme">
-									<div className="flex justify-end">
-										<IconButton size="small" onClick={handleClick}>
-											<MoreVert />
-										</IconButton>
-										<Menu
-											anchorEl={anchorEl}
-											open={open}
-											onClose={handleClose}
-											MenuListProps={{
-												"aria-labelledby": "basic-button",
-											}}
-										>
-											<MenuItem onClick={handleClose}>All Users</MenuItem>
-											<MenuItem onClick={handleClose}>View Dashboard</MenuItem>
-										</Menu>
+								<Link href={item?.route && item?.route}>
+									<div className="cursor-pointer hover:scale-105 transition duration-500 ease-in-out h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between border-b-4 border-theme">
+										<div className="flex justify-end">
+											<IconButton size="small" onClick={handleClick}>
+												<MoreVert />
+											</IconButton>
+											<Menu
+												anchorEl={anchorEl}
+												open={open}
+												onClose={handleClose}
+												MenuListProps={{
+													"aria-labelledby": "basic-button",
+												}}
+											>
+												<MenuItem onClick={handleClose}>All Users</MenuItem>
+												<MenuItem onClick={handleClose}>
+													View Dashboard
+												</MenuItem>
+											</Menu>
+										</div>
+										<div>{item?.icon}</div>
+										<span className="text-lg">{item?.count}</span>
+										<span className="font-semibold tracking-wide text-sm">
+											{item?.title}
+										</span>
 									</div>
-									<div>{item?.icon}</div>
-									<span className="text-lg">{item?.count}</span>
-									<span className="font-semibold tracking-wide text-sm">
-										{item?.title}
-									</span>
-								</div>
+								</Link>
 							</Grid>
 						))}
 					</Grid>
