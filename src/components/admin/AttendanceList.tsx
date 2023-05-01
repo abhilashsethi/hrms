@@ -31,6 +31,10 @@ const AttendanceList = ({ data }: Props) => {
             field: "email",
           },
           {
+            title: "Employee ID",
+            field: "employeeID",
+          },
+          {
             title: "Status",
             field: "isPresent",
             render: (item: any) => {
@@ -55,12 +59,12 @@ const AttendanceList = ({ data }: Props) => {
           {
             title: "In Time",
             field: "createdAt",
-            render: (data) => moment(data?.createdAt).format("HH:MM:A"),
+            render: (data) => moment(data?.createdAt).format("HH:MM A"),
           },
           {
             title: "Out Time",
             field: "updatedAt",
-            render: (data) => moment(data?.updatedAt).format("HH:MM:A"),
+            render: (data) => moment(data?.updatedAt).format("HH:MM A"),
           },
         ]}
       />
