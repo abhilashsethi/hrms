@@ -46,7 +46,7 @@ const EmployeeProfile = () => {
       </>
     );
   }
-  console.log(new Date().getMonth());
+  // console.log(new Date().getMonth());
   const { data: attendanceData } = useFetch<any>(
     `attendances/${router?.query?.id}`
   );
@@ -60,7 +60,7 @@ const EmployeeProfile = () => {
     });
     setAttendances(reqData);
   }, [attendanceData]);
-  console.log(attendances);
+  // console.log(attendances);
 
   return (
     <PanelLayout title="User Profile - SY HR MS">
@@ -69,8 +69,6 @@ const EmployeeProfile = () => {
           <AdminBreadcrumbs links={links} />
         </div>
         <EmployeeDetails />
-        {/* <CardHead /> */}
-        {/* <ProfileTabs /> */}
         <div className="w-full">
           <div className="mb-4">
             <HeadText title="Month wise attendance" />
@@ -102,25 +100,4 @@ const links = [
     page: "Employee Profile",
     link: "/admin/employees/employee-profile",
   },
-];
-
-const attendance = [
-  { title: "PRESENT", date: "2023-04-03" },
-  { title: "ABSENT", date: "2023-04-04" },
-  { title: "PRESENT", date: "2023-04-05" },
-  { title: "PRESENT", date: "2023-04-06" },
-  { title: "PRESENT", date: "2023-04-07" },
-  { title: "PRESENT", date: "2023-04-10" },
-  { title: "PRESENT", date: "2023-04-11" },
-  { title: "PRESENT", date: "2023-04-12" },
-  { title: "PRESENT", date: "2023-04-13" },
-  { title: "PRESENT", date: "2023-04-14" },
-  { title: "PRESENT", date: "2023-04-17" },
-  { title: "PRESENT", date: "2023-04-18" },
-  { title: "PRESENT", date: "2023-04-19" },
-  { title: "PRESENT", date: "2023-04-20" },
-  { title: "PRESENT", date: "2023-04-21" },
-  { title: "PRESENT", date: "2023-04-24" },
-  { title: "PRESENT", date: "2023-04-25" },
-  { title: "PRESENT", date: "2023-04-26" },
 ];

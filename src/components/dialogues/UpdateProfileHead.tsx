@@ -35,6 +35,7 @@ const validationSchema = Yup.object().shape({
   gender: Yup.string().required("Gender is required!"),
   roleId: Yup.string().required("Role is required!"),
   joiningDate: Yup.string().required("Joining Date is required!"),
+  bloodGroup: Yup.string().required("Blood Group is required!"),
 });
 
 const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
@@ -53,6 +54,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
     gender: `${employData?.gender ? employData?.gender : ""}`,
     roleId: `${employData?.roleId ? employData?.roleId : ""}`,
     joiningDate: `${employData?.joiningDate ? employData?.joiningDate : ""}`,
+    bloodGroup: `${employData?.bloodGroup ? employData?.bloodGroup : ""}`,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
@@ -223,6 +225,28 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                       </div>
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
+                          Blood Group
+                        </p>
+                        <TextField
+                          select
+                          fullWidth
+                          name="bloodGroup"
+                          placeholder="Blood Group"
+                          value={values.bloodGroup}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.bloodGroup && !!errors.bloodGroup}
+                          helperText={touched.bloodGroup && errors.bloodGroup}
+                        >
+                          {bloodGroup.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.name}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </div>
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
                           Role <span className="text-red-600">*</span>
                         </p>
                         <Autocomplete
@@ -293,7 +317,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           fullWidth
                           name="address"
                           multiline
-                          rows={4}
+                          maxRows={4}
                           placeholder="Enter Address"
                           value={values.address}
                           onChange={handleChange}
@@ -327,7 +351,16 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
 };
 
 export default UpdateProfileHead;
-
+const bloodGroup = [
+  { id: 1, value: "A_Positive", name: "A_Positive" },
+  { id: 1, value: "A_Negative", name: "A_Negative" },
+  { id: 1, value: "B_Positive", name: "B_Positive" },
+  { id: 1, value: "B_Negative", name: "B_Negative" },
+  { id: 1, value: "AB_Positive", name: "AB_Positive" },
+  { id: 1, value: "AB_Negative", name: "AB_Negative" },
+  { id: 1, value: "O_Positive", name: "O_Positive" },
+  { id: 1, value: "O_Negative", name: "O_Negative" },
+];
 const genders = [
   { id: 1, value: "Male" },
   { id: 2, value: "Female" },

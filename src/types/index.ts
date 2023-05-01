@@ -81,6 +81,8 @@ export type User = {
   address?: string | null;
   roleId?: string;
   projectIDs?: string[];
+  departmentId?: string;
+  wallet?: number;
 };
 
 export type Projects = {

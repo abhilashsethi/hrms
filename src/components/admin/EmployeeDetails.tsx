@@ -45,6 +45,7 @@ const EmployeeDetails = () => {
       title: "Emp Id",
       value: `${employData?.employeeID ? employData?.employeeID : "---"}`,
     },
+
     {
       id: 4,
       title: "Date Of Joining",
@@ -75,6 +76,21 @@ const EmployeeDetails = () => {
       id: 8,
       title: "Gender",
       value: `${employData?.gender ? employData?.gender : "---"}`,
+    },
+    {
+      id: 9,
+      title: "Blood Group",
+      value: `${employData?.bloodGroup ? employData?.bloodGroup : "---"}`,
+    },
+    {
+      id: 9,
+      title: "Department Id",
+      value: `${employData?.departmentId ? employData?.departmentId : "---"}`,
+    },
+    {
+      id: 9,
+      title: "Wallet",
+      value: `${employData?.wallet ? employData?.wallet : "---"}`,
     },
   ];
   const personalDetails = [
@@ -124,6 +140,7 @@ const EmployeeDetails = () => {
   if (isLoading) {
     return <Loader />;
   }
+  console.log("basic", employData);
   return (
     <section>
       <ChangeProfile
