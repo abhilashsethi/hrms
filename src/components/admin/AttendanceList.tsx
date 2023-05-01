@@ -31,6 +31,10 @@ const AttendanceList = ({ data }: Props) => {
             field: "email",
           },
           {
+            title: "Employee ID",
+            field: "employeeID",
+          },
+          {
             title: "Status",
             field: "isPresent",
             render: (item: any) => {
