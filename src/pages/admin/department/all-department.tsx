@@ -1,8 +1,8 @@
 import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
 import { Button, IconButton } from "@mui/material";
-import { AllRollColumn, AllRollGrid } from "components/admin";
-import { AdminBreadcrumbs, Loader, TextTitles } from "components/core";
-import { CreateRole } from "components/dialogues";
+import { AllDepartmentColumn, AllDepartmentGrid } from "components/admin";
+import { AdminBreadcrumbs, Loader } from "components/core";
+import { CreateDepartment } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
@@ -10,22 +10,19 @@ import { useState } from "react";
 const AllDepartment = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [isCreate, setIsCreate] = useState(false);
-  const [isUpdate, setisUpdate] = useState<{
-    dialogue?: boolean;
-    id?: string | null;
-  }>({ dialogue: false, id: null });
+
   const {
     data: roleData,
     mutate,
     isLoading,
-  } = useFetch<[{ id: string; name: string }]>(`roles`);
+  } = useFetch<[{ id: string; name: string }]>(`department`);
   if (isLoading) {
     return <Loader />;
   }
   return (
     <PanelLayout title="All Roles - Admin Panel">
       <section className="px-8 py-4">
-        <CreateRole
+        <CreateDepartment
           open={isCreate}
           handleClose={() => setIsCreate(false)}
           mutate={mutate}
@@ -65,7 +62,7 @@ const AllDepartment = () => {
           </div>
         </div>
 
-        {isGrid ? <AllRollGrid /> : <AllRollColumn />}
+        {isGrid ? <AllDepartmentGrid /> : <AllDepartmentColumn />}
       </section>
     </PanelLayout>
   );
