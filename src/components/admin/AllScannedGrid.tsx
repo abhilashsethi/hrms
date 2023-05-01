@@ -48,9 +48,6 @@ const AllScannedGrid = () => {
       }
     });
   };
-  if (isLoading) {
-    return <Loader />;
-  }
   return (
     <>
       <TextTitles title="Scanned Cards" />
