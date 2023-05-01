@@ -49,7 +49,7 @@ const EmployDashboard = () => {
 					className="text-theme"
 				/>
 			),
-			count: employeeData?.filter((item) => item?.isBlocked === true)?.length,
+			count: employeeData?.filter((item) => item?.isBlocked)?.length,
 			title: "Inactive Employees",
 		},
 		{

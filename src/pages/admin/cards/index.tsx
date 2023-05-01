@@ -8,9 +8,58 @@ import { Grid } from "@mui/material";
 import CardStatus from "components/analytics/CardStatus";
 import CardsAreaChart from "components/analytics/CardsAreaChart";
 import { AdminBreadcrumbs } from "components/core";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import { Card } from "types";
 
 const Cards = () => {
+	const { data: cardData, mutate } = useFetch<Card[]>(`cards`);
+	console.log(cardData);
+
+	const cards = [
+		{
+			id: 1,
+			title: "Total Cards",
+			value: cardData?.length,
+			icon: (
+				<CreditCardRounded
+					fontSize="large"
+					className="text-theme group-hover:text-white"
+				/>
+			),
+		},
+		{
+			id: 2,
+			title: "Cards Assigned",
+			value: cardData?.filter((item) => item?.userId)?.length,
+			icon: (
+				<CreditScore
+					fontSize="large"
+					className="text-theme  group-hover:text-white"
+				/>
+			),
+		},
+		{
+			id: 3,
+			title: "Blocked Cards",
+			value: cardData?.filter((item) => item?.isBlocked)?.length,
+			icon: (
+				<Block fontSize="large" className="text-theme group-hover:text-white" />
+			),
+		},
+		{
+			id: 4,
+			title: "Scanned Cards",
+			value: "4",
+			icon: (
+				<QrCodeScanner
+					fontSize="large"
+					className="text-theme group-hover:text-white"
+				/>
+			),
+		},
+	];
+
 	return (
 		<PanelLayout title="Cards Dashboard - SY HR MS">
 			<section className="px-8 py-4">
@@ -39,6 +88,7 @@ const Cards = () => {
 						<CardsAreaChart text="Repairs Report" type="area" />
 					</div>
 					<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
+						<p className="text-lg font-bold text-center">Scanned Users</p>
 						<CardStatus text="" type="donut" />
 					</div>
 				</div>
@@ -50,50 +100,6 @@ const Cards = () => {
 export default Cards;
 
 const links = [{ id: 1, page: "Cards", link: "/admin/cards" }];
-
-const cards = [
-	{
-		id: 1,
-		title: "Total Cards",
-		value: "12",
-		icon: (
-			<CreditCardRounded
-				fontSize="large"
-				className="text-theme group-hover:text-white"
-			/>
-		),
-	},
-	{
-		id: 2,
-		title: "Cards Assigned",
-		value: "1",
-		icon: (
-			<CreditScore
-				fontSize="large"
-				className="text-theme  group-hover:text-white"
-			/>
-		),
-	},
-	{
-		id: 3,
-		title: "Blocked Cards",
-		value: "2",
-		icon: (
-			<Block fontSize="large" className="text-theme group-hover:text-white" />
-		),
-	},
-	{
-		id: 4,
-		title: "Scanned Cards",
-		value: "4",
-		icon: (
-			<QrCodeScanner
-				fontSize="large"
-				className="text-theme group-hover:text-white"
-			/>
-		),
-	},
-];
 
 const leave_status = [
 	{
