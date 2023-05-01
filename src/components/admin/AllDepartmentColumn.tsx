@@ -12,7 +12,7 @@ const AllDepartmentColumn = () => {
     data: roleData,
     isLoading,
     mutate,
-  } = useFetch<[{ id: string; name: string }]>(`department`);
+  } = useFetch<[{ id: string; name: string }]>(`departments`);
   const { change, isChanging } = useChange();
   if (isLoading) {
     return <Loader />;
@@ -54,7 +54,7 @@ const AllDepartmentColumn = () => {
             setLoading(true);
             Swal.fire("", "Please Wait...", "info");
             try {
-              const res = await change(`department/${oldData.id}`, {
+              const res = await change(`departments/${oldData.id}`, {
                 method: "DELETE",
               });
               setLoading(false);
@@ -81,7 +81,7 @@ const AllDepartmentColumn = () => {
             console.log("new", newData);
             console.log(oldData);
 
-            const res = await change(`department/${newData?.id}`, {
+            const res = await change(`departments/${newData?.id}`, {
               method: "PATCH",
               body: { name: newData?.name },
             });

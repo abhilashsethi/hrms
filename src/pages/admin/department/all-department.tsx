@@ -15,7 +15,7 @@ const AllDepartment = () => {
     data: roleData,
     mutate,
     isLoading,
-  } = useFetch<[{ id: string; name: string }]>(`department`);
+  } = useFetch<[{ id: string; name: string }]>(`departments`);
   if (isLoading) {
     return <Loader />;
   }

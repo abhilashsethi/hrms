@@ -30,7 +30,7 @@ const CreateDepartment = ({ open, handleClose, mutate }: Props) => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const res = await change(`department`, { body: values });
+        const res = await change(`departments`, { body: values });
         setLoading(false);
         if (res?.status !== 201) {
           Swal.fire(

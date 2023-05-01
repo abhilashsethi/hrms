@@ -24,7 +24,7 @@ interface Props {
 
 const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
   const { data: roleData, isLoading } = useFetch<{ name: string }>(
-    `department/${id}`
+    `departments/${id}`
   );
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
@@ -35,7 +35,7 @@ const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const res = await change(`department/${id}`, {
+        const res = await change(`departments/${id}`, {
           method: "PATCH",
           body: values,
         });

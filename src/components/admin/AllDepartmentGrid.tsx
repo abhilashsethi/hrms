@@ -13,7 +13,7 @@ const AllDepartmentGrid = () => {
     role: null,
   });
   const { change } = useChange();
-  const [isUpdate, setisUpdate] = useState<{
+  const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
@@ -21,7 +21,7 @@ const AllDepartmentGrid = () => {
     data: roleData,
     isLoading,
     mutate,
-  } = useFetch<[{ id: string; name: string }]>(`department`);
+  } = useFetch<[{ id: string; name: string }]>(`departments`);
   const handleDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -36,7 +36,7 @@ const AllDepartmentGrid = () => {
         setLoading(true);
         Swal.fire("", "Please Wait...", "info");
         try {
-          const res = await change(`department/${id}`, { method: "DELETE" });
+          const res = await change(`departments/${id}`, { method: "DELETE" });
           setLoading(false);
           if (res?.status !== 200) {
             Swal.fire(
@@ -67,7 +67,7 @@ const AllDepartmentGrid = () => {
       <UpdateDepartment
         id={isUpdate?.id}
         open={isUpdate?.dialogue}
-        handleClose={() => setisUpdate({ dialogue: false })}
+        handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
       />
       <RoleInformation
@@ -77,7 +77,7 @@ const AllDepartmentGrid = () => {
       />
       <div className="mt-4">
         <Grid container spacing={2}>
-          {department?.map((item) => (
+          {roleData?.map((item) => (
             <Grid key={item?.id} item lg={3}>
               <div className="h-40 w-full bg-gradient-to-b from-theme-50/50 via-white to-white shadow-lg rounded-lg flex justify-center items-center">
                 <div className="flex flex-col items-center gap-3">
@@ -87,16 +87,14 @@ const AllDepartmentGrid = () => {
                   <div className="flex gap-2">
                     <div className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-red-600 to-red-400 flex justify-center items-center text-lg font-semibold">
                       <Tooltip title="Delete">
-                        <IconButton
-                        //     onClick={() => handleDelete(item?.id)}
-                        >
+                        <IconButton onClick={() => handleDelete(item?.id)}>
                           <Delete className="!text-white" />
                         </IconButton>
                       </Tooltip>
                     </div>
                     <div
                       onClick={() =>
-                        setisUpdate({ dialogue: true, id: item?.id })
+                        setIsUpdate({ dialogue: true, id: item?.id })
                       }
                       className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-blue-600 to-blue-400 flex justify-center items-center text-lg font-semibold"
                     >
@@ -127,30 +125,3 @@ const AllDepartmentGrid = () => {
 };
 
 export default AllDepartmentGrid;
-
-const department = [
-  {
-    id: "0",
-    name: "Web Development",
-    lastUpdated: "25th Aug",
-    lastCreated: "25th Aug",
-  },
-  {
-    id: "1",
-    name: "Application Development",
-    lastUpdated: "25th Aug",
-    lastCreated: "25th Aug",
-  },
-  {
-    id: "2",
-    name: "IT Management",
-    lastUpdated: "25th Aug",
-    lastCreated: "25th Aug",
-  },
-  {
-    id: "3",
-    name: "Accounts Management",
-    lastUpdated: "25th Aug",
-    lastCreated: "25th Aug",
-  },
-];
