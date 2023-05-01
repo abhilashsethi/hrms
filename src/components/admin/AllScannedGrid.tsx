@@ -1,11 +1,6 @@
 import { AddCardRounded } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
-import {
-  CardNameComponent,
-  IOSSwitch,
-  Loader,
-  TextTitles,
-} from "components/core";
+import { IOSSwitch, TextTitles } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { useState } from "react";
@@ -67,7 +62,7 @@ const AllScannedGrid = () => {
                   <div className="flex flex-col !h-full relative">
                     <div className="w-full absolute top-[6.48rem] translate-x-[0%] flex justify-center items-center">
                       <img
-                        src={DEFAULTPROFILE.src}
+                        src={item?.user?.photo || DEFAULTPROFILE.src}
                         alt="User Photo"
                         className="w-32 h-32 rounded-full object-cover"
                       />
@@ -75,7 +70,14 @@ const AllScannedGrid = () => {
                     <div className="h-1/2 w-full"></div>
                     <div className="w-full flex flex-col !h-1/2 items-start justify-start gap-2">
                       <div className="w-full flex flex-col items-center justify-center">
-                        <CardNameComponent userId={item?.userId} isName />
+                        <div className="py-4">
+                          <p className="text-center text-theme tracking-wide font-semibold">
+                            {item?.user?.name}
+                          </p>
+                          <p className="text-center text-sm font-medium tracking-wide">
+                            {item?.user?.role?.name}
+                          </p>
+                        </div>
                       </div>
                       {item?.userId ? (
                         <div className="w-full flex justify-between items-start gap-4 px-4 py-2">
@@ -88,22 +90,18 @@ const AllScannedGrid = () => {
                           </div>
                           <div className="w-[70%] flex group-hover:hidden flex-col items-end text-right tracking-wide">
                             <p className="text-xs text-blue-900 font-semibold">
-                              <span>EMP ID : </span>{" "}
-                              <CardNameComponent
-                                userId={item?.userId}
-                                isEmpId
-                              />
+                              <span>EMP ID : </span>
+                              {item?.user?.employeeID}
                             </p>
                             <p className="text-xs text-blue-900 font-semibold">
                               <span>CARD ID : </span> {item?.cardId}
                             </p>
                             <p className="text-xs text-blue-900 tracking-wide">
-                              <CardNameComponent
-                                userId={item?.userId}
-                                isEmail
-                              />
+                              {item?.user?.email}
                             </p>
-                            <p className="text-xs text-blue-900">O+</p>
+                            <p className="text-xs text-blue-900">
+                              {item?.user?.bloodGroup}
+                            </p>
                           </div>
                           <div className="w-[70%] hidden group-hover:flex items-end flex-col justify-center gap-2">
                             <p className="font-semibold tracking-wide text-sm">
@@ -140,9 +138,7 @@ const AllScannedGrid = () => {
                         </div>
                       )}
                     </div>
-                    <div className="w-full flex items-center justify-center gap-2">
-                      {/* <IOSSwitch /> */}
-                    </div>
+                    <div className="w-full flex items-center justify-center gap-2"></div>
                   </div>
                 </div>
               </div>
@@ -161,11 +157,6 @@ const AllScannedGrid = () => {
 };
 
 export default AllScannedGrid;
-
-const getImageFromId = (userId: string) => {
-  const { data, isLoading } = useFetch<any>(`users/${userId}`);
-  return data?.photo;
-};
 
 // const rests = [1];
 

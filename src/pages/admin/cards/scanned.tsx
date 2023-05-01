@@ -63,9 +63,6 @@ const Cards = () => {
       }
     });
   };
-  if (isLoading) {
-    return <Loader />;
-  }
   return (
     <PanelLayout title="Scanned Cards - SY HR MS">
       <section className="px-8 py-4">
