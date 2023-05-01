@@ -7,3 +7,5 @@ export { default as CreateRole } from "./CreateRole";
 export { default as UpdateRole } from "./UpdateRole";
 export { default as UploadEmployData } from "./UploadEmployData";
 export { default as ProjectUpdate } from "./ProjectUpdate";
+export { default as UpdateDepartment } from "./UpdateDepartment";
+export { default as CreateDepartment } from "./CreateDepartment";

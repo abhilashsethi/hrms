@@ -89,9 +89,6 @@ const TodayAttendance = () => {
     // disable dates for the next year
     disabledDates.push(addDays(tomorrow, i));
   }
-  if (isLoading) {
-    return <Loader />;
-  }
   return (
     <PanelLayout title="Today Attendance - SY HR MS">
       <section className="px-8 py-4">
@@ -195,17 +192,20 @@ const TodayAttendance = () => {
             Search
           </Button>
         </div>
-        {isGrid ? (
-          !searchedUser.length ? (
-            <LoaderAnime />
+        <section>
+          {isLoading ? (
+            <Loader />
           ) : (
-            <AttendanceGrid data={searchedUser} />
-          )
-        ) : !searchedUser.length ? (
-          <LoaderAnime />
-        ) : (
-          <AttendanceList data={searchedUser} />
-        )}
+            <>
+              {isGrid ? (
+                <AttendanceGrid data={searchedUser} />
+              ) : (
+                <AttendanceList data={searchedUser} />
+              )}
+            </>
+          )}
+          {!searchedUser?.length && <LoaderAnime />}
+        </section>
       </section>
     </PanelLayout>
   );

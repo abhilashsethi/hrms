@@ -5,10 +5,10 @@ import Loader from "./Loader";
 interface Props {
   userId?: any;
   isEmail?: boolean;
-  isPhone?: boolean;
+  isEmpId?: boolean;
   isName?: boolean;
 }
-const CardNameComponent = ({ userId, isEmail, isPhone, isName }: Props) => {
+const CardNameComponent = ({ userId, isEmail, isEmpId, isName }: Props) => {
   const { data, isLoading } = useFetch<any>(`users/${userId}`);
   if (isLoading) {
     return <Loader />;
@@ -19,12 +19,14 @@ const CardNameComponent = ({ userId, isEmail, isPhone, isName }: Props) => {
         <>
           {isEmail ? (
             <span className="tracking-wide">{data?.email}</span>
-          ) : isPhone ? (
-            <span className="tracking-wide">{data?.phone}</span>
+          ) : isEmpId ? (
+            <span className="tracking-wide">{data?.employeeID}</span>
           ) : isName ? (
             <>
-              <p className="py-1 px-3 tracking-wide">{data?.name}</p>
-              <p className="text-sm text-gray-600 font-medium">
+              <p className="py-2 px-3 tracking-wide text-center text-theme font-semibold">
+                {data?.name}
+              </p>
+              <p className="text-sm text-gray-600 font-semibold">
                 <RoleComponent roleId={data?.roleId} />
               </p>
             </>
