@@ -9,3 +9,4 @@ export { default as UploadEmployData } from "./UploadEmployData";
 export { default as ProjectUpdate } from "./ProjectUpdate";
 export { default as UpdateDepartment } from "./UpdateDepartment";
 export { default as CreateDepartment } from "./CreateDepartment";
+export { default as ProjectAddLink } from "./ProjectAddLink";

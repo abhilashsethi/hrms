@@ -1,4 +1,5 @@
 import {
+  AddCircle,
   DeleteRounded,
   EditRounded,
   MoreVertRounded,
@@ -14,7 +15,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Loader } from "components/core";
-import { ProjectUpdate } from "components/dialogues";
+import { ProjectAddLink, ProjectUpdate } from "components/dialogues";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { MouseEvent, useEffect, useState } from "react";
@@ -35,6 +36,7 @@ const Projects = () => {
   if (isLoading) {
     return <Loader />;
   }
+  console.log(projectData);
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       {projectData?.map((item: any) => (
@@ -52,6 +54,16 @@ const Projects = () => {
             </div>
             <div className="py-4 text-md text-gray-400 tracking-wide">
               <p>{item?.description}</p>
+            </div>
+            <div className="py-2 text-md ">
+              <h2>Manager :</h2>
+              <div className="flex gap-2 group items-center">
+                <Avatar
+                  alt={item?.Manager?.name}
+                  src={item?.Manager?.photo || " "}
+                />
+                <span>{item?.Manager?.name}</span>
+              </div>
             </div>
             <div className="py-2 text-md">
               <h2>Deadline :</h2>
@@ -133,6 +145,10 @@ const MoreOption = ({ item, mutate }: Props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const [isAdd, setIsAdd] = useState<{
+    dialogue?: boolean;
+    id?: string | null;
+  }>({ dialogue: false, id: null });
 
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
@@ -173,6 +189,12 @@ const MoreOption = ({ item, mutate }: Props) => {
         id={isUpdate?.id}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
+        mutate={mutate}
+      />
+      <ProjectAddLink
+        id={isAdd?.id}
+        open={isAdd?.dialogue}
+        handleClose={() => setIsAdd({ dialogue: false })}
         mutate={mutate}
       />
       <Tooltip title="More">
@@ -220,6 +242,12 @@ const MoreOption = ({ item, mutate }: Props) => {
             <EditRounded fontSize="small" />
           </ListItemIcon>
           Edit
+        </MenuItem>
+        <MenuItem onClick={() => setIsAdd({ dialogue: true, id: item?.id })}>
+          <ListItemIcon>
+            <AddCircle fontSize="small" />
+          </ListItemIcon>
+          Add use full link
         </MenuItem>
         <MenuItem onClick={() => handleDelete(item?.id)}>
           <ListItemIcon>
