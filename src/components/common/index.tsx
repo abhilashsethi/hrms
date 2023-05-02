@@ -14,7 +14,7 @@ export function RenderIconRow({
 }) {
   return (
     <>
-      <div className="group flex items-center justify-center pl-4 gap-2">
+      <div className="group flex items-center justify-center gap-2">
         {isEmail ? (
           <a href={`mailto:${value}`} className="hover:text-blue-500">
             <ICONS.Email />
