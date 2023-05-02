@@ -1,24 +1,14 @@
+import { LeaveBarChart, LeaveDonutChart } from "components/analytics";
+import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
+import { useState, MouseEvent } from "react";
+import { useFetch } from "hooks";
 import {
 	ContentPasteGo,
-	AssignmentTurnedIn,
-	PendingActions,
 	Pending,
 	MoreVert,
 	Sick,
 	Schedule,
 } from "@mui/icons-material";
-import {
-	Grid,
-	IconButton,
-	LinearProgress,
-	Menu,
-	MenuItem,
-} from "@mui/material";
-import RoleBarChart from "components/analytics/RoleBarChart";
-import RoleDonutChart from "components/analytics/RoleDonutChart";
-import TaskOverview from "components/analytics/TaskOverview";
-import { useFetch } from "hooks";
-import { useState, MouseEvent } from "react";
 
 const LeaveDashboard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -30,9 +20,6 @@ const LeaveDashboard = () => {
 		setAnchorEl(null);
 	};
 
-	const { data: roleData, mutate } = useFetch<any>(`roles`);
-	console.log(roleData?.roles);
-
 	const cards = [
 		{
 			id: 1,
@@ -42,7 +29,7 @@ const LeaveDashboard = () => {
 					className="text-theme group-hover:text-white"
 				/>
 			),
-			count: roleData?.roles?.length,
+			count: "10",
 			title: "Total Leaves",
 		},
 		{
@@ -136,12 +123,12 @@ const LeaveDashboard = () => {
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 				<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
-					<p className="font-bold text-lg text-center">Department Overview</p>
-					<RoleBarChart type="bar" text="" />
+					<p className="font-bold text-lg text-center">Leave Overview</p>
+					<LeaveBarChart type="bar" text="" />
 				</div>
 				<div className="col-span-12 w-full flex flex-col justify-center md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold text-center">Department Details</p>
-					<RoleDonutChart text="" type="donut" />
+					<p className="text-lg font-bold text-center">Leave Details</p>
+					<LeaveDonutChart text="" type="donut" />
 				</div>
 			</div>
 		</>

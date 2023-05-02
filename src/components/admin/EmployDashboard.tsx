@@ -1,7 +1,9 @@
-import RolewiseStrength from "components/analytics/RolewiseStrength";
-import DailyAttendance from "components/analytics/DailyAttendance";
+import {
+	DailyAttendance,
+	GenderRation,
+	RolewiseStrength,
+} from "components/analytics";
 import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
-import GenderRation from "components/analytics/GenderRation";
 import { UpcomingLeaves } from "components/core";
 import { useState, MouseEvent } from "react";
 import ICONS from "assets/icons";

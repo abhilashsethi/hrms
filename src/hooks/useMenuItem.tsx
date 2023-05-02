@@ -15,6 +15,8 @@ import {
   DesignServicesRounded,
   AddRounded,
   ManageAccountsRounded,
+  Apartment,
+  Sick,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -181,7 +183,7 @@ export default () => {
       {
         key: "9",
         title: "Leaves",
-        icon: <ManageAccountsRounded />,
+        icon: <Sick />,
         submenus: [
           {
             key: "9-1",
@@ -200,7 +202,7 @@ export default () => {
       {
         key: "10",
         title: "Department",
-        icon: <ManageAccountsRounded />,
+        icon: <Apartment />,
         submenus: [
           {
             key: "10-1",
