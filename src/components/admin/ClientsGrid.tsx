@@ -62,9 +62,7 @@ const ClientsGrid = () => {
                     transformOrigin={{ horizontal: "right", vertical: "top" }}
                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                   >
-                    <Link
-                      href={`/admin/employees/employee-profile?id=${item?.id}`}
-                    >
+                    <Link href={`/admin/clients/client-profile?id=${item?.id}`}>
                       <MenuItem onClick={handleClose}>
                         <ListItemIcon>
                           <RemoveRedEyeOutlined fontSize="small" />
