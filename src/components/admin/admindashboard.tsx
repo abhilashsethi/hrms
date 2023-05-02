@@ -13,8 +13,7 @@ import {
 	MenuItem,
 	Radio,
 } from "@mui/material";
-import ProjectOverview from "components/analytics/ProjectOverview";
-import TaskOverview from "components/analytics/TaskOverview";
+import { ProjectOverview, TaskOverview } from "components/analytics";
 import { useState, MouseEvent } from "react";
 
 const AdminDashboard = () => {

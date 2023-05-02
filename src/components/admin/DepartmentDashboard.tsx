@@ -1,23 +1,6 @@
-import {
-	ContentPasteGo,
-	AssignmentTurnedIn,
-	PendingActions,
-	Pending,
-	MoreVert,
-	Code,
-	Face3,
-	Person4,
-} from "@mui/icons-material";
-import {
-	Grid,
-	IconButton,
-	LinearProgress,
-	Menu,
-	MenuItem,
-} from "@mui/material";
-import RoleBarChart from "components/analytics/RoleBarChart";
-import RoleDonutChart from "components/analytics/RoleDonutChart";
-import TaskOverview from "components/analytics/TaskOverview";
+import { MoreVert } from "@mui/icons-material";
+import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
+import { RoleBarChart, RoleDonutChart } from "components/analytics";
 import { useFetch } from "hooks";
 import { useState, MouseEvent } from "react";
 
@@ -31,33 +14,60 @@ const DepartmentDashboard = () => {
 		setAnchorEl(null);
 	};
 
+	const { data: departmentData } = useFetch<any>(`departments`);
+	console.log(departmentData);
+
 	const { data: roleData, mutate } = useFetch<any>(`roles`);
 	console.log(roleData?.roles);
 
 	const cards = [
 		{
 			id: 1,
-			icon: <ContentPasteGo fontSize="large" className="text-theme" />,
-			count: roleData?.roles?.length,
+			icon: <img className="w-16" src="/department.png" alt="dept icon" />,
+			count: departmentData?.departments?.length,
 			title: "Total Departments",
 		},
 		{
 			id: 2,
-			icon: <Code fontSize="large" className="text-theme" />,
+			icon: <img className="" src="/coding.png" alt="Developer icon" />,
 			count: "34",
-			title: "Developer",
+			title: "AI & ML Department",
 		},
 		{
 			id: 3,
-			icon: <Face3 fontSize="large" className="text-theme" />,
+			icon: <img className="" src="/hr.png" alt="" />,
 			count: "34",
-			title: "HR",
+			title: "Web Development",
 		},
 		{
 			id: 4,
-			icon: <Person4 fontSize="large" className="text-theme" />,
+			icon: <img src="/application.png" alt="" />,
 			count: "34",
-			title: "Sales Executive",
+			title: "Application Development",
+		},
+		{
+			id: 5,
+			icon: <img src="/it_management.png" alt="" />,
+			count: "34",
+			title: "IT Management",
+		},
+		{
+			id: 6,
+			icon: <img src="/financial.png" alt="" />,
+			count: "34",
+			title: "Accounts Management",
+		},
+		{
+			id: 7,
+			icon: <img src="/businessman.png" alt="" />,
+			count: "34",
+			title: "Sales Management",
+		},
+		{
+			id: 8,
+			icon: <img src="/manager.png" alt="" />,
+			count: "34",
+			title: "Manager",
 		},
 	];
 
@@ -68,10 +78,10 @@ const DepartmentDashboard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between border-b-4 border-theme hover:scale-105 cursor-pointer transition duration-500 ease-in-out">
+								<div className="group hover:scale-105 transition duration-500 ease-in-out bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
-											<MoreVert />
+											<MoreVert className="" />
 										</IconButton>
 										<Menu
 											anchorEl={anchorEl}
@@ -81,13 +91,22 @@ const DepartmentDashboard = () => {
 												"aria-labelledby": "basic-button",
 											}}
 										>
-											<MenuItem onClick={handleClose}>All Roles</MenuItem>
+											<MenuItem onClick={handleClose}>All Users</MenuItem>
 											<MenuItem onClick={handleClose}>View Dashboard</MenuItem>
 										</Menu>
 									</div>
-									<div>{item?.icon}</div>
-									<span className="text-lg">{item?.count}</span>
-									<span className="font-semibold tracking-wide text-sm">
+									<div className="flex justify-around items-center pb-3">
+										<div className="p-3 bg-theme rounded-full">
+											<div className="w-16">{item?.icon}</div>
+										</div>
+										{/* <div>
+											<img className="w-16" src="/department.png" alt="" />
+										</div> */}
+										<span className="text-xl text-theme font-semibold ">
+											{item?.count}
+										</span>
+									</div>
+									<span className=" text-theme font-semibold text-center tracking-wide text-md">
 										{item?.title}
 									</span>
 								</div>

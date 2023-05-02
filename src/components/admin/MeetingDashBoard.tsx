@@ -1,3 +1,6 @@
+import { MeetingAnalytics, MeetingDonutChart } from "components/analytics";
+import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
+import { useState, MouseEvent } from "react";
 import {
 	ContactPhone,
 	DevicesOther,
@@ -5,10 +8,6 @@ import {
 	PendingActions,
 	MoreVert,
 } from "@mui/icons-material";
-import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
-import { useState, MouseEvent } from "react";
-import MeetingAnalytics from "components/analytics/MeetingAnalytics";
-import MeetingDonutChart from "components/analytics/MeetingDonutChart";
 
 const MeetingDashBoard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

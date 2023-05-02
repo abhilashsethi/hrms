@@ -1,7 +1,5 @@
 import { Groups, HowToReg, MoreVert, PersonOff } from "@mui/icons-material";
 import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
-import DailyAttendance from "components/analytics/DailyAttendance";
-import GenderRation from "components/analytics/GenderRation";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 // import RolewiseStrength from "components/analytics/RolewiseStrength";
@@ -10,7 +8,7 @@ import { HeadText, UpcomingLeaves } from "components/core";
 import EmployeeAllAttendance from "./EmployeeAllAttendance";
 import { useFetch } from "hooks";
 import moment from "moment";
-import { DonutChart } from "components/analytics";
+import { DailyAttendance, DonutChart } from "components/analytics";
 
 const AttendanceDashBoard = () => {
 	const [attendances, setAttendances] = useState([]);

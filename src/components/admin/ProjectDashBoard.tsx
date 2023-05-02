@@ -12,10 +12,12 @@ import {
 	Menu,
 	MenuItem,
 } from "@mui/material";
-import ProgressBarDealsDashboard from "components/analytics/ProgressBarDealsDashboard";
-import ProjectBarGraph from "components/analytics/ProjectBarGraph";
-import ProjectsPieChart from "components/analytics/ProjectsPieChart";
-import ProjectsRadialBar from "components/analytics/ProjectsRadialBar";
+import {
+	ProgressBarDealsDashboard,
+	ProjectBarGraph,
+	ProjectsPieChart,
+	ProjectsRadialBar,
+} from "components/analytics";
 import { useState, MouseEvent } from "react";
 
 const ProjectDashBoard = () => {
