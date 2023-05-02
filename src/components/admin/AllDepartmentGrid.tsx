@@ -21,7 +21,7 @@ const AllDepartmentGrid = () => {
     data: departmentsData,
     isLoading,
     mutate,
-  } = useFetch<[{ id: string; name: string }]>(`departments`);
+  } = useFetch<any>(`departments`);
   const handleDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -77,7 +77,7 @@ const AllDepartmentGrid = () => {
       />
       <div className="mt-4">
         <Grid container spacing={2}>
-          {departmentsData?.map((item) => (
+          {departmentsData?.departments?.map((item: any) => (
             <Grid key={item?.id} item lg={3}>
               <div className="h-40 w-full bg-gradient-to-b from-theme-50/50 via-white to-white shadow-lg rounded-lg flex justify-center items-center">
                 <div className="flex flex-col items-center gap-3">

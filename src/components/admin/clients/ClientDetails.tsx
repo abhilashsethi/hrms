@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { User } from "types";
 import EmployProjects from "../EmployProjects";
+import ClientMeetings from "./ClientMeetings";
 
 const ClientDetails = () => {
   const router = useRouter();
@@ -303,7 +304,7 @@ const ClientDetails = () => {
           </Grid>
           <Grid item lg={4}>
             <div className="w-full h-full">
-              {/* <EmpAttendanceIndividual /> */}
+              <ClientMeetings />
               <EmployProjects />
               {/* <EmployLeaves /> */}
             </div>
