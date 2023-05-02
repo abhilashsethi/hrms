@@ -14,7 +14,7 @@ export function RenderIconRow({
 }) {
   return (
     <>
-      <div className="group flex items-center gap-2">
+      <div className="group flex items-center justify-center pl-4 gap-2">
         {isEmail ? (
           <a href={`mailto:${value}`} className="hover:text-blue-500">
             <ICONS.Email />
@@ -31,7 +31,10 @@ export function RenderIconRow({
             </span>
           </>
         ) : null}
-        <span>{value}</span>
+        <span className="text-sm font-medium">
+          {value?.slice(0, 15)}
+          {value?.length >= 15 ? "..." : ""}
+        </span>
         <button
           onClick={(e) => {
             e.stopPropagation();
