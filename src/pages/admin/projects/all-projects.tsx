@@ -13,9 +13,7 @@ const AllProjects = () => {
     setValue(event.target.value);
   };
   const { data: projectData, isLoading } = useFetch(`projects`);
-  if (isLoading) {
-    return <Loader />;
-  }
+
   return (
     <PanelLayout title="All Users - SY HR MS">
       <section className="px-8">
