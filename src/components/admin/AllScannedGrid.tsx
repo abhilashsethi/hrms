@@ -76,7 +76,7 @@ const AllScannedGrid = () => {
       <div className="mt-4">
         <Grid container spacing={3}>
           {data?.map((item: any) => (
-            <Grid key={item?.id} item lg={3}>
+            <Grid key={item?.id} item lg={4}>
               <div className="flex items-center justify-center w-full h-full group cursor-pointer">
                 <div
                   className="w-[18rem] h-[29.5rem] bg-contain bg-no-repeat shadow-lg rounded-xl"
