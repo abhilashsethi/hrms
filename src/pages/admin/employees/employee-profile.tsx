@@ -72,8 +72,8 @@ const EmployeeProfile = () => {
         {/* <CardHead /> */}
         {/* <ProfileTabs /> */}
         <div className="flex gap-3">
-          <div className="w-[30%] h-80 border-2"></div>
-          <div className="w-[70%]">
+          {/* <div className="w-[30%] h-80 border-2"></div> */}
+          <div className="w-full">
             <div className="mb-4">
               <HeadText title="Month wise attendance" />
             </div>
