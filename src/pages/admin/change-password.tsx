@@ -5,15 +5,12 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  MenuItem,
-  SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { useRouter } from "next/router";
+import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
@@ -31,29 +28,30 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Password Must Match!")
     .required("Confirm password is required!"),
 });
-const ChangePassword = () => {
+const ChangePassword = ({ resetForm }: any) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
-  const router = useRouter();
-
+  const { user } = useAuth();
+  const { data: employees, mutate, isLoading } = useFetch<User>(`users`);
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
       delete values.confirmPassword;
-      const res = await change(`users/${router?.query?.id}`, {
+      const res = await change(`users/${user?.id}`, {
         method: "PATCH",
         body: values,
       });
       setLoading(false);
-      if (res?.status !== 201) {
+      if (res?.status !== 200) {
         Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      router?.push("/login");
+      Swal.fire(`Success`, `Password change successfully`, `success`);
+      mutate();
       return;
     } catch (error) {
       console.log(error);

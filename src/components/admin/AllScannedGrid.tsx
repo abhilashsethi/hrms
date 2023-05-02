@@ -79,7 +79,7 @@ const AllScannedGrid = () => {
             <Grid key={item?.id} item lg={4}>
               <div className="flex items-center justify-center w-full h-full group cursor-pointer">
                 <div
-                  className="w-[18rem] h-[29.5rem] bg-contain bg-no-repeat shadow-lg rounded-xl"
+                  className="w-[18rem] h-[29.5rem] bg-contain bg-no-repeat shadow-lg rounded-xl overflow-hidden"
                   style={{
                     backgroundImage: `url(${ID.src})`,
                     backgroundRepeat: "no-repeat",
@@ -107,48 +107,57 @@ const AllScannedGrid = () => {
                         </div>
                       </div>
                       {item?.userId ? (
-                        <div className="w-full flex justify-between items-start gap-4 px-4 py-2">
-                          <div className="w-[30%] flex items-center">
-                            <img
-                              src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SearchingYard.com"
-                              alt="QR Code"
-                              className="w-12 h-12 "
-                            />
-                          </div>
-                          <div className="w-[70%] flex group-hover:hidden flex-col items-end text-right tracking-wide">
-                            <p className="text-xs text-blue-900 font-semibold">
-                              <span>EMP ID : </span>
-                              {item?.user?.employeeID}
-                            </p>
-                            <p className="text-xs text-blue-900 font-semibold">
-                              <span>CARD ID : </span> {item?.cardId}
-                            </p>
-                            <p className="text-xs text-blue-900 tracking-wide">
-                              {item?.user?.email}
-                            </p>
-                            <p className="text-xs text-blue-900">
-                              {item?.user?.bloodGroup}
-                            </p>
-                          </div>
-                          <div className="w-[70%] hidden group-hover:flex items-end justify-center gap-4">
-                            <Tooltip title="Delete">
-                              <IconButton
-                                onClick={() => handleDelete(item?.id)}
-                              >
-                                <Delete className="!text-youtube" />
-                              </IconButton>
-                            </Tooltip>
-                            <div className="flex flex-col items-end">
-                              <p className="font-semibold tracking-wide text-sm">
-                                Unblock/Block
-                              </p>
-                              <IOSSwitch
-                                checked={item?.isBlocked}
-                                onChange={(e) => handleBlock(e, item?.cardId)}
+                        <>
+                          <div className="w-full flex justify-between items-start gap-4 px-4 py-2">
+                            <div className="w-[30%] flex items-center">
+                              <img
+                                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SearchingYard.com"
+                                alt="QR Code"
+                                className="w-12 h-12 "
                               />
                             </div>
+                            <div className="w-[70%] flex flex-col items-end text-right tracking-wide">
+                              <p className="text-xs text-blue-900 font-semibold">
+                                <span>EMP ID : </span>
+                                {item?.user?.employeeID}
+                              </p>
+                              <p className="text-xs text-blue-900 font-semibold">
+                                <span>CARD ID : </span> {item?.cardId}
+                              </p>
+                              <p className="text-xs text-blue-900 tracking-wide">
+                                {item?.user?.email}
+                              </p>
+                              <p className="text-xs text-blue-900">
+                                {item?.user?.bloodGroup}
+                              </p>
+                            </div>
                           </div>
-                        </div>
+                          <div className="absolute bottom-0 bg-[#00000091] w-full h-40 translate-y-[100%] group-hover:translate-y-[0%] transition-all ease-in-out duration-300">
+                            <div className="flex justify-center pt-2">
+                              <div className="w-12 bg-white rounded-full px-2 py-[0.2rem]">
+                                <div className="border-b-2 border-black"></div>
+                              </div>
+                            </div>
+                            <div className="w-full flex flex-col items-center justify-center gap-2 mt-2">
+                              <Tooltip title="Delete">
+                                <IconButton
+                                  onClick={() => handleDelete(item?.id)}
+                                >
+                                  <Delete className="!text-youtube" />
+                                </IconButton>
+                              </Tooltip>
+                              <div className="flex flex-col items-center">
+                                <p className="font-semibold tracking-wide text-sm text-white">
+                                  Unblock/Block
+                                </p>
+                                <IOSSwitch
+                                  checked={item?.isBlocked}
+                                  onChange={(e) => handleBlock(e, item?.cardId)}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </>
                       ) : (
                         <div className="w-full">
                           <p className="text-center text-red-500 font-semibold tracking-wide">

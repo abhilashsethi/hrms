@@ -19,9 +19,7 @@ const AllRoles = () => {
     mutate,
     isLoading,
   } = useFetch<[{ id: string; name: string }]>(`roles`);
-  if (isLoading) {
-    return <Loader />;
-  }
+
   return (
     <PanelLayout title="All Roles - Admin Panel">
       <section className="px-8 py-4">

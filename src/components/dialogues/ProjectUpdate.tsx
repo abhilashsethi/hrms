@@ -26,11 +26,10 @@ interface Props {
   id?: any;
 }
 const validationSchema = Yup.object().shape({
-  devURL: Yup.string().required("Dev URL is required!").url("Invalid Url"),
+  devURL: Yup.string().url("Invalid Url"),
   userIDs: Yup.array().required("Please assign users!").nullable(),
   startDate: Yup.string().required("Start Date is required!"),
-  endDate: Yup.string().required("End Date is required!"),
-  prodURL: Yup.string().required("Prod URL is required!").url("Invalid Url"),
+  prodURL: Yup.string().url("Invalid Url"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
     .min(2, "Name must be at least 2 characters")
@@ -38,14 +37,11 @@ const validationSchema = Yup.object().shape({
     .required("Name is required!"),
   description: Yup.string()
     .min(5, "Description must be at least 2 characters")
-    .max(500, "Description must be less than 500 characters")
-    .required("Description is required!"),
-  github: Yup.string()
-    .required("GitHub repository link is required")
-    .matches(
-      /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
-      "Invalid GitHub repository link"
-    ),
+    .max(500, "Description must be less than 500 characters"),
+  github: Yup.string().matches(
+    /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
+    "Invalid GitHub repository link"
+  ),
   gmail: Yup.string().email("Invalid gmail address"),
 });
 
@@ -67,7 +63,7 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
     endDate: `${employData?.endDate ? employData?.endDate : ""}`,
   };
   const handleSubmit = async (values: any) => {
-    console.log("=============", values);
+    // console.log("=============", values);
     // return;
     setLoading(true);
     try {
