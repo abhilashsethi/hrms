@@ -1,14 +1,10 @@
 import {
   DeleteRounded,
   EditRounded,
-  HomeRepairServiceRounded,
   InfoRounded,
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
   MoreVertRounded,
 } from "@mui/icons-material";
 import {
-  Button,
   Grid,
   IconButton,
   ListItemIcon,
@@ -33,57 +29,44 @@ interface Props {
   data?: ARRAY[];
 }
 const EmplyeesGrid = ({ data }: Props) => {
-  const { data: employees, mutate, isLoading } = useFetch<User[]>(`users`);
-  console.log("employees----", employees);
   const [pageNumber, setPageNumber] = useState<number | null>(1);
-
-  const sortData = data?.sort(
-    (a: any, b: any) =>
-      (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
-  );
-  console.log(sortData);
+  const {
+    data: employees,
+    mutate,
+    isLoading,
+    pagination,
+  } = useFetch<User[]>(`users?page=${pageNumber}&limit=8`);
+  // console.log("employees", employees, pagination);
+  // const sortData = data?.sort(
+  //   (a: any, b: any) =>
+  //     (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
+  // );
   if (isLoading) {
     return <Loader />;
   }
   return (
     <section className="my-8">
       <Grid container spacing={3}>
-        {sortData?.map((item) => (
+        {employees?.map((item) => (
           <Grid key={item?.id} item lg={3}>
             <CardContent item={item} mutate={mutate} />
           </Grid>
         ))}
       </Grid>
-      {/* <Pagination
-        chunk={chunk}
-        isLastChunk={data?.data?.data?.isLastChunk}
-        isLoading={isLoading}
-        setChunk={setChunk}
-      /> */}
-      <Stack spacing={2}>
-        <Pagination count={10} variant="outlined" />
-      </Stack>
-      {/* <div className="flex justify-between items-center py-4">
-        <Button
-          className="!bg-theme"
-          variant="contained"
-          startIcon={<KeyboardArrowLeft />}
-          onClick={() => setCurrentPage((prev: any) => prev - 1)}
-        >
-          PREV
-        </Button>
-        <div className="h-8 flex justify-center items-center w-8 bg-slate-300 rounded-full tracking-wide font-semibold">
-          {currentPage}
-        </div>
-        <Button
-          className="!bg-theme"
-          variant="contained"
-          endIcon={<KeyboardArrowRight />}
-          onClick={() => setCurrentPage((prev: any) => prev + 1)}
-        >
-          NEXT
-        </Button>
-      </div> */}
+
+      <div className="flex justify-center py-8">
+        <Stack spacing={2}>
+          <Pagination
+            count={Math.ceil(
+              Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+            )}
+            onChange={(e, v: number) => {
+              setPageNumber(v);
+            }}
+            variant="outlined"
+          />
+        </Stack>
+      </div>
     </section>
   );
 };

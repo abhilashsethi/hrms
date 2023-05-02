@@ -30,6 +30,7 @@ export const useFetch = <T>(path: string, options?: useFetchOptions) => {
     data?: T;
     success: boolean;
     msg: string;
+    pagination?: { total: number; page?: string; limit?: string };
   }>(`${url}/${path}`, (args: any) => {
     const headers: HeadersInit = {};
     if (token) headers["x-access-token"] = token;
@@ -41,6 +42,7 @@ export const useFetch = <T>(path: string, options?: useFetchOptions) => {
     success: data.data?.success,
     msg: data.data?.msg,
     data: data.data?.data,
+    pagination: data?.data?.pagination,
   };
 };
 
