@@ -1,6 +1,6 @@
 import { MoreVert } from "@mui/icons-material";
 import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
-import { RoleBarChart, RoleDonutChart } from "components/analytics";
+import { DepartmentBarChart, DepartmentDonutChart } from "components/analytics";
 import { useFetch } from "hooks";
 import { useState, MouseEvent } from "react";
 
@@ -136,11 +136,11 @@ const DepartmentDashboard = () => {
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 				<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="font-bold text-lg text-center">Department Overview</p>
-					<RoleBarChart type="bar" text="" />
+					<DepartmentBarChart type="bar" text="" />
 				</div>
 				<div className="col-span-12 w-full flex flex-col justify-center md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Department Details</p>
-					<RoleDonutChart text="" type="donut" />
+					<DepartmentDonutChart text="" type="donut" />
 				</div>
 			</div>
 		</>
