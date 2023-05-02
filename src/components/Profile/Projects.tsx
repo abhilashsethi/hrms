@@ -27,8 +27,14 @@ const Projects = () => {
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
-  const { data: projectData, mutate } = useFetch<Projects[]>(`projects`);
-
+  const {
+    data: projectData,
+    mutate,
+    isLoading,
+  } = useFetch<Projects[]>(`projects`);
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       {projectData?.map((item: any) => (
@@ -105,9 +111,6 @@ const ProfilesView = ({ item }: Props) => {
     let reqData = usersData?.filter((dt: any) => item?.includes(dt?.id));
     setMyData(reqData);
   }, [item]);
-  if (isLoading) {
-    return <Loader />;
-  }
   return (
     <div className="py-2 flex justify-start">
       <AvatarGroup max={5}>
