@@ -14,9 +14,7 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { User } from "types";
-import EmpAttendanceIndividual from "./EmpAttendanceIndividual";
-import EmployProjects from "./EmployProjects";
-import EmployLeaves from "./EmployLeaves";
+import EmployProjects from "../EmployProjects";
 
 const ClientDetails = () => {
   const router = useRouter();
@@ -39,11 +37,6 @@ const ClientDetails = () => {
       id: 2,
       title: "Email",
       value: `${employData?.email ? employData?.email : "---"}`,
-    },
-    {
-      id: 3,
-      title: "Emp Id",
-      value: `${employData?.employeeID ? employData?.employeeID : "---"}`,
     },
 
     {
@@ -81,11 +74,6 @@ const ClientDetails = () => {
       id: 9,
       title: "Blood Group",
       value: `${employData?.bloodGroup ? employData?.bloodGroup : "---"}`,
-    },
-    {
-      id: 9,
-      title: "Department Id",
-      value: `${employData?.departmentId ? employData?.departmentId : "---"}`,
     },
     {
       id: 9,
@@ -176,12 +164,7 @@ const ClientDetails = () => {
                       <p className="text-sm text-slate-600 font-medium mt-1">
                         {employData?.role?.name || "---"}
                       </p>
-                      <p className="text-sm text-slate-600 mt-1 font-bold">
-                        EMP ID :{" "}
-                        <span className="text-slate-400">
-                          {employData?.employeeID || "---"}
-                        </span>
-                      </p>
+
                       <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
                         <RenderIconRow
                           value={employData?.email || "---"}
@@ -320,9 +303,9 @@ const ClientDetails = () => {
           </Grid>
           <Grid item lg={4}>
             <div className="w-full h-full">
-              <EmpAttendanceIndividual />
+              {/* <EmpAttendanceIndividual /> */}
               <EmployProjects />
-              <EmployLeaves />
+              {/* <EmployLeaves /> */}
             </div>
           </Grid>
         </Grid>
