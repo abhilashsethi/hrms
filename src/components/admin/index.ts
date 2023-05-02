@@ -26,3 +26,4 @@ export { default as ClientDashboard } from "./ClientDashboard";
 export { default as AttendanceDashBoard } from "./AttendanceDashBoard";
 export { default as AllDepartmentGrid } from "./AllDepartmentGrid";
 export { default as AllDepartmentColumn } from "./AllDepartmentColumn";
+export { default as DepartmentDashboard } from "./DepartmentDashboard";
