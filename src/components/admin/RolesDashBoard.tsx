@@ -15,6 +15,7 @@ import {
 import RoleBarChart from "components/analytics/RoleBarChart";
 import RoleDonutChart from "components/analytics/RoleDonutChart";
 import TaskOverview from "components/analytics/TaskOverview";
+import { useFetch } from "hooks";
 import { useState, MouseEvent } from "react";
 
 const RolesDashBoard = () => {
@@ -26,10 +27,41 @@ const RolesDashBoard = () => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
+	const { data: roleData, mutate } = useFetch<any>(`roles`);
+	console.log(roleData?.roles);
+
+	const cards = [
+		{
+			id: 1,
+			icon: <ContentPasteGo fontSize="large" className="text-theme" />,
+			count: roleData?.roles?.length,
+			title: "Total Roles",
+		},
+		{
+			id: 2,
+			icon: <PendingActions fontSize="large" className="text-theme" />,
+			count: "34",
+			title: "Developer",
+		},
+		{
+			id: 3,
+			icon: <AssignmentTurnedIn fontSize="large" className="text-theme" />,
+			count: "34",
+			title: "HR",
+		},
+		{
+			id: 4,
+			icon: <Pending fontSize="large" className="text-theme" />,
+			count: "34",
+			title: "Sales Executive",
+		},
+	];
+
 	return (
 		<>
 			<div className="flex gap-2 py-4">
-				<div className="w-3/4 px-4 ">
+				<div className="w-full px-4 ">
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
@@ -59,13 +91,8 @@ const RolesDashBoard = () => {
 							</Grid>
 						))}
 					</Grid>
-					<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
-						<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-12 !border-gray-500 rounded-xl !shadow-xl">
-							<RoleBarChart type="bar" text="Role Overview" />
-						</div>
-					</div>
 				</div>
-				<div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col gap-3">
+				{/* <div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col gap-3">
 					{stats.map((item) => (
 						<div
 							key={item?.id}
@@ -82,11 +109,16 @@ const RolesDashBoard = () => {
 							</div>
 						</div>
 					))}
-				</div>
+				</div> */}
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
-				<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-					<RoleDonutChart text="Role Overview" type="donut" />
+				<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
+					<p className="font-bold text-lg text-center">Role Overview</p>
+					<RoleBarChart type="bar" text="" />
+				</div>
+				<div className="col-span-12 w-full flex flex-col justify-center md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
+					<p className="text-lg font-bold text-center">Role Details</p>
+					<RoleDonutChart text="" type="donut" />
 				</div>
 			</div>
 		</>
@@ -94,33 +126,6 @@ const RolesDashBoard = () => {
 };
 
 export default RolesDashBoard;
-
-const cards = [
-	{
-		id: 1,
-		icon: <ContentPasteGo fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "Total Roles",
-	},
-	{
-		id: 2,
-		icon: <PendingActions fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "On Going Roles",
-	},
-	{
-		id: 3,
-		icon: <AssignmentTurnedIn fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "Finished Roles",
-	},
-	{
-		id: 4,
-		icon: <Pending fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "Other",
-	},
-];
 
 const stats = [
 	{
