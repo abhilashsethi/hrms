@@ -7,7 +7,15 @@ import {
   TableRowsRounded,
 } from "@mui/icons-material";
 import { useState, useRef, useEffect } from "react";
-import { Button, Grid, IconButton, MenuItem, TextField } from "@mui/material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  MenuItem,
+  Pagination,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { AttendanceGrid, AttendanceList } from "components/admin";
 import {
   AdminBreadcrumbs,
@@ -25,6 +33,7 @@ import { addDays } from "date-fns";
 
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [searchedUser, setSearchedUser] = useState<any>([]);
   const [status, setStatus] = useState("present");
@@ -35,28 +44,15 @@ const TodayAttendance = () => {
     setSelectedDate(date);
     console.log(date);
   }
-  const { data: attendance, isLoading } = useFetch<any>(
-    `attendances/${selectedDate.toISOString().slice(0, 10)}/${status}`
+  const {
+    data: attendance,
+    isLoading,
+    pagination,
+  } = useFetch<any>(
+    `attendances/${selectedDate
+      .toISOString()
+      .slice(0, 10)}/${status}?page=${pageNumber}&limit=8`
   );
-
-  useEffect(() => {
-    if (attendance) {
-      const filtered = attendance.filter((user: any) => {
-        return user?.name?.toLowerCase().includes(userName?.toLowerCase());
-      });
-      setSearchedUser(filtered);
-    }
-  }, [attendance, userName]);
-
-  useEffect(() => {
-    if (attendance) {
-      const filtered = attendance.filter((user: any) => {
-        return user?.employeeID?.toLowerCase().includes(empId?.toLowerCase());
-      });
-      setSearchedUser(filtered);
-    }
-  }, [attendance, empId]);
-
   const cards = [
     {
       id: 1,
@@ -198,13 +194,27 @@ const TodayAttendance = () => {
           ) : (
             <>
               {isGrid ? (
-                <AttendanceGrid data={searchedUser} />
+                <AttendanceGrid data={attendance?.results} />
               ) : (
-                <AttendanceList data={searchedUser} />
+                <AttendanceList data={attendance?.results} />
               )}
             </>
           )}
-          {!searchedUser?.length && <LoaderAnime />}
+          {!attendance?.results?.length && <LoaderAnime />}
+          <div className="flex justify-center py-8">
+            <Stack spacing={2}>
+              <Pagination
+                count={Math.ceil(
+                  Number(pagination?.total || 1) /
+                    Number(pagination?.limit || 1)
+                )}
+                onChange={(e, v: number) => {
+                  setPageNumber(v);
+                }}
+                variant="outlined"
+              />
+            </Stack>
+          </div>
         </section>
       </section>
     </PanelLayout>

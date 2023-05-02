@@ -82,6 +82,7 @@ export type User = {
 	roleId?: string;
 	projectIDs?: string[];
 	departmentId?: string;
+	department?:{ name?: string; id?: string; createdAt?: string; updatedAt?: string };
 	wallet?: number;
 };
 
@@ -104,3 +105,4 @@ export type Role = {
 	createdAt: Date;
 	updatedAt: Date;
 };
+
