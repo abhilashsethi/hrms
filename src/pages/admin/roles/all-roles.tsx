@@ -64,7 +64,7 @@ const AllRoles = () => {
             </Button>
           </div>
         </div>
-        <TextTitles title="ALL ROLES" />
+        {/* <TextTitles title="ALL ROLES" /> */}
 
         {isGrid ? <AllRollGrid /> : <AllRollColumn />}
       </section>
