@@ -34,6 +34,7 @@ const validationSchema = Yup.object().shape({
   address: Yup.string().required("Address is required!"),
   gender: Yup.string().required("Gender is required!"),
   roleId: Yup.string().required("Role is required!"),
+  departmentId: Yup.string().required("Department Id is required!"),
   joiningDate: Yup.string().required("Joining Date is required!"),
   bloodGroup: Yup.string().required("Blood Group is required!"),
 });
@@ -42,6 +43,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { data: roles } = useFetch<any>(`roles`);
+  const { data: departmentsData } = useFetch<any>(`departments`);
   const router = useRouter();
   const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
   const initialValues = {
@@ -53,6 +55,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
     address: `${employData?.address ? employData?.address : ""}`,
     gender: `${employData?.gender ? employData?.gender : ""}`,
     roleId: `${employData?.roleId ? employData?.roleId : ""}`,
+    departmentId: `${employData?.departmentId ? employData?.departmentId : ""}`,
     joiningDate: `${employData?.joiningDate ? employData?.joiningDate : ""}`,
     bloodGroup: `${employData?.bloodGroup ? employData?.bloodGroup : ""}`,
   };
@@ -251,21 +254,68 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                         </p>
                         <Autocomplete
                           sx={{ width: "100%" }}
-                          options={roles}
+                          options={roles?.roles}
                           autoHighlight
-                          getOptionLabel={(option: any) => option.name}
+                          getOptionLabel={(option: any) =>
+                            option.name ? option.name : ""
+                          }
                           isOptionEqualToValue={(option, value) =>
                             option.id === value.roleId
                           }
                           value={
                             values?.roleId
-                              ? roles?.find(
+                              ? roles?.roles?.find(
                                   (option: any) => option.id === values.roleId
                                 )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
                             setFieldValue("roleId", r?.id);
+                          }}
+                          renderOption={(props, option) => (
+                            <Box
+                              component="li"
+                              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                              {...props}
+                            >
+                              {option.name}
+                            </Box>
+                          )}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Select Role"
+                              inputProps={{
+                                ...params.inputProps,
+                              }}
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
+                          Department <span className="text-red-600">*</span>
+                        </p>
+                        <Autocomplete
+                          sx={{ width: "100%" }}
+                          options={departmentsData?.departments}
+                          autoHighlight
+                          getOptionLabel={(option: any) =>
+                            option.name ? option.name : ""
+                          }
+                          isOptionEqualToValue={(option, value) =>
+                            option.id === value.departmentId
+                          }
+                          value={
+                            values?.departmentId
+                              ? departmentsData?.departments?.find(
+                                  (option: any) =>
+                                    option.id === values.departmentId
+                                )
+                              : {}
+                          }
+                          onChange={(e: any, r: any) => {
+                            setFieldValue("departmentId", r?.id);
                           }}
                           renderOption={(props, option) => (
                             <Box
