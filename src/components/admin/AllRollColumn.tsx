@@ -8,11 +8,7 @@ import { MuiTblOptions, clock, getDataWithSL } from "utils";
 
 const AllRollColumn = () => {
   const [loading, setLoading] = useState(false);
-  const {
-    data: roleData,
-    isLoading,
-    mutate,
-  } = useFetch<[{ id: string; name: string }]>(`roles`);
+  const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
   const { change, isChanging } = useChange();
   if (isLoading) {
     return <Loader />;
@@ -22,7 +18,7 @@ const AllRollColumn = () => {
       <MaterialTable
         title={<HeadStyle name="All Roles" icon={<PeopleRounded />} />}
         isLoading={isLoading || isChanging}
-        data={roleData ? getDataWithSL<any>(roleData) : []}
+        data={roleData?.roles ? getDataWithSL<any>(roleData?.roles) : []}
         options={{ ...MuiTblOptions(), selection: false }}
         columns={[
           {

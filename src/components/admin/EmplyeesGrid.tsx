@@ -41,6 +41,7 @@ const EmplyeesGrid = ({ data }: Props) => {
     (a: any, b: any) =>
       (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
   );
+  console.log(sortData);
   if (isLoading) {
     return <Loader />;
   }

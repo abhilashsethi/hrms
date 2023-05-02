@@ -97,3 +97,10 @@ export type Projects = {
 	createdAt: Date;
 	updatedAt: Date;
 };
+export type Role = {
+	id: string;
+	name: string;
+	cardId: string;
+	createdAt: Date;
+	updatedAt: Date;
+};

@@ -6,19 +6,18 @@ import { CreateDepartment } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
+import { Role } from "types";
 
 const AllDepartment = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [isCreate, setIsCreate] = useState(false);
 
   const {
-    data: roleData,
+    data: departmentData,
     mutate,
     isLoading,
-  } = useFetch<[{ id: string; name: string }]>(`departments`);
-  if (isLoading) {
-    return <Loader />;
-  }
+  } = useFetch<Role[]>(`departments`);
+
   return (
     <PanelLayout title="All Roles - Admin Panel">
       <section className="px-8 py-4">

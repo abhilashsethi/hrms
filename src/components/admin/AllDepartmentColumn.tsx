@@ -43,13 +43,13 @@ const AllDepartmentColumn = () => {
           {
             title: "Last Updated",
             field: "updatedAt",
-            //   render: (data) => clock(data.updatedAt).fromNow(),
+            render: (data) => clock(data.updatedAt).fromNow(),
             editable: "never",
           },
           {
             title: "Created",
             field: "createdAt",
-            //   render: (data) => new Date(data.createdAt).toDateString(),
+            render: (data) => new Date(data.createdAt).toDateString(),
             editable: "never",
           },
         ]}
