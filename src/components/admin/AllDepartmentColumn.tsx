@@ -9,10 +9,10 @@ import { MuiTblOptions, clock, getDataWithSL } from "utils";
 const AllDepartmentColumn = () => {
   const [loading, setLoading] = useState(false);
   const {
-    data: roleData,
+    data: departmentData,
     isLoading,
     mutate,
-  } = useFetch<[{ id: string; name: string }]>(`departments`);
+  } = useFetch<any>(`departments`);
   const { change, isChanging } = useChange();
   if (isLoading) {
     return <Loader />;
@@ -22,7 +22,11 @@ const AllDepartmentColumn = () => {
       <MaterialTable
         title={<HeadStyle name="All Department" icon={<PeopleRounded />} />}
         isLoading={isLoading || isChanging}
-        data={department ? getDataWithSL<any>(department) : []}
+        data={
+          departmentData?.departments
+            ? getDataWithSL<any>(departmentData?.departments)
+            : []
+        }
         options={{ ...MuiTblOptions(), selection: false }}
         columns={[
           {
@@ -32,8 +36,8 @@ const AllDepartmentColumn = () => {
             width: "2%",
           },
           {
-            title: "Role",
-            tooltip: "Role",
+            title: "Department",
+            tooltip: "Department",
             field: "name",
           },
           {
