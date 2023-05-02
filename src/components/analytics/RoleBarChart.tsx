@@ -46,15 +46,8 @@ const RoleBarChart = ({
 		},
 
 		xaxis: {
-			categories: [
-				"HR",
-				"CEO",
-				"DEVELOPER",
-				"SALES EXECUTIVE",
-				"ANDROID DEVELOPER",
-				"OTHER",
-			],
-			position: "top",
+			categories: ["HR", "CEO", "DEV.", "SALES EXE.", "ANDROID DEV.", "OTHER"],
+			position: "bottom",
 			axisBorder: {
 				show: false,
 			},
@@ -143,12 +136,12 @@ const RoleBarChart = ({
 					categories: [
 						"HR",
 						"CEO",
-						"DEVELOPER",
-						"SALES EXECUTIVE",
-						"ANDROID DEVELOPER",
+						"DEV.",
+						"SALES EXE.",
+						"ANDROID DEV.",
 						"OTHER",
 					],
-					position: "top",
+					position: "bottom",
 					axisBorder: {
 						show: false,
 					},

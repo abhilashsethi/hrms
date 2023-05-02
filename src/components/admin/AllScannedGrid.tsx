@@ -1,4 +1,4 @@
-import { AddCardRounded } from "@mui/icons-material";
+import { AddCardRounded, Delete } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import { IOSSwitch, TextTitles } from "components/core";
 import { useChange, useFetch } from "hooks";
@@ -43,13 +43,40 @@ const AllScannedGrid = () => {
       }
     });
   };
+
+  const handleDelete = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      try {
+        if (result.isConfirmed) {
+          const response = await change(`cards/${id}`, {
+            method: "DELETE",
+          });
+          if (response?.status !== 200) {
+            Swal.fire("Error", "Something went wrong!", "error");
+          }
+          Swal.fire("Success", "Deleted successfully!", "success");
+          mutate();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
   return (
     <>
       <TextTitles title="Scanned Cards" />
       <div className="mt-4">
         <Grid container spacing={3}>
           {data?.map((item: any) => (
-            <Grid key={item?.id} item lg={3}>
+            <Grid key={item?.id} item lg={4}>
               <div className="flex items-center justify-center w-full h-full group cursor-pointer">
                 <div
                   className="w-[18rem] h-[29.5rem] bg-contain bg-no-repeat shadow-lg rounded-xl"
@@ -103,14 +130,23 @@ const AllScannedGrid = () => {
                               {item?.user?.bloodGroup}
                             </p>
                           </div>
-                          <div className="w-[70%] hidden group-hover:flex items-end flex-col justify-center gap-2">
-                            <p className="font-semibold tracking-wide text-sm">
-                              Unblock/Block
-                            </p>
-                            <IOSSwitch
-                              checked={item?.isBlocked}
-                              onChange={(e) => handleBlock(e, item?.cardId)}
-                            />
+                          <div className="w-[70%] hidden group-hover:flex items-end justify-center gap-4">
+                            <Tooltip title="Delete">
+                              <IconButton
+                                onClick={() => handleDelete(item?.id)}
+                              >
+                                <Delete className="!text-youtube" />
+                              </IconButton>
+                            </Tooltip>
+                            <div className="flex flex-col items-end">
+                              <p className="font-semibold tracking-wide text-sm">
+                                Unblock/Block
+                              </p>
+                              <IOSSwitch
+                                checked={item?.isBlocked}
+                                onChange={(e) => handleBlock(e, item?.cardId)}
+                              />
+                            </div>
                           </div>
                         </div>
                       ) : (
