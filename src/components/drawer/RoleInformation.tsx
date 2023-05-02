@@ -5,7 +5,7 @@ import {
 } from "@mui/icons-material";
 import { Container, Drawer, Grid } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
-import { Loader } from "components/core";
+import { Loader, UserLoaderAnime } from "components/core";
 import { useFetch } from "hooks";
 import { User } from "types";
 
@@ -42,7 +42,9 @@ const RoleInformation = ({ open, onClose, role }: Props) => {
             </span>
           )}
           {!reqData?.length && (
-            <p className="text-center py-20">No members found in this role.</p>
+            <>
+              <UserLoaderAnime />
+            </>
           )}
           <div className="mt-4 flex flex-col gap-2">
             {reqData?.map((item) => (
