@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const RoleBarChart = ({
+const DepartmentBarChart = ({
 	type,
 	text = "",
 }: {
@@ -16,8 +16,8 @@ const RoleBarChart = ({
 	const options = {
 		series: [
 			{
-				name: "",
-				data: [5, 8, 10, 10, 8, 5],
+				name: "Projects",
+				data: [5, 8, 9, 10, 10, 8, 5],
 			},
 		],
 		chart: {
@@ -46,7 +46,15 @@ const RoleBarChart = ({
 		},
 
 		xaxis: {
-			categories: ["HR", "CEO", "DEV.", "SALES EXE.", "ANDROID DEV.", "OTHER"],
+			categories: [
+				"AI & ML",
+				"Web Dev.",
+				"App Dev.",
+				"IT Mang.",
+				"Accounts Mang.",
+				"Sales Mang.",
+				"Manager",
+			],
 			position: "bottom",
 			axisBorder: {
 				show: false,
@@ -103,8 +111,8 @@ const RoleBarChart = ({
 			options={{
 				series: [
 					{
-						name: "",
-						data: [5, 8, 10, 10, 8, 5],
+						name: "Person",
+						data: [5, 8, 9, 10, 10, 8, 5],
 					},
 				],
 				chart: {
@@ -134,12 +142,13 @@ const RoleBarChart = ({
 
 				xaxis: {
 					categories: [
-						"HR",
-						"CEO",
-						"DEV.",
-						"SALES EXE.",
-						"ANDROID DEV.",
-						"OTHER",
+						"AI & ML",
+						"Web Dev.",
+						"App Dev.",
+						"IT Mang.",
+						"Accounts Mang.",
+						"Sales Mang.",
+						"Manager",
 					],
 					position: "bottom",
 					axisBorder: {
@@ -194,4 +203,4 @@ const RoleBarChart = ({
 	);
 };
 
-export default RoleBarChart;
+export default DepartmentBarChart;

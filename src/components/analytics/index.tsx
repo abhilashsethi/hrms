@@ -21,3 +21,5 @@ export { default as RolewiseStrength } from "./RolewiseStrength";
 export { default as TaskOverview } from "./TaskOverview";
 export { default as UserRole } from "./UserRole";
 export { default as LeaveDonutChart } from "./LeaveDonutChart";
+export { default as DepartmentDonutChart } from "./DepartmentDonutChart";
+export { default as DepartmentBarChart } from "./DepartmentBarChart";

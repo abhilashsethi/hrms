@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const MeetingDonutChart = ({
+const DepartmentDonutChart = ({
 	type,
 	text = "",
 }: {
@@ -9,8 +9,16 @@ const MeetingDonutChart = ({
 	text?: string;
 }) => {
 	const options = {
-		labels: ["Scheduled Meeting", "Rescheduled Meeting", "Cancelled Meeting"],
-		series: [166, 115, 31],
+		labels: [
+			"AI & ML",
+			"Web Dev.",
+			"App Dev.",
+			"IT Mang.",
+			"Accounts Mang.",
+			"Sales Mang.",
+			"Manager",
+		],
+		series: [166, 115, 31, 47, 27, 20, 30],
 		chart: {
 			type: "donut",
 		},
@@ -47,7 +55,7 @@ const MeetingDonutChart = ({
 		<ApexCharts
 			height={"500"}
 			options={{
-				series: [166, 115, 31],
+				series: [166, 115, 31, 47, 27, 20, 30],
 				chart: {
 					type: "donut",
 				},
@@ -66,12 +74,24 @@ const MeetingDonutChart = ({
 				],
 
 				labels: [
-					"Scheduled Meeting",
-					"Rescheduled Meeting",
-					"Cancelled Meeting",
+					"AI & ML",
+					"Web Dev.",
+					"App Dev.",
+					"IT Mang.",
+					"Accounts Mang.",
+					"Sales Mang.",
+					"Manager",
 				],
 
-				colors: ["#106EAD", "#C33C5E", "#25d366", "#E60023"],
+				colors: [
+					"#106EAD",
+					"#C33C5E",
+					"#25d366",
+					"#BD33B5",
+					"#E60023",
+					"#005d32",
+					"#c6ff00",
+				],
 
 				title: {
 					text: text,
@@ -93,4 +113,4 @@ const MeetingDonutChart = ({
 	);
 };
 
-export default MeetingDonutChart;
+export default DepartmentDonutChart;
