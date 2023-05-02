@@ -77,7 +77,7 @@ const AllScannedColumn = () => {
             {
               title: "Card ID",
               field: "cardId",
-              editable: "never",
+              // editable: "never",
             },
             {
               title: "Assigned User",
@@ -139,16 +139,25 @@ const AllScannedColumn = () => {
             },
           ]}
           editable={{
-            async onRowUpdate(newData, oldData) {
-              const response = await change(`cards/${newData.cardId}`, {
-                method: "PATCH",
-                body: { userId: newData.userId },
-              });
-              console.log(response);
-              mutate();
-            },
+            // async onRowUpdate(newData, oldData) {
+            //   try {
+            //     const response = await change(`cards/${newData.id}`, {
+            //       method: "PATCH",
+            //       body: { userId: newData.userId },
+            //     });
+            //     mutate();
+            //     Swal.fire("Success", "Updated successfully!", "success");
+            //   } catch (error) {
+            //     console.log(error);
+            //     Swal.fire("Error", "Something went wrong!!", "error");
+            //   }
+            // },
             async onRowDelete(oldData) {
-              console.log(oldData);
+              const response = await change(`cards/${oldData.id}`, {
+                method: "DELETE",
+              });
+              mutate();
+              Swal.fire("Success", "Removed successfully!", "success");
             },
           }}
         />
