@@ -1,11 +1,11 @@
 import PanelLayout from "layouts/panel";
 import { AdminBreadcrumbs, HeadText } from "components/core";
-import { ClientDetails } from "components/admin";
 import { Check, Close } from "@mui/icons-material";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import { ClientDetails } from "components/admin/clients";
 
 const EmployeeProfile = () => {
   const [activeMonth, setActiveMonth] = useState();
