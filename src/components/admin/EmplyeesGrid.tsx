@@ -22,6 +22,7 @@ import Link from "next/link";
 import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
+import { deleteFile } from "utils";
 interface ARRAY {
   id?: string;
 }
@@ -83,7 +84,7 @@ const CardContent = ({ item, mutate }: any) => {
     setAnchorEl(null);
   };
   const { change } = useChange();
-  const handleDelete = async (userId: string) => {
+  const handleDelete = async (user: User) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -95,9 +96,11 @@ const CardContent = ({ item, mutate }: any) => {
         confirmButtonText: "Yes, delete!",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const res = await change(`users/${userId}`, {
+          const res = await change(`users/${user?.id}`, {
             method: "DELETE",
           });
+          console.log(res);
+          await deleteFile(String(user?.photo?.split("/").reverse()[0]));
           if (res?.status !== 200) {
             Swal.fire(`Error`, "Something went wrong!", "error");
             return;
@@ -220,7 +223,7 @@ const CardContent = ({ item, mutate }: any) => {
               Edit
             </MenuItem>
           </Link>
-          <MenuItem onClick={() => handleDelete(item?.id)}>
+          <MenuItem onClick={() => handleDelete(item)}>
             <ListItemIcon>
               <DeleteRounded fontSize="small" />
             </ListItemIcon>
