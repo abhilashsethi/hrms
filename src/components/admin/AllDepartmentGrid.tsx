@@ -85,7 +85,7 @@ const AllDepartmentGrid = () => {
                     {item?.name}
                   </p>
                   <div className="flex gap-2">
-                    <div className="h-10 w-10 cursor-pointer hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-xl rounded-full bg-gradient-to-r from-red-600 to-red-400 flex justify-center items-center text-lg font-semibold hover:from-secondary-500 hover:to-red-600">
+                    <div className="h-10 w-10 cursor-pointer hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-xl rounded-full bg-gradient-to-r from-red-600 to-red-400 flex justify-center items-center text-lg font-semibold hover:from-red-400 hover:to-red-600">
                       <Tooltip title="Delete">
                         <IconButton onClick={() => handleDelete(item?.id)}>
                           <Delete className="!text-white" />
