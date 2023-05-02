@@ -45,6 +45,9 @@ const RoleDonutChart = ({
 				color: "#444",
 			},
 		},
+		legend: {
+			position: "bottom",
+		},
 	};
 
 	return (
@@ -96,6 +99,9 @@ const RoleDonutChart = ({
 					style: {
 						color: "#444",
 					},
+				},
+				legend: {
+					position: "bottom",
 				},
 			}}
 			series={options.series}
