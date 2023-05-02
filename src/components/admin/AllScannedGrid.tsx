@@ -1,6 +1,6 @@
 import { AddCardRounded, Delete } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
-import { IOSSwitch, TextTitles } from "components/core";
+import { IOSSwitch } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { useState } from "react";
@@ -72,8 +72,7 @@ const AllScannedGrid = () => {
   };
   return (
     <>
-      <TextTitles title="Scanned Cards" />
-      <div className="mt-4">
+      <div className="mt-2">
         <Grid container spacing={3}>
           {data?.map((item: any) => (
             <Grid key={item?.id} item lg={4}>
