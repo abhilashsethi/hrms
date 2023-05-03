@@ -1,5 +1,5 @@
-import { MeetingAnalytics, MeetingDonutChart } from "components/analytics";
 import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
+import { MeetingAnalytics, MeetingDonutChart } from "components/analytics";
 import { useState, MouseEvent } from "react";
 import {
 	ContactPhone,
@@ -8,7 +8,6 @@ import {
 	PendingActions,
 	MoreVert,
 } from "@mui/icons-material";
-import { useFetch } from "hooks";
 
 const MeetingDashBoard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -111,20 +110,20 @@ const cards = [
 	{
 		id: 2,
 		icon: <PendingActions fontSize="large" className="text-theme" />,
-		count: "34",
+		count: "20",
 		title: "Upcoming Meetings",
 	},
 	{
 		id: 3,
 		icon: <AssignmentTurnedIn fontSize="large" className="text-theme" />,
-		count: "34",
+		count: "10",
 		title: "Completed Meetings",
 	},
 	{
 		id: 4,
 		icon: <DevicesOther fontSize="large" className="text-theme" />,
-		count: "34",
-		title: "Others",
+		count: "18",
+		title: "Total Meeting Locations",
 	},
 ];
 
