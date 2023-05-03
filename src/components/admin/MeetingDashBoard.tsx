@@ -20,9 +20,6 @@ const MeetingDashBoard = () => {
 		setAnchorEl(null);
 	};
 
-	const { data: meetingData } = useFetch<any>(`meetings`);
-	console.log(meetingData);
-
 	return (
 		<>
 			<div className="flex gap-2 py-4">
@@ -30,7 +27,7 @@ const MeetingDashBoard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="group hover:scale-105 transition duration-500 ease-in-out bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
+								<div className="hover:scale-105 transition duration-500 ease-in-out bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer border-4 border-b-theme">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
 											<MoreVert />
@@ -109,25 +106,25 @@ const cards = [
 		id: 1,
 		icon: <ContactPhone fontSize="large" className="text-theme" />,
 		count: "34",
-		title: "Total Meeting",
+		title: "Total Meetings",
 	},
 	{
 		id: 2,
 		icon: <PendingActions fontSize="large" className="text-theme" />,
 		count: "34",
-		title: "On Going Meetings",
+		title: "Upcoming Meetings",
 	},
 	{
 		id: 3,
 		icon: <AssignmentTurnedIn fontSize="large" className="text-theme" />,
 		count: "34",
-		title: "Finished Meetings",
+		title: "Completed Meetings",
 	},
 	{
 		id: 4,
 		icon: <DevicesOther fontSize="large" className="text-theme" />,
 		count: "34",
-		title: "Other",
+		title: "Others",
 	},
 ];
 

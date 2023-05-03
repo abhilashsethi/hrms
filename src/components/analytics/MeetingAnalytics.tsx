@@ -11,12 +11,12 @@ const MeetingAnalytics = ({
 	const options = {
 		series: [
 			{
-				name: "On Going Meetings",
+				name: "Upcoming Meetings",
 				type: "column",
 				data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
 			},
 			{
-				name: "Finished Meetings",
+				name: "Completed Meetings",
 				type: "area",
 				data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
 			},
@@ -53,23 +53,24 @@ const MeetingAnalytics = ({
 			},
 		},
 		labels: [
-			"01/01/203",
-			"02/01/203",
-			"03/01/203",
-			"04/01/203",
-			"05/01/203",
-			"06/01/203",
-			"07/01/203",
-			"08/01/203",
-			"09/01/203",
-			"10/01/203",
-			"11/01/203",
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"May",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
 		],
 		markers: {
 			size: 0,
 		},
 		xaxis: {
-			type: "datetime",
+			type: "category",
 		},
 		yaxis: {
 			title: {
@@ -97,19 +98,19 @@ const MeetingAnalytics = ({
 			options={{
 				series: [
 					{
-						name: "On Going Meetings",
+						name: "Upcoming Meetings",
 						type: "column",
-						data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+						data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 30],
 					},
 					{
-						name: "Finished Meetings",
+						name: "Completed Meetings",
 						type: "area",
-						data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+						data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43, 42],
 					},
 					{
-						name: "Other",
+						name: "Others",
 						type: "line",
-						data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+						data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 20],
 					},
 				],
 				chart: {
@@ -139,23 +140,24 @@ const MeetingAnalytics = ({
 					},
 				},
 				labels: [
-					"01/01/203",
-					"02/01/203",
-					"03/01/203",
-					"04/01/203",
-					"05/01/203",
-					"06/01/203",
-					"07/01/203",
-					"08/01/203",
-					"09/01/203",
-					"10/01/203",
-					"11/01/203",
+					"Jan",
+					"Feb",
+					"Mar",
+					"Apr",
+					"May",
+					"Jun",
+					"Jul",
+					"Aug",
+					"Sep",
+					"Oct",
+					"Nov",
+					"Dec",
 				],
 				markers: {
 					size: 0,
 				},
 				xaxis: {
-					type: "datetime",
+					type: "category",
 				},
 				yaxis: {
 					title: {
