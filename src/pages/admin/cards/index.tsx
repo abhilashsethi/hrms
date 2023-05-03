@@ -22,23 +22,13 @@ const Cards = () => {
 			id: 1,
 			title: "Total Cards",
 			value: cardData?.length,
-			icon: (
-				<CreditCardRounded
-					fontSize="large"
-					className="text-theme group-hover:text-white"
-				/>
-			),
+			icon: <CreditCardRounded fontSize="large" className="text-theme" />,
 		},
 		{
 			id: 2,
 			title: "Cards Assigned",
 			value: cardData?.filter((item) => item?.userId)?.length,
-			icon: (
-				<CreditScore
-					fontSize="large"
-					className="text-theme  group-hover:text-white"
-				/>
-			),
+			icon: <CreditScore fontSize="large" className="text-theme" />,
 		},
 		{
 			id: 3,
@@ -69,14 +59,14 @@ const Cards = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="deals-card group hover:bg-theme transition duration-500 ease-in-out w-full tracking-wide  h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center">
+								<div className="hover:scale-105 cursor-pointer transition duration-500 ease-in-out w-full tracking-wide  h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center border-4 border-b-theme">
 									<div className=" flex justify-center items-center">
 										{item?.icon}
 									</div>
-									<p className="text-base font-semibold text-center group-hover:text-white">
+									<p className="text-base font-semibold text-center">
 										{item?.title}
 									</p>
-									<p className="text-lg font-bold text-gray-600 group-hover:text-white">
+									<p className="text-lg font-bold text-gray-600">
 										{item?.value}
 									</p>
 								</div>

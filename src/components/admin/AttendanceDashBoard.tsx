@@ -103,10 +103,10 @@ const AttendanceDashBoard = () => {
 							<Grid container spacing={2}>
 								{cards?.map((item) => (
 									<Grid key={item?.id} item lg={4}>
-										<div className="group card1 h-36 bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
+										<div className="border-2 border-b-theme h-36 w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
 											<div className="flex justify-end">
 												<IconButton size="small" onClick={handleClick}>
-													<MoreVert className="group-hover:text-white" />
+													<MoreVert className="" />
 												</IconButton>
 												<Menu
 													anchorEl={anchorEl}
@@ -124,11 +124,11 @@ const AttendanceDashBoard = () => {
 											</div>
 											<div className="flex justify-around items-center">
 												<div>{item?.icon}</div>
-												<span className="text-xl text-theme font-semibold group-hover:text-white">
+												<span className="text-xl text-theme font-semibold ">
 													{item?.count}
 												</span>
 											</div>
-											<span className="group-hover:text-white text-theme font-semibold text-center tracking-wide text-lg">
+											<span className=" text-theme font-semibold text-center tracking-wide text-lg">
 												{item?.title}
 											</span>
 										</div>

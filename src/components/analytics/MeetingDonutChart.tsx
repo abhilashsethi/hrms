@@ -38,6 +38,9 @@ const MeetingDonutChart = ({
 				color: "#444",
 			},
 		},
+		legend: {
+			position: "bottom",
+		},
 	};
 
 	return (
@@ -79,6 +82,9 @@ const MeetingDonutChart = ({
 					style: {
 						color: "#444",
 					},
+				},
+				legend: {
+					position: "bottom",
 				},
 			}}
 			series={options.series}

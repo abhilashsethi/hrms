@@ -1,4 +1,4 @@
-import { Edit, SendRounded } from "@mui/icons-material";
+import { Edit, SendRounded, ShoppingBasket } from "@mui/icons-material";
 import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
@@ -29,7 +29,7 @@ const EmployeeDetails = () => {
     mutate,
     isLoading,
   } = useFetch<User>(`users/${router?.query?.id}`);
-  // console.log(employData);
+  console.log(employData);
   const basicDetails = [
     {
       id: 1,
@@ -86,7 +86,9 @@ const EmployeeDetails = () => {
     {
       id: 9,
       title: "Department Id",
-      value: `${employData?.departmentId ? employData?.departmentId : "---"}`,
+      value: `${
+        employData?.department?.name ? employData?.department?.name : "---"
+      }`,
     },
     {
       id: 9,
@@ -194,6 +196,10 @@ const EmployeeDetails = () => {
                           value={employData?.phone || "---"}
                           isPhone
                         />
+                      </p>
+                      <p className="mb-2 text-sm group flex items-center gap-2 pb-2 ">
+                        <ShoppingBasket />{" "}
+                        <span className=" font-medium">Credit : </span>2
                       </p>
                     </div>
                   </Grid>

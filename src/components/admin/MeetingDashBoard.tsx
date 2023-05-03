@@ -8,6 +8,7 @@ import {
 	PendingActions,
 	MoreVert,
 } from "@mui/icons-material";
+import { useFetch } from "hooks";
 
 const MeetingDashBoard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -18,6 +19,7 @@ const MeetingDashBoard = () => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
 	return (
 		<>
 			<div className="flex gap-2 py-4">
@@ -25,10 +27,10 @@ const MeetingDashBoard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="group deals-card h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between">
+								<div className="hover:scale-105 transition duration-500 ease-in-out bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer border-4 border-b-theme">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
-											<MoreVert className="group-hover:text-white" />
+											<MoreVert />
 										</IconButton>
 										<Menu
 											anchorEl={anchorEl}
@@ -38,15 +40,21 @@ const MeetingDashBoard = () => {
 												"aria-labelledby": "basic-button",
 											}}
 										>
-											<MenuItem onClick={handleClose}>All Meetings</MenuItem>
+											<MenuItem onClick={handleClose}>All Users</MenuItem>
 											<MenuItem onClick={handleClose}>View Dashboard</MenuItem>
 										</Menu>
 									</div>
-									<div className="">{item?.icon}</div>
-									<span className="text-lg group-hover:text-white">
-										{item?.count}
-									</span>
-									<span className="font-semibold tracking-wide text-sm group-hover:text-white">
+									<div className="flex justify-around items-center pb-3">
+										<div className="w-16">{item?.icon}</div>
+
+										{/* <div>
+										<img className="w-16" src="/department.png" alt="" />
+									</div> */}
+										<span className="text-xl text-theme font-semibold ">
+											{item?.count}
+										</span>
+									</div>
+									<span className=" text-theme font-semibold text-center tracking-wide text-md">
 										{item?.title}
 									</span>
 								</div>
@@ -79,10 +87,12 @@ const MeetingDashBoard = () => {
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 				<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
-					<MeetingAnalytics text="Meetings Overview" type="line" />
+					<p className="font-bold text-lg text-center">Meeting Overview</p>
+					<MeetingAnalytics text="" type="line" />
 				</div>
 				<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-					<MeetingDonutChart text="Meeting Overview" type="donut" />
+					<p className="font-bold text-lg text-center">Meeting Details</p>
+					<MeetingDonutChart text="" type="donut" />
 				</div>
 			</div>
 		</>
@@ -94,47 +104,27 @@ export default MeetingDashBoard;
 const cards = [
 	{
 		id: 1,
-		icon: (
-			<ContactPhone
-				fontSize="large"
-				className="text-theme group-hover:text-white"
-			/>
-		),
+		icon: <ContactPhone fontSize="large" className="text-theme" />,
 		count: "34",
-		title: "Total Meeting",
+		title: "Total Meetings",
 	},
 	{
 		id: 2,
-		icon: (
-			<PendingActions
-				fontSize="large"
-				className="text-theme group-hover:text-white"
-			/>
-		),
+		icon: <PendingActions fontSize="large" className="text-theme" />,
 		count: "34",
-		title: "On Going Meetings",
+		title: "Upcoming Meetings",
 	},
 	{
 		id: 3,
-		icon: (
-			<AssignmentTurnedIn
-				fontSize="large"
-				className="text-theme group-hover:text-white"
-			/>
-		),
+		icon: <AssignmentTurnedIn fontSize="large" className="text-theme" />,
 		count: "34",
-		title: "Finished Meetings",
+		title: "Completed Meetings",
 	},
 	{
 		id: 4,
-		icon: (
-			<DevicesOther
-				fontSize="large"
-				className="text-theme group-hover:text-white"
-			/>
-		),
+		icon: <DevicesOther fontSize="large" className="text-theme" />,
 		count: "34",
-		title: "Other",
+		title: "Others",
 	},
 ];
 

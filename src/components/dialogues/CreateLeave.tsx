@@ -1,4 +1,4 @@
-import { CheckCircle, Close } from "@mui/icons-material";
+import { Check, Close } from "@mui/icons-material";
 import {
   Button,
   Dialog,
@@ -7,23 +7,53 @@ import {
   IconButton,
   TextField,
   Tooltip,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  CircularProgress,
+  MenuItem,
 } from "@mui/material";
+import { Formik, Form } from "formik";
+import { ChangeEvent, useState } from "react";
+import * as Yup from "yup";
 
 interface Props {
   open: boolean;
   handleClose: any;
 }
+const initialValues = {
+  name: "",
+  leavesType: "",
+  to: "",
+  from: "",
+  date: "",
+  message: "",
+};
 
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  message: Yup.string().required("Message is required"),
+});
 const CreateLeave = ({ open, handleClose }: Props) => {
+  const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState("one");
+  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setValue((event.target as HTMLInputElement).value);
+  };
+  const handleSubmit = async (values: any) => {
+    console.log(values);
+    return;
+  };
   return (
     <Dialog
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
+      maxWidth="lg"
       open={open}
     >
       <DialogTitle
         id="customized-dialog-title"
-        sx={{ p: 2, minWidth: "18rem !important" }}
+        sx={{ p: 2, minWidth: "40rem !important" }}
       >
         <p className="text-center text-xl font-bold text-theme tracking-wide">
           ADD LEAVE
@@ -44,39 +74,158 @@ const CreateLeave = ({ open, handleClose }: Props) => {
         </IconButton>
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-        <div className="md:w-[30rem] w-[72vw] md:px-4 px-2 tracking-wide">
-          <p className="font-medium text-gray-700 mb-2">Select Employee</p>
-          <TextField size="small" fullWidth placeholder="Enter Employee name" />
-          <p className="font-medium text-gray-700 mb-2 mt-2">Leave Type</p>
-          <TextField size="small" fullWidth placeholder="Leave Type" />
-          <p className="font-medium text-gray-700 my-2">From</p>
-          <TextField size="small" fullWidth placeholder="From" type="date" />
-          <p className="font-medium text-gray-700 my-2">To</p>
-          <TextField size="small" fullWidth placeholder="To" type="date" />
-          <p className="font-medium text-gray-700 my-2">Number Of Days</p>
-          <TextField
-            size="small"
-            fullWidth
-            placeholder="Number of days"
-            type="number"
-          />
-          <p className="font-medium text-gray-700 my-2">Reason</p>
-          <TextField
-            multiline
-            rows={3}
-            size="small"
-            fullWidth
-            placeholder="Reason"
-          />
-          <div className="flex justify-center mt-4">
-            <Button
-              className="!bg-theme"
-              variant="contained"
-              startIcon={<CheckCircle />}
-            >
-              SUBMIT
-            </Button>
-          </div>
+        <div className="md:w-[40rem] w-[72vw] md:px-4 px-2 tracking-wide">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              setFieldValue,
+            }) => (
+              <Form className="w-full">
+                <p className="font-medium text-gray-700 mb-2">
+                  Select Employee
+                </p>
+                <TextField
+                  size="small"
+                  fullWidth
+                  placeholder="Select Employee"
+                />
+
+                <div className="flex justify-center pt-2">
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="leave"
+                    value={value}
+                    onChange={handleRadioChange}
+                  >
+                    <FormControlLabel
+                      value="half"
+                      control={<Radio />}
+                      label="Half Day Leave"
+                    />
+                    <FormControlLabel
+                      value="one"
+                      control={<Radio />}
+                      label="One Day Leave"
+                    />
+                    <FormControlLabel
+                      value="multiple"
+                      control={<Radio />}
+                      label="Multiple Day Leave"
+                    />
+                  </RadioGroup>
+                </div>
+                {value == "one" ? (
+                  <>
+                    <p className="font-medium text-gray-700 my-2">Date</p>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      placeholder="From"
+                      type="date"
+                      name="date"
+                      value={values.date}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.date && !!errors.date}
+                      helperText={touched.date && errors.date}
+                    />
+                  </>
+                ) : value == "multiple" ? (
+                  <>
+                    <p className="font-medium text-gray-700 my-2">From</p>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      placeholder="From"
+                      type="date"
+                      name="from"
+                      value={values.from}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.from && !!errors.from}
+                      helperText={touched.from && errors.from}
+                    />
+                    <p className="font-medium text-gray-700 my-2">To</p>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      placeholder="To"
+                      type="date"
+                      name="to"
+                      value={values.to}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.to && !!errors.to}
+                      helperText={touched.to && errors.to}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <p className="font-medium text-gray-700 my-2">
+                      Select Leave Type
+                    </p>
+                    <div className="w-full">
+                      <TextField
+                        size="small"
+                        select
+                        fullWidth
+                        name="leavesType"
+                        placeholder="Select leave type"
+                        value={values.leavesType}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.leavesType && !!errors.leavesType}
+                        helperText={touched.leavesType && errors.leavesType}
+                      >
+                        {leavesType.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.value}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
+                  </>
+                )}
+                <p className="font-medium text-gray-700 my-2">Message</p>
+                <TextField
+                  size="small"
+                  fullWidth
+                  multiline
+                  rows={4}
+                  placeholder="Message"
+                  name="message"
+                  value={values.message}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.message && !!errors.message}
+                  helperText={touched.message && errors.message}
+                />
+                <div className="flex justify-center mt-4">
+                  <Button
+                    type="submit"
+                    className="!bg-theme"
+                    variant="contained"
+                    disabled={loading}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
+                  >
+                    SUBMIT
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
       </DialogContent>
     </Dialog>
@@ -84,3 +233,7 @@ const CreateLeave = ({ open, handleClose }: Props) => {
 };
 
 export default CreateLeave;
+const leavesType = [
+  { id: 1, value: "First_Half" },
+  { id: 2, value: "Second_Half" },
+];

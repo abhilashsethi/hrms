@@ -1,17 +1,24 @@
 import dynamic from "next/dynamic";
-import { useState } from "react";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const ClientLineCharts = ({
+const DepartmentDonutChart = ({
 	type,
 	text = "",
 }: {
-	type: "bar" | "area" | "line" | "donut";
+	type: "bar" | "area" | "line" | "pie" | "donut";
 	text?: string;
 }) => {
 	const options = {
-		labels: ["Blocked", "Un-Blocked"],
-		series: [120, 80],
+		labels: [
+			"AI & ML",
+			"Web Dev.",
+			"App Dev.",
+			"IT Mang.",
+			"Accounts Mang.",
+			"Sales Mang.",
+			"Manager",
+		],
+		series: [166, 115, 31, 47, 27, 20, 30],
 		chart: {
 			type: "donut",
 		},
@@ -32,8 +39,8 @@ const ClientLineCharts = ({
 		title: {
 			text: text,
 			floating: true,
-			offsetY: -40,
-			offsetX: -50,
+			offsetY: -5,
+			offsetX: -80,
 			align: "center",
 			style: {
 				color: "#444",
@@ -48,8 +55,7 @@ const ClientLineCharts = ({
 		<ApexCharts
 			height={"500"}
 			options={{
-				labels: ["Blocked", "Un-Blocked"],
-				series: [120, 80],
+				series: [166, 115, 31, 47, 27, 20, 30],
 				chart: {
 					type: "donut",
 				},
@@ -66,12 +72,32 @@ const ClientLineCharts = ({
 						},
 					},
 				],
-				colors: ["#106ead", "#c33c5e"],
+
+				labels: [
+					"AI & ML",
+					"Web Dev.",
+					"App Dev.",
+					"IT Mang.",
+					"Accounts Mang.",
+					"Sales Mang.",
+					"Manager",
+				],
+
+				colors: [
+					"#106EAD",
+					"#C33C5E",
+					"#25d366",
+					"#BD33B5",
+					"#E60023",
+					"#005d32",
+					"#c6ff00",
+				],
+
 				title: {
 					text: text,
 					floating: true,
-					offsetY: -40,
-					offsetX: -50,
+					offsetY: -5,
+					offsetX: -80,
 					align: "center",
 					style: {
 						color: "#444",
@@ -87,4 +113,4 @@ const ClientLineCharts = ({
 	);
 };
 
-export default ClientLineCharts;
+export default DepartmentDonutChart;
