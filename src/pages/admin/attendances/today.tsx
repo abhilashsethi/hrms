@@ -6,7 +6,7 @@ import {
   Search,
   TableRowsRounded,
 } from "@mui/icons-material";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import {
   Button,
   Grid,
@@ -19,7 +19,7 @@ import {
 import { AttendanceGrid, AttendanceList } from "components/admin";
 import {
   AdminBreadcrumbs,
-  Empty,
+  GridAndList,
   Loader,
   LoaderAnime,
   TextTitles,
@@ -38,11 +38,10 @@ const TodayAttendance = () => {
   const [searchedUser, setSearchedUser] = useState<any>([]);
   const [status, setStatus] = useState("present");
   const [userName, setUsername] = useState("");
-  const [empId, setEmpId] = useState("");
+  const [empId, setEmpId] = useState<string | null>(null);
   const dateRef = useRef<any>();
   function handleDateChange(date: any) {
     setSelectedDate(date);
-    console.log(date);
   }
   const {
     data: attendance,
@@ -51,7 +50,9 @@ const TodayAttendance = () => {
   } = useFetch<any>(
     `attendances/${selectedDate
       .toISOString()
-      .slice(0, 10)}/${status}?page=${pageNumber}&limit=8`
+      .slice(0, 10)}/${status}?page=${pageNumber}&limit=8${
+      userName ? `&name=${userName}` : ""
+    }`
   );
   const cards = [
     {
@@ -85,6 +86,7 @@ const TodayAttendance = () => {
     // disable dates for the next year
     disabledDates.push(addDays(tomorrow, i));
   }
+  console.log(attendance);
   return (
     <PanelLayout title="Today Attendance - SY HR MS">
       <section className="px-8 py-4">
@@ -92,26 +94,8 @@ const TodayAttendance = () => {
         <div className="mt-4 flex justify-between">
           <TextTitles title="ATTENDANCE" />
           <div className="flex gap-4 items-center">
-            <div className="flex gap-1">
-              <IconButton onClick={() => setIsGrid(true)} size="small">
-                <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                    isGrid && `border-2 border-theme`
-                  }`}
-                >
-                  <GridViewRounded className={`${isGrid && `!text-theme`}`} />
-                </div>
-              </IconButton>
-              <IconButton onClick={() => setIsGrid(false)} size="small">
-                <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                    !isGrid && `border-2 border-theme`
-                  }`}
-                >
-                  <TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
-                </div>
-              </IconButton>
-            </div>
+            <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
+            {/* -----------------Date select section---------------- */}
             <div className="flex gap-3 items-center">
               <ChevronLeftRounded />
               <div className="tracking-wide flex gap-4 items-center font-semibold">

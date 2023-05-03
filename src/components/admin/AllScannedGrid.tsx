@@ -7,7 +7,13 @@ import { useState } from "react";
 import { Card } from "types";
 import { CardAssign } from "components/drawer";
 import { DEFAULTPROFILE, ID } from "assets/home";
-const AllScannedGrid = () => {
+
+interface Props {
+  data?: Card[];
+  mutate?: any;
+}
+
+const AllScannedGrid = ({ data, mutate }: Props) => {
   const [isAssign, setIsAssign] = useState<{
     drawer?: boolean;
     activeCardId?: string | null;
@@ -15,8 +21,6 @@ const AllScannedGrid = () => {
     drawer: false,
     activeCardId: null,
   });
-  const { data, isLoading, mutate } = useFetch<Card[]>(`cards`);
-  console.log(data);
   const { change } = useChange();
   const handleBlock = async (e: any, cardId: string) => {
     Swal.fire({

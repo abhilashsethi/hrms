@@ -1,15 +1,24 @@
 import { GridViewRounded, Search, TableRowsRounded } from "@mui/icons-material";
-import { Button, IconButton, TextField } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  Pagination,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { AllScannedColumn, AllScannedGrid } from "components/admin";
-import { AdminBreadcrumbs, Loader } from "components/core";
+import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
 import { CardAssign } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
-import Swal from "sweetalert2";
 import { Card } from "types";
 
 const Cards = () => {
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [empId, setEmpId] = useState<string | null>(null);
+  const [userName, setUsername] = useState<string | null>(null);
+  const [cardId, setCardId] = useState<string | null>(null);
   const [isGrid, setIsGrid] = useState(true);
   const [isAssign, setIsAssign] = useState<{
     drawer?: boolean;
@@ -18,33 +27,16 @@ const Cards = () => {
     drawer: false,
     activeCardId: null,
   });
-  const { data, isLoading, mutate } = useFetch<Card[]>(`cards`);
-  const { change, isChanging } = useChange();
-  const handleBlock = async (e: any, cardId: string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to update status?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, update!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await change(`cards/${cardId}`, {
-          method: "PATCH",
-          body: { isBlocked: !e.target?.checked },
-        });
-        mutate();
-        if (res?.status !== 200) {
-          Swal.fire(`Error`, "Something went wrong!", "error");
-          return;
-        }
-        Swal.fire(`Success`, "Status updated successfully!!", "success");
-        return;
-      }
-    });
-  };
+  const {
+    data: cardData,
+    isLoading,
+    mutate,
+    pagination,
+  } = useFetch<Card[]>(
+    `cards?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+      empId ? `&employeeID=${empId}` : ""
+    }${cardId ? `&cardId=${cardId}` : ""}`
+  );
   return (
     <PanelLayout title="Scanned Cards - SY HR MS">
       <section className="px-8 py-4">
@@ -78,21 +70,26 @@ const Cards = () => {
             fullWidth
             size="small"
             placeholder="Employee Id"
-            name="employeeId"
+            onChange={(e) => {
+              setEmpId(e?.target?.value);
+            }}
           />
           <TextField
             fullWidth
             size="small"
             placeholder="Employee Name"
-            name="employeeId"
+            onChange={(e) => {
+              setUsername(e?.target?.value);
+            }}
           />
           <TextField
             fullWidth
             size="small"
-            placeholder="Role"
-            name="employeeId"
+            placeholder="Card Id"
+            onChange={(e) => {
+              setCardId(e?.target?.value);
+            }}
           />
-
           <Button
             fullWidth
             startIcon={<Search />}
@@ -105,8 +102,28 @@ const Cards = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          <div>{isGrid ? <AllScannedGrid /> : <AllScannedColumn />}</div>
+          <div>
+            {isGrid ? (
+              <AllScannedGrid data={cardData} mutate={mutate} />
+            ) : (
+              <AllScannedColumn />
+            )}
+          </div>
         )}
+        {!cardData?.length && <LoaderAnime />}
+        <div className="flex justify-center py-8">
+          <Stack spacing={2}>
+            <Pagination
+              count={Math.ceil(
+                Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+              )}
+              onChange={(e, v: number) => {
+                setPageNumber(v);
+              }}
+              variant="outlined"
+            />
+          </Stack>
+        </div>
 
         <CardAssign
           cardId={isAssign?.activeCardId}

@@ -33,7 +33,7 @@ const AllEmployees = () => {
   } = useFetch<User[]>(
     `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
       empId ? `&employeeID=${empId}` : ""
-    }${isRole ? `&role={isRole}` : ""}`
+    }${isRole ? `&role=${isRole}` : ""}`
   );
   // console.log(
   //   `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
