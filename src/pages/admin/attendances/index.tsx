@@ -5,7 +5,7 @@ import React from "react";
 
 const Attendance = () => {
 	return (
-		<PanelLayout title="Employees Dashboard - Admin Panel">
+		<PanelLayout title="Attendance Dashboard - Admin Panel">
 			<>
 				<WelcomeUser title="Welcome Superadmin!" />
 				<div className="px-4 pt-4">
