@@ -99,29 +99,31 @@ const CreateLeave = ({ open, handleClose }: Props) => {
                   placeholder="Select Employee"
                 />
 
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="leave"
-                  value={value}
-                  onChange={handleRadioChange}
-                >
-                  <FormControlLabel
-                    value="one"
-                    control={<Radio />}
-                    label="One Day Leave"
-                  />
-                  <FormControlLabel
-                    value="multiple"
-                    control={<Radio />}
-                    label="Multiple Day Leave"
-                  />
-                  <FormControlLabel
-                    value="half"
-                    control={<Radio />}
-                    label="Half Day Leave"
-                  />
-                </RadioGroup>
+                <div className="flex justify-center pt-2">
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="leave"
+                    value={value}
+                    onChange={handleRadioChange}
+                  >
+                    <FormControlLabel
+                      value="half"
+                      control={<Radio />}
+                      label="Half Day Leave"
+                    />
+                    <FormControlLabel
+                      value="one"
+                      control={<Radio />}
+                      label="One Day Leave"
+                    />
+                    <FormControlLabel
+                      value="multiple"
+                      control={<Radio />}
+                      label="Multiple Day Leave"
+                    />
+                  </RadioGroup>
+                </div>
                 {value == "one" ? (
                   <>
                     <p className="font-medium text-gray-700 my-2">Date</p>
