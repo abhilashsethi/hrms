@@ -1,58 +1,69 @@
-import {
-  Add,
-  GridViewRounded,
-  Search,
-  TableRowsRounded,
-  Upload,
-} from "@mui/icons-material";
-import { Button, IconButton, MenuItem, TextField } from "@mui/material";
+import { Add, Search, Upload } from "@mui/icons-material";
+import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
-import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
+import {
+  AdminBreadcrumbs,
+  GridAndList,
+  Loader,
+  LoaderAnime,
+} from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { User } from "types";
 
 const AllEmployees = () => {
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [isGrid, setIsGrid] = useState(true);
-  const [userName, setUsername] = useState("");
+  const [userName, setUsername] = useState<string | null>(null);
   const [isRole, setIsRole] = useState<string | null>(null);
-  const [searchedUser, setSearchedUser] = useState<any>([]);
   const [isUpload, setIsUpload] = useState(false);
   const [empId, setEmpId] = useState("");
   const handleChange = (event: any) => {
     setIsRole(event.target.value);
   };
   const { data: roleData } = useFetch<any>(`roles`);
-  // console.log("roleData------------", roleData);
-  const { data: employees, mutate, isLoading } = useFetch<User[]>(`users`);
-  useEffect(() => {
-    if (employees) {
-      const filtered = employees.filter((user: any) => {
-        return user?.name?.toLowerCase().includes(userName?.toLowerCase());
-      });
-      setSearchedUser(filtered);
-    }
-  }, [employees, userName]);
-  useEffect(() => {
-    if (employees) {
-      const filtered = employees.filter((user: any) => {
-        return user?.employeeID?.toLowerCase().includes(empId?.toLowerCase());
-      });
-      setSearchedUser(filtered);
-    }
-  }, [employees, empId]);
-  useEffect(() => {
-    if (isRole) {
-      const filtered = employees?.filter((user: any) => {
-        return user?.roleId === isRole;
-      });
-      setSearchedUser(filtered);
-    }
-  }, [isRole]);
-  // console.log("allemployees--------------", searchedUser);
+  const {
+    data: employees,
+    mutate,
+    isLoading,
+    pagination,
+  } = useFetch<User[]>(
+    `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+      empId ? `&employeeID=${empId}` : ""
+    }${isRole ? `&role={isRole}` : ""}`
+  );
+  // console.log(
+  //   `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+  //     empId ? `&employeeID=${empId}` : ""
+  //   }${isRole ? `&role=${isRole}` : ""}`
+  // );
+  // useEffect(() => {
+  //   if (employees) {
+  //     const filtered = employees.filter((user: any) => {
+  //       return user?.name?.toLowerCase().includes(userName?.toLowerCase());
+  //     });
+  //     setSearchedUser(filtered);
+  //   }
+  // }, [employees, userName]);
+  // useEffect(() => {
+  //   if (employees) {
+  //     const filtered = employees.filter((user: any) => {
+  //       return user?.employeeID?.toLowerCase().includes(empId?.toLowerCase());
+  //     });
+  //     setSearchedUser(filtered);
+  //   }
+  // }, [employees, empId]);
+  // useEffect(() => {
+  //   if (isRole) {
+  //     const filtered = employees?.filter((user: any) => {
+  //       return user?.roleId === isRole;
+  //     });
+  //     setSearchedUser(filtered);
+  //   }
+  // }, [isRole]);
   return (
     <PanelLayout title="All Users - SY HR MS">
       <section className="px-8">
@@ -63,26 +74,7 @@ const AllEmployees = () => {
         <div className="flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
-            <div className="flex gap-1">
-              <IconButton onClick={() => setIsGrid(true)} size="small">
-                <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                    isGrid && `border-2 border-theme`
-                  }`}
-                >
-                  <GridViewRounded className={`${isGrid && `!text-theme`}`} />
-                </div>
-              </IconButton>
-              <IconButton onClick={() => setIsGrid(false)} size="small">
-                <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                    !isGrid && `border-2 border-theme`
-                  }`}
-                >
-                  <TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
-                </div>
-              </IconButton>
-            </div>
+            <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             <Link href="/admin/employees/create-employee">
               <Button
                 className="!bg-theme"
@@ -114,10 +106,8 @@ const AllEmployees = () => {
           <TextField
             fullWidth
             size="small"
-            id="employeeName"
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Employee Name"
-            name="employeeName"
           />
           <TextField
             fullWidth
@@ -128,7 +118,7 @@ const AllEmployees = () => {
             onChange={handleChange}
           >
             {roleData?.roles?.map((option: any) => (
-              <MenuItem key={option.id} value={option.id}>
+              <MenuItem key={option.id} value={option.name}>
                 {option.name}
               </MenuItem>
             ))}
@@ -147,12 +137,29 @@ const AllEmployees = () => {
         ) : (
           <section>
             {isGrid ? (
-              <EmplyeesGrid data={searchedUser} />
+              <EmplyeesGrid data={employees} mutate={mutate} />
             ) : (
-              <EmployeesColumn data={searchedUser} />
+              <EmployeesColumn data={employees} mutate={mutate} />
             )}
           </section>
         )}
+        {!employees?.length && <LoaderAnime />}
+        {employees?.length ? (
+          <div className="flex justify-center py-8">
+            <Stack spacing={2}>
+              <Pagination
+                count={Math.ceil(
+                  Number(pagination?.total || 1) /
+                    Number(pagination?.limit || 1)
+                )}
+                onChange={(e, v: number) => {
+                  setPageNumber(v);
+                }}
+                variant="outlined"
+              />
+            </Stack>
+          </div>
+        ) : null}
       </section>
     </PanelLayout>
   );
