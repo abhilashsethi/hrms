@@ -1,17 +1,16 @@
 import {
 	AccountTreeRounded,
-	MoreVert,
 	People,
 	PlaylistAddCheckCircleRounded,
 } from "@mui/icons-material";
-import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
-import ICONS from "assets/icons";
+import { Grid } from "@mui/material";
 import { useState, MouseEvent } from "react";
 import {
 	ClientLineCharts,
 	ClientMultiDataChart,
 	ClientPolarAreaCharts,
 } from "components/analytics";
+import ClientBarGraph from "components/analytics/ClientBarGraph";
 
 const ClientDashboard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -22,64 +21,55 @@ const ClientDashboard = () => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
 	return (
 		<>
 			<div className="flex gap-2 py-4">
-				<div className="w-3/4 px-4 ">
+				<div className="w-full px-4 ">
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
-							<Grid key={item?.id} item lg={4}>
-								<div className="h-56 cursor-pointer hover:scale-105 transition duration-500 ease-in-out bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between border-b-4 border-theme">
-									<div className="flex justify-end">
-										<IconButton size="small" onClick={handleClick}>
-											<MoreVert />
-										</IconButton>
-										<Menu
-											anchorEl={anchorEl}
-											open={open}
-											onClose={handleClose}
-											MenuListProps={{
-												"aria-labelledby": "basic-button",
-											}}
-										>
-											<MenuItem onClick={handleClose}>All Users</MenuItem>
-											<MenuItem onClick={handleClose}>View Dashboard</MenuItem>
-										</Menu>
+							<Grid key={item?.id} item lg={3}>
+								<div className="hover:scale-105 cursor-pointer transition duration-500 ease-in-out w-full tracking-wide h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center border-4 border-b-theme">
+									<div className=" flex justify-center items-center">
+										{item?.icon}
 									</div>
-									<div>{item?.icon}</div>
-									<span className="text-lg">{item?.count}</span>
-									<span className="font-semibold tracking-wide text-sm">
+									<p className="text-base font-semibold text-center">
 										{item?.title}
-									</span>
+									</p>
+									<p className="text-lg font-bold text-gray-600">
+										{item?.count}
+									</p>
 								</div>
 							</Grid>
 						))}
 					</Grid>
 					<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
-						<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
-							<ClientLineCharts text="Unblock/Block Report" type="area" />
+						<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-8 !border-grey-500 rounded-xl !shadow-xl">
+							{/* <ClientMultiDataChart text="Client Strength" type="bar" /> */}
+							<ClientBarGraph
+								series={[
+									{
+										name: "ONGOING",
+										data: [44, 55, 41, 37, 56],
+									},
+									{
+										name: "COMPLETED",
+										data: [32, 32, 33, 22, 23],
+									},
+									{
+										name: "DELIVERED",
+										data: [10, 22, 8, 15, 13],
+									},
+								]}
+								categories={["2022", "2021", "2020", "2019", "2018"]}
+								colors={["#5B50A1", "#C43C5C", "#E97451"]}
+								title="Client Strength"
+								barHeight={360}
+							/>
 						</div>
-					</div>
-				</div>
-				<div className="w-1/4 p-3 bg-white rounded-xl shadow-xl flex flex-col gap-3">
-					<h1 className="mt-2 font-bold text-theme">PROJECTS</h1>
-					<div className="h-40 w-full border-2 rounded-xl py-4 px-6 flex tracking-wide">
-						<div className="w-1/2 border-r-2 h-full flex flex-col gap-3 justify-center items-center">
-							<span className="text-lg font-semibold text-theme">21</span>
-							<span className="w-1/2 text-center font-semibold">
-								Total Tasks
-							</span>
+						<div className="col-span-12 pt-9 w-full gap-5 md:col-span-12 lg:col-span-4 !border-grey-500 rounded-xl !shadow-xl">
+							<ClientLineCharts text="Unblock/Block Report" type="donut" />
 						</div>
-						<div className="w-1/2 h-full flex flex-col gap-3 justify-center items-center">
-							<span className="text-lg font-semibold text-theme">21</span>
-							<span className="w-1/2 text-center font-semibold">
-								Pending Tasks
-							</span>
-						</div>
-					</div>
-					<h1 className="mt-2 font-bold text-theme ">UPCOMING HOLIDAY</h1>
-					<div className="w-full h-16 border-2 grid place-items-center text-sm tracking-wide rounded-xl border-secondary-600">
-						Mon 20 May 2023 - Ramzan
 					</div>
 				</div>
 			</div>
@@ -117,5 +107,13 @@ const cards = [
 		),
 		count: "34",
 		title: "Inactive Clients",
+	},
+	{
+		id: 4,
+		icon: (
+			<PlaylistAddCheckCircleRounded fontSize="large" className="text-theme" />
+		),
+		count: "34",
+		title: "Blocked Clients",
 	},
 ];
