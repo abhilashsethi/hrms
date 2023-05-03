@@ -28,46 +28,18 @@ interface ARRAY {
 }
 interface Props {
   data?: ARRAY[];
+  mutate?: any;
 }
-const EmplyeesGrid = ({ data }: Props) => {
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
-  const {
-    data: employees,
-    mutate,
-    isLoading,
-    pagination,
-  } = useFetch<User[]>(`users?page=${pageNumber}&limit=8`);
-  // console.log("employees", employees, pagination);
-  // const sortData = data?.sort(
-  //   (a: any, b: any) =>
-  //     (new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
-  // );
-  if (isLoading) {
-    return <Loader />;
-  }
+const EmplyeesGrid = ({ data, mutate }: Props) => {
   return (
     <section className="my-8">
       <Grid container spacing={3}>
-        {employees?.map((item) => (
+        {data?.map((item) => (
           <Grid key={item?.id} item lg={3}>
             <CardContent item={item} mutate={mutate} />
           </Grid>
         ))}
       </Grid>
-
-      <div className="flex justify-center py-8">
-        <Stack spacing={2}>
-          <Pagination
-            count={Math.ceil(
-              Number(pagination?.total || 1) / Number(pagination?.limit || 1)
-            )}
-            onChange={(e, v: number) => {
-              setPageNumber(v);
-            }}
-            variant="outlined"
-          />
-        </Stack>
-      </div>
     </section>
   );
 };
