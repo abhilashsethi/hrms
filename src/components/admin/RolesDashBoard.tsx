@@ -62,10 +62,10 @@ const RolesDashBoard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="group deals-card h-32 bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
+								<div className="border-4 border-b-theme h-32 bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-500 ease-in-out">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
-											<MoreVert className="group-hover:text-white" />
+											<MoreVert />
 										</IconButton>
 										<Menu
 											anchorEl={anchorEl}
@@ -81,11 +81,11 @@ const RolesDashBoard = () => {
 									</div>
 									<div className="flex justify-around items-center">
 										<div>{item?.icon}</div>
-										<span className="text-xl text-theme font-semibold group-hover:text-white">
+										<span className="text-xl text-theme font-semibold">
 											{item?.count}
 										</span>
 									</div>
-									<span className="group-hover:text-white text-theme font-semibold text-center tracking-wide text-lg">
+									<span className=" text-theme font-semibold text-center tracking-wide text-lg">
 										{item?.title}
 									</span>
 								</div>
@@ -93,24 +93,6 @@ const RolesDashBoard = () => {
 						))}
 					</Grid>
 				</div>
-				{/* <div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col gap-3">
-					{stats.map((item) => (
-						<div
-							key={item?.id}
-							className="h-40 w-full border-2 rounded-xl py-4 px-6 flex flex-col justify-between tracking-wide"
-						>
-							<div className="flex justify-between items-center">
-								<span className="text-theme font-semibold">Upcoming Roles</span>
-								<span className="font-semibold text-emerald-600">+10%</span>
-							</div>
-							<span className="text-xl font-bold">10</span>
-							<div>
-								<LinearProgress variant="determinate" value={20} />
-								<span className="text-sm pt-6">Overall Roles 218</span>
-							</div>
-						</div>
-					))}
-				</div> */}
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 				<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
