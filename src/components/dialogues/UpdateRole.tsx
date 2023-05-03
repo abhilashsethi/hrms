@@ -111,6 +111,7 @@ const UpdateRole = ({ open, handleClose, mutate, id }: Props) => {
               fullWidth
               variant="contained"
               className="!bg-emerald-500"
+              disabled={loading}
               startIcon={loading ? <CircularProgress size={20} /> : <Check />}
             >
               UPDATE ROLE

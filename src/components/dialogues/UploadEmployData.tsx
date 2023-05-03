@@ -1,12 +1,13 @@
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
   Tooltip,
 } from "@mui/material";
-import { Close, CloudUpload, Upload } from "@mui/icons-material";
+import { Check, Close, CloudUpload, Upload } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const UploadEmployData = ({ open, handleClose }: Props) => {
+  const [loading, setLoading] = useState(false);
   const fileRef = useRef<any>();
   const [isFile, setIsFile] = useState<any>(null);
   const formik = useFormik({
@@ -79,7 +81,8 @@ const UploadEmployData = ({ open, handleClose }: Props) => {
           <Button
             variant="contained"
             className="!bg-theme"
-            startIcon={<Upload />}
+            disabled={loading}
+            startIcon={loading ? <CircularProgress size={20} /> : <Check />}
           >
             SUBMIT
           </Button>
