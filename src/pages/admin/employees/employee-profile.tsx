@@ -46,7 +46,6 @@ const EmployeeProfile = () => {
       </>
     );
   }
-  // console.log(new Date().getMonth());
   const { data: attendanceData } = useFetch<any>(
     `attendances/${router?.query?.id}`
   );
@@ -60,7 +59,6 @@ const EmployeeProfile = () => {
     });
     setAttendances(reqData);
   }, [attendanceData]);
-  // console.log(attendances);
 
   return (
     <PanelLayout title="User Profile - SY HR MS">

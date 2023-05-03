@@ -25,7 +25,7 @@ const EmployeeProfileImage = ({ employData, mutate }: Props) => {
               <img
                 className="h-full w-full object-cover rounded-full shadow-md"
                 src={employData?.photo}
-                alt="John Doe"
+                alt="Image"
               />
             </div>
           )}

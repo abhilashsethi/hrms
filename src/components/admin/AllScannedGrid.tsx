@@ -1,4 +1,8 @@
-import { AddCardRounded, Delete } from "@mui/icons-material";
+import {
+  AddCardRounded,
+  Delete,
+  PersonRemoveRounded,
+} from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import { IOSSwitch } from "components/core";
 import { useChange, useFetch } from "hooks";
@@ -74,6 +78,32 @@ const AllScannedGrid = ({ data, mutate }: Props) => {
       }
     });
   };
+  const handleRemove = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to remove employee!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!",
+    }).then(async (result) => {
+      try {
+        if (result.isConfirmed) {
+          const response = await change(`cards/${id}`, {
+            method: "DELETE",
+          });
+          if (response?.status !== 200) {
+            Swal.fire("Error", "Something went wrong!", "error");
+          }
+          Swal.fire("Success", "Removed successfully!", "success");
+          mutate();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
   return (
     <>
       <div className="mt-2">
@@ -142,13 +172,22 @@ const AllScannedGrid = ({ data, mutate }: Props) => {
                               </div>
                             </div>
                             <div className="w-full flex flex-col items-center justify-center gap-2 mt-2">
-                              <Tooltip title="Delete">
-                                <IconButton
-                                  onClick={() => handleDelete(item?.id)}
-                                >
-                                  <Delete className="!text-youtube" />
-                                </IconButton>
-                              </Tooltip>
+                              <div className="flex items-center gap-4">
+                                <Tooltip title="Delete Card">
+                                  <IconButton
+                                    onClick={() => handleDelete(item?.id)}
+                                  >
+                                    <Delete className="!text-youtube" />
+                                  </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Remove Person">
+                                  <IconButton
+                                    onClick={() => handleRemove(item?.cardId)}
+                                  >
+                                    <PersonRemoveRounded className="!text-white" />
+                                  </IconButton>
+                                </Tooltip>
+                              </div>
                               <div className="flex flex-col items-center">
                                 <p className="font-semibold tracking-wide text-sm text-white">
                                   Unblock/Block
@@ -170,7 +209,7 @@ const AllScannedGrid = ({ data, mutate }: Props) => {
                             Card is not assigned!
                           </p>
                           <div className="flex gap-2 justify-center items-center">
-                            <div>
+                            <div className="flex items-center gap-3">
                               <Tooltip title="Delete">
                                 <IconButton
                                   onClick={() => handleDelete(item?.id)}

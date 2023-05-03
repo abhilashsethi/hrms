@@ -106,7 +106,7 @@ const Cards = () => {
             {isGrid ? (
               <AllScannedGrid data={cardData} mutate={mutate} />
             ) : (
-              <AllScannedColumn />
+              <AllScannedColumn data={cardData} mutate={mutate} />
             )}
           </div>
         )}

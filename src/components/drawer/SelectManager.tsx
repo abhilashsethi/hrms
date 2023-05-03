@@ -1,4 +1,9 @@
-import { AddCardRounded, CheckCircle, Search } from "@mui/icons-material";
+import {
+  AddCardRounded,
+  CheckCircle,
+  Person,
+  Search,
+} from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
@@ -8,7 +13,7 @@ import {
   TextField,
 } from "@mui/material";
 import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
-import { RoleComponent } from "components/core";
+import { Loader } from "components/core";
 import { useChange, useFetch } from "hooks";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -17,17 +22,15 @@ import { User } from "types";
 type Props = {
   open?: boolean | any;
   onClose: () => void;
-  cardId?: string | null;
-  mutate?: any;
+  setSelectedManager?: any;
 };
 
-const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
+const SelectManager = ({ open, onClose, setSelectedManager }: Props) => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [searchedUser, setSearchedUser] = useState<any>([]);
-  const { change } = useChange();
-  const { data: users } = useFetch<User[]>(`users`);
+  const { data: users, isLoading } = useFetch<User[]>(`users`);
   useEffect(() => {
     if (users) {
       const filtered = users.filter((user) =>
@@ -36,34 +39,6 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
       setSearchedUser(filtered);
     }
   }, [users, searchTerm]);
-  const handleAssign = async () => {
-    setLoading(true);
-    try {
-      const res = await change(`cards/${cardId}`, {
-        method: "PATCH",
-        body: { userId: selectedUser },
-      });
-      setLoading(false);
-      if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.error?.message || "Something went wrong!",
-          "error"
-        );
-        return;
-      }
-      Swal.fire("Success", "User assigned successfully!", "success");
-      mutate();
-      setSelectedUser(null);
-      onClose();
-      return;
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
@@ -74,12 +49,10 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
           }}
         >
           <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
-            <AddCardRounded />
-            Assign User
+            <Person />
+            Select Manager
           </p>
-          <span className="text-sm">
-            Assign an user from the below list of users
-          </span>
+          <span className="text-sm">Select a member from below</span>
           <div className="mt-2 w-full flex gap-2">
             <div className="w-2/3">
               <TextField
@@ -101,6 +74,7 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
               </Button>
             </div>
           </div>
+          {isLoading && <Loader />}
           <div className="mt-4 flex flex-col gap-4">
             {!searchedUser?.length && (
               <p className="py-8 text-center flex gap-3 items-center justify-center">
@@ -137,17 +111,8 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
                       </p>
                     </>
                   </div>
-                  {/* {!selectedUser && (
-                    <div>
-                      <Radio
-                        onChange={() => setSelectedUser(item?.id)}
-                        checked={selectedUser === item?.id}
-                      />
-                    </div>
-                  )} */}
                   {selectedUser && selectedUser === item?.id ? (
                     <Button
-                      onClick={handleAssign}
                       size="small"
                       startIcon={
                         loading ? (
@@ -159,12 +124,15 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
                       className="!bg-emerald-500"
                       variant="contained"
                     >
-                      ASSIGN
+                      SELECTED
                     </Button>
                   ) : (
                     <div>
                       <Radio
-                        onChange={() => setSelectedUser(item?.id)}
+                        onChange={() => {
+                          setSelectedManager(item);
+                          setSelectedUser(item?.id);
+                        }}
                         checked={selectedUser === item?.id}
                       />
                     </div>
@@ -179,6 +147,4 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
   );
 };
 
-export default CardAssign;
-
-const cards = [1, 2, 3, 4];
+export default SelectManager;

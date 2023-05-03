@@ -1,19 +1,15 @@
 import { Check } from "@mui/icons-material";
-import {
-  Autocomplete,
-  Button,
-  CircularProgress,
-  InputLabel,
-  TextField,
-} from "@mui/material";
+import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
+import { DEFAULTPROFILE } from "assets/home";
 import { AdminBreadcrumbs, Loader } from "components/core";
+import { SelectManager } from "components/drawer";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import moment from "moment";
 import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { User } from "types";
 import * as Yup from "yup";
 const initialValues = {
   name: "",
@@ -28,30 +24,23 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  devURL: Yup.string().required("Dev URL is required!").url("Invalid Url"),
-  userIDs: Yup.array().required("Please assign users!"),
-  startDate: Yup.string().required("Start Date is required!"),
-  endDate: Yup.string().required("End Date is required!"),
-  prodURL: Yup.string().url("Invalid Url"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name must be less than 50 characters")
-    .required("Name is required!"),
+    .required("Project name is required!"),
   description: Yup.string()
     .min(5, "Description must be at least 2 characters")
     .max(500, "Description must be less than 500 characters"),
-  github: Yup.string().matches(
-    /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/?$/,
-    "Invalid GitHub repository link"
-  ),
-  gmail: Yup.string().email("Invalid gmail address"),
 });
 
 const CreateProjects = () => {
   const [loading, setLoading] = useState(false);
-  const { data, isLoading, mutate } = useFetch<any>(`users`);
+  const [isManager, setIsManager] = useState(false);
+  const [selectedManager, setSelectedManager] = useState<User | null>(null);
+  const { data: employeesData, isLoading, mutate } = useFetch<any>(`users`);
   const { change, isChanging } = useChange();
+  console.log(selectedManager);
 
   const handleSubmit = async (values: any) => {
     setLoading(true);
@@ -85,8 +74,13 @@ const CreateProjects = () => {
     <PanelLayout title="Projects - SY HR MS">
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
+        <SelectManager
+          open={isManager}
+          onClose={() => setIsManager(false)}
+          setSelectedManager={setSelectedManager}
+        />
         <section className="w-full px-2 py-4 flex justify-center items-center">
-          <div className="p-6 w-3/4 rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+          <div className="p-6 w-1/2 rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -104,12 +98,12 @@ const CreateProjects = () => {
                   <h1 className="text-2xl uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
                     Create Project
                   </h1>
-                  <div className="grid lg:grid-cols-2">
-                    <div className="px-4 py-2">
+                  <div className="">
+                    <div className="px-4">
                       <div className="py-2">
                         <InputLabel htmlFor="name">
-                          Project Name{" "}
-                          <span className="text-red-600 px-2 ">*</span>
+                          Project Name
+                          <span className="text-red-600 px-1">*</span>
                         </InputLabel>
                       </div>
                       <TextField
@@ -127,139 +121,6 @@ const CreateProjects = () => {
                     </div>
                     <div className="px-4 py-2">
                       <div className="py-2">
-                        <InputLabel htmlFor="startDate">
-                          Start Date
-                          <span className="text-red-600 px-2 ">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        type="date"
-                        placeholder="Start Date"
-                        id="startDate"
-                        name="startDate"
-                        value={moment(values?.startDate).format("YYYY-MM-DD")}
-                        onChange={(e) => {
-                          setFieldValue("startDate", new Date(e?.target.value));
-                        }}
-                        //     value={values.startDate}
-                        //     onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.startDate && !!errors.startDate}
-                        helperText={touched.startDate && errors.startDate}
-                      />
-                    </div>
-                    <div className="px-4 py-2">
-                      <div className="py-2">
-                        <InputLabel htmlFor="endDate">
-                          End Date
-                          <span className="text-red-600 px-2 ">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        type="date"
-                        placeholder="End Date"
-                        id="endDate"
-                        name="endDate"
-                        value={moment(values?.endDate).format("YYYY-MM-DD")}
-                        onChange={(e) => {
-                          setFieldValue("endDate", new Date(e?.target.value));
-                        }}
-                        onBlur={handleBlur}
-                        error={touched.endDate && !!errors.endDate}
-                        helperText={touched.endDate && errors.endDate}
-                      />
-                    </div>
-                    <div className="px-4 py-2">
-                      <div className="py-2">
-                        <InputLabel htmlFor="employee">
-                          Select Team Member
-                          <span className="text-red-600 px-2 ">*</span>
-                        </InputLabel>
-                      </div>
-                      <Autocomplete
-                        multiple
-                        fullWidth
-                        limitTags={2}
-                        size="small"
-                        id="userIDs"
-                        options={data || []}
-                        onChange={(e: any, r: any) => {
-                          setFieldValue(
-                            "userIDs",
-                            r?.map((data: { id: string }) => data?.id)
-                          );
-                        }}
-                        getOptionLabel={(option: any) => option.name}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Employee Name"
-                            placeholder="Assigned"
-                            onBlur={handleBlur}
-                            error={touched.userIDs && !!errors.userIDs}
-                            helperText={touched.userIDs && errors.userIDs}
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className="px-4 py-2">
-                      <div className="py-2">
-                        <InputLabel htmlFor="devURL">Dev URL</InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        placeholder="Dev URL"
-                        id="devURL"
-                        name="devURL"
-                        value={values.devURL}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.devURL && !!errors.devURL}
-                        helperText={touched.devURL && errors.devURL}
-                      />
-                    </div>
-                    <div className="px-4 py-2">
-                      <div className="py-2">
-                        <InputLabel htmlFor="prodURL">Prod URL</InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        placeholder="Prod URL"
-                        id="prodURL"
-                        name="prodURL"
-                        value={values.prodURL}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.prodURL && !!errors.prodURL}
-                        helperText={touched.prodURL && errors.prodURL}
-                      />
-                    </div>
-                    <div className="px-4 py-2">
-                      <div className="py-2">
-                        <InputLabel htmlFor="github">Github Link</InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        placeholder="Github Link"
-                        id="github"
-                        name="github"
-                        value={values.github}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.github && !!errors.github}
-                        helperText={touched.github && errors.github}
-                      />
-                    </div>
-
-                    <div className="px-4 py-2">
-                      <div className="py-2">
                         <InputLabel htmlFor="description">
                           Description
                         </InputLabel>
@@ -268,7 +129,7 @@ const CreateProjects = () => {
                         size="small"
                         fullWidth
                         multiline
-                        maxRows={3}
+                        rows={3}
                         type="text"
                         placeholder="Description"
                         id="description"
@@ -280,12 +141,72 @@ const CreateProjects = () => {
                         helperText={touched.description && errors.description}
                       />
                     </div>
+                    <div className="px-4 flex gap-2">
+                      <div className="w-1/2">
+                        <div className="py-2">
+                          <InputLabel htmlFor="name">
+                            Project Manager
+                          </InputLabel>
+                        </div>
+                        <div
+                          onClick={() => setIsManager(true)}
+                          className="h-48 p-3 w-full border-[1px] border-dashed bg-slate-100 border-slate-300 cursor-pointer rounded-md flex tracking-wide"
+                        >
+                          {selectedManager ? (
+                            <>
+                              <div className="h-16 w-full rounded-md shadow-xl bg-white px-3 flex gap-3 items-center">
+                                <div className="h-[2.5rem] w-[2.5rem] rounded-full overflow-hidden shadow-md">
+                                  <img
+                                    className="h-full w-full object-cover"
+                                    src={
+                                      selectedManager?.photo ||
+                                      DEFAULTPROFILE.src
+                                    }
+                                    alt="photo"
+                                  />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-semibold">
+                                    {selectedManager?.name?.slice(0, 12)}
+                                    {selectedManager?.name?.length > 12
+                                      ? "..."
+                                      : ""}
+                                  </p>
+                                  <p className="text-xs">
+                                    {selectedManager?.role?.name?.slice(0, 12)}
+                                  </p>
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="h-full w-full">
+                              <p className="text-sm text-center">
+                                Click to select Project Manager
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="w-1/2">
+                        <div className="py-2">
+                          <InputLabel htmlFor="name">Team Members</InputLabel>
+                        </div>
+                        <div
+                          onClick={() => setIsManager(true)}
+                          className="h-48 w-full border-[1px] border-dashed border-slate-300 cursor-pointer rounded-md flex justify-center items-center tracking-wide"
+                        >
+                          <p className="text-sm text-center">
+                            Click to select Team Members
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div className="flex justify-center py-4">
                     <Button
                       type="submit"
                       variant="contained"
-                      className="!bg-theme !px-10 !py-3 hover:!bg-sky-800 hover:!shadow-xl"
+                      className="!bg-theme"
                       disabled={loading}
                       startIcon={
                         loading ? <CircularProgress size={20} /> : <Check />

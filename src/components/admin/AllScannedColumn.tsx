@@ -8,8 +8,12 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { Card, User } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
+interface Props {
+  data?: Card[];
+  mutate?: any;
+}
 
-const AllScannedColumn = () => {
+const AllScannedColumn = ({ data, mutate }: Props) => {
   const [isAssign, setIsAssign] = useState<{
     drawer?: boolean;
     activeCardId?: string | null;
@@ -17,7 +21,6 @@ const AllScannedColumn = () => {
     drawer: false,
     activeCardId: null,
   });
-  const { data, isLoading, mutate } = useFetch<Card[]>(`cards`);
   const { data: users, isLoading: isUsersFetching } = useFetch<User[]>(`users`);
   const { change, isChanging } = useChange();
   const handleBlock = async (e: any, cardId: string) => {
@@ -45,9 +48,6 @@ const AllScannedColumn = () => {
       }
     });
   };
-  if (isLoading) {
-    return <Loader />;
-  }
   return (
     <div>
       <CardAssign
@@ -64,7 +64,7 @@ const AllScannedColumn = () => {
           title={
             <HeadStyle name="Scanned Cards" icon={<QrCodeScannerRounded />} />
           }
-          isLoading={isLoading || isUsersFetching || isChanging}
+          isLoading={!data}
           data={data ? getDataWithSL<Card>(data) : []}
           options={{ ...MuiTblOptions() }}
           columns={[
