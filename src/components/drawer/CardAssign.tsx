@@ -128,35 +128,50 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
                 <div className="w-4/5 flex justify-between items-start h-full">
                   <div className="flex flex-col h-full justify-center">
                     <>
-                      <p className="text-md">{item?.name}</p>
+                      <p className="text-sm">
+                        {item?.name?.slice(0, 18)}
+                        {item?.name?.length > 18 ? "..." : ""}
+                      </p>
                       <p className="mt-1 text-sm font-semibold text-gray-500">
-                        <RoleComponent roleId={item?.roleId} />
+                        {item?.role?.name}
                       </p>
                     </>
                   </div>
-                  <div>
-                    <Radio
-                      onChange={() => setSelectedUser(item?.id)}
-                      checked={selectedUser === item?.id}
-                    />
-                  </div>
+                  {!selectedUser && (
+                    <div>
+                      <Radio
+                        onChange={() => setSelectedUser(item?.id)}
+                        checked={selectedUser === item?.id}
+                      />
+                    </div>
+                  )}
+                  {selectedUser && selectedUser === item?.id ? (
+                    <Button
+                      onClick={handleAssign}
+                      size="small"
+                      startIcon={
+                        loading ? (
+                          <CircularProgress size={20} />
+                        ) : (
+                          <CheckCircle />
+                        )
+                      }
+                      className="!bg-emerald-500"
+                      variant="contained"
+                    >
+                      ASSIGN
+                    </Button>
+                  ) : (
+                    <div>
+                      <Radio
+                        onChange={() => setSelectedUser(item?.id)}
+                        checked={selectedUser === item?.id}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
-          </div>
-          <div className="flex justify-end mt-4">
-            {selectedUser && (
-              <Button
-                onClick={handleAssign}
-                startIcon={
-                  loading ? <CircularProgress size={20} /> : <CheckCircle />
-                }
-                className="!bg-emerald-500"
-                variant="contained"
-              >
-                ASSIGN
-              </Button>
-            )}
           </div>
         </Container>
       </Drawer>

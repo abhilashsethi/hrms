@@ -163,25 +163,39 @@ const AllScannedGrid = ({ data, mutate }: Props) => {
                         </>
                       ) : (
                         <div className="w-full">
+                          <p className="text-center font-semibold text-sm tracking-wide">
+                            CARD ID : <span>{item?.cardId}</span>
+                          </p>
                           <p className="text-center text-red-500 font-semibold tracking-wide">
                             Card is not assigned!
                           </p>
-                          <div className="flex justify-center">
-                            <Tooltip title="Assign User">
-                              <IconButton
-                                onClick={() => {
-                                  setIsAssign({
-                                    drawer: true,
-                                    activeCardId: item?.cardId,
-                                  });
-                                }}
-                              >
-                                <AddCardRounded
-                                  className="!text-theme"
-                                  fontSize="large"
-                                />
-                              </IconButton>
-                            </Tooltip>
+                          <div className="flex gap-2 justify-center items-center">
+                            <div>
+                              <Tooltip title="Delete">
+                                <IconButton
+                                  onClick={() => handleDelete(item?.id)}
+                                >
+                                  <Delete className="!text-youtube" />
+                                </IconButton>
+                              </Tooltip>
+                            </div>
+                            <div>
+                              <Tooltip title="Assign User">
+                                <IconButton
+                                  onClick={() => {
+                                    setIsAssign({
+                                      drawer: true,
+                                      activeCardId: item?.cardId,
+                                    });
+                                  }}
+                                >
+                                  <AddCardRounded
+                                    className="!text-theme"
+                                    fontSize="large"
+                                  />
+                                </IconButton>
+                              </Tooltip>
+                            </div>
                           </div>
                         </div>
                       )}
