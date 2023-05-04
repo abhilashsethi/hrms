@@ -16,16 +16,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import {
-  AWS,
-  CSS,
-  EXPRESS,
-  JAVASCRIPT,
-  MONGODB,
-  NEXTJS,
-  REACT,
-  TAILWIND,
-} from "assets/svgicons";
+import { AWS, CSS, JAVASCRIPT, NEXTJS, REACT } from "assets/svgicons";
 import { Loader } from "components/core";
 import { ProjectAddLink, ProjectUpdate } from "components/dialogues";
 import { ProjectURLS } from "components/drawer";
