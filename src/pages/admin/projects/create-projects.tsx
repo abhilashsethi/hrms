@@ -2,25 +2,18 @@ import { Check } from "@mui/icons-material";
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import { AdminBreadcrumbs, Loader } from "components/core";
-import { SelectManager } from "components/drawer";
+import { SelectManager, SelectMembers } from "components/drawer";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import router from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 import * as Yup from "yup";
 const initialValues = {
   name: "",
   description: "",
-  devURL: "",
-  prodURL: "",
-  gmail: "",
-  github: "",
-  startDate: "",
-  endDate: "",
-  userIDs: [],
 };
 
 const validationSchema = Yup.object().shape({
@@ -37,9 +30,19 @@ const validationSchema = Yup.object().shape({
 const CreateProjects = () => {
   const [loading, setLoading] = useState(false);
   const [isManager, setIsManager] = useState(false);
+  const [isMembers, setIsMembers] = useState(false);
   const [selectedManager, setSelectedManager] = useState<User | null>(null);
+  const [selectedMembers, setSelectedMembers] = useState<User[]>([]);
+  const [membersData, setMembersData] = useState<any>([]);
   const { data: employeesData, isLoading, mutate } = useFetch<any>(`users`);
   const { change, isChanging } = useChange();
+
+  useEffect(() => {
+    let reqData = employeesData?.filter((item: any) =>
+      selectedMembers?.find((data) => data === item?.id)
+    );
+    setMembersData(reqData);
+  }, [selectedMembers]);
   console.log(selectedManager);
 
   const handleSubmit = async (values: any) => {
@@ -48,7 +51,13 @@ const CreateProjects = () => {
     try {
       Swal.fire(`Info`, `Please Wait..., It will take Some time!`, `info`);
       const res = await change(`projects`, {
-        body: values,
+        body: {
+          name: values?.name,
+          description: values?.description,
+          managerId: `${selectedManager ? selectedManager?.id : ""}`,
+          involvedMemberIds:
+            selectedMembers?.length >= 1 ? selectedMembers : [],
+        },
       });
       console.log(res);
       setLoading(false);
@@ -67,6 +76,7 @@ const CreateProjects = () => {
       setLoading(false);
     }
   };
+
   if (isLoading) {
     return <Loader />;
   }
@@ -78,6 +88,11 @@ const CreateProjects = () => {
           open={isManager}
           onClose={() => setIsManager(false)}
           setSelectedManager={setSelectedManager}
+        />
+        <SelectMembers
+          open={isMembers}
+          onClose={() => setIsMembers(false)}
+          setSelectedMembers={setSelectedMembers}
         />
         <section className="w-full px-2 py-4 flex justify-center items-center">
           <div className="p-6 w-1/2 rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
@@ -179,7 +194,7 @@ const CreateProjects = () => {
                               </div>
                             </>
                           ) : (
-                            <div className="h-full w-full">
+                            <div className="h-full w-full flex justify-center items-center">
                               <p className="text-sm text-center">
                                 Click to select Project Manager
                               </p>
@@ -188,16 +203,48 @@ const CreateProjects = () => {
                         </div>
                       </div>
                       <div className="w-1/2">
-                        <div className="py-2">
-                          <InputLabel htmlFor="name">Team Members</InputLabel>
+                        <div className="py-2 flex gap-2 items-center">
+                          <InputLabel htmlFor="name">Team Members </InputLabel>
+                          {membersData?.length ? (
+                            <div className="h-4 w-4 flex justify-center items-center text-white bg-theme rounded-full text-xs font-semibold">
+                              {membersData?.length}
+                            </div>
+                          ) : null}
                         </div>
                         <div
-                          onClick={() => setIsManager(true)}
-                          className="h-48 w-full border-[1px] border-dashed border-slate-300 cursor-pointer rounded-md flex justify-center items-center tracking-wide"
+                          onClick={() => setIsMembers(true)}
+                          className="h-48 w-full border-[1px] border-dashed border-slate-300 cursor-pointer rounded-md tracking-wide overflow-y-auto"
                         >
-                          <p className="text-sm text-center">
-                            Click to select Team Members
-                          </p>
+                          {selectedMembers?.length ? (
+                            <div className="flex flex-col gap-2 w-full px-2">
+                              {membersData?.map((item: any) => (
+                                <div className="h-16 w-full rounded-md shadow-xl bg-white px-2 flex gap-3 items-center">
+                                  <div className="h-[2.5rem] w-[2.5rem] rounded-full overflow-hidden shadow-md">
+                                    <img
+                                      className="h-full w-full object-cover"
+                                      src={item?.photo || DEFAULTPROFILE.src}
+                                      alt="photo"
+                                    />
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-semibold">
+                                      {item?.name?.slice(0, 12)}
+                                      {item?.name?.length > 12 ? "..." : ""}
+                                    </p>
+                                    <p className="text-xs">
+                                      {item?.role?.name?.slice(0, 12)}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="h-full w-full flex justify-center items-center">
+                              <p className="text-sm text-center">
+                                Click to select Team Members
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
