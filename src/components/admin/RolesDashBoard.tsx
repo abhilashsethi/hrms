@@ -62,7 +62,7 @@ const RolesDashBoard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="border-4 border-b-theme h-32 bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-500 ease-in-out">
+								<div className="border-4 border-b-theme h-32 bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-300 ease-in-out">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
 											<MoreVert />
