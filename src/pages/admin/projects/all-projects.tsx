@@ -15,7 +15,7 @@ const AllProjects = () => {
   const { data: projectData, isLoading } = useFetch(`projects`);
 
   return (
-    <PanelLayout title="All Users - SY HR MS">
+    <PanelLayout title="All Projects - SY HR MS">
       <section className="px-8">
         <div className="flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />

@@ -1,0 +1,9 @@
+export { default as JAVASCRIPT } from "./javascript.png";
+export { default as REACT } from "./react.svg";
+export { default as NEXTJS } from "./nextjs.svg";
+export { default as AWS } from "./aws.png";
+export { default as CSS } from "./css.webp";
+export { default as EXPRESS } from "./express.png";
+export { default as MONGODB } from "./mongodb.jpg";
+export { default as TAILWIND } from "./tailwind.png";
+export { default as TYPESCRIPT } from "./typescript.png";
