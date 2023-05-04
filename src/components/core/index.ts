@@ -14,3 +14,5 @@ export { default as Pagination } from "./Pagination";
 export { default as EmployeeProfileImage } from "./EmployeeProfileImage";
 export { default as GridAndList } from "./GridAndList";
 export { default as UserLoaderAnime } from "./UserLoaderAnime";
+export { default as ViewEmployeeHead } from "./ViewEmployeeHead";
+export { default as CopyClipboard } from "./CopyCliboard";

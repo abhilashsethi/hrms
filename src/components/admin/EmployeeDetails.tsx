@@ -1,11 +1,13 @@
-import { Edit, SendRounded, ShoppingBasket } from "@mui/icons-material";
-import { Button, Grid, IconButton, Tooltip } from "@mui/material";
+import { Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
-import { RenderIconRow } from "components/common";
-import { EmployeeProfileImage, HeadText, Loader } from "components/core";
+import {
+  CopyClipboard,
+  HeadText,
+  Loader,
+  ViewEmployeeHead,
+} from "components/core";
 import {
   BankInformationUpdate,
-  ChangeProfile,
   PersonalInformations,
   UpdateProfileHead,
 } from "components/dialogues";
@@ -21,7 +23,6 @@ import EmployLeaves from "./EmployLeaves";
 const EmployeeDetails = () => {
   const router = useRouter();
   const [isDialogue, setIsDialogue] = useState(false);
-  const [isProfile, setIsProfile] = useState(false);
   const [isPersonal, setIsPersonal] = useState(false);
   const [isBank, setIsBank] = useState(false);
   const {
@@ -40,11 +41,13 @@ const EmployeeDetails = () => {
       id: 2,
       title: "Email",
       value: `${employData?.email ? employData?.email : "---"}`,
+      copy: true,
     },
     {
       id: 3,
       title: "Emp Id",
       value: `${employData?.employeeID ? employData?.employeeID : "---"}`,
+      copy: true,
     },
 
     {
@@ -60,6 +63,7 @@ const EmployeeDetails = () => {
       id: 5,
       title: "Phone",
       value: `${employData?.phone ? employData?.phone : "---"}`,
+      copy: true,
     },
     {
       id: 6,
@@ -145,11 +149,6 @@ const EmployeeDetails = () => {
   }
   return (
     <section>
-      <ChangeProfile
-        open={isProfile}
-        handleClose={() => setIsProfile(false)}
-        mutate={mutate}
-      />
       <UpdateProfileHead
         mutate={mutate}
         open={isDialogue}
@@ -169,68 +168,7 @@ const EmployeeDetails = () => {
         <Grid container spacing={2}>
           <Grid item lg={8}>
             <div className="w-full h-full rounded-lg bg-white shadow-xl p-4">
-              <div className="w-full bg-blue-100/50 rounded-lg p-8">
-                <Grid container spacing={3}>
-                  <Grid item lg={9}>
-                    <div className="tracking-wide w-full h-full">
-                      <p className="font-semibold tracking-wide">
-                        {employData?.name}
-                      </p>
-                      <p className="text-sm text-slate-600 font-medium mt-1">
-                        {employData?.role?.name || "---"}
-                      </p>
-                      <p className="text-sm text-slate-600 mt-1 font-bold">
-                        EMP ID :{" "}
-                        <span className="text-slate-400">
-                          {employData?.employeeID || "---"}
-                        </span>
-                      </p>
-                      <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
-                        <RenderIconRow
-                          value={employData?.email || "---"}
-                          isEmail
-                        />
-                      </p>
-                      <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
-                        <RenderIconRow
-                          value={employData?.phone || "---"}
-                          isPhone
-                        />
-                      </p>
-                      <p className="mb-2 text-sm group flex items-center gap-2 pb-2 ">
-                        <ShoppingBasket />{" "}
-                        <span className=" font-medium">Credit : </span>2
-                      </p>
-                    </div>
-                  </Grid>
-                  <Grid item lg={3}>
-                    <div className="w-full h-full flex justify-center items-center">
-                      <EmployeeProfileImage
-                        employData={employData}
-                        mutate={mutate}
-                      />
-                    </div>
-                  </Grid>
-                </Grid>
-                <div className="flex justify-between items-center pt-4">
-                  {/* <p className="font-medium text-sm">
-                    <span className="font-extrabold pr-2">16</span> PROJECTS
-                    COMPLETED
-                  </p>
-                  <p className="font-medium text-sm">
-                    <span className="font-extrabold pr-2">2</span> ONGOING
-                  </p> */}
-                  <div className="font-medium text-sm">
-                    <Button
-                      className="!bg-theme"
-                      variant="contained"
-                      startIcon={<SendRounded />}
-                    >
-                      Send Message
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              <ViewEmployeeHead />
               {/* --------------------Basic Details-------------------- */}
               <section className="py-4 px-8">
                 <div className=" pb-2 flex justify-between items-center">
@@ -250,7 +188,11 @@ const EmployeeDetails = () => {
                       <p className="text-sm text-gray-600">{item?.title} :</p>
                     </div>
                     <div className="w-2/3">
-                      <p className="text-sm">{item?.value}</p>
+                      {item?.copy ? (
+                        <CopyClipboard value={item?.value} />
+                      ) : (
+                        <p className="text-sm">{item?.value}</p>
+                      )}
                     </div>
                   </div>
                 ))}

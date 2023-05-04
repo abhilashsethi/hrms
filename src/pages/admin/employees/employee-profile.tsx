@@ -70,7 +70,6 @@ const EmployeeProfile = () => {
         {/* <CardHead /> */}
         {/* <ProfileTabs /> */}
         <div className="flex gap-3">
-          {/* <div className="w-[30%] h-80 border-2"></div> */}
           <div className="w-full">
             <div className="mb-4">
               <HeadText title="Month wise attendance" />
@@ -81,12 +80,6 @@ const EmployeeProfile = () => {
               weekends={true}
               eventContent={renderEventContent}
               events={attendances}
-              // viewDidMount={handleViewRender}
-              // dateClick={handleDateClick}
-              // eventClick={handleViewRender}
-              // dateClick={handleDateClick}
-              // viewSkeletonRender={handleMonthChange}
-              // initialDate={new Date("2023-03-28")}
             />
           </div>
         </div>
