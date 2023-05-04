@@ -216,7 +216,7 @@ const EmployeeDetails = () => {
                       <p className="text-sm text-gray-600">{item?.title} :</p>
                     </div>
                     <div className="w-2/3">
-                      <p className="text-sm">{item?.value}</p>
+                      <CopyClipboard value={item?.value} />
                     </div>
                   </div>
                 ))}
@@ -250,8 +250,8 @@ const EmployeeDetails = () => {
           <Grid item lg={4}>
             <div className="w-full h-full">
               <EmpAttendanceIndividual />
-              <EmployProjects />
               <EmployLeaves />
+              <EmployProjects />
             </div>
           </Grid>
         </Grid>
