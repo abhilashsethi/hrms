@@ -11,14 +11,18 @@ import {
 	LinearProgress,
 	Menu,
 	MenuItem,
+	Typography,
 } from "@mui/material";
+import ICONS from "assets/icons";
 import {
 	ProgressBarDealsDashboard,
 	ProjectBarGraph,
 	ProjectsPieChart,
 	ProjectsRadialBar,
 } from "components/analytics";
+import { useFetch } from "hooks";
 import { useState, MouseEvent } from "react";
+import { Projects } from "types";
 
 const ProjectDashBoard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -29,6 +33,10 @@ const ProjectDashBoard = () => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
+	const { data: projectData, mutate } = useFetch<Projects[]>(`projects`);
+	console.log(projectData);
+
 	return (
 		<>
 			<div className="flex gap-2 py-4">
@@ -36,10 +44,10 @@ const ProjectDashBoard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
-								<div className="deals-card h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between group">
+								<div className="border-4 border-b-theme hover:scale-105 transition duration-300 ease-in-out h-28 bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
-											<MoreVert className="group-hover:text-white" />
+											<ICONS.More />
 										</IconButton>
 										<Menu
 											anchorEl={anchorEl}
@@ -53,11 +61,13 @@ const ProjectDashBoard = () => {
 											<MenuItem onClick={handleClose}>View Dashboard</MenuItem>
 										</Menu>
 									</div>
-									<div>{item?.icon}</div>
-									<span className="text-lg group-hover:text-white">
-										{item?.count}
-									</span>
-									<span className="font-semibold tracking-wide text-sm group-hover:text-white">
+									<div className="flex justify-around items-center">
+										<div>{item?.icon}</div>
+										<span className="text-xl text-theme font-semibold">
+											{item?.count}
+										</span>
+									</div>
+									<span className="font-semibold text-center tracking-wide text-sm">
 										{item?.title}
 									</span>
 								</div>
@@ -69,30 +79,37 @@ const ProjectDashBoard = () => {
 							<ProgressBarDealsDashboard />
 						</div>
 						<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
+							<p className="text-lg font-bold text-center">Total Projects</p>
 							<ProjectsRadialBar
 								className="w-full"
 								type="radialBar"
 								radialLabel={["Received", "Ongoing", "Completed", "Delivered"]}
 								radialSeries={[75, 65, 45, 87]}
 								totalReturn={557}
-								title={"Total Projects"}
+								title=""
 							/>
 						</div>
 					</div>
 				</div>
-				<div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col gap-3">
+				<div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col justify-around cursor-pointer">
 					{stats.map((item) => (
 						<div
 							key={item?.id}
-							className="h-40 w-full border-2 rounded-xl py-4 px-6 flex flex-col justify-between tracking-wide"
+							className="h-32 w-full border-2 rounded-xl py-4 px-6 flex flex-col justify-between tracking-wide hover:scale-95 transition duration-200 ease-in-out"
 						>
 							<div className="flex justify-between items-center">
-								<span className="text-theme font-semibold">{item?.title}</span>
+								<Typography className={`text-theme font-semibold`}>
+									{item?.title}
+								</Typography>
 								<span className="font-semibold text-emerald-600">+10%</span>
 							</div>
 							<span className="text-xl font-bold">10</span>
 							<div>
-								<LinearProgress variant="determinate" value={20} />
+								<LinearProgress
+									variant="determinate"
+									color={item?.color as any}
+									value={20}
+								/>
 								<span className="text-sm pt-6">Overall Projects 218</span>
 							</div>
 						</div>
@@ -101,6 +118,9 @@ const ProjectDashBoard = () => {
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 				<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
+					<p className="text-lg text-center font-bold">
+						Yearly Project Overview
+					</p>
 					<ProjectBarGraph
 						series={[
 							{
@@ -118,13 +138,14 @@ const ProjectDashBoard = () => {
 						]}
 						categories={["2022", "2021", "2020", "2019", "2018"]}
 						colors={["#5B50A1", "#C43C5C", "#E97451"]}
-						title="Yearly Project Overview "
+						title=""
 						barHeight={360}
 					/>
 				</div>
 				<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
+					<p className="text-lg text-center font-bold">Weekly Overview</p>
 					<ProjectsPieChart
-						title={"Weekly Overview"}
+						title={""}
 						pieSeries={[24, 65, 35, 78, 56, 23, 46]}
 						pieLabel={[
 							"Sunday",
@@ -195,6 +216,7 @@ const stats = [
 		growth: "+10%",
 		value: "10",
 		sub: "Overall Projects 218",
+		color: "primary",
 	},
 	{
 		id: 2,
@@ -202,6 +224,7 @@ const stats = [
 		growth: "+10%",
 		value: "10",
 		sub: "Overall Projects 218",
+		color: "secondary",
 	},
 	{
 		id: 3,
@@ -209,6 +232,15 @@ const stats = [
 		growth: "+10%",
 		value: "10",
 		sub: "Overall Projects 218",
+		color: "success",
+	},
+	{
+		id: 4,
+		title: "Cancelled Projects",
+		growth: "+10%",
+		value: "10",
+		sub: "Overall Projects 218",
+		color: "warning",
 	},
 ];
 

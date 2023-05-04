@@ -9,6 +9,7 @@ import EmployeeAllAttendance from "./EmployeeAllAttendance";
 import { useFetch } from "hooks";
 import moment from "moment";
 import { DailyAttendance, DonutChart } from "components/analytics";
+import ICONS from "assets/icons";
 
 const AttendanceDashBoard = () => {
 	const [attendances, setAttendances] = useState([]);
@@ -103,10 +104,10 @@ const AttendanceDashBoard = () => {
 							<Grid container spacing={2}>
 								{cards?.map((item) => (
 									<Grid key={item?.id} item lg={4}>
-										<div className="border-2 border-b-theme h-36 w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
+										<div className="hover:scale-105 transition duration-300 ease-in-out border-2 border-b-theme h-28 w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
 											<div className="flex justify-end">
 												<IconButton size="small" onClick={handleClick}>
-													<MoreVert className="" />
+													<ICONS.More />
 												</IconButton>
 												<Menu
 													anchorEl={anchorEl}
@@ -128,7 +129,7 @@ const AttendanceDashBoard = () => {
 													{item?.count}
 												</span>
 											</div>
-											<span className=" text-theme font-semibold text-center tracking-wide text-lg">
+											<span className="pt-2 text-theme font-semibold text-center tracking-wide text-md">
 												{item?.title}
 											</span>
 										</div>
@@ -137,7 +138,7 @@ const AttendanceDashBoard = () => {
 							</Grid>
 							<div className="mt-6">
 								<div className="mb-4">
-									<HeadText title="Monthwise attendance" />
+									<HeadText title="Month-wise attendance" />
 								</div>
 								<div className="bg-white p-4 rounded-lg shadow-xl">
 									<FullCalendar
