@@ -1,15 +1,16 @@
 import {
   AddCardRounded,
   Delete,
+  MeetingRoomRounded,
   PersonRemoveRounded,
 } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import { IOSSwitch } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { useChange } from "hooks";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { Card } from "types";
-import { CardAssign } from "components/drawer";
+import { CardAssign, RoomAccessDrawer } from "components/drawer";
 import { DEFAULTPROFILE, ID } from "assets/home";
 
 interface Props {
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const AllScannedGrid = ({ data, mutate }: Props) => {
+  const [isAccess, setIsAccess] = useState(false);
   const [isAssign, setIsAssign] = useState<{
     drawer?: boolean;
     activeCardId?: string | null;
@@ -107,12 +109,13 @@ const AllScannedGrid = ({ data, mutate }: Props) => {
   return (
     <>
       <div className="mt-2">
+        <RoomAccessDrawer open={isAccess} onClose={() => setIsAccess(false)} />
         <Grid container spacing={3}>
           {data?.map((item: any) => (
             <Grid key={item?.id} item lg={4}>
-              <div className="flex items-center justify-center w-full h-full group cursor-pointer">
+              <div className="flex items-center justify-center w-full h-full cursor-pointer">
                 <div
-                  className="w-[18rem] h-[29.5rem] bg-contain bg-no-repeat shadow-lg rounded-xl overflow-hidden"
+                  className="w-[18rem] h-[29.5rem] bg-contain group bg-no-repeat shadow-lg rounded-xl overflow-hidden"
                   style={{
                     backgroundImage: `url(${ID.src})`,
                     backgroundRepeat: "no-repeat",
@@ -165,7 +168,7 @@ const AllScannedGrid = ({ data, mutate }: Props) => {
                               </p>
                             </div>
                           </div>
-                          <div className="absolute bottom-0 bg-[#00000091] w-full h-40 translate-y-[100%] group-hover:translate-y-[0%] transition-all ease-in-out duration-300">
+                          <div className="absolute bottom-0 w-full h-40 translate-y-[100%] group-hover:translate-y-[0%] transition-all ease-in-out duration-300 bg-slate-700 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gray-100">
                             <div className="flex justify-center pt-2">
                               <div className="w-12 bg-white rounded-full px-2 py-[0.2rem]">
                                 <div className="border-b-2 border-black"></div>
@@ -174,22 +177,35 @@ const AllScannedGrid = ({ data, mutate }: Props) => {
                             <div className="w-full flex flex-col items-center justify-center gap-2 mt-2">
                               <div className="flex items-center gap-4">
                                 <Tooltip title="Delete Card">
-                                  <IconButton
-                                    onClick={() => handleDelete(item?.id)}
-                                  >
-                                    <Delete className="!text-youtube" />
-                                  </IconButton>
+                                  <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                                    <IconButton
+                                      onClick={() => handleDelete(item?.id)}
+                                    >
+                                      <Delete className="!text-youtube" />
+                                    </IconButton>
+                                  </div>
                                 </Tooltip>
                                 <Tooltip title="Remove Person">
-                                  <IconButton
-                                    onClick={() => handleRemove(item?.cardId)}
-                                  >
-                                    <PersonRemoveRounded className="!text-white" />
-                                  </IconButton>
+                                  <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                                    <IconButton
+                                      onClick={() => handleRemove(item?.cardId)}
+                                    >
+                                      <PersonRemoveRounded className="!text-theme" />
+                                    </IconButton>
+                                  </div>
+                                </Tooltip>
+                                <Tooltip title="Room Access">
+                                  <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                                    <IconButton
+                                      onClick={() => setIsAccess(true)}
+                                    >
+                                      <MeetingRoomRounded className="!text-black" />
+                                    </IconButton>
+                                  </div>
                                 </Tooltip>
                               </div>
-                              <div className="flex flex-col items-center">
-                                <p className="font-semibold tracking-wide text-sm text-white">
+                              <div className="flex flex-col items-center gap-1">
+                                <p className="font-semibold tracking-wide text-sm">
                                   Unblock/Block
                                 </p>
                                 <IOSSwitch

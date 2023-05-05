@@ -102,7 +102,6 @@ const AllEmployees = () => {
             id="employeeId"
             placeholder="Employee Id"
             onChange={(e) => setEmpId(e.target.value)}
-            name="employeeId"
           />
           <TextField
             fullWidth
@@ -115,11 +114,11 @@ const AllEmployees = () => {
             select
             label="Select Role"
             size="small"
-            value={isRole}
+            value={isRole ? isRole : ""}
             onChange={handleChange}
           >
             {roleData?.roles?.map((option: any) => (
-              <MenuItem key={option.id} value={option.name}>
+              <MenuItem key={option?.id} value={option.name}>
                 {option.name}
               </MenuItem>
             ))}
