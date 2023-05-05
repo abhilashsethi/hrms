@@ -1,4 +1,9 @@
-import { Email, SendRounded, ShoppingBasket } from "@mui/icons-material";
+import {
+	Description,
+	Email,
+	SendRounded,
+	ShoppingBasket,
+} from "@mui/icons-material";
 import { Button, Grid } from "@mui/material";
 import { RenderIconRow } from "components/common";
 import { useFetch } from "hooks";
@@ -81,12 +86,21 @@ const ViewEmployeeHead = () => {
 					</div>
 					<div className="font-medium text-sm">
 						<Button
-							onClick={() => setDocument(true)}
 							className="!bg-theme"
 							variant="contained"
 							startIcon={<Email />}
 						>
 							Send Mail
+						</Button>
+					</div>
+					<div className="font-medium text-sm">
+						<Button
+							onClick={() => setDocument(true)}
+							className="!bg-theme"
+							variant="contained"
+							startIcon={<Description />}
+						>
+							View Document
 						</Button>
 					</div>
 				</div>

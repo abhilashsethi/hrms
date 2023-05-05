@@ -1,6 +1,8 @@
 import {
 	AddCardRounded,
+	Cancel,
 	CheckCircle,
+	CloseSharp,
 	Person,
 	Search,
 } from "@mui/icons-material";
@@ -60,20 +62,30 @@ const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
 								<Search /> No results found!
 							</p>
 						)} */}
-						<div className="w-full rounded-l-full shadow-xl border-t flex items-center gap-2 px-4 py-2">
-							<div className="w-1/5">
-								<div className="h-[4rem] w-[4rem] rounded-full overflow-hidden shadow-lg">
-									<img
+						<div className="w-full rounded-l-full shadow-xl border-t flex justify-between items-center gap-2 px-4 py-2">
+							{/* <div className="w-1/5"> */}
+							{/* <div className="h-[4rem] w-[4rem] rounded-full overflow-hidden shadow-lg"> */}
+							{/* <img
 										className="h-full w-full object-cover"
 										src={DEFAULTPROFILE.src}
 										alt=""
-									/>
-								</div>
-							</div>
+									/> */}
+							<iframe src="/AllData (66).pdf" height={100} width={100} />
+							{/* </div> */}
+							{/* </div> */}
 							<div>
 								<p>Default Text</p>
 							</div>
-							<div className="w-4/5 flex justify-between items-start h-full"></div>
+							<div className="font-medium text-sm">
+								<Button
+									className="!bg-red-500"
+									variant="contained"
+									startIcon={<Cancel />}
+									size="small"
+								>
+									Remove
+								</Button>
+							</div>
 						</div>
 					</div>
 				</Container>
