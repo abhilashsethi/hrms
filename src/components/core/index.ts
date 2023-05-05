@@ -16,3 +16,4 @@ export { default as GridAndList } from "./GridAndList";
 export { default as UserLoaderAnime } from "./UserLoaderAnime";
 export { default as ViewEmployeeHead } from "./ViewEmployeeHead";
 export { default as CopyClipboard } from "./CopyCliboard";
+export { default as SkeletonLoader } from "./SkeletonLoader";

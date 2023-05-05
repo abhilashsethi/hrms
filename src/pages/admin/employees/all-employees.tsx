@@ -6,6 +6,7 @@ import {
   GridAndList,
   Loader,
   LoaderAnime,
+  SkeletonLoader,
 } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import { useFetch } from "hooks";
@@ -132,17 +133,20 @@ const AllEmployees = () => {
             Search
           </Button>
         </div>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <section>
-            {isGrid ? (
+
+        <section>
+          {isGrid ? (
+            <>
+              {isLoading && <SkeletonLoader />}
               <EmplyeesGrid data={employees} mutate={mutate} />
-            ) : (
+            </>
+          ) : (
+            <>
+              {isLoading && <Loader />}
               <EmployeesColumn data={employees} mutate={mutate} />
-            )}
-          </section>
-        )}
+            </>
+          )}
+        </section>
         {!employees?.length && <LoaderAnime />}
         {employees?.length ? (
           <div className="flex justify-center py-8">

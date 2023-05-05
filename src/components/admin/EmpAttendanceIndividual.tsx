@@ -14,7 +14,6 @@ const EmpAttendanceIndividual = () => {
   const [activeMonth, setActiveMonth] = useState(
     `?month=${new Date().getMonth()}`
   );
-
   const router = useRouter();
   function CircularProgressWithLabel(
     props: CircularProgressProps & { value: number }
@@ -60,8 +59,6 @@ const EmpAttendanceIndividual = () => {
     setProgress(Number(percent));
   }, [attendanceData]);
 
-  // console.log(attendanceData);
-
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl">
       <div className="flex justify-between items-center">
@@ -78,7 +75,7 @@ const EmpAttendanceIndividual = () => {
             onChange={(e) => setActiveMonth(e.target?.value)}
           >
             {months.map((option) => (
-              <MenuItem key={option.value} value={option.query}>
+              <MenuItem key={option.id} value={option.query}>
                 {option.value}
               </MenuItem>
             ))}

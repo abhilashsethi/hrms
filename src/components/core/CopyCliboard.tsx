@@ -7,7 +7,7 @@ interface Props {
 
 const CopyClipboard = ({ value }: Props) => {
   return (
-    <p className="group flex gap-2 items-center text-sm">
+    <div className="group flex gap-2 items-center text-sm">
       {value?.slice(0, 15)}
       {value?.length >= 15 ? "..." : ""}
       <Tooltip title="Copy to clipboard">
@@ -21,7 +21,7 @@ const CopyClipboard = ({ value }: Props) => {
           <ICONS.Copy />
         </span>
       </Tooltip>
-    </p>
+    </div>
   );
 };
 export default CopyClipboard;

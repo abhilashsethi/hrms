@@ -5,7 +5,7 @@ import { AccountTreeRounded } from "@mui/icons-material";
 const EmployProjects = () => {
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
-      <HeadText title="Projects" />
+      <HeadText title="Latest Projects" />
       <div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
         {cards?.map((item) => (
           <div className="flex gap-1 py-3 border-b-[1px]">
