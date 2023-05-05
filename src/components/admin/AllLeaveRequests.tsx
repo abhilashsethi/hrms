@@ -90,7 +90,7 @@ const AllLeaveRequests = ({ data, mutate }: Props) => {
 					},
 					{
 						title: "Leave From",
-						field: "leaaveFrom",
+						field: "leaveFrom",
 						emptyValue: "Not Provided",
 						editable: "never",
 					},
@@ -130,6 +130,7 @@ const AllLeaveRequests = ({ data, mutate }: Props) => {
 				// onRowDoubleClick={(e, rowData) =>
 				//   push(`/admin/attendances/user/${rowData?.id}`)
 				// }
+
 				editable={{
 					onRowDelete: async (oldData) => {
 						const res = await change(`users/${oldData}`, {

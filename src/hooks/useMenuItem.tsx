@@ -118,6 +118,31 @@ export default () => {
 				],
 			},
 			{
+				key: "9",
+				title: "Leaves",
+				icon: <ExitToApp />,
+				submenus: [
+					{
+						key: "9-1",
+						title: "Dashboard",
+						icon: <DashboardRounded />,
+						route: "/admin/leaves",
+					},
+					{
+						key: "9-2",
+						title: "All Leave Request",
+						icon: <ExitToApp />,
+						route: "/admin/leaves/all-leave-requests",
+					},
+					{
+						key: "9-3",
+						title: "Leaves",
+						icon: <MedicalInformationRounded />,
+						route: "/admin/leaves/all-leaves",
+					},
+				],
+			},
+			{
 				key: "6",
 				title: "Meetings",
 				icon: <Groups />,
@@ -177,31 +202,6 @@ export default () => {
 						title: "All Roles",
 						icon: <ManageAccountsRounded />,
 						route: "/admin/roles/all-roles",
-					},
-				],
-			},
-			{
-				key: "9",
-				title: "Leaves",
-				icon: <ExitToApp />,
-				submenus: [
-					{
-						key: "9-1",
-						title: "Dashboard",
-						icon: <DashboardRounded />,
-						route: "/admin/leaves",
-					},
-					{
-						key: "9-2",
-						title: "All Leave Request",
-						icon: <ExitToApp />,
-						route: "/admin/leaves/all-leave-requests",
-					},
-					{
-						key: "9-3",
-						title: "Leaves",
-						icon: <MedicalInformationRounded />,
-						route: "/admin/leaves/all-leaves",
 					},
 				],
 			},
