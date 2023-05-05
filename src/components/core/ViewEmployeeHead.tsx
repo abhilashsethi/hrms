@@ -1,5 +1,14 @@
-import { ShoppingBasket } from "@mui/icons-material";
-import { Grid } from "@mui/material";
+import {
+  DeleteRounded,
+  EmailRounded,
+  FileDownload,
+  InsertDriveFileRounded,
+  ReceiptLongRounded,
+  ReceiptRounded,
+  SendRounded,
+  ShoppingBasket,
+} from "@mui/icons-material";
+import { Grid, IconButton, Tooltip } from "@mui/material";
 import { RenderIconRow } from "components/common";
 import { useFetch } from "hooks";
 import { User } from "types";
@@ -8,6 +17,7 @@ import { ChangeProfile } from "components/dialogues";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { ViewDocumentDrawer } from "components/drawer";
+import CopyClipboard from "./CopyCliboard";
 
 const ViewEmployeeHead = () => {
   const [document, setDocument] = useState(false);
@@ -33,10 +43,10 @@ const ViewEmployeeHead = () => {
               <p className="text-sm text-slate-600 font-medium mt-1">
                 {employData?.role?.name || "---"}
               </p>
-              <p className="text-sm text-slate-600 mt-1 font-bold">
+              <p className="text-sm text-slate-600 mt-1 font-bold flex gap-2">
                 EMP ID :
-                <span className="text-slate-400">
-                  {employData?.employeeID || "---"}
+                <span className="text-gray-400">
+                  <CopyClipboard value={employData?.employeeID} />
                 </span>
               </p>
               <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
@@ -44,10 +54,6 @@ const ViewEmployeeHead = () => {
               </p>
               <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
                 <RenderIconRow value={employData?.phone || "---"} isPhone />
-              </p>
-              <p className="mb-2 text-sm group flex items-center gap-2 pb-2 ">
-                <ShoppingBasket />{" "}
-                <span className=" font-medium">Credit : </span>2
               </p>
             </div>
           </Grid>
@@ -70,8 +76,14 @@ const ViewEmployeeHead = () => {
             onClose={() => setDocument(false)}
             setViewDocument={setViewDocument}
           />
-          <div className="grid col-span-2">
-            <div className="h-20 w-full border-2"></div>
+          <div className="grid lg:grid-cols-6 w-[65%] gap-2">
+            {shortCuts?.map((item) => (
+              <Tooltip key={item?.id} title={item?.title}>
+                <div className="h-12 w-full bg-gradient-to-r !text-white from-theme-400 hover:from-black to-theme-200 hover:to-black rounded-md shadow-md flex justify-center items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer ">
+                  {item?.icon}
+                </div>
+              </Tooltip>
+            ))}
           </div>
           {/* <div className="font-medium text-sm">
             <Button
@@ -99,3 +111,38 @@ const ViewEmployeeHead = () => {
 };
 
 export default ViewEmployeeHead;
+
+interface shortCutTypes {
+  id?: number;
+  icon?: any;
+  title?: string;
+}
+
+const shortCuts: shortCutTypes[] = [
+  {
+    id: 1,
+    icon: <InsertDriveFileRounded className="!text-white" />,
+    title: "Documents",
+  },
+  {
+    id: 2,
+    icon: <FileDownload className="!text-white" />,
+    title: "Download Salary Slip",
+  },
+  {
+    id: 3,
+    icon: <ReceiptLongRounded className="!text-white" />,
+    title: "View Transactions",
+  },
+  { id: 4, icon: <EmailRounded className="!text-white" />, title: "Send Mail" },
+  {
+    id: 5,
+    icon: <SendRounded className="!text-white" />,
+    title: "Send Message",
+  },
+  {
+    id: 6,
+    icon: <DeleteRounded className="!text-white" />,
+    title: "Remove Image",
+  },
+];

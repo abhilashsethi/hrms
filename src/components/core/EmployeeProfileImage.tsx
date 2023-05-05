@@ -42,14 +42,6 @@ const EmployeeProfileImage = ({ employData, mutate }: Props) => {
           </div>
         </div>
       </div>
-      <Button
-        size="small"
-        className="!bg-youtube"
-        variant="contained"
-        startIcon={<Delete />}
-      >
-        Remove
-      </Button>
     </div>
   );
 };
