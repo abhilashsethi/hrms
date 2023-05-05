@@ -1,5 +1,5 @@
-import { Email, SendRounded, ShoppingBasket } from "@mui/icons-material";
-import { Button, Grid } from "@mui/material";
+import { ShoppingBasket } from "@mui/icons-material";
+import { Grid } from "@mui/material";
 import { RenderIconRow } from "components/common";
 import { useFetch } from "hooks";
 import { User } from "types";
@@ -7,11 +7,11 @@ import EmployeeProfileImage from "./EmployeeProfileImage";
 import { ChangeProfile } from "components/dialogues";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { SelectManager, ViewDocumentDrawer } from "components/drawer";
+import { ViewDocumentDrawer } from "components/drawer";
 
 const ViewEmployeeHead = () => {
   const [document, setDocument] = useState(false);
-  const [viewDocument, setViewDocument] = useState<any>(null);
+  const [setViewDocument] = useState<any>(null);
 
   const router = useRouter();
   const [isProfile, setIsProfile] = useState(false);
@@ -34,7 +34,7 @@ const ViewEmployeeHead = () => {
                 {employData?.role?.name || "---"}
               </p>
               <p className="text-sm text-slate-600 mt-1 font-bold">
-                EMP ID :{" "}
+                EMP ID :
                 <span className="text-slate-400">
                   {employData?.employeeID || "---"}
                 </span>
@@ -70,7 +70,10 @@ const ViewEmployeeHead = () => {
             onClose={() => setDocument(false)}
             setViewDocument={setViewDocument}
           />
-          <div className="font-medium text-sm">
+          <div className="grid col-span-2">
+            <div className="h-20 w-full border-2"></div>
+          </div>
+          {/* <div className="font-medium text-sm">
             <Button
               className="!bg-theme"
               variant="contained"
@@ -88,7 +91,7 @@ const ViewEmployeeHead = () => {
             >
               Send Mail
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
