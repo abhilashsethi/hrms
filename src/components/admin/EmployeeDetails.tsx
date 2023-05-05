@@ -30,7 +30,6 @@ const EmployeeDetails = () => {
     mutate,
     isLoading,
   } = useFetch<User>(`users/${router?.query?.id}`);
-  console.log(employData);
   const basicDetails = [
     {
       id: 1,
