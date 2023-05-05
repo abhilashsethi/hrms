@@ -1,85 +1,54 @@
 import { HeadText } from "components/core";
-import React from "react";
-import CircularProgress, {
-  CircularProgressProps,
-} from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Event, TaskAlt } from "@mui/icons-material";
+import moment from "moment";
 
 const EmployLeaves = () => {
-  function CircularProgressWithLabel(
-    props: CircularProgressProps & { value: number }
-  ) {
-    return (
-      <Box sx={{ position: "relative", display: "inline-flex" }}>
-        <CircularProgress size={80} variant="determinate" {...props} />
-        <Box
-          sx={{
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            position: "absolute",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Typography
-            variant="caption"
-            component="div"
-            color="text.secondary"
-          >{`${Math.round(props.value)}%`}</Typography>
-        </Box>
-      </Box>
-    );
-  }
-  const [progress, setProgress] = React.useState(80);
-
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
-      <HeadText title="Employee Leaves" />
-      <div className="flex justify-between items-center py-10 px-4">
-        <CircularProgressWithLabel value={progress} />
-        <div className="flex gap-9 items-center">
-          <div>
-            <p className="font-semibold">20</p>
-            <div className="flex gap-2 items-center">
-              <div className="h-3 w-3 bg-emerald-500 rounded-sm"></div>
-              <p>TAKEN</p>
-            </div>
+      <HeadText title="Employee Leave Credits" />
+      <div className="flex gap-4 justify-center py-4">
+        <div className="h-20 w-20 relative text-white overflow-hidden rounded-md bg-gradient-to-r from-blue-500 to-blue-400 shadow-md flex justify-center items-center text-4xl font-bold">
+          1
+          <div className="h-8 w-8 bg-black absolute right-[-2px] top-[-2px] rounded-md text-white text-sm shadow-md flex justify-center items-center tracking-wide">
+            CL
           </div>
-          <div>
-            <p className="font-semibold">4</p>
-            <div className="flex gap-2 items-center">
-              <div className="h-3 w-3 bg-yellow-500 rounded-sm "></div>
-              <p>LEFT</p>
-            </div>
+        </div>
+        <div className="h-20 w-20 relative text-white overflow-hidden rounded-md bg-gradient-to-r from-purple-500 to-purple-400 shadow-md flex justify-center items-center text-4xl font-bold">
+          0
+          <div className="h-8 w-8 bg-black absolute right-[-2px] top-[-2px] rounded-md text-white text-sm shadow-md flex justify-center items-center tracking-wide">
+            SL
           </div>
         </div>
       </div>
-      <div className="flex gap-2 mt-2">
-        <div className="w-1/3 h-28 flex justify-center shadow-md items-center flex-col gap-3 rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-200">
-          <p className="text-lg font-semibold tracking-wide">12</p>
-          <p className="text-sm font-semibold tracking-wide text-green-700">
-            APPROVED
-          </p>
-        </div>
-        <div className="w-1/3 h-28 flex justify-center shadow-md items-center flex-col gap-3 rounded-lg bg-gradient-to-br from-red-400 to-red-200">
-          <p className="text-lg font-semibold tracking-wide">0</p>
-          <p className="text-sm font-semibold tracking-wide text-red-700">
-            REJECTED
-          </p>
-        </div>
-        <div className="w-1/3 h-28 flex justify-center shadow-md items-center flex-col gap-3 rounded-lg bg-gradient-to-br from-yellow-400 to-yellow-200">
-          <p className="text-lg font-semibold tracking-wide">1</p>
-          <p className="text-sm font-semibold tracking-wide text-yellow-700">
-            PENDING
-          </p>
-        </div>
+      <p className="text-center font-semibold tracking-wide text-sm mb-4">
+        CREDITS LEFT
+      </p>
+      <HeadText title="Recent" />
+      <div className="mt-2 flex flex-col gap-1 py-2 max-h-60 overflow-y-auto px-2">
+        {leaves?.map((item) => (
+          <div className="h-20 w-full border-2 rounded-md p-2 flex gap-4">
+            <div className="h-14 w-14 rounded-full bg-slate-200 flex justify-center items-center shadow-md">
+              <TaskAlt fontSize="large" />
+            </div>
+            <div className="w-3/4 flex flex-col justify-center gap-2">
+              <p className="text-sm font-medium flex gap-2">
+                <span>Leave on :</span>{" "}
+                <span className="text-sm flex gap-2 items-center">
+                  <Event fontSize="small" className="!text-slate-500" />{" "}
+                  {moment(new Date().toISOString()).format("ll")}
+                </span>
+              </p>
+              <span className="text-white text-xs px-4 py-1 bg-green-500 font-semibold rounded-md text-center">
+                APPROVED
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
 };
 
 export default EmployLeaves;
+
+const leaves = [1, 2, 3, 4];
