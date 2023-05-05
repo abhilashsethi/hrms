@@ -27,3 +27,4 @@ export { default as AttendanceDashBoard } from "./AttendanceDashBoard";
 export { default as AllDepartmentGrid } from "./AllDepartmentGrid";
 export { default as AllDepartmentColumn } from "./AllDepartmentColumn";
 export { default as DepartmentDashboard } from "./DepartmentDashboard";
+export { default as AllLeaveRequests } from "./AllLeaveRequests";
