@@ -3,6 +3,7 @@ import {
 	Article,
 	Event,
 	EventAvailable,
+	Info,
 	InfoOutlined,
 	PeopleRounded,
 	Receipt,
@@ -14,7 +15,16 @@ import MaterialTable from "@material-table/core";
 import { useChange } from "hooks";
 import Swal from "sweetalert2";
 import { useState } from "react";
-import { Card, Modal, Tooltip } from "@mui/material";
+import {
+	Autocomplete,
+	Avatar,
+	Card,
+	Menu,
+	MenuItem,
+	Modal,
+	TextField,
+	Tooltip,
+} from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
 interface ARRAY {
 	id?: string;
@@ -64,6 +74,15 @@ const AllLeaveRequests = ({ data, mutate }: Props) => {
 				return;
 			}
 		});
+	};
+
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
+	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
 	};
 
 	const [openInfoModal, setOpenInfoModal] = useState(false);
@@ -212,18 +231,48 @@ const AllLeaveRequests = ({ data, mutate }: Props) => {
 						editable: "never",
 					},
 					{
+						title: "Details",
+						export: true,
+						render: (row) => (
+							<>
+								{console.log(row)}
+								<div className="flex">
+									<Tooltip title="Info">
+										<Avatar
+											onClick={() => handleInfoOpen()}
+											variant="rounded"
+											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
+											sx={{
+												mr: ".1vw",
+												padding: "0px !important",
+												backgroundColor: "Highlight",
+												cursor: "pointer",
+												color: "",
+											}}
+										>
+											<Info sx={{ padding: "0px !important" }} />
+										</Avatar>
+									</Tooltip>
+								</div>
+							</>
+						),
+					},
+					{
 						title: "Status",
 						editable: "never",
 						render: (row) => (
 							<>
 								{console.log(row)}
 								<div className="flex">
-									<button
-										onClick={() => handleInfoOpen()}
-										className="hover:scale-105 transition duration-300 ease-in-out border border-green-400 text-green-400 px-3 py-1 rounded-md cursor-pointer"
-									>
-										Accept
-									</button>
+									<Autocomplete
+										disablePortal
+										id="combo-box-demo"
+										options={[{ label: "Accept" }, { label: "Reject" }]}
+										sx={{ width: 140 }}
+										renderInput={(params) => (
+											<TextField {...params} label="Leave Status" />
+										)}
+									/>
 								</div>
 							</>
 						),
