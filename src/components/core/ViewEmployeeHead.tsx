@@ -1,4 +1,6 @@
 import {
+  AccountTreeRounded,
+  ChecklistRounded,
   DeleteRounded,
   EmailRounded,
   FileDownload,
@@ -6,7 +8,9 @@ import {
   ReceiptLongRounded,
   ReceiptRounded,
   RoomPreferences,
+  Send,
   SendRounded,
+  SendTimeExtensionRounded,
   ShoppingBasket,
 } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
@@ -33,39 +37,39 @@ const ViewEmployeeHead = () => {
   const shortCuts: shortCutTypes[] = [
     {
       id: 1,
-      icon: <InsertDriveFileRounded className="!text-white" />,
+      icon: <InsertDriveFileRounded />,
       title: "Documents",
       onClick: () => setDocument(true),
     },
     {
       id: 2,
-      icon: <FileDownload className="!text-white" />,
-      title: "Download Salary Slip",
+      icon: <FileDownload />,
+      title: "Salary Slip",
     },
     {
       id: 3,
-      icon: <ReceiptLongRounded className="!text-white" />,
-      title: "View Transactions",
+      icon: <ReceiptLongRounded />,
+      title: "Transactions",
     },
     {
       id: 4,
-      icon: <EmailRounded className="!text-white" />,
-      title: "Send Mail",
+      icon: <EmailRounded />,
+      title: "Mail",
     },
     {
       id: 5,
-      icon: <SendRounded className="!text-white" />,
-      title: "Send Message",
+      icon: <Send />,
+      title: "Message",
     },
     {
       id: 6,
-      icon: <RoomPreferences className="!text-white" />,
+      icon: <AccountTreeRounded />,
       title: "Projects",
     },
     {
       id: 6,
-      icon: <DeleteRounded className="!text-white" />,
-      title: "Remove Image",
+      icon: <ChecklistRounded />,
+      title: "Leaves",
     },
   ];
 
@@ -104,6 +108,12 @@ const ViewEmployeeHead = () => {
             </div>
           </Grid>
         </Grid>
+        {/* <div className="mt-3">
+          <div className="h-20 w-20 bg-slate-400 text-white flex flex-col justify-center items-center gap-1">
+            <InsertDriveFileRounded />
+            <span className="text-xs font-semibold">Documents</span>
+          </div>
+        </div> */}
         <div className="flex justify-between items-center pt-4">
           {/* <p className="font-medium text-sm">
     <span className="font-extrabold pr-2">16</span> PROJECTS
@@ -117,7 +127,25 @@ const ViewEmployeeHead = () => {
             onClose={() => setDocument(false)}
             setViewDocument={setViewDocument}
           />
-          <div className="grid lg:grid-cols-7 w-full gap-2">
+          <div className="w-full flex gap-2">
+            {shortCuts?.map((item) => (
+              <Tooltip key={item?.id} title={item?.title}>
+                <div
+                  onClick={item?.onClick}
+                  className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
+                >
+                  <span className="p-2 bg-white shadow-lg rounded-md group-hover:rotate-[-12deg] transition-all ease-in-out duration-200">
+                    <span>{item?.icon}</span>
+                  </span>
+                  <p className="text-xs text-center font-semibold ">
+                    {item?.title}
+                  </p>
+                </div>
+              </Tooltip>
+            ))}
+          </div>
+
+          {/* <div className="grid lg:grid-cols-7 w-full gap-2">
             {shortCuts?.map((item) => (
               <Tooltip key={item?.id} title={item?.title}>
                 <div
@@ -128,7 +156,7 @@ const ViewEmployeeHead = () => {
                 </div>
               </Tooltip>
             ))}
-          </div>
+          </div> */}
           {/* <div className="font-medium text-sm">
             <Button
               className="!bg-theme"

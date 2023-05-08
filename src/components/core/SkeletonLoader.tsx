@@ -6,19 +6,28 @@ const SkeletonLoader = () => {
       <Grid container spacing={3}>
         {skeletons?.map((item) => (
           <Grid key={item?.id} item lg={3}>
-            <div className="w-full">
-              <div className="flex justify-center pr-8">
+            <div className="w-full border-2 py-4 rounded-md">
+              <div className="flex justify-center">
                 <Skeleton
                   variant="circular"
-                  width={50}
-                  height={50}
+                  width={70}
+                  height={70}
                   sx={{ marginBottom: "1rem" }}
                 />
               </div>
-              <Skeleton variant="rectangular" width={210} height={118} />
-              <Box sx={{ pt: 0.5 }}>
-                <Skeleton />
+              {/* <Skeleton variant="rectangular" width={210} height={118} /> */}
+              <Box
+                sx={{
+                  pt: 0.5,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
                 <Skeleton width="60%" />
+                <Skeleton width="80%" />
+                <Skeleton width="60%" sx={{ marginBottom: "0.6rem" }} />
+                <Skeleton variant="rectangular" width="60%" height={40} />
               </Box>
             </div>
           </Grid>
