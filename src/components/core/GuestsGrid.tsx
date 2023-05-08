@@ -27,7 +27,7 @@ interface Props {
   data?: ARRAY[];
   mutate?: any;
 }
-const EmplyeesGrid = ({ data, mutate }: Props) => {
+const GuestsGrid = ({ data, mutate }: Props) => {
   return (
     <section className="my-8">
       <Grid container spacing={3}>
@@ -41,7 +41,7 @@ const EmplyeesGrid = ({ data, mutate }: Props) => {
   );
 };
 
-export default EmplyeesGrid;
+export default GuestsGrid;
 
 const CardContent = ({ item, mutate }: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

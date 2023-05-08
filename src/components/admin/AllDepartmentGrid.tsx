@@ -73,7 +73,7 @@ const AllDepartmentGrid = () => {
       <RoleInformation
         open={isInfo?.dialogue}
         onClose={() => setIsInfo({ dialogue: false })}
-        role={isInfo?.role}
+        roleId={isInfo?.role}
       />
       <div className="mt-4">
         <Grid container spacing={3}>
