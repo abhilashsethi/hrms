@@ -215,6 +215,9 @@ const CardContent = ({ item, mutate }: any) => {
       <span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
         {item?.name}
       </span>
+      <span className="font-medium tracking-wide text-gray-400 text-sm">
+        {item?.role?.name}
+      </span>
       <div className=" text-base font-semibold tracking-wide text-gray-600 pl-4">
         <RenderIconRow value={item?.email} isEmail />
       </div>

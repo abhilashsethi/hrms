@@ -3,19 +3,22 @@ import { Grid, IconButton, Tooltip } from "@mui/material";
 import { Loader } from "components/core";
 import { UpdateRole } from "components/dialogues";
 import { RoleInformation } from "components/drawer";
-import { useChange, useFetch } from "hooks";
+import { useChange } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Role } from "types";
 
 interface Props {
-  data?: any;
+  data?: [Role];
   mutate?: any;
 }
 
 const AllRollGrid = ({ data, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
+  const [isInfo, setIsInfo] = useState<{
+    dialogue?: boolean;
+    role?: any;
+  }>({
     dialogue: false,
     role: null,
   });
@@ -61,6 +64,7 @@ const AllRollGrid = ({ data, mutate }: Props) => {
       }
     });
   };
+  console.log(data);
 
   return (
     <>
@@ -73,7 +77,7 @@ const AllRollGrid = ({ data, mutate }: Props) => {
       <RoleInformation
         open={isInfo?.dialogue}
         onClose={() => setIsInfo({ dialogue: false })}
-        role={isInfo?.role}
+        roleId={isInfo?.role?.id}
       />
       <div className="mt-4">
         <Grid container spacing={2}>

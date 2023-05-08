@@ -12,13 +12,13 @@ import { User } from "types";
 type Props = {
   open?: boolean | any;
   onClose: () => void;
-  role?: any;
+  roleId?: any;
 };
 
-const RoleInformation = ({ open, onClose, role }: Props) => {
-  const { data: users, isLoading } = useFetch<User[]>(`users`);
+const RoleInformation = ({ open, onClose, roleId }: Props) => {
+  const { data: roleInfo, isLoading } = useFetch<User[]>(`roles/${roleId}`);
 
-  const reqData = users?.filter((item) => item?.roleId === role?.id);
+  console.log(roleInfo);
   if (isLoading) {
     return <Loader />;
   }
@@ -35,7 +35,7 @@ const RoleInformation = ({ open, onClose, role }: Props) => {
             <PeopleRounded />
             MEMBERS
           </p>
-          {role && (
+          {/* {role && (
             <span className="text-sm">
               All Members with{" "}
               <span className="text-theme font-medium">{role?.name}</span> role
@@ -45,8 +45,8 @@ const RoleInformation = ({ open, onClose, role }: Props) => {
             <>
               <UserLoaderAnime />
             </>
-          )}
-          <div className="mt-4 flex flex-col gap-2">
+          )} */}
+          {/* <div className="mt-4 flex flex-col gap-2">
             {reqData?.map((item) => (
               <div className="h-24 w-full border-[1px] rounded-lg flex gap-3 items-center px-4">
                 <div className="h-[4.5rem] w-[4.5rem] bg-slate-400 rounded-full overflow-hidden shadow-lg">
@@ -66,7 +66,7 @@ const RoleInformation = ({ open, onClose, role }: Props) => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
         </Container>
       </Drawer>
     </>
