@@ -96,7 +96,7 @@ const AllLeaveRequests = ({ data, mutate }: Props) => {
 			Id: "1",
 			name: "Ashutosh Mohapatra",
 			email: "ashutosh@gmail.com",
-			leaveType: "Casual Leave",
+			leaveType: "CL",
 			leaveFrom: "05/05/2023",
 			leaveTo: "14/05/2023",
 			days: "10",
