@@ -4,4 +4,6 @@ export { default as SelectManager } from "./SelectManager";
 export { default as SelectMembers } from "./SelectMembers";
 export { default as ProjectURLS } from "./ProjectURLS";
 export { default as ViewDocumentDrawer } from "./ViewDocumentDrawer";
+export { default as ViewProjectsDrawer } from "./ViewProjectsDrawer";
+export { default as ViewLeaveDrawer } from "./ViewLeaveDrawer";
 export { default as RoomAccessDrawer } from "./RoomAccessDrawer";
