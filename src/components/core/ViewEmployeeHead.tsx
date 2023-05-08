@@ -4,10 +4,8 @@ import {
 	FileDownload,
 	InsertDriveFileRounded,
 	ReceiptLongRounded,
-	ReceiptRounded,
 	RoomPreferences,
 	SendRounded,
-	ShoppingBasket,
 } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import { RenderIconRow } from "components/common";
@@ -63,7 +61,7 @@ const ViewEmployeeHead = () => {
 			title: "Projects",
 		},
 		{
-			id: 6,
+			id: 7,
 			icon: <DeleteRounded className="!text-white" />,
 			title: "Remove Image",
 		},
@@ -122,7 +120,7 @@ const ViewEmployeeHead = () => {
 							<Tooltip key={item?.id} title={item?.title}>
 								<div
 									onClick={item?.onClick}
-									className="h-12 w-full bg-gradient-to-r !text-white from-theme-400 hover:from-black to-theme-200 hover:to-black rounded-md shadow-md flex justify-center items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer "
+									className="h-12 w-full bg-gradient-to-r !text-white from-theme-400 hover:from-black to-theme-200 hover:to-black rounded-md shadow-md flex justify-center items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer"
 								>
 									{item?.icon}
 								</div>

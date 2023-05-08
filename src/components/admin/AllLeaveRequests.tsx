@@ -1,11 +1,21 @@
 import { HeadStyle, IOSSwitch, Loader, RoleComponent } from "components/core";
-import { PeopleRounded } from "@mui/icons-material";
+import {
+	Article,
+	Event,
+	EventAvailable,
+	InfoOutlined,
+	PeopleRounded,
+	Receipt,
+	Tag,
+} from "@mui/icons-material";
 import { MuiTblOptions, getDataWithSL } from "utils";
 import { RenderIconRow } from "components/common";
 import MaterialTable from "@material-table/core";
 import { useChange } from "hooks";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import { Card, Modal, Tooltip } from "@mui/material";
+import { DEFAULTIMG } from "assets/home";
 interface ARRAY {
 	id?: string;
 }
@@ -13,6 +23,21 @@ interface Props {
 	data?: ARRAY[];
 	mutate?: any;
 }
+
+const style = {
+	position: "absolute" as "absolute",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+	width: 600,
+	// height: 600,
+	bgcolor: "background.paper",
+	// border: "2px solid #000",
+	borderRadius: "10px",
+	boxShadow: 24,
+	p: 4,
+};
+
 const AllLeaveRequests = ({ data, mutate }: Props) => {
 	const { change, isChanging } = useChange();
 	const handleBlock = async (e: any, userId: string) => {
@@ -41,6 +66,12 @@ const AllLeaveRequests = ({ data, mutate }: Props) => {
 		});
 	};
 
+	const [openInfoModal, setOpenInfoModal] = useState(false);
+	const handleInfoOpen = () => {
+		setOpenInfoModal(true);
+	};
+	const handleInfoCloseModal = () => setOpenInfoModal(false);
+
 	const [tabelData, setTabelData] = useState([
 		{
 			Id: "1",
@@ -57,6 +88,79 @@ const AllLeaveRequests = ({ data, mutate }: Props) => {
 
 	return (
 		<section className="mt-8">
+			<Modal
+				open={openInfoModal}
+				onClose={handleInfoCloseModal}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<Card
+					sx={style}
+					className="dashboard-card-shadow w-[50%] border-t-4 border-b-4 border-t-theme border-b-theme !p-6"
+				>
+					<div className="flex items-center gap-3">
+						<div className="h-20 w-20 rounded-full overflow-hidden shadow-xl">
+							<div className="bg-slate-200 h-full w-full">
+								<img
+									className="h-full w-full object-cover"
+									src={"/manager.png"}
+									alt=""
+								/>
+							</div>
+						</div>
+						<div className="font-semibold">
+							{" "}
+							Asutosh Mohapatra{" "}
+							<span className="font-medium text-xs text-white rounded-md p-[1px] border border-green-500 bg-green-500">
+								CEO
+							</span>
+						</div>
+					</div>
+					<div className="pt-3 flex flex-col gap-7">
+						<div className="flex items-center gap-4">
+							<Tooltip title="Leave Type">
+								<Receipt className="text-gray-500" />
+							</Tooltip>{" "}
+							<p className="font-semibold">Medical Leave</p>
+						</div>
+						<div className="flex items-center gap-4">
+							<Tooltip title="Leave From">
+								<Event className="text-gray-500" />
+							</Tooltip>{" "}
+							<p className="font-semibold">05/05/2023</p>
+						</div>
+						<div className="flex items-center gap-4">
+							<Tooltip title="Leave To">
+								<EventAvailable className="text-gray-500" />
+							</Tooltip>{" "}
+							<p className="font-semibold">14/05/2023</p>
+						</div>
+						<div className="flex items-center gap-4">
+							<Tooltip title="No.of days">
+								<Tag className="text-gray-500" />
+							</Tooltip>
+							<p className="font-semibold">10</p>
+						</div>
+						<div className="flex items-center gap-4">
+							<Tooltip title="Status">
+								<InfoOutlined className="text-gray-500" />
+							</Tooltip>
+							<p className="font-semibold">Accepted</p>
+						</div>
+						<div className="flex items-center gap-4">
+							<Tooltip title="Reason">
+								<Article className="text-gray-500" />
+							</Tooltip>{" "}
+							<p className="font-semibold">
+								Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+								Necessitatibus perspiciatis aliquid nam provident soluta enim,
+								sunt consectetur corrupti beatae assumenda unde iure omnis totam
+								possimus deleniti. Eos quam aut voluptates?
+							</p>
+						</div>
+					</div>
+				</Card>
+			</Modal>
 			<MaterialTable
 				title={<HeadStyle name="All Leave Requests" icon={<PeopleRounded />} />}
 				isLoading={!data}
@@ -109,9 +213,20 @@ const AllLeaveRequests = ({ data, mutate }: Props) => {
 					},
 					{
 						title: "Status",
-						field: "status",
-						emptyValue: "Not Provided",
 						editable: "never",
+						render: (row) => (
+							<>
+								{console.log(row)}
+								<div className="flex">
+									<button
+										onClick={() => handleInfoOpen()}
+										className="hover:scale-105 transition duration-300 ease-in-out border border-green-400 text-green-400 px-3 py-1 rounded-md cursor-pointer"
+									>
+										Accept
+									</button>
+								</div>
+							</>
+						),
 					},
 					{
 						title: "Reason",
