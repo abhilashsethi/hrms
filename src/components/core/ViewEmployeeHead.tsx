@@ -7,7 +7,7 @@ import {
 	ReceiptLongRounded,
 	Send,
 } from "@mui/icons-material";
-import { Grid, IconButton, Tooltip } from "@mui/material";
+import { Grid, Tooltip } from "@mui/material";
 import { RenderIconRow } from "components/common";
 import { useFetch } from "hooks";
 import { User } from "types";
@@ -93,7 +93,11 @@ const ViewEmployeeHead = () => {
 								</span>
 							</p>
 							<p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
-								<RenderIconRow value={employData?.email || "---"} isEmail />
+								<RenderIconRow
+									value={employData?.email || "---"}
+									isEmail
+									longText={false}
+								/>
 							</p>
 							<p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
 								<RenderIconRow value={employData?.phone || "---"} isPhone />

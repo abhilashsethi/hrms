@@ -1,6 +1,6 @@
-import { MeetingRoomRounded, PeopleRounded } from "@mui/icons-material";
-import { Container, Drawer } from "@mui/material";
-import { IOSSwitch } from "components/core";
+import { MeetingRoomRounded } from "@mui/icons-material";
+import { Button, Container, Drawer } from "@mui/material";
+import { ReverseIOSSwitch } from "components/core";
 
 type Props = {
   open?: boolean | any;
@@ -24,16 +24,21 @@ const RoomAccessDrawer = ({ open, onClose }: Props) => {
           <div className="flex flex-col gap-3 mt-4">
             <div className="flex justify-between items-center w-4/5">
               <p className="font-semibold">Meeting Room</p>
-              <IOSSwitch />
+              <ReverseIOSSwitch />
             </div>
             <div className="flex justify-between items-center w-4/5">
               <p className="font-semibold">Outside Meeting Room</p>
-              <IOSSwitch />
+              <ReverseIOSSwitch />
             </div>
             <div className="flex justify-between items-center w-4/5">
               <p className="font-semibold">Director Room</p>
-              <IOSSwitch />
+              <ReverseIOSSwitch />
             </div>
+          </div>
+          <div className="flex justify-end mt-6">
+            <Button variant="contained" className="!bg-emerald-600">
+              SAVE CHANGES
+            </Button>
           </div>
         </Container>
       </Drawer>

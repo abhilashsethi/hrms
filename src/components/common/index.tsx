@@ -6,11 +6,13 @@ export function RenderIconRow({
   isEmail,
   isPhone,
   isId,
+  longText = true,
 }: {
   value: any;
   isEmail?: boolean;
   isPhone?: boolean;
   isId?: boolean;
+  longText?: boolean;
 }) {
   return (
     <>
@@ -31,10 +33,15 @@ export function RenderIconRow({
             </span>
           </>
         ) : null}
-        <span className="text-sm font-medium">
-          {value?.slice(0, 15)}
-          {value?.length >= 15 ? "..." : ""}
-        </span>
+        {longText ? (
+          <span className="text-sm font-medium">
+            {value?.slice(0, 15)}
+            {value?.length >= 15 ? "..." : ""}
+          </span>
+        ) : (
+          <span className="text-sm font-medium">{value}</span>
+        )}
+
         <button
           onClick={(e) => {
             e.stopPropagation();

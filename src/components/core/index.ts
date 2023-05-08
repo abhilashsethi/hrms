@@ -19,3 +19,4 @@ export { default as CopyClipboard } from "./CopyCliboard";
 export { default as SkeletonLoader } from "./SkeletonLoader";
 export { default as SkeletonLoaderLarge } from "./SkeletonLoaderLarge";
 export { default as PhotoViewer } from "./PhotoViewer";
+export { default as FiltersContainer } from "./FiltersContainer";

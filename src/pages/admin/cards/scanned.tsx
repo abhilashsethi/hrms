@@ -2,6 +2,7 @@ import { GridViewRounded, Search, TableRowsRounded } from "@mui/icons-material";
 import {
   Button,
   IconButton,
+  MenuItem,
   Pagination,
   Stack,
   TextField,
@@ -9,6 +10,7 @@ import {
 import { AllScannedColumn, AllScannedGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
+  FiltersContainer,
   Loader,
   LoaderAnime,
   SkeletonLoaderLarge,
@@ -24,6 +26,7 @@ const Cards = () => {
   const [empId, setEmpId] = useState<string | null>(null);
   const [userName, setUsername] = useState<string | null>(null);
   const [cardId, setCardId] = useState<string | null>(null);
+  const [userType, setUserType] = useState<string | null>(null);
   const [isGrid, setIsGrid] = useState(true);
   const [isAssign, setIsAssign] = useState<{
     drawer?: boolean;
@@ -70,40 +73,48 @@ const Cards = () => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-2">
-          <TextField
-            fullWidth
-            size="small"
-            placeholder="Employee Id"
-            onChange={(e) => {
-              setEmpId(e?.target?.value);
-            }}
-          />
-          <TextField
-            fullWidth
-            size="small"
-            placeholder="Employee Name"
-            onChange={(e) => {
-              setUsername(e?.target?.value);
-            }}
-          />
-          <TextField
-            fullWidth
-            size="small"
-            placeholder="Card Id"
-            onChange={(e) => {
-              setCardId(e?.target?.value);
-            }}
-          />
-          <Button
-            fullWidth
-            startIcon={<Search />}
-            variant="contained"
-            className="!bg-theme"
-          >
-            Search
-          </Button>
-        </div>
+        <FiltersContainer>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Employee Id"
+              onChange={(e) => {
+                setEmpId(e?.target?.value);
+              }}
+            />
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Employee Name"
+              onChange={(e) => {
+                setUsername(e?.target?.value);
+              }}
+            />
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Card Id"
+              onChange={(e) => {
+                setCardId(e?.target?.value);
+              }}
+            />
+            <TextField
+              fullWidth
+              select
+              label="Select User Type"
+              size="small"
+              value={userType ? userType : ""}
+              onChange={(e) => setUserType(e.target.value)}
+            >
+              {usertypes?.map((option: any) => (
+                <MenuItem key={option.id} value={option.title}>
+                  {option.title}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
+        </FiltersContainer>
         <div>
           {isGrid ? (
             <>
@@ -147,4 +158,9 @@ export default Cards;
 const links = [
   { id: 1, page: "Cards", link: "/admin/cards" },
   { id: 2, page: "Scanned Cards", link: "/admin/cards/scanned" },
+];
+
+const usertypes = [
+  { id: 1, title: "Employees" },
+  { id: 2, title: "Guests" },
 ];

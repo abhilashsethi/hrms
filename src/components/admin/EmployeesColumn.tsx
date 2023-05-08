@@ -1,9 +1,9 @@
 import MaterialTable from "@material-table/core";
-import { PeopleRounded } from "@mui/icons-material";
-import { spawn } from "child_process";
-import { RenderIconRow } from "components/common";
+import { PeopleRounded, PersonRounded } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
 import { CopyClipboard, HeadStyle, IOSSwitch } from "components/core";
 import { useChange } from "hooks";
+import Link from "next/link";
 import Swal from "sweetalert2";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 interface ARRAY {
@@ -86,6 +86,22 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
             render: ({ role }) => {
               return (
                 <span className="text-sm text-gray-500">{role?.name}</span>
+              );
+            },
+            editable: "never",
+          },
+          {
+            title: "Details",
+            field: "name",
+            render: (item) => {
+              return (
+                <Link href={`/admin/employees/employee-profile?id=${item?.id}`}>
+                  <Tooltip title="Details">
+                    <div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+                      <PersonRounded className="!text-white" />
+                    </div>
+                  </Tooltip>
+                </Link>
               );
             },
             editable: "never",
