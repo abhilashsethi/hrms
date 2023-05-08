@@ -17,6 +17,7 @@ import {
   ManageAccountsRounded,
   Apartment,
   ExitToApp,
+  ElevatorRounded,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 export default () => {
@@ -95,6 +96,25 @@ export default () => {
             title: "Add Clients",
             icon: <Diversity3Rounded />,
             route: "/admin/clients/add-clients",
+          },
+        ],
+      },
+      {
+        key: "13",
+        title: "Guests",
+        icon: <ElevatorRounded />,
+        submenus: [
+          {
+            key: "13-1",
+            title: "Dashboard",
+            icon: <DashboardRounded />,
+            route: "/admin/guests",
+          },
+          {
+            key: "13-2",
+            title: "All Guests",
+            icon: <ElevatorRounded />,
+            route: "/admin/guests/all-guests",
           },
         ],
       },

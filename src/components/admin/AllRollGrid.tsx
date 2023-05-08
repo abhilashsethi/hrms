@@ -6,7 +6,14 @@ import { RoleInformation } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
-const AllRollGrid = () => {
+import { Role } from "types";
+
+interface Props {
+  data?: any;
+  mutate?: any;
+}
+
+const AllRollGrid = ({ data, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
     dialogue: false,
@@ -17,7 +24,6 @@ const AllRollGrid = () => {
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
-  const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
   const handleDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -55,9 +61,7 @@ const AllRollGrid = () => {
       }
     });
   };
-  if (isLoading) {
-    return <Loader />;
-  }
+
   return (
     <>
       <UpdateRole
@@ -73,7 +77,7 @@ const AllRollGrid = () => {
       />
       <div className="mt-4">
         <Grid container spacing={2}>
-          {roleData?.roles?.map((item: any) => (
+          {data?.map((item: any) => (
             <Grid key={item?.id} item lg={3}>
               <div className="h-40 w-full bg-gradient-to-b from-theme-50/50 via-white to-white shadow-lg rounded-lg flex justify-center items-center">
                 <div className="flex flex-col items-center gap-3">
