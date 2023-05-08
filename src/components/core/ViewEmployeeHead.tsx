@@ -15,13 +15,18 @@ import EmployeeProfileImage from "./EmployeeProfileImage";
 import { ChangeProfile } from "components/dialogues";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { ViewDocumentDrawer } from "components/drawer";
+import {
+	ViewDocumentDrawer,
+	ViewLeaveDrawer,
+	ViewProjectsDrawer,
+} from "components/drawer";
 import CopyClipboard from "./CopyCliboard";
-import ViewProjectsDrawer from "components/drawer/ViewProjectsDrawer";
 
 const ViewEmployeeHead = () => {
 	const [document, setDocument] = useState(false);
 	const [projects, setProjects] = useState(false);
+	const [leaves, setLeaves] = useState(false);
+	const [viewLeaves, setViewLeaves] = useState<any>(null);
 	const [viewProjects, setViewProjects] = useState<any>(null);
 	const [viewDocument, setViewDocument] = useState<any>(null);
 
@@ -68,6 +73,7 @@ const ViewEmployeeHead = () => {
 			id: 6,
 			icon: <ChecklistRounded />,
 			title: "Leaves",
+			onClick: () => setLeaves(true),
 		},
 	];
 
@@ -124,6 +130,11 @@ const ViewEmployeeHead = () => {
   <p className="font-medium text-sm">
     <span className="font-extrabold pr-2">2</span> ONGOING
   </p> */}
+					<ViewLeaveDrawer
+						open={leaves}
+						onClose={() => setLeaves(false)}
+						setViewLeaves={setViewLeaves}
+					/>
 					<ViewProjectsDrawer
 						open={projects}
 						onClose={() => setProjects(false)}
