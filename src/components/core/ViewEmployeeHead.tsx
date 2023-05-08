@@ -40,46 +40,6 @@ const ViewEmployeeHead = () => {
     `users/${router?.query?.id}`
   );
 
-<<<<<<< HEAD
-	const shortCuts: shortCutTypes[] = [
-		{
-			id: 1,
-			icon: <InsertDriveFileRounded className="!text-white" />,
-			title: "Documents",
-			onClick: () => setDocument(true),
-		},
-		{
-			id: 2,
-			icon: <FileDownload className="!text-white" />,
-			title: "Download Salary Slip",
-		},
-		{
-			id: 3,
-			icon: <ReceiptLongRounded className="!text-white" />,
-			title: "View Transactions",
-		},
-		{
-			id: 4,
-			icon: <EmailRounded className="!text-white" />,
-			title: "Send Mail",
-		},
-		{
-			id: 5,
-			icon: <SendRounded className="!text-white" />,
-			title: "Send Message",
-		},
-		{
-			id: 6,
-			icon: <RoomPreferences className="!text-white" />,
-			title: "Projects",
-		},
-		{
-			id: 7,
-			icon: <DeleteRounded className="!text-white" />,
-			title: "Remove Image",
-		},
-	];
-=======
   const shortCuts: shortCutTypes[] = [
     {
       id: 1,
@@ -118,7 +78,6 @@ const ViewEmployeeHead = () => {
       title: "Remove Image",
     },
   ];
->>>>>>> 8631828ba7988606fabcda34517d629afa3b9caf
 
   return (
     <>
