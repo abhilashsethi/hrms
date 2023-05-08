@@ -222,18 +222,13 @@ const CardContent = ({ item, mutate }: any) => {
         EMP ID :
         <CopyClipboard value={item?.employeeID} />
       </div>
-      <div className="w-full px-8 flex gap-2 mt-2">
-        <div className="w-1/2 py-1.5 rounded-lg border-2 flex flex-col items-center gap-1">
+      <div className="w-full px-8 flex gap-2 mt-2 justify-center">
+        <div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
           <p className="font-semibold tracking-wide text-sm">STATUS</p>
           <IOSSwitch
             checked={item?.isBlocked}
             onChange={(e) => handleBlock(e, item?.id)}
           />
-        </div>
-        <div className="w-1/2 py-1.5 rounded-lg border-2 flex justify-center items-center">
-          <span className="font-semibold tracking-wide text-sm px-2 bg-blue-500 text-white rounded-sm">
-            ACCESS
-          </span>
         </div>
       </div>
     </div>

@@ -110,12 +110,12 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
             render: (data) => clock(data.updatedAt).fromNow(),
             editable: "never",
           },
-          {
-            title: "Office Access",
-            field: "isOfficeAccessGranted",
-            lookup: { true: "Granted", false: "Not Granted" },
-            // editable: "never",
-          },
+          // {
+          //   title: "Office Access",
+          //   field: "isOfficeAccessGranted",
+          //   lookup: { true: "Granted", false: "Not Granted" },
+          //   // editable: "never",
+          // },
           {
             title: "Created",
             field: "createdAt",
@@ -139,23 +139,23 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
             mutate();
             return;
           },
-          onRowUpdate: async (newData: any) => {
-            const res = await change(`users/${newData?.id}`, {
-              method: "PATCH",
-              body: {
-                isOfficeAccessGranted:
-                  newData?.isOfficeAccessGranted === "true" ? true : false,
-              },
-            });
-            console.log(res);
-            mutate();
-            if (res?.status !== 200) {
-              Swal.fire(`Error`, "Something went wrong!", "error");
-              return;
-            }
-            Swal.fire(`Success`, "Updated Successfully!", "success");
-            return;
-          },
+          // onRowUpdate: async (newData: any) => {
+          //   const res = await change(`users/${newData?.id}`, {
+          //     method: "PATCH",
+          //     body: {
+          //       isOfficeAccessGranted:
+          //         newData?.isOfficeAccessGranted === "true" ? true : false,
+          //     },
+          //   });
+          //   console.log(res);
+          //   mutate();
+          //   if (res?.status !== 200) {
+          //     Swal.fire(`Error`, "Something went wrong!", "error");
+          //     return;
+          //   }
+          //   Swal.fire(`Success`, "Updated Successfully!", "success");
+          //   return;
+          // },
         }}
       />
     </section>
