@@ -18,7 +18,13 @@ import {
 } from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
 import { RenderIconRow } from "components/common";
-import { IOSSwitch, Loader, ReverseIOSSwitch } from "components/core";
+import {
+  CopyClipboard,
+  IOSSwitch,
+  Loader,
+  PhotoViewer,
+  ReverseIOSSwitch,
+} from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
@@ -205,45 +211,23 @@ const CardContent = ({ item, mutate }: any) => {
           </MenuItem>
         </Menu>
       </div>
-      <div className="h-20 w-20 rounded-full overflow-hidden shadow-xl">
-        {item?.photo && (
-          <div className="bg-slate-200 h-full w-full">
-            <img
-              className="h-full w-full object-cover"
-              src={item?.photo || DEFAULTIMG.src}
-              alt=""
-            />
-          </div>
-        )}
-        {!item?.photo ? (
-          <div className="h-full w-full uppercase flex justify-center items-center text-4xl font-bold text-white bg-gradient-to-br from-theme-200 via-theme-50 to-secondary-200">
-            {item?.name?.slice(0, 1)}
-          </div>
-        ) : null}
-      </div>
+      <PhotoViewer name={item?.name} photo={item?.photo} />
       <span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
         {item?.name}
       </span>
-      <div className="mt-2 text-base font-semibold tracking-wide text-gray-600 pl-4">
+      <div className=" text-base font-semibold tracking-wide text-gray-600 pl-4">
         <RenderIconRow value={item?.email} isEmail />
       </div>
       <div className="flex gap-2 items-center font-semibold text-sm pl-4">
-        <RenderIconRow value={item?.employeeID} isId />
-        {/* <HomeRepairServiceRounded /> {item?.employeeID} */}
+        EMP ID :
+        <CopyClipboard value={item?.employeeID} />
       </div>
-      <div className="w-full px-8 flex gap-2 mt-2">
-        <div className="w-1/2 py-1.5 rounded-lg border-2 flex flex-col items-center gap-1">
+      <div className="w-full px-8 flex gap-2 mt-2 justify-center">
+        <div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
           <p className="font-semibold tracking-wide text-sm">STATUS</p>
           <IOSSwitch
             checked={item?.isBlocked}
             onChange={(e) => handleBlock(e, item?.id)}
-          />
-        </div>
-        <div className="w-1/2 py-1.5 rounded-lg border-2 flex flex-col items-center gap-1">
-          <p className="font-semibold tracking-wide text-sm">ACCESS</p>
-          <ReverseIOSSwitch
-            onChange={(e) => handleAssign(e, item?.id)}
-            checked={item?.isOfficeAccessGranted}
           />
         </div>
       </div>

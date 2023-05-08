@@ -7,9 +7,14 @@ import {
   TextField,
 } from "@mui/material";
 import { AllScannedColumn, AllScannedGrid } from "components/admin";
-import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
+import {
+  AdminBreadcrumbs,
+  Loader,
+  LoaderAnime,
+  SkeletonLoaderLarge,
+} from "components/core";
 import { CardAssign } from "components/drawer";
-import { useChange, useFetch } from "hooks";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import { Card } from "types";
@@ -99,17 +104,19 @@ const Cards = () => {
             Search
           </Button>
         </div>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <div>
-            {isGrid ? (
+        <div>
+          {isGrid ? (
+            <>
+              {isLoading && <SkeletonLoaderLarge />}
               <AllScannedGrid data={cardData} mutate={mutate} />
-            ) : (
+            </>
+          ) : (
+            <>
+              {isLoading && <Loader />}
               <AllScannedColumn data={cardData} mutate={mutate} />
-            )}
-          </div>
-        )}
+            </>
+          )}
+        </div>
         {!cardData?.length && <LoaderAnime />}
         <div className="flex justify-center py-8">
           <Stack spacing={2}>

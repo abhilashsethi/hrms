@@ -1,7 +1,8 @@
 import MaterialTable from "@material-table/core";
 import { PeopleRounded } from "@mui/icons-material";
+import { spawn } from "child_process";
 import { RenderIconRow } from "components/common";
-import { HeadStyle, IOSSwitch, Loader, RoleComponent } from "components/core";
+import { CopyClipboard, HeadStyle, IOSSwitch } from "components/core";
 import { useChange } from "hooks";
 import Swal from "sweetalert2";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
@@ -39,6 +40,7 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
       }
     });
   };
+  console.log(data);
   return (
     <section className="mt-8">
       <MaterialTable
@@ -64,31 +66,31 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
             tooltip: "Email",
             field: "email",
             editable: "never",
-            render: ({ email }) => <RenderIconRow value={email} isEmail />,
-          },
-          {
-            title: "Phone",
-            field: "phone",
-            emptyValue: "Not Provided",
-            editable: "never",
-            render: ({ phone }) => <RenderIconRow value={phone} isPhone />,
-          },
-          {
-            title: "Role",
-            field: "roleId",
-            emptyValue: "Not Provided",
-            render: (item) => <RoleComponent roleId={item?.roleId} />,
-            editable: "never",
+            render: ({ email }) => <CopyClipboard value={email} />,
           },
           {
             title: "Employee ID",
             field: "employeeID",
             emptyValue: "Not Provided",
             render: ({ employeeID }) => (
-              <RenderIconRow value={employeeID} isId />
+              <div className="font-semibold">
+                <CopyClipboard value={employeeID} />
+              </div>
             ),
             editable: "never",
           },
+          {
+            title: "Role",
+            field: "role",
+            emptyValue: "Not Provided",
+            render: ({ role }) => {
+              return (
+                <span className="text-sm text-gray-500">{role?.name}</span>
+              );
+            },
+            editable: "never",
+          },
+
           {
             title: "UNBLOCK/BLOCK",
             field: "isBlocked",
@@ -108,12 +110,12 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
             render: (data) => clock(data.updatedAt).fromNow(),
             editable: "never",
           },
-          {
-            title: "Office Access",
-            field: "isOfficeAccessGranted",
-            lookup: { true: "Granted", false: "Not Granted" },
-            // editable: "never",
-          },
+          // {
+          //   title: "Office Access",
+          //   field: "isOfficeAccessGranted",
+          //   lookup: { true: "Granted", false: "Not Granted" },
+          //   // editable: "never",
+          // },
           {
             title: "Created",
             field: "createdAt",
@@ -137,23 +139,23 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
             mutate();
             return;
           },
-          onRowUpdate: async (newData: any) => {
-            const res = await change(`users/${newData?.id}`, {
-              method: "PATCH",
-              body: {
-                isOfficeAccessGranted:
-                  newData?.isOfficeAccessGranted === "true" ? true : false,
-              },
-            });
-            console.log(res);
-            mutate();
-            if (res?.status !== 200) {
-              Swal.fire(`Error`, "Something went wrong!", "error");
-              return;
-            }
-            Swal.fire(`Success`, "Updated Successfully!", "success");
-            return;
-          },
+          // onRowUpdate: async (newData: any) => {
+          //   const res = await change(`users/${newData?.id}`, {
+          //     method: "PATCH",
+          //     body: {
+          //       isOfficeAccessGranted:
+          //         newData?.isOfficeAccessGranted === "true" ? true : false,
+          //     },
+          //   });
+          //   console.log(res);
+          //   mutate();
+          //   if (res?.status !== 200) {
+          //     Swal.fire(`Error`, "Something went wrong!", "error");
+          //     return;
+          //   }
+          //   Swal.fire(`Success`, "Updated Successfully!", "success");
+          //   return;
+          // },
         }}
       />
     </section>
