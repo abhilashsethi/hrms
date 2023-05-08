@@ -1,8 +1,9 @@
-import { Add, Search, Upload } from "@mui/icons-material";
+import { Add, FilterListRounded, Upload } from "@mui/icons-material";
 import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
+  FiltersContainer,
   GridAndList,
   Loader,
   LoaderAnime,
@@ -20,11 +21,9 @@ const AllEmployees = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [userName, setUsername] = useState<string | null>(null);
   const [isRole, setIsRole] = useState<string | null>(null);
+  const [isDepartment, setIsDepartment] = useState<string | null>(null);
   const [isUpload, setIsUpload] = useState(false);
   const [empId, setEmpId] = useState("");
-  const handleChange = (event: any) => {
-    setIsRole(event.target.value);
-  };
   const { data: roleData } = useFetch<any>(`roles`);
   const {
     data: employees,
@@ -95,44 +94,50 @@ const AllEmployees = () => {
             </Button>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <TextField
-            fullWidth
-            size="small"
-            id="employeeId"
-            placeholder="Employee Id"
-            onChange={(e) => setEmpId(e.target.value)}
-            name="employeeId"
-          />
-          <TextField
-            fullWidth
-            size="small"
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Employee Name"
-          />
-          <TextField
-            fullWidth
-            select
-            label="Select Role"
-            size="small"
-            value={isRole}
-            onChange={handleChange}
-          >
-            {roleData?.roles?.map((option: any) => (
-              <MenuItem key={option.id} value={option.name}>
-                {option.name}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Button
-            fullWidth
-            startIcon={<Search />}
-            variant="contained"
-            className="!bg-theme"
-          >
-            Search
-          </Button>
-        </div>
+        <FiltersContainer>
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Employee Id"
+              onChange={(e) => setEmpId(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              size="small"
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Employee Name"
+            />
+            <TextField
+              fullWidth
+              select
+              label="Select Role"
+              size="small"
+              value={isRole ? isRole : ""}
+              onChange={(e) => setIsRole(e?.target?.value)}
+            >
+              {roleData?.roles?.map((option: any) => (
+                <MenuItem key={option.id} value={option.name}>
+                  {option.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              fullWidth
+              select
+              label="Select Department"
+              size="small"
+              value={isDepartment ? isDepartment : ""}
+              onChange={(e) => setIsDepartment(e.target.value)}
+            >
+              {roleData?.roles?.map((option: any) => (
+                <MenuItem key={option.id} value={option.name}>
+                  {option.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
+        </FiltersContainer>
 
         <section>
           {isGrid ? (
