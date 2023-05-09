@@ -23,24 +23,29 @@ const ProjectURLS = ({ open, onClose }: Props) => {
           <div>
             <h4 className="font-semibold">Project Name : </h4>
             <h4 className="text-theme font-semibold tracking-wide">
-              Trualty Ventures{" "}
+              Trualty Ventures
             </h4>
             <h4 className="font-semibold mt-4 underline">Project URLs : </h4>
-            <div className="mt-4">
-              <div className="border-2 p-2">
-                <div className="flex items-center gap-2">
-                  <span>1.</span>
-                  <span className="font-semibold">Dev URL</span>
+            <div className="mt-4 flex flex-col gap-4">
+              {urls?.map((item, i) => (
+                <div
+                  key={item?.id}
+                  className="p-2 rounded-md shadow-jubilation border-b-2 border-theme"
+                >
+                  <div className="flex items-center gap-2">
+                    <span>{Number(i) + 1}.</span>
+                    <span className="font-semibold">{item?.title}</span>
+                  </div>
+                  <div className="flex gap-2 items-center mt-3">
+                    <span className="custom-button bg-green-500">
+                      <Visibility fontSize="small" /> CLICK TO VIEW
+                    </span>
+                    <span className="custom-button bg-slate-800">
+                      <ContentCopy fontSize="small" /> COPY LINK
+                    </span>
+                  </div>
                 </div>
-                <div className="flex gap-2 items-center mt-3">
-                  <span className="px-3 py-1 rounded-sm flex gap-2 items-center bg-green-500 shadow-md text-xs tracking-wide font-semibold text-white">
-                    <Visibility fontSize="small" /> CLICK TO VIEW
-                  </span>
-                  <span className="px-3 py-1 rounded-sm flex gap-2 items-center bg-slate-800 shadow-md text-xs tracking-wide font-semibold text-white">
-                    <ContentCopy fontSize="small" /> COPY LINK
-                  </span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </Container>
