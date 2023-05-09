@@ -182,16 +182,16 @@ const GuestDetails = () => {
 								</div>
 							</div>
 							<div className="w-64 py-4 text-sm shadow-xl rounded-lg flex flex-col justify-center items-center">
-								<p className="font-bold text-lg pb-4">Richard Miles</p>
+								<p className="font-bold text-lg pb-4">John Doe</p>
 								<p className="font-semibold text-gray-700">
 									Email :{" "}
 									<span className="font-medium text-gray-500">
-										test@email.com
+										test@gmail.com
 									</span>
 								</p>
 								<p className="font-semibold text-gray-700">
 									Phone :{" "}
-									<span className="font-medium text-gray-500">7485961425</span>
+									<span className="font-medium text-gray-500">9988654325</span>
 								</p>
 								<p className="font-semibold text-gray-700">
 									Gender :{" "}
