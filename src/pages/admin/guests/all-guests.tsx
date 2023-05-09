@@ -33,7 +33,7 @@ const AllGuests = () => {
 			phone: "9988654325",
 			gender: "Male",
 			visitInfo: "Meeting",
-			company: "abc",
+			company: "SearchingYard",
 			designation: "CEO",
 			createdAt: new Date().toDateString(),
 		},

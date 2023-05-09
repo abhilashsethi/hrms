@@ -1,0 +1,12 @@
+export { default as Attendance } from "./Attendance.svg";
+export { default as Card } from "./Card.svg";
+export { default as Dashboard } from "./Dashboard.svg";
+export { default as Departments } from "./Departments.svg";
+export { default as Employees_1 } from "./Employees_1.svg";
+export { default as Employees } from "./Employees.svg";
+export { default as Guest } from "./Guest.svg";
+export { default as Leaves } from "./Leaves.svg";
+export { default as Meeting } from "./Meeting.svg";
+export { default as Projects } from "./Projects.svg";
+export { default as Roles } from "./Roles.svg";
+export { default as Setting } from "./Setting.svg";
