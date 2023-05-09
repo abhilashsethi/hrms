@@ -20,6 +20,7 @@ import {
 	ElevatorRounded,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
+import ICONS from "assets/icons";
 export default () => {
 	const { user } = useAuth();
 	if (user?.role?.name === "CEO")
@@ -27,7 +28,7 @@ export default () => {
 			{
 				key: "1",
 				title: "Dashboard",
-				icon: <DashboardRounded />,
+				icon: <ICONS.Dashboard_1 />,
 				route: "/admin",
 			},
 			{
