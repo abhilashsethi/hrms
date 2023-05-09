@@ -12,9 +12,9 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { RenderIconRow } from "components/common";
-import { CopyClipboard, IOSSwitch, PhotoViewer } from "components/core";
+import { CopyClipboard, PhotoViewer } from "components/core";
 import { useChange } from "hooks";
+import moment from "moment";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
@@ -24,14 +24,14 @@ interface ARRAY {
   id?: string;
 }
 interface Props {
-  data?: ARRAY[];
+  data?: any;
   mutate?: any;
 }
 const GuestsGrid = ({ data, mutate }: Props) => {
   return (
     <section className="my-8">
       <Grid container spacing={3}>
-        {data?.map((item) => (
+        {data?.map((item: any) => (
           <Grid key={item?.id} item lg={3}>
             <CardContent item={item} mutate={mutate} />
           </Grid>
@@ -204,24 +204,13 @@ const CardContent = ({ item, mutate }: any) => {
       <span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
         {item?.name}
       </span>
-      <span className="font-medium tracking-wide text-gray-400 text-sm">
-        {item?.role?.name}
-      </span>
-      <div className=" text-base font-semibold tracking-wide text-gray-600 pl-4">
-        <RenderIconRow value={item?.email} isEmail />
-      </div>
       <div className="flex gap-2 items-center font-semibold text-sm pl-4">
-        EMP ID :
-        <CopyClipboard value={item?.employeeID} />
+        GUEST ID :
+        <CopyClipboard value={item?.guestId} />
       </div>
-      <div className="w-full px-8 flex gap-2 mt-2 justify-center">
-        <div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
-          <p className="font-semibold tracking-wide text-sm">STATUS</p>
-          <IOSSwitch
-            checked={item?.isBlocked}
-            onChange={(e) => handleBlock(e, item?.id)}
-          />
-        </div>
+      <div className="flex gap-2 items-center text-sm">
+        <p>Valid From :</p>
+        <p>{moment(new Date().toISOString()).format("lll")}</p>
       </div>
     </div>
   );

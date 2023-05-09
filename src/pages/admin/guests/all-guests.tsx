@@ -4,14 +4,26 @@ import {
   AdminBreadcrumbs,
   FiltersContainer,
   GridAndList,
+  GuestsGrid,
   HeadText,
+  Loader,
+  SkeletonLoader,
 } from "components/core";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
+import { User } from "types";
 
 const AllGuests = () => {
   const [isGrid, setIsGrid] = useState(true);
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const {
+    data: employees,
+    mutate,
+    isLoading,
+    pagination,
+  } = useFetch<User[]>(`users?page=${pageNumber}&limit=8`);
   return (
     <PanelLayout title="All Guests - Admin Panel">
       <section className="px-8 py-4">
@@ -39,6 +51,14 @@ const AllGuests = () => {
             </div>
           </FiltersContainer>
         </div>
+        {isGrid ? (
+          <>
+            {isLoading && <SkeletonLoader />}
+            <GuestsGrid data={cards} mutate={mutate} />
+          </>
+        ) : (
+          "List View"
+        )}
       </section>
     </PanelLayout>
   );
@@ -50,3 +70,5 @@ const links = [
   { id: 1, page: "Guests", link: "/admin/guests" },
   { id: 2, page: "All Guests", link: "/admin/guests/all-guests" },
 ];
+
+const cards = [{ id: 1, name: "John Doe", guestId: "SY1006" }];
