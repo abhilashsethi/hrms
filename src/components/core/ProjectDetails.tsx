@@ -2,7 +2,6 @@ import {
   Apartment,
   Edit,
   Event,
-  FileDownload,
   Forum,
   Google,
   InsertDriveFileRounded,
@@ -17,11 +16,11 @@ import {
   Tooltip,
 } from "@mui/material";
 import React from "react";
-import moment from "moment";
 import {
   ClientDetails,
   ProjectDescription,
   ProjectTabs,
+  TechnologyUsed,
 } from "components/project";
 import { DEFAULTPROFILE } from "assets/home";
 
@@ -66,7 +65,7 @@ const ProjectDetails = () => {
               <Chip label="Progress" color="warning" size="small" />
             </div>
             <div className="flex gap-4 w-full">
-              <div className="flex flex-col gap-2 mt-4 w-2/3">
+              <div className="flex flex-col gap-3 mt-4 w-2/3">
                 {data?.map((item) => (
                   <div
                     key={item?.id}
@@ -128,6 +127,7 @@ const ProjectDetails = () => {
           <div className="w-full">
             <ProjectDescription />
             <ClientDetails />
+            <TechnologyUsed />
           </div>
         </Grid>
       </Grid>

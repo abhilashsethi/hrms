@@ -4,7 +4,6 @@ import {
   Event,
   MoreVertRounded,
   TaskAlt,
-  Visibility,
 } from "@mui/icons-material";
 import {
   Avatar,
