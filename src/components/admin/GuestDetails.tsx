@@ -169,7 +169,7 @@ const GuestDetails = () => {
 					alignItems={"center"}
 					justifyContent={"center"}
 					container
-					spacing={2}
+					spacing={4}
 				>
 					<Grid item lg={5}>
 						<div className="w-full h-full rounded-lg bg-white shadow-xl py-4 flex flex-col justify-center items-center">
