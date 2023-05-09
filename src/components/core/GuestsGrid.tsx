@@ -176,7 +176,7 @@ const CardContent = ({ item, mutate }: any) => {
 					transformOrigin={{ horizontal: "right", vertical: "top" }}
 					anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 				>
-					<Link href={`/admin/employees/employee-profile?id=${item?.id}`}>
+					<Link href={`/admin/guests/guest-profile?id=${item?.id}`}>
 						<MenuItem onClick={handleClose}>
 							<ListItemIcon>
 								<InfoRounded fontSize="small" />
