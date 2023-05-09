@@ -1,7 +1,7 @@
 import { Add, Search } from "@mui/icons-material";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { Projects } from "components/Profile";
-import { AdminBreadcrumbs, Loader } from "components/core";
+import { AdminBreadcrumbs } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
