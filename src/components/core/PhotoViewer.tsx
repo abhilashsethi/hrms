@@ -6,7 +6,11 @@ interface Props {
   size?: string;
 }
 
-const PhotoViewer = ({ photo, name, size = "4rem" }: Props) => {
+const PhotoViewer = ({
+  photo,
+  name = "Searchingyard",
+  size = "4rem",
+}: Props) => {
   return (
     <div
       style={{ height: `${size}`, width: `${size}` }}

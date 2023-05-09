@@ -1,5 +1,4 @@
 import {
-  AddCircle,
   DeleteRounded,
   EditRounded,
   Event,
@@ -19,7 +18,7 @@ import {
 import { AWS, CSS, JAVASCRIPT, NEXTJS, REACT } from "assets/svgicons";
 import { Loader } from "components/core";
 import { ProjectAddLink, ProjectUpdate } from "components/dialogues";
-import { ProjectURLS } from "components/drawer";
+import { ProjectMembers, ProjectURLS } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { MouseEvent, useEffect, useState } from "react";
@@ -28,6 +27,9 @@ import { Projects } from "types";
 
 const Projects = () => {
   const [isURL, setIsURL] = useState(false);
+  const [isMembers, setIsMembers] = useState<{ dialogue?: boolean }>({
+    dialogue: false,
+  });
   const { change } = useChange();
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
@@ -44,9 +46,16 @@ const Projects = () => {
   return (
     <>
       <ProjectURLS open={isURL} onClose={() => setIsURL(false)} />
+      <ProjectMembers
+        open={isMembers?.dialogue}
+        onClose={() => setIsMembers({ dialogue: false })}
+      />
       <div className="grid gap-6 lg:grid-cols-3 pb-8">
         {projectData?.map((item: any) => (
-          <div className="relative bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide border-b-[3px] border-theme shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+          <div
+            key={item?.id}
+            className="relative bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide border-b-[3px] border-theme shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]"
+          >
             <div className="absolute right-[10px] top-[10px]">
               <MoreOption item={item} mutate={mutate} />
             </div>
@@ -97,7 +106,10 @@ const Projects = () => {
               <div className="py-2 text-md ">
                 <div className="flex gap-6 items-center">
                   <span className="text-sm font-semibold">Team :</span>
-                  <span className="w-20 py-1 flex justify-center cursor-pointer gap-2 items-center hover:bg-gradient-to-l transition-all ease-in-out duration-200 rounded-sm bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 shadow-md text-xs tracking-wide font-semibold text-white">
+                  <span
+                    onClick={() => setIsMembers({ dialogue: true })}
+                    className="w-20 py-1 flex justify-center cursor-pointer gap-2 items-center hover:bg-gradient-to-l transition-all ease-in-out duration-200 rounded-sm bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 shadow-md text-xs tracking-wide font-semibold text-white"
+                  >
                     <Visibility fontSize="small" /> View
                   </span>
                 </div>
@@ -272,13 +284,7 @@ const MoreOption = ({ item, mutate }: Props) => {
           <ListItemIcon>
             <EditRounded fontSize="small" />
           </ListItemIcon>
-          Edit
-        </MenuItem>
-        <MenuItem onClick={() => setIsAdd({ dialogue: true, id: item?.id })}>
-          <ListItemIcon>
-            <AddCircle fontSize="small" />
-          </ListItemIcon>
-          Add use full link
+          Details
         </MenuItem>
         <MenuItem onClick={() => handleDelete(item?.id)}>
           <ListItemIcon>
