@@ -21,6 +21,7 @@ import { ProjectAddLink, ProjectUpdate } from "components/dialogues";
 import { ProjectMembers, ProjectURLS } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
+import Link from "next/link";
 import { MouseEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Projects } from "types";
@@ -106,18 +107,34 @@ const Projects = () => {
               <div className="py-2 text-md ">
                 <div className="flex gap-6 items-center">
                   <span className="text-sm font-semibold">Team :</span>
-                  <span
-                    onClick={() => setIsMembers({ dialogue: true })}
-                    className="w-20 py-1 flex justify-center cursor-pointer gap-2 items-center hover:bg-gradient-to-l transition-all ease-in-out duration-200 rounded-sm bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 shadow-md text-xs tracking-wide font-semibold text-white"
-                  >
-                    <Visibility fontSize="small" /> View
-                  </span>
                 </div>
                 <div className="flex gap-2 group items-center pt-2">
-                  <Avatar
-                    alt={item?.Manager?.name}
-                    src={item?.Manager?.photo || " "}
-                  />
+                  <AvatarGroup
+                    className="!cursor-pointer"
+                    onClick={() => setIsMembers({ dialogue: true })}
+                    max={4}
+                  >
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={item?.Manager?.photo || " "}
+                    />
+                    <Avatar
+                      alt="Travis Howard"
+                      src={item?.Manager?.photo || " "}
+                    />
+                    <Avatar
+                      alt="Cindy Baker"
+                      src={item?.Manager?.photo || " "}
+                    />
+                    <Avatar
+                      alt="Cindy Baker"
+                      src={item?.Manager?.photo || " "}
+                    />
+                    <Avatar
+                      alt="Cindy Baker"
+                      src={item?.Manager?.photo || " "}
+                    />
+                  </AvatarGroup>
                   <span>{item?.Manager?.name}</span>
                 </div>
               </div>
@@ -280,12 +297,14 @@ const MoreOption = ({ item, mutate }: Props) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => setIsUpdate({ dialogue: true, id: item?.id })}>
-          <ListItemIcon>
-            <EditRounded fontSize="small" />
-          </ListItemIcon>
-          Details
-        </MenuItem>
+        <Link href="/admin/projects/project-details">
+          <MenuItem>
+            <ListItemIcon>
+              <EditRounded fontSize="small" />
+            </ListItemIcon>
+            Details
+          </MenuItem>
+        </Link>
         <MenuItem onClick={() => handleDelete(item?.id)}>
           <ListItemIcon>
             <DeleteRounded fontSize="small" />

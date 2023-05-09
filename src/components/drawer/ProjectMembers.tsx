@@ -29,7 +29,7 @@ const ProjectMembers = ({ open, onClose }: Props) => {
             <h4 className="font-semibold mt-4">Team Manager : </h4>
             <div className="h-32 w-32 mt-3 rounded-md flex flex-col gap-2 items-center justify-center shadow-jubilation">
               <PhotoViewer />
-              <h3 className="text-sm font-semibold">John Doe</h3>
+              <h3 className="text-sm font-semibold">Srinu Reddy</h3>
             </div>
             <h4 className="font-semibold mt-4">Team Members : </h4>
             <EmployeesListDrawer data={reqData} />
@@ -43,6 +43,6 @@ const ProjectMembers = ({ open, onClose }: Props) => {
 export default ProjectMembers;
 
 const reqData = [
-  { id: 1, name: "John Doe", email: "john@sy.com" },
-  { id: 2, name: "Kiara", email: "kiara@sy.com" },
+  { id: 1, name: "Abhilash Sethi", email: "abhilash@sy.com" },
+  { id: 2, name: "Sunil Mishra", email: "sunil@sy.com" },
 ];
