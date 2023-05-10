@@ -3,6 +3,7 @@ import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { EmployProjects } from "components/admin";
 import { ClientMeetings } from "components/admin/clients";
+import { GuestRoomAccess } from "components/admin/guest";
 import { RenderIconRow } from "components/common";
 import { HeadText, Loader } from "components/core";
 import {
@@ -262,7 +263,7 @@ const GuestProfile = () => {
             <Grid item lg={4}>
               <div className="w-full h-full">
                 <ClientMeetings />
-                <EmployProjects />
+                <GuestRoomAccess />
                 {/* <EmployLeaves /> */}
               </div>
             </Grid>
