@@ -1,5 +1,7 @@
-import { Add, Person } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Add, InsertDriveFile, Person } from "@mui/icons-material";
+import { Avatar, Button, IconButton, Tooltip } from "@mui/material";
+import { DEFAULTIMG, DEFAULTPROFILE } from "assets/home";
+import { PhotoViewer } from "components/core";
 
 const ProjectBugs = () => {
   return (
@@ -15,19 +17,36 @@ const ProjectBugs = () => {
             ADD NEW
           </Button>
         </div>
-        <div className="w-[40%] h-8 border-2 flex justify-between px-4">
+        <div className="w-[40%] h-8 flex justify-between px-4 text-sm tracking-wide items-center text-slate-600">
           <span>STATUS</span>
           <span>DOCS</span>
           <span>
-            <Person fontSize="small" />
+            <Tooltip title="Inspector">
+              <Person fontSize="small" />
+            </Tooltip>
           </span>
         </div>
       </div>
-      <div className="h-40 w-full border-2 rounded-md">
-        <h1>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum,
-          corrupti!
-        </h1>
+      <div className=" w-full border-b-2 rounded-md py-3 flex items-start">
+        <div className="w-[57%] pr-3">
+          <h1 className="text-sm">
+            1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum,
+            corrupti!
+          </h1>
+        </div>
+        <div className="w-[43%] h-8 flex justify-between px-4 text-sm tracking-wide items-center text-slate-600">
+          <span
+            className={`text-xs font-medium px-3 py-1 h-6 rounded-full text-white bg-green-400`}
+          >
+            COMPLETED
+          </span>
+          <span>
+            <IconButton size="small">
+              <InsertDriveFile />
+            </IconButton>
+          </span>
+          <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
+        </div>
       </div>
     </section>
   );
