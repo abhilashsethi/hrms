@@ -23,13 +23,20 @@ import {
   TechnologyUsed,
 } from "components/project";
 import { DEFAULTPROFILE } from "assets/home";
+import { ProjectURLS } from "components/drawer";
+import { useState } from "react";
 
 const ProjectDetails = () => {
+  const [isURL, setIsURL] = useState(false);
+  const handleURL = () => {
+    setIsURL(true);
+  };
   const shortCuts: shortCutTypes[] = [
     {
       id: 1,
       icon: <LinkRounded />,
       title: "Project URLs",
+      onClick: () => handleURL(),
     },
     {
       id: 2,
@@ -44,6 +51,7 @@ const ProjectDetails = () => {
   ];
   return (
     <div className="mt-2">
+      <ProjectURLS open={isURL} onClose={() => setIsURL(false)} />
       <Grid container spacing={2}>
         <Grid item lg={8}>
           <div className="w-full bg-white rounded-md shadow-jubilation p-6">

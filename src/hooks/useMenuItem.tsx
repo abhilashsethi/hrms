@@ -103,7 +103,7 @@ export default () => {
 			{
 				key: "13",
 				title: "Guests",
-				icon: <ElevatorRounded />,
+				icon: <ICONS.Guest />,
 				submenus: [
 					{
 						key: "13-1",
@@ -122,7 +122,7 @@ export default () => {
 			{
 				key: "5",
 				title: "Attendance",
-				icon: <PlaylistAddCheckCircleRounded />,
+				icon: <ICONS.Attendance />,
 				submenus: [
 					{
 						key: "5-1",
@@ -141,7 +141,7 @@ export default () => {
 			{
 				key: "9",
 				title: "Leaves",
-				icon: <ExitToApp />,
+				icon: <ICONS.Leaves />,
 				submenus: [
 					{
 						key: "9-1",
@@ -166,7 +166,7 @@ export default () => {
 			{
 				key: "6",
 				title: "Meetings",
-				icon: <Groups />,
+				icon: <ICONS.Meeting />,
 				submenus: [
 					{
 						key: "6-1",
@@ -185,7 +185,7 @@ export default () => {
 			{
 				key: "7",
 				title: "Projects",
-				icon: <DesignServicesRounded />,
+				icon: <ICONS.Projects />,
 				submenus: [
 					{
 						key: "7-1",
@@ -210,7 +210,7 @@ export default () => {
 			{
 				key: "8",
 				title: "Roles",
-				icon: <ManageAccountsRounded />,
+				icon: <ICONS.Role />,
 				submenus: [
 					{
 						key: "8-1",
@@ -229,7 +229,7 @@ export default () => {
 			{
 				key: "10",
 				title: "Departments",
-				icon: <Apartment />,
+				icon: <ICONS.Departments />,
 				submenus: [
 					{
 						key: "10-1",
