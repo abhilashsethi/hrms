@@ -1,15 +1,15 @@
 import { Add } from "@mui/icons-material";
 import { Button, Grid, TextField } from "@mui/material";
-import { GuestColumn } from "components/admin";
+import { GuestColumn } from "components/admin/guest";
 import {
   AdminBreadcrumbs,
   FiltersContainer,
   GridAndList,
-  GuestsGrid,
   HeadText,
   Loader,
   SkeletonLoader,
 } from "components/core";
+import GuestsGrid from "components/core/GuestsGrid";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";

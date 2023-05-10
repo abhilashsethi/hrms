@@ -28,4 +28,3 @@ export { default as AllDepartmentGrid } from "./AllDepartmentGrid";
 export { default as AllDepartmentColumn } from "./AllDepartmentColumn";
 export { default as DepartmentDashboard } from "./DepartmentDashboard";
 export { default as AllLeaveRequests } from "./AllLeaveRequests";
-export { default as GuestColumn } from "./GuestColumn";
