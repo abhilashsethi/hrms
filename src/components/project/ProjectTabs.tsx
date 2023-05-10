@@ -2,12 +2,13 @@ import React from "react";
 import {
   AssignmentTurnedIn,
   BugReport,
-  Edit,
-  Favorite,
   SupportAgent,
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Button, Chip, Grid, Tab } from "@mui/material";
+import { Box, Tab } from "@mui/material";
+import ProjectTasks from "./ProjectTasks";
+import ProjectSupport from "./ProjectSupport";
+import ProjectBugs from "./ProjectBugs";
 
 const ProjectTabs = () => {
   const [value, setValue] = React.useState("1");
@@ -45,16 +46,14 @@ const ProjectTabs = () => {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-              nulla dolore possimus debitis nihil voluptatibus repudiandae,
-              reprehenderit odio alias numquam, eaque veniam beatae? Adipisci
-              molestias sed aliquid illo eum molestiae. Ea, voluptate tempore.
-              Facere vero quaerat blanditiis, repellat fugit delectus.
-            </div>
+            <ProjectTasks />
           </TabPanel>
-          <TabPanel value="2">Item Two</TabPanel>
-          <TabPanel value="3">Item Three</TabPanel>
+          <TabPanel value="2">
+            <ProjectSupport />
+          </TabPanel>
+          <TabPanel value="3">
+            <ProjectBugs />
+          </TabPanel>
         </TabContext>
       </Box>
     </div>

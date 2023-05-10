@@ -23,7 +23,7 @@ const ProjectURLS = ({ open, onClose }: Props) => {
           <div>
             <h4 className="font-semibold">Project Name : </h4>
             <h4 className="text-theme font-semibold tracking-wide">
-              Trualty Ventures
+              HRMS - Searchingyard
             </h4>
             <h4 className="font-semibold mt-4 underline">Project URLs : </h4>
             <div className="mt-4 flex flex-col gap-4">

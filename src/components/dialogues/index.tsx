@@ -10,3 +10,5 @@ export { default as ProjectUpdate } from "./ProjectUpdate";
 export { default as UpdateDepartment } from "./UpdateDepartment";
 export { default as CreateDepartment } from "./CreateDepartment";
 export { default as ProjectAddLink } from "./ProjectAddLink";
+export { default as UpdateGuestBasicDetails } from "./UpdateGuestBasicDetails";
+export { default as GuestPersonalInformation } from "./GuestPersonalInformation";
