@@ -1,6 +1,7 @@
 import {
 	Edit,
 	HelpCenter,
+	Receipt,
 	SendRounded,
 	Support,
 	SupportAgent,
@@ -238,7 +239,7 @@ const ClientDetails = () => {
 											className="w-32 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
 										>
 											<span className="p-2 bg-white shadow-lg rounded-md group-hover:rotate-[-12deg] transition-all ease-in-out duration-200">
-												<HelpCenter />
+												<Receipt />
 											</span>
 											<p className="text-xs text-center font-semibold ">
 												View All Tickets

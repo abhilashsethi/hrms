@@ -1,4 +1,9 @@
-import { AccountTreeRounded, FreeBreakfast } from "@mui/icons-material";
+import {
+	AccountTreeRounded,
+	FreeBreakfast,
+	Receipt,
+	SupportAgent,
+} from "@mui/icons-material";
 import {
 	Avatar,
 	Card,
@@ -11,6 +16,7 @@ import {
 import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
 import { Loader } from "components/core";
 import { useChange, useFetch } from "hooks";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
@@ -121,7 +127,7 @@ const ViewTicketsDrawer = ({ open, onClose, setViewTickets }: Props) => {
 					{/* Drawer Element */}
 
 					<div className="flex items-center justify-between pb-4">
-						<p className="text-lg font-bold text-theme">View Projects</p>
+						<p className="text-lg font-bold text-theme">View All TIckets</p>
 					</div>
 
 					{isLoading && <Loader />}
@@ -144,61 +150,57 @@ const ViewTicketsDrawer = ({ open, onClose, setViewTickets }: Props) => {
 												variant="rounded"
 												className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
 											>
-												<FreeBreakfast
+												<SupportAgent
 													sx={{ padding: "0px !important" }}
 													fontSize="large"
 												/>
 											</Avatar>
 										</div>
-										<div className="flex justify-end w-full">
+										{/* <div className="flex justify-end w-full">
 											<p className="border border-green-500 p-1 rounded-full text-xs font-semibold text-white bg-green-500 hover:scale-105 transition duration-300 ease-in-out cursor-pointer">
 												Progress
 											</p>
-										</div>
-										<div className=" text-center">
+										</div> */}
+										{/* <div className=" text-center">
 											<h1 className="text-lg font-bold inline-block">
 												{item?.title}
 											</h1>{" "}
-										</div>
-										<div className="mt-4">
-											<h1 className="text-md font-bold">Team Lead</h1>{" "}
+										</div> */}
+										<div className="mt-7">
+											{/* <h1 className="text-md font-bold">Team Lead</h1>{" "} */}
 											<div className="flex w-full justify-between items-center gap-5">
 												<img
-													className="h-20 w-20 bg-slate-400 rounded-full shadow-xl"
-													src={"/manager.png"}
+													className="h-20 w-20 "
+													src={"/support-ticket.png"}
 													alt=""
 												/>
 												<div className="">
 													<p className="font-semibold">
-														Name :{" "}
+														Title :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{item?.name}
+															{/* {item?.name} */}
 														</span>
 													</p>
 													<p className="font-semibold">
-														Start Date :{" "}
+														Issue Date :{" "}
 														<span className="font-semibold text-sm text-gray-500">
 															{item?.startDate}
 														</span>
 													</p>
-													<p className="font-semibold">
-														End Date :{" "}
-														<span className="font-semibold text-sm text-gray-500">
-															{item?.endDate}
-														</span>
-													</p>
 												</div>
-												<Tooltip title="Project Details">
-													<div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
-														<span className="p-2 bg-white shadow-lg rounded-md transition-all ease-in-out duration-200">
-															<span>
-																<AccountTreeRounded />{" "}
+												<Tooltip title="Details">
+													<Link href={"/admin/clients/view-ticket-details"}>
+														<div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
+															<span className="p-2 bg-white shadow-lg rounded-md transition-all ease-in-out duration-200">
+																<span>
+																	<Receipt />{" "}
+																</span>
 															</span>
-														</span>
-														<p className="text-xs text-center font-semibold ">
-															Details
-														</p>
-													</div>
+															<p className="text-xs text-center font-semibold ">
+																Details
+															</p>
+														</div>
+													</Link>
 												</Tooltip>
 											</div>
 										</div>
