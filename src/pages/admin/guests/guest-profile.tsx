@@ -1,13 +1,10 @@
 import { Edit, SendRounded } from "@mui/icons-material";
 import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
-import { EmployProjects } from "components/admin";
-import { ClientMeetings } from "components/admin/clients";
-import { GuestRoomAccess } from "components/admin/guest";
+import { GuestMeetings, GuestRoomAccess } from "components/admin/guest";
 import { RenderIconRow } from "components/common";
 import { HeadText, Loader } from "components/core";
 import {
-  BankInformationUpdate,
   ChangeProfile,
   PersonalInformations,
   UpdateProfileHead,
@@ -103,7 +100,11 @@ const GuestProfile = () => {
     },
   ];
   if (isLoading) {
-    return <Loader />;
+    return (
+      <PanelLayout title="Guest Profile - Admin Panel">
+        <Loader />
+      </PanelLayout>
+    );
   }
   return (
     <PanelLayout title="Guest Profile - Admin Panel">
@@ -249,7 +250,7 @@ const GuestProfile = () => {
             </Grid>
             <Grid item lg={4}>
               <div className="w-full h-full">
-                <ClientMeetings />
+                <GuestMeetings />
                 <GuestRoomAccess />
                 {/* <EmployLeaves /> */}
               </div>
