@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import { Button, IconButton, MenuItem, TextField } from "@mui/material";
 import { ClientsGrid, EmployeesColumn } from "components/admin";
+import TicketDetails from "components/admin/clients/TicketDetails";
 import { AdminBreadcrumbs } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import PanelLayout from "layouts/panel";
@@ -26,6 +27,7 @@ const ViewTicketDetails = () => {
 				<section className="px-8">
 					<div className="pb-4">
 						<AdminBreadcrumbs links={links} />
+						<TicketDetails />
 					</div>
 				</section>
 			</PanelLayout>

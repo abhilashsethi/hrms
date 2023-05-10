@@ -63,6 +63,13 @@ const Projects_Details = [
 		startDate: "25-04-2023",
 		endDate: "25-05-2023",
 	},
+	{
+		id: 4,
+		title: "Project Title",
+		name: "Shrinu Readdy",
+		startDate: "25-04-2023",
+		endDate: "25-05-2023",
+	},
 ];
 
 const ViewTicketsDrawer = ({ open, onClose, setViewTickets }: Props) => {
@@ -177,6 +184,9 @@ const ViewTicketsDrawer = ({ open, onClose, setViewTickets }: Props) => {
 												<div className="">
 													<p className="font-semibold">
 														Title :{" "}
+														<span className="text-base text-gray-600">
+															Server Issue
+														</span>
 														<span className="font-semibold text-sm text-gray-500">
 															{/* {item?.name} */}
 														</span>
