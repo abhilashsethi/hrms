@@ -20,6 +20,6 @@ export { default as SkeletonLoader } from "./SkeletonLoader";
 export { default as SkeletonLoaderLarge } from "./SkeletonLoaderLarge";
 export { default as PhotoViewer } from "./PhotoViewer";
 export { default as FiltersContainer } from "./FiltersContainer";
-export { default as GuestsGrid } from "./GuestsGrid";
 export { default as EmployeesListDrawer } from "./EmployeesListDrawer";
 export { default as ProjectDetails } from "./ProjectDetails";
+export { default as PhotoViewerGuests } from "./PhotoViewerGuests";
