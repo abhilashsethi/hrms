@@ -1,30 +1,12 @@
-import {
-	Edit,
-	HelpCenter,
-	Receipt,
-	SendRounded,
-	Support,
-	SupportAgent,
-} from "@mui/icons-material";
 import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
 import { HeadText, Loader, PhotoViewer } from "components/core";
-import {
-	BankInformationUpdate,
-	ChangeProfile,
-	PersonalInformations,
-	UpdateProfileHead,
-} from "components/dialogues";
 import { useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { User } from "types";
-import EmployProjects from "../EmployProjects";
-import ClientMeetings from "./ClientMeetings";
-import ClientProjects from "./ClientProjects";
-import { ViewTicketsDrawer } from "components/drawer";
 import ClientChats from "./ClientChats";
 
 const TicketDetails = () => {
