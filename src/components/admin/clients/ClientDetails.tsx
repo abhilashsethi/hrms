@@ -9,7 +9,7 @@ import {
 import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
-import { HeadText, Loader } from "components/core";
+import { HeadText, Loader, PhotoViewer } from "components/core";
 import {
 	BankInformationUpdate,
 	ChangeProfile,
@@ -183,7 +183,7 @@ const ClientDetails = () => {
 										</div>
 									</Grid>
 									<Grid item lg={3}>
-										<div className="w-full h-full flex justify-center items-center">
+										{/* <div className="w-full h-full flex justify-center items-center">
 											<div className="h-24 w-24 rounded-full border-[4px] border-white flex justify-center items-center text-3xl">
 												<div className="relative h-full w-full flex justify-center items-center group">
 													{employData?.photo && (
@@ -211,7 +211,13 @@ const ClientDetails = () => {
 													</div>
 												</div>
 											</div>
-										</div>
+										</div> */}
+										<PhotoViewer
+											photo={
+												"https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+											}
+											size="5.5rem"
+										/>
 									</Grid>
 								</Grid>
 								<div className="flex justify-between items-center pt-4">
