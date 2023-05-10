@@ -43,12 +43,12 @@ const GuestProfile = () => {
     },
     {
       id: 3,
-      title: "EmpId",
+      title: "GuestId",
       value: `${employData?.employeeID ? employData?.employeeID : "---"}`,
     },
     {
       id: 4,
-      title: "Date Of Joining",
+      title: "Valid From",
       value: `${
         employData?.joiningDate
           ? moment(employData?.joiningDate).format("ll")
@@ -57,35 +57,17 @@ const GuestProfile = () => {
     },
     {
       id: 5,
-      title: "Phone",
-      value: `${employData?.phone ? employData?.phone : "---"}`,
-    },
-    {
-      id: 6,
-      title: "Date Of Birth",
+      title: "Valid Till",
       value: `${
-        employData?.dob ? moment(employData?.dob).format("ll") : "---"
+        employData?.joiningDate
+          ? moment(employData?.joiningDate).format("ll")
+          : "---"
       }`,
     },
     {
-      id: 7,
-      title: "Address",
-      value: `${employData?.address ? employData?.address : "---"}`,
-    },
-    {
-      id: 8,
-      title: "Gender",
-      value: `${employData?.gender ? employData?.gender : "---"}`,
-    },
-    {
-      id: 9,
-      title: "Blood Group",
-      value: `${employData?.bloodGroup ? employData?.bloodGroup : "---"}`,
-    },
-    {
-      id: 9,
-      title: "Wallet",
-      value: `${employData?.wallet ? employData?.wallet : "---"}`,
+      id: 6,
+      title: "Phone",
+      value: `${employData?.phone ? employData?.phone : "---"}`,
     },
   ];
   const personalDetails = [
@@ -110,9 +92,14 @@ const GuestProfile = () => {
       value: `${employData?.linkedin ? employData?.linkedin : "---"}`,
     },
     {
-      id: 6,
-      title: "Github",
-      value: `${employData?.github ? employData?.github : "---"}`,
+      id: 7,
+      title: "Address",
+      value: `${employData?.address ? employData?.address : "---"}`,
+    },
+    {
+      id: 8,
+      title: "Gender",
+      value: `${employData?.gender ? employData?.gender : "---"}`,
     },
   ];
   if (isLoading) {

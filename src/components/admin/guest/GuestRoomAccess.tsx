@@ -1,6 +1,6 @@
 import { HeadText } from "components/core";
 import moment from "moment";
-import { AccountTreeRounded } from "@mui/icons-material";
+import { RoomPreferences } from "@mui/icons-material";
 
 const GuestRoomAccess = () => {
   return (
@@ -11,7 +11,7 @@ const GuestRoomAccess = () => {
           <div className="flex gap-1 py-3 border-b-[1px]">
             <div className="w-1/5 flex justify-center items-center">
               <div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
-                <AccountTreeRounded className="!text-secondary" />
+                <RoomPreferences className="!text-secondary" />
               </div>
             </div>
             <div className="w-4/5 h-12">
