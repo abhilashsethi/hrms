@@ -1,4 +1,10 @@
-import { Edit, SendRounded } from "@mui/icons-material";
+import {
+	Edit,
+	HelpCenter,
+	SendRounded,
+	Support,
+	SupportAgent,
+} from "@mui/icons-material";
 import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
@@ -16,6 +22,8 @@ import { useState } from "react";
 import { User } from "types";
 import EmployProjects from "../EmployProjects";
 import ClientMeetings from "./ClientMeetings";
+import ClientProjects from "./ClientProjects";
+import { ViewTicketsDrawer } from "components/drawer";
 
 const ClientDetails = () => {
 	const router = useRouter();
@@ -23,6 +31,8 @@ const ClientDetails = () => {
 	const [isProfile, setIsProfile] = useState(false);
 	const [isPersonal, setIsPersonal] = useState(false);
 	const [isBank, setIsBank] = useState(false);
+	const [tickets, setTickets] = useState(false);
+	const [viewTickets, setViewTickets] = useState<any>(null);
 	const {
 		data: employData,
 		mutate,
@@ -109,23 +119,7 @@ const ClientDetails = () => {
 			value: `${employData?.github ? employData?.github : "---"}`,
 		},
 	];
-	//   const bankDetails = [
-	//     {
-	//       id: 1,
-	//       title: "Bank Name",
-	//       value: `${employData?.bankName ? employData?.bankName : "---"}`,
-	//     },
-	//     {
-	//       id: 2,
-	//       title: "Bank Ac/No",
-	//       value: `${employData?.accountNo ? employData?.accountNo : "---"}`,
-	//     },
-	//     {
-	//       id: 3,
-	//       title: "IFSC Code",
-	//       value: `${employData?.IFSCCode ? employData?.IFSCCode : "---"}`,
-	//     },
-	//   ];
+
 	if (isLoading) {
 		return <Loader />;
 	}
@@ -150,6 +144,11 @@ const ClientDetails = () => {
 				mutate={mutate}
 				open={isBank}
 				handleClose={() => setIsBank(false)}
+			/>
+			<ViewTicketsDrawer
+				open={tickets}
+				onClose={() => setTickets(false)}
+				setViewTickets={setViewTickets}
 			/>
 			<section className="mb-12 flex gap-3">
 				<Grid container spacing={2}>
@@ -222,24 +221,27 @@ const ClientDetails = () => {
 									<p className="font-medium text-sm">
 										<span className="font-extrabold pr-2">2</span> ONGOING
 									</p> */}
-									<div className="flex justify-between gap-3 mb-7"></div>
-									<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer border border-gray-600 text-center w-1/2 py-5 rounded-md bg-slate-200 shadow-lg">
-										<p className={`text-xs  font-bold`}>PROJECTS COMPLETED</p>
-										<p className="text-md font-semibold">16</p>
+									<div className="w-1/2 flex justify-between gap-3 mb-7">
+										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer border border-gray-600 text-center w-1/2 py-5 rounded-md bg-slate-200 shadow-lg">
+											<p className={`text-xs  font-bold`}>PROJECTS COMPLETED</p>
+											<p className="text-md font-semibold">16</p>
+										</div>
+										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer border border-gray-600 text-center w-1/2 py-5 rounded-md bg-slate-200 shadow-lg">
+											<p className={`text-xs  font-bold`}>ONGOING PROJECTS</p>
+											<p className="text-md font-semibold">2</p>
+										</div>
 									</div>
-									<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer border border-gray-600 text-center w-1/2 py-5 rounded-md bg-slate-200 shadow-lg">
-										<p className={`text-xs  font-bold`}>ONGOING</p>
-										<p className="text-md font-semibold">2</p>
-									</div>
-									<div />
 
-									<Tooltip title="Send Message">
-										<div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
+									<Tooltip title="View All Tickets">
+										<div
+											onClick={() => setTickets(true)}
+											className="w-32 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
+										>
 											<span className="p-2 bg-white shadow-lg rounded-md group-hover:rotate-[-12deg] transition-all ease-in-out duration-200">
-												<SendRounded />
+												<HelpCenter />
 											</span>
 											<p className="text-xs text-center font-semibold ">
-												Send Message
+												View All Tickets
 											</p>
 										</div>
 									</Tooltip>
@@ -322,7 +324,7 @@ const ClientDetails = () => {
 					<Grid item lg={4}>
 						<div className="w-full h-full">
 							<ClientMeetings />
-							<EmployProjects />
+							<ClientProjects />
 							{/* <EmployLeaves /> */}
 						</div>
 					</Grid>

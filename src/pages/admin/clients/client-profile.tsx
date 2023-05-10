@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { ClientDetails } from "components/admin/clients";
 
-const EmployeeProfile = () => {
+const ClientProfile = () => {
 	const [activeMonth, setActiveMonth] = useState();
 	const router = useRouter();
 	const [attendances, setAttendances] = useState<any>([]);
@@ -71,7 +71,7 @@ const EmployeeProfile = () => {
 	);
 };
 
-export default EmployeeProfile;
+export default ClientProfile;
 const links = [
 	{ id: 1, page: "Clients", link: "/admin/clients" },
 	{
