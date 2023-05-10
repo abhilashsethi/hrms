@@ -1,12 +1,10 @@
 import { Edit, SendRounded } from "@mui/icons-material";
 import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
-import { EmployProjects } from "components/admin";
-import { ClientMeetings } from "components/admin/clients";
+import { GuestMeetings, GuestRoomAccess } from "components/admin/guest";
 import { RenderIconRow } from "components/common";
 import { HeadText, Loader } from "components/core";
 import {
-  BankInformationUpdate,
   ChangeProfile,
   PersonalInformations,
   UpdateProfileHead,
@@ -42,12 +40,12 @@ const GuestProfile = () => {
     },
     {
       id: 3,
-      title: "EmpId",
+      title: "GuestId",
       value: `${employData?.employeeID ? employData?.employeeID : "---"}`,
     },
     {
       id: 4,
-      title: "Date Of Joining",
+      title: "Valid From",
       value: `${
         employData?.joiningDate
           ? moment(employData?.joiningDate).format("ll")
@@ -56,35 +54,17 @@ const GuestProfile = () => {
     },
     {
       id: 5,
-      title: "Phone",
-      value: `${employData?.phone ? employData?.phone : "---"}`,
-    },
-    {
-      id: 6,
-      title: "Date Of Birth",
+      title: "Valid Till",
       value: `${
-        employData?.dob ? moment(employData?.dob).format("ll") : "---"
+        employData?.joiningDate
+          ? moment(employData?.joiningDate).format("ll")
+          : "---"
       }`,
     },
     {
-      id: 7,
-      title: "Address",
-      value: `${employData?.address ? employData?.address : "---"}`,
-    },
-    {
-      id: 8,
-      title: "Gender",
-      value: `${employData?.gender ? employData?.gender : "---"}`,
-    },
-    {
-      id: 9,
-      title: "Blood Group",
-      value: `${employData?.bloodGroup ? employData?.bloodGroup : "---"}`,
-    },
-    {
-      id: 9,
-      title: "Wallet",
-      value: `${employData?.wallet ? employData?.wallet : "---"}`,
+      id: 6,
+      title: "Phone",
+      value: `${employData?.phone ? employData?.phone : "---"}`,
     },
   ];
   const personalDetails = [
@@ -109,13 +89,22 @@ const GuestProfile = () => {
       value: `${employData?.linkedin ? employData?.linkedin : "---"}`,
     },
     {
-      id: 6,
-      title: "Github",
-      value: `${employData?.github ? employData?.github : "---"}`,
+      id: 7,
+      title: "Address",
+      value: `${employData?.address ? employData?.address : "---"}`,
+    },
+    {
+      id: 8,
+      title: "Gender",
+      value: `${employData?.gender ? employData?.gender : "---"}`,
     },
   ];
   if (isLoading) {
-    return <Loader />;
+    return (
+      <PanelLayout title="Guest Profile - Admin Panel">
+        <Loader />
+      </PanelLayout>
+    );
   }
   return (
     <PanelLayout title="Guest Profile - Admin Panel">
@@ -261,8 +250,8 @@ const GuestProfile = () => {
             </Grid>
             <Grid item lg={4}>
               <div className="w-full h-full">
-                <ClientMeetings />
-                <EmployProjects />
+                <GuestMeetings />
+                <GuestRoomAccess />
                 {/* <EmployLeaves /> */}
               </div>
             </Grid>

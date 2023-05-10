@@ -1,6 +1,6 @@
 import { Add } from "@mui/icons-material";
 import { Button, Grid, TextField } from "@mui/material";
-import { GuestColumn } from "components/admin/guest";
+import { GuestColumn, GuestsGrid } from "components/admin/guest";
 import {
   AdminBreadcrumbs,
   FiltersContainer,
@@ -9,7 +9,6 @@ import {
   Loader,
   SkeletonLoader,
 } from "components/core";
-import GuestsGrid from "components/core/GuestsGrid";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
@@ -119,4 +118,9 @@ const links = [
   { id: 2, page: "All Guests", link: "/admin/guests/all-guests" },
 ];
 
-const cards = [{ id: 1, name: "John Doe", guestId: "SY1006" }];
+const cards = [
+  { id: 1, name: "John Doe", guestId: "SY1006" },
+  { id: 2, name: "Rebeka Snow", guestId: "SY1008" },
+  { id: 3, name: "Stuot Little", guestId: "SY1009" },
+  { id: 4, name: "Tony Stak", guestId: "SY1012" },
+];
