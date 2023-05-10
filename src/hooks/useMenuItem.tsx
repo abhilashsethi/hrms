@@ -248,7 +248,7 @@ export default () => {
 			{
 				key: "11",
 				title: "Settings",
-				icon: <Settings />,
+				icon: <ICONS.Setting />,
 				submenus: [
 					{
 						key: "11-1",
