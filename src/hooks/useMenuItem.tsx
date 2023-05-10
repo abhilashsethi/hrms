@@ -20,6 +20,7 @@ import {
 	ElevatorRounded,
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
+import ICONS from "assets/icons";
 export default () => {
 	const { user } = useAuth();
 	if (user?.role?.name === "CEO")
@@ -27,18 +28,18 @@ export default () => {
 			{
 				key: "1",
 				title: "Dashboard",
-				icon: <DashboardRounded />,
+				icon: <ICONS.Dashboard_1 />,
 				route: "/admin",
 			},
 			{
 				key: "2",
 				title: "Cards",
-				icon: <CreditCardRounded />,
+				icon: <ICONS.Card />,
 				submenus: [
 					{
 						key: "2-1",
 						title: "Dashboard",
-						icon: <DashboardRounded />,
+						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/cards",
 					},
 					{
@@ -52,12 +53,12 @@ export default () => {
 			{
 				key: "3",
 				title: "Employees",
-				icon: <PeopleRounded />,
+				icon: <ICONS.Employees />,
 				submenus: [
 					{
 						key: "3-1",
 						title: "Dashboard",
-						icon: <DashboardRounded />,
+						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/employees",
 					},
 					{
@@ -77,12 +78,12 @@ export default () => {
 			{
 				key: "4",
 				title: "Clients",
-				icon: <Diversity3Rounded />,
+				icon: <ICONS.Clients />,
 				submenus: [
 					{
 						key: "4-1",
 						title: "Dashboard",
-						icon: <DashboardRounded />,
+						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/clients",
 					},
 					{
@@ -102,12 +103,12 @@ export default () => {
 			{
 				key: "13",
 				title: "Guests",
-				icon: <ElevatorRounded />,
+				icon: <ICONS.Guest />,
 				submenus: [
 					{
 						key: "13-1",
 						title: "Dashboard",
-						icon: <DashboardRounded />,
+						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/guests",
 					},
 					{
@@ -121,12 +122,12 @@ export default () => {
 			{
 				key: "5",
 				title: "Attendance",
-				icon: <PlaylistAddCheckCircleRounded />,
+				icon: <ICONS.Attendance />,
 				submenus: [
 					{
 						key: "5-1",
 						title: "Dashboard",
-						icon: <DashboardRounded />,
+						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/attendances",
 					},
 					{
@@ -140,12 +141,12 @@ export default () => {
 			{
 				key: "9",
 				title: "Leaves",
-				icon: <ExitToApp />,
+				icon: <ICONS.Leaves />,
 				submenus: [
 					{
 						key: "9-1",
 						title: "Dashboard",
-						icon: <DashboardRounded />,
+						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/leaves",
 					},
 					{
@@ -165,12 +166,12 @@ export default () => {
 			{
 				key: "6",
 				title: "Meetings",
-				icon: <Groups />,
+				icon: <ICONS.Meeting />,
 				submenus: [
 					{
 						key: "6-1",
 						title: "Dashboard",
-						icon: <DashboardRounded />,
+						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/meetings",
 					},
 					{
@@ -184,12 +185,12 @@ export default () => {
 			{
 				key: "7",
 				title: "Projects",
-				icon: <DesignServicesRounded />,
+				icon: <ICONS.Projects />,
 				submenus: [
 					{
 						key: "7-1",
 						title: "Dashboard",
-						icon: <DashboardRounded />,
+						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/projects",
 					},
 					{
@@ -209,12 +210,12 @@ export default () => {
 			{
 				key: "8",
 				title: "Roles",
-				icon: <ManageAccountsRounded />,
+				icon: <ICONS.Role />,
 				submenus: [
 					{
 						key: "8-1",
 						title: "Dashboard",
-						icon: <DashboardRounded />,
+						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/roles",
 					},
 					{
@@ -228,12 +229,12 @@ export default () => {
 			{
 				key: "10",
 				title: "Departments",
-				icon: <Apartment />,
+				icon: <ICONS.Departments />,
 				submenus: [
 					{
 						key: "10-1",
 						title: "Dashboard",
-						icon: <DashboardRounded />,
+						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/department",
 					},
 					{
