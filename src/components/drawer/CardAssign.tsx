@@ -4,11 +4,13 @@ import {
   CircularProgress,
   Container,
   Drawer,
+  IconButton,
   Radio,
   TextField,
 } from "@mui/material";
 import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
 import { RoleComponent } from "components/core";
+import LoaderAnimeLarge from "components/core/LoaderAnime";
 import { useChange, useFetch } from "hooks";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -24,6 +26,7 @@ type Props = {
 const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isAccess, setIsAccess] = useState(true);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [searchedUser, setSearchedUser] = useState<any>([]);
   const { change } = useChange();
@@ -73,10 +76,40 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
             marginTop: "3.5vh",
           }}
         >
-          <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
-            <AddCardRounded />
-            Assign User
-          </p>
+          <div className="flex justify-between items-center">
+            <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
+              <AddCardRounded />
+              Assign User
+            </p>
+            <div className="flex gap-4 items-center">
+              <div className="flex gap-1">
+                <Button onClick={() => setIsAccess(true)} size="small">
+                  <div
+                    className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+                      isAccess && `border-2 border-theme`
+                    }`}
+                  >
+                    <p className={`${isAccess && `!text-theme`} text-gray-600`}>
+                      Employee
+                    </p>
+                  </div>
+                </Button>
+                <Button onClick={() => setIsAccess(false)} size="small">
+                  <div
+                    className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+                      !isAccess && `border-2 border-theme`
+                    }`}
+                  >
+                    <p
+                      className={`${!isAccess && `!text-theme`} text-gray-600`}
+                    >
+                      Guest
+                    </p>
+                  </div>
+                </Button>
+              </div>
+            </div>
+          </div>
           <span className="text-sm">
             Assign an user from the below list of users
           </span>
@@ -102,76 +135,77 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
             </div>
           </div>
           <div className="mt-4 flex flex-col gap-4">
-            {!searchedUser?.length && (
-              <p className="py-8 text-center flex gap-3 items-center justify-center">
-                <Search /> No results found!
-              </p>
-            )}
-            {searchedUser?.map((item: any) => (
-              <div className="w-full rounded-l-full shadow-xl border-t flex items-center gap-2 px-4 py-2">
-                <div className="w-1/5">
-                  <div className="h-[4rem] w-[4rem] rounded-full overflow-hidden shadow-lg">
-                    {item?.photo && (
-                      <img
-                        className="h-full w-full object-cover"
-                        src={item?.photo || DEFAULTPROFILE.src}
-                        alt=""
-                      />
-                    )}
-                    {!item?.photo ? (
-                      <div className="h-full w-full text-white rounded-full flex justify-center items-center text-2xl font-semibold bg-gradient-to-br from-theme-100 via-theme-50 to-secondary-300">
-                        {item?.name?.slice(0, 1)}
+            {isAccess ? (
+              <>
+                {!searchedUser?.length && (
+                  <p className="py-8 text-center flex gap-3 items-center justify-center">
+                    <Search /> No results found!
+                  </p>
+                )}
+                {searchedUser?.map((item: any) => (
+                  <div className="w-full rounded-l-full shadow-xl border-t flex items-center gap-2 px-4 py-2">
+                    <div className="w-1/5">
+                      <div className="h-[4rem] w-[4rem] rounded-full overflow-hidden shadow-lg">
+                        {item?.photo && (
+                          <img
+                            className="h-full w-full object-cover"
+                            src={item?.photo || DEFAULTPROFILE.src}
+                            alt=""
+                          />
+                        )}
+                        {!item?.photo ? (
+                          <div className="h-full w-full text-white rounded-full flex justify-center items-center text-2xl font-semibold bg-gradient-to-br from-theme-100 via-theme-50 to-secondary-300">
+                            {item?.name?.slice(0, 1)}
+                          </div>
+                        ) : null}
                       </div>
-                    ) : null}
-                  </div>
-                </div>
-                <div className="w-4/5 flex justify-between items-start h-full">
-                  <div className="flex flex-col h-full justify-center">
-                    <>
-                      <p className="text-sm">
-                        {item?.name?.slice(0, 18)}
-                        {item?.name?.length > 18 ? "..." : ""}
-                      </p>
-                      <p className="mt-1 text-sm font-semibold text-gray-500">
-                        {item?.role?.name}
-                      </p>
-                    </>
-                  </div>
-                  {/* {!selectedUser && (
-                    <div>
-                      <Radio
-                        onChange={() => setSelectedUser(item?.id)}
-                        checked={selectedUser === item?.id}
-                      />
                     </div>
-                  )} */}
-                  {selectedUser && selectedUser === item?.id ? (
-                    <Button
-                      onClick={handleAssign}
-                      size="small"
-                      startIcon={
-                        loading ? (
-                          <CircularProgress size={20} />
-                        ) : (
-                          <CheckCircle />
-                        )
-                      }
-                      className="!bg-emerald-500"
-                      variant="contained"
-                    >
-                      ASSIGN
-                    </Button>
-                  ) : (
-                    <div>
-                      <Radio
-                        onChange={() => setSelectedUser(item?.id)}
-                        checked={selectedUser === item?.id}
-                      />
+                    <div className="w-4/5 flex justify-between items-start h-full">
+                      <div className="flex flex-col h-full justify-center">
+                        <>
+                          <p className="text-sm">
+                            {item?.name?.slice(0, 18)}
+                            {item?.name?.length > 18 ? "..." : ""}
+                          </p>
+                          <p className="mt-1 text-sm font-semibold text-gray-500">
+                            {item?.role?.name}
+                          </p>
+                        </>
+                      </div>
+
+                      {selectedUser && selectedUser === item?.id ? (
+                        <Button
+                          onClick={handleAssign}
+                          size="small"
+                          startIcon={
+                            loading ? (
+                              <CircularProgress size={20} />
+                            ) : (
+                              <CheckCircle />
+                            )
+                          }
+                          className="!bg-emerald-500"
+                          variant="contained"
+                        >
+                          ASSIGN
+                        </Button>
+                      ) : (
+                        <div>
+                          <Radio
+                            onChange={() => setSelectedUser(item?.id)}
+                            checked={selectedUser === item?.id}
+                          />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </div>
-            ))}
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                <LoaderAnimeLarge />
+              </>
+            )}
           </div>
         </Container>
       </Drawer>
