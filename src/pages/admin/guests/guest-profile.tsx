@@ -6,8 +6,8 @@ import { RenderIconRow } from "components/common";
 import { HeadText, Loader } from "components/core";
 import {
   ChangeProfile,
-  PersonalInformations,
-  UpdateProfileHead,
+  GuestPersonalInformation,
+  UpdateGuestBasicDetails,
 } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -114,12 +114,12 @@ const GuestProfile = () => {
           handleClose={() => setIsProfile(false)}
           mutate={mutate}
         />
-        <UpdateProfileHead
+        <UpdateGuestBasicDetails
           mutate={mutate}
           open={isDialogue}
           handleClose={() => setIsDialogue(false)}
         />
-        <PersonalInformations
+        <GuestPersonalInformation
           mutate={mutate}
           open={isPersonal}
           handleClose={() => setIsPersonal(false)}
