@@ -29,19 +29,7 @@ const ProjectTasks = () => {
             }`}
           >
             <div className="flex justify-between">
-              <div className="flex items-center gap-3">
-                <Checkbox
-                  checked={item?.status === "COMPLETED"}
-                  color="success"
-                />
-                <h1
-                  className={`font-semibold text-slate-700 ${
-                    item?.status === "COMPLETED" ? `line-through` : ``
-                  }`}
-                >
-                  {item?.title}
-                </h1>
-              </div>
+              <h1 className="font-semibold text-slate-700">{item?.title}</h1>
               <span
                 className={`text-xs font-semibold px-4 py-1 h-6 rounded-full text-white ${
                   item?.status === "COMPLETED"
