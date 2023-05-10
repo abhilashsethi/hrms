@@ -1,5 +1,7 @@
-import { Add, Person } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Add, InsertDriveFile, Person } from "@mui/icons-material";
+import { Avatar, Button, IconButton, Tooltip } from "@mui/material";
+import { DEFAULTIMG, DEFAULTPROFILE } from "assets/home";
+import { PhotoViewer } from "components/core";
 
 const ProjectBugs = () => {
   return (
@@ -19,14 +21,16 @@ const ProjectBugs = () => {
           <span>STATUS</span>
           <span>DOCS</span>
           <span>
-            <Person fontSize="small" />
+            <Tooltip title="Inspector">
+              <Person fontSize="small" />
+            </Tooltip>
           </span>
         </div>
       </div>
-      <div className=" w-full border-2 rounded-md py-3 flex items-start">
+      <div className=" w-full border-b-2 rounded-md py-3 flex items-start">
         <div className="w-[57%] pr-3">
           <h1 className="text-sm">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum,
+            1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum,
             corrupti!
           </h1>
         </div>
@@ -36,10 +40,12 @@ const ProjectBugs = () => {
           >
             COMPLETED
           </span>
-          <span>DOCS</span>
           <span>
-            <Person fontSize="small" />
+            <IconButton size="small">
+              <InsertDriveFile />
+            </IconButton>
           </span>
+          <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
         </div>
       </div>
     </section>
