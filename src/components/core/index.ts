@@ -23,3 +23,4 @@ export { default as FiltersContainer } from "./FiltersContainer";
 export { default as EmployeesListDrawer } from "./EmployeesListDrawer";
 export { default as ProjectDetails } from "./ProjectDetails";
 export { default as PhotoViewerGuests } from "./PhotoViewerGuests";
+export { default as PhotoViewerSmall } from "./PhotoViewerSmall";
