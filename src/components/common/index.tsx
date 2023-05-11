@@ -35,8 +35,8 @@ export function RenderIconRow({
         ) : null}
         {longText ? (
           <span className="text-sm font-medium">
-            {value?.slice(0, 15)}
-            {value?.length >= 15 ? "..." : ""}
+            {value?.slice(0, 25)}
+            {value?.length >= 25 ? "..." : ""}
           </span>
         ) : (
           <span className="text-sm font-medium">{value}</span>

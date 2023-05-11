@@ -6,12 +6,14 @@ import {
   Upload,
 } from "@mui/icons-material";
 import { Button, IconButton, MenuItem, TextField } from "@mui/material";
-import { ClientsGrid, EmployeesColumn } from "components/admin";
+import { ClientTableView, ClientsGrid } from "components/admin/clients";
 import { AdminBreadcrumbs } from "components/core";
 import { UploadEmployData } from "components/dialogues";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
+import { Client } from "types";
 
 const AllClients = () => {
   const [isGrid, setIsGrid] = useState(true);
@@ -20,6 +22,8 @@ const AllClients = () => {
   const handleChange = (event: any) => {
     setValue(event.target.value);
   };
+  const { data: clients, mutate } = useFetch<any>(`clients`);
+  console.log(clients);
   return (
     <>
       <PanelLayout title="All Clients - SY HR MS">
@@ -110,7 +114,11 @@ const AllClients = () => {
               Search
             </Button>
           </div>
-          {isGrid ? <ClientsGrid /> : <EmployeesColumn />}
+          {isGrid ? (
+            <ClientsGrid data={clients} mutate={mutate} />
+          ) : (
+            <ClientTableView data={clients} mutate={mutate} />
+          )}
         </section>
       </PanelLayout>
     </>

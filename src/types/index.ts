@@ -105,4 +105,17 @@ export type Role = {
 	createdAt: Date;
 	updatedAt: Date;
 };
+export type Client = {
+	id: string;
+	name: string;
+	email: string;
+	_count: { projects?: number; tickets?: string; };
+	gender: string;
+	isBlocked: boolean;
+	phone: number;
+	createdAt: Date;
+	updatedAt: Date;
+};
+
+
 

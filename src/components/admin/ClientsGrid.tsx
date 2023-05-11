@@ -1,10 +1,27 @@
-import { MoreVertRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
+import {
+  DeleteRounded,
+  MoreVertRounded,
+  RemoveRedEyeOutlined,
+} from "@mui/icons-material";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
+import { RenderIconRow } from "components/common";
+import { CardNameComponent } from "components/core";
+import { useChange } from "hooks";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
-const ClientsGrid = () => {
+import Swal from "sweetalert2";
+import { deleteFile } from "utils";
+interface ARRAY {
+  id?: string;
+}
+interface Props {
+  data?: ARRAY[];
+  mutate?: any;
+}
+const ClientsGrid = ({ data, mutate }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { change } = useChange();
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -12,12 +29,39 @@ const ClientsGrid = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleDelete = async (item: any) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to delete client?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const res = await change(`clients/${item?.id}`, {
+            method: "DELETE",
+          });
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <section className="py-6 ">
         <div className="grid grid-cols-4 gap-6 py-6 items-center justify-center">
-          {leavData?.map((item: any, index: any) => (
+          {data?.map((item: any, index: any) => (
             <>
               <div
                 key={index}
@@ -69,6 +113,12 @@ const ClientsGrid = () => {
                         </ListItemIcon>
                         Visit Profile
                       </MenuItem>
+                      <MenuItem onClick={() => handleDelete(item)}>
+                        <ListItemIcon>
+                          <DeleteRounded fontSize="small" />
+                        </ListItemIcon>
+                        Delete
+                      </MenuItem>
                     </Link>
                   </Menu>
                 </div>
@@ -78,11 +128,14 @@ const ClientsGrid = () => {
                   src={SAMPLEDP.src}
                 />
                 <div className="flex-1 mt-6">
-                  <h1 className="text-lg font-semibold leading-snug">
+                  {/* <h1 className="text-lg font-semibold leading-snug">
                     {item?.company}
-                  </h1>
-                  <p className="text-sm font-semibold leading-snug">
+                  </h1> */}
+                  <p className="text-sm font-semibold capitalize leading-snug">
                     {item?.name}
+                  </p>
+                  <p className="text-sm font-medium leading-snug">
+                    <RenderIconRow value={item?.email} isEmail />
                   </p>
                   <p className="mb-2 text-sm text-slate-400 font-medium">
                     {item.role}
@@ -90,10 +143,10 @@ const ClientsGrid = () => {
                 </div>
                 <div className="flex gap-3 justify-center">
                   <button className="rounded-md text-sm bg-theme text-white font-semibold shadow-md px-4 py-1.5">
-                    Message
+                    Tickets <span>{`(${item._count.tickets})`}</span>
                   </button>
                   <button className="rounded-md text-sm bg-secondary text-white font-semibold shadow-md px-4 py-1.5">
-                    View Profile
+                    Projects <span>{`(${item._count.projects})`}</span>
                   </button>
                 </div>
               </div>
@@ -106,29 +159,3 @@ const ClientsGrid = () => {
 };
 
 export default ClientsGrid;
-const leavData = [
-  {
-    photo: { SAMPLEDP },
-    company: "CSS Technology",
-    name: "Srinu Redy",
-    role: "CEO",
-  },
-  {
-    photo: { SAMPLEDP },
-    company: "CSS Technology",
-    name: "Kumara Gourav",
-    role: "Manager",
-  },
-  {
-    photo: { SAMPLEDP },
-    company: "CSS Technology",
-    name: "Sunil Mishra",
-    role: "Director",
-  },
-  {
-    photo: { SAMPLEDP },
-    company: "CSS Technology",
-    name: "Prasad Murmu",
-    role: "CEO",
-  },
-];

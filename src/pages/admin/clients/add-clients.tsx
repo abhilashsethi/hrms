@@ -1,20 +1,19 @@
 import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  Autocomplete,
   Button,
   CircularProgress,
   IconButton,
   InputAdornment,
   InputLabel,
+  MenuItem,
   TextField,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
 import * as Yup from "yup";
 const initialValues = {
   name: "",
@@ -22,6 +21,7 @@ const initialValues = {
   email: "",
   password: "",
   confirmPassword: "",
+  gender: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -52,12 +52,10 @@ const AddClients = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { data, isLoading, mutate } = useFetch<User[]>(`roles`);
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
     console.log(values);
     setLoading(true);
-    return;
     try {
       delete values.confirmPassword;
       const res = await change(`clients`, {
@@ -104,7 +102,7 @@ const AddClients = () => {
                   <div className="px-4 py-2">
                     <div className="py-2">
                       <InputLabel htmlFor="name">
-                        First Name <span className="text-red-600">*</span>
+                        Name <span className="text-red-600">*</span>
                       </InputLabel>
                     </div>
                     <TextField
@@ -237,11 +235,35 @@ const AddClients = () => {
                       helperText={touched.phone && errors.phone}
                     />
                   </div>
+                  <div className="px-4 py-2">
+                    <div className="py-2">
+                      <InputLabel htmlFor="phone">Gender</InputLabel>
+                    </div>
+                    <TextField
+                      select
+                      size="small"
+                      fullWidth
+                      name="gender"
+                      placeholder="Gender"
+                      value={values.gender}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.gender && !!errors.gender}
+                      helperText={touched.gender && errors.gender}
+                    >
+                      {genders.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.value}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </div>
                 </div>
                 <div className="flex justify-center py-4">
                   <Button
                     type="submit"
                     variant="contained"
+                    disabled={loading}
                     className="!bg-theme !px-10 !py-3 hover:!bg-sky-800 hover:!shadow-xl"
                     startIcon={
                       loading ? <CircularProgress size={20} /> : <Check />
@@ -260,3 +282,8 @@ const AddClients = () => {
 };
 
 export default AddClients;
+
+const genders = [
+  { id: 1, value: "Male" },
+  { id: 2, value: "Female" },
+];
