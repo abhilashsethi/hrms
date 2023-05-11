@@ -41,8 +41,10 @@ const ClientChats = () => {
 				</div>
 			</div>
 			<div className="font-bold my-3">
-				Support Title :{" "}
-				<span className="font-medium text-gray-600">Arrange a Meeting</span>
+				Support Title :{"  "}
+				<span className="font-medium text-gray-600">
+					{"  "}Arrange a Meeting
+				</span>
 			</div>
 			<div className="font-bold mt-3">Support Description :</div>
 			<p className="text-gray-600 font-medium text-sm">
