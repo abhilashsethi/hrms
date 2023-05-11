@@ -233,7 +233,7 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
             open ? "flex" : "hidden"
           } flex-col items-center gap-2 pt-5`}
         >
-          <div className="py-5">
+          {/* <div className="py-5">
             <Button
               onClick={handleLogout}
               variant="contained"
@@ -243,7 +243,7 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
             >
               Logout
             </Button>
-          </div>
+          </div> */}
         </Box>
       </CustomDrawer>
     </section>

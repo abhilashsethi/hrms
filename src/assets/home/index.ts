@@ -7,3 +7,4 @@ export { default as PDF } from "./pdf.png";
 export { default as DOC } from "./doc.png";
 export { default as XLS } from "./xls.png";
 export { default as IMG } from "./image.png";
+export { default as NOTIFICATIONBELL } from "./notificationbell.png";

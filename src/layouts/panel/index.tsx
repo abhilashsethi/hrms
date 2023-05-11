@@ -1,6 +1,7 @@
 import { Logout, Settings } from "@mui/icons-material";
 import {
   Avatar,
+  Chip,
   Divider,
   ListItemIcon,
   ListItemText,
@@ -16,6 +17,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Drawer from "./drawer";
+import { NOTIFICATIONBELL } from "assets/home";
 type Props = {
   children: JSX.Element | JSX.Element[];
   title?: string;
@@ -81,7 +83,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
         >
           <header className={`h-16 bg-white`}>
             <div className="flex h-16 items-center justify-between px-4">
-              <h1 className="lg:text-xl text-sm uppercase lg:block font-semibold text-black">
+              <h1 className="lg:text-xl text-sm uppercase lg:block font-semibold text-theme">
                 {
                   MenuItems?.find(
                     (item: any) =>
@@ -138,7 +140,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                   )?.title
                 }
               </h1>
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-3">
                 <Link
                   href={
                     user?.role?.name === "CEO"
@@ -149,36 +151,27 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                   }
                 >
                   <Tooltip title="Notifications">
-                    <p className="cursor-pointer rounded-lg bg-theme p-2 shadow-md">
-                      <ICONS.Notification className="h-6 w-6 text-white" />
+                    <p className="cursor-pointer rounded-lg bg-[#bbcbff87] p-2 shadow-md">
+                      <img
+                        className="h-5 object-contain"
+                        src={NOTIFICATIONBELL.src}
+                        alt=""
+                      />
                     </p>
                   </Tooltip>
                 </Link>
                 <Tooltip title="Profile">
-                  <div className="flex w-fit min-w-[8rem]  items-center justify-start gap-2 overflow-hidden rounded-full bg-white">
-                    <Avatar
-                      src=""
-                      className="cursor-pointer !bg-theme"
+                  <div className="flex w-fit  items-center justify-start gap-2 overflow-hidden rounded-full bg-white">
+                    <Chip
+                      className=""
                       onClick={handleClick}
+                      avatar={<Avatar alt="" src="" />}
+                      label="Profile"
+                      variant="outlined"
                     />
-                    <span
-                      className="flex cursor-pointer flex-col gap-1"
-                      onClick={handleClick}
-                    >
-                      <h2 className="cursor-pointer text-lg font-medium tracking-wide text-black">
-                        Profile
-                      </h2>
-                      {/* <h5 className="text-xs font-medium tracking-wide text-black">
-                    superadmin@gmail.com
-                  </h5> */}
-                    </span>
-                    {/* <Chip
-                className=''
-            onClick={handleClick}
-            avatar={<Avatar alt="" src="" />}
-            label="Profile"
-            variant="outlined"
-          /> */}
+                    <div>
+                      <h1>{user?.name}</h1>
+                    </div>
                     <Menu
                       anchorEl={anchorEl}
                       open={open}
