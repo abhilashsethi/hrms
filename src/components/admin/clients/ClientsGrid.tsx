@@ -10,8 +10,8 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { SAMPLEDP } from "assets/home";
 import { RenderIconRow } from "components/common";
+import { PhotoViewerGuests } from "components/core";
 import { useChange } from "hooks";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
@@ -26,7 +26,6 @@ interface Props {
 }
 const ClientsGrid = ({ data, mutate }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { change } = useChange();
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -90,6 +89,31 @@ const MoreOption = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
+  const handleBlock = async (e: any, item: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to update status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await change(`clients/${item?.id}`, {
+          method: "PATCH",
+          body: { isBlocked: !e.target?.checked },
+        });
+        mutate();
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "User Blocked successfully!!", "success");
+        return;
+      }
+    });
+  };
   return (
     <>
       <div className="flex flex-col px-4 py-4 h-full justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-white  hover:scale-105 ease-in-out transition-all duration-200">
@@ -151,11 +175,13 @@ const MoreOption = ({ item, mutate }: any) => {
             </MenuItem>
           </Menu>
         </div>
-        <img
-          alt=""
-          className="self-center flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-full bg-gray-500"
-          src={SAMPLEDP.src}
-        />
+        <div className="flex justify-center">
+          <PhotoViewerGuests
+            className="border-[3px]"
+            name={item?.name}
+            photo={item?.photo}
+          />
+        </div>
         <div className="flex-1 mt-6">
           {/* <h1 className="text-lg font-semibold leading-snug">
       {item?.company}

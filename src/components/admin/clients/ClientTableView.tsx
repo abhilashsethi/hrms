@@ -41,7 +41,7 @@ const ClientTableView = ({ data, mutate }: Props) => {
   return (
     <section className="mt-8">
       <MaterialTable
-        title={<HeadStyle name="All Employees" icon={<PeopleRounded />} />}
+        title={<HeadStyle name="All Clients" icon={<PeopleRounded />} />}
         isLoading={!data}
         data={data ? getDataWithSL<any>(data) : []}
         options={{ ...MuiTblOptions(), selection: false }}
@@ -76,18 +76,6 @@ const ClientTableView = ({ data, mutate }: Props) => {
             title: "Gender",
             tooltip: "Gender",
             field: "gender",
-            editable: "never",
-          },
-          {
-            title: "Role",
-            tooltip: "Role",
-            field: "role",
-            emptyValue: "Not Provided",
-            render: ({ role }) => {
-              return (
-                <span className="text-sm text-gray-500">{role?.name}</span>
-              );
-            },
             editable: "never",
           },
 

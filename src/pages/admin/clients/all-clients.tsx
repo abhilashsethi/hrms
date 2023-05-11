@@ -45,6 +45,7 @@ const AllClients = () => {
       isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }${isIssue ? `&issueResolved=${isIssue}` : ""}`
   );
+  console.log(clients);
   return (
     <>
       <PanelLayout title="All Clients - SY HR MS">
@@ -78,23 +79,6 @@ const AllClients = () => {
                   </div>
                 </IconButton>
               </div>
-              <Link href="/admin/clients/add-clients">
-                <Button
-                  className="!bg-theme"
-                  variant="contained"
-                  startIcon={<Add />}
-                >
-                  ADD CLIENTS
-                </Button>
-              </Link>
-              <Button
-                onClick={() => setIsUpload(true)}
-                className="!bg-slate-600"
-                variant="contained"
-                startIcon={<Upload />}
-              >
-                UPLOAD CLIENTS DATA
-              </Button>
             </div>
           </div>
           <FiltersContainer>
@@ -135,6 +119,16 @@ const AllClients = () => {
                   </MenuItem>
                 ))}
               </TextField>
+              <Link href="/admin/clients/add-clients">
+                <Button
+                  fullWidth
+                  className="!bg-theme"
+                  variant="contained"
+                  startIcon={<Add />}
+                >
+                  ADD CLIENTS
+                </Button>
+              </Link>
             </div>
           </FiltersContainer>
           {isGrid ? (
