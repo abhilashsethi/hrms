@@ -42,9 +42,9 @@ const ClientsGrid = ({ data, mutate }: Props) => {
       <section className="py-6 ">
         <div className="grid grid-cols-4 gap-6 py-6 items-center justify-center">
           {data?.map((item: any, index: any) => (
-            <>
+            <div key={index}>
               <MoreOption item={item} mutate={mutate} />
-            </>
+            </div>
           ))}
         </div>
       </section>
