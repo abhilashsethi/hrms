@@ -12,7 +12,6 @@ const AllProjects = () => {
   const handleChange = (event: any) => {
     setValue(event.target.value);
   };
-  const { data: projectData, isLoading } = useFetch(`projects`);
 
   return (
     <PanelLayout title="All Projects - SY HR MS">

@@ -28,6 +28,9 @@ const ProjectTasks = () => {
                 : "bg-cyan-50"
             }`}
           >
+            <div className="flex justify-end text-xs">
+              <p>{moment(new Date().toISOString()).format("ll")}</p>
+            </div>
             <div className="flex justify-between">
               <h1 className="font-semibold text-slate-700">{item?.title}</h1>
               <span
@@ -63,9 +66,6 @@ const ProjectTasks = () => {
                 <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
                 <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
               </AvatarGroup>
-            </div>
-            <div className="flex justify-end text-sm">
-              <p>{moment(new Date().toISOString()).format("ll")}</p>
             </div>
           </div>
         ))}
