@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Drawer from "./drawer";
 import { NOTIFICATIONBELL } from "assets/home";
+import { PhotoViewerSmall } from "components/core";
 type Props = {
   children: JSX.Element | JSX.Element[];
   title?: string;
@@ -161,16 +162,23 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                   </Tooltip>
                 </Link>
                 <Tooltip title="Profile">
-                  <div className="flex w-fit  items-center justify-start gap-2 overflow-hidden rounded-full bg-white">
-                    <Chip
+                  <div className="flex w-fit  items-center justify-start gap-2 overflow-hidden bg-white">
+                    {/* <Chip
                       className=""
                       onClick={handleClick}
                       avatar={<Avatar alt="" src="" />}
                       label="Profile"
                       variant="outlined"
-                    />
-                    <div>
-                      <h1>{user?.name}</h1>
+                    /> */}
+                    <div
+                      onClick={handleClick}
+                      className="flex gap-2 items-center cursor-pointer"
+                    >
+                      <PhotoViewerSmall size="2rem" photo={user?.photo} />
+                      <div>
+                        <h1 className="text-sm">{user?.name}</h1>
+                        <h1 className="text-sm font-light">{user?.email}</h1>
+                      </div>
                     </div>
                     <Menu
                       anchorEl={anchorEl}
