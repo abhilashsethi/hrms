@@ -1,35 +1,103 @@
 import { HeadText, PhotoViewer } from "components/core";
 import moment from "moment";
-import { AccountTreeRounded } from "@mui/icons-material";
+import { AccountTreeRounded, Add } from "@mui/icons-material";
+import { RenderIconRow } from "components/common";
+import { Avatar, AvatarGroup, Button, Tooltip } from "@mui/material";
+import { DEFAULTPROFILE } from "assets/home";
+import { ViewTicketsDrawer } from "components/drawer";
+import React, { useState } from "react";
 
 const ClientChats = () => {
+	const [tickets, setTickets] = useState(false);
+	const [viewTickets, setViewTickets] = useState<any>(null);
+
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
-			<HeadText title="Chats" />
-			<div className="flex flex-col gap-1 mt-4 max-h-[20rem] overflow-y-auto">
-				{chats?.map((item, i) => (
-					<div key={i} className="flex gap-1 py-3 border-b-[1px]">
-						<div className="w-1/5 flex justify-center items-center">
-							<div className=" bg-theme-100 rounded-full flex justify-center items-center">
-								{item?.icon}
-							</div>
-						</div>
-						<div className="w-4/5">
-							<div className="flex justify-between pr-3 items-center">
-								<p className="text-sm font-semibold tracking-wide">
-									{item?.name}
-								</p>
-								{/* <span className="py-1 px-3 rounded-md bg-emerald-100 tracking-wide border-green-400 border-[1px] text-green-500 text-xs font-semibold">
-									{item?.status}
-								</span> */}
-							</div>
-							<p className="text-sm tracking-wide">
-								{/* Deadline : {moment(new Date()).format("ll")} */}
-								{item?.details}
-							</p>
-						</div>
-					</div>
-				))}
+			<ViewTicketsDrawer
+				open={tickets}
+				onClose={() => setTickets(false)}
+				setViewTickets={setViewTickets}
+			/>
+
+			<HeadText title="Requester Details" />
+			<div className="flex items-center gap-4">
+				<div className="mt-2">
+					<PhotoViewer
+						photo={
+							"https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+						}
+						size="5.5rem"
+					/>
+				</div>
+				<div className="tracking-wide w-full h-full">
+					<p className="text-md text-slate-600 font-medium mt-1">John Smith"</p>
+
+					<p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
+						<RenderIconRow value={"johnsmith@gmail.com"} isEmail />
+					</p>
+					<p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
+						<RenderIconRow value={"9974521485" || "---"} isPhone />
+					</p>
+				</div>
+			</div>
+			<div className="font-bold my-3">
+				Support Title :{" "}
+				<span className="font-medium text-gray-600">Arrange a Meeting</span>
+			</div>
+			<div className="font-bold mt-3">Support Description :</div>
+			<p className="text-gray-600 font-medium text-sm">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates
+				adipisci a facere voluptatum debitis totam asperiores temporibus cumque
+				commodi .
+			</p>
+			<div className="flex items-center mt-3 gap-3">
+				<div className="font-bold ">Issue Resolved :</div>
+				<div className="text-xs bg-[#44bd44] text-white p-1 rounded-md font-semibold px-2">
+					Yes
+				</div>
+			</div>
+			<p className="font-bold mt-3">Assigned Members</p>
+			<div className="flex justify-start">
+				<AvatarGroup
+					className="!cursor-pointer"
+					//   onClick={() => setIsMembers({ dialogue: true })}
+					max={4}
+				>
+					<Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
+					<Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
+					<Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
+					<Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
+					<Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
+				</AvatarGroup>
+			</div>
+
+			<div className="flex justify-between">
+				<p className="font-bold mt-3 mb-2">Documents</p>
+				<Tooltip title="Add more">
+					<Button variant="contained" className="mt-5 bg-theme" size="small">
+						<Add />
+					</Button>
+				</Tooltip>
+			</div>
+			<div className="grid grid-cols-3 w-2/3 gap-y-2">
+				<div className="cursor-pointer">
+					<img className="w-12" src="/docs.png" alt="" />
+				</div>
+				<div className="cursor-pointer">
+					<img className="w-12" src="/docs.png" alt="" />
+				</div>
+				<div className="cursor-pointer">
+					<img className="w-12" src="/docs.png" alt="" />
+				</div>
+				<div className="cursor-pointer">
+					<img className="w-12" src="/docs.png" alt="" />
+				</div>
+				<div className="cursor-pointer">
+					<img className="w-12" src="/docs.png" alt="" />
+				</div>
+				<div className="border border-gray-400 h-8 mt-3 flex justify-center items-center rounded-lg text-sm bg-theme text-white hover:scale-95 transition duration-300 ease-in-out">
+					<button onClick={() => setTickets(true)}>View All</button>
+				</div>
 			</div>
 		</section>
 	);

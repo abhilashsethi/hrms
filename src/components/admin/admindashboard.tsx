@@ -13,6 +13,7 @@ import {
 	MenuItem,
 	Radio,
 } from "@mui/material";
+import { CardAsset } from "assets/home";
 import { ProjectOverview, TaskOverview } from "components/analytics";
 import { useState, MouseEvent } from "react";
 
@@ -32,8 +33,15 @@ const AdminDashboard = () => {
 					<Grid container spacing={2}>
 						{cards?.map((item, index) => (
 							<Grid key={index} item lg={3}>
-								<div className=" h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-500 ease-in-out border-b-4 border-theme">
-									<div className="flex justify-end">
+								<div
+									className={`h-40 ${item?.color} w-full p-4 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-500 ease-in-out relative overflow-hidden`}
+								>
+									<img
+										className="absolute right-[-35px] top-[-12px] h-24 object-contain"
+										src={CardAsset.src}
+										alt=""
+									/>
+									{/* <div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
 											<MoreVert className="" />
 										</IconButton>
@@ -48,8 +56,10 @@ const AdminDashboard = () => {
 											<MenuItem onClick={handleClose}>All Users</MenuItem>
 											<MenuItem onClick={handleClose}>View Dashboard</MenuItem>
 										</Menu>
+									</div> */}
+									<div className="bg-white h-12 w-12 rounded-lg flex items-center justify-center">
+										{item?.icon}
 									</div>
-									<div className="">{item?.icon}</div>
 									<span className="text-lg ">{item?.count}</span>
 									<span className="font-semibold tracking-wide text-sm ">
 										{item?.title}
@@ -206,29 +216,36 @@ export default AdminDashboard;
 const cards = [
 	{
 		id: 1,
-		icon: <People fontSize="large" className="text-theme " />,
+		icon: <People fontSize="medium" className="text-theme " />,
 		count: "34",
 		title: "Total Users",
+		color: "bg-[#bbcbff]",
 	},
 	{
 		id: 2,
-		icon: <QrCodeScannerRounded fontSize="large" className="text-theme " />,
+		icon: <QrCodeScannerRounded fontSize="medium" className="text-theme " />,
 		count: "34",
 		title: "Scanned Cards",
+		color: "bg-[#b9e9fd]",
 	},
 	{
 		id: 3,
 		icon: (
-			<PlaylistAddCheckCircleRounded fontSize="large" className="text-theme " />
+			<PlaylistAddCheckCircleRounded
+				fontSize="medium"
+				className="text-theme "
+			/>
 		),
 		count: "34",
 		title: "Today's Attendance",
+		color: "bg-[#f6c8ff]",
 	},
 	{
 		id: 4,
-		icon: <People fontSize="large" className="text-theme " />,
+		icon: <People fontSize="medium" className="text-theme " />,
 		count: "34",
 		title: "Other",
+		color: "bg-[#feb76f]",
 	},
 ];
 
