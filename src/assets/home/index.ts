@@ -8,3 +8,7 @@ export { default as DOC } from "./doc.png";
 export { default as XLS } from "./xls.png";
 export { default as IMG } from "./image.png";
 export { default as NOTIFICATIONBELL } from "./notificationbell.png";
+export { default as Others } from "./Others.svg";
+export { default as ScannedCard } from "./ScannedCards.svg";
+export { default as Attendance } from "./Today'sAttendance.svg";
+export { default as Users } from "./TotalUsers.svg";
