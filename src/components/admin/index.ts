@@ -20,7 +20,6 @@ export { default as EmployeeDetails } from "./EmployeeDetails";
 export { default as EmpAttendanceIndividual } from "./EmpAttendanceIndividual";
 export { default as EmployProjects } from "./EmployProjects";
 export { default as EmployLeaves } from "./EmployLeaves";
-export { default as ClientsGrid } from "./ClientsGrid";
 export { default as EmployeeAllAttendance } from "./EmployeeAllAttendance";
 export { default as ClientDashboard } from "./ClientDashboard";
 export { default as AttendanceDashBoard } from "./AttendanceDashBoard";

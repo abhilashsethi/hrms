@@ -3,6 +3,7 @@ import { IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import {
   AdminBreadcrumbs,
+  CopyClipboard,
   HeadText,
   Loader,
   ReverseIOSSwitch,
@@ -179,7 +180,7 @@ const GuestProfile = () => {
               {employData?.email || "john.doi@sy.com"}
             </h4>
             <span className="text-white font-semibold">
-              {employData?.employeeID || "YARD20036"}
+              <CopyClipboard value={employData?.employeeID || "YARD20036"} />
             </span>
           </div>
           <div className="col-span-2 bg-white py-4 px-4 shadow-lg shadow-gray-600 rounded-lg">
@@ -234,7 +235,9 @@ const GuestProfile = () => {
         </div>
         <section className="py-2">
           <div className="bg-white py-4 px-4 shadow-lg shadow-gray-600 rounded-lg">
-            <h1 className="text-xl font-bold tracking-wide">Description</h1>
+            <h1 className="text-xl font-bold tracking-wide">
+              Visitor Information{" "}
+            </h1>
             <p className="py-2">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam
               temporibus deserunt quos nobis corrupti nihil at rerum ut, sint
