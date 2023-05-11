@@ -26,7 +26,7 @@ const ClientTableView = ({ data, mutate }: Props) => {
       confirmButtonText: "Yes, update!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await change(`users/${userId}`, {
+        const res = await change(`clients/${userId}`, {
           method: "PATCH",
           body: { isBlocked: !e.target?.checked },
         });
@@ -122,7 +122,7 @@ const ClientTableView = ({ data, mutate }: Props) => {
         ]}
         editable={{
           onRowDelete: async (oldData) => {
-            const res = await change(`users/${oldData.id}`, {
+            const res = await change(`clients/${oldData.id}`, {
               method: "DELETE",
             });
             if (res?.status !== 200) {
