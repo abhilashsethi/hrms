@@ -146,37 +146,45 @@ const GuestProfile = () => {
           open={isDialogue}
           handleClose={() => setIsDialogue(false)}
         />
-        <section className="mb-12 px-4 py-6 ">
-          <div className="flex justify-center">
-            <div className="w-1/2 my-4 rounded-lg bg-white shadow-xl">
-              <div className="bg-theme-400 py-12 rounded-t-lg w-full flex justify-center">
-                <div className="h-32 w-32  rounded-full border-[4px] border-white flex justify-center items-center text-3xl">
-                  <div className="relative h-full w-full flex justify-center items-center group">
-                    {employData?.photo && (
-                      <div className="h-full w-full bg-slate-300 rounded-full">
-                        <img
-                          className="h-full w-full object-cover rounded-full shadow-md"
-                          src={employData?.photo}
-                          alt="John Doe"
-                        />
-                      </div>
-                    )}
-                    {!employData?.photo && (
-                      <div className="h-full w-full text-white rounded-full uppercase shadow-lg flex justify-center items-center text-4xl font-bold bg-gradient-to-br from-theme-100 via-theme-50 to-secondary-100">
-                        {employData?.name.slice(0, 1) || "J"}
-                      </div>
-                    )}
-                    <div
-                      onClick={() => setIsProfile(true)}
-                      className="absolute cursor-pointer rounded-full w-full h-full group-hover:flex transition-all ease-in-out duration-300 justify-center items-center hidden  bg-[#0007]"
-                    >
-                      <Edit className="!text-white" />
-                    </div>
+        <div className="grid grid-cols-3 gap-4 py-6">
+          <div className="bg-theme-400 rounded-lg grid justify-items-center py-4 px-4 shadow-lg shadow-gray-600">
+            <div className="h-32 w-32 rounded-full border-[4px] border-white flex justify-center items-center text-3xl">
+              <div className="relative h-full w-full flex justify-center items-center group">
+                {employData?.photo && (
+                  <div className="h-full w-full bg-slate-300 rounded-full">
+                    <img
+                      className="h-full w-full object-cover rounded-full shadow-md"
+                      src={employData?.photo}
+                      alt="John Doe"
+                    />
                   </div>
+                )}
+                {!employData?.photo && (
+                  <div className="h-full w-full text-white rounded-full uppercase shadow-lg flex justify-center items-center text-4xl font-bold bg-gradient-to-br from-theme-100 via-theme-50 to-secondary-100">
+                    {employData?.name.slice(0, 1) || "J"}
+                  </div>
+                )}
+                <div
+                  onClick={() => setIsProfile(true)}
+                  className="absolute cursor-pointer rounded-full w-full h-full group-hover:flex transition-all ease-in-out duration-300 justify-center items-center hidden  bg-[#0007]"
+                >
+                  <Edit className="!text-white" />
                 </div>
               </div>
-              {/* --------------------Basic Details-------------------- */}
-              <section className="py-4 px-8">
+            </div>
+            <h2 className="pt-2 pb-1 text-xl text-white font-bold tracking-wide">
+              {employData?.name || "John Doi"}
+            </h2>
+            <h4 className="text-white font-semibold">
+              {employData?.email || "john.doi@sy.com"}
+            </h4>
+            <span className="text-white font-semibold">
+              {employData?.employeeID || "YARD20036"}
+            </span>
+          </div>
+          <div className="col-span-2 bg-white py-4 px-4 shadow-lg shadow-gray-600 rounded-lg">
+            <div className="grid grid-cols-2 gap-4">
+              <section className="py-2 px-2">
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Basic Details" />
                   <Tooltip title="Edit">
@@ -199,19 +207,19 @@ const GuestProfile = () => {
                   </div>
                 ))}
               </section>
-              <section className="px-8 pb-6">
+              <section className="px-2 py-2">
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Room Access" />
                 </div>
                 {roomDetails?.map((item) => (
                   <div
                     key={item?.id}
-                    className="flex gap-2 items-center font-medium py-1.5"
+                    className="grid grid-cols-2 gap-2 items-center font-medium py-1.5"
                   >
-                    <div className="w-[30%]">
+                    <div className="">
                       <p className="text-sm text-gray-600">{item?.name} :</p>
                     </div>
-                    <div className="w-2/3">
+                    <div className="">
                       <ReverseIOSSwitch
                         disabled
                         checked={item?.status}
@@ -222,6 +230,17 @@ const GuestProfile = () => {
                 ))}
               </section>
             </div>
+          </div>
+        </div>
+        <section className="py-2">
+          <div className="bg-white py-4 px-4 shadow-lg shadow-gray-600 rounded-lg">
+            <h1 className="text-xl font-bold tracking-wide">Description</h1>
+            <p className="py-2">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam
+              temporibus deserunt quos nobis corrupti nihil at rerum ut, sint
+              perspiciatis necessitatibus excepturi atque quidem in? Recusandae
+              atque placeat amet architecto.
+            </p>
           </div>
         </section>
       </section>
