@@ -1,13 +1,9 @@
-import {
-  AddCardRounded,
-  EmailRounded,
-  PeopleRounded,
-} from "@mui/icons-material";
+import { EmailRounded, PeopleRounded } from "@mui/icons-material";
 import { Container, Drawer, Grid } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import { Loader, UserLoaderAnime } from "components/core";
 import { useFetch } from "hooks";
-import { User } from "types";
+import { Role } from "types";
 
 type Props = {
   open?: boolean | any;
@@ -16,12 +12,7 @@ type Props = {
 };
 
 const RoleInformation = ({ open, onClose, roleId }: Props) => {
-  const { data: roleInfo, isLoading } = useFetch<User[]>(`roles/${roleId}`);
-
-  console.log(roleInfo);
-  if (isLoading) {
-    return <Loader />;
-  }
+  const { data: roleInfo, isLoading } = useFetch<Role>(`roles/${roleId}`);
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
@@ -40,14 +31,15 @@ const RoleInformation = ({ open, onClose, roleId }: Props) => {
               All Members with{" "}
               <span className="text-theme font-medium">{role?.name}</span> role
             </span>
-          )}
-          {!reqData?.length && (
+          )} */}
+          {isLoading && <Loader />}
+          {!roleInfo?.users?.length && (
             <>
               <UserLoaderAnime />
             </>
-          )} */}
-          {/* <div className="mt-4 flex flex-col gap-2">
-            {reqData?.map((item) => (
+          )}
+          <div className="mt-4 flex flex-col gap-2">
+            {roleInfo?.users?.map((item: any) => (
               <div className="h-24 w-full border-[1px] rounded-lg flex gap-3 items-center px-4">
                 <div className="h-[4.5rem] w-[4.5rem] bg-slate-400 rounded-full overflow-hidden shadow-lg">
                   {item?.photo ? (
@@ -66,7 +58,7 @@ const RoleInformation = ({ open, onClose, roleId }: Props) => {
                 </div>
               </div>
             ))}
-          </div> */}
+          </div>
         </Container>
       </Drawer>
     </>

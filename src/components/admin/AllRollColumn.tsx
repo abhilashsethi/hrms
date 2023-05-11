@@ -5,20 +5,23 @@ import { useChange, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
-
-const AllRollColumn = () => {
-  const [loading, setLoading] = useState(false);
-  const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
+interface ARRAY {
+  id?: string;
+  roles?: any;
+}
+interface Props {
+  data?: ARRAY;
+  mutate?: any;
+}
+const AllRollColumn = ({ data, mutate }: Props) => {
   const { change, isChanging } = useChange();
-  if (isLoading) {
-    return <Loader />;
-  }
+  const [loading, setLoading] = useState(false);
   return (
     <section className="mt-8">
       <MaterialTable
         title={<HeadStyle name="All Roles" icon={<PeopleRounded />} />}
-        isLoading={isLoading || isChanging}
-        data={roleData?.roles ? getDataWithSL<any>(roleData?.roles) : []}
+        isLoading={!data}
+        data={data?.roles ? getDataWithSL<any>(data?.roles) : []}
         options={{ ...MuiTblOptions(), selection: false }}
         columns={[
           {

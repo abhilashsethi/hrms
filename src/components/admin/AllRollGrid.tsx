@@ -83,11 +83,19 @@ const AllRollGrid = ({ data, mutate }: Props) => {
         <Grid container spacing={2}>
           {data?.map((item: any) => (
             <Grid key={item?.id} item lg={3}>
-              <div className="h-40 w-full bg-gradient-to-b from-theme-50/50 via-white to-white shadow-lg rounded-lg flex justify-center items-center">
+              <div className="py-4 w-full bg-gradient-to-b from-theme-50/50 via-white to-white shadow-lg rounded-lg flex justify-center items-center">
                 <div className="flex flex-col items-center gap-3">
                   <p className="text-lg font-semibold tracking-wide capitalize">
                     {item?.name}
                   </p>
+                  <div className="w-full px-8 flex gap-2 justify-center">
+                    <div className=" py-1 rounded-lg text-gray-600 flex items-center gap-2 px-4">
+                      <p className="font-semibold tracking-wide text-sm">
+                        Total Member :
+                      </p>
+                      {item?._count?.users}
+                    </div>
+                  </div>
                   <div className="flex gap-2">
                     <div className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-red-600 to-red-400 flex justify-center items-center text-lg font-semibold">
                       <Tooltip title="Delete">
