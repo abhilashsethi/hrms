@@ -12,13 +12,11 @@ import {
 } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
 import { RenderIconRow } from "components/common";
-import { CardNameComponent } from "components/core";
 import { useChange } from "hooks";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
 import { Client } from "types";
-import { deleteFile } from "utils";
 interface ARRAY {
   id?: string;
 }

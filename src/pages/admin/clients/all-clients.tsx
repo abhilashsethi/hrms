@@ -1,7 +1,6 @@
 import {
   Add,
   GridViewRounded,
-  Search,
   TableRowsRounded,
   Upload,
 } from "@mui/icons-material";
