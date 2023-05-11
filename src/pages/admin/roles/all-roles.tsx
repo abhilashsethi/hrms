@@ -1,17 +1,11 @@
 import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
 import { Button, IconButton, Pagination, Stack } from "@mui/material";
 import { AllRollColumn, AllRollGrid } from "components/admin";
-import {
-  AdminBreadcrumbs,
-  Loader,
-  LoaderAnime,
-  TextTitles,
-} from "components/core";
+import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
 import { CreateRole } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
-import { Role } from "types";
 
 const AllRoles = () => {
   const [pageNumber, setPageNumber] = useState<number | null>(1);
@@ -21,14 +15,12 @@ const AllRoles = () => {
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
-  // const { data: roleData, isLoading, mutate } = useFetch<Role>(`roles`);
   const {
     data: roleData,
     mutate,
     isLoading,
     pagination,
   } = useFetch<any>(`roles?page=${pageNumber}&limit=8`);
-  console.log(roleData);
 
   return (
     <PanelLayout title="All Roles - Admin Panel">
@@ -74,9 +66,15 @@ const AllRoles = () => {
         </div>
 
         {isGrid ? (
-          <AllRollGrid data={roleData?.roles} mutate={mutate} />
+          <>
+            {isLoading && <Loader />}
+            <AllRollGrid data={roleData?.roles} mutate={mutate} />
+          </>
         ) : (
-          <AllRollColumn />
+          <>
+            {isLoading && <Loader />}
+            <AllRollColumn data={roleData?.roles} mutate={mutate} />
+          </>
         )}
         {!roleData?.roles?.length && <LoaderAnime />}
         {roleData?.roles?.length ? (
