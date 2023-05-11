@@ -12,10 +12,10 @@ import {
   ListItemIcon,
   Menu,
   MenuItem,
+  Skeleton,
   Tooltip,
 } from "@mui/material";
 import { AWS, CSS, JAVASCRIPT, NEXTJS, REACT } from "assets/svgicons";
-import { Loader } from "components/core";
 import { ProjectAddLink, ProjectUpdate } from "components/dialogues";
 import { ProjectMembers, ProjectURLS } from "components/drawer";
 import { useChange, useFetch } from "hooks";
@@ -40,9 +40,6 @@ const Projects = () => {
     mutate,
     isLoading,
   } = useFetch<Projects[]>(`projects`);
-  if (isLoading) {
-    return <Loader />;
-  }
   return (
     <>
       <ProjectURLS open={isURL} onClose={() => setIsURL(false)} />
@@ -50,6 +47,11 @@ const Projects = () => {
         open={isMembers?.dialogue}
         onClose={() => setIsMembers({ dialogue: false })}
       />
+      {/* <div className="h-[23rem] w-1/3 px-4">
+        <div className="h-full w-full border-2 rounded-md p-4">
+          <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+        </div>
+      </div> */}
       <div className="grid gap-6 lg:grid-cols-3 pb-8">
         {projectData?.map((item: any) => (
           <div
