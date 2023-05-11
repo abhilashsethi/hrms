@@ -3,4 +3,8 @@ export { default as DEFAULTPROFILE } from "./defaultprofile.jpg";
 export { default as SAMPLEDP } from "./sampledp.jpg";
 export { default as ID } from "./id.png";
 export { default as CardAsset } from "./Asset.png";
+export { default as PDF } from "./pdf.png";
+export { default as DOC } from "./doc.png";
+export { default as XLS } from "./xls.png";
+export { default as IMG } from "./image.png";
 export { default as NOTIFICATIONBELL } from "./notificationbell.png";

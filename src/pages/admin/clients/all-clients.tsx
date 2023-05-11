@@ -45,7 +45,6 @@ const AllClients = () => {
       isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }${isIssue ? `&issueResolved=${isIssue}` : ""}`
   );
-  console.log(clients);
   return (
     <>
       <PanelLayout title="All Clients - SY HR MS">
