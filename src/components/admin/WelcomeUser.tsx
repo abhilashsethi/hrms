@@ -13,7 +13,7 @@ const WelcomeUser = ({ title }: Props) => {
           <Avatar src="" className="cursor-pointer !bg-theme" />
         </div>
         <div className="flex flex-col gap-2">
-          <span className="text-xl font-semibold text-gray-500">{title}</span>
+          <span className="text-xl font-semibold text-gray-900">{title}</span>
           <span>{moment(new Date()).format("lll")}</span>
         </div>
       </div>

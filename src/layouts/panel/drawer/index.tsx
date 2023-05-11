@@ -95,7 +95,7 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
           </div>
         )}
 
-        <List sx={{ mt: "1px" }} className="super-bold-drawer-font">
+        <List sx={{ mt: "1px" }} className="font-light">
           {MenuItems?.map((item: any) => (
             <Fragment key={item?.key}>
               <Tooltip
@@ -115,7 +115,7 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
                   className={
                     router.asPath === item?.route
                       ? "!rounded-r-[25px] highlight-menu !text-white !font-bold "
-                      : "!text-black !font-bold"
+                      : "!text-black !font-light"
                   }
                   selected={
                     item?.submenus
@@ -140,7 +140,7 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
                         variant="body1"
                         fontFamily={'Montserrat", sans-serif'}
                         fontWeight={600}
-                        className="!font-semibold"
+                        className="!tracking-wide"
                       >
                         {item?.title}
                       </Typography>
@@ -197,7 +197,7 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
                             <Typography
                               variant="body2"
                               fontFamily={'Montserrat", sans-serif'}
-                              className="!font-semibold"
+                              className=""
                             >
                               {submenu?.title}
                             </Typography>
