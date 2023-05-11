@@ -5,9 +5,20 @@ import {
   TableRowsRounded,
   Upload,
 } from "@mui/icons-material";
-import { Button, IconButton, MenuItem, TextField } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  Pagination,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { ClientTableView, ClientsGrid } from "components/admin/clients";
-import { AdminBreadcrumbs } from "components/core";
+import {
+  AdminBreadcrumbs,
+  FiltersContainer,
+  LoaderAnime,
+} from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -17,12 +28,20 @@ import { Client } from "types";
 
 const AllClients = () => {
   const [isGrid, setIsGrid] = useState(true);
+  const [userName, setUsername] = useState<string | null>(null);
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [isUpload, setIsUpload] = useState(false);
   const [value, setValue] = useState("Web Developer");
   const handleChange = (event: any) => {
     setValue(event.target.value);
   };
-  const { data: clients, mutate } = useFetch<any>(`clients`);
+  const {
+    data: clients,
+    mutate,
+    pagination,
+  } = useFetch<any>(
+    `clients?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}`
+  );
   console.log(clients);
   return (
     <>
@@ -76,49 +95,40 @@ const AllClients = () => {
               </Button>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <TextField
-              fullWidth
-              size="small"
-              id="employeeId"
-              placeholder="Client Id"
-              name="employeeId"
-            />
-            <TextField
-              fullWidth
-              size="small"
-              id="employeeName"
-              placeholder="Client Name"
-              name="employeeName"
-            />
-            <TextField
-              fullWidth
-              select
-              label="Select Role"
-              size="small"
-              value={value}
-              onChange={handleChange}
-            >
-              {roles.map((option) => (
-                <MenuItem key={option.id} value={option.value}>
-                  {option.value}
-                </MenuItem>
-              ))}
-            </TextField>
-            <Button
-              fullWidth
-              startIcon={<Search />}
-              variant="contained"
-              className="!bg-theme"
-            >
-              Search
-            </Button>
-          </div>
+          <FiltersContainer>
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <TextField
+                fullWidth
+                size="small"
+                id="name"
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Client Name"
+                name="name"
+              />
+            </div>
+          </FiltersContainer>
           {isGrid ? (
             <ClientsGrid data={clients} mutate={mutate} />
           ) : (
             <ClientTableView data={clients} mutate={mutate} />
           )}
+          {!clients?.length && <LoaderAnime />}
+          {clients?.length ? (
+            <div className="flex justify-center py-8">
+              <Stack spacing={2}>
+                <Pagination
+                  count={Math.ceil(
+                    Number(pagination?.total || 1) /
+                      Number(pagination?.limit || 1)
+                  )}
+                  onChange={(e, v: number) => {
+                    setPageNumber(v);
+                  }}
+                  variant="outlined"
+                />
+              </Stack>
+            </div>
+          ) : null}
         </section>
       </PanelLayout>
     </>
