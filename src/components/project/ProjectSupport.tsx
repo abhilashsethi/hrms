@@ -6,9 +6,9 @@ import React from "react";
 const ProjectSupport = () => {
   return (
     <section className="">
-      <div className="w-full rounded-md p-6 shadow-jubilation bg-yellow-50">
+      <div className="w-full rounded-md p-6 shadow-jubilation">
         <div className="flex justify-end">
-          <span className="text-xs">
+          <span className="text-xs mb-1">
             {moment(new Date().toISOString()).format("ll")}
           </span>
         </div>

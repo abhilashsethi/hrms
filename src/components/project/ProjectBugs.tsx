@@ -65,7 +65,7 @@ const CardComponent = ({ key, index, item }: Props) => {
       <div className=" w-full rounded-md py-3 flex items-start">
         <div className="w-[57%] pr-3">
           <div className="flex gap-2">
-            <div className="h-5 w-5 bg-slate-500 rounded-full text-white flex justify-center items-center text-sm">
+            <div className="h-4 w-4 bg-slate-500 rounded-full text-white flex justify-center items-center text-xs">
               {Number(index) + 1}
             </div>
             <div className="w-[90%]">
