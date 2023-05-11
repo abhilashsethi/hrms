@@ -1,9 +1,7 @@
 import MaterialTable from "@material-table/core";
-import { PeopleRounded, PersonRounded } from "@mui/icons-material";
-import { Tooltip } from "@mui/material";
+import { PeopleRounded } from "@mui/icons-material";
 import { CopyClipboard, HeadStyle, IOSSwitch } from "components/core";
 import { useChange } from "hooks";
-import Link from "next/link";
 import Swal from "sweetalert2";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 interface ARRAY {
@@ -26,7 +24,6 @@ const ClientTableView = ({ data, mutate }: Props) => {
       confirmButtonText: "Yes, update!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        return;
         const res = await change(`clients/${userId}`, {
           method: "PATCH",
           body: { isBlocked: !e.target?.checked },
@@ -44,7 +41,7 @@ const ClientTableView = ({ data, mutate }: Props) => {
   return (
     <section className="mt-8">
       <MaterialTable
-        title={<HeadStyle name="All Employees" icon={<PeopleRounded />} />}
+        title={<HeadStyle name="All Clients" icon={<PeopleRounded />} />}
         isLoading={!data}
         data={data ? getDataWithSL<any>(data) : []}
         options={{ ...MuiTblOptions(), selection: false }}
@@ -79,18 +76,6 @@ const ClientTableView = ({ data, mutate }: Props) => {
             title: "Gender",
             tooltip: "Gender",
             field: "gender",
-            editable: "never",
-          },
-          {
-            title: "Role",
-            tooltip: "Role",
-            field: "role",
-            emptyValue: "Not Provided",
-            render: ({ role }) => {
-              return (
-                <span className="text-sm text-gray-500">{role?.name}</span>
-              );
-            },
             editable: "never",
           },
 

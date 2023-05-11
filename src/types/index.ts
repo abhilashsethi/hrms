@@ -113,6 +113,7 @@ export type Client = {
 	gender: string;
 	isBlocked: boolean;
 	phone: number;
+	photo: string;
 	createdAt: Date;
 	updatedAt: Date;
 };

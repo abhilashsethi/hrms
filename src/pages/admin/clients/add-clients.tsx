@@ -54,7 +54,6 @@ const AddClients = () => {
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
-    console.log(values);
     setLoading(true);
     try {
       delete values.confirmPassword;

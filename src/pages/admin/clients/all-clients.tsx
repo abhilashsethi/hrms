@@ -1,7 +1,6 @@
 import {
   Add,
   GridViewRounded,
-  Search,
   TableRowsRounded,
   Upload,
 } from "@mui/icons-material";
@@ -17,7 +16,9 @@ import { ClientTableView, ClientsGrid } from "components/admin/clients";
 import {
   AdminBreadcrumbs,
   FiltersContainer,
+  Loader,
   LoaderAnime,
+  SkeletonLoader,
 } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import { useFetch } from "hooks";
@@ -28,19 +29,21 @@ import { Client } from "types";
 
 const AllClients = () => {
   const [isGrid, setIsGrid] = useState(true);
+  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
+  const [isIssue, setIsIssue] = useState<string | null>(null);
   const [userName, setUsername] = useState<string | null>(null);
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [isUpload, setIsUpload] = useState(false);
-  const [value, setValue] = useState("Web Developer");
-  const handleChange = (event: any) => {
-    setValue(event.target.value);
-  };
+
   const {
     data: clients,
     mutate,
     pagination,
-  } = useFetch<any>(
-    `clients?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}`
+    isLoading,
+  } = useFetch<Client[]>(
+    `clients?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+      isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    }${isIssue ? `&issueResolved=${isIssue}` : ""}`
   );
   console.log(clients);
   return (
@@ -76,23 +79,6 @@ const AllClients = () => {
                   </div>
                 </IconButton>
               </div>
-              <Link href="/admin/clients/add-clients">
-                <Button
-                  className="!bg-theme"
-                  variant="contained"
-                  startIcon={<Add />}
-                >
-                  ADD CLIENTS
-                </Button>
-              </Link>
-              <Button
-                onClick={() => setIsUpload(true)}
-                className="!bg-slate-600"
-                variant="contained"
-                startIcon={<Upload />}
-              >
-                UPLOAD CLIENTS DATA
-              </Button>
             </div>
           </div>
           <FiltersContainer>
@@ -105,12 +91,57 @@ const AllClients = () => {
                 placeholder="Client Name"
                 name="name"
               />
+              <TextField
+                fullWidth
+                select
+                label="Ascending/Descending"
+                size="small"
+                value={isOrderBy ? isOrderBy : ""}
+                onChange={(e) => setIsOrderBy(e?.target?.value)}
+              >
+                {short.map((option) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                fullWidth
+                select
+                label="Issue Resolved"
+                size="small"
+                value={isIssue ? isIssue : ""}
+                onChange={(e) => setIsIssue(e?.target?.value)}
+              >
+                {ticket.map((option) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <Link href="/admin/clients/add-clients">
+                <Button
+                  fullWidth
+                  className="!bg-theme"
+                  variant="contained"
+                  startIcon={<Add />}
+                >
+                  ADD CLIENTS
+                </Button>
+              </Link>
             </div>
           </FiltersContainer>
           {isGrid ? (
-            <ClientsGrid data={clients} mutate={mutate} />
+            <>
+              {isLoading && <SkeletonLoader />}
+              <ClientsGrid data={clients} mutate={mutate} />
+            </>
           ) : (
-            <ClientTableView data={clients} mutate={mutate} />
+            <>
+              {" "}
+              {isLoading && <Loader />}
+              <ClientTableView data={clients} mutate={mutate} />
+            </>
           )}
           {!clients?.length && <LoaderAnime />}
           {clients?.length ? (
@@ -137,13 +168,16 @@ const AllClients = () => {
 
 export default AllClients;
 
-const roles = [
-  { id: 1, value: "CEO" },
-  { id: 2, value: "Manager" },
-  { id: 3, value: "Director" },
-  { id: 4, value: "Founder" },
+const short = [
+  { id: 1, value: "name:asc", name: "Name Ascending" },
+  { id: 2, value: "name:desc", name: "Name Descending" },
+  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
+  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
-
+const ticket = [
+  { id: 1, value: "true", name: "Yes" },
+  { id: 2, value: "false", name: "No " },
+];
 const links = [
   { id: 1, page: "Clients", link: "/admin/clients" },
   { id: 2, page: "All Clients", link: "/admin/clients/all-clients" },
