@@ -26,6 +26,7 @@ const ClientTableView = ({ data, mutate }: Props) => {
       confirmButtonText: "Yes, update!",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        return;
         const res = await change(`clients/${userId}`, {
           method: "PATCH",
           body: { isBlocked: !e.target?.checked },
