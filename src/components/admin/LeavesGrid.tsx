@@ -1,20 +1,6 @@
-import {
-	MoreVertRounded,
-	RemoveRedEyeOutlined,
-	ShoppingBasket,
-} from "@mui/icons-material";
-import {
-	IconButton,
-	ListItemIcon,
-	Menu,
-	MenuItem,
-	Step,
-	StepLabel,
-	Stepper,
-} from "@mui/material";
-import { SAMPLEDP } from "assets/home";
-import Link from "next/link";
+import { Step, StepLabel, Stepper } from "@mui/material";
 import { useState, MouseEvent } from "react";
+import { SAMPLEDP } from "assets/home";
 const LeavesGrid = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
@@ -29,9 +15,14 @@ const LeavesGrid = () => {
 			case "Approved":
 				return (
 					<>
-						<span className="bg-green-300 text-green-600 rounded-full px-6 py-1 font-semibold">
-							{status}
-						</span>
+						{/* <span className="bg-green-300 text-green-600 rounded-full px-6 py-1 font-semibold">
+            {status}
+						</span> */}
+						<div className="flex justify-center items-center">
+							<div className="text-xs w-1/3 bg-[#44bd44] text-white p-1 rounded-md font-semibold px-2">
+								{status}
+							</div>
+						</div>
 						<div className="pt-4">
 							<Stepper activeStep={2} alternativeLabel>
 								{steps.map((label) => (
@@ -59,22 +50,27 @@ const LeavesGrid = () => {
 							</Stepper>
 						</div>
 						<div className="md:flex items-center justify-center mt-2 pt-2 space-x-3">
-							<button className="bg-green-600 text-sm text-white font-semibold rounded-md px-6 py-2 hover:bg-green-700">
+							<div className="text-xs w-1/3 bg-[#44bd44] text-white p-1 rounded-md font-semibold px-2">
 								Accept
-							</button>
-							<button className="bg-red-600 text-sm text-white font-semibold rounded-md px-6 py-2 hover:bg-red-700">
+							</div>
+							<div className="text-xs w-1/3 bg-red-600 text-white p-1 rounded-md font-semibold px-2">
 								Decline
-							</button>
+							</div>
 						</div>
 					</>
 				);
 			case "Decline":
 				return (
 					<>
-						<span className="bg-red-300 text-red-600 rounded-full px-6 py-1 font-semibold">
+						{/* <span className="bg-red-300 text-red-600 rounded-full px-2 py-1 font-semibold text-xs">
 							{status}
-						</span>
-						<div className="pt-4">
+						</span> */}
+						<div className="flex justify-center items-center">
+							<div className="text-xs w-1/3 bg-red-600 text-white p-1 rounded-md font-semibold px-2">
+								{status}
+							</div>
+						</div>
+						<div className="pt-2">
 							<Stepper activeStep={0} alternativeLabel>
 								{steps.map((label) => (
 									<Step key={label}>
@@ -105,12 +101,12 @@ const LeavesGrid = () => {
 	return (
 		<>
 			<section className="py-6 ">
-				<div className="grid grid-cols-4 gap-6 py-6 items-center justify-center">
+				<div className="grid grid-cols-4 gap-6 py-6 items-center justify-center mt-4">
 					{leavData?.map((item: any, index: any) => (
 						<>
 							<div
 								key={index}
-								className="flex flex-col h-full px-2 justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-white  hover:scale-105 ease-in-out transition-all duration-200"
+								className="relative flex flex-col px-2 justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-gradient-to-r from-rose-100 to-teal-100 h-64 hover:scale-105 ease-in-out transition-all duration-200"
 							>
 								{/* <div className="absolute right-[10px] top-[10px]">
                   <IconButton onClick={handleClick}>
@@ -165,7 +161,7 @@ const LeavesGrid = () => {
                 </div> */}
 								<img
 									alt=""
-									className="self-center flex-shrink-0 w-16 h-16 bg-center bg-cover rounded-full bg-gray-500"
+									className="absolute -top-10 self-center flex-shrink-0 w-16 h-16 bg-center bg-cover rounded-full bg-gray-500"
 									src={SAMPLEDP.src}
 								/>
 								<div className="flex-1 my-6">
@@ -173,18 +169,21 @@ const LeavesGrid = () => {
 										{item?.name}
 									</p>
 									<p className="mb-2 text-sm">{item.role}</p>
-									<p className="mb-2 text-sm group flex items-center justify-center gap-2 pb-2 ">
+									<p className="mb-2 text-sm group flex items-center justify-center gap-2 pb-2">
 										{/* <ShoppingBasket />{" "} */}
 										{/* <div className="font-semibold">Credit</div>
 										<div className="flex justify-between items-center">
 											<p>Monthly Credit</p>
 											<p>Annual Credit</p>
 										</div> */}
-										<div className="flex flex-col">
-											<div className="font-semibold">Credit</div>
-											<div className="flex w-full justify-between gap-4">
-												<p>Monthly Credit</p>
-												<p>Annual Credit</p>
+										<div className="flex w-full justify-center gap-2">
+											<div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
+												<p className="font-semibold">Monthly Left</p>
+												<p>2</p>
+											</div>
+											<div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
+												<p className="font-semibold">Annual Left</p>
+												<p>12</p>
 											</div>
 										</div>
 										{/* {item?.credit} */}
