@@ -1,5 +1,7 @@
 import { AdminBreadcrumbs, ProjectDetails } from "components/core";
+import { ProjectBasicDetailsUpdate } from "components/dialogues";
 import PanelLayout from "layouts/panel";
+import { useState } from "react";
 
 const ProjectDetailpage = () => {
   return (

@@ -12,34 +12,31 @@ import {
 import { ErrorMessage, Form, Formik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
-import { useChange } from "hooks";
+import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
-import { SingleImageUpload } from "components/core";
+import { SingleImageUpdate } from "components/core";
 import { uploadFile } from "utils";
 
 interface Props {
-  open: boolean;
+  open: any;
   handleClose: any;
   mutate?: any;
-  resetForm?: any;
+  id?: any;
 }
-const initialValues = {
-  name: "",
-  image: [],
-};
+
 const validationSchema = yup.object().shape({
   name: yup.string().required("Required!"),
   //   image: yup.string().required("Required!"),
-  image: yup
+  logo: yup
     .mixed()
     .required("Image is required")
-    .test("fileSize", "Image size is too large", (value: any) => {
-      if (value) {
-        const maxSize = 300 * 1024; // Maximum size in bytes (300KB)
-        return value.size <= maxSize;
-      }
-      return true;
-    })
+    // .test("fileSize", "Image size is too large", (value: any) => {
+    //   if (value) {
+    //     const maxSize = 300 * 1024;
+    //     return value.size <= maxSize;
+    //   }
+    //   return true;
+    // })
     .test("fileType", "Invalid file type", (value: any) => {
       if (value) {
         const supportedFormats = [
@@ -53,22 +50,29 @@ const validationSchema = yup.object().shape({
       return true;
     }),
 });
-const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
+const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
+  const { data: technologies, isLoading } = useFetch<{
+    name: string;
+    logo: any;
+  }>(`technologies/${id}`);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const initialValues = {
+    name: `${technologies?.name ? technologies?.name : ""}`,
+    logo: `${technologies?.logo ? technologies?.logo : []}`,
+  };
   const handleSubmit = async (values: any) => {
     setLoading(true);
     const uniId = new Date().getTime();
     try {
-      const url = await uploadFile(values?.image, `${uniId}.png`);
+      const url = await uploadFile(values?.logo, `${uniId}.png`);
       const name = values.name;
-      const res = await change(`technologies`, {
+      const res = await change(`technologies/${id}`, {
+        method: "PATCH",
         body: { logo: url, name: name },
       });
-      mutate();
-      //  const res = await change(`technologies`, { body: values });
       setLoading(false);
-      if (res?.status !== 201) {
+      if (res?.status !== 200) {
         Swal.fire(
           "Error",
           res?.results?.msg || "Something went wrong!",
@@ -79,8 +83,7 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
       }
       mutate();
       handleClose();
-      Swal.fire(`Success`, `Created Successfully!`, `success`);
-      resetForm();
+      Swal.fire(`Success`, `Updated Successfully!`, `success`);
       return;
     } catch (error) {
       console.log(error);
@@ -98,10 +101,10 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
     >
       <DialogTitle
         id="customized-dialog-title"
-        sx={{ p: 2, minWidth: "20rem !important" }}
+        sx={{ p: 2, minWidth: "18rem !important" }}
       >
         <p className="text-center text-xl font-bold text-theme tracking-wide">
-          CREATE TECHNOLOGY
+          UPDATE TECHNOLOGY
         </p>
         <IconButton
           aria-label="close"
@@ -119,7 +122,7 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
         </IconButton>
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-        <div className="md:w-[26rem] w-[72vw] md:px-4 px-2 tracking-wide">
+        <div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -135,35 +138,40 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
               setFieldValue,
             }) => (
               <Form className="flex flex-col gap-4">
-                <SingleImageUpload
-                  values={values.image}
-                  setImageValue={(event: any) => {
-                    setFieldValue("image", event?.target?.files[0]);
-                  }}
-                >
-                  <ErrorMessage name="image" />
-                </SingleImageUpload>
-                <TextField
-                  fullWidth
-                  placeholder="Enter Technology"
-                  name="name"
-                  value={values.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.name && !!errors.name}
-                  helperText={touched.name && errors.name}
-                />
+                {!isLoading && (
+                  <>
+                    <SingleImageUpdate
+                      values={values}
+                      setImageValue={(event: any) => {
+                        setFieldValue("logo", event.currentTarget.files[0]);
+                      }}
+                    >
+                      <ErrorMessage name="logo" />
+                    </SingleImageUpdate>
+                    <TextField
+                      fullWidth
+                      placeholder="Enter Technology"
+                      name="name"
+                      value={values.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.name && !!errors.name}
+                      helperText={touched.name && errors.name}
+                    />
+                  </>
+                )}
+
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
-                  className="!bg-theme"
+                  className="!bg-emerald-500"
                   disabled={loading}
                   startIcon={
                     loading ? <CircularProgress size={20} /> : <Check />
                   }
                 >
-                  CREATE TECHNOLOGY
+                  UPDATE TECHNOLOGY
                 </Button>
               </Form>
             )}
@@ -174,4 +182,4 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
   );
 };
 
-export default CreateTechnology;
+export default UpdateDepartment;

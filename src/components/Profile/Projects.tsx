@@ -48,11 +48,17 @@ const Projects = () => {
         open={isMembers?.dialogue}
         onClose={() => setIsMembers({ dialogue: false })}
       />
-      {/* <div className="h-[23rem] w-1/3 px-4">
-        <div className="h-full w-full border-2 rounded-md p-4">
-          <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+      {!projectData?.length && (
+        <div className="w-full flex gap-2 mb-4">
+          {skeletons?.map((item) => (
+            <>
+              <SkeletonsStructure />
+            </>
+          ))}
         </div>
-      </div> */}
+      )}
+
+      {/* ----------------------- */}
       <div className="grid gap-6 lg:grid-cols-3 pb-8">
         {projectData?.map((item: any) => (
           <div
@@ -335,3 +341,54 @@ const techs = [
   { id: 4, img: AWS.src },
   { id: 5, img: CSS.src },
 ];
+
+const skeletons = [{ id: 1 }, { id: 2 }, { id: 3 }];
+
+const SkeletonsStructure = () => {
+  return (
+    <div className="w-1/3 px-4">
+      <div className="h-full w-full border-2 rounded-md p-4">
+        <div className="flex gap-2 items-center">
+          <Skeleton variant="circular" width={22} height={22} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "60%" }} />
+        </div>
+        <div className="flex gap-2 items-start mt-4">
+          <div className="w-full">
+            <Skeleton variant="text" sx={{ fontSize: "1rem", width: "40%" }} />
+            <Skeleton variant="text" sx={{ fontSize: "1rem", width: "60%" }} />
+          </div>
+          <Skeleton variant="text" sx={{ fontSize: "1.3rem", width: "45%" }} />
+        </div>
+        <div className="mt-4">
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "50%" }} />
+          <div className="w-full border-2 mt-1 rounded-md p-3 flex gap-3 items-center">
+            <Skeleton variant="circular" width={40} height={40} />
+            <div className="w-2/3">
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1rem", width: "50%" }}
+              />
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1rem", width: "70%" }}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 w-4/5 gap-1 text-sm mt-4">
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "70%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "70%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "70%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "70%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "70%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "70%" }} />
+        </div>
+        <div className="w-full mt-6">
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "75%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "50%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "60%" }} />
+        </div>
+      </div>
+    </div>
+  );
+};

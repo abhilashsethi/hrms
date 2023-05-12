@@ -25,9 +25,11 @@ import {
 import { DEFAULTPROFILE } from "assets/home";
 import { ProjectURLS } from "components/drawer";
 import { useState } from "react";
+import { ProjectBasicDetailsUpdate } from "components/dialogues";
 
 const ProjectDetails = () => {
   const [isURL, setIsURL] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
   const handleURL = () => {
     setIsURL(true);
   };
@@ -51,6 +53,10 @@ const ProjectDetails = () => {
   ];
   return (
     <div className="mt-2">
+      <ProjectBasicDetailsUpdate
+        open={isUpdate}
+        handleClose={() => setIsUpdate(false)}
+      />
       <ProjectURLS open={isURL} onClose={() => setIsURL(false)} />
       <Grid container spacing={2}>
         <Grid item lg={8}>
@@ -64,6 +70,7 @@ const ProjectDetails = () => {
                 variant="contained"
                 className="!bg-theme"
                 startIcon={<Edit />}
+                onClick={() => setIsUpdate(true)}
               >
                 Edit
               </Button>
