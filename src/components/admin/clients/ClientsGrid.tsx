@@ -183,13 +183,15 @@ const MoreOption = ({ item, mutate }: any) => {
 						</MenuItem>
 					</Menu>
 				</div>
-				<div className="flex justify-center">
-					<PhotoViewerGuests
-						className="border-[3px]"
-						name={item?.name}
-						photo={item?.photo}
-					/>
-				</div>
+				<Link href={`/admin/clients/client-profile?id=${item?.id}`}>
+					<div className="flex justify-center">
+						<PhotoViewerGuests
+							className="border-[3px]"
+							name={item?.name}
+							photo={item?.photo}
+						/>
+					</div>
+				</Link>
 				<div className="flex-1 mt-6">
 					{/* <h1 className="text-lg font-semibold leading-snug">
       {item?.company}
