@@ -9,51 +9,66 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useFormik } from "formik";
+import { ErrorMessage, Form, Formik, useFormik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
 import { useChange } from "hooks";
 import Swal from "sweetalert2";
+import { SingleImageUpload } from "components/core";
+import { uploadFile } from "utils";
 
 interface Props {
   open: boolean;
   handleClose: any;
   mutate?: any;
+  resetForm?: any;
 }
-
-const CreateTechnology = ({ open, handleClose, mutate }: Props) => {
+const initialValues = {
+  name: "",
+  image: [],
+};
+const validationSchema = yup.object().shape({
+  name: yup.string().required("Required!"),
+  //   image: yup.string().required("Required!"),
+});
+const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const formik = useFormik({
-    initialValues: { name: "" },
-    validationSchema: yup.object({ name: yup.string().required("Required!") }),
-    onSubmit: async (values) => {
-      setLoading(true);
-      try {
-        const res = await change(`technologies`, { body: values });
+  const handleSubmit = async (values: any) => {
+    setLoading(true);
+    const uniId = new Date().getTime();
+    try {
+      const url = await uploadFile(values?.image, `${uniId}.png`);
+      // console.log(url);
+      const name = values.name;
+      const res = await change(`technologies`, {
+        body: { logo: url, name: name },
+      });
+      mutate();
+      //  const res = await change(`technologies`, { body: values });
+      setLoading(false);
+      if (res?.status !== 201) {
+        Swal.fire(
+          "Error",
+          res?.results?.msg || "Something went wrong!",
+          "error"
+        );
         setLoading(false);
-        if (res?.status !== 201) {
-          Swal.fire(
-            "Error",
-            res?.results?.msg || "Something went wrong!",
-            "error"
-          );
-          setLoading(false);
-          return;
-        }
-        mutate();
-        handleClose();
-        Swal.fire(`Success`, `Created Successfully!`, `success`);
-        formik.resetForm();
         return;
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      } finally {
-        setLoading(false);
       }
-    },
-  });
+      mutate();
+      handleClose();
+      Swal.fire(`Success`, `Created Successfully!`, `success`);
+      resetForm();
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Dialog
       onClose={handleClose}
@@ -62,7 +77,7 @@ const CreateTechnology = ({ open, handleClose, mutate }: Props) => {
     >
       <DialogTitle
         id="customized-dialog-title"
-        sx={{ p: 2, minWidth: "18rem !important" }}
+        sx={{ p: 2, minWidth: "20rem !important" }}
       >
         <p className="text-center text-xl font-bold text-theme tracking-wide">
           CREATE TECHNOLOGY
@@ -83,29 +98,55 @@ const CreateTechnology = ({ open, handleClose, mutate }: Props) => {
         </IconButton>
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-        <div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
-          <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-            <TextField
-              fullWidth
-              placeholder="Enter Technology"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.name && !!formik.errors.name}
-              helperText={formik.touched.name && formik.errors.name}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              className="!bg-theme"
-              disabled={loading}
-              startIcon={loading ? <CircularProgress size={20} /> : <Check />}
-            >
-              CREATE TECHNOLOGY
-            </Button>
-          </form>
+        <div className="md:w-[26rem] w-[72vw] md:px-4 px-2 tracking-wide">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              setFieldValue,
+            }) => (
+              <Form className="flex flex-col gap-4">
+                <SingleImageUpload
+                  values={values.image}
+                  setImageValue={(event: any) => {
+                    setFieldValue("image", event?.target?.files[0]);
+                  }}
+                >
+                  <ErrorMessage name="image" />
+                </SingleImageUpload>
+                <TextField
+                  fullWidth
+                  placeholder="Enter Technology"
+                  name="name"
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.name && !!errors.name}
+                  helperText={touched.name && errors.name}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  className="!bg-theme"
+                  disabled={loading}
+                  startIcon={
+                    loading ? <CircularProgress size={20} /> : <Check />
+                  }
+                >
+                  CREATE TECHNOLOGY
+                </Button>
+              </Form>
+            )}
+          </Formik>
         </div>
       </DialogContent>
     </Dialog>
