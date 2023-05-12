@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { CopyClipboard, PhotoViewer, PhotoViewerGuests } from "components/core";
+import { UpdateDepartment, UpdateTechnology } from "components/dialogues";
 import { useChange } from "hooks";
 import moment from "moment";
 import Link from "next/link";
@@ -49,6 +50,10 @@ const CardContent = ({ item, mutate }: any) => {
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const [isUpdate, setIsUpdate] = useState<{
+    dialogue?: boolean;
+    id?: string | null;
+  }>({ dialogue: false, id: null });
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -82,101 +87,86 @@ const CardContent = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
-  const handleBlock = async (e: any, id: string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to update status?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, update!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await change(`users/${id}`, {
-          method: "PATCH",
-          body: { isBlocked: !e.target?.checked },
-        });
-        mutate();
-        if (res?.status !== 200) {
-          Swal.fire(`Error`, "Something went wrong!", "error");
-          return;
-        }
-        Swal.fire(`Success`, "User Blocked successfully!!", "success");
-        return;
-      }
-    });
-  };
-  //   console.log(item);
+
   return (
-    <div className=" relative bg-white w-full rounded-xl shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
-      <div className="absolute right-[10px] top-[10px]">
-        <Tooltip title="More">
-          <IconButton onClick={handleClick}>
-            <MoreVertRounded />
-          </IconButton>
-        </Tooltip>
-        <Menu
-          anchorEl={anchorEl}
-          id="account-menu"
-          open={open}
-          onClose={handleClose}
-          onClick={handleClose}
-          PaperProps={{
-            elevation: 0,
-            sx: {
-              overflow: "visible",
-              filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
-              mt: 1.5,
-              "& .MuiAvatar-root": {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
+    <>
+      <UpdateTechnology
+        id={isUpdate?.id}
+        open={isUpdate?.dialogue}
+        handleClose={() => setIsUpdate({ dialogue: false })}
+        mutate={mutate}
+      />
+      <div className=" relative bg-white w-full rounded-xl shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
+        <div className="absolute right-[10px] top-[10px]">
+          <Tooltip title="More">
+            <IconButton onClick={handleClick}>
+              <MoreVertRounded />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            anchorEl={anchorEl}
+            id="account-menu"
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
+                },
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
               },
-              "&:before": {
-                content: '""',
-                display: "block",
-                position: "absolute",
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                bgcolor: "background.paper",
-                transform: "translateY(-50%) rotate(45deg)",
-                zIndex: 0,
-              },
-            },
-          }}
-          transformOrigin={{ horizontal: "right", vertical: "top" }}
-          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-        >
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <EditRounded fontSize="small" />
-            </ListItemIcon>
-            Edit
-          </MenuItem>
-          <MenuItem onClick={() => handleDelete(item)}>
-            <ListItemIcon>
-              <DeleteRounded fontSize="small" />
-            </ListItemIcon>
-            Delete
-          </MenuItem>
-        </Menu>
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <MenuItem
+              onClick={() => setIsUpdate({ dialogue: true, id: item?.id })}
+            >
+              <ListItemIcon>
+                <EditRounded fontSize="small" />
+              </ListItemIcon>
+              Edit
+            </MenuItem>
+            <MenuItem onClick={() => handleDelete(item)}>
+              <ListItemIcon>
+                <DeleteRounded fontSize="small" />
+              </ListItemIcon>
+              Delete
+            </MenuItem>
+          </Menu>
+        </div>
+        <div className="py-4 flex justify-center">
+          <PhotoViewerGuests
+            className="border-[3px]"
+            name={item?.name}
+            photo={item?.logo}
+          />
+        </div>
+        <div className="flex items-center pb-4 justify-center px-2">
+          <span className="text-xl font-semibold tracking-wide text-gray-600">
+            {item?.name}
+          </span>
+        </div>
       </div>
-      <div className="py-4 flex justify-center">
-        <PhotoViewerGuests
-          className="border-[3px]"
-          name={item?.name}
-          photo={item?.logo}
-        />
-      </div>
-      <div className="flex items-center pb-4 justify-center px-2">
-        <span className="text-xl text-base font-semibold tracking-wide text-gray-600">
-          {item?.name}
-        </span>
-      </div>
-    </div>
+    </>
   );
 };
