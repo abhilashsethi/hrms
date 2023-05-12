@@ -4,7 +4,6 @@ import {
   Event,
   MoreVertRounded,
   TaskAlt,
-  WidthFull,
 } from "@mui/icons-material";
 import {
   Avatar,
