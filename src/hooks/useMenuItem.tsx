@@ -267,7 +267,7 @@ export default () => {
 			{
 				key: "13",
 				title: "Support",
-				icon: <ICONS.Departments />,
+				icon: <ICONS.Support />,
 				route: "/admin/support",
 			},
 			{
