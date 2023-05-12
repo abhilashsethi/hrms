@@ -1,11 +1,24 @@
 import { HeadText } from "components/core";
 import moment from "moment";
-import { AccountTreeRounded } from "@mui/icons-material";
+import { AccountTreeRounded, Handyman } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
 
 const ClientProjects = () => {
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
-			<HeadText title="Latest Projects" />
+			<div className="flex justify-between">
+				<HeadText title="Projects (10)" />
+				<Tooltip title="View All Projects">
+					<div
+						// onClick={() => setTickets(true)}
+						className="w-32 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-500 flex-col gap-2 "
+					>
+						<span className="bg-[#dbe3ff] p-2 shadow-lg rounded-md transition-all ease-in-out duration-200">
+							<Handyman />
+						</span>
+					</div>
+				</Tooltip>
+			</div>
 			<div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
 				{cards?.map((item, i) => (
 					<div key={i} className="flex gap-1 py-3 border-b-[1px]">

@@ -119,7 +119,7 @@ const MoreOption = ({ item, mutate }: any) => {
 	};
 	return (
 		<>
-			<div className="flex flex-col px-4 py-4 h-full justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-white  hover:scale-105 ease-in-out transition-all duration-200">
+			<div className="flex flex-col px-4 py-4 h-full justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-white hover:scale-105 ease-in-out transition-all duration-200">
 				<ViewTicketsDrawer
 					open={tickets}
 					onClose={() => setTickets(false)}
