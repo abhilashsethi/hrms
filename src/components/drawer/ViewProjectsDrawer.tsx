@@ -1,34 +1,10 @@
-import {
-	AccountTreeRounded,
-	Add,
-	AddCardRounded,
-	BorderColor,
-	Cancel,
-	CheckCircle,
-	Close,
-	CloseSharp,
-	FreeBreakfast,
-	InsertDriveFile,
-	Person,
-	Search,
-} from "@mui/icons-material";
-import {
-	Avatar,
-	Button,
-	Card,
-	CircularProgress,
-	Container,
-	Drawer,
-	Modal,
-	Radio,
-	TextField,
-	Tooltip,
-} from "@mui/material";
+import { Avatar, Card, Container, Drawer, Modal, Tooltip } from "@mui/material";
+import { AccountTreeRounded, FreeBreakfast } from "@mui/icons-material";
 import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
 import { Loader } from "components/core";
 import { useChange, useFetch } from "hooks";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import { User } from "types";
 
 type Props = {
@@ -54,21 +30,21 @@ const style = {
 const Projects_Details = [
 	{
 		id: 1,
-		title: "Project Title",
+		title: "HRMS",
 		name: "Shrinu Readdy",
 		startDate: "25-04-2023",
 		endDate: "25-05-2023",
 	},
 	{
 		id: 2,
-		title: "Project Title",
+		title: "Yard ERP",
 		name: "Shrinu Readdy",
 		startDate: "25-04-2023",
 		endDate: "25-05-2023",
 	},
 	{
 		id: 3,
-		title: "Project Title",
+		title: "Yard CRM",
 		name: "Shrinu Readdy",
 		startDate: "25-04-2023",
 		endDate: "25-05-2023",
@@ -137,7 +113,7 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 					{/* Drawer Element */}
 
 					<div className="flex items-center justify-between pb-4">
-						<p className="text-lg font-bold text-theme">View Projects</p>
+						<p className="text-lg font-bold text-theme">View All Projects</p>
 					</div>
 
 					{isLoading && <Loader />}
@@ -177,7 +153,7 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 											</h1>{" "}
 										</div>
 										<div className="mt-4">
-											<h1 className="text-md font-bold">Team Lead</h1>{" "}
+											<h1 className="text-md font-semibold mb-2">Team Lead</h1>{" "}
 											<div className="flex w-full justify-between items-center gap-5">
 												<img
 													className="h-20 w-20 bg-slate-400 rounded-full shadow-xl"
@@ -207,9 +183,9 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 												<Tooltip title="Project Details">
 													<div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
 														<span className="p-2 bg-white shadow-lg rounded-md transition-all ease-in-out duration-200">
-															<span>
+															<Link href={"/admin/projects/project-details"}>
 																<AccountTreeRounded />{" "}
-															</span>
+															</Link>
 														</span>
 														<p className="text-xs text-center font-semibold ">
 															Details

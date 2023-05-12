@@ -40,25 +40,25 @@ const ClientChats = () => {
 					</p>
 				</div>
 			</div>
-			<div className="font-bold my-3">
+			<div className="font-semibold my-3">
 				Support Title :{"  "}
 				<span className="font-medium text-gray-600">
 					{"  "}Arrange a Meeting
 				</span>
 			</div>
-			<div className="font-bold mt-3">Support Description :</div>
+			<div className="font-semibold mt-3">Support Description :</div>
 			<p className="text-gray-600 font-medium text-sm">
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates
 				adipisci a facere voluptatum debitis totam asperiores temporibus cumque
 				commodi .
 			</p>
 			<div className="flex items-center mt-3 gap-3">
-				<div className="font-bold ">Issue Resolved :</div>
+				<div className="font-semibold ">Issue Resolved :</div>
 				<div className="text-xs bg-[#44bd44] text-white p-1 rounded-md font-semibold px-2">
 					Yes
 				</div>
 			</div>
-			<p className="font-bold mt-3 mb-2">Assigned Members</p>
+			<p className="font-semibold mt-3 mb-2">Assigned Members</p>
 			<div className="flex justify-start">
 				<AvatarGroup
 					className="!cursor-pointer"
@@ -92,7 +92,7 @@ const ClientChats = () => {
 			</div>
 
 			<div className="flex justify-between">
-				<p className="font-bold mt-3 mb-2">Documents</p>
+				<p className="font-semibold mt-3 mb-2">Documents</p>
 				<Tooltip title="Add more">
 					<button className="mt-5 bg-white text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white border border-theme rounded-lg px-4">
 						<Add className="" />

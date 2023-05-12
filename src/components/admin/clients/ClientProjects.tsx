@@ -2,19 +2,28 @@ import { HeadText } from "components/core";
 import moment from "moment";
 import { AccountTreeRounded, Handyman } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
+import { useState } from "react";
+import { ViewProjectsDrawer } from "components/drawer";
 
 const ClientProjects = () => {
+	const [projects, setProjects] = useState(false);
+	const [viewProjects, setViewProjects] = useState<any>(null);
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
+			<ViewProjectsDrawer
+				open={projects}
+				onClose={() => setProjects(false)}
+				setViewProject={setViewProjects}
+			/>
 			<div className="flex justify-between">
 				<HeadText title="Projects (10)" />
 				<Tooltip title="View All Projects">
 					<div
 						// onClick={() => setTickets(true)}
-						className="w-32 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-500 flex-col gap-2 "
+						className="rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-500 flex-col gap-2 "
 					>
 						<span className="bg-[#dbe3ff] p-2 shadow-lg rounded-md transition-all ease-in-out duration-200">
-							<Handyman />
+							<Handyman onClick={() => setProjects(true)} />
 						</span>
 					</div>
 				</Tooltip>

@@ -27,3 +27,4 @@ export { default as PhotoViewerSmall } from "./PhotoViewerSmall";
 export { default as SingleImageUpload } from "./SingleImageUpload";
 export { default as CountryNameFlag } from "./CountryNameFlag";
 export { default as SingleImageUpdate } from "./SingleImageUpdate";
+export { default as ClientProfileImage } from "./ClientProfileImage";
