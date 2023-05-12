@@ -250,16 +250,6 @@ const UpdateClient = ({ open, handleClose, mutate }: Props) => {
 };
 
 export default UpdateClient;
-const bloodGroup = [
-  { id: 1, value: "A_Positive", name: "A_Positive" },
-  { id: 1, value: "A_Negative", name: "A_Negative" },
-  { id: 1, value: "B_Positive", name: "B_Positive" },
-  { id: 1, value: "B_Negative", name: "B_Negative" },
-  { id: 1, value: "AB_Positive", name: "AB_Positive" },
-  { id: 1, value: "AB_Negative", name: "AB_Negative" },
-  { id: 1, value: "O_Positive", name: "O_Positive" },
-  { id: 1, value: "O_Negative", name: "O_Negative" },
-];
 const genders = [
   { id: 1, value: "Male" },
   { id: 2, value: "Female" },
