@@ -8,12 +8,14 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { Form, Formik } from "formik";
+import { ClientProfileImage } from "components/core";
+import { ErrorMessage, Form, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { uploadFile } from "utils";
 import * as Yup from "yup";
 const initialValues = {
   name: "",
@@ -47,6 +49,21 @@ const validationSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password Must Match!")
     .required("Confirm password is required!"),
+  image: Yup.mixed()
+    .test("fileSize", "Image size is too large", (value: any) => {
+      if (value) {
+        const maxSize = 2 * 1024 * 1024; // Maximum size in bytes (2MB)
+        return value?.size <= maxSize;
+      }
+      return true;
+    })
+    .test("fileType", "Invalid file type", (value: any) => {
+      if (value) {
+        const supportedFormats = ["image/jpeg", "image/png", "image/gif"];
+        return supportedFormats.includes(value?.type);
+      }
+      return true;
+    }),
 });
 const AddClients = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,10 +72,13 @@ const AddClients = () => {
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
     setLoading(true);
+    const uniId = new Date().getTime();
     try {
       delete values.confirmPassword;
+      const url: any = await uploadFile(values?.image, `${uniId}.png`);
+      delete values.image;
       const res = await change(`clients`, {
-        body: values,
+        body: { ...values, photo: url },
       });
       setLoading(false);
       if (res?.status !== 201) {
@@ -257,6 +277,19 @@ const AddClients = () => {
                       ))}
                     </TextField>
                   </div>
+                </div>
+                <div className="px-4 py-2">
+                  <div className="py-2">
+                    <InputLabel htmlFor="phone">Profile Image</InputLabel>
+                  </div>
+                  <ClientProfileImage
+                    values={values}
+                    setImageValue={(event: any) => {
+                      setFieldValue("image", event.currentTarget.files[0]);
+                    }}
+                  >
+                    <ErrorMessage name="image" />
+                  </ClientProfileImage>
                 </div>
                 <div className="flex justify-center py-4">
                   <Button

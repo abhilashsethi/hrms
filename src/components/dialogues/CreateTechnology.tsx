@@ -136,7 +136,7 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
             }) => (
               <Form className="flex flex-col gap-4">
                 <SingleImageUpload
-                  values={values.image}
+                  values={values}
                   setImageValue={(event: any) => {
                     setFieldValue("image", event?.target?.files[0]);
                   }}
