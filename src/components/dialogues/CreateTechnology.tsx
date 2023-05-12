@@ -30,6 +30,28 @@ const initialValues = {
 const validationSchema = yup.object().shape({
   name: yup.string().required("Required!"),
   //   image: yup.string().required("Required!"),
+  image: yup
+    .mixed()
+    .required("Image is required")
+    .test("fileSize", "Image size is too large", (value: any) => {
+      if (value) {
+        const maxSize = 300 * 1024; // Maximum size in bytes (300KB)
+        return value.size <= maxSize;
+      }
+      return true;
+    })
+    .test("fileType", "Invalid file type", (value: any) => {
+      if (value) {
+        const supportedFormats = [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/svg+xml",
+        ];
+        return supportedFormats.includes(value.type);
+      }
+      return true;
+    }),
 });
 const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
   const [loading, setLoading] = useState(false);
