@@ -1,11 +1,7 @@
 import { Add, Construction, MoreHoriz, Search } from "@mui/icons-material";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { Projects } from "components/Profile";
-import {
-  AdminBreadcrumbs,
-  CountryNameFlag,
-  FiltersContainer,
-} from "components/core";
+import { AdminBreadcrumbs, FiltersContainer } from "components/core";
 import { TechnologiesFilter } from "components/drawer";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
@@ -82,7 +78,6 @@ const AllProjects = () => {
 
         <div className="mt-4">
           <Projects />
-          <CountryNameFlag countryName="Iraq" />
         </div>
       </section>
     </PanelLayout>
