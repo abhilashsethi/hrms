@@ -1,21 +1,24 @@
-import { Add, Search } from "@mui/icons-material";
+import { Add, Construction, MoreHoriz, Search } from "@mui/icons-material";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { Projects } from "components/Profile";
-import { AdminBreadcrumbs } from "components/core";
-import { useFetch } from "hooks";
+import { AdminBreadcrumbs, FiltersContainer } from "components/core";
+import { TechnologiesFilter } from "components/drawer";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
 
 const AllProjects = () => {
-  const [value, setValue] = useState("Web Developer");
+  const [isTech, setIsTech] = useState(false);
+  const [status, setStatus] = useState("");
+  const [isBug, setIsBug] = useState("");
   const handleChange = (event: any) => {
-    setValue(event.target.value);
+    setStatus(event.target.value);
   };
 
   return (
     <PanelLayout title="All Projects - SY HR MS">
       <section className="px-8">
+        <TechnologiesFilter open={isTech} onClose={() => setIsTech(false)} />
         <div className="flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
@@ -30,45 +33,50 @@ const AllProjects = () => {
             </Link>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <TextField
-            fullWidth
-            size="small"
-            id="projectName"
-            placeholder="Project Name"
-            name="projectName"
-          />
-          <TextField
-            fullWidth
-            size="small"
-            id="employeeName"
-            placeholder="Employee Name"
-            name="employeeName"
-          />
-          <TextField
-            fullWidth
-            select
-            label="Select Role"
-            size="small"
-            value={value}
-            onChange={handleChange}
-          >
-            {roles.map((option) => (
-              <MenuItem key={option.id} value={option.value}>
-                {option.value}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Button
-            fullWidth
-            startIcon={<Search />}
-            variant="contained"
-            className="!bg-theme"
-          >
-            Search
-          </Button>
-        </div>
-        <div className="mt-8">
+        <FiltersContainer>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <TextField fullWidth size="small" placeholder="Project Name" />
+            <TextField
+              fullWidth
+              select
+              label="Status"
+              size="small"
+              value={status}
+              onChange={handleChange}
+            >
+              {roles.map((option) => (
+                <MenuItem key={option.id} value={option.value}>
+                  {option.value}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              fullWidth
+              select
+              label="Bugs"
+              size="small"
+              value={isBug}
+              onChange={(e) => setIsBug(e.target?.value)}
+            >
+              {bugSelects.map((option) => (
+                <MenuItem key={option.id} value={option.value}>
+                  {option.value}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Button
+              fullWidth
+              onClick={() => setIsTech(true)}
+              startIcon={<MoreHoriz />}
+              variant="contained"
+              className="!bg-theme"
+            >
+              MORE FILTERS
+            </Button>
+          </div>
+        </FiltersContainer>
+
+        <div className="mt-4">
           <Projects />
         </div>
       </section>
@@ -79,10 +87,14 @@ const AllProjects = () => {
 export default AllProjects;
 
 const roles = [
-  { id: 1, value: "Web Developer" },
-  { id: 2, value: "IOS Developer" },
-  { id: 3, value: "Android Developer" },
-  { id: 4, value: "Team Leader" },
+  { id: 1, value: "Completed" },
+  { id: 2, value: "Ongoing" },
+  { id: 3, value: "Onhold" },
+  { id: 4, value: "Pending" },
+];
+const bugSelects = [
+  { id: 1, value: "No Bugs" },
+  { id: 2, value: "Bugs" },
 ];
 
 const links = [
