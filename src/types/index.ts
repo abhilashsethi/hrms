@@ -104,6 +104,7 @@ export type Role = {
 	cardId: string;
 	createdAt: Date;
 	updatedAt: Date;
+	users:User[];
 };
 export type Client = {
 	id: string;
