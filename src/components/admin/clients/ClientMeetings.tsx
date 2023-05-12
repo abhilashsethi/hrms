@@ -10,7 +10,7 @@ const ClientMeetings = () => {
 	const [viewTickets, setViewTickets] = useState<any>(null);
 
 	return (
-		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
+		<section className="w-full p-6 rounded-lg bg-white shadow-xl">
 			<ViewTicketsDrawer
 				open={tickets}
 				onClose={() => setTickets(false)}
@@ -21,7 +21,7 @@ const ClientMeetings = () => {
 				<Tooltip title="View All Tickets">
 					<div
 						onClick={() => setTickets(true)}
-						className="w-32 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-500 flex-col gap-2 "
+						className=" rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-500 flex-col gap-2 "
 					>
 						<span className="bg-[#dbe3ff] p-2 shadow-lg rounded-md transition-all ease-in-out duration-200">
 							<Receipt />
