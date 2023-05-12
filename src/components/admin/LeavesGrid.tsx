@@ -169,7 +169,7 @@ const LeavesGrid = () => {
 										{item?.name}
 									</p>
 									<p className="mb-2 text-sm">{item.role}</p>
-									<p className="mb-2 text-sm group flex items-center justify-center gap-2 pb-2">
+									<div className="mb-2 text-sm group flex items-center justify-center gap-2 pb-2">
 										{/* <ShoppingBasket />{" "} */}
 										{/* <div className="font-semibold">Credit</div>
 										<div className="flex justify-between items-center">
@@ -187,7 +187,7 @@ const LeavesGrid = () => {
 											</div>
 										</div>
 										{/* {item?.credit} */}
-									</p>
+									</div>
 									<div className="">{renderStatus(item.status)}</div>
 								</div>
 							</div>
@@ -224,8 +224,8 @@ const leavData = [
 	},
 	{
 		photo: "https://source.unsplash.com/100x100/?portrait?3",
-		name: "Prasad Murmu",
-		role: "Web Designer",
+		name: "Abhilash Sethi",
+		role: "Web Developer",
 		status: "Approved",
 		credit: 3,
 	},
