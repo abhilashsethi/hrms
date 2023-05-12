@@ -1,14 +1,4 @@
-import {
-  AccountTree,
-  BugReport,
-  Edit,
-  Handyman,
-  HelpCenter,
-  Receipt,
-  SendRounded,
-  Support,
-  SupportAgent,
-} from "@mui/icons-material";
+import { AccountTree, BugReport, Handyman, Receipt } from "@mui/icons-material";
 import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
@@ -18,7 +8,7 @@ import {
   Loader,
   PhotoViewer,
 } from "components/core";
-import { ChangeProfile, UpdateProfileHead } from "components/dialogues";
+import { ChangeProfile, UpdateClient } from "components/dialogues";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -74,7 +64,7 @@ const ClientDetails = () => {
         handleClose={() => setIsProfile(false)}
         mutate={mutate}
       />
-      <UpdateProfileHead
+      <UpdateClient
         mutate={mutate}
         open={isDialogue}
         handleClose={() => setIsDialogue(false)}
