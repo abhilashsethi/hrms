@@ -1,7 +1,6 @@
 import {
   DeleteRounded,
   EditRounded,
-  InfoRounded,
   MoreVertRounded,
 } from "@mui/icons-material";
 import {
@@ -12,14 +11,12 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { CopyClipboard, PhotoViewer, PhotoViewerGuests } from "components/core";
-import { UpdateDepartment, UpdateTechnology } from "components/dialogues";
+import { PhotoViewerGuests } from "components/core";
+import { UpdateTechnology } from "components/dialogues";
 import { useChange } from "hooks";
-import moment from "moment";
-import Link from "next/link";
+
 import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
 import { deleteFile } from "utils";
 interface ARRAY {
   id?: string;
@@ -87,7 +84,6 @@ const CardContent = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
-  console.log(item);
   return (
     <>
       <UpdateTechnology
