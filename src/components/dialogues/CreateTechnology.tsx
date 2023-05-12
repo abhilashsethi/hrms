@@ -61,7 +61,6 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
     const uniId = new Date().getTime();
     try {
       const url = await uploadFile(values?.image, `${uniId}.png`);
-      // console.log(url);
       const name = values.name;
       const res = await change(`technologies`, {
         body: { logo: url, name: name },

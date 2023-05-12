@@ -14,6 +14,8 @@ import * as yup from "yup";
 import { useState } from "react";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
+import { SingleImageUpdate } from "components/core";
+import { uploadFile } from "utils";
 
 interface Props {
   open: any;
@@ -25,16 +27,16 @@ interface Props {
 const validationSchema = yup.object().shape({
   name: yup.string().required("Required!"),
   //   image: yup.string().required("Required!"),
-  image: yup
+  logo: yup
     .mixed()
     .required("Image is required")
-    .test("fileSize", "Image size is too large", (value: any) => {
-      if (value) {
-        const maxSize = 300 * 1024; // Maximum size in bytes (300KB)
-        return value.size <= maxSize;
-      }
-      return true;
-    })
+    // .test("fileSize", "Image size is too large", (value: any) => {
+    //   if (value) {
+    //     const maxSize = 300 * 1024;
+    //     return value.size <= maxSize;
+    //   }
+    //   return true;
+    // })
     .test("fileType", "Invalid file type", (value: any) => {
       if (value) {
         const supportedFormats = [
@@ -49,25 +51,26 @@ const validationSchema = yup.object().shape({
     }),
 });
 const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
-  const { data: technologies, isLoading } = useFetch<{ name: string }>(
-    `technologies/${id}`
-  );
-  console.log(id);
-  console.log(technologies);
+  const { data: technologies, isLoading } = useFetch<{
+    name: string;
+    logo: any;
+  }>(`technologies/${id}`);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const initialValues = {
     name: `${technologies?.name ? technologies?.name : ""}`,
-    image: [],
+    logo: `${technologies?.logo ? technologies?.logo : []}`,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
+    const uniId = new Date().getTime();
     try {
+      const url = await uploadFile(values?.logo, `${uniId}.png`);
+      const name = values.name;
       const res = await change(`technologies/${id}`, {
         method: "PATCH",
-        body: values,
+        body: { logo: url, name: name },
       });
-      console.log(res);
       setLoading(false);
       if (res?.status !== 200) {
         Swal.fire(
@@ -136,16 +139,26 @@ const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
             }) => (
               <Form className="flex flex-col gap-4">
                 {!isLoading && (
-                  <TextField
-                    fullWidth
-                    placeholder="Enter Technology"
-                    name="name"
-                    value={values.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.name && !!errors.name}
-                    helperText={touched.name && errors.name}
-                  />
+                  <>
+                    <SingleImageUpdate
+                      values={values}
+                      setImageValue={(event: any) => {
+                        setFieldValue("logo", event.currentTarget.files[0]);
+                      }}
+                    >
+                      <ErrorMessage name="logo" />
+                    </SingleImageUpdate>
+                    <TextField
+                      fullWidth
+                      placeholder="Enter Technology"
+                      name="name"
+                      value={values.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.name && !!errors.name}
+                      helperText={touched.name && errors.name}
+                    />
+                  </>
                 )}
 
                 <Button
