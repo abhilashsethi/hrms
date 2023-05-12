@@ -7,17 +7,14 @@ import { Grid } from "@mui/material";
 import { useState, MouseEvent } from "react";
 import { ClientLineCharts } from "components/analytics";
 import ClientBarGraph from "components/analytics/ClientBarGraph";
+import { useFetch } from "hooks";
+import { Client } from "types";
+import { useRouter } from "next/router";
 
 const ClientDashboard = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const { data: clientData, isLoading } = useFetch<Client>(`clients/dashboard`);
 
+  console.log("ksakckack", clientData);
   return (
     <>
       <div className="flex gap-2 py-4">
