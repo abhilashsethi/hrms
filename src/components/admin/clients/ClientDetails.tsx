@@ -59,47 +59,47 @@ const ClientDetails = () => {
 			value: `${employData?.email ? employData?.email : "---"}`,
 		},
 
-		{
-			id: 4,
-			title: "Date Of Joining",
-			value: `${
-				employData?.joiningDate
-					? moment(employData?.joiningDate).format("ll")
-					: "---"
-			}`,
-		},
+		// {
+		// 	id: 4,
+		// 	title: "Date Of Joining",
+		// 	value: `${
+		// 		employData?.joiningDate
+		// 			? moment(employData?.joiningDate).format("ll")
+		// 			: "---"
+		// 	}`,
+		// },
 		{
 			id: 5,
 			title: "Phone",
 			value: `${employData?.phone ? employData?.phone : "---"}`,
 		},
-		{
-			id: 6,
-			title: "Date Of Birth",
-			value: `${
-				employData?.dob ? moment(employData?.dob).format("ll") : "---"
-			}`,
-		},
-		{
-			id: 7,
-			title: "Address",
-			value: `${employData?.address ? employData?.address : "---"}`,
-		},
+		// {
+		// 	id: 6,
+		// 	title: "Date Of Birth",
+		// 	value: `${
+		// 		employData?.dob ? moment(employData?.dob).format("ll") : "---"
+		// 	}`,
+		// },
+		// {
+		// 	id: 7,
+		// 	title: "Address",
+		// 	value: `${employData?.address ? employData?.address : "---"}`,
+		// },
 		{
 			id: 8,
 			title: "Gender",
 			value: `${employData?.gender ? employData?.gender : "---"}`,
 		},
-		{
-			id: 9,
-			title: "Blood Group",
-			value: `${employData?.bloodGroup ? employData?.bloodGroup : "---"}`,
-		},
-		{
-			id: 9,
-			title: "Wallet",
-			value: `${employData?.wallet ? employData?.wallet : "---"}`,
-		},
+		// {
+		// 	id: 9,
+		// 	title: "Blood Group",
+		// 	value: `${employData?.bloodGroup ? employData?.bloodGroup : "---"}`,
+		// },
+		// {
+		// 	id: 9,
+		// 	title: "Wallet",
+		// 	value: `${employData?.wallet ? employData?.wallet : "---"}`,
+		// },
 	];
 	const personalDetails = [
 		{
@@ -162,7 +162,7 @@ const ClientDetails = () => {
 			<section className="mb-12 flex gap-3">
 				<Grid container spacing={2}>
 					<Grid item lg={8}>
-						<div className="w-full h-full rounded-lg bg-white shadow-xl p-4">
+						<div className="w-full rounded-lg bg-white shadow-xl p-4">
 							<div className="w-full bg-blue-100/50 rounded-lg p-8">
 								<Grid container spacing={3}>
 									<Grid item lg={9}>
@@ -194,35 +194,6 @@ const ClientDetails = () => {
 										</div>
 									</Grid>
 									<Grid item lg={3}>
-										{/* <div className="w-full h-full flex justify-center items-center">
-											<div className="h-24 w-24 rounded-full border-[4px] border-white flex justify-center items-center text-3xl">
-												<div className="relative h-full w-full flex justify-center items-center group">
-													{employData?.photo && (
-														<div className="h-full w-full bg-slate-300 rounded-full">
-															<img
-																className="h-full w-full object-cover rounded-full shadow-md"
-																src={
-																	employData?.photo ||
-																	"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwzTSDO6sbQw9RJmGwMKYaubB1wDwyqOYAfuWM1fg&s"
-																}
-																alt="John Doe"
-															/>
-														</div>
-													)}
-													{!employData?.photo && (
-														<div className="h-full w-full text-white rounded-full uppercase shadow-lg flex justify-center items-center text-4xl font-bold bg-gradient-to-br from-theme-100 via-theme-50 to-secondary-100">
-															{employData?.name.slice(0, 1)}
-														</div>
-													)}
-													<div
-														onClick={() => setIsProfile(true)}
-														className="absolute cursor-pointer rounded-full w-full h-full group-hover:flex transition-all ease-in-out duration-300 justify-center items-center hidden  bg-[#0007]"
-													>
-														<Edit className="!text-white" />
-													</div>
-												</div>
-											</div>
-										</div> */}
 										<PhotoViewer
 											photo={
 												"https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
@@ -232,38 +203,43 @@ const ClientDetails = () => {
 									</Grid>
 								</Grid>
 								<div className="flex justify-between items-center pt-4">
-									{/* <p className="font-medium text-sm">
-										<span className="font-extrabold pr-2">16</span> PROJECTS
-										COMPLETED
-									</p>
-									<p className="font-medium text-sm">
-										<span className="font-extrabold pr-2">2</span> ONGOING
-									</p> */}
 									<div className="w-full flex justify-between gap-3">
-										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-2 rounded-md shadow-lg bg-[#bbcbff] ">
-											<Handyman className="bg-white p-1 rounded-lg mb-3 text-theme" />
-											<p className={`text-xs text-gray-800 font-semibold`}>
+										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-3 rounded-md shadow-lg bg-[#bbcbff] ">
+											<Handyman
+												fontSize="large"
+												className="bg-white p-1 rounded-lg mb-3 text-theme"
+											/>
+											<p className={`text-sm text-gray-800 font-semibold`}>
 												Projects Completed
 											</p>
 											<p className="text-sm font-medium">16</p>
 										</div>
-										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-2 rounded-md shadow-lg bg-[#b9e9fd]">
-											<AccountTree className="bg-white p-1 rounded-lg mb-3 text-theme" />
-											<p className={`text-xs text-gray-800 font-semibold`}>
+										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-3 rounded-md shadow-lg bg-[#b9e9fd]">
+											<AccountTree
+												fontSize="large"
+												className="bg-white p-1 rounded-lg mb-3 text-theme"
+											/>
+											<p className={`text-sm text-gray-800 font-semibold`}>
 												Ongoing Projects
 											</p>
 											<p className="text-sm font-medium">12</p>
 										</div>
-										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-2 rounded-md shadow-lg bg-[#f6c8ff]">
-											<Receipt className="bg-white p-1 rounded-lg mb-3 text-theme" />
-											<p className={`text-xs text-gray-800 font-semibold`}>
+										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-3 rounded-md shadow-lg bg-[#f6c8ff]">
+											<Receipt
+												fontSize="large"
+												className="bg-white p-1 rounded-lg mb-3 text-theme"
+											/>
+											<p className={`text-sm text-gray-800 font-semibold`}>
 												Total Tickets
 											</p>
 											<p className="text-sm font-medium">20</p>
 										</div>
-										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-2 rounded-md shadow-lg bg-[#feb76f]">
-											<BugReport className="bg-white p-1 rounded-lg mb-3 text-theme" />
-											<p className={`text-xs text-gray-800 font-semibold`}>
+										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-3 rounded-md shadow-lg bg-[#feb76f]">
+											<BugReport
+												fontSize="large"
+												className="bg-white p-1 rounded-lg mb-3 text-theme"
+											/>
+											<p className={`text-sm text-gray-800 font-semibold`}>
 												Active Bugs
 											</p>
 											<p className="text-sm font-medium">8</p>
@@ -276,7 +252,9 @@ const ClientDetails = () => {
 								<div className=" pb-2 flex justify-between items-center">
 									<HeadText title="Basic Details" />
 									<Tooltip title="Edit">
-										<IconButton onClick={() => setIsDialogue(true)}>
+										<IconButton
+										// onClick={() => setIsDialogue(true)}
+										>
 											<ICONS.Edit className="h-5 w-5" />
 										</IconButton>
 									</Tooltip>
