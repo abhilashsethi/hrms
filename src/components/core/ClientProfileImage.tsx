@@ -1,48 +1,46 @@
-import { CloudUpload } from "@mui/icons-material";
-import React, { useRef } from "react";
+import { Edit } from "@mui/icons-material";
+import { ChangeClientProfile, ChangeProfile } from "components/dialogues";
+import { useState } from "react";
 
 interface Props {
   values?: any;
-  setImageValue?: any;
-  children?: JSX.Element;
+  mutate?: any;
 }
+const ClientProfileImage = ({ values, mutate }: Props) => {
+  const [isProfile, setIsProfile] = useState(false);
 
-const ClientProfileImage = ({ values, setImageValue, children }: Props) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const handleClick = () => {
-    if (inputRef.current) {
-      inputRef.current.click();
-    }
-  };
   return (
     <div className="w-full">
-      <div
-        onClick={handleClick}
-        className="min-h-40 py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
-      >
-        <div className="">
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={(event: any) =>
-              //   setFieldValue("image", event.currentTarget.files[0])
-              setImageValue(event)
-            }
-          />
-          <div className="text-red-500">{children}</div>
-          {values.image && (
-            <img
-              className="w-24 object-contain"
-              src={URL.createObjectURL(values.image)}
-              alt="Preview"
-            />
-          )}
+      <ChangeClientProfile
+        open={isProfile}
+        handleClose={() => setIsProfile(false)}
+        mutate={mutate}
+      />
+      <div className="flex flex-col items-center gap-2">
+        <div className="h-24 w-24 rounded-full border-[4px] border-white flex justify-center items-center text-3xl">
+          <div className="relative h-full w-full flex justify-center items-center group">
+            {values?.photo && (
+              <div className="h-full w-full bg-slate-300 rounded-full">
+                <img
+                  className="h-full w-full object-cover rounded-full shadow-md"
+                  src={values?.photo}
+                  alt="Image"
+                />
+              </div>
+            )}
+            {!values?.photo && (
+              <div className="h-full w-full text-white rounded-full uppercase shadow-lg flex justify-center items-center text-4xl font-bold bg-gradient-to-br from-theme-100 via-theme-50 to-secondary-100">
+                {values?.name.slice(0, 1)}
+              </div>
+            )}
+            <div
+              onClick={() => setIsProfile(true)}
+              className="absolute cursor-pointer rounded-full w-full h-full group-hover:flex transition-all ease-in-out duration-300 justify-center items-center hidden  bg-[#0007]"
+            >
+              <Edit className="!text-white" />
+            </div>
+          </div>
         </div>
-        <p>Upload Image (200 * 300)</p>
-        <p>Maximum size : 2MB</p>
-        <CloudUpload fontSize="large" color="primary" />
       </div>
     </div>
   );

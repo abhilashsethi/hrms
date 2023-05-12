@@ -4,6 +4,7 @@ import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
 import {
   CountryNameFlag,
+  ClientProfileImage,
   HeadText,
   Loader,
   PhotoViewer,
@@ -59,11 +60,6 @@ const ClientDetails = () => {
   }
   return (
     <section>
-      <ChangeProfile
-        open={isProfile}
-        handleClose={() => setIsProfile(false)}
-        mutate={mutate}
-      />
       <UpdateClient
         mutate={mutate}
         open={isDialogue}
@@ -105,11 +101,7 @@ const ClientDetails = () => {
                     </div>
                   </Grid>
                   <Grid item lg={3}>
-                    <PhotoViewer
-                      photo={clientData?.photo}
-                      name={clientData?.name}
-                      size="5.5rem"
-                    />
+                    <ClientProfileImage values={clientData} mutate={mutate} />
                   </Grid>
                 </Grid>
                 <div className="flex justify-between items-center pt-4">
