@@ -2,7 +2,7 @@ import { Delete, Edit, Info } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import { Loader } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
-import { RoleInformation } from "components/drawer";
+import { DepartmentInformation, RoleInformation } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -70,10 +70,10 @@ const AllDepartmentGrid = () => {
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
       />
-      <RoleInformation
+      <DepartmentInformation
         open={isInfo?.dialogue}
         onClose={() => setIsInfo({ dialogue: false })}
-        roleId={isInfo?.role}
+        roleId={isInfo?.role?.id}
       />
       <div className="mt-4">
         <Grid container spacing={3}>

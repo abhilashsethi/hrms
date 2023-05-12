@@ -28,7 +28,6 @@ const ClientDetails = () => {
     mutate,
     isLoading,
   } = useFetch<Client>(`clients/${router?.query?.id}`);
-  console.log("ksakckack", clientData);
   const basicDetails = [
     {
       id: 1,
