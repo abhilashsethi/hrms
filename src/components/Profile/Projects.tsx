@@ -16,6 +16,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { AWS, CSS, JAVASCRIPT, NEXTJS, REACT } from "assets/svgicons";
+import { PhotoViewer } from "components/core";
 import { ProjectAddLink, ProjectUpdate } from "components/dialogues";
 import { ProjectMembers, ProjectURLS } from "components/drawer";
 import { useChange, useFetch } from "hooks";
@@ -77,12 +78,22 @@ const Projects = () => {
                   COMPLETED
                 </span>
               </div>
-              <div className="pb-2 text-md tracking-wide">
+              {/* <div className="pb-2 text-md tracking-wide">
                 <span className="font-semibold text-sm">Description : </span>
                 <div className="h-16 w-full">
                   <p className="text-sm tracking-wide pt-1">
                     {item?.description}
                   </p>
+                </div>
+              </div> */}
+              <div>
+                <h1 className="font-semibold text-sm">Client Information : </h1>
+                <div className="w-full border-2 mt-1 rounded-md p-3 flex gap-3 items-center">
+                  <PhotoViewer size="3rem" />
+                  <div>
+                    <h2 className="text-sm font-semibold">Calvin Klein</h2>
+                    <h2 className="font-light text-sm">client@sy.com</h2>
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 w-4/5 gap-1 text-sm py-2">

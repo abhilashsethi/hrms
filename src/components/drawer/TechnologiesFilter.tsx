@@ -57,7 +57,7 @@ const TechnologiesFilter = ({ open, onClose }: Props) => {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Clients Name"
+                    label="Client Names"
                     placeholder="Select Clients"
                   />
                 )}
