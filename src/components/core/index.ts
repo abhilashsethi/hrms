@@ -25,3 +25,4 @@ export { default as ProjectDetails } from "./ProjectDetails";
 export { default as PhotoViewerGuests } from "./PhotoViewerGuests";
 export { default as PhotoViewerSmall } from "./PhotoViewerSmall";
 export { default as SingleImageUpload } from "./SingleImageUpload";
+export { default as CountryNameFlag } from "./CountryNameFlag";
