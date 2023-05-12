@@ -1,6 +1,6 @@
 import PanelLayout from "layouts/panel";
-import { ClientDashboard } from "components/admin";
 import { AdminBreadcrumbs } from "components/core";
+import { ClientDashboard } from "components/admin/clients";
 
 const index = () => {
   return (

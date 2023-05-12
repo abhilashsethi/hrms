@@ -23,22 +23,26 @@ import {
   TechnologyUsed,
 } from "components/project";
 import { DEFAULTPROFILE } from "assets/home";
-import { ProjectURLS } from "components/drawer";
+import {
+  ProjectDocuments,
+  ProjectMembers,
+  ProjectURLS,
+} from "components/drawer";
 import { useState } from "react";
 import { ProjectBasicDetailsUpdate } from "components/dialogues";
 
 const ProjectDetails = () => {
   const [isURL, setIsURL] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const handleURL = () => {
-    setIsURL(true);
-  };
+  const [isDocuments, setIsDocuments] = useState(false);
+  const [isMembers, setIsMembers] = useState(false);
+
   const shortCuts: shortCutTypes[] = [
     {
       id: 1,
       icon: <LinkRounded />,
       title: "Project URLs",
-      onClick: () => handleURL(),
+      onClick: () => setIsURL(true),
     },
     {
       id: 2,
@@ -49,6 +53,7 @@ const ProjectDetails = () => {
       id: 3,
       icon: <InsertDriveFileRounded />,
       title: "Documents",
+      onClick: () => setIsDocuments(true),
     },
   ];
   return (
@@ -57,6 +62,11 @@ const ProjectDetails = () => {
         open={isUpdate}
         handleClose={() => setIsUpdate(false)}
       />
+      <ProjectDocuments
+        open={isDocuments}
+        onClose={() => setIsDocuments(false)}
+      />
+      <ProjectMembers open={isMembers} onClose={() => setIsMembers(false)} />
       <ProjectURLS open={isURL} onClose={() => setIsURL(false)} />
       <Grid container spacing={2}>
         <Grid item lg={8}>
@@ -100,7 +110,10 @@ const ProjectDetails = () => {
               </div>
               <div className="flex flex-col justify-center w-1/3 items-center">
                 <h1 className="text-slate-600 font-semibold mt-4">TEAM</h1>
-                <div className="flex justify-start mt-4">
+                <div
+                  onClick={() => setIsMembers(true)}
+                  className="flex justify-start mt-4"
+                >
                   <AvatarGroup
                     className="!cursor-pointer"
                     //   onClick={() => setIsMembers({ dialogue: true })}
