@@ -14,5 +14,6 @@ export { default as UpdateGuestBasicDetails } from "./UpdateGuestBasicDetails";
 export { default as CreateTechnology } from "./CreateTechnology";
 export { default as UpdateTechnology } from "./UpdateTechnology";
 export { default as ProjectBasicDetailsUpdate } from "./ProjectBasicDetailsUpdate";
+export { default as DocPreview } from "./DocPreview";
 export { default as UpdateClient } from "./UpdateClient";
 export { default as ChangeClientProfile } from "./ChangeClientProfile";
