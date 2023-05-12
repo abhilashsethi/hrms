@@ -1,5 +1,8 @@
 import {
+	AccountTree,
+	BugReport,
 	Edit,
+	Handyman,
 	HelpCenter,
 	Receipt,
 	SendRounded,
@@ -9,7 +12,12 @@ import {
 import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
-import { HeadText, Loader, PhotoViewer } from "components/core";
+import {
+	CountryNameFlag,
+	HeadText,
+	Loader,
+	PhotoViewer,
+} from "components/core";
 import {
 	BankInformationUpdate,
 	ChangeProfile,
@@ -180,6 +188,9 @@ const ClientDetails = () => {
 													isPhone
 												/>
 											</p>
+											<p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
+												<CountryNameFlag countryName={"Australia"} />
+											</p>
 										</div>
 									</Grid>
 									<Grid item lg={3}>
@@ -228,30 +239,36 @@ const ClientDetails = () => {
 									<p className="font-medium text-sm">
 										<span className="font-extrabold pr-2">2</span> ONGOING
 									</p> */}
-									<div className="w-1/2 flex justify-between gap-3 mb-7">
-										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer border border-gray-600 text-center w-1/2 py-5 rounded-md bg-slate-200 shadow-lg">
-											<p className={`text-xs  font-bold`}>PROJECTS COMPLETED</p>
-											<p className="text-md font-semibold">16</p>
+									<div className="w-full flex justify-between gap-3">
+										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-2 rounded-md shadow-lg bg-[#bbcbff] ">
+											<Handyman className="bg-white p-1 rounded-lg mb-3 text-theme" />
+											<p className={`text-xs text-gray-800 font-semibold`}>
+												Projects Completed
+											</p>
+											<p className="text-sm font-medium">16</p>
 										</div>
-										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer border border-gray-600 text-center w-1/2 py-5 rounded-md bg-slate-200 shadow-lg">
-											<p className={`text-xs  font-bold`}>ONGOING PROJECTS</p>
-											<p className="text-md font-semibold">2</p>
+										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-2 rounded-md shadow-lg bg-[#b9e9fd]">
+											<AccountTree className="bg-white p-1 rounded-lg mb-3 text-theme" />
+											<p className={`text-xs text-gray-800 font-semibold`}>
+												Ongoing Projects
+											</p>
+											<p className="text-sm font-medium">12</p>
+										</div>
+										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-2 rounded-md shadow-lg bg-[#f6c8ff]">
+											<Receipt className="bg-white p-1 rounded-lg mb-3 text-theme" />
+											<p className={`text-xs text-gray-800 font-semibold`}>
+												Total Tickets
+											</p>
+											<p className="text-sm font-medium">20</p>
+										</div>
+										<div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-2 rounded-md shadow-lg bg-[#feb76f]">
+											<BugReport className="bg-white p-1 rounded-lg mb-3 text-theme" />
+											<p className={`text-xs text-gray-800 font-semibold`}>
+												Active Bugs
+											</p>
+											<p className="text-sm font-medium">8</p>
 										</div>
 									</div>
-
-									<Tooltip title="View All Tickets">
-										<div
-											onClick={() => setTickets(true)}
-											className="w-32 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
-										>
-											<span className="p-2 bg-white shadow-lg rounded-md group-hover:rotate-[-12deg] transition-all ease-in-out duration-200">
-												<Receipt />
-											</span>
-											<p className="text-xs text-center font-semibold ">
-												View All Tickets
-											</p>
-										</div>
-									</Tooltip>
 								</div>
 							</div>
 							{/* --------------------Basic Details-------------------- */}
@@ -279,7 +296,7 @@ const ClientDetails = () => {
 								))}
 							</section>
 							{/* --------------Personal Details---------------------- */}
-							<section className="px-8">
+							{/* <section className="px-8">
 								<div className=" pb-2 flex justify-between items-center">
 									<HeadText title="Personal Details" />
 									<Tooltip title="Edit">
@@ -301,7 +318,7 @@ const ClientDetails = () => {
 										</div>
 									</div>
 								))}
-							</section>
+							</section> */}
 							{/* ---------------------Bank Details------------------------- */}
 							{/* <section className="px-8 mt-2">
                 <div className=" pb-2 flex justify-between items-center">

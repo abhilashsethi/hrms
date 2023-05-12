@@ -225,7 +225,7 @@ const cards = [
 	},
 	{
 		id: 2,
-		icon: <QrCodeScannerRounded fontSize="medium" className="text-theme " />,
+		icon: <QrCodeScannerRounded fontSize="medium" className="text-theme" />,
 		count: "12",
 		title: "Scanned Cards",
 		color: "bg-[#b9e9fd]",
@@ -244,7 +244,7 @@ const cards = [
 	},
 	{
 		id: 4,
-		icon: <People fontSize="medium" className="text-theme " />,
+		icon: <People fontSize="medium" className="text-theme" />,
 		count: "43",
 		title: "Projects",
 		color: "bg-[#feb76f]",
