@@ -8,7 +8,7 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { ClientProfileImage } from "components/core";
+import { ClientImageUpload } from "components/core";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -282,14 +282,14 @@ const AddClients = () => {
                   <div className="py-2">
                     <InputLabel htmlFor="phone">Profile Image</InputLabel>
                   </div>
-                  <ClientProfileImage
+                  <ClientImageUpload
                     values={values}
                     setImageValue={(event: any) => {
                       setFieldValue("image", event.currentTarget.files[0]);
                     }}
                   >
                     <ErrorMessage name="image" />
-                  </ClientProfileImage>
+                  </ClientImageUpload>
                 </div>
                 <div className="flex justify-center py-4">
                   <Button
