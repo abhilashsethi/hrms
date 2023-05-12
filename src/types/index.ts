@@ -117,6 +117,7 @@ export type Client = {
 	photo: string;
 	createdAt: Date;
 	updatedAt: Date;
+	country:string;
 };
 
 
