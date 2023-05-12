@@ -53,7 +53,7 @@ const CardContent = ({ item, mutate }: any) => {
     setAnchorEl(null);
   };
   const { change } = useChange();
-  const handleDelete = async (user: User) => {
+  const handleDelete = async (item: any) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -65,11 +65,10 @@ const CardContent = ({ item, mutate }: any) => {
         confirmButtonText: "Yes, delete!",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const res = await change(`users/${user?.id}`, {
+          const res = await change(`technologies/${item?.id}`, {
             method: "DELETE",
           });
-          console.log(res);
-          await deleteFile(String(user?.photo?.split("/").reverse()[0]));
+          await deleteFile(String(item?.logo?.split("/").reverse()[0]));
           if (res?.status !== 200) {
             Swal.fire(`Error`, "Something went wrong!", "error");
             return;
@@ -83,7 +82,7 @@ const CardContent = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
-  const handleBlock = async (e: any, userId: string) => {
+  const handleBlock = async (e: any, id: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to update status?",
@@ -94,7 +93,7 @@ const CardContent = ({ item, mutate }: any) => {
       confirmButtonText: "Yes, update!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await change(`users/${userId}`, {
+        const res = await change(`users/${id}`, {
           method: "PATCH",
           body: { isBlocked: !e.target?.checked },
         });
@@ -108,6 +107,7 @@ const CardContent = ({ item, mutate }: any) => {
       }
     });
   };
+  //   console.log(item);
   return (
     <div className=" relative bg-white w-full rounded-xl shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
       <div className="absolute right-[10px] top-[10px]">
@@ -169,7 +169,7 @@ const CardContent = ({ item, mutate }: any) => {
         <PhotoViewerGuests
           className="border-[3px]"
           name={item?.name}
-          photo={item?.photo}
+          photo={item?.logo}
         />
       </div>
       <div className="flex items-center pb-4 justify-center px-2">
