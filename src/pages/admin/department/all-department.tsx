@@ -1,7 +1,7 @@
 import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Pagination, Stack } from "@mui/material";
 import { AllDepartmentColumn, AllDepartmentGrid } from "components/admin";
-import { AdminBreadcrumbs, Loader } from "components/core";
+import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
 import { CreateDepartment } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -11,12 +11,14 @@ import { Role } from "types";
 const AllDepartment = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [isCreate, setIsCreate] = useState(false);
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
 
   const {
     data: departmentData,
     mutate,
     isLoading,
-  } = useFetch<Role[]>(`departments`);
+    pagination,
+  } = useFetch<any>(`departments?page=${pageNumber}&limit=8`);
 
   return (
     <PanelLayout title="All Departments - Admin Panel">
@@ -61,7 +63,40 @@ const AllDepartment = () => {
           </div>
         </div>
 
-        {isGrid ? <AllDepartmentGrid /> : <AllDepartmentColumn />}
+        {isGrid ? (
+          <>
+            {isLoading && <Loader />}
+            <AllDepartmentGrid
+              data={departmentData?.departments}
+              mutate={mutate}
+            />
+          </>
+        ) : (
+          <>
+            {isLoading && <Loader />}
+            <AllDepartmentColumn
+              data={departmentData?.departments}
+              mutate={mutate}
+            />
+          </>
+        )}
+        {!departmentData?.departments?.length && <LoaderAnime />}
+        {departmentData?.departments?.length ? (
+          <div className="flex justify-center py-8">
+            <Stack spacing={2}>
+              <Pagination
+                count={Math.ceil(
+                  Number(pagination?.total || 1) /
+                    Number(pagination?.limit || 1)
+                )}
+                onChange={(e, v: number) => {
+                  setPageNumber(v);
+                }}
+                variant="outlined"
+              />
+            </Stack>
+          </div>
+        ) : null}
       </section>
     </PanelLayout>
   );

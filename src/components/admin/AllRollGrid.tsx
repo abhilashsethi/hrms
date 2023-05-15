@@ -1,6 +1,5 @@
 import { Delete, Edit, Info } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
-import { Loader } from "components/core";
 import { UpdateRole } from "components/dialogues";
 import { RoleInformation } from "components/drawer";
 import { useChange } from "hooks";
@@ -23,7 +22,7 @@ const AllRollGrid = ({ data, mutate }: Props) => {
     role: null,
   });
   const { change } = useChange();
-  const [isUpdate, setisUpdate] = useState<{
+  const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
@@ -64,14 +63,12 @@ const AllRollGrid = ({ data, mutate }: Props) => {
       }
     });
   };
-  console.log(data);
-
   return (
     <>
       <UpdateRole
         id={isUpdate?.id}
         open={isUpdate?.dialogue}
-        handleClose={() => setisUpdate({ dialogue: false })}
+        handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
       />
       <RoleInformation
@@ -106,7 +103,7 @@ const AllRollGrid = ({ data, mutate }: Props) => {
                     </div>
                     <div
                       onClick={() =>
-                        setisUpdate({ dialogue: true, id: item?.id })
+                        setIsUpdate({ dialogue: true, id: item?.id })
                       }
                       className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-blue-600 to-blue-400 flex justify-center items-center text-lg font-semibold"
                     >

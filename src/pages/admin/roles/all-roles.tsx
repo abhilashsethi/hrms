@@ -11,10 +11,6 @@ const AllRoles = () => {
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [isGrid, setIsGrid] = useState(true);
   const [isCreate, setIsCreate] = useState(false);
-  const [isUpdate, setisUpdate] = useState<{
-    dialogue?: boolean;
-    id?: string | null;
-  }>({ dialogue: false, id: null });
   const {
     data: roleData,
     mutate,
