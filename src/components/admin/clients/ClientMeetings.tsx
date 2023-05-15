@@ -7,14 +7,13 @@ import React, { useState } from "react";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 
-const ClientMeetings = (uId: any) => {
+const ClientMeetings = () => {
   const router = useRouter();
   const [tickets, setTickets] = useState(false);
   const [viewTickets, setViewTickets] = useState<any>(null);
   const { data: ticketsData } = useFetch<any>(
-    `tickets?${uId ? `&clientId=${uId}` : ""}`
+    `tickets?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
   );
-  console.log(uId, ticketsData);
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl">
       <ViewTicketsDrawer
@@ -83,24 +82,3 @@ const ClientMeetings = (uId: any) => {
 };
 
 export default ClientMeetings;
-
-const cards = [
-  {
-    id: 1,
-    title: "Arrange Meeting",
-    issueDate: "May 10, 2023",
-    status: "Yes",
-  },
-  {
-    id: 2,
-    title: "Server Issue",
-    issueDate: "May 10, 2023",
-    status: "Yes",
-  },
-  {
-    id: 3,
-    title: "Arrange Meeting",
-    issueDate: "May 10, 2023",
-    status: "Yes",
-  },
-];

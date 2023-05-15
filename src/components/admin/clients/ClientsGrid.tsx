@@ -13,7 +13,7 @@ import {
 import { RenderIconRow } from "components/common";
 import { PhotoViewerGuests } from "components/core";
 import { ViewTicketsDrawer } from "components/drawer";
-import { useChange } from "hooks";
+import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
@@ -54,6 +54,7 @@ const ClientsGrid = ({ data, mutate }: Props) => {
 export default ClientsGrid;
 
 const MoreOption = ({ item, mutate }: any) => {
+  const [ticketsId, setTicketsId] = useState("");
   const [tickets, setTickets] = useState(false);
   const [viewTickets, setViewTickets] = useState<any>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -65,6 +66,9 @@ const MoreOption = ({ item, mutate }: any) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { data: ticketsData } = useFetch<any>(
+    `tickets?${ticketsId ? `&clientId=${ticketsId}` : ""}`
+  );
   const handleDelete = async (item: Client) => {
     try {
       Swal.fire({
@@ -126,6 +130,7 @@ const MoreOption = ({ item, mutate }: any) => {
           open={tickets}
           onClose={() => setTickets(false)}
           setViewTickets={setViewTickets}
+          ticket={ticketsData}
         />
         <div className="absolute right-[10px] top-[10px]">
           <Tooltip title="More">
@@ -205,7 +210,9 @@ const MoreOption = ({ item, mutate }: any) => {
         </div>
         <div className="flex gap-3 justify-center">
           <button
-            onClick={() => setTickets(true)}
+            onClick={() => {
+              setTickets(true), setTicketsId(item?.id);
+            }}
             className="rounded-md text-sm bg-theme text-white font-semibold shadow-md px-4 py-1.5"
           >
             Tickets <span>{`(${item._count.tickets})`}</span>
