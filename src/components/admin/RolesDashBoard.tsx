@@ -137,27 +137,3 @@ const RolesDashBoard = () => {
 };
 
 export default RolesDashBoard;
-
-const stats = [
-  {
-    id: 1,
-    title: "On Going Roles",
-    growth: "+10%",
-    value: "10",
-    sub: "Overall Roles 218",
-  },
-  {
-    id: 2,
-    title: "Finished Roles",
-    growth: "+10%",
-    value: "10",
-    sub: "Overall Roles 218",
-  },
-  {
-    id: 3,
-    title: "Others",
-    growth: "+10%",
-    value: "10",
-    sub: "Overall Roles 218",
-  },
-];

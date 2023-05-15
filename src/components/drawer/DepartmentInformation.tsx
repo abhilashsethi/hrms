@@ -1,5 +1,5 @@
 import { EmailRounded, PeopleRounded } from "@mui/icons-material";
-import { Container, Drawer, Grid } from "@mui/material";
+import { Container, Drawer } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import { Loader, UserLoaderAnime } from "components/core";
 import { useFetch } from "hooks";

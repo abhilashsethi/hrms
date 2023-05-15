@@ -1,12 +1,16 @@
 import { Delete, Edit, Info } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
-import { Loader } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
-import { DepartmentInformation, RoleInformation } from "components/drawer";
-import { useChange, useFetch } from "hooks";
+import { DepartmentInformation } from "components/drawer";
+import { useChange } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
-const AllDepartmentGrid = () => {
+import { Role } from "types";
+interface Props {
+  data?: [Role];
+  mutate?: any;
+}
+const AllDepartmentGrid = ({ data, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
     dialogue: false,
@@ -17,11 +21,7 @@ const AllDepartmentGrid = () => {
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
-  const {
-    data: departmentsData,
-    isLoading,
-    mutate,
-  } = useFetch<any>(`departments`);
+
   const handleDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -59,9 +59,7 @@ const AllDepartmentGrid = () => {
       }
     });
   };
-  if (isLoading) {
-    return <Loader />;
-  }
+
   return (
     <>
       <UpdateDepartment
@@ -77,13 +75,21 @@ const AllDepartmentGrid = () => {
       />
       <div className="mt-4">
         <Grid container spacing={3}>
-          {departmentsData?.departments?.map((item: any) => (
+          {data?.map((item: any) => (
             <Grid key={item?.id} item lg={3}>
               <div className="h-40 w-full hover:scale-105 ease-in-out transition-all duration-200 bg-white border-b-4 border-cyan-600 shadow-lg rounded-xl flex justify-center items-center">
                 <div className="flex flex-col items-center gap-4">
                   <p className="text-lg font-semibold tracking-wide capitalize">
                     {item?.name}
                   </p>
+                  <div className="w-full px-8 flex gap-2 justify-center">
+                    <div className=" py-1 rounded-lg text-gray-600 flex items-center gap-2 px-4">
+                      <p className="font-semibold tracking-wide text-sm">
+                        Total Member :
+                      </p>
+                      {item?._count?.users}
+                    </div>
+                  </div>
                   <div className="flex gap-2">
                     <div className="h-10 w-10 cursor-pointer hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-xl rounded-full bg-gradient-to-r from-red-600 to-red-400 flex justify-center items-center text-lg font-semibold hover:from-red-400 hover:to-red-600">
                       <Tooltip title="Delete">

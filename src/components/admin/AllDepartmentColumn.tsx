@@ -1,32 +1,36 @@
 import MaterialTable from "@material-table/core";
-import { PeopleRounded } from "@mui/icons-material";
-import { HeadStyle, Loader } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { Info, PeopleRounded } from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
+import { HeadStyle } from "components/core";
+import { DepartmentInformation } from "components/drawer";
+import { useChange } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { Role } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
-
-const AllDepartmentColumn = () => {
+interface Props {
+  data?: [Role];
+  mutate?: any;
+}
+const AllDepartmentColumn = ({ data, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
-  const {
-    data: departmentData,
-    isLoading,
-    mutate,
-  } = useFetch<any>(`departments`);
   const { change, isChanging } = useChange();
-  if (isLoading) {
-    return <Loader />;
-  }
+  const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
+    dialogue: false,
+    role: null,
+  });
+
   return (
     <section className="mt-8">
+      <DepartmentInformation
+        open={isInfo?.dialogue}
+        onClose={() => setIsInfo({ dialogue: false })}
+        roleId={isInfo?.role?.id}
+      />
       <MaterialTable
         title={<HeadStyle name="All Department" icon={<PeopleRounded />} />}
-        isLoading={isLoading || isChanging}
-        data={
-          departmentData?.departments
-            ? getDataWithSL<any>(departmentData?.departments)
-            : []
-        }
+        isLoading={!data}
+        data={data ? getDataWithSL<any>(data) : []}
         options={{ ...MuiTblOptions(), selection: false }}
         columns={[
           {
@@ -39,6 +43,32 @@ const AllDepartmentColumn = () => {
             title: "Department",
             tooltip: "Department",
             field: "name",
+          },
+          {
+            title: "Total Members",
+            tooltip: "Total Members",
+            // field: "data._count?.users",
+            render: (data) => {
+              return <div className="">{data?._count?.users}</div>;
+            },
+          },
+          {
+            title: "Details",
+            field: "name",
+            render: (data) => {
+              return (
+                <Tooltip title="Details">
+                  <div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+                    <IconButton
+                      onClick={() => setIsInfo({ dialogue: true, role: data })}
+                    >
+                      <Info className="!text-white" />
+                    </IconButton>
+                  </div>
+                </Tooltip>
+              );
+            },
+            editable: "never",
           },
           {
             title: "Last Updated",

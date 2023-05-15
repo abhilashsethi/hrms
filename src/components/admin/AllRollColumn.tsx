@@ -1,27 +1,35 @@
 import MaterialTable from "@material-table/core";
-import { PeopleRounded } from "@mui/icons-material";
-import { HeadStyle, Loader } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { Info, PeopleRounded } from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
+import { HeadStyle } from "components/core";
+import { RoleInformation } from "components/drawer";
+import { useChange } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { Role } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
-interface ARRAY {
-  id?: string;
-  roles?: any;
-}
 interface Props {
-  data?: ARRAY;
+  data?: [Role];
   mutate?: any;
 }
 const AllRollColumn = ({ data, mutate }: Props) => {
+  const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
+    dialogue: false,
+    role: null,
+  });
   const { change, isChanging } = useChange();
   const [loading, setLoading] = useState(false);
   return (
     <section className="mt-8">
+      <RoleInformation
+        open={isInfo?.dialogue}
+        onClose={() => setIsInfo({ dialogue: false })}
+        roleId={isInfo?.role?.id}
+      />
       <MaterialTable
         title={<HeadStyle name="All Roles" icon={<PeopleRounded />} />}
         isLoading={!data}
-        data={data?.roles ? getDataWithSL<any>(data?.roles) : []}
+        data={data ? getDataWithSL<any>(data) : []}
         options={{ ...MuiTblOptions(), selection: false }}
         columns={[
           {
@@ -34,6 +42,32 @@ const AllRollColumn = ({ data, mutate }: Props) => {
             title: "Role",
             tooltip: "Role",
             field: "name",
+          },
+          {
+            title: "Total Members",
+            tooltip: "Total Members",
+            // field: "data._count?.users",
+            render: (data) => {
+              return <div className="">{data?._count?.users}</div>;
+            },
+          },
+          {
+            title: "Details",
+            field: "name",
+            render: (data) => {
+              return (
+                <Tooltip title="Details">
+                  <div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+                    <IconButton
+                      onClick={() => setIsInfo({ dialogue: true, role: data })}
+                    >
+                      <Info className="!text-white" />
+                    </IconButton>
+                  </div>
+                </Tooltip>
+              );
+            },
+            editable: "never",
           },
           {
             title: "Last Updated",

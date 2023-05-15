@@ -29,3 +29,4 @@ export { default as CountryNameFlag } from "./CountryNameFlag";
 export { default as SingleImageUpdate } from "./SingleImageUpdate";
 export { default as ClientProfileImage } from "./ClientProfileImage";
 export { default as ClientImageUpload } from "./ClientImageUpload";
+export { default as DashboardCard } from "./DashboardCard";
