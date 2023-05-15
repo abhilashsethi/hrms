@@ -17,8 +17,8 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
-import moment from "moment";
 import { useState } from "react";
+import { countries } from "schemas/Countries";
 
 interface Props {
   open?: any;
@@ -42,6 +42,7 @@ const UpdateClient = ({ open, handleClose, mutate }: Props) => {
     phone: `${clientData?.phone ? clientData?.phone : ""}`,
     email: `${clientData?.email ? clientData?.email : ""}`,
     gender: `${clientData?.gender ? clientData?.gender : ""}`,
+    country: `${clientData?.country ? clientData?.country : ""}`,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
@@ -179,51 +180,54 @@ const UpdateClient = ({ open, handleClose, mutate }: Props) => {
                         </TextField>
                       </div>
 
-                      {/* <div className="w-full">
-                           <p className="text-theme font-semibold my-2">
-                             Department <span className="text-red-600">*</span>
-                           </p>
-                           <Autocomplete
-                             sx={{ width: "100%" }}
-                             options={departmentsData?.departments}
-                             autoHighlight
-                             getOptionLabel={(option: any) =>
-                               option.name ? option.name : ""
-                             }
-                             isOptionEqualToValue={(option, value) =>
-                               option.id === value.departmentId
-                             }
-                             value={
-                               values?.departmentId
-                                 ? departmentsData?.departments?.find(
-                                     (option: any) =>
-                                       option.id === values.departmentId
-                                   )
-                                 : {}
-                             }
-                             onChange={(e: any, r: any) => {
-                               setFieldValue("departmentId", r?.id);
-                             }}
-                             renderOption={(props, option) => (
-                               <Box
-                                 component="li"
-                                 sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                                 {...props}
-                               >
-                                 {option.name}
-                               </Box>
-                             )}
-                             renderInput={(params) => (
-                               <TextField
-                                 {...params}
-                                 label="Select Role"
-                                 inputProps={{
-                                   ...params.inputProps,
-                                 }}
-                               />
-                             )}
-                           />
-                         </div> */}
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
+                          Country <span className="text-red-600">*</span>
+                        </p>
+                        <Autocomplete
+                          options={countries}
+                          autoHighlight
+                          getOptionLabel={(option: any) =>
+                            option.label ? option.label : ""
+                          }
+                          value={values?.country}
+                          fullWidth
+                          onChange={(e, r: any) =>
+                            setFieldValue("country", r?.label)
+                          }
+                          renderOption={(props, option: any) => (
+                            <Box
+                              component="li"
+                              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                              {...props}
+                            >
+                              <img
+                                loading="lazy"
+                                width="20"
+                                src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                                srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                                alt=""
+                              />
+                              {option?.label}
+                            </Box>
+                          )}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Choose a country"
+                              name="country"
+                              error={
+                                touched?.country && Boolean(errors?.country)
+                              }
+                              onBlur={handleBlur}
+                              helperText={touched?.country && errors?.country}
+                              inputProps={{
+                                ...params.inputProps,
+                              }}
+                            />
+                          )}
+                        />
+                      </div>
                     </div>
                     <div className="flex gap-3 justify-center mt-4">
                       <Button

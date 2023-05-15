@@ -21,7 +21,6 @@ import { ViewTicketsDrawer } from "components/drawer";
 const ClientDetails = () => {
   const router = useRouter();
   const [isDialogue, setIsDialogue] = useState(false);
-  const [isProfile, setIsProfile] = useState(false);
   const [tickets, setTickets] = useState(false);
   const [viewTickets, setViewTickets] = useState<any>(null);
   const {
@@ -29,7 +28,6 @@ const ClientDetails = () => {
     mutate,
     isLoading,
   } = useFetch<Client>(`clients/${router?.query?.id}`);
-  console.log("ksakckack", clientData);
   const basicDetails = [
     {
       id: 1,
@@ -52,6 +50,11 @@ const ClientDetails = () => {
       id: 8,
       title: "Gender",
       value: `${clientData?.gender ? clientData?.gender : "---"}`,
+    },
+    {
+      id: 8,
+      title: "Country",
+      value: `${clientData?.country ? clientData?.country : "---"}`,
     },
   ];
 

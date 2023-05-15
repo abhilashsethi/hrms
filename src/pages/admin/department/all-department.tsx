@@ -19,7 +19,7 @@ const AllDepartment = () => {
   } = useFetch<Role[]>(`departments`);
 
   return (
-    <PanelLayout title="All Roles - Admin Panel">
+    <PanelLayout title="All Departments - Admin Panel">
       <section className="px-8 py-4">
         <CreateDepartment
           open={isCreate}
