@@ -57,7 +57,7 @@ const ClientDetails = () => {
       value: `${clientData?.country ? clientData?.country : "---"}`,
     },
   ];
-
+  console.log(clientData);
   if (isLoading) {
     return <Loader />;
   }
@@ -185,7 +185,7 @@ const ClientDetails = () => {
           </Grid>
           <Grid item lg={4}>
             <div className="w-full h-full">
-              <ClientMeetings />
+              <ClientMeetings uId={router?.query?.id} />
               <ClientProjects />
             </div>
           </Grid>
