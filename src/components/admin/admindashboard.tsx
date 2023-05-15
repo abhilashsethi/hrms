@@ -1,10 +1,15 @@
 import {
+	Construction,
+	Diversity2,
 	ExitToApp,
+	Groups3,
 	LeakRemove,
+	MeetingRoom,
 	MoreVert,
 	People,
 	PlaylistAddCheckCircleRounded,
 	QrCodeScannerRounded,
+	SupportAgent,
 } from "@mui/icons-material";
 import {
 	Avatar,
@@ -19,6 +24,7 @@ import {
 import { CardAsset, ScannedCard } from "assets/home";
 import ICONS from "assets/icons";
 import { ProjectOverview, TaskOverview } from "components/analytics";
+import Link from "next/link";
 import { useState, MouseEvent } from "react";
 
 const AdminDashboard = () => {
@@ -30,6 +36,59 @@ const AdminDashboard = () => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
+	const Quick_Access = [
+		{
+			id: 1,
+			icon: <ExitToApp fontSize="medium" className="text-white" />,
+			title: "Leaves",
+			color: "bg-[#673ab7]",
+			link: "/admin/leaves/all-leaves",
+		},
+		{
+			id: 2,
+			icon: <Groups3 fontSize="medium" className="text-white" />,
+			title: "Roles",
+			color: "bg-[#e91e63]",
+			link: "/admin/roles/all-roles",
+		},
+		{
+			id: 3,
+			icon: <Diversity2 fontSize="medium" className="text-white" />,
+			title: "Departments",
+			color: "bg-[#ff9800]",
+			link: "/admin/department/all-department",
+		},
+		{
+			id: 4,
+			icon: <MeetingRoom fontSize="medium" className="text-white" />,
+			title: "Meetings",
+			color: "bg-[#00bcd4]",
+			link: "/admin/meetings/all-meetings",
+		},
+		{
+			id: 5,
+			icon: <People fontSize="medium" className="text-white" />,
+			title: "Clients",
+			color: "bg-[#607d8b]",
+			link: "/admin/clients/all-clients",
+		},
+		{
+			id: 6,
+			icon: <Construction fontSize="medium" className="text-white" />,
+			title: "Technologies",
+			color: "bg-[#3f51b5]",
+			link: "/admin/technologies/all-technologies",
+		},
+		{
+			id: 7,
+			icon: <SupportAgent fontSize="medium" className="text-white" />,
+			title: "Support",
+			color: "bg-[#4caf50]",
+			link: "/admin/support",
+		},
+	];
+
 	return (
 		<>
 			<div className="flex gap-2 py-4">
@@ -71,22 +130,29 @@ const AdminDashboard = () => {
 								</div>
 							</Grid>
 						))}
-						<div className="w-full shadow-xl mt-5">
+						<div className="w-full mt-5">
 							<p className="font-semibold text-lg pb-5 ml-5">Quick Access</p>{" "}
-							<div className="">
-								<Tooltip title="Leaves">
-									<div
-										// onClick={item?.onClick}
-										className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
-									>
-										<span className="p-2 bg-[#6d71f2] shadow-lg rounded-md group-hover:rotate-[-12deg] transition-all ease-in-out duration-200">
-											<span>
-												<ExitToApp fontSize="medium" className="text-white" />
-											</span>
-										</span>
-										<p className="text-xs text-center font-semibold">Leave</p>
-									</div>
-								</Tooltip>
+							<div className="flex justify-between px-8">
+								{Quick_Access?.map((item, index) => {
+									return (
+										<Tooltip title={item?.title}>
+											<Link
+												href={item?.link}
+												// onClick={item?.onClick}
+												className="w-24 h-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
+											>
+												<div
+													className={`p-2 w-12 h-12 flex justify-center items-center ${item?.color} shadow-lg rounded-md transition-all ease-in-out duration-200`}
+												>
+													<span>{item?.icon}</span>
+												</div>
+												<p className="text-xs text-center font-semibold">
+													{item?.title}
+												</p>
+											</Link>
+										</Tooltip>
+									);
+								})}
 							</div>
 						</div>
 					</Grid>
