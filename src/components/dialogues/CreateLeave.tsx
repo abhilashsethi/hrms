@@ -13,7 +13,8 @@ import {
   CircularProgress,
   MenuItem,
 } from "@mui/material";
-import { Formik, Form } from "formik";
+import { FileUpload } from "components/core";
+import { Formik, Form, ErrorMessage } from "formik";
 import { ChangeEvent, useState } from "react";
 import * as Yup from "yup";
 
@@ -98,7 +99,7 @@ const CreateLeave = ({ open, handleClose }: Props) => {
                   fullWidth
                   placeholder="Select Employee"
                 />
-
+                <h1 className="mt-4">Select Leave Type</h1>
                 <div className="flex justify-center pt-2">
                   <RadioGroup
                     row
@@ -171,9 +172,7 @@ const CreateLeave = ({ open, handleClose }: Props) => {
                   </>
                 ) : (
                   <>
-                    <p className="font-medium text-gray-700 my-2">
-                      Select Leave Type
-                    </p>
+                    <p className="font-medium text-gray-700 my-2">Leave for</p>
                     <div className="w-full">
                       <TextField
                         size="small"
@@ -210,6 +209,14 @@ const CreateLeave = ({ open, handleClose }: Props) => {
                   error={touched.message && !!errors.message}
                   helperText={touched.message && errors.message}
                 />
+                <FileUpload
+                  values={values}
+                  setImageValue={(event: any) => {
+                    setFieldValue("image", event.currentTarget.files[0]);
+                  }}
+                >
+                  <ErrorMessage name="image" />
+                </FileUpload>
                 <div className="flex justify-center mt-4">
                   <Button
                     type="submit"
