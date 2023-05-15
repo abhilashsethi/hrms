@@ -1,4 +1,6 @@
 import {
+	ExitToApp,
+	LeakRemove,
 	MoreVert,
 	People,
 	PlaylistAddCheckCircleRounded,
@@ -12,6 +14,7 @@ import {
 	Menu,
 	MenuItem,
 	Radio,
+	Tooltip,
 } from "@mui/material";
 import { CardAsset, ScannedCard } from "assets/home";
 import ICONS from "assets/icons";
@@ -68,6 +71,24 @@ const AdminDashboard = () => {
 								</div>
 							</Grid>
 						))}
+						<div className="w-full shadow-xl mt-5">
+							<p className="font-semibold text-lg pb-5 ml-5">Quick Access</p>{" "}
+							<div className="">
+								<Tooltip title="Leaves">
+									<div
+										// onClick={item?.onClick}
+										className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
+									>
+										<span className="p-2 bg-[#6d71f2] shadow-lg rounded-md group-hover:rotate-[-12deg] transition-all ease-in-out duration-200">
+											<span>
+												<ExitToApp fontSize="medium" className="text-white" />
+											</span>
+										</span>
+										<p className="text-xs text-center font-semibold">Leave</p>
+									</div>
+								</Tooltip>
+							</div>
+						</div>
 					</Grid>
 					<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 						{/* attandance section */}
