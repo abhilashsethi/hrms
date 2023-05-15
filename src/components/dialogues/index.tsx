@@ -17,3 +17,4 @@ export { default as ProjectBasicDetailsUpdate } from "./ProjectBasicDetailsUpdat
 export { default as DocPreview } from "./DocPreview";
 export { default as UpdateClient } from "./UpdateClient";
 export { default as ChangeClientProfile } from "./ChangeClientProfile";
+export { default as ProjectCreateTask } from "./ProjectCreateTask";
