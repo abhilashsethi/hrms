@@ -68,6 +68,9 @@ const AdminDashboard = () => {
 								</div>
 							</Grid>
 						))}
+						<div className="h-10 w-full shadow-xl mt-5">
+							<p className="font-semibold text-lg pb-5">Quick Access</p>{" "}
+						</div>
 					</Grid>
 					<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 						{/* attandance section */}
