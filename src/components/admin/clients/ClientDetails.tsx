@@ -31,6 +31,10 @@ const ClientDetails = () => {
   const { data: ticketsData } = useFetch<any>(
     `tickets?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
   );
+  const { data: projectData } = useFetch<any>(
+    `projects?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
+  );
+  console.log(projectData);
   const basicDetails = [
     {
       id: 1,
