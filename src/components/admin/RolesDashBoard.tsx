@@ -75,33 +75,15 @@ const RolesDashBoard = () => {
             <Grid container spacing={2}>
               {cards?.map((item) => (
                 <Grid key={item?.id} item lg={3}>
-                  <div className="border-4 border-b-theme h-32 bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-300 ease-in-out">
-                    <div className="flex justify-end">
-                      <IconButton size="small" onClick={handleClick}>
-                        <MoreVert />
-                      </IconButton>
-                      <Menu
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                          "aria-labelledby": "basic-button",
-                        }}
-                      >
-                        <MenuItem onClick={handleClose}>All Users</MenuItem>
-                        <MenuItem onClick={handleClose}>
-                          View Dashboard
-                        </MenuItem>
-                      </Menu>
-                    </div>
+                  <div className="border-4 border-b-theme h-32 bg-white w-full py-4 px-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-300 ease-in-out">
                     <div className="flex justify-around items-center">
                       <div>{item?.icon}</div>
-                      <span className="text-xl text-theme font-semibold">
-                        {item?.count}
-                      </span>
                     </div>
                     <span className=" text-theme font-semibold text-center tracking-wide text-lg">
                       {item?.title}
+                    </span>
+                    <span className="text-xl text-theme text-center font-semibold">
+                      {item?.count}
                     </span>
                   </div>
                 </Grid>
