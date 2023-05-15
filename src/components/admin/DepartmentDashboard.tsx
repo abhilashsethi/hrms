@@ -1,86 +1,9 @@
-import { MoreVert } from "@mui/icons-material";
-import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
+import { Grid } from "@mui/material";
 import { DepartmentBarChart, DepartmentDonutChart } from "components/analytics";
 import { AdminBreadcrumbs } from "components/core";
 import { useFetch } from "hooks";
-import { useState, MouseEvent, useEffect } from "react";
-
 const DepartmentDashboard = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [roleLabels, setRoleLabels] = useState<any>([]);
-  const [dataValue, setDataValue] = useState<any>([]);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const { data: departmentData } = useFetch<any>(`departments`);
   const { data: departmentDashboard } = useFetch<any>(`departments/dashboard`);
-
-  const cards = [
-    {
-      id: 1,
-      icon: <img className="w-16" src="/department.png" alt="dept icon" />,
-      count: departmentData?.departments?.length,
-      title: "Total Departments",
-    },
-    {
-      id: 2,
-      icon: <img className="" src="/coding.png" alt="Developer icon" />,
-      count: "34",
-      title: "AI & ML Department",
-    },
-    {
-      id: 3,
-      icon: <img className="" src="/hr.png" alt="" />,
-      count: "34",
-      title: "Web Development",
-    },
-    {
-      id: 4,
-      icon: <img src="/application.png" alt="" />,
-      count: "34",
-      title: "Application Development",
-    },
-    {
-      id: 5,
-      icon: <img src="/it_management.png" alt="" />,
-      count: "34",
-      title: "IT Management",
-    },
-    {
-      id: 6,
-      icon: <img src="/financial.png" alt="" />,
-      count: "34",
-      title: "Accounts Management",
-    },
-    {
-      id: 7,
-      icon: <img src="/businessman.png" alt="" />,
-      count: "34",
-      title: "Sales Management",
-    },
-    {
-      id: 8,
-      icon: <img src="/manager.png" alt="" />,
-      count: "34",
-      title: "Manager",
-    },
-  ];
-  useEffect(() => {
-    let reqLabel = departmentDashboard?.departmentWiseUsers?.map(
-      (item: any) => item?.name
-    );
-    setRoleLabels(reqLabel);
-    let reqVal = departmentDashboard?.departmentWiseUsers?.map((item: any) =>
-      Number(item?._count)
-    );
-    setDataValue(reqVal);
-  }, [departmentData]);
-
   return (
     <>
       <section className="px-8 py-4">
@@ -118,8 +41,20 @@ const DepartmentDashboard = () => {
           <div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
             <p className="font-bold text-lg text-center">Department Overview</p>
             <DepartmentBarChart
-              labels={roleLabels?.length ? roleLabels : []}
-              data={dataValue?.length ? dataValue : []}
+              labels={
+                departmentDashboard?.departmentWiseUsers?.length
+                  ? departmentDashboard?.departmentWiseUsers?.map(
+                      (item: any) => item.name
+                    )
+                  : []
+              }
+              data={
+                departmentDashboard?.departmentWiseUsers?.length
+                  ? departmentDashboard?.departmentWiseUsers?.map(
+                      (item: any) => item._count
+                    )
+                  : []
+              }
               type="bar"
               text=""
             />
@@ -127,8 +62,20 @@ const DepartmentDashboard = () => {
           <div className="col-span-12 w-full flex flex-col justify-center md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
             <p className="text-lg font-bold text-center">Department Details</p>
             <DepartmentDonutChart
-              labels={roleLabels?.length ? roleLabels : []}
-              series={dataValue?.length ? dataValue : []}
+              labels={
+                departmentDashboard?.departmentWiseUsers?.length
+                  ? departmentDashboard?.departmentWiseUsers?.map(
+                      (item: any) => item.name
+                    )
+                  : []
+              }
+              series={
+                departmentDashboard?.departmentWiseUsers?.length
+                  ? departmentDashboard?.departmentWiseUsers?.map(
+                      (item: any) => item._count
+                    )
+                  : []
+              }
               text=""
               type="donut"
               colors={[
