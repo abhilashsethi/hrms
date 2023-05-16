@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import {
   AdminBreadcrumbs,
+  FiltersContainer,
   GridAndList,
   Loader,
   LoaderAnime,
@@ -36,7 +37,8 @@ const TodayAttendance = () => {
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [searchedUser, setSearchedUser] = useState<any>([]);
-  const [status, setStatus] = useState("present");
+  const [status, setStatus] = useState("all");
+  const [order, setOrder] = useState("all");
   const [userName, setUsername] = useState("");
   const [empId, setEmpId] = useState<string | null>(null);
   const dateRef = useRef<any>();
@@ -51,54 +53,55 @@ const TodayAttendance = () => {
     `attendances/${selectedDate
       .toISOString()
       .slice(0, 10)}/${status}?page=${pageNumber}&limit=8${
-      userName ? `&name=${userName}` : ""
-    }`
+      userName ? `&employeeName=${userName}` : ""
+    }${empId ? `&employeeId=${empId}` : ""}${order ? `&orderBy=${order}` : ""}`
   );
-  console.log(attendance);
+  const { data: absentData } = useFetch<any>(
+    `attendances/${selectedDate.toISOString().slice(0, 10)}/absent`
+  );
+  const { data: presentData } = useFetch<any>(
+    `attendances/${selectedDate.toISOString().slice(0, 10)}/present`
+  );
+  const { data: allUser } = useFetch<any>(
+    `attendances/${selectedDate.toISOString().slice(0, 10)}/all`
+  );
+
   const cards = [
     {
       id: 1,
       title: "Total Users",
-      value: `${attendance?.length ? attendance?.length : `0`}`,
+      value: `${allUser?.results?.length ? allUser?.results?.length : `0`}`,
     },
     {
       id: 2,
       title: "Present",
       value: `${
-        attendance?.length
-          ? attendance?.filter((item: any) => item?.status === "present")
-              ?.length
-          : `0`
+        presentData?.results?.length ? presentData?.results?.length : `0`
       }`,
     },
     {
       id: 3,
       title: "Absent",
       value: `${
-        attendance?.length
-          ? attendance?.filter((item: any) => item?.status === "absent")?.length
-          : `0`
+        absentData?.results?.length ? absentData?.results?.length : `0`
       }`,
     },
   ];
   const tomorrow = addDays(new Date(), 1);
   const disabledDates = [];
   for (let i = 0; i < 365; i++) {
-    // disable dates for the next year
     disabledDates.push(addDays(tomorrow, i));
   }
-  console.log(attendance);
   return (
     <PanelLayout title="Today Attendance - SY HR MS">
       <section className="px-8 py-4">
-        <AdminBreadcrumbs links={links} />
         <div className="mt-4 flex justify-between">
-          <TextTitles title="ATTENDANCE" />
+          <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             {/* -----------------Date select section---------------- */}
             <div className="flex gap-3 items-center">
-              <ChevronLeftRounded />
+              {/* <ChevronLeftRounded /> */}
               <div className="tracking-wide flex gap-4 items-center font-semibold">
                 {moment(selectedDate).format("ll")}
                 <IconButton onClick={() => dateRef.current.setOpen(true)}>
@@ -117,7 +120,7 @@ const TodayAttendance = () => {
                   />
                 </div>
               </div>
-              <ChevronRightRounded />
+              {/* <ChevronRightRounded /> */}
             </div>
           </div>
         </div>
@@ -135,44 +138,60 @@ const TodayAttendance = () => {
             ))}
           </Grid>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 mb-4">
-          <TextField
-            fullWidth
-            size="small"
-            placeholder="Employee Id"
-            name="employeeId"
-            onChange={(e) => setEmpId(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            size="small"
-            placeholder="Employee Name"
-            onChange={(e) => setUsername(e.target.value)}
-            name="employeeName"
-          />
-          <TextField
-            size="small"
-            fullWidth
-            select
-            label="Status"
-            defaultValue="EUR"
-            onChange={(e: any) => setStatus(e.target.value)}
-          >
-            {selects.map((option: any) => (
-              <MenuItem key={option.id} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Button
-            fullWidth
-            startIcon={<Search />}
-            variant="contained"
-            className="!bg-theme"
-          >
-            Search
-          </Button>
-        </div>
+        <FiltersContainer>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 mb-4">
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Employee Id"
+              name="employeeId"
+              onChange={(e) => setEmpId(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Employee Name"
+              onChange={(e) => setUsername(e.target.value)}
+              name="employeeName"
+            />
+            <TextField
+              size="small"
+              fullWidth
+              select
+              label="Status"
+              defaultValue="all"
+              onChange={(e: any) => setStatus(e.target.value)}
+            >
+              {selects.map((option: any) => (
+                <MenuItem key={option.id} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              size="small"
+              fullWidth
+              select
+              label="Order By"
+              // defaultValue="all"
+              onChange={(e: any) => setOrder(e.target.value)}
+            >
+              {orderBy.map((option: any) => (
+                <MenuItem key={option.id} value={option.value}>
+                  {option.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            {/* <Button
+              fullWidth
+              startIcon={<Search />}
+              variant="contained"
+              className="!bg-theme"
+            >
+              Search
+            </Button> */}
+          </div>
+        </FiltersContainer>
         <section>
           {isLoading ? (
             <Loader />
@@ -213,7 +232,11 @@ const selects = [
   { id: 2, value: "absent", label: "Absent" },
   { id: 3, value: "all", label: "All" },
 ];
-
+const orderBy = [
+  { id: 1, value: "createdAt:asc", name: "New" },
+  { id: 2, value: "createdAt:desc", name: "Old" },
+  { id: 3, value: "", name: "None" },
+];
 const links = [
   { id: 1, page: "Attendances", link: "/admin/attendances" },
   {

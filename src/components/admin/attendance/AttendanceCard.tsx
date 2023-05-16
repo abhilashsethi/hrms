@@ -1,17 +1,18 @@
-import { Groups, HowToReg, MoreVert, PersonOff } from "@mui/icons-material";
-import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
+import { Groups, HowToReg, PersonOff } from "@mui/icons-material";
+import { Grid } from "@mui/material";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-// import RolewiseStrength from "components/analytics/RolewiseStrength";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { HeadText, UpcomingLeaves } from "components/core";
 import { useFetch } from "hooks";
 import moment from "moment";
-import { DailyAttendance, DonutChart } from "components/analytics";
-import ICONS from "assets/icons";
 import EmployeeAllAttendance from "../EmployeeAllAttendance";
-
-const AttendanceDashBoard = () => {
+interface Props {
+  allData?: any;
+  absentData?: any;
+  presentData?: any;
+}
+const AttendanceDashBoard = ({ allData, absentData, presentData }: Props) => {
   const [attendances, setAttendances] = useState([]);
   function renderEventContent(eventInfo: any) {
     return (
@@ -31,17 +32,10 @@ const AttendanceDashBoard = () => {
       </>
     );
   }
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
+  const [currentMonth, setCurrentMonth] = useState("");
   const { data: attendanceData } = useFetch<any>(
-    `attendances/get-by-month?month=3`
+    `attendances/get-by-month?month=${currentMonth}`
   );
   useEffect(() => {
     let reqData = attendanceData?.map((item: any) => {
@@ -57,8 +51,6 @@ const AttendanceDashBoard = () => {
     setAttendances(myData);
   }, [attendanceData]);
 
-  console.log(attendances);
-
   const cards = [
     {
       id: 1,
@@ -68,7 +60,9 @@ const AttendanceDashBoard = () => {
           className="text-theme group-hover:text-white shadow-xl rounded-lg"
         />
       ),
-      count: "34",
+      count: `${
+        presentData?.results?.length ? presentData?.results?.length : `0`
+      }`,
       title: "Today Present",
     },
     {
@@ -79,7 +73,9 @@ const AttendanceDashBoard = () => {
           className="text-theme group-hover:text-white shadow-xl rounded-lg"
         />
       ),
-      count: "10",
+      count: `${
+        absentData?.results?.length ? absentData?.results?.length : `0`
+      }`,
       title: "Today Absent",
     },
     {
@@ -90,7 +86,7 @@ const AttendanceDashBoard = () => {
           className="text-theme group-hover:text-white shadow-xl rounded-lg"
         />
       ),
-      count: "44",
+      count: `${allData?.results?.length ? allData?.results?.length : `0`}`,
       title: "Total Employees",
     },
   ];
@@ -105,32 +101,14 @@ const AttendanceDashBoard = () => {
                 {cards?.map((item) => (
                   <Grid key={item?.id} item lg={4}>
                     <div className="hover:scale-105 transition duration-300 ease-in-out border-2 border-b-theme h-28 w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
-                      <div className="flex justify-end">
-                        <IconButton size="small" onClick={handleClick}>
-                          <ICONS.More />
-                        </IconButton>
-                        <Menu
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={handleClose}
-                          MenuListProps={{
-                            "aria-labelledby": "basic-button",
-                          }}
-                        >
-                          <MenuItem onClick={handleClose}>All Users</MenuItem>
-                          <MenuItem onClick={handleClose}>
-                            View Dashboard
-                          </MenuItem>
-                        </Menu>
-                      </div>
                       <div className="flex justify-around items-center">
                         <div>{item?.icon}</div>
-                        <span className="text-xl text-theme font-semibold ">
-                          {item?.count}
-                        </span>
                       </div>
                       <span className="pt-2 text-theme font-semibold text-center tracking-wide text-md">
                         {item?.title}
+                      </span>
+                      <span className="text-xl text-theme text-center font-semibold ">
+                        {item?.count}
                       </span>
                     </div>
                   </Grid>
@@ -147,6 +125,9 @@ const AttendanceDashBoard = () => {
                     weekends={true}
                     eventContent={renderEventContent}
                     events={attendances}
+                    datesSet={(dateInfo: any) =>
+                      setCurrentMonth(dateInfo?.view?.currentStart?.getMonth())
+                    }
                   />
                 </div>
               </div>

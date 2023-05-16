@@ -1,6 +1,10 @@
 import { DailyAttendance, DonutChart } from "components/analytics";
-
-const AttendanceCharts = () => {
+interface Props {
+  allData?: any;
+  absentData?: any;
+  presentData?: any;
+}
+const AttendanceCharts = ({ allData, absentData, presentData }: Props) => {
   return (
     <>
       <div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
@@ -14,7 +18,10 @@ const AttendanceCharts = () => {
           <p className="text-lg font-bold text-center">Today's Attendance</p>
           <DonutChart
             labels={["Present", "Absent"]}
-            series={[44, 55]}
+            series={[
+              presentData?.results?.length ? presentData?.results?.length : `0`,
+              absentData?.results?.length ? absentData?.results?.length : `0`,
+            ]}
             text=""
             type="donut"
           />
