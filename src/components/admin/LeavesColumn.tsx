@@ -173,6 +173,7 @@ const LeavesColumn = ({ data }: Props) => {
             {
               title: "Approved by Manager",
               tooltip: "status",
+              width: "3%",
               field: "status",
               render: (item) => (
                 <>

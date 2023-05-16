@@ -85,12 +85,28 @@ const LeavesGrid = ({ data }: Props) => {
       case "Decline":
         return (
           <>
-            {/* <span className="bg-red-300 text-red-600 rounded-full px-2 py-1 font-semibold text-xs">
-							{status}
-						</span> */}
             <div className="flex justify-center items-center">
               <div className="text-xs w-1/3 bg-red-600 text-white p-1 rounded-md font-semibold px-2">
                 {status}
+              </div>
+            </div>
+            <div className="pt-2">
+              <Stepper activeStep={0} alternativeLabel>
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            </div>
+          </>
+        );
+      case "Semi":
+        return (
+          <>
+            <div className="flex justify-center items-center">
+              <div className="text-xs w-1/3 bg-blue-600 text-white p-1 rounded-md font-semibold px-2">
+                Pending
               </div>
             </div>
             <div className="pt-2">
