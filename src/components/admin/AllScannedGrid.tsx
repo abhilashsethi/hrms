@@ -111,7 +111,7 @@ const AllScannedGrid = ({ data, mutate }: Props) => {
         <RoomAccessDrawer open={isAccess} onClose={() => setIsAccess(false)} />
         <Grid container spacing={3}>
           {data?.map((item: any) => (
-            <Grid key={item?.id} item lg={4} xl={3}>
+            <Grid key={item?.id} item lg={4} xl={3} md={2} sm={12}>
               <div className="flex items-center justify-center w-full h-full cursor-pointer">
                 <div
                   className="w-[18rem] h-[29.5rem] bg-contain group bg-no-repeat shadow-lg rounded-xl overflow-hidden"

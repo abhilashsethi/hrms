@@ -75,7 +75,7 @@ const Login = () => {
         }}
       >
         <div className="h-full w-full bg-gradient-to-bl from-theme-100 to-secondary-100 flex flex-col justify-center items-center">
-          <figure className="md:w-52 w-24 m-auto mb-4 mt-8">
+          <figure className="md:w-52 w-40 m-auto md:mb-4 mb-0 mt-8">
             <img className="w-full object-contain" src={LOGO.src} alt="" />
           </figure>
           <div className="flex flex-col items-center">

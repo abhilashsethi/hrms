@@ -13,3 +13,4 @@ export { default as TechnologiesFilter } from "./TechnologiesFilter";
 export { default as ProjectDocuments } from "./ProjectDocuments";
 export { default as DepartmentInformation } from "./DepartmentInformation";
 export { default as LeaveDocuments } from "./LeaveDocuments";
+export { default as ViewNotesDrawer } from "./ViewNotesDrawer";

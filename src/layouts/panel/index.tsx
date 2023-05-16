@@ -78,8 +78,8 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
         <main
           className={`min-h-screen bg-white ${
             isOpen
-              ? "md:ml-[calc(100vw-calc(100vw-240px))] md:w-[calc(100vw-258px)]"
-              : "md:ml-[calc(100vw-calc(100vw-72px))] md:w-[calc(100vw-72px)]"
+              ? "md:ml-[calc(100vw-calc(100vw-240px))] md:w-[calc(100vw-258px)] w-[calc(100vw-72px)]"
+              : "md:ml-[calc(100vw-calc(100vw-72px))] md:w-[calc(100vw-72px)] w-[calc(100vw-58px)] ml-[calc(100vw-calc(100vw-55px))]"
           } dashboard-main `}
         >
           <header className={`h-16 bg-white`}>
@@ -175,7 +175,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                       className="flex gap-2 items-center cursor-pointer"
                     >
                       <PhotoViewerSmall size="2rem" photo={user?.photo} />
-                      <div>
+                      <div className="hidden md:block">
                         <h1 className="text-sm">{user?.name}</h1>
                         <h1 className="text-sm font-light">{user?.email}</h1>
                       </div>

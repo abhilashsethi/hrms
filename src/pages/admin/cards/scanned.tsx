@@ -47,30 +47,28 @@ const Cards = () => {
   );
   return (
     <PanelLayout title="Scanned Cards - SY HR MS">
-      <section className="px-8 py-4">
-        <div className="flex justify-between items-center">
+      <section className="md:px-8 px-2 md:py-4 py-2">
+        <div className="flex justify-between md:items-center md:flex-row flex-col items-start">
           <AdminBreadcrumbs links={links} />
-          <div className="flex gap-4 items-center">
-            <div className="flex gap-1">
-              <IconButton onClick={() => setIsGrid(true)} size="small">
-                <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                    isGrid && `border-2 border-theme`
-                  }`}
-                >
-                  <GridViewRounded className={`${isGrid && `!text-theme`}`} />
-                </div>
-              </IconButton>
-              <IconButton onClick={() => setIsGrid(false)} size="small">
-                <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                    !isGrid && `border-2 border-theme`
-                  }`}
-                >
-                  <TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
-                </div>
-              </IconButton>
-            </div>
+          <div className="flex gap-1">
+            <IconButton onClick={() => setIsGrid(true)} size="small">
+              <div
+                className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+                  isGrid && `border-2 border-theme`
+                }`}
+              >
+                <GridViewRounded className={`${isGrid && `!text-theme`}`} />
+              </div>
+            </IconButton>
+            <IconButton onClick={() => setIsGrid(false)} size="small">
+              <div
+                className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+                  !isGrid && `border-2 border-theme`
+                }`}
+              >
+                <TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
+              </div>
+            </IconButton>
           </div>
         </div>
         <FiltersContainer>
