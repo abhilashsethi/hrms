@@ -14,7 +14,7 @@ import {
 	Modal,
 	Tooltip,
 } from "@mui/material";
-import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
+import { DEFAULTPROFILE, IMG, PDF, SAMPLEDP } from "assets/home";
 import { Loader } from "components/core";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
@@ -136,14 +136,11 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 								</div>
 								<div className="mt-7">
 									<div className="flex w-full justify-between items-center gap-5">
-										<img
-											className="h-20 w-20 "
-											src={"/support-ticket.png"}
-											alt=""
-										/>
+										<img className="h-20 w-20 " src={"/writing.png"} alt="" />
+
 										<div className="">
 											<p className="font-semibold">
-												Title :{" "}
+												Notes :{" "}
 												<span className="text-base text-gray-600">
 													{"Title"}
 												</span>
@@ -152,7 +149,7 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 												</span>
 											</p>
 											<p className="font-semibold">
-												Issue Date :{" "}
+												Added By :{" "}
 												<span className="font-semibold text-sm text-gray-500">
 													Date
 												</span>
@@ -161,14 +158,7 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 										<Tooltip title="Details">
 											<Link href={`/admin/clients/view-ticket-details`}>
 												<div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
-													<span className="p-2 bg-white shadow-lg rounded-md transition-all ease-in-out duration-200">
-														<span>
-															<Receipt />{" "}
-														</span>
-													</span>
-													<p className="text-xs text-center font-semibold ">
-														Details
-													</p>
+													<img className="w-12" src={PDF.src} alt="" />
 												</div>
 											</Link>
 										</Tooltip>
@@ -184,3 +174,30 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 };
 
 export default ViewNotesDrawer;
+
+const Note_Details = [
+	{
+		id: 1,
+		notes: "Project Title",
+		img: <img className="w-12" src={PDF.src} alt="" />,
+		addedBy: "Sales Person",
+	},
+	{
+		id: 2,
+		notes: "Project Title",
+		img: <img className="w-12" src={IMG.src} alt="" />,
+		addedBy: "Sales Person",
+	},
+	{
+		id: 3,
+		notes: "Project Title",
+		img: <img className="w-12" src={PDF.src} alt="" />,
+		addedBy: "Sales Person",
+	},
+	{
+		id: 4,
+		notes: "Project Title",
+		img: <img className="w-12" src={PDF.src} alt="" />,
+		addedBy: "Sales Person",
+	},
+];

@@ -77,12 +77,6 @@ const MeetingsGrid = () => {
 								transformOrigin={{ horizontal: "right", vertical: "top" }}
 								anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 							>
-								<MenuItem onClick={handleClose}>
-									<ListItemIcon>
-										<DeleteRounded fontSize="small" />
-									</ListItemIcon>
-									Delete
-								</MenuItem>
 								<Link href="/admin/meetings/meeting-details">
 									<MenuItem onClick={handleClose}>
 										<ListItemIcon>
@@ -91,6 +85,12 @@ const MeetingsGrid = () => {
 										Details
 									</MenuItem>
 								</Link>
+								<MenuItem onClick={handleClose}>
+									<ListItemIcon>
+										<DeleteRounded fontSize="small" />
+									</ListItemIcon>
+									Delete
+								</MenuItem>
 							</Menu>
 						</div>
 						<div className="px-4">
