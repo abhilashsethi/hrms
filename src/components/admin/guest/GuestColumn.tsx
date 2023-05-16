@@ -47,7 +47,6 @@ const GuestColumn = ({ data, mutate }: Props) => {
       }
     });
   };
-  console.log(data);
 
   return (
     <section className="mt-8">
@@ -126,7 +125,7 @@ const GuestColumn = ({ data, mutate }: Props) => {
         ]}
         editable={{
           onRowDelete: async (oldData) => {
-            const res = await change(`users/${oldData.id}`, {
+            const res = await change(`guests/${oldData.id}`, {
               method: "DELETE",
             });
             if (res?.status !== 200) {
