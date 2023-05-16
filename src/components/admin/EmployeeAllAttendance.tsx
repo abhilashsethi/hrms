@@ -17,9 +17,7 @@ const EmployeeAllAttendance = () => {
   });
   const [progress, setProgress] = React.useState(0);
   const [activeMonth, setActiveMonth] = useState(new Date().getMonth());
-  const { data: currentDateData } = useFetch<any>(
-    `attendances/${new Date().toISOString()}/all`
-  );
+
   const { data: attendanceData } = useFetch<any>(
     `attendances/get-by-month?month=${activeMonth}`
   );
