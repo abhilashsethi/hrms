@@ -28,7 +28,6 @@ import { AdminBreadcrumbs } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
-import Link from "next/link";
 import { useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -206,15 +205,6 @@ const AllMeetings = () => {
 								</div>
 								<ChevronRightRounded />
 							</div>
-							{/* <Link href="/admin/employees/create-employee">
-                <Button
-                  className="!bg-theme"
-                  variant="contained"
-                  startIcon={<Add />}
-                >
-                  ADD MEETINGS
-                </Button>
-              </Link> */}
 						</div>
 					</div>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
