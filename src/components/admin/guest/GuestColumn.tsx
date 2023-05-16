@@ -55,7 +55,7 @@ const GuestColumn = ({ data, mutate }: Props) => {
         title={<HeadStyle name="All Guests" icon={<PeopleRounded />} />}
         isLoading={!data}
         data={data ? getDataWithSL<any>(data) : []}
-        options={{ ...MuiTblOptions(), selection: true }}
+        options={{ ...MuiTblOptions(), selection: false }}
         columns={[
           {
             title: "#",
@@ -74,59 +74,7 @@ const GuestColumn = ({ data, mutate }: Props) => {
             tooltip: "Email",
             field: "email",
             editable: "never",
-            // render: ({ email }) => <CopyClipboard value={email} />,
-          },
-          {
-            title: "Phone",
-            field: "phone",
-            emptyValue: "Not Provided",
-            // render: ({ employeeID }) => (
-            // 	<div className="font-semibold">
-            // 		<CopyClipboard value={employeeID} />
-            // 	</div>
-            // ),
-            editable: "never",
-          },
-          {
-            title: "Gender",
-            field: "gender",
-            emptyValue: "Not Provided",
-            // render: ({ role }) => {
-            // 	return (
-            // 		<span className="text-sm text-gray-500">{role?.name}</span>
-            // 	);
-            // },
-            editable: "never",
-          },
-          {
-            title: "Visit Information",
-            field: "visitInfo",
-            // render: (item) => {
-            // 	return (
-            // 		<Link href={`/admin/employees/employee-profile?id=${item?.id}`}>
-            // 			<Tooltip title="Details">
-            // 				<div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-            // 					<PersonRounded className="!text-white" />
-            // 				</div>
-            // 			</Tooltip>
-            // 		</Link>
-            // 	);
-            // },
-            editable: "never",
-          },
-
-          {
-            title: "Company",
-            field: "company",
-            emptyValue: "Not Provided",
-            align: "center",
-            // render: (data) => (
-            // 	<IOSSwitch
-            // 		checked={data?.isBlocked}
-            // 		onChange={(e) => handleBlock(e, data?.id)}
-            // 	/>
-            // ),
-            editable: "never",
+            render: ({ email }) => <CopyClipboard value={email} />,
           },
           {
             title: "Designation",
@@ -134,22 +82,32 @@ const GuestColumn = ({ data, mutate }: Props) => {
             // render: (data) => clock(data.updatedAt).fromNow(),
             editable: "never",
           },
-          // {
-          //   title: "Office Access",
-          //   field: "isOfficeAccessGranted",
-          //   lookup: { true: "Granted", false: "Not Granted" },
-          //   // editable: "never",
-          // },
+          {
+            title: "Valid From",
+            field: "valid",
+            render: (data) => new Date(data.valid).toDateString(),
+            editable: "never",
+          },
+          {
+            title: "Valid Till",
+            field: "valid",
+            render: (data) => new Date(data.valid).toDateString(),
+            editable: "never",
+          },
+
           {
             title: "Created",
             field: "createdAt",
             render: (data) => new Date(data.createdAt).toDateString(),
             editable: "never",
           },
+          {
+            title: "Updated",
+            field: "updatedAt",
+            render: (data) => new Date(data.updatedAt).toDateString(),
+            editable: "never",
+          },
         ]}
-        // onRowDoubleClick={(e, rowData) =>
-        //   push(`/admin/attendances/user/${rowData?.id}`)
-        // }
         editable={{
           onRowDelete: async (oldData) => {
             const res = await change(`users/${oldData.id}`, {

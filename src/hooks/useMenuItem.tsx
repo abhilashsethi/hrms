@@ -116,7 +116,7 @@ export default () => {
           },
           {
             key: "13-3",
-            title: "Add Guests",
+            title: "Add Guest",
             icon: <ElevatorRounded />,
             route: "/admin/guests/create-guest",
           },
