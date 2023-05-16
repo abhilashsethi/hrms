@@ -2,6 +2,7 @@ import PanelLayout from "layouts/panel";
 import { AdminBreadcrumbs } from "components/core";
 import { ClientDetails } from "components/admin/clients";
 import { MeetingData } from "components/admin/meetings";
+// import { MeetingData } from "components/admin/meetings";
 
 const MeetingDetails = () => {
 	return (
