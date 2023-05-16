@@ -1,4 +1,5 @@
 import MaterialTable from "@material-table/core";
+import { Avatar } from "@mui/material";
 import { RenderIconRow } from "components/common";
 import moment from "moment";
 import { Attendance } from "types";
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const AttendanceList = ({ data }: Props) => {
+  console.log(data);
   return (
     <div className="mt-4">
       <MaterialTable
@@ -25,7 +27,13 @@ const AttendanceList = ({ data }: Props) => {
           },
           {
             title: "Name",
-            field: "name",
+            // field: "name",
+            render: ({ data }: any) => (
+              <>
+                <Avatar alt={data?.name} src={data?.photo} />
+                <p>{data?.name}</p>
+              </>
+            ),
           },
           {
             title: "Email",
@@ -55,11 +63,6 @@ const AttendanceList = ({ data }: Props) => {
                 </span>
               );
             },
-          },
-          {
-            title: "Date",
-            field: "date",
-            render: (data) => new Date().toISOString().slice(0, 10),
           },
           {
             title: "In Time",

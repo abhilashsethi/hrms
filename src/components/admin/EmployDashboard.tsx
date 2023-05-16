@@ -4,19 +4,29 @@ import {
 	RolewiseStrength,
 } from "components/analytics";
 import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
-import { UpcomingLeaves } from "components/core";
+import { DashboardCard, UpcomingLeaves } from "components/core";
 import { useState, MouseEvent } from "react";
 import ICONS from "assets/icons";
 import { useFetch } from "hooks";
 import {
 	AccountTreeRounded,
+	AssignmentTurnedIn,
+	ContactPhone,
+	DevicesOther,
 	DoNotTouchRounded,
 	MoreVert,
+	PendingActions,
 	People,
 	PlaylistAddCheckCircleRounded,
 } from "@mui/icons-material";
 import { User } from "types";
 import Link from "next/link";
+import {
+	CARDICON1,
+	CARDICON2,
+	CARDICON3,
+	CARDICON4,
+} from "assets/dashboard_Icons";
 
 const EmployDashboard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -31,7 +41,7 @@ const EmployDashboard = () => {
 	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
 	// console.log(employeeData);
 
-	const cards = [
+	const cards1 = [
 		{
 			id: 1,
 			icon: <People fontSize="large" className="text-theme" />,
@@ -74,8 +84,10 @@ const EmployDashboard = () => {
 		<>
 			<div className="flex gap-2 py-4">
 				<div className="w-2/3 px-4 ">
-					<Grid container spacing={2}>
-						{cards?.map((item) => (
+					<div className="flex gap-2 py-4">
+						<DashboardCard data={cards} />
+					</div>
+					{/* {cards?.map((item) => (
 							<Grid key={item?.id} item lg={3}>
 								<Link href={item?.route && item?.route}>
 									<div className="cursor-pointer hover:scale-105 transition duration-500 ease-in-out h-56 bg-white w-full p-8 flex flex-col rounded-xl shadow-xl justify-between border-b-4 border-theme">
@@ -105,8 +117,8 @@ const EmployDashboard = () => {
 									</div>
 								</Link>
 							</Grid>
-						))}
-					</Grid>
+						))} */}
+
 					<div className="grid grid-cols-12 content-between gap-10 m-5 !mb-6">
 						<div className="col-span-12 pt-20 w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
 							<DailyAttendance text="Employee's Report" type="area" />
@@ -137,7 +149,7 @@ const EmployDashboard = () => {
 					<p className="text-lg font-bold text-center">Role-wise Strength</p>
 					<RolewiseStrength text="" type="bar" />
 				</div>
-				<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
+				<div className="col-span-12  pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Employee Gender Ratio</p>
 					<GenderRation text="" type="donut" />
 				</div>
@@ -147,3 +159,42 @@ const EmployDashboard = () => {
 };
 
 export default EmployDashboard;
+
+const cards = [
+	{
+		id: 1,
+		icon: <ContactPhone className="text-theme" />,
+		count: "34",
+		title: "Total Employees",
+		img: CARDICON1.src,
+		bg: "from-blue-500 to-blue-300",
+		className: "h-40",
+	},
+	{
+		id: 2,
+		icon: <PendingActions className="text-theme" />,
+		count: "20",
+		title: "Active Employees",
+		bg: "from-yellow-500 to-yellow-300",
+		img: CARDICON2.src,
+		className: "h-40",
+	},
+	{
+		id: 3,
+		icon: <AssignmentTurnedIn className="text-theme" />,
+		count: "10",
+		title: "In active Employees",
+		bg: "from-emerald-500 to-emerald-300",
+		img: CARDICON3.src,
+		className: "h-40",
+	},
+	{
+		id: 4,
+		icon: <DevicesOther className="text-theme" />,
+		count: "18",
+		title: "Scanned Cards",
+		bg: "from-purple-500 to-purple-300",
+		img: CARDICON4.src,
+		className: "h-40",
+	},
+];
