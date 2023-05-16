@@ -19,12 +19,12 @@ const AllGuests = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const {
-    data: employees,
+    data: guestData,
     mutate,
     isLoading,
     pagination,
-  } = useFetch<User[]>(`users?page=${pageNumber}&limit=8`);
-
+  } = useFetch<any[]>(`guests?page=${pageNumber}&limit=8`);
+  console.log(guestData);
   const guest = [
     {
       name: "John Doe",
