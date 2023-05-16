@@ -28,7 +28,7 @@ interface Array {
   approvedByHR?: string | undefined;
 }
 interface Props {
-  data: Array[];
+  data?: Array[];
 }
 
 const LeavesColumn = ({ data }: Props) => {

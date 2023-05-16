@@ -19,7 +19,7 @@ interface Array {
   credit?: number | undefined;
 }
 interface Props {
-  data: Array[];
+  data?: Array[];
 }
 const LeavesGrid = ({ data }: Props) => {
   const [isDocuments, setIsDocuments] = useState(false);
