@@ -71,9 +71,8 @@ const AllGuests = () => {
   return (
     <PanelLayout title="All Guests - Admin Panel">
       <section className="px-8 py-4">
-        <AdminBreadcrumbs links={links} />
         <div className="flex justify-between">
-          <HeadText title="ALL GUESTS" />
+          <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             <Link href="/admin/guests/create-guest">
@@ -98,12 +97,12 @@ const AllGuests = () => {
         {isGrid ? (
           <>
             {isLoading && <SkeletonLoader />}
-            <GuestsGrid data={cards} mutate={mutate} />
+            <GuestsGrid data={guestData} mutate={mutate} />
           </>
         ) : (
           <>
             {isLoading && <Loader />}
-            <GuestColumn data={guest} mutate={mutate} />
+            <GuestColumn data={guestData} mutate={mutate} />
           </>
         )}
       </section>

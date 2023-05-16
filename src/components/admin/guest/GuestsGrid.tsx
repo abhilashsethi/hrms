@@ -12,6 +12,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
+import { RenderIconRow } from "components/common";
 import { CopyClipboard, PhotoViewer, PhotoViewerGuests } from "components/core";
 import { useChange } from "hooks";
 import moment from "moment";
@@ -208,12 +209,14 @@ const CardContent = ({ item, mutate }: any) => {
         />
       </div>
       <div className="flex flex-col gap-1.5 tracking-wide items-center justify-center pb-4 px-2">
-        <span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
+        <span className="mt-2 text-lg font-semibold tracking-wide text-gray-600">
           {item?.name}
         </span>
-        <div className="flex gap-2 items-center font-semibold text-sm pl-4">
-          GUEST ID :
-          <CopyClipboard value={item?.guestId} />
+        <span className="text-sm text-gray-600">
+          <RenderIconRow value={item?.email} isEmail />
+        </span>
+        <div className="flex gap-2 items-center font-semibold text-sm">
+          {item?.designation}
         </div>
         <div className="grid grid-cols-2 gap-6 px-2 text-sm justify-items-center">
           <div className="grid gap-2 px-4 py-2 shadow-xl rounded-md text-center ">
