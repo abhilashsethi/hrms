@@ -22,33 +22,33 @@ const GuestProfile = () => {
   const [isDialogue, setIsDialogue] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
   const {
-    data: employData,
+    data: guestData,
     mutate,
     isLoading,
-  } = useFetch<User>(`users/${router?.query?.id}`);
+  } = useFetch<User>(`guests/${router?.query?.id}`);
   const { change } = useChange();
   const basicDetails = [
     {
       id: 1,
       title: "Name",
-      value: `${employData?.name ? employData?.name : "---"}`,
+      value: `${guestData?.name ? guestData?.name : "---"}`,
     },
     {
       id: 2,
       title: "Email",
-      value: `${employData?.email ? employData?.email : "---"}`,
+      value: `${guestData?.email ? guestData?.email : "---"}`,
     },
     {
       id: 3,
       title: "GuestId",
-      value: `${employData?.employeeID ? employData?.employeeID : "---"}`,
+      value: `${guestData?.employeeID ? guestData?.employeeID : "---"}`,
     },
     {
       id: 4,
       title: "Valid From",
       value: `${
-        employData?.joiningDate
-          ? moment(employData?.joiningDate).format("ll")
+        guestData?.joiningDate
+          ? moment(guestData?.joiningDate).format("ll")
           : "---"
       }`,
     },
@@ -56,15 +56,15 @@ const GuestProfile = () => {
       id: 5,
       title: "Valid Till",
       value: `${
-        employData?.joiningDate
-          ? moment(employData?.joiningDate).format("ll")
+        guestData?.joiningDate
+          ? moment(guestData?.joiningDate).format("ll")
           : "---"
       }`,
     },
     {
       id: 6,
       title: "Phone",
-      value: `${employData?.phone ? employData?.phone : "---"}`,
+      value: `${guestData?.phone ? guestData?.phone : "---"}`,
     },
   ];
   const roomDetails = [
@@ -72,31 +72,31 @@ const GuestProfile = () => {
       id: 1,
       status: true,
       name: "Main Door",
-      value: `${employData?.panNo ? employData?.panNo : "---"}`,
+      value: `${guestData?.panNo ? guestData?.panNo : "---"}`,
     },
     {
       id: 2,
       status: true,
       name: "Director Room",
-      value: `${employData?.aadharNo ? employData?.aadharNo : "---"}`,
+      value: `${guestData?.aadharNo ? guestData?.aadharNo : "---"}`,
     },
     {
       id: 3,
       status: true,
       name: "Meeting Room",
-      value: `${employData?.gmail ? employData?.gmail : "---"}`,
+      value: `${guestData?.gmail ? guestData?.gmail : "---"}`,
     },
     {
       id: 5,
       status: false,
       name: "Work Space",
-      value: `${employData?.linkedin ? employData?.linkedin : "---"}`,
+      value: `${guestData?.linkedin ? guestData?.linkedin : "---"}`,
     },
     {
       id: 7,
       status: false,
       name: "Cafeteria",
-      value: `${employData?.address ? employData?.address : "---"}`,
+      value: `${guestData?.address ? guestData?.address : "---"}`,
     },
   ];
   const handleBlock = async (e: any, id: any) => {
@@ -151,18 +151,18 @@ const GuestProfile = () => {
           <div className="bg-theme-400 rounded-lg grid justify-items-center py-4 px-4 shadow-lg shadow-gray-600">
             <div className="h-32 w-32 rounded-full border-[4px] border-white flex justify-center items-center text-3xl">
               <div className="relative h-full w-full flex justify-center items-center group">
-                {employData?.photo && (
+                {guestData?.photo && (
                   <div className="h-full w-full bg-slate-300 rounded-full">
                     <img
                       className="h-full w-full object-cover rounded-full shadow-md"
-                      src={employData?.photo}
+                      src={guestData?.photo}
                       alt="John Doe"
                     />
                   </div>
                 )}
-                {!employData?.photo && (
+                {!guestData?.photo && (
                   <div className="h-full w-full text-white rounded-full uppercase shadow-lg flex justify-center items-center text-4xl font-bold bg-gradient-to-br from-theme-100 via-theme-50 to-secondary-100">
-                    {employData?.name.slice(0, 1) || "J"}
+                    {guestData?.name.slice(0, 1) || "J"}
                   </div>
                 )}
                 <div
@@ -174,13 +174,13 @@ const GuestProfile = () => {
               </div>
             </div>
             <h2 className="pt-2 pb-1 text-xl text-white font-bold tracking-wide">
-              {employData?.name || "John Doi"}
+              {guestData?.name || "John Doi"}
             </h2>
             <h4 className="text-white font-semibold">
-              {employData?.email || "john.doi@sy.com"}
+              {guestData?.email || "john.doi@sy.com"}
             </h4>
             <span className="text-white font-semibold">
-              <CopyClipboard value={employData?.employeeID || "YARD20036"} />
+              <CopyClipboard value={guestData?.employeeID || "YARD20036"} />
             </span>
           </div>
           <div className="col-span-2 bg-white py-4 px-4 shadow-lg shadow-gray-600 rounded-lg">

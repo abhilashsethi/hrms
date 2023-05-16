@@ -107,6 +107,22 @@ const GuestColumn = ({ data, mutate }: Props) => {
             render: (data) => new Date(data.updatedAt).toDateString(),
             editable: "never",
           },
+          {
+            title: "Details",
+            tooltip: "Details",
+            render: (item) => {
+              return (
+                <Link href={`/admin/guests/guest-profile?id=${item?.id}`}>
+                  <Tooltip title="Details">
+                    <div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+                      <PersonRounded className="!text-white" />
+                    </div>
+                  </Tooltip>
+                </Link>
+              );
+            },
+            editable: "never",
+          },
         ]}
         editable={{
           onRowDelete: async (oldData) => {
