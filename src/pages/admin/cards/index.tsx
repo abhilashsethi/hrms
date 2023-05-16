@@ -1,23 +1,33 @@
 import CardsAreaChart from "components/analytics/CardsAreaChart";
 import CardStatus from "components/analytics/CardStatus";
-import { AdminBreadcrumbs } from "components/core";
+import { AdminBreadcrumbs, DashboardCard } from "components/core";
 import PanelLayout from "layouts/panel";
 import { Grid } from "@mui/material";
 import { useFetch } from "hooks";
 import {
+	AssignmentTurnedIn,
 	Block,
+	ContactPhone,
 	CreditCardRounded,
 	CreditScore,
+	DevicesOther,
+	PendingActions,
 	QrCodeScanner,
 } from "@mui/icons-material";
 import Link from "next/link";
 import { Card } from "types";
+import {
+	CARDICON1,
+	CARDICON2,
+	CARDICON3,
+	CARDICON4,
+} from "assets/dashboard_Icons";
 
 const Cards = () => {
 	const { data: cardData, mutate } = useFetch<Card[]>(`cards`);
 	// console.log(cardData);
 
-	const cards = [
+	const cards1 = [
 		{
 			id: 1,
 			title: "Total Cards",
@@ -66,23 +76,9 @@ const Cards = () => {
 			<section className="px-8 py-4">
 				<AdminBreadcrumbs links={links} />
 				<div className="mt-4">
-					<Grid container spacing={2}>
-						{cards?.map((item) => (
-							<Grid key={item?.id} item lg={3}>
-								<div className="group hover:bg-theme hover:border-b-0 cursor-pointer transition duration-500 ease-in-out w-full tracking-wide h-32 bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center border-4 border-b-theme">
-									<div className="flex justify-center items-center">
-										{item?.icon}
-									</div>
-									<p className="text-base font-semibold text-center group-hover:text-white">
-										{item?.title}
-									</p>
-									<p className="text-lg font-bold text-gray-600 group-hover:text-white">
-										{item?.value}
-									</p>
-								</div>
-							</Grid>
-						))}
-					</Grid>
+					<div className="flex gap-2 py-4">
+						<DashboardCard data={cards} />
+					</div>
 				</div>
 				<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 					<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
@@ -101,6 +97,41 @@ const Cards = () => {
 export default Cards;
 
 const links = [{ id: 1, page: "Cards", link: "/admin/cards" }];
+
+const cards = [
+	{
+		id: 1,
+		icon: <ContactPhone className="text-theme" />,
+		count: "34",
+		title: "Total Cards",
+		img: CARDICON1.src,
+		bg: "from-blue-500 to-blue-300",
+	},
+	{
+		id: 2,
+		icon: <PendingActions className="text-theme" />,
+		count: "20",
+		title: "Cards Assigned",
+		bg: "from-yellow-500 to-yellow-300",
+		img: CARDICON2.src,
+	},
+	{
+		id: 3,
+		icon: <AssignmentTurnedIn className="text-theme" />,
+		count: "10",
+		title: "Blocked Cards",
+		bg: "from-emerald-500 to-emerald-300",
+		img: CARDICON3.src,
+	},
+	{
+		id: 4,
+		icon: <DevicesOther className="text-theme" />,
+		count: "18",
+		title: "Scanned Cards",
+		bg: "from-purple-500 to-purple-300",
+		img: CARDICON4.src,
+	},
+];
 
 const leave_status = [
 	{

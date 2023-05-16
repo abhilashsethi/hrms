@@ -77,16 +77,6 @@ const MeetingsGrid = () => {
 								transformOrigin={{ horizontal: "right", vertical: "top" }}
 								anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 							>
-								<div
-									onClick={() => setisUpdate({ dialogue: true, id: items?.id })}
-								>
-									<MenuItem onClick={handleClose}>
-										<ListItemIcon>
-											<EditRounded fontSize="small" />
-										</ListItemIcon>
-										Edit
-									</MenuItem>
-								</div>
 								<MenuItem onClick={handleClose}>
 									<ListItemIcon>
 										<DeleteRounded fontSize="small" />
@@ -98,7 +88,7 @@ const MeetingsGrid = () => {
 										<ListItemIcon>
 											<Info fontSize="small" />
 										</ListItemIcon>
-										Meeting Details
+										Details
 									</MenuItem>
 								</Link>
 							</Menu>

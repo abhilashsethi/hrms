@@ -18,7 +18,7 @@ const LeaveRequests = () => {
   const [isLeave, setIsLeave] = useState<boolean>(false);
   return (
     <PanelLayout title="Leaves - Admin Panel">
-      <section className="px-8 py-6">
+      <section className="px-8 py-2">
         <CreateLeave open={isLeave} handleClose={() => setIsLeave(false)} />
         <div className="flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
@@ -97,7 +97,11 @@ const LeaveRequests = () => {
             </TextField>
           </div>
         </FiltersContainer>
-        {isGrid ? <LeavesGrid /> : <LeavesColumn />}
+        {isGrid ? (
+          <LeavesGrid data={leavData} />
+        ) : (
+          <LeavesColumn data={leavData} />
+        )}
       </section>
     </PanelLayout>
   );
@@ -106,8 +110,8 @@ const LeaveRequests = () => {
 export default LeaveRequests;
 
 const links = [
-  { id: 1, page: "Employees", link: "/admin/employees" },
-  { id: 2, page: "Leaves", link: "/admin/employees/leaves" },
+  { id: 1, page: "Leaves", link: "/admin/leaves" },
+  { id: 2, page: "Leave Requests", link: "/admin/leaves/leave-requests" },
 ];
 
 const status = [
@@ -131,4 +135,51 @@ const status = [
 const types = [
   { id: 1, value: "Sick Leave" },
   { id: 2, value: "Casual Leave" },
+];
+
+const leavData = [
+  {
+    photo: "https://source.unsplash.com/100x100/?portrait?0",
+    name: "Srinu Redy",
+    role: "Visual Designer",
+    status: "Approved",
+    credit: 0,
+    monthlyleft: 2,
+    anuualleft: 8,
+    approvedByManager: "yes",
+    approvedByHR: "yes",
+  },
+  {
+    photo: "https://source.unsplash.com/100x100/?portrait?1",
+    name: "Kumara Gourav",
+    role: "Web Developer",
+    status: "Decline",
+    credit: 6,
+    monthlyleft: 2,
+    anuualleft: 8,
+    approvedByManager: "no",
+    approvedByHR: "no",
+  },
+  {
+    photo: "https://source.unsplash.com/100x100/?portrait?2",
+    name: "Sunil Mishra",
+    role: "Back-End Developer",
+    status: "Semi",
+    credit: 10,
+    monthlyleft: 2,
+    anuualleft: 8,
+    approvedByManager: "pending",
+    approvedByHR: "pending",
+  },
+  {
+    photo: "https://source.unsplash.com/100x100/?portrait?3",
+    name: "Abhilash Sethi",
+    role: "Web Developer",
+    status: "Pending",
+    credit: 3,
+    monthlyleft: 2,
+    anuualleft: 8,
+    approvedByManager: "yes",
+    approvedByHR: "pending",
+  },
 ];

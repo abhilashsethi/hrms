@@ -8,23 +8,41 @@ import {
 	Receipt,
 	Send,
 } from "@mui/icons-material";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
 import { Loader, PhotoViewer } from "components/core";
-import { ChangeProfile, UpdateClient } from "components/dialogues";
+import {
+	ChangeProfile,
+	CreateLeave,
+	DocPreview,
+	UpdateClient,
+} from "components/dialogues";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Client } from "types";
 import { ViewTicketsDrawer } from "components/drawer";
 import { DEFAULTPROFILE, DOC, IMG, PDF, XLS } from "assets/home";
+import AddDocument from "components/dialogues/AddDocument";
+import EditMeetingDetails from "components/dialogues/EditMeetingDetails";
 
 const MeetingData = () => {
 	const router = useRouter();
 	const [isDialogue, setIsDialogue] = useState(false);
 	const [tickets, setTickets] = useState(false);
 	const [viewTickets, setViewTickets] = useState<any>(null);
+	const [isLeave, setIsLeave] = useState<boolean>(false);
+	const [editDetails, setEditDetails] = useState<boolean>(false);
+
+	const [isPreview, setIsPreview] = useState<{
+		dialogue?: boolean;
+		title?: string;
+	}>({
+		dialogue: false,
+		title: "Preview",
+	});
+
 	const {
 		data: clientData,
 		mutate,
@@ -36,16 +54,27 @@ const MeetingData = () => {
 	}
 	return (
 		<section>
+			<DocPreview
+				open={isPreview?.dialogue}
+				handleClose={() => setIsPreview({ dialogue: false })}
+				title={isPreview?.title}
+			/>
+			<AddDocument open={isLeave} handleClose={() => setIsLeave(false)} />
+			<EditMeetingDetails
+				open={editDetails}
+				handleClose={() => setEditDetails(false)}
+			/>
+
 			<UpdateClient
 				mutate={mutate}
 				open={isDialogue}
 				handleClose={() => setIsDialogue(false)}
 			/>
-			<ViewTicketsDrawer
+			{/* <ViewTicketsDrawer
 				open={tickets}
 				onClose={() => setTickets(false)}
 				setViewTickets={setViewTickets}
-			/>
+			/> */}
 			<section className="mb-12 flex gap-3">
 				<div className="w-full m-auto rounded-lg bg-white shadow-xl p-4">
 					<div className="relative w-full bg-blue-100/50 rounded-lg p-4">
@@ -55,6 +84,7 @@ const MeetingData = () => {
 								className="!bg-blue-500 "
 								startIcon={<BorderColor />}
 								size="small"
+								onClick={() => setEditDetails((prev) => !prev)}
 							>
 								Edit
 							</Button>
@@ -97,41 +127,31 @@ const MeetingData = () => {
 												className="!bg-blue-500 "
 												startIcon={<Add />}
 												size="small"
+												onClick={() => setIsLeave((prev) => !prev)}
 											>
 												Add Document
 											</Button>
 										</div>
 										<p className="font-semibold pb-3">Documents :</p>
 										<div className="grid grid-cols-3 w-2/3 gap-6">
-											<div className="cursor-pointer">
-												<img className="w-12" src={PDF.src} alt="" />
-												<p className="text-xs">doc_1002...</p>
-											</div>
-											<div className="cursor-pointer">
-												<img className="w-12" src={DOC.src} alt="" />
-												<p className="text-xs">doc_1003...</p>
-											</div>
-											<div className="cursor-pointer">
-												<img className="w-12" src={XLS.src} alt="" />
-												<p className="text-xs">doc_1004...</p>
-											</div>
-											<div className="cursor-pointer">
-												<img className="w-12" src={IMG.src} alt="" />
-												<p className="text-xs">doc_1005...</p>
-											</div>
-											<div className="cursor-pointer">
-												<img className="w-12" src="/docs.png" alt="" />
-												<p className="text-xs">doc_1006...</p>
-											</div>
-											<div className="cursor-pointer">
-												<img className="w-12" src="/docs.png" alt="" />
-												<p className="text-xs">doc_1006...</p>
-											</div>
-											{/* <div className="border border-theme h-8 mt-3 flex justify-center items-center rounded-lg text-sm text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white">
-												<button onClick={() => setTickets(true)}>
-													View All
-												</button>
-											</div> */}
+											{docs.map((item, i) => {
+												return (
+													<Tooltip title="Click to Preview">
+														<div
+															className="cursor-pointer"
+															onClick={() =>
+																setIsPreview({
+																	dialogue: true,
+																	title: "Doc 53426",
+																})
+															}
+														>
+															<img className="w-12" src={item?.img} alt="" />
+															<p className="text-xs">{item?.title}</p>
+														</div>
+													</Tooltip>
+												);
+											})}
 										</div>
 									</div>
 								</div>
@@ -155,3 +175,12 @@ const MeetingData = () => {
 };
 
 export default MeetingData;
+
+const docs = [
+	{ id: 1, title: "Doc 53426", img: PDF.src },
+	{ id: 2, title: "Doc 53426", img: DOC.src },
+	{ id: 3, title: "Doc 53426", img: XLS.src },
+	{ id: 4, title: "Doc 53426", img: IMG.src },
+	{ id: 5, title: "Doc 53426", img: PDF.src },
+	{ id: 6, title: "Doc 53426", img: PDF.src },
+];
