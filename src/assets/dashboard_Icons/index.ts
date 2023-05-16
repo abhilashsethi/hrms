@@ -6,3 +6,6 @@ export { default as CARDICON1 } from "./cardicon1.png";
 export { default as CARDICON2 } from "./cardicon2.png";
 export { default as CARDICON3 } from "./cardicon3.png";
 export { default as CARDICON4 } from "./cardicon4.png";
+export { default as HANDSHAKE } from "./handshake.png";
+export { default as CUSTOMER } from "./customer.png";
+export { default as INACTIVE } from "./inactive.png";
