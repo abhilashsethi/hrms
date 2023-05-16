@@ -1,28 +1,98 @@
 import MaterialTable from "@material-table/core";
 import {
+  Check,
+  Close,
+  Done,
+  HourglassBottomRounded,
+  Info,
   KeyboardArrowDownRounded,
-  MedicalInformationRounded,
+  PendingActions,
   RadioButtonChecked,
 } from "@mui/icons-material";
-import { Menu, MenuItem, Paper } from "@mui/material";
-import { SAMPLEDP } from "assets/home";
-import { HeadStyle } from "components/core";
+import { Button, Menu, MenuItem, Paper } from "@mui/material";
+import { HeadStyle, PhotoViewerSmall } from "components/core";
+import { LeaveDocuments } from "components/drawer";
+import moment from "moment";
 import { useState, MouseEvent } from "react";
 import { MuiTblOptions } from "utils";
 
-const LeavesColumn = () => {
-  const [isLeave, setIsLeave] = useState<boolean>(false);
+interface Array {
+  photo?: string | undefined;
+  name?: string | undefined;
+  role?: string | undefined;
+  status?: string | undefined;
+  credit?: number | undefined;
+  monthlyleft?: number | undefined;
+  anuualleft?: number | undefined;
+  approvedByManager?: string | undefined;
+  approvedByHR?: string | undefined;
+}
+interface Props {
+  data: Array[];
+}
 
+const LeavesColumn = ({ data }: Props) => {
+  const [isDetails, setIsDetails] = useState(false);
+  const renderStatus = (status: any) => {
+    switch (status) {
+      case "Approved":
+        return (
+          <div className="">
+            <span className="!bg-[#44bd44] w-32 text-sm shadow-md text-white px-4 rounded-full py-1 tracking-wide flex gap-2 items-center">
+              <Done fontSize="small" /> {status}
+            </span>
+          </div>
+        );
+      case "Pending":
+        return (
+          <>
+            <div className="md:flex items-center justify-center gap-2">
+              <Button
+                className="!bg-[#44bd44]"
+                variant="contained"
+                startIcon={<Check />}
+                size="small"
+              >
+                ACCEPT
+              </Button>
+              <Button
+                className="!bg-red-600"
+                variant="contained"
+                startIcon={<Close />}
+                size="small"
+              >
+                DECLINE
+              </Button>
+            </div>
+          </>
+        );
+      case "Decline":
+        return (
+          <div className="">
+            <span className="!bg-red-600 w-28 text-sm shadow-md text-white px-4 rounded-full py-1 tracking-wide flex gap-2 items-center">
+              <Close fontSize="small" /> {status}
+            </span>
+          </div>
+        );
+      default:
+        return (
+          <div className="">
+            <span className="!bg-blue-500 w-28 text-sm shadow-md text-white px-4 rounded-full py-1 tracking-wide flex gap-2 items-center">
+              <HourglassBottomRounded fontSize="small" /> Pending
+            </span>
+          </div>
+        );
+    }
+  };
   return (
     <>
+      <LeaveDocuments open={isDetails} onClose={() => setIsDetails(false)} />
       <div className="mt-6">
         <MaterialTable
           components={{
             Container: (props) => <Paper {...props} elevation={5} />,
           }}
-          title={
-            <HeadStyle name="Leaves" icon={<MedicalInformationRounded />} />
-          }
+          title={<HeadStyle name="Leave Requests" icon={<PendingActions />} />}
           isLoading={!data}
           data={
             !data?.length
@@ -40,58 +110,129 @@ const LeavesColumn = () => {
               width: "2%",
             },
             {
-              title: "Employee",
-              tooltip: "Employee",
+              title: "Photo",
+              tooltip: "Photo",
               searchable: true,
               field: "name",
               render: (item) => (
-                <div className="flex gap-3 items-center">
-                  <div className="h-12 w-12 rounded-full bg-slate-300 overflow-hidden shadow-lg">
-                    <img
-                      className="h-full object-cover"
-                      src={SAMPLEDP.src}
-                      alt=""
-                    />
-                  </div>
-                  <p className="font-semibold">{item?.name}</p>
-                </div>
+                <PhotoViewerSmall
+                  name={item?.name}
+                  photo={item?.photo}
+                  size="2.5rem"
+                />
               ),
             },
             {
-              title: "Leave Type",
-              tooltip: "Leave Type",
+              title: "Name",
+              tooltip: "Employee Name",
               searchable: true,
-              field: "type",
+              field: "name",
+              render: (item) => (
+                <span className="font-semibold">{item?.name}</span>
+              ),
             },
             {
-              title: "From",
-              tooltip: "From",
-              searchable: true,
-              field: "from",
+              title: "Role",
+              tooltip: "Role",
+              field: "role",
+              render: (item) => (
+                <span className="italic text-gray-600text-sm font-medium ">
+                  {item?.role}
+                </span>
+              ),
             },
             {
-              title: "To",
-              tooltip: "To",
-              searchable: true,
-              field: "to",
+              title: "Monthly Left",
+              tooltip: "Role",
+              field: "role",
+              render: (item) => <span className="">{item?.monthlyleft}</span>,
             },
             {
-              title: "No of Days",
-              tooltip: "No of Days",
-              searchable: true,
-              field: "days",
+              title: "Annual Left",
+              tooltip: "Role",
+              field: "role",
+              render: (item) => <span className="">{item?.anuualleft}</span>,
             },
             {
-              title: "Reason",
-              tooltip: "Reason",
-              searchable: true,
-              field: "reason",
+              title: "Details",
+              tooltip: "Details",
+              field: "status",
+              render: (item) => {
+                {
+                  return (
+                    <div
+                      onClick={() => setIsDetails(true)}
+                      className="h-7 w-7 bg-black text-white flex justify-center items-center rounded-md cursor-pointer hover:scale-105 transition-all ease-in-out duration-300 shadow-lg"
+                    >
+                      <Info fontSize="small" />
+                    </div>
+                  );
+                }
+              },
+            },
+            {
+              title: "Approved by Manager",
+              tooltip: "status",
+              field: "status",
+              render: (item) => (
+                <>
+                  {item?.approvedByManager === "yes" ? (
+                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-green-500">
+                      <Check fontSize="small" className="" />
+                    </div>
+                  ) : item?.approvedByManager === "pending" ? (
+                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-blue-500">
+                      <HourglassBottomRounded fontSize="small" className="" />
+                    </div>
+                  ) : (
+                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-red-600">
+                      <Close fontSize="small" className="" />
+                    </div>
+                  )}
+                </>
+              ),
+            },
+            {
+              title: "Approved by HR",
+              tooltip: "status",
+              field: "status",
+              render: (item) => (
+                <>
+                  {item?.approvedByHR === "yes" ? (
+                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-green-500">
+                      <Check fontSize="small" className="" />
+                    </div>
+                  ) : item?.approvedByHR === "pending" ? (
+                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-blue-500">
+                      <HourglassBottomRounded fontSize="small" className="" />
+                    </div>
+                  ) : (
+                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-red-600">
+                      <Close fontSize="small" className="" />
+                    </div>
+                  )}
+                </>
+              ),
             },
             {
               title: "Status",
               tooltip: "Status",
               field: "status",
-              render: (item) => <LeaveStatus />,
+              render: (item) => {
+                {
+                  return <div>{renderStatus(item.status)}</div>;
+                }
+              },
+            },
+            {
+              title: "Created At",
+              tooltip: "Created At",
+              field: "status",
+              render: (item) => (
+                <span className="text-sm">
+                  {moment(new Date().toISOString()).format("lll")}
+                </span>
+              ),
             },
           ]}
         />
