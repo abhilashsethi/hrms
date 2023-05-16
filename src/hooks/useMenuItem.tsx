@@ -114,6 +114,12 @@ export default () => {
             icon: <ElevatorRounded />,
             route: "/admin/guests/all-guests",
           },
+          {
+            key: "13-3",
+            title: "Add Guests",
+            icon: <ElevatorRounded />,
+            route: "/admin/guests/create-guest",
+          },
         ],
       },
       {
@@ -138,7 +144,7 @@ export default () => {
       {
         key: "14",
         title: "Payroll",
-        icon: <ICONS.Attendance />,
+        icon: <ICONS.Payroll_1 />,
         submenus: [
           {
             key: "14-1",
