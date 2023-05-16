@@ -21,7 +21,6 @@ export { default as EmpAttendanceIndividual } from "./EmpAttendanceIndividual";
 export { default as EmployProjects } from "./EmployProjects";
 export { default as EmployLeaves } from "./EmployLeaves";
 export { default as EmployeeAllAttendance } from "./EmployeeAllAttendance";
-export { default as AttendanceDashBoard } from "./AttendanceDashBoard";
 export { default as AllDepartmentGrid } from "./AllDepartmentGrid";
 export { default as AllDepartmentColumn } from "./AllDepartmentColumn";
 export { default as DepartmentDashboard } from "./DepartmentDashboard";

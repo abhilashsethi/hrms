@@ -1,22 +1,25 @@
-import { AttendanceDashBoard, WelcomeUser } from "components/admin";
+import { WelcomeUser } from "components/admin";
+import { AttendanceCard, AttendanceCharts } from "components/admin/attendance";
 import { AdminBreadcrumbs } from "components/core";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import React from "react";
 
 const Attendance = () => {
-	return (
-		<PanelLayout title="Attendance Dashboard - Admin Panel">
-			<>
-				<WelcomeUser title="Welcome Superadmin!" />
-				<div className="px-4 pt-4">
-					<AdminBreadcrumbs links={links} />
-				</div>
-				<AttendanceDashBoard />
-			</>
-		</PanelLayout>
-	);
+  return (
+    <PanelLayout title="Attendance Dashboard - Admin Panel">
+      <>
+        <WelcomeUser title="Welcome Superadmin!" />
+        <div className="px-4 pt-4">
+          <AdminBreadcrumbs links={links} />
+        </div>
+        <AttendanceCard />
+        <AttendanceCharts />
+      </>
+    </PanelLayout>
+  );
 };
 
 export default Attendance;
 
-const links = [{ id: 1, page: "Attendance", link: "/admin/attendance" }];
+const links = [{ id: 1, page: "Attendance", link: "/admin/attendances" }];
