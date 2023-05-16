@@ -45,7 +45,7 @@ const EmployeeAllAttendance = () => {
     setProgress(percentage);
   }, [attendanceData, status?.totalPresent]);
 
-  console.log(currentDateData);
+  // console.log(currentDateData);
 
   function CircularProgressWithLabel(
     props: CircularProgressProps & { value: number }

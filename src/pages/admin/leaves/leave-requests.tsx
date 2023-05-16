@@ -1,19 +1,17 @@
 import {
   Add,
   GridViewRounded,
-  KeyboardArrowDownRounded,
   RadioButtonChecked,
-  Search,
   TableRowsRounded,
 } from "@mui/icons-material";
-import { Button, IconButton, Menu, MenuItem, TextField } from "@mui/material";
+import { Button, IconButton, MenuItem, TextField } from "@mui/material";
 import { LeavesColumn, LeavesGrid } from "components/admin";
 import { AdminBreadcrumbs, FiltersContainer } from "components/core";
 import { CreateLeave } from "components/dialogues";
 import PanelLayout from "layouts/panel";
-import { useState, MouseEvent } from "react";
+import { useState } from "react";
 
-const Leaves = () => {
+const LeaveRequests = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [leaveType, setLeaveType] = useState<string>("");
   const [leaveStatus, setLeaveStatus] = useState<string>("");
@@ -99,85 +97,17 @@ const Leaves = () => {
             </TextField>
           </div>
         </FiltersContainer>
-
         {isGrid ? <LeavesGrid /> : <LeavesColumn />}
       </section>
     </PanelLayout>
   );
 };
 
-export default Leaves;
-
-const LeaveStatus = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  return (
-    <div>
-      <button
-        onClick={handleClick}
-        className="flex gap-3 items-center bg-white px-4 py-1.5 rounded-full font-medium shadow-lg"
-      >
-        <span className="flex gap-2 items-center">
-          <RadioButtonChecked fontSize="small" className="!text-blue-500" />
-          Pending
-        </span>
-        <div>
-          <KeyboardArrowDownRounded fontSize="small" />
-        </div>
-      </button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        {status?.map((item) => (
-          <MenuItem
-            key={item?.id}
-            className="flex gap-2 items-center"
-            onClick={handleClose}
-          >
-            {item?.icon}
-            {item?.value}
-          </MenuItem>
-        ))}
-      </Menu>
-    </div>
-  );
-};
+export default LeaveRequests;
 
 const links = [
   { id: 1, page: "Employees", link: "/admin/employees" },
   { id: 2, page: "Leaves", link: "/admin/employees/leaves" },
-];
-
-const cards = [
-  { id: 1, title: "Today Presents", value: "12/20" },
-  { id: 2, title: "Planned Leaves", value: "8" },
-  { id: 3, title: "Unplanned Leaves", value: "0" },
-  { id: 4, title: "Pending Requests", value: "12" },
-];
-
-const data = [
-  {
-    id: 1,
-    name: "Srinu reddy",
-    type: "Medical Leave",
-    from: "27 Feb 2023",
-    to: "27 Feb 2019",
-    days: "1 day",
-    reason: "Going to Hospital",
-    status: "PENDING",
-  },
 ];
 
 const status = [

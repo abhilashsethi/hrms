@@ -1,18 +1,15 @@
 import { IconButton, Step, StepLabel, Stepper, Tooltip } from "@mui/material";
-import { useState, MouseEvent } from "react";
+import { useState } from "react";
 import { SAMPLEDP } from "assets/home";
-import { FileCopy } from "@mui/icons-material";
+import {
+  FileCopy,
+  InfoRounded,
+  KeyboardArrowLeft,
+  KeyboardArrowLeftRounded,
+} from "@mui/icons-material";
 import { LeaveDocuments } from "components/drawer";
 const LeavesGrid = () => {
   const [isDocuments, setIsDocuments] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const renderStatus = (status: any) => {
     switch (status) {
       case "Approved":
@@ -116,9 +113,9 @@ const LeavesGrid = () => {
                 className="relative flex flex-col px-2 justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-gradient-to-r from-rose-100 to-teal-100 h-64 hover:scale-105 ease-in-out transition-all duration-200"
               >
                 <span className="absolute right-[8px] top-[8px]">
-                  <Tooltip title="Documents">
+                  <Tooltip title="Details">
                     <IconButton onClick={() => setIsDocuments(true)}>
-                      <FileCopy />
+                      <KeyboardArrowLeftRounded />
                     </IconButton>
                   </Tooltip>
                 </span>

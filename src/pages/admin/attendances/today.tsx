@@ -16,7 +16,6 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { AttendanceGrid, AttendanceList } from "components/admin";
 import {
   AdminBreadcrumbs,
   GridAndList,
@@ -30,6 +29,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useFetch } from "hooks";
 import { addDays } from "date-fns";
+import { AttendanceGrid, AttendanceList } from "components/admin/attendance";
 
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
@@ -54,6 +54,7 @@ const TodayAttendance = () => {
       userName ? `&name=${userName}` : ""
     }`
   );
+  console.log(attendance);
   const cards = [
     {
       id: 1,

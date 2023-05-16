@@ -1,6 +1,7 @@
 import { WelcomeUser } from "components/admin";
 import { AttendanceCard, AttendanceCharts } from "components/admin/attendance";
 import { AdminBreadcrumbs } from "components/core";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import React from "react";
 
@@ -21,4 +22,4 @@ const Attendance = () => {
 
 export default Attendance;
 
-const links = [{ id: 1, page: "Attendance", link: "/admin/attendance" }];
+const links = [{ id: 1, page: "Attendance", link: "/admin/attendances" }];
