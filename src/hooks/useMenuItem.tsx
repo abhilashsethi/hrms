@@ -175,7 +175,7 @@ export default () => {
             key: "9-3",
             title: "Employee Leaves",
             icon: <MedicalInformationRounded />,
-            route: "/admin/leaves/all-leave-requests",
+            route: "/admin/leaves/all-leaves",
           },
         ],
       },

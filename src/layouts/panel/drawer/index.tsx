@@ -6,7 +6,6 @@ import {
 } from "@mui/icons-material";
 import {
   Box,
-  Button,
   Collapse,
   IconButton,
   List,
@@ -232,19 +231,7 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
           className={`${
             open ? "flex" : "hidden"
           } flex-col items-center gap-2 pt-5`}
-        >
-          {/* <div className="py-5">
-            <Button
-              onClick={handleLogout}
-              variant="contained"
-              startIcon={<ExitToApp />}
-              color="error"
-              className="!bg-theme"
-            >
-              Logout
-            </Button>
-          </div> */}
-        </Box>
+        ></Box>
       </CustomDrawer>
     </section>
   );
@@ -259,4 +246,8 @@ const skeletons = [
   { id: 4 },
   { id: 5 },
   { id: 6 },
+  { id: 7 },
+  { id: 8 },
+  { id: 9 },
+  { id: 10 },
 ];
