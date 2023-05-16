@@ -34,9 +34,9 @@ const AllTechnologies = () => {
         mutate={mutate}
       />
       <section className="px-8 py-4">
-        <AdminBreadcrumbs links={links} />
         <div className="flex justify-between">
-          <HeadText title="ALL TECHNOLOGY" />
+          <AdminBreadcrumbs links={links} />
+          {/* <HeadText title="ALL TECHNOLOGY" /> */}
           <div className="flex gap-4 items-center">
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             <Button

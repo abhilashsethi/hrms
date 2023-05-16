@@ -110,15 +110,11 @@ const AllRollColumn = ({ data, mutate }: Props) => {
               setLoading(false);
             }
           },
-          onRowUpdate: async (oldData, newData) => {
-            console.log("new", newData);
-            console.log(oldData);
-
+          onRowUpdate: async (newData) => {
             const res = await change(`roles/${newData?.id}`, {
               method: "PATCH",
               body: { name: newData?.name },
             });
-            console.log(res);
             mutate();
             if (res?.status !== 200) {
               Swal.fire(`Error`, "Something went wrong!", "error");

@@ -4,6 +4,7 @@ import {
   Check,
   ContentCopy,
   Delete,
+  Edit,
   Visibility,
 } from "@mui/icons-material";
 import {
@@ -104,11 +105,18 @@ const ProjectURLS = ({ open, onClose }: Props) => {
                       <span>{Number(i) + 1}.</span>
                       <span className="font-semibold">{item?.title}</span>
                     </h1>
-                    <Tooltip title="Delete">
-                      <IconButton onClick={() => removeURL()} size="small">
-                        <Delete className="!text-red-500" />
-                      </IconButton>
-                    </Tooltip>
+                    <div>
+                      <Tooltip title="Edit">
+                        <IconButton size="small">
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Delete">
+                        <IconButton onClick={() => removeURL()} size="small">
+                          <Delete className="!text-red-500" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
                   </div>
                   <div className="flex gap-2 items-center mt-3">
                     <span className="custom-button bg-green-500">

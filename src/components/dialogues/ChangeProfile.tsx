@@ -149,6 +149,7 @@ const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
                 type="submit"
                 className="!bg-theme"
                 variant="contained"
+                disabled={loading}
                 startIcon={loading ? <CircularProgress size={20} /> : <Check />}
               >
                 SUBMIT

@@ -13,7 +13,7 @@ import {
 import { RenderIconRow } from "components/common";
 import { PhotoViewerGuests } from "components/core";
 import { ViewTicketsDrawer } from "components/drawer";
-import { useChange } from "hooks";
+import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
@@ -54,6 +54,7 @@ const ClientsGrid = ({ data, mutate }: Props) => {
 export default ClientsGrid;
 
 const MoreOption = ({ item, mutate }: any) => {
+  const [ticketsId, setTicketsId] = useState("");
   const [tickets, setTickets] = useState(false);
   const [viewTickets, setViewTickets] = useState<any>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -65,6 +66,9 @@ const MoreOption = ({ item, mutate }: any) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { data: ticketsData } = useFetch<any>(
+    `tickets?${ticketsId ? `&clientId=${ticketsId}` : ""}`
+  );
   const handleDelete = async (item: Client) => {
     try {
       Swal.fire({
@@ -94,31 +98,31 @@ const MoreOption = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
-//   const handleBlock = async (e: any, item: any) => {
-//     Swal.fire({
-//       title: "Are you sure?",
-//       text: "You want to update status?",
-//       icon: "warning",
-//       showCancelButton: true,
-//       confirmButtonColor: "#3085d6",
-//       cancelButtonColor: "#d33",
-//       confirmButtonText: "Yes, update!",
-//     }).then(async (result) => {
-//       if (result.isConfirmed) {
-//         const res = await change(`clients/${item?.id}`, {
-//           method: "PATCH",
-//           body: { isBlocked: !e.target?.checked },
-//         });
-//         mutate();
-//         if (res?.status !== 200) {
-//           Swal.fire(`Error`, "Something went wrong!", "error");
-//           return;
-//         }
-//         Swal.fire(`Success`, "User Blocked successfully!!", "success");
-//         return;
-//       }
-//     });
-//   };
+  //   const handleBlock = async (e: any, item: any) => {
+  //     Swal.fire({
+  //       title: "Are you sure?",
+  //       text: "You want to update status?",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#3085d6",
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonText: "Yes, update!",
+  //     }).then(async (result) => {
+  //       if (result.isConfirmed) {
+  //         const res = await change(`clients/${item?.id}`, {
+  //           method: "PATCH",
+  //           body: { isBlocked: !e.target?.checked },
+  //         });
+  //         mutate();
+  //         if (res?.status !== 200) {
+  //           Swal.fire(`Error`, "Something went wrong!", "error");
+  //           return;
+  //         }
+  //         Swal.fire(`Success`, "User Blocked successfully!!", "success");
+  //         return;
+  //       }
+  //     });
+  //   };
   return (
     <>
       <div className="flex flex-col px-4 py-4 h-full justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-white hover:scale-105 ease-in-out transition-all duration-200">
@@ -126,6 +130,7 @@ const MoreOption = ({ item, mutate }: any) => {
           open={tickets}
           onClose={() => setTickets(false)}
           setViewTickets={setViewTickets}
+          ticket={ticketsData}
         />
         <div className="absolute right-[10px] top-[10px]">
           <Tooltip title="More">
@@ -195,9 +200,6 @@ const MoreOption = ({ item, mutate }: any) => {
           </div>
         </Link>
         <div className="flex-1 mt-6">
-          {/* <h1 className="text-lg font-semibold leading-snug">
-      {item?.company}
-    </h1> */}
           <p className="text-sm font-semibold capitalize leading-snug">
             {item?.name}
           </p>
@@ -208,7 +210,9 @@ const MoreOption = ({ item, mutate }: any) => {
         </div>
         <div className="flex gap-3 justify-center">
           <button
-            onClick={() => setTickets(true)}
+            onClick={() => {
+              setTickets(true), setTicketsId(item?.id);
+            }}
             className="rounded-md text-sm bg-theme text-white font-semibold shadow-md px-4 py-1.5"
           >
             Tickets <span>{`(${item._count.tickets})`}</span>

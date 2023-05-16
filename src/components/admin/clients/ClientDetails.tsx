@@ -28,6 +28,13 @@ const ClientDetails = () => {
     mutate,
     isLoading,
   } = useFetch<Client>(`clients/${router?.query?.id}`);
+  const { data: ticketsData } = useFetch<any>(
+    `tickets?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
+  );
+  const { data: projectData } = useFetch<any>(
+    `projects?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
+  );
+  console.log(projectData);
   const basicDetails = [
     {
       id: 1,
@@ -57,7 +64,6 @@ const ClientDetails = () => {
       value: `${clientData?.country ? clientData?.country : "---"}`,
     },
   ];
-
   if (isLoading) {
     return <Loader />;
   }
@@ -72,6 +78,7 @@ const ClientDetails = () => {
         open={tickets}
         onClose={() => setTickets(false)}
         setViewTickets={setViewTickets}
+        ticket={ticketsData}
       />
       <section className="mb-12 flex gap-3">
         <Grid container spacing={2}>
