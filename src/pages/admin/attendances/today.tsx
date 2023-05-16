@@ -54,6 +54,7 @@ const TodayAttendance = () => {
       userName ? `&name=${userName}` : ""
     }`
   );
+  console.log(attendance);
   const cards = [
     {
       id: 1,
