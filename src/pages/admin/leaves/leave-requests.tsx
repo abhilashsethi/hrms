@@ -18,7 +18,7 @@ const LeaveRequests = () => {
   const [isLeave, setIsLeave] = useState<boolean>(false);
   return (
     <PanelLayout title="Leaves - Admin Panel">
-      <section className="px-8 py-6">
+      <section className="px-8 py-2">
         <CreateLeave open={isLeave} handleClose={() => setIsLeave(false)} />
         <div className="flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
@@ -110,8 +110,8 @@ const LeaveRequests = () => {
 export default LeaveRequests;
 
 const links = [
-  { id: 1, page: "Employees", link: "/admin/employees" },
-  { id: 2, page: "Leaves", link: "/admin/employees/leaves" },
+  { id: 1, page: "Leaves", link: "/admin/leaves" },
+  { id: 2, page: "Leave Requests", link: "/admin/leaves/leave-requests" },
 ];
 
 const status = [
