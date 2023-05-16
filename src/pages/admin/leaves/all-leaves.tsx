@@ -1,9 +1,11 @@
 import { AllLeaveRequests } from "components/admin";
+import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
 const AllLeaves = () => {
   return (
     <PanelLayout title="All Leave Requests - SY HR MS">
       <section className="px-8 py-4">
+        <AdminBreadcrumbs links={links} />
         <AllLeaveRequests />
       </section>
     </PanelLayout>
@@ -13,6 +15,6 @@ const AllLeaves = () => {
 export default AllLeaves;
 
 const links = [
-  { id: 1, page: "Employees", link: "/admin/employees" },
-  { id: 2, page: "All Employees", link: "/admin/employees/all-employees" },
+  { id: 1, page: "Leaves", link: "/admin/leaves" },
+  { id: 2, page: "All Leaves", link: "/admin/leaves/all-leaves" },
 ];

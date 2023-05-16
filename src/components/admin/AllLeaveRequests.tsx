@@ -1,4 +1,4 @@
-import { HeadStyle, PhotoViewerSmall } from "components/core";
+import { CopyClipboard, HeadStyle, PhotoViewerSmall } from "components/core";
 import {
   Article,
   Event,
@@ -45,7 +45,11 @@ const AllLeaveRequests = () => {
       <MaterialTable
         title={<HeadStyle name="Employee Leaves" icon={<PeopleRounded />} />}
         isLoading={!data}
-        data={data}
+        data={
+          !data?.length
+            ? []
+            : data?.map((_: any, i: number) => ({ ..._, sn: i + 1 }))
+        }
         options={{ ...MuiTblOptions(), selection: true }}
         columns={[
           {
@@ -70,95 +74,88 @@ const AllLeaveRequests = () => {
             },
           },
           {
+            title: "Name",
+            tooltip: "Name",
+            field: "name",
+            editable: "never",
+          },
+          {
             title: "Email",
             tooltip: "Email",
             field: "email",
-            editable: "never",
+            render: (item) => {
+              return <CopyClipboard value={item?.email} />;
+            },
           },
           {
-            title: "Leave Type",
-            field: "leaveType",
-            emptyValue: "Not Provided",
-            editable: "never",
-          },
-          {
-            title: "Leave From",
-            field: "leaveFrom",
-            emptyValue: "Not Provided",
-            editable: "never",
-          },
-          {
-            title: "Leave To",
-            field: "leaveTo",
-            emptyValue: "Not Provided",
-
-            editable: "never",
-          },
-          {
-            title: "No Of Days",
-            field: "days",
-            emptyValue: "Not Provided",
-            editable: "never",
-          },
-          {
-            title: "Details",
-            export: true,
-            render: (row) => (
-              <>
-                {console.log(row)}
-                <div className="flex">
-                  <Tooltip title="Info">
-                    <Avatar
-                      onClick={() => handleInfoOpen()}
-                      variant="rounded"
-                      className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
-                      sx={{
-                        mr: ".1vw",
-                        padding: "0px !important",
-                        backgroundColor: "Highlight",
-                        cursor: "pointer",
-                        color: "",
-                      }}
-                    >
-                      <Info sx={{ padding: "0px !important" }} />
-                    </Avatar>
-                  </Tooltip>
+            title: "Employee ID",
+            tooltip: "Employee ID",
+            field: "empid",
+            render: (item) => {
+              return (
+                <div className="font-semibold">
+                  <CopyClipboard value={item?.empid} />
                 </div>
-              </>
-            ),
+              );
+            },
           },
           {
-            title: "Status",
+            title: "Total",
+            tooltip: "Total Credits",
+            field: "total",
             editable: "never",
-            render: (row) => (
-              <>
-                {console.log(row)}
-                <div className="flex">
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={[{ label: "Accept" }, { label: "Reject" }]}
-                    sx={{ width: 140 }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Leave Status" />
-                    )}
-                  />
-                </div>
-              </>
-            ),
           },
           {
-            title: "Reason",
-            field: "reason",
-            emptyValue: "Not Provided",
+            title: "Used",
+            tooltip: "Used Credits for leave",
+            field: "used",
             editable: "never",
           },
-
           {
-            title: "Created",
-            field: "createdAt",
+            title: "Accepted",
+            tooltip: "Accepted",
+            field: "accepted",
             editable: "never",
           },
+          {
+            title: "Rejected",
+            tooltip: "Rejected",
+            field: "rejected",
+            editable: "never",
+          },
+          {
+            title: "Carry Over",
+            tooltip: "Carry Over",
+            field: "carryover",
+            editable: "never",
+          },
+          // {
+          //   title: "Details",
+          //   export: true,
+          //   render: (row) => (
+          //     <>
+          //       {console.log(row)}
+          //       <div className="flex">
+          //         <Tooltip title="Info">
+          //           <Avatar
+          //             onClick={() => handleInfoOpen()}
+          //             variant="rounded"
+          //             className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
+          //             sx={{
+          //               mr: ".1vw",
+          //               padding: "0px !important",
+          //               backgroundColor: "Highlight",
+          //               cursor: "pointer",
+          //               color: "",
+          //             }}
+          //           >
+          //             <Info sx={{ padding: "0px !important" }} />
+          //           </Avatar>
+          //         </Tooltip>
+          //       </div>
+          //     </>
+          //   ),
+          // },
         ]}
       />
       <Modal
@@ -243,13 +240,49 @@ const data = [
   {
     Id: "1",
     photo: SAMPLEDP.src,
-    name: "Ashutosh Mohapatra",
-    email: "ashutosh@gmail.com",
-    leaveType: "CL",
-    leaveFrom: "05/05/2023",
-    leaveTo: "14/05/2023",
-    days: "10",
-    reason: "personal",
-    createdAt: "02 May, 2023",
+    name: "Srinu Reddy",
+    empid: "SYA0007",
+    email: "srinu@sy.com",
+    total: 24,
+    used: 10,
+    accepted: 10,
+    rejected: 0,
+    carryover: 6,
+  },
+  {
+    Id: "2",
+    photo: SAMPLEDP.src,
+    name: "Abhilash Sethy",
+    empid: "SYA0008",
+    email: "abhilash@sy.com",
+    total: 24,
+    used: 10,
+    accepted: 10,
+    rejected: 0,
+    carryover: 6,
+  },
+  {
+    Id: "3",
+    photo: SAMPLEDP.src,
+    name: "Loushik Giri",
+    empid: "SYA0009",
+    email: "loushik@sy.com",
+    total: 24,
+    used: 10,
+    accepted: 10,
+    rejected: 0,
+    carryover: 6,
+  },
+  {
+    Id: "4",
+    photo: SAMPLEDP.src,
+    name: "Chinmay Muduli",
+    empid: "SYA0010",
+    email: "chinmay@sy.com",
+    total: 24,
+    used: 10,
+    accepted: 10,
+    rejected: 0,
+    carryover: 6,
   },
 ];
