@@ -161,7 +161,7 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 												<div className="">
 													<p className="font-semibold">
 														Notes :{" "}
-														<span className="text-base text-gray-600">
+														<span className="text-sm text-gray-600">
 															{item?.notes}
 														</span>
 														<span className="font-semibold text-sm text-gray-500">
@@ -207,25 +207,25 @@ export default ViewNotesDrawer;
 const Note_Details = [
 	{
 		id: 1,
-		notes: "Project Title",
+		notes: "Yard ERP Notes",
 		img: <img className="w-12" src={PDF.src} alt="" />,
 		addedBy: "Sales Person",
 	},
 	{
 		id: 2,
-		notes: "Project Title",
+		notes: "HRMS meeting notes ",
 		img: <img className="w-12" src={IMG.src} alt="" />,
 		addedBy: "Sales Person",
 	},
 	{
 		id: 3,
-		notes: "Project Title",
+		notes: "Meeting Notes",
 		img: <img className="w-12" src={DOC.src} alt="" />,
 		addedBy: "Sales Person",
 	},
 	{
 		id: 4,
-		notes: "Project Title",
+		notes: "Meeting Notes",
 		img: <img className="w-12" src={PDF.src} alt="" />,
 		addedBy: "Sales Person",
 	},
