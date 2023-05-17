@@ -14,6 +14,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
+import { useFetch } from "hooks";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
 
@@ -31,6 +32,10 @@ const MeetingsGrid = () => {
 		dialogue?: boolean;
 		id?: string | null;
 	}>({ dialogue: false, id: null });
+
+	const { data: meetingData, mutate, isLoading } = useFetch<any>(`meetings`);
+	console.log(meetingData);
+
 	return (
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
@@ -77,12 +82,6 @@ const MeetingsGrid = () => {
 								transformOrigin={{ horizontal: "right", vertical: "top" }}
 								anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 							>
-								<MenuItem onClick={handleClose}>
-									<ListItemIcon>
-										<DeleteRounded fontSize="small" />
-									</ListItemIcon>
-									Delete
-								</MenuItem>
 								<Link href="/admin/meetings/meeting-details">
 									<MenuItem onClick={handleClose}>
 										<ListItemIcon>
@@ -91,6 +90,12 @@ const MeetingsGrid = () => {
 										Details
 									</MenuItem>
 								</Link>
+								<MenuItem onClick={handleClose}>
+									<ListItemIcon>
+										<DeleteRounded fontSize="small" />
+									</ListItemIcon>
+									Delete
+								</MenuItem>
 							</Menu>
 						</div>
 						<div className="px-4">

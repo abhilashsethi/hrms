@@ -22,7 +22,7 @@ import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Client } from "types";
-import { ViewTicketsDrawer } from "components/drawer";
+import { ViewNotesDrawer, ViewTicketsDrawer } from "components/drawer";
 import { DEFAULTPROFILE, DOC, IMG, PDF, XLS } from "assets/home";
 import AddDocument from "components/dialogues/AddDocument";
 import EditMeetingDetails from "components/dialogues/EditMeetingDetails";
@@ -75,6 +75,12 @@ const MeetingData = () => {
 				onClose={() => setTickets(false)}
 				setViewTickets={setViewTickets}
 			/> */}
+			<ViewNotesDrawer
+				open={tickets}
+				onClose={() => setTickets(false)}
+				setViewTickets={setViewTickets}
+				// ticket={tickets}
+			/>
 			<section className="mb-12 flex gap-3">
 				<div className="w-full m-auto rounded-lg bg-white shadow-xl p-4">
 					<div className="relative w-full bg-blue-100/50 rounded-lg p-4">
@@ -121,15 +127,15 @@ const MeetingData = () => {
 										<span>Srinu Readdy</span>
 									</div>
 									<div className="relative w-full">
-										<div className="absolute top-3 left-[20rem]">
+										<div className="absolute top-3 left-[22rem]">
 											<Button
 												variant="contained"
 												className="!bg-blue-500 "
 												startIcon={<Add />}
 												size="small"
-												onClick={() => setIsLeave((prev) => !prev)}
+												onClick={() => setTickets(true)}
 											>
-												Add Document
+												Add Note
 											</Button>
 										</div>
 										<p className="font-semibold pb-3">Documents :</p>

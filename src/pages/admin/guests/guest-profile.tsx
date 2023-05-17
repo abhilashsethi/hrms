@@ -8,7 +8,10 @@ import {
   Loader,
   ReverseIOSSwitch,
 } from "components/core";
-import { ChangeProfile, UpdateGuestBasicDetails } from "components/dialogues";
+import {
+  ChangeGuestProfile,
+  UpdateGuestBasicDetails,
+} from "components/dialogues";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
@@ -137,7 +140,7 @@ const GuestProfile = () => {
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
 
-        <ChangeProfile
+        <ChangeGuestProfile
           open={isProfile}
           handleClose={() => setIsProfile(false)}
           mutate={mutate}

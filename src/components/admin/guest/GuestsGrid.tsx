@@ -1,6 +1,5 @@
 import {
   DeleteRounded,
-  EditRounded,
   InfoRounded,
   MoreVertRounded,
 } from "@mui/icons-material";
@@ -13,7 +12,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { RenderIconRow } from "components/common";
-import { CopyClipboard, PhotoViewer, PhotoViewerGuests } from "components/core";
+import { PhotoViewerGuests } from "components/core";
 import { useChange } from "hooks";
 import moment from "moment";
 import Link from "next/link";
@@ -54,7 +53,7 @@ const CardContent = ({ item, mutate }: any) => {
     setAnchorEl(null);
   };
   const { change } = useChange();
-  const handleDelete = async (user: User) => {
+  const handleDelete = async (item: User) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -66,11 +65,10 @@ const CardContent = ({ item, mutate }: any) => {
         confirmButtonText: "Yes, delete!",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const res = await change(`users/${user?.id}`, {
+          const res = await change(`guests/${item?.id}`, {
             method: "DELETE",
           });
-          console.log(res);
-          await deleteFile(String(user?.photo?.split("/").reverse()[0]));
+          await deleteFile(String(item?.photo?.split("/").reverse()[0]));
           if (res?.status !== 200) {
             Swal.fire(`Error`, "Something went wrong!", "error");
             return;
@@ -84,56 +82,7 @@ const CardContent = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
-  const handleBlock = async (e: any, userId: string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to update status?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, update!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await change(`users/${userId}`, {
-          method: "PATCH",
-          body: { isBlocked: !e.target?.checked },
-        });
-        mutate();
-        if (res?.status !== 200) {
-          Swal.fire(`Error`, "Something went wrong!", "error");
-          return;
-        }
-        Swal.fire(`Success`, "User Blocked successfully!!", "success");
-        return;
-      }
-    });
-  };
-  const handleAssign = async (e: any, userId: string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to change status?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, change!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await change(`users/${userId}`, {
-          method: "PATCH",
-          body: { isOfficeAccessGranted: !e.target?.checked },
-        });
-        mutate();
-        if (res?.status !== 200) {
-          Swal.fire(`Error`, "Something went wrong!", "error");
-          return;
-        }
-        Swal.fire(`Success`, "Updated successfully!", "success");
-        return;
-      }
-    });
-  };
+
   return (
     <div className=" relative bg-white w-full rounded-xl shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
       <div className="absolute right-[10px] top-[10px]">

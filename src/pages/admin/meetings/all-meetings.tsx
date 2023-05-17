@@ -246,14 +246,6 @@ const AllMeetings = () => {
 						>
 							Select Date Range
 						</Button>
-						<Button
-							fullWidth
-							startIcon={<Search />}
-							variant="contained"
-							className="!bg-theme"
-						>
-							Search
-						</Button>
 					</div>
 
 					{isGrid ? <MeetingsGrid /> : <MeetingsColumn />}
