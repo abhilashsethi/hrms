@@ -8,7 +8,7 @@ import {
 	Receipt,
 	Send,
 } from "@mui/icons-material";
-import { Button, Grid, Tooltip } from "@mui/material";
+import { Button, Grid, Tooltip, useMediaQuery } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
 import { Loader, PhotoViewer } from "components/core";
@@ -26,6 +26,7 @@ import { ViewNotesDrawer, ViewTicketsDrawer } from "components/drawer";
 import { DEFAULTPROFILE, DOC, IMG, PDF, XLS } from "assets/home";
 import AddDocument from "components/dialogues/AddDocument";
 import EditMeetingDetails from "components/dialogues/EditMeetingDetails";
+import { useTheme } from "@emotion/react";
 
 const MeetingData = () => {
 	const router = useRouter();
@@ -52,6 +53,7 @@ const MeetingData = () => {
 	if (isLoading) {
 		return <Loader />;
 	}
+
 	return (
 		<section>
 			<DocPreview
@@ -84,7 +86,7 @@ const MeetingData = () => {
 			<section className="mb-12 flex gap-3">
 				<div className="w-full m-auto rounded-lg bg-white shadow-xl p-4">
 					<div className="relative w-full bg-blue-100/50 rounded-lg p-4">
-						<div className="absolute top-3 left-[25rem]">
+						{/* <div className="absolute top-3 left-[25rem]">
 							<Button
 								variant="contained"
 								className="!bg-blue-500 "
@@ -94,7 +96,7 @@ const MeetingData = () => {
 							>
 								Edit
 							</Button>
-						</div>
+						</div> */}
 						<Grid container spacing={3}>
 							<Grid item lg={5}>
 								<div>
@@ -126,8 +128,8 @@ const MeetingData = () => {
 										<p className=" font-semibold">Members Visited</p> :{" "}
 										<span>Srinu Readdy</span>
 									</div>
-									<div className="relative w-full">
-										<div className="absolute top-3 left-[22rem]">
+									<div className="w-full">
+										<div className="flex justify-end">
 											<Button
 												variant="contained"
 												className="!bg-blue-500 "

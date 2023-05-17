@@ -1,14 +1,8 @@
 import {
-	Add,
-	ChevronLeftRounded,
-	ChevronRightRounded,
 	DateRange,
 	GridViewRounded,
-	InsertInvitationRounded,
-	Search,
 	Send,
 	TableRowsRounded,
-	Upload,
 } from "@mui/icons-material";
 import {
 	Button,
@@ -18,12 +12,7 @@ import {
 	Modal,
 	TextField,
 } from "@mui/material";
-import {
-	EmployeesColumn,
-	EmplyeesGrid,
-	MeetingsColumn,
-	MeetingsGrid,
-} from "components/admin";
+import { MeetingsColumn, MeetingsGrid } from "components/admin";
 import { AdminBreadcrumbs, FiltersContainer } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import PanelLayout from "layouts/panel";
@@ -50,6 +39,13 @@ const style = {
 };
 
 const AllMeetings = () => {
+	const [currentRange, setcurrentRange] = useState<{
+		startDate?: string | null;
+		endDate?: string | null;
+	}>({
+		startDate: null,
+		endDate: null,
+	});
 	const dateRef = useRef<any>();
 	const [pageNumber, setPageNumber] = useState<number | null>(1);
 	const [dateRange, setDateRange] = useState({
@@ -57,7 +53,8 @@ const AllMeetings = () => {
 
 		endDate: moment().toDate(),
 	});
-	// console.log(dateRange);
+	console.log(new Date(dateRange.startDate).toISOString());
+	console.log(new Date(dateRange.endDate).toISOString());
 
 	const [open, setOpen] = useState(true);
 
@@ -92,14 +89,14 @@ const AllMeetings = () => {
 			meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
 		}${meetingStatus ? `&status=${meetingStatus}` : ""}${
 			selectDate ? `&date=${selectDate}` : ""
+		}${currentRange?.startDate ? `&startDate=${currentRange?.startDate}` : ""}${
+			currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
 		}`
 	);
-	// console.log(
-	// 	`meetings?page=${pageNumber}&limit=8${
-	// 		meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
-	// 	}${meetingStatus ? `&status=${meetingStatus}` : ""}`
-	// );
-	console.log(selectDate);
+	// console.log(selectDate);
+	{
+		console.log(currentRange?.startDate);
+	}
 
 	return (
 		<>
@@ -113,7 +110,7 @@ const AllMeetings = () => {
 					>
 						<Card
 							sx={style}
-							className="dashboard-card-shadow w-[50%] border-t-4 border-b-4 border-t-theme border-b-theme !p-6"
+							className="dashboard-card-shadow w-[60%] border-t-4 border-b-4 border-t-theme border-b-theme !p-6"
 						>
 							<p className="text-center text-lg font-semibold pb-2">
 								Select Date Range
@@ -172,8 +169,16 @@ const AllMeetings = () => {
 							<div className="flex justify-end mt-3 ">
 								<Button
 									endIcon={<Send />}
+									// disabled={!currentRange?.startDate || !currentRange?.endDate}
 									variant="contained"
 									className="!bg-emerald-500 hover:scale-95 transition duration-200"
+									onClick={() => {
+										setcurrentRange({
+											startDate: new Date(dateRange.startDate).toISOString(),
+											endDate: new Date(dateRange.endDate).toISOString(),
+										});
+										handleInfoCloseModal();
+									}}
 								>
 									Submit
 								</Button>
@@ -246,6 +251,7 @@ const AllMeetings = () => {
 								value={moment(selectDate).format("YYYY-MM-DD")}
 								onChange={(e) => {
 									setSelectDate(new Date(e.target.value).toISOString());
+									console.log(new Date(e.target.value).toISOString());
 								}}
 							/>
 

@@ -10,3 +10,7 @@ export { default as HANDSHAKE } from "./handshake.png";
 export { default as CUSTOMER } from "./customer.png";
 export { default as INACTIVE } from "./inactive.png";
 export { default as BLOCK } from "./block-user.png";
+export { default as Logo } from "./logo.png";
+export { default as BGLOGIN } from "./BGLOGIN.png";
+export { default as Hide } from "./hide.png";
+export { default as View } from "./view.png";
