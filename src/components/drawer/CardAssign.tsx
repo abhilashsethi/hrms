@@ -4,13 +4,11 @@ import {
   CircularProgress,
   Container,
   Drawer,
-  IconButton,
   Radio,
   TextField,
 } from "@mui/material";
-import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
-import { RoleComponent } from "components/core";
-import LoaderAnimeLarge from "components/core/LoaderAnime";
+import { DEFAULTPROFILE } from "assets/home";
+import { AddValidityForm } from "components/dialogues";
 import { useChange, useFetch } from "hooks";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -24,6 +22,7 @@ type Props = {
 };
 
 const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
+  const [isValidity, setIsValidity] = useState(false);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAccess, setIsAccess] = useState(true);
@@ -31,15 +30,20 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
   const [searchedUser, setSearchedUser] = useState<any>([]);
   const { change } = useChange();
   const { data: users } = useFetch<User[]>(`users`);
-  const { data: guest } = useFetch<any[]>(`guests`);
+  const { data: guests } = useFetch<any[]>(`guests`);
   useEffect(() => {
-    if (users) {
-      const filtered = users.filter((user) =>
+    if (isAccess) {
+      const filtered = users?.filter((user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSearchedUser(filtered);
+    } else {
+      const filtered = guests?.filter((user) =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setSearchedUser(filtered);
     }
-  }, [users, searchTerm]);
+  }, [users, guests, searchTerm]);
   const handleAssign = async () => {
     setLoading(true);
     try {
@@ -70,6 +74,13 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
   };
   return (
     <>
+      <AddValidityForm
+        cardId={cardId}
+        userId={selectedUser}
+        open={isValidity}
+        mutate={mutate}
+        handleClose={() => setIsValidity(false)}
+      />
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
         <Container
           style={{
@@ -84,7 +95,13 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
             </p>
             <div className="flex gap-4 items-center">
               <div className="flex gap-1">
-                <Button onClick={() => setIsAccess(true)} size="small">
+                <Button
+                  onClick={() => {
+                    setIsAccess(true);
+                    setSearchedUser(users);
+                  }}
+                  size="small"
+                >
                   <div
                     className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
                       isAccess && `border-2 border-theme`
@@ -95,7 +112,13 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
                     </p>
                   </div>
                 </Button>
-                <Button onClick={() => setIsAccess(false)} size="small">
+                <Button
+                  onClick={() => {
+                    setIsAccess(false);
+                    setSearchedUser(guests);
+                  }}
+                  size="small"
+                >
                   <div
                     className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
                       !isAccess && `border-2 border-theme`
@@ -204,12 +227,7 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
               </>
             ) : (
               <>
-                {/* {!searchedUser?.length && (
-                  <p className="py-8 text-center flex gap-3 items-center justify-center">
-                    <Search /> No results found!
-                  </p>
-                )} */}
-                {guest?.map((item: any) => (
+                {searchedUser?.map((item: any) => (
                   <div className="w-full rounded-l-full shadow-xl border-t flex items-center gap-2 px-4 py-2">
                     <div className="w-1/5">
                       <div className="h-[4rem] w-[4rem] rounded-full overflow-hidden shadow-lg">
@@ -242,7 +260,7 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
 
                       {selectedUser && selectedUser === item?.id ? (
                         <Button
-                          onClick={handleAssign}
+                          onClick={() => setIsValidity(true)}
                           size="small"
                           startIcon={
                             loading ? (

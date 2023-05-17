@@ -1,12 +1,4 @@
-import { GridViewRounded, Search, TableRowsRounded } from "@mui/icons-material";
-import {
-  Button,
-  IconButton,
-  MenuItem,
-  Pagination,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { AllScannedColumn, AllScannedGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
@@ -16,7 +8,6 @@ import {
   LoaderAnime,
   SkeletonLoaderLarge,
 } from "components/core";
-import { CardAssign } from "components/drawer";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
@@ -29,29 +20,27 @@ const Cards = () => {
   const [cardId, setCardId] = useState<string | null>(null);
   const [userType, setUserType] = useState<string | null>(null);
   const [isGrid, setIsGrid] = useState(true);
-  const [isAssign, setIsAssign] = useState<{
-    drawer?: boolean;
-    activeCardId?: string | null;
-  }>({
-    drawer: false,
-    activeCardId: null,
-  });
   const {
     data: cardData,
     isLoading,
     mutate,
     pagination,
   } = useFetch<Card[]>(
-    `cards?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+    `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${
       empId ? `&employeeID=${empId}` : ""
-    }${cardId ? `&cardId=${cardId}` : ""}`
+    }${cardId ? `&cardId=${cardId}` : ""}${
+      userType ? `&assignedTo=${userType}` : ""
+    }`
   );
+  console.log(cardData);
   return (
     <PanelLayout title="Scanned Cards - SY HR MS">
       <section className="md:px-8 px-2 md:py-4 py-2">
         <div className="flex justify-between md:items-center md:flex-row flex-col items-start">
           <AdminBreadcrumbs links={links} />
-          <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
+          <div className="flex justify-end w-full md:w-auto">
+            <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
+          </div>
         </div>
         <FiltersContainer>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -88,8 +77,8 @@ const Cards = () => {
               onChange={(e) => setUserType(e.target.value)}
             >
               {usertypes?.map((option: any) => (
-                <MenuItem key={option.id} value={option.title}>
-                  {option.title}
+                <MenuItem key={option?.id} value={option.value}>
+                  {option.label}
                 </MenuItem>
               ))}
             </TextField>
@@ -122,13 +111,6 @@ const Cards = () => {
             />
           </Stack>
         </div>
-
-        <CardAssign
-          cardId={isAssign?.activeCardId}
-          open={isAssign?.drawer}
-          onClose={() => setIsAssign({ drawer: false })}
-          mutate={mutate}
-        />
       </section>
     </PanelLayout>
   );
@@ -140,7 +122,14 @@ const links = [
   { id: 2, page: "Scanned Cards", link: "/admin/cards/scanned" },
 ];
 
-const usertypes = [
-  { id: 1, title: "Employees" },
-  { id: 2, title: "Guests" },
+interface UserTypeItem {
+  id?: number;
+  value?: string | null;
+  label?: string | null;
+}
+
+const usertypes: Array<UserTypeItem> = [
+  { id: 1, value: "Employee", label: "Employee" },
+  { id: 2, value: "Guest", label: "Guest" },
+  { id: 2, value: null, label: "All" },
 ];

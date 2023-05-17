@@ -165,11 +165,11 @@ const EmployeeDetails = () => {
       />
       <section className="mb-12 flex gap-3">
         <Grid container spacing={2}>
-          <Grid item lg={8}>
-            <div className="w-full h-full rounded-lg bg-white shadow-xl p-4">
+          <Grid item lg={8} md={12} sm={12} xs={12}>
+            <div className="w-full h-full rounded-lg bg-white shadow-xl md:p-4 p-2">
               <ViewEmployeeHead />
               {/* --------------------Basic Details-------------------- */}
-              <section className="py-4 px-8">
+              <section className="py-4 md:px-8 px-3">
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Basic Details" />
                   <Tooltip title="Edit">
@@ -197,7 +197,7 @@ const EmployeeDetails = () => {
                 ))}
               </section>
               {/* --------------Personal Details---------------------- */}
-              <section className="px-8">
+              <section className="md:px-8 px-3">
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Personal Details" />
                   <Tooltip title="Edit">
@@ -221,7 +221,7 @@ const EmployeeDetails = () => {
                 ))}
               </section>
               {/* ---------------------Bank Details------------------------- */}
-              <section className="px-8 mt-2">
+              <section className="md:px-8 px-3 mt-2">
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Bank Details" />
                   <Tooltip title="Edit">

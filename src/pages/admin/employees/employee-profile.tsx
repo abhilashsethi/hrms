@@ -62,7 +62,7 @@ const EmployeeProfile = () => {
 
   return (
     <PanelLayout title="User Profile - SY HR MS">
-      <section className="px-8 mx-auto p-4">
+      <section className="md:px-8 px-2 mx-auto">
         <div className="pb-4">
           <AdminBreadcrumbs links={links} />
         </div>
