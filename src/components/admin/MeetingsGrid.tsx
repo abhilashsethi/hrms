@@ -7,6 +7,7 @@ import {
 	Place,
 } from "@mui/icons-material";
 import {
+	Chip,
 	IconButton,
 	ListItemIcon,
 	Menu,
@@ -15,10 +16,29 @@ import {
 } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
 import { useFetch } from "hooks";
+import moment from "moment";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
 
-const MeetingsGrid = () => {
+interface ARRAY {
+	id?: string;
+	address?: string;
+	clientEmail?: string;
+	clientName?: string;
+	clientPhone?: string;
+	meetingDate?: string;
+	meetingEndTime?: string;
+	meetingStartTime?: string;
+	meetingPersonName?: string;
+	status?: string;
+	purpose?: string;
+}
+interface Props {
+	data?: ARRAY[];
+	mutate?: any;
+}
+
+const MeetingsGrid = ({ data, mutate }: Props) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -32,14 +52,11 @@ const MeetingsGrid = () => {
 		dialogue?: boolean;
 		id?: string | null;
 	}>({ dialogue: false, id: null });
-
-	const { data: meetingData, mutate, isLoading } = useFetch<any>(`meetings`);
-	console.log(meetingData);
-
+	// console.log(data);
 	return (
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
-				{projectData?.map((items: any) => (
+				{data?.map((items: any) => (
 					<div className="relative py-4 bg-white w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
 						<div className="absolute right-[10px] top-[10px]">
 							<Tooltip title="More">
@@ -82,7 +99,7 @@ const MeetingsGrid = () => {
 								transformOrigin={{ horizontal: "right", vertical: "top" }}
 								anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 							>
-								<Link href="/admin/meetings/meeting-details">
+								<Link href={`/admin/meetings/meeting-details?id=${items?.id}`}>
 									<MenuItem onClick={handleClose}>
 										<ListItemIcon>
 											<Info fontSize="small" />
@@ -98,31 +115,88 @@ const MeetingsGrid = () => {
 								</MenuItem>
 							</Menu>
 						</div>
-						<div className="px-4">
+						<div className="md:px-4 px-2">
 							<div className="flex justify-between items-center">
 								<span className="py-1 pr-4 text-xl font-semibold capitalize tracking-wide">
-									{items?.name}
+									{items?.title}
 								</span>
 							</div>
-							<div className="py-1 group flex items-center gap-x-2 tracking-wide">
-								<AccessTime />
-								<span>{items?.startLine}</span>
+							<div className="relative mb-3 py-1 group flex items-center gap-x-2 tracking-wide">
 								<div
-									className={`text-xs ${
+									className={`absolute -top-5 right-3 text-xs ${
 										items?.status === "Completed"
 											? "bg-[#44bd44]"
-											: items?.status === "On Progress"
+											: items?.status === "Ongoing"
 											? "bg-amber-500"
 											: "bg-red-500"
 									} text-white p-1 rounded-md font-semibold px-2 ml-10`}
 								>
 									{items?.status}
 								</div>
+								{/* <Chip label={items?.status} onClick={handleClick} /> */}
+							</div>
+							<div className="flex py-2 md:py-0">
+								<p className="font-semibold text-sm md:text-base">
+									Meeting Start Dt :{" "}
+								</p>
+								{/* <AccessTime /> */}
+								<span className="text-sm md:text-base">{`${moment(
+									items?.meetingDate
+								).format("LL")}, ${moment(items?.meetingStartTime).format(
+									"LT"
+								)}`}</span>
+							</div>
+
+							<div className="flex py-2 md:py-0">
+								<p className="font-semibold text-sm md:text-base">
+									Meeting End Dt :{" "}
+								</p>
+								{/* <AccessTime /> */}
+								<span className="text-sm md:text-base">
+									{`${moment(items?.meetingDate).format("LL")}, ${moment(
+										items?.meetingEndTime
+									).format("LT")}`}
+								</span>
 							</div>
 							<div className="py-2 text-lg tracking-wide">
-								<span className="text-md font-medium">Purpose :</span>
-								<p>{items?.description}</p>
+								<span className="font-semibold text-sm md:text-base">
+									Purpose :
+								</span>
+								<p className="text-sm md:text-base">{items?.purpose}</p>
 							</div>
+							<div className="flex gap-2 py-2 md:py-0">
+								<p className="font-semibold text-sm md:text-base">
+									Client Name :
+								</p>
+								<p className="text-sm md:text-base">{items?.clientName}</p>
+							</div>
+							<div className="flex gap-2 py-2 md:py-0">
+								<p className="font-semibold text-sm md:text-base">
+									Client Email :
+								</p>
+								<p className="text-sm md:text-base">{items?.clientEmail}</p>
+							</div>
+							<div className="flex gap-2 py-2 md:py-0">
+								<p className="font-semibold text-sm md:text-base">
+									Client Phone :
+								</p>
+								<p className="text-sm md:text-base">{items?.clientPhone}</p>
+							</div>
+							<div className="flex gap-2 py-2 md:py-0">
+								<p className="font-semibold text-sm md:text-base">
+									Member Name :
+								</p>
+								<p className="text-sm md:text-base">
+									{items?.meetingPersonName}
+								</p>
+							</div>
+							<div className="py-2 text-lg tracking-wide">
+								<span className=" font-semibold text-sm md:text-base">
+									Address :
+								</span>
+								<p className="text-sm md:text-base">{items?.address}</p>
+							</div>
+
 							<div className=" group flex items-center py-2 text-md tracking-wide text-lg">
 								<Place />
 								<span className="text-md font-medium">Location :</span>
@@ -133,7 +207,7 @@ const MeetingsGrid = () => {
 								loading="lazy"
 								referrerPolicy="no-referrer-when-downgrade"
 							></iframe>
-							<div className="flex gap-2 py-2 justify-center">
+							{/* <div className="flex gap-2 py-2 justify-center">
 								<div className="text-md hover:scale-105 ease-in-out transition-all duration-200 rounded-lg shadow-lg border-2 px-10 py-2 grid justify-items-center">
 									<h1 className="text-md pb-2 font-semibold">Client</h1>
 									<img
@@ -156,7 +230,7 @@ const MeetingsGrid = () => {
 										{items?.member}
 									</span>
 								</div>
-							</div>
+							</div> */}
 						</div>
 					</div>
 				))}

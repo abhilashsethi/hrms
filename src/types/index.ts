@@ -82,7 +82,12 @@ export type User = {
 	roleId?: string;
 	projectIDs?: string[];
 	departmentId?: string;
-	department?:{ name?: string; id?: string; createdAt?: string; updatedAt?: string };
+	department?: {
+		name?: string;
+		id?: string;
+		createdAt?: string;
+		updatedAt?: string;
+	};
 	wallet?: number;
 };
 
@@ -104,21 +109,35 @@ export type Role = {
 	cardId: string;
 	createdAt: Date;
 	updatedAt: Date;
-	users:User[];
+	users: User[];
 };
 export type Client = {
 	id: string;
 	name: string;
 	email: string;
-	_count: { projects?: number; tickets?: string; };
+	_count: { projects?: number; tickets?: string };
 	gender: string;
 	isBlocked: boolean;
 	phone: number;
 	photo: string;
 	createdAt: Date;
 	updatedAt: Date;
-	country:string;
+	country: string;
 };
 
-
-
+export interface MeetingTypes {
+	meetings?: MeetingProps[];
+}
+interface MeetingProps {
+	id?: string;
+	address?: string;
+	clientEmail?: string;
+	clientName?: string;
+	clientPhone?: string;
+	meetingDate?: string;
+	meetingEndTime?: string;
+	meetingStartTime?: string;
+	meetingPersonName?: string;
+	status?: string;
+	purpose?: string;
+}

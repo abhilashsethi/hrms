@@ -9,3 +9,4 @@ export { default as CARDICON4 } from "./cardicon4.png";
 export { default as HANDSHAKE } from "./handshake.png";
 export { default as CUSTOMER } from "./customer.png";
 export { default as INACTIVE } from "./inactive.png";
+export { default as BLOCK } from "./block-user.png";
