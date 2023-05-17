@@ -10,7 +10,7 @@ import ClientBarGraph from "components/analytics/ClientBarGraph";
 import { useFetch } from "hooks";
 import { Client } from "types";
 import { useRouter } from "next/router";
-import { CUSTOMER, HANDSHAKE, INACTIVE } from "assets/dashboard_Icons";
+import { BLOCK, CUSTOMER, HANDSHAKE, INACTIVE } from "assets/dashboard_Icons";
 
 const ClientDashboard = () => {
 	const { data: clientData, isLoading } = useFetch<Client>(`clients/dashboard`);
@@ -114,12 +114,7 @@ const cards = [
 	},
 	{
 		id: 4,
-		icon: (
-			<PlaylistAddCheckCircleRounded
-				fontSize="large"
-				className="!text-white text-5xl"
-			/>
-		),
+		icon: <img src={BLOCK.src} className="w-12" alt="" />,
 		count: "10",
 		title: "Blocked Clients",
 		color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",

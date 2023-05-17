@@ -1,14 +1,8 @@
 import {
-	Add,
-	ChevronLeftRounded,
-	ChevronRightRounded,
 	DateRange,
 	GridViewRounded,
-	InsertInvitationRounded,
-	Search,
 	Send,
 	TableRowsRounded,
-	Upload,
 } from "@mui/icons-material";
 import {
 	Button,
@@ -18,13 +12,8 @@ import {
 	Modal,
 	TextField,
 } from "@mui/material";
-import {
-	EmployeesColumn,
-	EmplyeesGrid,
-	MeetingsColumn,
-	MeetingsGrid,
-} from "components/admin";
-import { AdminBreadcrumbs } from "components/core";
+import { MeetingsColumn, MeetingsGrid } from "components/admin";
+import { AdminBreadcrumbs, FiltersContainer } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
@@ -32,6 +21,8 @@ import { useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateRangePicker } from "materialui-daterange-picker";
+import { useFetch } from "hooks";
+import { MeetingTypes } from "types";
 
 const style = {
 	position: "absolute" as "absolute",
@@ -48,12 +39,22 @@ const style = {
 };
 
 const AllMeetings = () => {
+	const [currentRange, setcurrentRange] = useState<{
+		startDate?: string | null;
+		endDate?: string | null;
+	}>({
+		startDate: null,
+		endDate: null,
+	});
 	const dateRef = useRef<any>();
+	const [pageNumber, setPageNumber] = useState<number | null>(1);
 	const [dateRange, setDateRange] = useState({
 		startDate: moment().toDate(),
 
 		endDate: moment().toDate(),
 	});
+	console.log(new Date(dateRange.startDate).toISOString());
+	console.log(new Date(dateRange.endDate).toISOString());
 
 	const [open, setOpen] = useState(true);
 
@@ -75,6 +76,28 @@ const AllMeetings = () => {
 		setSelectedDate(date);
 		console.log(date);
 	}
+
+	const [meetingPerson, setMeetingPerson] = useState<string | null>(null);
+	const [meetingStatus, setMeetingStatus] = useState<string | null>(null);
+	const [selectDate, setSelectDate] = useState<string | null>(null);
+	const {
+		data: meetingData,
+		mutate,
+		isLoading,
+	} = useFetch<MeetingTypes>(
+		`meetings?page=${pageNumber}&limit=8${
+			meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
+		}${meetingStatus ? `&status=${meetingStatus}` : ""}${
+			selectDate ? `&date=${selectDate}` : ""
+		}${currentRange?.startDate ? `&startDate=${currentRange?.startDate}` : ""}${
+			currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
+		}`
+	);
+	// console.log(selectDate);
+	{
+		console.log(currentRange?.startDate);
+	}
+
 	return (
 		<>
 			<PanelLayout title="Meetings - Admin Panel">
@@ -87,7 +110,7 @@ const AllMeetings = () => {
 					>
 						<Card
 							sx={style}
-							className="dashboard-card-shadow w-[50%] border-t-4 border-b-4 border-t-theme border-b-theme !p-6"
+							className="dashboard-card-shadow w-[60%] border-t-4 border-b-4 border-t-theme border-b-theme !p-6"
 						>
 							<p className="text-center text-lg font-semibold pb-2">
 								Select Date Range
@@ -146,8 +169,16 @@ const AllMeetings = () => {
 							<div className="flex justify-end mt-3 ">
 								<Button
 									endIcon={<Send />}
+									// disabled={!currentRange?.startDate || !currentRange?.endDate}
 									variant="contained"
 									className="!bg-emerald-500 hover:scale-95 transition duration-200"
+									onClick={() => {
+										setcurrentRange({
+											startDate: new Date(dateRange.startDate).toISOString(),
+											endDate: new Date(dateRange.endDate).toISOString(),
+										});
+										handleInfoCloseModal();
+									}}
 								>
 									Submit
 								</Button>
@@ -184,71 +215,63 @@ const AllMeetings = () => {
 									</div>
 								</IconButton>
 							</div>
-							<div className="flex gap-3 items-center">
-								<ChevronLeftRounded />
-								<div className="tracking-wide flex gap-4 items-center font-semibold">
-									{moment(selectedDate).format("ll")}
-									<IconButton onClick={() => dateRef.current.setOpen(true)}>
-										<InsertInvitationRounded className="!cursor-pointer" />
-									</IconButton>
-									<div className="">
-										<DatePicker
-											ref={dateRef}
-											selected={selectedDate}
-											onChange={handleDateChange}
-											dateFormat="dd/MM/yyyy"
-											// isClearable
-											showYearDropdown
-											className="hidden"
-										/>
-									</div>
-								</div>
-								<ChevronRightRounded />
-							</div>
 						</div>
 					</div>
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-						<TextField
-							fullWidth
-							size="small"
-							id="employeeName"
-							placeholder="Employee Name"
-							name="employeeName"
-						/>
-						<TextField
-							fullWidth
-							select
-							label="Select Status"
-							size="small"
-							value={value}
-							onChange={handleChange}
-						>
-							{status.map((option) => (
-								<MenuItem key={option.id} value={option.value}>
-									{option.value}
-								</MenuItem>
-							))}
-						</TextField>
-						<TextField
-							fullWidth
-							size="small"
-							id="date"
-							placeholder="Select Date"
-							name="date"
-							type="date"
-						/>
-						<Button
-							onClick={() => handleInfoOpen()}
-							fullWidth
-							startIcon={<DateRange />}
-							variant="contained"
-							className="!bg-theme"
-						>
-							Select Date Range
-						</Button>
-					</div>
+					<FiltersContainer>
+						<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+							<TextField
+								fullWidth
+								size="small"
+								id="employeeName"
+								placeholder="Member Name"
+								name="employeeName"
+								onChange={(e) => setMeetingPerson(e.target.value)}
+							/>
+							<TextField
+								fullWidth
+								select
+								label="Select Status"
+								size="small"
+								value={meetingStatus}
+								onChange={(e) => setMeetingStatus(e?.target?.value)}
+							>
+								{status.map((option) => (
+									<MenuItem key={option.id} value={option.value}>
+										{option.value}
+									</MenuItem>
+								))}
+							</TextField>
+							<TextField
+								fullWidth
+								size="small"
+								id="date"
+								placeholder="Select Date"
+								name="date"
+								type="date"
+								value={moment(selectDate).format("YYYY-MM-DD")}
+								onChange={(e) => {
+									setSelectDate(new Date(e.target.value).toISOString());
+									console.log(new Date(e.target.value).toISOString());
+								}}
+							/>
 
-					{isGrid ? <MeetingsGrid /> : <MeetingsColumn />}
+							<Button
+								onClick={() => handleInfoOpen()}
+								fullWidth
+								startIcon={<DateRange />}
+								variant="contained"
+								className="!bg-theme"
+							>
+								Select Date Range
+							</Button>
+						</div>
+					</FiltersContainer>
+
+					{isGrid ? (
+						<MeetingsGrid data={meetingData?.meetings} mutate={mutate} />
+					) : (
+						<MeetingsColumn />
+					)}
 				</section>
 			</PanelLayout>
 		</>
@@ -258,9 +281,10 @@ const AllMeetings = () => {
 export default AllMeetings;
 
 const status = [
-	{ id: 1, value: "Completed" },
-	{ id: 2, value: "On Progress" },
-	{ id: 3, value: "Cancelled" },
+	{ id: 1, value: "Ongoing" },
+	{ id: 2, value: "InPipeline" },
+	{ id: 3, value: "QuotationSent" },
+	{ id: 3, value: "Closed" },
 ];
 
 const links = [

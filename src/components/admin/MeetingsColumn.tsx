@@ -15,11 +15,15 @@ import {
 } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
 import { HeadStyle } from "components/core";
+import { useFetch } from "hooks";
 import { useState, MouseEvent } from "react";
 import { MuiTblOptions } from "utils";
 
 const MeetingsColumn = () => {
 	const [isLeave, setIsLeave] = useState<boolean>(false);
+
+	const { data: meetingData, mutate, isLoading } = useFetch<any>(`meetings`);
+	// console.log(meetingData);
 
 	return (
 		<>

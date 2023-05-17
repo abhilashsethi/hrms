@@ -74,7 +74,6 @@ export type User = {
   gender?: Gender;
   gmail?: string | null;
   github?: string | null;
-  validFrom?: string | null;
   IFSCCode?: string | null;
   bankName?: string | null;
   bloodGroup?: BloodGroup;
@@ -127,3 +126,20 @@ export type Client = {
   updatedAt: Date;
   country: string;
 };
+
+export interface MeetingTypes {
+  meetings?: MeetingProps[];
+}
+interface MeetingProps {
+  id?: string;
+  address?: string;
+  clientEmail?: string;
+  clientName?: string;
+  clientPhone?: string;
+  meetingDate?: string;
+  meetingEndTime?: string;
+  meetingStartTime?: string;
+  meetingPersonName?: string;
+  status?: string;
+  purpose?: string;
+}
