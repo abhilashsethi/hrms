@@ -14,8 +14,9 @@ import {
 	Modal,
 	Tooltip,
 } from "@mui/material";
-import { DEFAULTPROFILE, IMG, PDF, SAMPLEDP } from "assets/home";
+import { DEFAULTPROFILE, DOC, IMG, PDF, SAMPLEDP } from "assets/home";
 import { Loader } from "components/core";
+import { DocPreview } from "components/dialogues";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
@@ -82,8 +83,22 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 	};
 	const handleInfoCloseModal = () => setOpenInfoModal(false);
 	const { data: users, isLoading } = useFetch<User[]>(`users`);
+
+	const [isPreview, setIsPreview] = useState<{
+		dialogue?: boolean;
+		title?: string;
+	}>({
+		dialogue: false,
+		title: "Preview",
+	});
+
 	return (
 		<>
+			<DocPreview
+				open={isPreview?.dialogue}
+				handleClose={() => setIsPreview({ dialogue: false })}
+				title={isPreview?.title}
+			/>
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
 				<Container
 					style={{
@@ -118,53 +133,67 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 					{isLoading && <Loader />}
 					<div className="mt-4 flex flex-col gap-4">
 						<div className="">
-							<div
-								// key={index}
-								className="w-full relative rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3"
-							>
-								<div className="absolute -top-4">
-									<Avatar
-										onClick={() => handleInfoOpen()}
-										variant="rounded"
-										className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
+							{Note_Details?.map((item, i) => {
+								return (
+									<div
+										// key={index}
+										className="w-full relative rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 mb-8"
 									>
-										<EventNote
-											sx={{ padding: "0px !important" }}
-											fontSize="large"
-										/>
-									</Avatar>
-								</div>
-								<div className="mt-7">
-									<div className="flex w-full justify-between items-center gap-5">
-										<img className="h-20 w-20 " src={"/writing.png"} alt="" />
-
-										<div className="">
-											<p className="font-semibold">
-												Notes :{" "}
-												<span className="text-base text-gray-600">
-													{"Title"}
-												</span>
-												<span className="font-semibold text-sm text-gray-500">
-													{/* {item?.name} */}
-												</span>
-											</p>
-											<p className="font-semibold">
-												Added By :{" "}
-												<span className="font-semibold text-sm text-gray-500">
-													Date
-												</span>
-											</p>
+										<div className="absolute -top-4">
+											<Avatar
+												onClick={() => handleInfoOpen()}
+												variant="rounded"
+												className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
+											>
+												<EventNote
+													sx={{ padding: "0px !important" }}
+													fontSize="large"
+												/>
+											</Avatar>
 										</div>
-										<Tooltip title="Details">
-											<Link href={`/admin/clients/view-ticket-details`}>
-												<div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
-													<img className="w-12" src={PDF.src} alt="" />
+										<div className="mt-7">
+											<div className="flex w-full justify-between items-center gap-5">
+												<img
+													className="h-20 w-20 "
+													src={"/writing.png"}
+													alt=""
+												/>
+												<div className="">
+													<p className="font-semibold">
+														Notes :{" "}
+														<span className="text-base text-gray-600">
+															{item?.notes}
+														</span>
+														<span className="font-semibold text-sm text-gray-500">
+															{/* {item?.name} */}
+														</span>
+													</p>
+													<p className="font-semibold">
+														Added By :{" "}
+														<span className="font-semibold text-sm text-gray-500">
+															{item?.addedBy}
+														</span>
+													</p>
 												</div>
-											</Link>
-										</Tooltip>
+												<Tooltip title="Details">
+													<div
+														onClick={() =>
+															setIsPreview({
+																dialogue: true,
+																title: "Doc 53426",
+															})
+														}
+													>
+														<div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
+															{item?.img}
+														</div>
+													</div>
+												</Tooltip>
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
+								);
+							})}
 						</div>
 					</div>
 				</Container>
@@ -191,7 +220,7 @@ const Note_Details = [
 	{
 		id: 3,
 		notes: "Project Title",
-		img: <img className="w-12" src={PDF.src} alt="" />,
+		img: <img className="w-12" src={DOC.src} alt="" />,
 		addedBy: "Sales Person",
 	},
 	{

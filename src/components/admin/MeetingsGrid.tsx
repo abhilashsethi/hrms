@@ -14,6 +14,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
+import { useFetch } from "hooks";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
 
@@ -31,6 +32,10 @@ const MeetingsGrid = () => {
 		dialogue?: boolean;
 		id?: string | null;
 	}>({ dialogue: false, id: null });
+
+	const { data: meetingData, mutate, isLoading } = useFetch<any>(`meetings`);
+	console.log(meetingData);
+
 	return (
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
