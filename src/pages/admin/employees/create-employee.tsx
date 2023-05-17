@@ -9,6 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import { AdminBreadcrumbs, Loader } from "components/core";
+import { useTheme, useMediaQuery } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -57,6 +58,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const CreateEmployee = () => {
+  const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -89,10 +91,12 @@ const CreateEmployee = () => {
 
   return (
     <PanelLayout title="Create Employee - SY HR MS">
-      <section className="px-8 py-4">
-        <AdminBreadcrumbs links={links} />
-        <section className="w-full px-2 py-4 flex justify-center items-center">
-          <div className="p-6 w-3/4 rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+      <section className="md:px-8 px-2 md:py-4 py-2">
+        <div className="px-2 md:px-0">
+          <AdminBreadcrumbs links={links} />
+        </div>
+        <section className="w-full px-0 md:py-4 py-2 flex justify-center items-center">
+          <div className="md:p-6 p-2 md:w-3/4 w-full rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -107,12 +111,12 @@ const CreateEmployee = () => {
                 setFieldValue,
               }) => (
                 <Form>
-                  <h1 className="text-2xl uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
+                  <h1 className="text-lg uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
                     Create Employee
                   </h1>
                   <div className="grid lg:grid-cols-2">
-                    <div className="px-4 py-2">
-                      <div className="py-2">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="md:py-2 py-1">
                         <InputLabel htmlFor="name">
                           First Name <span className="text-red-600">*</span>
                         </InputLabel>
@@ -130,7 +134,7 @@ const CreateEmployee = () => {
                         helperText={touched.name && errors.name}
                       />
                     </div>
-                    <div className="px-4 py-2">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="email">
                           Email <span className="text-red-600">*</span>
@@ -149,7 +153,7 @@ const CreateEmployee = () => {
                         helperText={touched.email && errors.email}
                       />
                     </div>
-                    <div className="px-4 py-2">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="password">
                           Password <span className="text-red-600">*</span>
@@ -186,7 +190,7 @@ const CreateEmployee = () => {
                         }}
                       />
                     </div>
-                    <div className="px-4 py-2">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="con-password">
                           Confirm Password{" "}
@@ -230,7 +234,7 @@ const CreateEmployee = () => {
                         }}
                       />
                     </div>
-                    <div className="px-4 py-2">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="employeeID">
                           Employee ID <span className="text-red-600">*</span>
@@ -249,7 +253,7 @@ const CreateEmployee = () => {
                         helperText={touched.employeeID && errors.employeeID}
                       />
                     </div>
-                    <div className="px-4 py-2">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="phone">Phone</InputLabel>
                       </div>
@@ -266,7 +270,7 @@ const CreateEmployee = () => {
                         helperText={touched.phone && errors.phone}
                       />
                     </div>
-                    <div className="px-4 py-2">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="role">
                           Role <span className="text-red-600">*</span>
@@ -294,7 +298,7 @@ const CreateEmployee = () => {
                         )}
                       />
                     </div>
-                    <div className="px-4 py-2">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="departmentId">
                           Department Name{" "}
@@ -327,16 +331,21 @@ const CreateEmployee = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex justify-center py-4">
+                  <div className="flex justify-center md:py-4 py-2">
                     <Button
                       type="submit"
+                      size={
+                        useMediaQuery(theme.breakpoints.down("sm"))
+                          ? "small"
+                          : "medium"
+                      }
                       variant="contained"
-                      className="!bg-theme !px-10 !py-3 hover:!bg-sky-800 hover:!shadow-xl"
+                      className="!bg-theme"
                       startIcon={
                         loading ? <CircularProgress size={20} /> : <Check />
                       }
                     >
-                      Submit
+                      SUBMIT
                     </Button>
                   </div>
                 </Form>
