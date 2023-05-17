@@ -86,11 +86,18 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <div className="flex gap-2 py-4">
-        <div className="w-3/4 px-4">
-          <Grid container spacing={2}>
+      <div className="flex gap-2 py-4 md:flex-row flex-col">
+        <div className="md:w-3/4 px-4 w-full">
+          <Grid
+            container
+            spacing={{
+              xs: 1,
+              sm: 2,
+              md: 2,
+            }}
+          >
             {cards?.map((item, index) => (
-              <Grid key={index} item lg={3}>
+              <Grid key={index} item lg={3} md={6} sm={12} xs={12}>
                 <div
                   className={`h-40 ${item?.color} w-full p-4 flex flex-col rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-500 ease-in-out relative overflow-hidden`}
                 >
@@ -127,7 +134,7 @@ const AdminDashboard = () => {
             ))}
             <div className="w-full mt-5">
               <p className="font-semibold text-lg pb-5 ml-5">Quick Access</p>{" "}
-              <div className="flex justify-between px-8">
+              <div className="flex justify-between px-8 flex-wrap">
                 {Quick_Access?.map((item, index) => {
                   return (
                     <Tooltip title={item?.title}>
@@ -263,7 +270,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col gap-3">
+        <div className="md:w-1/4 w-full p-2 rounded-xl shadow-xl flex flex-col gap-3">
           {/* <div className="">
               <DatePicker
                 // ref={dateRef}

@@ -11,15 +11,19 @@ const WelcomeUser = ({ title }: Props) => {
   return (
     <div className="w-full bg-white py-4 px-4 border-t-[1px] shadow-sm">
       <div className="flex gap-4 tracking-wide items-center">
-        <div className="h-20 w-20 rounded-xl flex justify-center items-center shadow-lg">
+        <div className="md:h-20 h-14 md:w-20 w-14 rounded-xl flex justify-center items-center shadow-lg">
           <Avatar
             src={user?.photo || " "}
             className="cursor-pointer !bg-theme"
           />
         </div>
-        <div className="flex flex-col gap-2">
-          <span className="text-xl font-semibold text-gray-900">{title}</span>
-          <span>{moment(new Date()).format("lll")}</span>
+        <div className="flex flex-col md:gap-2 gap-1">
+          <span className="md:text-xl text-lg font-semibold text-gray-900">
+            {title}
+          </span>
+          <span className="text-sm md:text-base">
+            {moment(new Date()).format("lll")}
+          </span>
         </div>
       </div>
     </div>
