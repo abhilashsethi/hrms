@@ -15,14 +15,14 @@ interface Props {
 
 const AdminBreadcrumbs = ({ links }: Props) => {
   return (
-    <div className="py-2 flex md:gap-4 gap-1 items-center tracking-wide">
+    <div className="py-2 flex md:gap-4 gap-1 items-center tracking-wide flex-wrap">
       <Link href="/admin">
-        <span className="md:px-4 px-2 py-1 bg-slate-50 shadow-sm rounded-full hover:shadow-lg text-sm font-medium text-gray-600 cursor-pointer transition-all ease-in-out duration-300">
+        <span className="md:px-4 px-2 py-1 bg-slate-50 shadow-sm rounded-full hover:shadow-lg md:text-sm text-xs font-medium text-gray-600 cursor-pointer transition-all ease-in-out duration-300">
           <Home className="!text-theme" fontSize="small" /> Home
         </span>
       </Link>
       {links?.map((item) => (
-        <div key={item?.id} className="flex md:gap-4 gap-1">
+        <div key={item?.id} className="flex md:gap-4 gap-1 items-center">
           <span>/</span>
           <Link href={item?.link}>
             <span className="px-4 py-1 cursor-pointer shadow-sm bg-slate-50 rounded-full md:text-sm text-xs font-medium text-gray-600 hover:shadow-lg transition-all ease-in-out duration-300">

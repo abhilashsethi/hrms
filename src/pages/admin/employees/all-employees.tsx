@@ -1,4 +1,5 @@
 import { Add, Upload } from "@mui/icons-material";
+import { useTheme, useMediaQuery } from "@material-ui/core";
 import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import {
@@ -17,6 +18,7 @@ import { useState } from "react";
 import { User } from "types";
 
 const AllEmployees = () => {
+  const theme = useTheme();
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [isGrid, setIsGrid] = useState(true);
   const [userName, setUsername] = useState<string | null>(null);
@@ -35,67 +37,43 @@ const AllEmployees = () => {
       empId ? `&employeeID=${empId}` : ""
     }${isRole ? `&role=${isRole}` : ""}`
   );
-  // console.log(
-  //   `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
-  //     empId ? `&employeeID=${empId}` : ""
-  //   }${isRole ? `&role=${isRole}` : ""}`
-  // );
-  // useEffect(() => {
-  //   if (employees) {
-  //     const filtered = employees.filter((user: any) => {
-  //       return user?.name?.toLowerCase().includes(userName?.toLowerCase());
-  //     });
-  //     setSearchedUser(filtered);
-  //   }
-  // }, [employees, userName]);
-  // useEffect(() => {
-  //   if (employees) {
-  //     const filtered = employees.filter((user: any) => {
-  //       return user?.employeeID?.toLowerCase().includes(empId?.toLowerCase());
-  //     });
-  //     setSearchedUser(filtered);
-  //   }
-  // }, [employees, empId]);
-  // useEffect(() => {
-  //   if (isRole) {
-  //     const filtered = employees?.filter((user: any) => {
-  //       return user?.roleId === isRole;
-  //     });
-  //     setSearchedUser(filtered);
-  //   }
-  // }, [isRole]);
   return (
     <PanelLayout title="All Users - SY HR MS">
-      <section className="px-8">
+      <section className="md:px-8 px-4">
         <UploadEmployData
           open={isUpload}
           handleClose={() => setIsUpload(false)}
         />
-        <div className="flex justify-between items-center py-4">
-          <AdminBreadcrumbs links={links} />
-          <div className="flex gap-4 items-center">
+        <div className="flex flex-col md:flex-row w-full md:justify-between justify-start items-start md:items-center md:py-4 py-2">
+          <div className="md:w-auto w-full">
+            <AdminBreadcrumbs links={links} />
+          </div>
+          <div className="flex gap-4 md:items-center md:flex-row flex-col-reverse md:w-auto w-full items-end">
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
-            <Link href="/admin/employees/create-employee">
+            <div className="flex md:gap-4 gap-2 mt-2 flex-row items-center">
+              <Link href="/admin/employees/create-employee">
+                <Button
+                  fullWidth
+                  className="!bg-theme text-xs md:!text-sm w-full"
+                  variant="contained"
+                  startIcon={<Add />}
+                >
+                  ADD EMPLOYEE
+                </Button>
+              </Link>
               <Button
-                className="!bg-theme"
+                onClick={() => setIsUpload(true)}
+                className="!bg-slate-600 !text-xs md:!text-sm"
                 variant="contained"
-                startIcon={<Add />}
+                startIcon={<Upload />}
               >
-                ADD EMPLOYEE
+                UPLOAD EMPLOYEES DATA
               </Button>
-            </Link>
-            <Button
-              onClick={() => setIsUpload(true)}
-              className="!bg-slate-600"
-              variant="contained"
-              startIcon={<Upload />}
-            >
-              UPLOAD EMPLOYEES DATA
-            </Button>
+            </div>
           </div>
         </div>
         <FiltersContainer>
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 gap-2">
             <TextField
               fullWidth
               size="small"
@@ -138,37 +116,36 @@ const AllEmployees = () => {
             </TextField>
           </div>
         </FiltersContainer>
-
-        <section>
-          {isGrid ? (
-            <>
-              {isLoading && <SkeletonLoader />}
-              <EmplyeesGrid data={employees} mutate={mutate} />
-            </>
-          ) : (
-            <>
-              {isLoading && <Loader />}
-              <EmployeesColumn data={employees} mutate={mutate} />
-            </>
-          )}
-        </section>
+        {isGrid ? (
+          <>
+            {isLoading && <SkeletonLoader />}
+            <EmplyeesGrid data={employees} mutate={mutate} />
+          </>
+        ) : (
+          <>
+            {isLoading && <Loader />}
+            <EmployeesColumn data={employees} mutate={mutate} />
+          </>
+        )}
         {!employees?.length && <LoaderAnime />}
-        {employees?.length ? (
-          <div className="flex justify-center py-8">
-            <Stack spacing={2}>
-              <Pagination
-                count={Math.ceil(
-                  Number(pagination?.total || 1) /
-                    Number(pagination?.limit || 1)
-                )}
-                onChange={(e, v: number) => {
-                  setPageNumber(v);
-                }}
-                variant="outlined"
-              />
-            </Stack>
-          </div>
-        ) : null}
+        <section className="mb-6">
+          {employees?.length ? (
+            <div className="flex justify-center md:py-8 py-4">
+              <Stack spacing={2}>
+                <Pagination
+                  count={Math.ceil(
+                    Number(pagination?.total || 1) /
+                      Number(pagination?.limit || 1)
+                  )}
+                  onChange={(e, v: number) => {
+                    setPageNumber(v);
+                  }}
+                  variant="outlined"
+                />
+              </Stack>
+            </div>
+          ) : null}
+        </section>
       </section>
     </PanelLayout>
   );

@@ -78,7 +78,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
         <main
           className={`min-h-screen bg-white ${
             isOpen
-              ? "md:ml-[calc(100vw-calc(100vw-240px))] md:w-[calc(100vw-258px)] w-[calc(100vw-72px)]"
+              ? "md:ml-[calc(100vw-calc(100vw-240px))] md:w-[calc(100vw-258px)] w-[calc(100vw-0px)]"
               : "md:ml-[calc(100vw-calc(100vw-72px))] md:w-[calc(100vw-72px)] w-[calc(100vw-58px)] ml-[calc(100vw-calc(100vw-55px))]"
           } dashboard-main `}
         >

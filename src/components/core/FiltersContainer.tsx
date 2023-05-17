@@ -21,7 +21,7 @@ const FiltersContainer = ({ children }: Props) => {
           </Tooltip>
         </IconButton>
       </div>
-      <div className="w-[95%]">{isFilter && <>{children}</>}</div>
+      <div className="md:w-[95%] w-[85%]">{isFilter && <>{children}</>}</div>
     </div>
   );
 };

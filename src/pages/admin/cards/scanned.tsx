@@ -11,6 +11,7 @@ import { AllScannedColumn, AllScannedGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
   FiltersContainer,
+  GridAndList,
   Loader,
   LoaderAnime,
   SkeletonLoaderLarge,
@@ -50,26 +51,7 @@ const Cards = () => {
       <section className="md:px-8 px-2 md:py-4 py-2">
         <div className="flex justify-between md:items-center md:flex-row flex-col items-start">
           <AdminBreadcrumbs links={links} />
-          <div className="flex gap-1">
-            <IconButton onClick={() => setIsGrid(true)} size="small">
-              <div
-                className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                  isGrid && `border-2 border-theme`
-                }`}
-              >
-                <GridViewRounded className={`${isGrid && `!text-theme`}`} />
-              </div>
-            </IconButton>
-            <IconButton onClick={() => setIsGrid(false)} size="small">
-              <div
-                className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                  !isGrid && `border-2 border-theme`
-                }`}
-              >
-                <TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
-              </div>
-            </IconButton>
-          </div>
+          <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
         </div>
         <FiltersContainer>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -29,10 +29,17 @@ interface Props {
 }
 const EmplyeesGrid = ({ data, mutate }: Props) => {
   return (
-    <section className="my-8">
-      <Grid container spacing={3}>
+    <section className="md:my-8 my-4">
+      <Grid
+        container
+        spacing={{
+          xs: 1,
+          sm: 2,
+          md: 3,
+        }}
+      >
         {data?.map((item) => (
-          <Grid key={item?.id} item lg={3}>
+          <Grid key={item?.id} item lg={3} sm={12} md={12} xs={12}>
             <CardContent item={item} mutate={mutate} />
           </Grid>
         ))}

@@ -8,7 +8,6 @@ interface Props {
 const CopyClipboard = ({ value }: Props) => {
   return (
     <div className="group flex gap-2 items-center text-sm">
-      <ICONS.Email />
       {value?.slice(0, 15)}
       {value?.length >= 15 ? "..." : ""}
       <Tooltip title="Copy to clipboard">

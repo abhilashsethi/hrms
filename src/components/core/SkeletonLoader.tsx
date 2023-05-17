@@ -3,9 +3,16 @@ import { Box, Grid, Skeleton } from "@mui/material";
 const SkeletonLoader = () => {
   return (
     <section className="my-8 w-full">
-      <Grid container spacing={3}>
+      <Grid
+        container
+        spacing={{
+          xs: 1,
+          sm: 2,
+          md: 3,
+        }}
+      >
         {skeletons?.map((item) => (
-          <Grid key={item?.id} item lg={3}>
+          <Grid key={item?.id} item lg={3} sm={12} md={12} xs={12}>
             <div className="w-full border-2 py-4 rounded-md">
               <div className="flex justify-center">
                 <Skeleton
