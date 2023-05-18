@@ -21,9 +21,17 @@ interface Props {
   mutate?: any;
   userId?: string | null;
   cardId?: string | null;
+  closeDrawer?: any;
 }
 
-const AddValidity = ({ open, handleClose, mutate, userId, cardId }: Props) => {
+const AddValidity = ({
+  open,
+  handleClose,
+  mutate,
+  userId,
+  cardId,
+  closeDrawer,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const formik = useFormik({
@@ -52,6 +60,7 @@ const AddValidity = ({ open, handleClose, mutate, userId, cardId }: Props) => {
         Swal.fire("Success", "Guest assigned successfully!", "success");
         mutate();
         handleClose();
+        closeDrawer();
         return;
       } catch (err) {
         console.log(err);

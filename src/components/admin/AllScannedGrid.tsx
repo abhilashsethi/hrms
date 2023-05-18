@@ -143,6 +143,7 @@ const CardComponent = ({ item, mutate }: Props) => {
   return (
     <>
       <RoomAccessDrawer
+        mutate={mutate}
         open={isAccess?.dialogue}
         onClose={() => setIsAccess({ dialogue: false })}
         cardId={isAccess?.cardId}
@@ -325,7 +326,7 @@ const CardComponent = ({ item, mutate }: Props) => {
                     </h1>
                     <h1 className="text-xs w-1/2 text-blue-900 tracking-wide flex flex-col">
                       <span className="font-semibold text-slate-800 underline">
-                        Valid From
+                        Valid Till
                       </span>
                       <span>{moment(item?.validTill).format("ll")}</span>
                       <span>{moment(item?.validTill).format("HH:MM A")}</span>
