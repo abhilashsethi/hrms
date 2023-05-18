@@ -66,6 +66,20 @@ const GuestColumn = ({ data, mutate }: Props) => {
             editable: "never",
           },
           {
+            title: "Total Project",
+            tooltip: "Total Project",
+            render: (data) => {
+              return <p>{data.usedProjectIds.length}</p>;
+            },
+            editable: "never",
+          },
+          {
+            title: "Updated",
+            field: "updatedAt",
+            render: (data) => new Date(data.updatedAt).toDateString(),
+            editable: "never",
+          },
+          {
             title: "Created",
             field: "createdAt",
             render: (data) => new Date(data.createdAt).toDateString(),

@@ -27,28 +27,6 @@ interface Props {
 const validationSchema = yup.object().shape({
   name: yup.string().required("Required!"),
   //   image: yup.string().required("Required!"),
-  logo: yup
-    .mixed()
-    .required("Image is required")
-    // .test("fileSize", "Image size is too large", (value: any) => {
-    //   if (value) {
-    //     const maxSize = 300 * 1024;
-    //     return value.size <= maxSize;
-    //   }
-    //   return true;
-    // })
-    .test("fileType", "Invalid file type", (value: any) => {
-      if (value) {
-        const supportedFormats = [
-          "image/jpeg",
-          "image/png",
-          "image/gif",
-          "image/svg+xml",
-        ];
-        return supportedFormats.includes(value.type);
-      }
-      return true;
-    }),
 });
 const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
   const { data: technologies, isLoading } = useFetch<{
@@ -59,7 +37,7 @@ const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
   const { change } = useChange();
   const initialValues = {
     name: `${technologies?.name ? technologies?.name : ""}`,
-    logo: `${technologies?.logo ? technologies?.logo : []}`,
+    logo: `${technologies?.logo ? technologies?.logo : ""}`,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);

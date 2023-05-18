@@ -27,14 +27,14 @@ interface Props {
 }
 const TechnologyGrid = ({ data, mutate }: Props) => {
   return (
-    <section className="my-8">
-      <Grid container spacing={3}>
+    <section className="my-4">
+      <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
         {data?.map((item: any) => (
-          <Grid key={item?.id} item lg={3}>
+          <div key={item?.id}>
             <CardContent item={item} mutate={mutate} />
-          </Grid>
+          </div>
         ))}
-      </Grid>
+      </div>
     </section>
   );
 };
@@ -157,10 +157,18 @@ const CardContent = ({ item, mutate }: any) => {
             photo={item?.logo}
           />
         </div>
-        <div className="flex items-center pb-4 justify-center px-2">
+        <div className="flex items-center py-1 justify-center px-2">
           <span className="text-xl font-semibold tracking-wide text-gray-600">
             {item?.name}
           </span>
+        </div>
+        <div className="w-full pb-3 px-2 flex gap-2 justify-center">
+          <div className=" py-1 rounded-lg text-gray-600 flex items-center gap-2 px-4">
+            <p className="font-semibold tracking-wide text-sm">
+              Total Project :
+            </p>
+            {item?.usedProjectIds?.length}
+          </div>
         </div>
       </div>
     </>

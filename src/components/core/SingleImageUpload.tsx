@@ -32,15 +32,15 @@ const SingleImageUpload = ({ values, setImageValue, children }: Props) => {
             }
           />
           <div className="text-red-500">{children}</div>
-          {values.image && (
+          {values?.image && (
             <img
               className="w-24 object-contain"
-              src={URL.createObjectURL(values.image)}
+              src={URL?.createObjectURL(values?.image)}
               alt="Preview"
             />
           )}
         </div>
-        <p>Upload Logo (200 * 300)</p>
+        <p>Upload Image (200 * 300)</p>
         <p>Maximum size : 200kb</p>
         <CloudUpload fontSize="large" color="primary" />
       </div>

@@ -73,7 +73,7 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
         onClose={() => setIsInfo({ dialogue: false })}
         roleId={isInfo?.role?.id}
       />
-      <div className="mt-4">
+      <div className="my-4">
         <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
           {data?.map((item: any) => (
             <div key={item?.id}>
