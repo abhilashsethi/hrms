@@ -41,6 +41,7 @@ export type Card = {
   userId: string | null;
   user: User | null;
   validFrom?: string | null;
+  validTill?: string | null;
   guestId?: string | null;
 };
 
