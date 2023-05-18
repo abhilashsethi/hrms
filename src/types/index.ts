@@ -40,6 +40,8 @@ export type Card = {
 	updatedAt: Date;
 	userId: string | null;
 	user: User | null;
+	validFrom?: string | null;
+	guestId?: string | null;
 };
 
 export type Attendance = {

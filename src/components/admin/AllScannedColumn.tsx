@@ -1,7 +1,12 @@
 import MaterialTable from "@material-table/core";
-import { QrCodeScannerRounded, AddCardRounded } from "@mui/icons-material";
+import {
+  QrCodeScannerRounded,
+  AddCardRounded,
+  Done,
+  PersonRemoveRounded,
+} from "@mui/icons-material";
 import { IconButton, Paper, Tooltip } from "@mui/material";
-import { HeadStyle, IOSSwitch, Loader } from "components/core";
+import { CopyClipboard, HeadStyle, IOSSwitch, Loader } from "components/core";
 import { CardAssign } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";
@@ -48,6 +53,32 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
       }
     });
   };
+  const handleRemove = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to remove employee!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!",
+    }).then(async (result) => {
+      try {
+        if (result.isConfirmed) {
+          const response = await change(`cards/${id}`, {
+            method: "DELETE",
+          });
+          if (response?.status !== 200) {
+            Swal.fire("Error", "Something went wrong!", "error");
+          }
+          Swal.fire("Success", "Removed successfully!", "success");
+          mutate();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
   return (
     <div>
       <CardAssign
@@ -65,7 +96,27 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
             <HeadStyle name="Scanned Cards" icon={<QrCodeScannerRounded />} />
           }
           isLoading={!data}
-          data={data ? getDataWithSL<Card>(data) : []}
+          data={
+            !data
+              ? []
+              : (data?.map((_, i: number) => ({
+                  ..._,
+                  sl: i + 1,
+                  employeeId: _?.user?.employeeID,
+                  userType:
+                    _?.user?.employeeID && !_?.validFrom
+                      ? "Employee"
+                      : _?.validFrom
+                      ? "Guest"
+                      : "---",
+                  userID:
+                    _?.user?.employeeID && !_?.validFrom
+                      ? _?.user?.employeeID
+                      : _?.validFrom
+                      ? _?.guestId
+                      : "---",
+                })) as Card[])
+          }
           options={{ ...MuiTblOptions() }}
           columns={[
             {
@@ -90,16 +141,36 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
               }, {}),
             },
             {
-              title: "Last Updated",
-              field: "updatedAt",
-              render: (data) => clock(data.updatedAt).fromNow(),
-              editable: "never",
+              title: "ID",
+              field: "userID",
+              emptyValue: "Not Assigned",
+              render: (item: any) => {
+                return (
+                  <span className="font-semibold text-gray-600">
+                    <CopyClipboard value={item?.userID} />
+                  </span>
+                );
+              },
+              // editable: "never",
             },
             {
-              title: "Created",
-              field: "createdAt",
-              render: (data) => new Date(data.createdAt).toDateString(),
-              editable: "never",
+              title: "User Type",
+              field: "userType",
+              emptyValue: "---",
+              // editable: "never",
+            },
+            {
+              title: "ID",
+              field: "employeeId",
+              emptyValue: "Not Assigned",
+              render: (item) => {
+                return (
+                  <span className="font-semibold text-gray-600">
+                    <CopyClipboard value={item?.user?.employeeID} />
+                  </span>
+                );
+              },
+              // editable: "never",
             },
             {
               title: "Unblock / Block",
@@ -114,27 +185,57 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
               editable: "never",
             },
             {
-              title: "Assign User",
-              field: "createdAt",
+              title: "Assign / Remove",
+              field: "employeeId",
               render: (data) => (
-                <div>
-                  <Tooltip title="Assign User">
-                    <IconButton
-                      onClick={() => {
-                        setIsAssign({
-                          drawer: true,
-                          activeCardId: data?.cardId,
-                        });
-                      }}
-                    >
-                      <AddCardRounded
-                        className="!text-theme"
-                        fontSize="large"
-                      />
-                    </IconButton>
-                  </Tooltip>
-                </div>
+                <>
+                  {data?.user?.employeeID && !data?.validFrom ? (
+                    <Tooltip title="Remove Person">
+                      <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                        <IconButton onClick={() => handleRemove(data?.cardId)}>
+                          <PersonRemoveRounded className="!text-red-500" />
+                        </IconButton>
+                      </div>
+                    </Tooltip>
+                  ) : data?.validFrom ? (
+                    <Tooltip title="Remove Person">
+                      <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                        <IconButton onClick={() => handleRemove(data?.cardId)}>
+                          <PersonRemoveRounded className="!text-red-500" />
+                        </IconButton>
+                      </div>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip title="Assign User">
+                      <IconButton
+                        onClick={() => {
+                          setIsAssign({
+                            drawer: true,
+                            activeCardId: data?.cardId,
+                          });
+                        }}
+                      >
+                        <AddCardRounded
+                          className="!text-theme"
+                          fontSize="large"
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </>
               ),
+              editable: "never",
+            },
+            {
+              title: "Last Updated",
+              field: "updatedAt",
+              render: (data) => clock(data.updatedAt).fromNow(),
+              editable: "never",
+            },
+            {
+              title: "Created",
+              field: "createdAt",
+              render: (data) => new Date(data.createdAt).toDateString(),
               editable: "never",
             },
           ]}
@@ -167,3 +268,28 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
 };
 
 export default AllScannedColumn;
+
+const GuestDetails = ({ id }: any) => {
+  const { data: guestData } = useFetch<{
+    name?: string;
+    email?: string;
+    designation?: string;
+    gender?: string;
+  }>(`guests/${id}`);
+  return (
+    <div className="w-[70%] flex flex-col items-end text-right tracking-wide">
+      {/* <p className="text-xs text-blue-900 font-semibold">
+        <span>GUEST ID : </span>
+        {item?.user?.employeeID}
+      </p> */}
+      <p className="text-xs text-blue-900 font-semibold">
+        <span>GUEST NAME : </span> {guestData?.name}
+      </p>
+      <p className="text-xs text-slate-900 font-semibold">
+        {guestData?.designation}
+      </p>
+      <p className="text-xs text-blue-900 tracking-wide">{guestData?.email}</p>
+      <p className="text-xs text-blue-900 tracking-wide">{guestData?.gender}</p>
+    </div>
+  );
+};

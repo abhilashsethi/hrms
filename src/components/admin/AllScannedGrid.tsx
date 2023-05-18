@@ -6,12 +6,13 @@ import {
 } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import { IOSSwitch } from "components/core";
-import { useChange } from "hooks";
+import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { Card } from "types";
 import { CardAssign, RoomAccessDrawer } from "components/drawer";
 import { DEFAULTPROFILE, ID } from "assets/home";
+import moment from "moment";
 
 interface Props {
   data?: Card[];
@@ -22,7 +23,14 @@ const AllScannedGrid = ({ data, mutate }: Props) => {
   return (
     <>
       <div className="mt-2">
-        <Grid container spacing={3}>
+        <Grid
+          container
+          spacing={{
+            xs: 1,
+            sm: 2,
+            md: 3,
+          }}
+        >
           {data?.map((item: any) => (
             <Grid key={item?.id} item lg={4} xl={3} md={2} sm={12}>
               <CardComponent item={item} mutate={mutate} />
@@ -42,7 +50,11 @@ interface Props {
 }
 
 const CardComponent = ({ item, mutate }: Props) => {
-  const [isAccess, setIsAccess] = useState(false);
+  const [isValidity, setIsValidity] = useState(false);
+  const [isAccess, setIsAccess] = useState<{
+    dialogue?: boolean;
+    cardId?: string | null;
+  }>({ dialogue: false, cardId: null });
   const [isAssign, setIsAssign] = useState<{
     drawer?: boolean;
     activeCardId?: string | null;
@@ -130,8 +142,12 @@ const CardComponent = ({ item, mutate }: Props) => {
   };
   return (
     <>
-      <RoomAccessDrawer open={isAccess} onClose={() => setIsAccess(false)} />
-      <div className="flex items-center justify-center w-full h-full cursor-pointer">
+      <RoomAccessDrawer
+        open={isAccess?.dialogue}
+        onClose={() => setIsAccess({ dialogue: false })}
+        cardId={isAccess?.cardId}
+      />
+      <div className=" flex items-center justify-center w-full h-full cursor-pointer">
         <div
           className="w-[18rem] h-[29.5rem] bg-contain group bg-no-repeat shadow-lg rounded-xl overflow-hidden"
           style={{
@@ -212,7 +228,14 @@ const CardComponent = ({ item, mutate }: Props) => {
                         </Tooltip>
                         <Tooltip title="Room Access">
                           <div className="h-10 w-10 bg-white shadow-lg rounded-full">
-                            <IconButton onClick={() => setIsAccess(true)}>
+                            <IconButton
+                              onClick={() => {
+                                setIsAccess({
+                                  dialogue: true,
+                                  cardId: item?.cardId,
+                                });
+                              }}
+                            >
                               <MeetingRoomRounded className="!text-black" />
                             </IconButton>
                           </div>
@@ -228,6 +251,85 @@ const CardComponent = ({ item, mutate }: Props) => {
                         />
                       </div>
                     </div>
+                  </div>
+                </>
+              ) : item?.guestId ? (
+                <>
+                  <div className="w-full flex justify-between items-start gap-4 px-4 py-2">
+                    <div className="w-[30%] flex items-center">
+                      <img
+                        src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SearchingYard.com"
+                        alt="QR Code"
+                        className="w-12 h-12 "
+                      />
+                    </div>
+                    <GuestDetails id={item?.guestId} data={item} />
+                  </div>
+                  <div className="absolute bottom-0 w-full h-40 translate-y-[100%] group-hover:translate-y-[0%] transition-all ease-in-out duration-300 bg-slate-700 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gray-100">
+                    <div className="flex justify-center pt-2">
+                      <div className="w-12 bg-white rounded-full px-2 py-[0.2rem]">
+                        <div className="border-b-2 border-black"></div>
+                      </div>
+                    </div>
+                    <div className="w-full flex flex-col items-center justify-center gap-2 mt-2">
+                      <div className="flex items-center gap-4">
+                        <Tooltip title="Delete Card">
+                          <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                            <IconButton onClick={() => handleDelete(item?.id)}>
+                              <Delete className="!text-youtube" />
+                            </IconButton>
+                          </div>
+                        </Tooltip>
+                        <Tooltip title="Remove Person">
+                          <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                            <IconButton
+                              onClick={() => handleRemove(item?.cardId)}
+                            >
+                              <PersonRemoveRounded className="!text-theme" />
+                            </IconButton>
+                          </div>
+                        </Tooltip>
+                        <Tooltip title="Room Access">
+                          <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                            <IconButton
+                              onClick={() =>
+                                setIsAccess({
+                                  dialogue: true,
+                                  cardId: item?.cardId,
+                                })
+                              }
+                            >
+                              <MeetingRoomRounded className="!text-black" />
+                            </IconButton>
+                          </div>
+                        </Tooltip>
+                      </div>
+                      <div className="flex flex-col items-center gap-1">
+                        <p className="font-semibold tracking-wide text-sm">
+                          Unblock/Block
+                        </p>
+                        <IOSSwitch
+                          checked={item?.isBlocked}
+                          onChange={(e) => handleBlock(e, item?.cardId)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="px-4 flex gap-4 w-full">
+                    <h1 className="text-xs w-1/2 text-blue-900 tracking-wide flex flex-col">
+                      <span className="font-semibold text-slate-800 underline">
+                        Valid From
+                      </span>
+                      <span>{moment(item?.validFrom).format("ll")}</span>
+                      <span>{moment(item?.validFrom).format("HH:MM A")}</span>
+                    </h1>
+                    <h1 className="text-xs w-1/2 text-blue-900 tracking-wide flex flex-col">
+                      <span className="font-semibold text-slate-800 underline">
+                        Valid From
+                      </span>
+                      <span>{moment(item?.validTill).format("ll")}</span>
+                      <span>{moment(item?.validTill).format("HH:MM A")}</span>
+                    </h1>
                   </div>
                 </>
               ) : (
@@ -267,6 +369,7 @@ const CardComponent = ({ item, mutate }: Props) => {
                 </div>
               )}
             </div>
+
             <div className="w-full flex items-center justify-center gap-2"></div>
           </div>
         </div>
@@ -278,6 +381,35 @@ const CardComponent = ({ item, mutate }: Props) => {
         mutate={mutate}
       />
     </>
+  );
+};
+
+interface Props {
+  id?: string;
+  data?: Card[];
+}
+
+const GuestDetails = ({ id, data }: Props) => {
+  const { data: guestData } = useFetch<{
+    name?: string;
+    email?: string;
+    designation?: string;
+    gender?: string;
+  }>(`guests/${id}`);
+  return (
+    <div className="w-[70%] flex flex-col items-end text-right tracking-wide">
+      {/* <p className="text-xs text-blue-900 font-semibold">
+        <span>GUEST ID : </span>
+        {item?.user?.employeeID}
+      </p> */}
+      <p className="text-xs text-blue-900 font-semibold">
+        <span>GUEST NAME : </span> {guestData?.name}
+      </p>
+      <p className="text-xs text-slate-900 font-semibold">
+        {guestData?.designation}
+      </p>
+      <p className="text-xs text-blue-900 tracking-wide">{guestData?.email}</p>
+    </div>
   );
 };
 

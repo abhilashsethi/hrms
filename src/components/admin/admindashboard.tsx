@@ -19,71 +19,6 @@ import { useState, MouseEvent } from "react";
 // import "react-datepicker/dist/react-datepicker.css";
 
 const AdminDashboard = () => {
-  //   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  //   const [selectedDate, setSelectedDate] = useState<any>(new Date());
-  //   const open = Boolean(anchorEl);
-  //   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-  //     setAnchorEl(event.currentTarget);
-  //   };
-  //   const handleClose = () => {
-  //     setAnchorEl(null);
-  //   };
-  //   function handleDateChange(date: any) {
-  //     setSelectedDate(date);
-  //   }
-
-  const Quick_Access = [
-    {
-      id: 1,
-      icon: <ExitToApp fontSize="medium" className="text-white" />,
-      title: "Leaves",
-      color: "bg-[#673ab7]",
-      link: "/admin/leaves/all-leaves",
-    },
-    {
-      id: 2,
-      icon: <Groups3 fontSize="medium" className="text-white" />,
-      title: "Roles",
-      color: "bg-[#e91e63]",
-      link: "/admin/roles/all-roles",
-    },
-    {
-      id: 3,
-      icon: <Diversity2 fontSize="medium" className="text-white" />,
-      title: "Departments",
-      color: "bg-[#ff9800]",
-      link: "/admin/department/all-department",
-    },
-    {
-      id: 4,
-      icon: <MeetingRoom fontSize="medium" className="text-white" />,
-      title: "Meetings",
-      color: "bg-[#00bcd4]",
-      link: "/admin/meetings/all-meetings",
-    },
-    {
-      id: 5,
-      icon: <People fontSize="medium" className="text-white" />,
-      title: "Clients",
-      color: "bg-[#607d8b]",
-      link: "/admin/clients/all-clients",
-    },
-    {
-      id: 6,
-      icon: <Construction fontSize="medium" className="text-white" />,
-      title: "Technologies",
-      color: "bg-[#3f51b5]",
-      link: "/admin/technologies/all-technologies",
-    },
-    {
-      id: 7,
-      icon: <SupportAgent fontSize="medium" className="text-white" />,
-      title: "Support",
-      color: "bg-[#4caf50]",
-      link: "/admin/support",
-    },
-  ];
-
   return (
     <>
       <div className="flex gap-2 py-4 md:flex-row flex-col">
@@ -349,6 +284,58 @@ const cards = [
     count: "43",
     title: "Projects",
     color: "bg-[#feb76f]",
+  },
+];
+
+const Quick_Access = [
+  {
+    id: 1,
+    icon: <ExitToApp fontSize="medium" className="text-white" />,
+    title: "Leaves",
+    color: "bg-[#673ab7]",
+    link: "/admin/leaves/all-leaves",
+  },
+  {
+    id: 2,
+    icon: <Groups3 fontSize="medium" className="text-white" />,
+    title: "Roles",
+    color: "bg-[#e91e63]",
+    link: "/admin/roles/all-roles",
+  },
+  {
+    id: 3,
+    icon: <Diversity2 fontSize="medium" className="text-white" />,
+    title: "Departments",
+    color: "bg-[#ff9800]",
+    link: "/admin/department/all-department",
+  },
+  {
+    id: 4,
+    icon: <MeetingRoom fontSize="medium" className="text-white" />,
+    title: "Meetings",
+    color: "bg-[#00bcd4]",
+    link: "/admin/meetings/all-meetings",
+  },
+  {
+    id: 5,
+    icon: <People fontSize="medium" className="text-white" />,
+    title: "Clients",
+    color: "bg-[#607d8b]",
+    link: "/admin/clients/all-clients",
+  },
+  {
+    id: 6,
+    icon: <Construction fontSize="medium" className="text-white" />,
+    title: "Technologies",
+    color: "bg-[#3f51b5]",
+    link: "/admin/technologies/all-technologies",
+  },
+  {
+    id: 7,
+    icon: <SupportAgent fontSize="medium" className="text-white" />,
+    title: "Support",
+    color: "bg-[#4caf50]",
+    link: "/admin/support",
   },
 ];
 

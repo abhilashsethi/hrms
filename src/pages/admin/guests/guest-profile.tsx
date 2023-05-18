@@ -28,8 +28,9 @@ const GuestProfile = () => {
     data: guestData,
     mutate,
     isLoading,
-  } = useFetch<User>(`guests/${router?.query?.id}`);
+  } = useFetch<any>(`guests/${router?.query?.id}`);
   const { change } = useChange();
+  console.log(guestData);
   const basicDetails = [
     {
       id: 1,
@@ -43,31 +44,24 @@ const GuestProfile = () => {
     },
     {
       id: 3,
-      title: "GuestId",
-      value: `${guestData?.employeeID ? guestData?.employeeID : "---"}`,
+      title: "Designation",
+      value: `${guestData?.designation ? guestData?.designation : "---"}`,
     },
-    {
-      id: 4,
-      title: "Valid From",
-      value: `${
-        guestData?.joiningDate
-          ? moment(guestData?.joiningDate).format("ll")
-          : "---"
-      }`,
-    },
-    {
-      id: 5,
-      title: "Valid Till",
-      value: `${
-        guestData?.joiningDate
-          ? moment(guestData?.joiningDate).format("ll")
-          : "---"
-      }`,
-    },
+
     {
       id: 6,
       title: "Phone",
       value: `${guestData?.phone ? guestData?.phone : "---"}`,
+    },
+    {
+      id: 7,
+      title: "Gender",
+      value: `${guestData?.gender ? guestData?.gender : "---"}`,
+    },
+    {
+      id: 9,
+      title: "Company",
+      value: `${guestData?.company ? guestData?.company : "---"}`,
     },
   ];
   const roomDetails = [
@@ -150,8 +144,8 @@ const GuestProfile = () => {
           open={isDialogue}
           handleClose={() => setIsDialogue(false)}
         />
-        <div className="grid grid-cols-3 gap-4 py-6">
-          <div className="bg-theme-400 rounded-lg grid justify-items-center py-4 px-4 shadow-lg shadow-gray-600">
+        <div className="grid md:grid-cols-3 w-full gap-4 py-6">
+          <div className="bg-theme-400 w-full rounded-lg grid justify-items-center py-4 px-4 shadow-lg shadow-gray-600">
             <div className="h-32 w-32 rounded-full border-[4px] border-white flex justify-center items-center text-3xl">
               <div className="relative h-full w-full flex justify-center items-center group">
                 {guestData?.photo && (
@@ -165,29 +159,23 @@ const GuestProfile = () => {
                 )}
                 {!guestData?.photo && (
                   <div className="h-full w-full text-white rounded-full uppercase shadow-lg flex justify-center items-center text-4xl font-bold bg-gradient-to-br from-theme-100 via-theme-50 to-secondary-100">
-                    {guestData?.name.slice(0, 1) || "J"}
+                    {guestData?.name.slice(0, 1) || "---"}
                   </div>
                 )}
-                <div
-                  onClick={() => setIsProfile(true)}
-                  className="absolute cursor-pointer rounded-full w-full h-full group-hover:flex transition-all ease-in-out duration-300 justify-center items-center hidden  bg-[#0007]"
-                >
-                  <Edit className="!text-white" />
-                </div>
               </div>
             </div>
             <h2 className="pt-2 pb-1 text-xl text-white font-bold tracking-wide">
-              {guestData?.name || "John Doi"}
+              {guestData?.name || "---"}
             </h2>
             <h4 className="text-white font-semibold">
-              {guestData?.email || "john.doi@sy.com"}
+              {guestData?.email || "---"}
             </h4>
             <span className="text-white font-semibold">
-              <CopyClipboard value={guestData?.employeeID || "YARD20036"} />
+              {guestData?.company || "---"}
             </span>
           </div>
-          <div className="col-span-2 bg-white py-4 px-4 shadow-lg shadow-gray-600 rounded-lg">
-            <div className="grid grid-cols-2 gap-4">
+          <div className="md:col-span-2 bg-white py-4 px-4 shadow-lg shadow-gray-600 rounded-lg">
+            <div className="grid md:grid-cols-2 gap-4">
               <section className="py-2 px-2">
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Basic Details" />
@@ -200,13 +188,17 @@ const GuestProfile = () => {
                 {basicDetails?.map((item) => (
                   <div
                     key={item?.id}
-                    className="flex gap-2 items-center font-medium py-1.5"
+                    className="md:flex gap-2 items-center font-medium py-1.5"
                   >
-                    <div className="w-[30%]">
-                      <p className="text-sm text-gray-600">{item?.title} :</p>
+                    <div className="md:w-[30%]">
+                      <p className="text-sm md:text-gray-600">
+                        {item?.title} :
+                      </p>
                     </div>
-                    <div className="w-2/3">
-                      <p className="text-sm">{item?.value}</p>
+                    <div className="md:w-2/3">
+                      <p className="text-sm md:text-black text-gray-600">
+                        {item?.value}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -218,9 +210,9 @@ const GuestProfile = () => {
                 {roomDetails?.map((item) => (
                   <div
                     key={item?.id}
-                    className="grid grid-cols-2 gap-2 items-center font-medium py-1.5"
+                    className="grid grid-cols-3 gap-2 items-center font-medium py-1.5"
                   >
-                    <div className="">
+                    <div className="col-span-2">
                       <p className="text-sm text-gray-600">{item?.name} :</p>
                     </div>
                     <div className="">
@@ -241,12 +233,7 @@ const GuestProfile = () => {
             <h1 className="text-xl font-bold tracking-wide">
               Visitor Information{" "}
             </h1>
-            <p className="py-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam
-              temporibus deserunt quos nobis corrupti nihil at rerum ut, sint
-              perspiciatis necessitatibus excepturi atque quidem in? Recusandae
-              atque placeat amet architecto.
-            </p>
+            <p className="py-2">{guestData?.visitInfo}</p>
           </div>
         </section>
       </section>

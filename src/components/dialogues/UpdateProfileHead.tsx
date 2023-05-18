@@ -26,8 +26,12 @@ interface Props {
   mutate?: any;
 }
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required!"),
-  email: Yup.string().required("Email is required!"),
+  name: Yup.string()
+    .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name must be less than 50 characters")
+    .required("Name is required!"),
+  email: Yup.string().email("Invalid gmail address"),
   employeeID: Yup.string().required("Employee ID is required!"),
   phone: Yup.string().required("Phone No is required!"),
   dob: Yup.string().required("Date of Birth is required!"),

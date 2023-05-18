@@ -191,14 +191,6 @@ const CardContent = ({ item, mutate }: any) => {
               Details
             </MenuItem>
           </Link>
-          <Link href={`/admin/employees/employee-profile?id=${item?.id}`}>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <EditRounded fontSize="small" />
-              </ListItemIcon>
-              Edit
-            </MenuItem>
-          </Link>
           <MenuItem onClick={() => handleDelete(item)}>
             <ListItemIcon>
               <DeleteRounded fontSize="small" />
