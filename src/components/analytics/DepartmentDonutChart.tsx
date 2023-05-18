@@ -62,7 +62,7 @@ const DepartmentDonutChart = ({
             breakpoint: 480,
             options: {
               chart: {
-                width: 200,
+                width: 230,
               },
               legend: {
                 position: "bottom",
@@ -70,6 +70,19 @@ const DepartmentDonutChart = ({
             },
           },
         ],
+        // responsive: [
+        //   {
+        //     breakpoint: 480,
+        //     options: {
+        //       chart: {
+        //         width: 200,
+        //       },
+        //       legend: {
+        //         position: "bottom",
+        //       },
+        //     },
+        //   },
+        // ],
         labels,
         colors,
 
