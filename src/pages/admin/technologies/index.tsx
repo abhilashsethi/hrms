@@ -12,20 +12,16 @@ const Technologies = () => {
   const { data: roleDataCard } = useFetch<any>(
     `roles?page=${pageNumber}&limit=3`
   );
-  const { data: techDashboard } = useFetch<any>(`technologies/dashboard'`);
+  const { data: techDashboard } = useFetch<any>(
+    `technologies/dashboard/details`
+  );
   console.log(techDashboard);
   return (
     <PanelLayout title="Technologies - HRMS Searchingyard">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
-        <DashBoardCardTech
-          dashboardData={techDashboard}
-          roleCard={roleDataCard}
-        />
-        <DashboardChartsTech
-          dashboardData={techDashboard}
-          roleCard={roleDataCard}
-        />
+        <DashBoardCardTech dashboardData={techDashboard} />
+        <DashboardChartsTech dashboardData={techDashboard} />
       </section>
     </PanelLayout>
   );

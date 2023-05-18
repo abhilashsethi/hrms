@@ -3,6 +3,7 @@ import { PeopleRounded, PersonRounded } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { CopyClipboard, HeadStyle, IOSSwitch } from "components/core";
 import { useChange } from "hooks";
+import moment from "moment";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
@@ -84,13 +85,25 @@ const GuestColumn = ({ data, mutate }: Props) => {
           {
             title: "Valid From",
             field: "valid",
-            render: (data) => new Date(data.valid).toDateString(),
+            render: (data) => {return(
+              <div>
+              {data?.card.length
+                ? moment(data?.card[0]?.validFrom).format("lll")
+                : "---"}
+                </div>
+            )},
             editable: "never",
           },
           {
             title: "Valid Till",
             field: "valid",
-            render: (data) => new Date(data.valid).toDateString(),
+            render: (data) => {return(
+              <div>
+              {data?.card.length
+                ? moment(data?.card[0]?.validTill).format("lll")
+                : "---"}
+                </div>
+            )},
             editable: "never",
           },
 
