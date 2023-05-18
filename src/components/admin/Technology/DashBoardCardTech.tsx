@@ -19,15 +19,15 @@ const DashBoardCardTech = ({ dashboardData, roleCard }: Props) => {
                 </div>
               </div>
               <span className=" text-theme font-semibold text-center tracking-wide text-lg">
-                Total Roles
+                Total Technology
               </span>
               <span className="text-xl text-theme text-center font-semibold">
-                {dashboardData?.totalRoles}
+                {dashboardData?.totalTechnology}
               </span>
             </div>
           </div>
 
-          {roleCard?.roles?.map((item: any) => (
+          {roleCard?.technology?.map((item: any) => (
             <>
               <div key={item?.id}>
                 <div className="border-4 border-b-theme h-32 bg-white w-full py-4 px-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-300 ease-in-out">

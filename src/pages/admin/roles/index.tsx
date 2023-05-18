@@ -12,7 +12,7 @@ const Roles = () => {
 
   return (
     <PanelLayout title="Roles - SY HR MS">
-      <section className="px-8 py-4">
+      <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
         <DashboardCards dashboardData={roleDashboard} roleCard={roleDataCard} />
         <DashboardCharts
