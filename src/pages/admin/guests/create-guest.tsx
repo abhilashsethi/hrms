@@ -23,6 +23,7 @@ const initialValues = {
   email: "",
   gender: "",
   visitInfo: "",
+  designation: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -42,6 +43,7 @@ const validationSchema = Yup.object().shape({
     .min(6)
     .max(15),
   gender: Yup.string().required("Gender is required!"),
+  designation: Yup.string().required("Designation is required!"),
   visitInfo: Yup.string().required("Visit information is required"),
 });
 
@@ -71,8 +73,6 @@ const CreateGuest = () => {
     } finally {
       setLoading(false);
     }
-
-    console.log(values);
   };
 
   const Gender = [
@@ -88,10 +88,10 @@ const CreateGuest = () => {
 
   return (
     <PanelLayout title="Create Guest - SY HR MS">
-      <section className="px-8 py-4">
+      <section className="md:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
         <section className="w-full px-2 py-4 flex justify-center items-center">
-          <div className="p-6 w-3/4 rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+          <div className="md:p-6 p-4 md:w-3/4 rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -109,7 +109,7 @@ const CreateGuest = () => {
                   <h1 className="text-2xl uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
                     Create Guest
                   </h1>
-                  <div className="grid lg:grid-cols-2">
+                  <div className="md:grid md:grid-cols-2">
                     <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="name">
@@ -148,7 +148,6 @@ const CreateGuest = () => {
                         helperText={touched.email && errors.email}
                       />
                     </div>
-
                     <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="phone">Phone</InputLabel>
@@ -164,6 +163,25 @@ const CreateGuest = () => {
                         onBlur={handleBlur}
                         error={touched.phone && !!errors.phone}
                         helperText={touched.phone && errors.phone}
+                      />
+                    </div>
+                    <div className="px-4 py-2">
+                      <div className="py-2">
+                        <InputLabel htmlFor="designation">
+                          designation
+                        </InputLabel>
+                      </div>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        placeholder="designation"
+                        id="designation"
+                        name="designation"
+                        value={values.designation}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.designation && !!errors.designation}
+                        helperText={touched.designation && errors.designation}
                       />
                     </div>
                     <div className="px-4 py-2">

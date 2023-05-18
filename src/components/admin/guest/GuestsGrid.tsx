@@ -30,13 +30,13 @@ interface Props {
 const GuestsGrid = ({ data, mutate }: Props) => {
   return (
     <section className="my-8">
-      <Grid container spacing={3}>
+      <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
         {data?.map((item: any) => (
-          <Grid key={item?.id} item lg={3}>
+          <div key={item?.id}>
             <CardContent item={item} mutate={mutate} />
-          </Grid>
+          </div>
         ))}
-      </Grid>
+      </div>
     </section>
   );
 };
@@ -163,13 +163,13 @@ const CardContent = ({ item, mutate }: any) => {
           <div className="grid gap-2 px-4 py-2 shadow-xl rounded-md text-center ">
             <p className="font-semibold">Valid From</p>
             <p className="text-gray-500 font-medium">
-              {moment(new Date().toISOString()).format("ll")}
+              {item?.valid ? item?.valid : "---"}
             </p>
           </div>
           <div className="grid gap-2 px-4 py-2 shadow-xl rounded-md text-center ">
             <p className="font-semibold">Valid Till</p>
             <p className="text-gray-500 font-medium">
-              {moment(new Date().toISOString()).format("ll")}
+              {item?.valid ? item?.valid : "---"}
             </p>
           </div>
         </div>
