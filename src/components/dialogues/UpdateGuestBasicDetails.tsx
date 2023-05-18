@@ -26,31 +26,36 @@ interface Props {
   mutate?: any;
 }
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required!"),
-  email: Yup.string().required("Email is required!"),
-  employeeID: Yup.string().required("Employee ID is required!"),
+  name: Yup.string()
+    .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name must be less than 50 characters")
+    .required("Name is required!"),
+  visitInfo: Yup.string()
+    .min(5, "visitInfo must be at least 5 characters")
+    .max(500, "visitInfo must be less than 500 characters"),
+  email: Yup.string().email("Invalid gmail address"),
   phone: Yup.string().required("Phone No is required!"),
-  validFrom: Yup.string().required("Valid from is required!"),
-  validTill: Yup.string().required("Valid till is required!"),
 });
 
 const UpdateGuestBasicDetails = ({ open, handleClose, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
-  const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
+  const { data: employData } = useFetch<any>(`guests/${router?.query?.id}`);
   const initialValues = {
     name: `${employData?.name ? employData?.name : ""}`,
-    employeeID: `${employData?.employeeID ? employData?.employeeID : ""}`,
+    company: `${employData?.company ? employData?.company : ""}`,
     phone: `${employData?.phone ? employData?.phone : ""}`,
     email: `${employData?.email ? employData?.email : ""}`,
-    validFrom: `${employData?.validFrom ? employData?.validFrom : ""}`,
-    validTill: `${employData?.validTill ? employData?.validTill : ""}`,
+    designation: `${employData?.designation ? employData?.designation : ""}`,
+    gender: `${employData?.gender ? employData?.gender : ""}`,
+    visitInfo: `${employData?.visitInfo ? employData?.visitInfo : ""}`,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      const res = await change(`users/${router?.query?.id}`, {
+      const res = await change(`guests/${router?.query?.id}`, {
         method: "PATCH",
         body: values,
       });
@@ -122,6 +127,7 @@ const UpdateGuestBasicDetails = ({ open, handleClose, mutate }: Props) => {
                         <TextField
                           fullWidth
                           name="name"
+                          size="small"
                           placeholder="Enter Name"
                           value={values.name}
                           onChange={handleChange}
@@ -136,6 +142,7 @@ const UpdateGuestBasicDetails = ({ open, handleClose, mutate }: Props) => {
                         </p>
                         <TextField
                           fullWidth
+                          size="small"
                           name="email"
                           placeholder="Enter Email"
                           value={values.email}
@@ -147,17 +154,18 @@ const UpdateGuestBasicDetails = ({ open, handleClose, mutate }: Props) => {
                       </div>
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Employee ID <span className="text-red-600">*</span>
+                          Company Name
                         </p>
                         <TextField
-                          name="employeeID"
+                          name="company"
                           fullWidth
-                          placeholder="Enter Employee ID"
-                          value={values.employeeID}
+                          size="small"
+                          placeholder="Enter Company Name"
+                          value={values.company}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.employeeID && !!errors.employeeID}
-                          helperText={touched.employeeID && errors.employeeID}
+                          error={touched.company && !!errors.company}
+                          helperText={touched.company && errors.company}
                         />
                       </div>
                       <div className="w-full">
@@ -166,6 +174,7 @@ const UpdateGuestBasicDetails = ({ open, handleClose, mutate }: Props) => {
                         </p>
                         <TextField
                           fullWidth
+                          size="small"
                           name="phone"
                           placeholder="Enter Phone No"
                           value={values.phone}
@@ -177,34 +186,59 @@ const UpdateGuestBasicDetails = ({ open, handleClose, mutate }: Props) => {
                       </div>
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Valid From <span className="text-red-600">*</span>
+                          Designation
                         </p>
                         <TextField
                           fullWidth
-                          type="date"
-                          name="validFrom"
-                          placeholder="Enter Valid From"
-                          value={values.validFrom}
+                          size="small"
+                          type="text"
+                          name="designation"
+                          placeholder="Enter Designation"
+                          value={values.designation}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.validFrom && !!errors.validFrom}
-                          helperText={touched.validFrom && errors.validFrom}
+                          error={touched.designation && !!errors.designation}
+                          helperText={touched.designation && errors.designation}
                         />
                       </div>
                       <div className="w-full">
+                        <p className="text-theme font-semibold my-2">Gender</p>
+                        <TextField
+                          select
+                          fullWidth
+                          size="small"
+                          name="gender"
+                          placeholder="Gender"
+                          value={values.gender}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.gender && !!errors.gender}
+                          helperText={touched.gender && errors.gender}
+                        >
+                          {genders.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.value}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </div>
+                      <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Valid Till <span className="text-red-600">*</span>
+                          Visitor Information{" "}
                         </p>
                         <TextField
                           fullWidth
-                          type="date"
-                          name="validTill"
-                          placeholder="Enter Valid Till"
-                          value={values.validTill}
+                          size="small"
+                          type="text"
+                          rows={4}
+                          multiline
+                          name="visitInfo"
+                          placeholder="Enter Visitor Information"
+                          value={values.visitInfo}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.validTill && !!errors.validTill}
-                          helperText={touched.validTill && errors.validTill}
+                          error={touched.visitInfo && !!errors.visitInfo}
+                          helperText={touched.visitInfo && errors.visitInfo}
                         />
                       </div>
                     </div>
