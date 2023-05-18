@@ -4,11 +4,13 @@ import {
   AddCardRounded,
   Done,
   PersonRemoveRounded,
+  MeetingRoomRounded,
 } from "@mui/icons-material";
 import { IconButton, Paper, Tooltip } from "@mui/material";
 import { CopyClipboard, HeadStyle, IOSSwitch, Loader } from "components/core";
-import { CardAssign } from "components/drawer";
+import { CardAssign, RoomAccessDrawer } from "components/drawer";
 import { useChange, useFetch } from "hooks";
+import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Card, User } from "types";
@@ -19,6 +21,10 @@ interface Props {
 }
 
 const AllScannedColumn = ({ data, mutate }: Props) => {
+  const [isAccess, setIsAccess] = useState<{
+    dialogue?: boolean;
+    cardId?: string | null;
+  }>({ dialogue: false, cardId: null });
   const [isAssign, setIsAssign] = useState<{
     drawer?: boolean;
     activeCardId?: string | null;
@@ -87,6 +93,12 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
         onClose={() => setIsAssign({ drawer: false })}
         mutate={mutate}
       />
+      <RoomAccessDrawer
+        mutate={mutate}
+        open={isAccess?.dialogue}
+        onClose={() => setIsAccess({ dialogue: false })}
+        cardId={isAccess?.cardId}
+      />
       <div className="mt-4">
         <MaterialTable
           components={{
@@ -102,19 +114,27 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
               : (data?.map((_, i: number) => ({
                   ..._,
                   sl: i + 1,
-                  employeeId: _?.user?.employeeID,
-                  userType:
-                    _?.user?.employeeID && !_?.validFrom
-                      ? "Employee"
-                      : _?.validFrom
-                      ? "Guest"
-                      : "---",
-                  userID:
-                    _?.user?.employeeID && !_?.validFrom
-                      ? _?.user?.employeeID
-                      : _?.validFrom
-                      ? _?.guestId
-                      : "---",
+                  name: _?.userId
+                    ? _?.user?.name
+                    : _?.guestId
+                    ? "Guest ID"
+                    : "---",
+                  validFrom: _?.userId
+                    ? "---"
+                    : _?.guestId
+                    ? _?.validFrom
+                    : "---",
+                  validTill: _?.userId
+                    ? "---"
+                    : _?.guestId
+                    ? _?.validTill
+                    : "---",
+                  userType: _?.userId
+                    ? "Employee"
+                    : _?.guestId
+                    ? "Guest"
+                    : "---",
+                  userID: _?.userId ? _?.user?.employeeID : "---",
                 })) as Card[])
           }
           options={{ ...MuiTblOptions() }}
@@ -132,13 +152,13 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
             },
             {
               title: "Assigned User",
-              field: "userId",
-              editable: "never",
-              emptyValue: "Not Assigned",
-              lookup: users?.reduce((lookup: any, user) => {
-                lookup[user.id] = user.name;
-                return lookup;
-              }, {}),
+              field: "name",
+              // editable: "never",
+              // emptyValue: "Not Assigned",
+              // lookup: users?.reduce((lookup: any, user) => {
+              //   lookup[user.id] = user.name;
+              //   return lookup;
+              // }, {}),
             },
             {
               title: "ID",
@@ -147,7 +167,11 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
               render: (item: any) => {
                 return (
                   <span className="font-semibold text-gray-600">
-                    <CopyClipboard value={item?.userID} />
+                    {item?.user?.employeeID ? (
+                      <CopyClipboard value={item?.userID} />
+                    ) : (
+                      item?.userID
+                    )}
                   </span>
                 );
               },
@@ -157,19 +181,6 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
               title: "User Type",
               field: "userType",
               emptyValue: "---",
-              // editable: "never",
-            },
-            {
-              title: "ID",
-              field: "employeeId",
-              emptyValue: "Not Assigned",
-              render: (item) => {
-                return (
-                  <span className="font-semibold text-gray-600">
-                    <CopyClipboard value={item?.user?.employeeID} />
-                  </span>
-                );
-              },
               // editable: "never",
             },
             {
@@ -189,22 +200,32 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
               field: "employeeId",
               render: (data) => (
                 <>
-                  {data?.user?.employeeID && !data?.validFrom ? (
-                    <Tooltip title="Remove Person">
-                      <div className="h-10 w-10 bg-white shadow-lg rounded-full">
-                        <IconButton onClick={() => handleRemove(data?.cardId)}>
-                          <PersonRemoveRounded className="!text-red-500" />
-                        </IconButton>
-                      </div>
-                    </Tooltip>
-                  ) : data?.validFrom ? (
-                    <Tooltip title="Remove Person">
-                      <div className="h-10 w-10 bg-white shadow-lg rounded-full">
-                        <IconButton onClick={() => handleRemove(data?.cardId)}>
-                          <PersonRemoveRounded className="!text-red-500" />
-                        </IconButton>
-                      </div>
-                    </Tooltip>
+                  {data?.userId || data?.guestId ? (
+                    <div className="flex gap-2 items-center">
+                      <Tooltip title="Remove Person">
+                        <div className="h-10 w-10 bg-gradient-to-r from-red-500 to-red-400 shadow-lg rounded-full">
+                          <IconButton
+                            onClick={() => handleRemove(data?.cardId)}
+                          >
+                            <PersonRemoveRounded className="!text-white" />
+                          </IconButton>
+                        </div>
+                      </Tooltip>
+                      <Tooltip title="Room Access">
+                        <div className="h-10 w-10 bg-gradient-to-r from-theme-200 via-theme-50 to-secondary-200 shadow-lg rounded-full">
+                          <IconButton
+                            onClick={() =>
+                              setIsAccess({
+                                dialogue: true,
+                                cardId: data?.cardId,
+                              })
+                            }
+                          >
+                            <MeetingRoomRounded className="!text-blue-600" />
+                          </IconButton>
+                        </div>
+                      </Tooltip>
+                    </div>
                   ) : (
                     <Tooltip title="Assign User">
                       <IconButton
@@ -227,15 +248,57 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
               editable: "never",
             },
             {
+              title: "Valid From",
+              field: "validFrom",
+              emptyValue: "---",
+              render: (data) => {
+                return data?.guestId ? (
+                  <span className="text-xs">
+                    {moment(data.validFrom).format("lll")}
+                  </span>
+                ) : (
+                  "---"
+                );
+              },
+              // editable: "never",
+            },
+            {
+              title: "Valid Till",
+              field: "validTill",
+              emptyValue: "---",
+              render: (data) => {
+                return data?.guestId ? (
+                  <span className="text-xs">
+                    {moment(data.validTill).format("lll")}
+                  </span>
+                ) : (
+                  "---"
+                );
+              },
+              // editable: "never",
+            },
+            {
               title: "Last Updated",
               field: "updatedAt",
-              render: (data) => clock(data.updatedAt).fromNow(),
+              render: (data) => {
+                return (
+                  <span className="text-xs">
+                    {clock(data.updatedAt).fromNow()}
+                  </span>
+                );
+              },
               editable: "never",
             },
             {
               title: "Created",
               field: "createdAt",
-              render: (data) => new Date(data.createdAt).toDateString(),
+              render: (data) => {
+                return (
+                  <span className="text-xs">
+                    {new Date(data.createdAt).toDateString()}
+                  </span>
+                );
+              },
               editable: "never",
             },
           ]}
@@ -292,4 +355,17 @@ const GuestDetails = ({ id }: any) => {
       <p className="text-xs text-blue-900 tracking-wide">{guestData?.gender}</p>
     </div>
   );
+};
+
+const getEmployeeName = ({ id }: any) => {
+  const { data: empData } = useFetch<{
+    name?: string;
+  }>(`users/${id}`);
+  return empData?.name;
+};
+const getGuestName = ({ id }: any) => {
+  const { data: guestData } = useFetch<{
+    name?: string;
+  }>(`guests/${id}`);
+  return guestData?.name;
 };
