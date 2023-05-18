@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const RoleDonutChart = ({
+const TechnologyDonutChart = ({
   type,
   text = "",
   labels,
@@ -93,4 +93,4 @@ const RoleDonutChart = ({
   );
 };
 
-export default RoleDonutChart;
+export default TechnologyDonutChart;

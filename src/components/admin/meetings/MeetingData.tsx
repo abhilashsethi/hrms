@@ -21,7 +21,7 @@ import {
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Client } from "types";
+import { Client, MeetingTypes } from "types";
 import { ViewNotesDrawer, ViewTicketsDrawer } from "components/drawer";
 import { DEFAULTPROFILE, DOC, IMG, PDF, XLS } from "assets/home";
 import AddDocument from "components/dialogues/AddDocument";
@@ -43,12 +43,13 @@ const MeetingData = () => {
 		dialogue: false,
 		title: "Preview",
 	});
-
 	const {
-		data: clientData,
+		data: meetingData,
 		mutate,
 		isLoading,
-	} = useFetch<Client>(`clients/${router?.query?.id}`);
+	} = useFetch<MeetingTypes>(`meetings/${router?.query?.id}`);
+
+	console.log(meetingData);
 
 	if (isLoading) {
 		return <Loader />;
@@ -86,7 +87,7 @@ const MeetingData = () => {
 			<section className="mb-12 flex gap-3">
 				<div className="w-full m-auto rounded-lg bg-white shadow-xl p-4">
 					<div className="relative w-full bg-blue-100/50 rounded-lg p-4">
-						{/* <div className="absolute top-3 left-[25rem]">
+						<div className="absolute top-3 left-[25rem]">
 							<Button
 								variant="contained"
 								className="!bg-blue-500 "
@@ -96,7 +97,7 @@ const MeetingData = () => {
 							>
 								Edit
 							</Button>
-						</div> */}
+						</div>
 						<Grid container spacing={3}>
 							<Grid item lg={5}>
 								<div>
