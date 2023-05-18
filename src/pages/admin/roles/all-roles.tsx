@@ -26,9 +26,9 @@ const AllRoles = () => {
           mutate={mutate}
         />
 
-        <div className="flex justify-between items-center py-4">
+        <div className="lg:flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
-          <div className="flex gap-4 items-center">
+          <div className="md:flex gap-4 items-center">
             <div className="flex gap-1">
               <IconButton onClick={() => setIsGrid(true)} size="small">
                 <div
