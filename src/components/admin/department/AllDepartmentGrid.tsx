@@ -74,9 +74,9 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
         roleId={isInfo?.role?.id}
       />
       <div className="mt-4">
-        <Grid container spacing={3}>
+        <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-3 md:grid-cols-2">
           {data?.map((item: any) => (
-            <Grid key={item?.id} item lg={3}>
+            <div key={item?.id}>
               <div className="h-40 w-full hover:scale-105 ease-in-out transition-all duration-200 bg-white border-b-4 border-cyan-600 shadow-lg rounded-xl flex justify-center items-center">
                 <div className="flex flex-col items-center gap-4">
                   <p className="text-lg font-semibold tracking-wide capitalize">
@@ -122,9 +122,9 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
                   </div>
                 </div>
               </div>
-            </Grid>
+            </div>
           ))}
-        </Grid>
+        </div>
       </div>
     </>
   );

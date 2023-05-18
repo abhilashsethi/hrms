@@ -1,6 +1,9 @@
 import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
 import { Button, IconButton, Pagination, Stack } from "@mui/material";
-import { AllDepartmentColumn, AllDepartmentGrid } from "components/admin";
+import {
+  AllDepartmentColumn,
+  AllDepartmentGrid,
+} from "components/admin/department";
 import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
 import { CreateDepartment } from "components/dialogues";
 import { useFetch } from "hooks";
@@ -29,9 +32,9 @@ const AllDepartment = () => {
           mutate={mutate}
         />
 
-        <div className="flex justify-between items-center py-4">
+        <div className="lg:flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
-          <div className="flex gap-4 items-center">
+          <div className="md:flex gap-4 items-center">
             <div className="flex gap-1">
               <IconButton onClick={() => setIsGrid(true)} size="small">
                 <div
