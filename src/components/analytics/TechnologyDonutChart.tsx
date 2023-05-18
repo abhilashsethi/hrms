@@ -25,7 +25,7 @@ const TechnologyDonutChart = ({
         breakpoint: 480,
         options: {
           chart: {
-            width: 250,
+            width: 200,
           },
           legend: {
             position: "bottom",
@@ -62,7 +62,7 @@ const TechnologyDonutChart = ({
             breakpoint: 480,
             options: {
               chart: {
-                width: 250,
+                width: 200,
               },
               legend: {
                 position: "bottom",
