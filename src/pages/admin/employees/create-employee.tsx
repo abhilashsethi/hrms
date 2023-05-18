@@ -341,6 +341,7 @@ const CreateEmployee = () => {
                       }
                       variant="contained"
                       className="!bg-theme"
+                      disabled={loading}
                       startIcon={
                         loading ? <CircularProgress size={20} /> : <Check />
                       }
