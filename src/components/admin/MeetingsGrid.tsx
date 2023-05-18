@@ -15,14 +15,16 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
+import Swal from "sweetalert2";
 
 interface ARRAY {
 	id?: string;
 	address?: string;
+	title?: string;
 	clientEmail?: string;
 	clientName?: string;
 	clientPhone?: string;
@@ -53,6 +55,35 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 		id?: string | null;
 	}>({ dialogue: false, id: null });
 	// console.log(data);
+
+	const { change } = useChange();
+	const handleDelete = (id: string) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to delete!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then(async (result) => {
+			try {
+				if (result.isConfirmed) {
+					const response = await change(`meetings/${id}`, {
+						method: "DELETE",
+					});
+					if (response?.status !== 200) {
+						Swal.fire("Error", "Something went wrong!", "error");
+					}
+					Swal.fire("Success", "Deleted successfully!", "success");
+					mutate();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		});
+	};
+
 	return (
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
@@ -107,7 +138,7 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 										Details
 									</MenuItem>
 								</Link>
-								<MenuItem onClick={handleClose}>
+								<MenuItem onClick={() => handleDelete(items?.id)}>
 									<ListItemIcon>
 										<DeleteRounded fontSize="small" />
 									</ListItemIcon>

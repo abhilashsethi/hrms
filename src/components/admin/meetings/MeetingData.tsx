@@ -86,7 +86,7 @@ const MeetingData = () => {
 			<section className="mb-12 flex gap-3">
 				<div className="w-full m-auto rounded-lg bg-white shadow-xl p-4">
 					<div className="relative w-full bg-blue-100/50 rounded-lg p-4">
-						{/* <div className="absolute top-3 left-[25rem]">
+						<div className="absolute top-3 left-[25rem]">
 							<Button
 								variant="contained"
 								className="!bg-blue-500 "
@@ -96,7 +96,7 @@ const MeetingData = () => {
 							>
 								Edit
 							</Button>
-						</div> */}
+						</div>
 						<Grid container spacing={3}>
 							<Grid item lg={5}>
 								<div>

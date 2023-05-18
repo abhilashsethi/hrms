@@ -1,29 +1,87 @@
 import MaterialTable from "@material-table/core";
 import {
+	BorderColor,
+	Delete,
+	Info,
 	KeyboardArrowDownRounded,
 	MedicalInformationRounded,
 	MeetingRoom,
 	RadioButtonChecked,
 } from "@mui/icons-material";
 import {
+	Avatar,
 	Card,
 	CardContent,
 	Menu,
 	MenuItem,
 	Paper,
+	Tooltip,
 	Typography,
 } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
 import { HeadStyle } from "components/core";
 import { useFetch } from "hooks";
+import moment from "moment";
+import { useRouter } from "next/router";
 import { useState, MouseEvent } from "react";
 import { MuiTblOptions } from "utils";
+import Swal from "sweetalert2";
+import { useChange } from "hooks";
 
-const MeetingsColumn = () => {
+interface ARRAY {
+	id?: string;
+	title?: string;
+	address?: string;
+	clientEmail?: string;
+	clientName?: string;
+	clientPhone?: string;
+	meetingDate?: string;
+	meetingEndTime?: string;
+	meetingStartTime?: string;
+	meetingPersonName?: string;
+	status?: string;
+	purpose?: string;
+}
+interface Props {
+	data?: ARRAY[];
+	mutate?: any;
+}
+
+const MeetingsColumn = ({ data, mutate }: Props) => {
 	const [isLeave, setIsLeave] = useState<boolean>(false);
 
-	const { data: meetingData, mutate, isLoading } = useFetch<any>(`meetings`);
-	// console.log(meetingData);
+	const { change } = useChange();
+	const handleDelete = (id: string) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to delete!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then(async (result) => {
+			try {
+				if (result.isConfirmed) {
+					const response = await change(`meetings/${id}`, {
+						method: "DELETE",
+					});
+					if (response?.status !== 200) {
+						Swal.fire("Error", "Something went wrong!", "error");
+					}
+					Swal.fire("Success", "Deleted successfully!", "success");
+					mutate();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		});
+	};
+
+	// const { data: meetingData, mutate, isLoading } = useFetch<any>(`meetings`);
+	// // console.log(meetingData);
+
+	const router = useRouter();
 
 	return (
 		<>
@@ -53,31 +111,110 @@ const MeetingsColumn = () => {
 							title: "Meeting Title",
 							tooltip: "Meeting Title",
 							searchable: true,
-							field: "meetingTitle",
+							field: "title",
 						},
 						{
-							title: "Start Time",
-							tooltip: "Start Time",
+							title: "Client Email",
+							tooltip: "Client Email",
 							searchable: true,
-							field: "startTime",
+							field: "clientEmail",
 						},
 						{
-							title: "End Time",
-							tooltip: "End Time",
+							title: "Client Name",
+							tooltip: "Client Name",
 							searchable: true,
-							field: "endTime",
+							field: "clientName",
+						},
+						{
+							title: "Client Phone",
+							tooltip: "Client Phone",
+							searchable: true,
+							field: "clientPhone",
+						},
+						{
+							title: "Meeting Date",
+							tooltip: "Meeting Date",
+							searchable: true,
+							field: "meetingDate",
+							render: (data) => moment(data?.meetingDate).format("ll"),
+						},
+						{
+							title: "Meeting Start Time",
+							tooltip: "Meeting Start Time",
+							searchable: true,
+							field: "meetingStartTime",
+							render: (data) => moment(data?.meetingStartTime).format("LT"),
+						},
+						{
+							title: "Meeting End Time",
+							tooltip: "MeetingEnd Time",
+							searchable: true,
+							field: "meetingEndTime",
+							render: (data) => moment(data?.meetingEndTime).format("LT"),
 						},
 						{
 							title: "Status",
 							tooltip: "Status",
 							field: "status",
-							render: (item) => <MeetingStatus />,
+							// render: (item) => <MeetingStatus />,
 						},
 						{
 							title: "Created",
 							field: "createdAt",
-							render: (data) => new Date().toDateString(),
+							render: (data) => moment(data?.createdAt).format("ll"),
 							editable: "never",
+						},
+						{
+							title: "Actions",
+							cellStyle: {
+								textAlign: "right",
+							},
+							export: true,
+							// width: "18%",
+							// field: "pick",
+							render: (row) => (
+								<>
+									<div className="flex">
+										<Tooltip title="Edit">
+											<Avatar
+												// onClick={() => setOpenAddCustomerDrawer(row)}
+												onClick={() =>
+													router.push(
+														`/admin/meetings/meeting-details?id=${row?.id}`
+													)
+												}
+												variant="rounded"
+												className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-theme !p-0"
+												sx={{
+													mr: ".1vw",
+													padding: "0px !important",
+													backgroundColor: "Highlight",
+													cursor: "pointer",
+													color: "",
+												}}
+											>
+												<Info sx={{ padding: "0px !important" }} />
+											</Avatar>
+										</Tooltip>
+										<Tooltip title="Delete">
+											<Avatar
+												onClick={() => handleDelete(row?.id)}
+												variant="rounded"
+												className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-700 !p-0"
+												sx={{
+													mr: "0.1vw",
+													padding: "0px !important",
+													backgroundColor: "Highlight",
+													cursor: "pointer",
+													color: "",
+												}}
+											>
+												<Delete sx={{ padding: "0px !important" }} />
+											</Avatar>
+										</Tooltip>
+									</div>
+								</>
+							),
 						},
 					]}
 					detailPanel={[
@@ -124,10 +261,19 @@ const MeetingsColumn = () => {
 															loading="lazy"
 															referrerPolicy="no-referrer-when-downgrade"
 														></iframe>
+														{/* <iframe
+															className="w-full py-2"
+															src={`https://maps.google.com/maps?q='+${rowData?.lat}+','+${rowData?.lng}+'&hl=es&z=14&amp;output=embed`}
+															loading="lazy"
+															referrerPolicy="no-referrer-when-downgrade"
+														></iframe> */}
+														{/* <iframe
+															src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d${rowData?.lat}!2d${rowData?.lng}!3d[Latitude]&output=embed`}
+														></iframe> */}
 													</span>
 												</Typography>
 												<Typography gutterBottom align="left">
-													Description :
+													Purpose :
 													<p
 														style={{
 															color: "rgb(30, 136, 229)",
@@ -136,8 +282,7 @@ const MeetingsColumn = () => {
 															wordWrap: "break-word",
 														}}
 													>
-														Lorem ipsum dolor sit amet consectetur adipisicing
-														elit. Recusandae, asperiores!
+														{rowData?.purpose}
 													</p>
 												</Typography>
 											</CardContent>
