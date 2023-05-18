@@ -86,7 +86,7 @@ const ViewEmployeeHead = () => {
       />
       <div className="w-full bg-blue-100/50 rounded-lg md:p-8 p-3">
         <div className="flex md:flex-row flex-col-reverse gap-2 md:gap-0">
-          <div className="md:w-3/4 w-full tracking-wide h-full flex flex-col items-center">
+          <div className="md:w-3/4 w-full tracking-wide h-full flex flex-col items-center md:items-start">
             <p className="font-semibold tracking-wide">{employData?.name}</p>
             <p className="text-sm text-slate-600 font-medium mt-1">
               {employData?.role?.name || "---"}
@@ -134,7 +134,7 @@ const ViewEmployeeHead = () => {
               <Tooltip key={item?.id} title={item?.title}>
                 <div
                   onClick={item?.onClick}
-                  className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
+                  className="w-20 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
                 >
                   <span className="p-2 bg-white shadow-lg rounded-md group-hover:rotate-[-12deg] transition-all ease-in-out duration-200">
                     <span>{item?.icon}</span>
