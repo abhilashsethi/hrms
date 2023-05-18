@@ -13,7 +13,12 @@ import {
 	TextField,
 } from "@mui/material";
 import { MeetingsColumn, MeetingsGrid } from "components/admin";
-import { AdminBreadcrumbs, FiltersContainer } from "components/core";
+import {
+	AdminBreadcrumbs,
+	FiltersContainer,
+	Loader,
+	SkeletonLoader,
+} from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
@@ -93,10 +98,9 @@ const AllMeetings = () => {
 			currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
 		}`
 	);
-	// console.log(selectDate);
-	{
-		console.log(currentRange?.startDate);
-	}
+	console.log(meetingData);
+
+	// console.log(currentRange?.startDate);
 
 	return (
 		<>
@@ -267,10 +271,22 @@ const AllMeetings = () => {
 						</div>
 					</FiltersContainer>
 
-					{isGrid ? (
+					{/* {isGrid ? (
 						<MeetingsGrid data={meetingData?.meetings} mutate={mutate} />
 					) : (
 						<MeetingsColumn />
+					)} */}
+
+					{isGrid ? (
+						<>
+							{isLoading && <SkeletonLoader />}
+							<MeetingsGrid data={meetingData?.meetings} mutate={mutate} />
+						</>
+					) : (
+						<>
+							{isLoading && <Loader />}
+							<MeetingsColumn data={meetingData?.meetings} mutate={mutate} />
+						</>
 					)}
 				</section>
 			</PanelLayout>

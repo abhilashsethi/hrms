@@ -130,6 +130,7 @@ export interface MeetingTypes {
 }
 interface MeetingProps {
 	id?: string;
+	title?: string;
 	address?: string;
 	clientEmail?: string;
 	clientName?: string;
@@ -140,4 +141,6 @@ interface MeetingProps {
 	meetingPersonName?: string;
 	status?: string;
 	purpose?: string;
+	lat?: number;
+	lng?: number;
 }
