@@ -4,9 +4,10 @@ import { useState } from "react";
 
 interface Props {
   children?: JSX.Element | any;
+  changes?: any;
 }
 
-const FiltersContainer = ({ children }: Props) => {
+const FiltersContainer = ({ children, changes }: Props) => {
   const [isFilter, setIsFilter] = useState(false);
   return (
     <div className="flex justify-between w-full py-2">
@@ -15,8 +16,13 @@ const FiltersContainer = ({ children }: Props) => {
           isFilter ? `bg-theme` : `bg-white`
         }`}
       >
-        <IconButton onClick={() => setIsFilter((prev) => !prev)}>
-          <Tooltip title="Filter">
+        <IconButton
+          onClick={() => {
+            setIsFilter((prev) => !prev);
+            changes();
+          }}
+        >
+          <Tooltip title={isFilter ? `Remove Filters` : `Filter`}>
             <FilterListRounded className={`${isFilter ? `!text-white` : ``}`} />
           </Tooltip>
         </IconButton>
