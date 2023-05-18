@@ -21,7 +21,7 @@ import {
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Client } from "types";
+import { Client, MeetingTypes } from "types";
 import { ViewNotesDrawer, ViewTicketsDrawer } from "components/drawer";
 import { DEFAULTPROFILE, DOC, IMG, PDF, XLS } from "assets/home";
 import AddDocument from "components/dialogues/AddDocument";
@@ -43,12 +43,13 @@ const MeetingData = () => {
 		dialogue: false,
 		title: "Preview",
 	});
-
 	const {
-		data: clientData,
+		data: meetingData,
 		mutate,
 		isLoading,
-	} = useFetch<Client>(`clients/${router?.query?.id}`);
+	} = useFetch<MeetingTypes>(`meetings/${router?.query?.id}`);
+
+	console.log(meetingData);
 
 	if (isLoading) {
 		return <Loader />;

@@ -35,7 +35,7 @@ export const useFetch = <T>(path: string, options?: useFetchOptions) => {
 		success: boolean;
 		msg: string;
 		pagination?: { total: number; page?: string; limit?: string };
-	}>(`${url}/${path}`, (args: any) => {
+	}>(path?.includes("undefined") ? null : `${url}/${path}`, (args: any) => {
 		const headers: HeadersInit = {};
 		if (token) headers["x-access-token"] = token;
 		return fetch(args, { headers }).then((_) => _.json());
@@ -59,7 +59,7 @@ export const useMutation = <T>(path: string, options?: MutationOptions) => {
 
 	if (token) headers["x-access-token"] = token;
 	return useSWRMutation(
-		`${BASE_URL}/${path}`,
+		path?.includes("undefined") ? null : `${BASE_URL}/${path}`,
 		async (url: RequestInfo | URL, { arg }: any) => {
 			console.log(options);
 			return fetch(url, { method, body: JSON.stringify(arg), headers }).then(
