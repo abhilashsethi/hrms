@@ -19,7 +19,7 @@ const FiltersContainer = ({ children, changes }: Props) => {
         <IconButton
           onClick={() => {
             setIsFilter((prev) => !prev);
-            changes();
+            changes ? changes() : null;
           }}
         >
           <Tooltip title={isFilter ? `Remove Filters` : `Filter`}>
