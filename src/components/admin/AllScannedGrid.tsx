@@ -12,7 +12,7 @@ import { useState } from "react";
 import { Card } from "types";
 import { CardAssign, RoomAccessDrawer } from "components/drawer";
 import { DEFAULTPROFILE, ID } from "assets/home";
-import { AddValidityForm } from "components/dialogues";
+import moment from "moment";
 
 interface Props {
   data?: Card[];
@@ -51,7 +51,10 @@ interface Props {
 
 const CardComponent = ({ item, mutate }: Props) => {
   const [isValidity, setIsValidity] = useState(false);
-  const [isAccess, setIsAccess] = useState(false);
+  const [isAccess, setIsAccess] = useState<{
+    dialogue?: boolean;
+    cardId?: string | null;
+  }>({ dialogue: false, cardId: null });
   const [isAssign, setIsAssign] = useState<{
     drawer?: boolean;
     activeCardId?: string | null;
@@ -139,7 +142,11 @@ const CardComponent = ({ item, mutate }: Props) => {
   };
   return (
     <>
-      <RoomAccessDrawer open={isAccess} onClose={() => setIsAccess(false)} />
+      <RoomAccessDrawer
+        open={isAccess?.dialogue}
+        onClose={() => setIsAccess({ dialogue: false })}
+        cardId={isAccess?.cardId}
+      />
       <div className=" flex items-center justify-center w-full h-full cursor-pointer">
         <div
           className="w-[18rem] h-[29.5rem] bg-contain group bg-no-repeat shadow-lg rounded-xl overflow-hidden"
@@ -169,7 +176,7 @@ const CardComponent = ({ item, mutate }: Props) => {
                   </p>
                 </div>
               </div>
-              {item?.userId && !item?.validFrom ? (
+              {item?.userId ? (
                 <>
                   <div className="w-full flex justify-between items-start gap-4 px-4 py-2">
                     <div className="w-[30%] flex items-center">
@@ -221,7 +228,14 @@ const CardComponent = ({ item, mutate }: Props) => {
                         </Tooltip>
                         <Tooltip title="Room Access">
                           <div className="h-10 w-10 bg-white shadow-lg rounded-full">
-                            <IconButton onClick={() => setIsAccess(true)}>
+                            <IconButton
+                              onClick={() => {
+                                setIsAccess({
+                                  dialogue: true,
+                                  cardId: item?.cardId,
+                                });
+                              }}
+                            >
                               <MeetingRoomRounded className="!text-black" />
                             </IconButton>
                           </div>
@@ -239,7 +253,7 @@ const CardComponent = ({ item, mutate }: Props) => {
                     </div>
                   </div>
                 </>
-              ) : item?.validFrom ? (
+              ) : item?.guestId ? (
                 <>
                   <div className="w-full flex justify-between items-start gap-4 px-4 py-2">
                     <div className="w-[30%] flex items-center">
@@ -249,7 +263,7 @@ const CardComponent = ({ item, mutate }: Props) => {
                         className="w-12 h-12 "
                       />
                     </div>
-                    <GuestDetails id={item?.userId} />
+                    <GuestDetails id={item?.guestId} data={item} />
                   </div>
                   <div className="absolute bottom-0 w-full h-40 translate-y-[100%] group-hover:translate-y-[0%] transition-all ease-in-out duration-300 bg-slate-700 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gray-100">
                     <div className="flex justify-center pt-2">
@@ -277,7 +291,14 @@ const CardComponent = ({ item, mutate }: Props) => {
                         </Tooltip>
                         <Tooltip title="Room Access">
                           <div className="h-10 w-10 bg-white shadow-lg rounded-full">
-                            <IconButton onClick={() => setIsAccess(true)}>
+                            <IconButton
+                              onClick={() =>
+                                setIsAccess({
+                                  dialogue: true,
+                                  cardId: item?.cardId,
+                                })
+                              }
+                            >
                               <MeetingRoomRounded className="!text-black" />
                             </IconButton>
                           </div>
@@ -293,6 +314,22 @@ const CardComponent = ({ item, mutate }: Props) => {
                         />
                       </div>
                     </div>
+                  </div>
+                  <div className="px-4 flex gap-4 w-full">
+                    <h1 className="text-xs w-1/2 text-blue-900 tracking-wide flex flex-col">
+                      <span className="font-semibold text-slate-800 underline">
+                        Valid From
+                      </span>
+                      <span>{moment(item?.validFrom).format("ll")}</span>
+                      <span>{moment(item?.validFrom).format("HH:MM A")}</span>
+                    </h1>
+                    <h1 className="text-xs w-1/2 text-blue-900 tracking-wide flex flex-col">
+                      <span className="font-semibold text-slate-800 underline">
+                        Valid From
+                      </span>
+                      <span>{moment(item?.validTill).format("ll")}</span>
+                      <span>{moment(item?.validTill).format("HH:MM A")}</span>
+                    </h1>
                   </div>
                 </>
               ) : (
@@ -332,6 +369,7 @@ const CardComponent = ({ item, mutate }: Props) => {
                 </div>
               )}
             </div>
+
             <div className="w-full flex items-center justify-center gap-2"></div>
           </div>
         </div>
@@ -346,7 +384,12 @@ const CardComponent = ({ item, mutate }: Props) => {
   );
 };
 
-const GuestDetails = ({ id }: any) => {
+interface Props {
+  id?: string;
+  data?: Card[];
+}
+
+const GuestDetails = ({ id, data }: Props) => {
   const { data: guestData } = useFetch<{
     name?: string;
     email?: string;
@@ -366,7 +409,6 @@ const GuestDetails = ({ id }: any) => {
         {guestData?.designation}
       </p>
       <p className="text-xs text-blue-900 tracking-wide">{guestData?.email}</p>
-      <p className="text-xs text-blue-900 tracking-wide">{guestData?.gender}</p>
     </div>
   );
 };

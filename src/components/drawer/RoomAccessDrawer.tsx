@@ -2,10 +2,13 @@ import { MeetingRoomRounded } from "@mui/icons-material";
 import { Button, Container, Drawer } from "@mui/material";
 import { ReverseIOSSwitch } from "components/core";
 import { makeStyles } from "@material-ui/core";
+import { useState, useEffect } from "react";
+import { useFetch } from "hooks";
 
 type Props = {
   open?: boolean | any;
   onClose: () => void;
+  cardId?: string | null;
 };
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -22,7 +25,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RoomAccessDrawer = ({ open, onClose }: Props) => {
+const rooms = [
+  { id: 1, value: "MainDoor" },
+  { id: 2, value: "OutdoorMeetingRoom" },
+  { id: 3, value: "IndoorMeetingRoom" },
+  { id: 4, value: "DirectorChamber" },
+  { id: 5, value: "Cafeteria" },
+  { id: 6, value: "Playroom" },
+];
+
+const RoomAccessDrawer = ({ open, onClose, cardId }: Props) => {
+  const { data: accessData } = useFetch(`cards/${cardId}`);
+  console.log(accessData);
+  // const [items, setItems] = useState([]);
+  // useEffect(() => {
+  //   let reqData = rooms?.map(item => ...items, accessData.includes() )
+  // }, []);
+
   const classes = useStyles();
   return (
     <>
@@ -33,18 +52,15 @@ const RoomAccessDrawer = ({ open, onClose }: Props) => {
             ROOM ACCESS
           </h1>
           <div className="flex flex-col gap-3 mt-4 md:text-base text-sm w-[20rem]">
-            <div className="flex justify-between items-center w-4/5">
-              <p className="font-semibold">Meeting Room</p>
-              <ReverseIOSSwitch />
-            </div>
-            <div className="flex justify-between items-center w-4/5">
-              <p className="font-semibold">Outside Meeting Room</p>
-              <ReverseIOSSwitch />
-            </div>
-            <div className="flex justify-between items-center w-4/5">
-              <p className="font-semibold">Director Room</p>
-              <ReverseIOSSwitch />
-            </div>
+            {rooms?.map((item) => (
+              <div
+                key={item?.id}
+                className="flex justify-between items-center w-4/5"
+              >
+                <p className="font-semibold">{item?.value}</p>
+                <ReverseIOSSwitch />
+              </div>
+            ))}
           </div>
           <div className="flex justify-end mt-6">
             <Button variant="contained" className="!bg-emerald-600">
@@ -58,5 +74,3 @@ const RoomAccessDrawer = ({ open, onClose }: Props) => {
 };
 
 export default RoomAccessDrawer;
-
-const cards = [1, 2, 3, 4];

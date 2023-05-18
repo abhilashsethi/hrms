@@ -37,8 +37,7 @@ const AddValidity = ({ open, handleClose, mutate, userId, cardId }: Props) => {
           body: {
             validFrom: new Date(values?.start).toISOString(),
             validTill: new Date(values?.end).toISOString(),
-            userId: userId,
-            // guestId: "string",
+            guestId: userId,
           },
         });
         setLoading(false);
