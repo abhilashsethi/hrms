@@ -41,111 +41,18 @@ interface Props {
 }
 
 const MeetingsGrid = ({ data, mutate }: Props) => {
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-	const open = Boolean(anchorEl);
-	const handleClick = (event: MouseEvent<HTMLElement>) => {
-		setAnchorEl(event.currentTarget);
-	};
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
-
 	const [isUpdate, setisUpdate] = useState<{
 		dialogue?: boolean;
 		id?: string | null;
 	}>({ dialogue: false, id: null });
 	// console.log(data);
 
-	const { change } = useChange();
-	const handleDelete = (id: string) => {
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to delete!",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, delete it!",
-		}).then(async (result) => {
-			try {
-				if (result.isConfirmed) {
-					const response = await change(`meetings/${id}`, {
-						method: "DELETE",
-					});
-					if (response?.status !== 200) {
-						Swal.fire("Error", "Something went wrong!", "error");
-					}
-					Swal.fire("Success", "Deleted successfully!", "success");
-					mutate();
-				}
-			} catch (error) {
-				console.log(error);
-			}
-		});
-	};
-
 	return (
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
 				{data?.map((items: any) => (
 					<div className="relative py-4 bg-white w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
-						<div className="absolute right-[10px] top-[10px]">
-							<Tooltip title="More">
-								<IconButton onClick={handleClick}>
-									<MoreVertRounded />
-								</IconButton>
-							</Tooltip>
-							<Menu
-								anchorEl={anchorEl}
-								id="account-menu"
-								open={open}
-								onClose={handleClose}
-								onClick={handleClose}
-								PaperProps={{
-									elevation: 0,
-									sx: {
-										overflow: "visible",
-										filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
-										mt: 1.5,
-										"& .MuiAvatar-root": {
-											width: 32,
-											height: 32,
-											ml: -0.5,
-											mr: "15th June 2021",
-										},
-										"&:before": {
-											content: '""',
-											display: "block",
-											position: "absolute",
-											top: 0,
-											right: 14,
-											width: 10,
-											height: 10,
-											bgcolor: "background.paper",
-											transform: "translateY(-50%) rotate(45deg)",
-											zIndex: 0,
-										},
-									},
-								}}
-								transformOrigin={{ horizontal: "right", vertical: "top" }}
-								anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-							>
-								<Link href={`/admin/meetings/meeting-details?id=${items?.id}`}>
-									<MenuItem onClick={handleClose}>
-										<ListItemIcon>
-											<Info fontSize="small" />
-										</ListItemIcon>
-										Details
-									</MenuItem>
-								</Link>
-								<MenuItem onClick={() => handleDelete(items?.id)}>
-									<ListItemIcon>
-										<DeleteRounded fontSize="small" />
-									</ListItemIcon>
-									Delete
-								</MenuItem>
-							</Menu>
-						</div>
+						<CardComponent items={items} mutate={mutate} />
 						<div className="md:px-4 px-2">
 							<div className="flex justify-between items-center">
 								<span className="py-1 pr-4 text-xl font-semibold capitalize tracking-wide">
@@ -238,30 +145,6 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 								loading="lazy"
 								referrerPolicy="no-referrer-when-downgrade"
 							></iframe>
-							{/* <div className="flex gap-2 py-2 justify-center">
-								<div className="text-md hover:scale-105 ease-in-out transition-all duration-200 rounded-lg shadow-lg border-2 px-10 py-2 grid justify-items-center">
-									<h1 className="text-md pb-2 font-semibold">Client</h1>
-									<img
-										alt=""
-										className="self-center flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-full bg-gray-500"
-										src={SAMPLEDP.src}
-									/>
-									<span className="text-sm pt-2 text-slate-400 font-medium">
-										{items?.client}
-									</span>
-								</div>
-								<div className="text-md hover:scale-105 ease-in-out transition-all duration-200 rounded-lg shadow-lg border-2 px-10 py-2 grid justify-items-center">
-									<h1 className="text-md pb-2 font-semibold">Member</h1>
-									<img
-										alt=""
-										className="self-center flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-full bg-gray-500"
-										src={SAMPLEDP.src}
-									/>
-									<span className="text-sm pt-2 text-slate-400 font-medium">
-										{items?.member}
-									</span>
-								</div>
-							</div> */}
 						</div>
 					</div>
 				))}
@@ -271,6 +154,104 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 };
 
 export default MeetingsGrid;
+
+const CardComponent = ({ items, mutate }: any) => {
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
+	const handleClick = (event: MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+	const { change } = useChange();
+	const handleDelete = (id: string) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to delete!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then(async (result) => {
+			try {
+				if (result.isConfirmed) {
+					const response = await change(`meetings/${id}`, {
+						method: "DELETE",
+					});
+					if (response?.status !== 200) {
+						Swal.fire("Error", "Something went wrong!", "error");
+					}
+					Swal.fire("Success", "Deleted successfully!", "success");
+					mutate();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		});
+	};
+
+	return (
+		<div className="absolute right-[10px] top-[10px]">
+			<Tooltip title="More">
+				<IconButton onClick={handleClick}>
+					<MoreVertRounded />
+				</IconButton>
+			</Tooltip>
+			<Menu
+				anchorEl={anchorEl}
+				id="account-menu"
+				open={open}
+				onClose={handleClose}
+				onClick={handleClose}
+				PaperProps={{
+					elevation: 0,
+					sx: {
+						overflow: "visible",
+						filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
+						mt: 1.5,
+						"& .MuiAvatar-root": {
+							width: 32,
+							height: 32,
+							ml: -0.5,
+							mr: "15th June 2021",
+						},
+						"&:before": {
+							content: '""',
+							display: "block",
+							position: "absolute",
+							top: 0,
+							right: 14,
+							width: 10,
+							height: 10,
+							bgcolor: "background.paper",
+							transform: "translateY(-50%) rotate(45deg)",
+							zIndex: 0,
+						},
+					},
+				}}
+				transformOrigin={{ horizontal: "right", vertical: "top" }}
+				anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+			>
+				<Link href={`/admin/meetings/meeting-details?id=${items?.id}`}>
+					<MenuItem onClick={handleClose}>
+						<ListItemIcon>
+							<Info fontSize="small" />
+						</ListItemIcon>
+						Details
+					</MenuItem>
+				</Link>
+				<MenuItem onClick={() => handleDelete(items?.id)}>
+					<ListItemIcon>
+						<DeleteRounded fontSize="small" />
+					</ListItemIcon>
+					Delete
+				</MenuItem>
+			</Menu>
+		</div>
+	);
+};
 
 const projectData = [
 	{
