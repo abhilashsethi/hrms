@@ -99,6 +99,7 @@ const ViewNotesDrawer = ({
 						width: "30vw",
 						marginTop: "3.5vh",
 					}}
+					// className="lg:w-[30vw]"
 				>
 					{/* Document Modal  */}
 					<Modal
