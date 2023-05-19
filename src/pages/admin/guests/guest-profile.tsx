@@ -1,9 +1,7 @@
-import { Edit } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import {
   AdminBreadcrumbs,
-  CopyClipboard,
   HeadText,
   Loader,
   ReverseIOSSwitch,
@@ -14,11 +12,8 @@ import {
 } from "components/dialogues";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Swal from "sweetalert2";
-import { User } from "types";
 
 const GuestProfile = () => {
   const router = useRouter();
@@ -30,7 +25,6 @@ const GuestProfile = () => {
     isLoading,
   } = useFetch<any>(`guests/${router?.query?.id}`);
   const { change } = useChange();
-  console.log(guestData);
   const basicDetails = [
     {
       id: 1,
@@ -64,64 +58,6 @@ const GuestProfile = () => {
       value: `${guestData?.company ? guestData?.company : "---"}`,
     },
   ];
-  const roomDetails = [
-    {
-      id: 1,
-      status: true,
-      name: "Main Door",
-      value: `${guestData?.panNo ? guestData?.panNo : "---"}`,
-    },
-    {
-      id: 2,
-      status: true,
-      name: "Director Room",
-      value: `${guestData?.aadharNo ? guestData?.aadharNo : "---"}`,
-    },
-    {
-      id: 3,
-      status: true,
-      name: "Meeting Room",
-      value: `${guestData?.gmail ? guestData?.gmail : "---"}`,
-    },
-    {
-      id: 5,
-      status: false,
-      name: "Work Space",
-      value: `${guestData?.linkedin ? guestData?.linkedin : "---"}`,
-    },
-    {
-      id: 7,
-      status: false,
-      name: "Cafeteria",
-      value: `${guestData?.address ? guestData?.address : "---"}`,
-    },
-  ];
-  const handleBlock = async (e: any, id: any) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to update status?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, update!",
-    }).then(async (result) => {
-      return;
-      if (result.isConfirmed) {
-        const res = await change(`cards`, {
-          method: "PATCH",
-          body: { isBlocked: !e.target?.checked },
-        });
-        mutate();
-        if (res?.status !== 200) {
-          Swal.fire(`Error`, "Something went wrong!", "error");
-          return;
-        }
-        Swal.fire(`Success`, "Status updated successfully!!", "success");
-        return;
-      }
-    });
-  };
   if (isLoading) {
     return (
       <PanelLayout title="Guest Profile - Admin Panel">
@@ -207,19 +143,19 @@ const GuestProfile = () => {
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Room Access" />
                 </div>
-                {roomDetails?.map((item) => (
+                {guestData?.card[0]?.accessTo?.map((item: any, i: any) => (
                   <div
-                    key={item?.id}
+                    key={i}
                     className="grid grid-cols-3 gap-2 items-center font-medium py-1.5"
                   >
                     <div className="col-span-2">
-                      <p className="text-sm text-gray-600">{item?.name} :</p>
+                      <p className="text-sm text-gray-600">{item} :</p>
                     </div>
                     <div className="">
                       <ReverseIOSSwitch
                         disabled
-                        checked={item?.status}
-                        onChange={(e) => handleBlock(e, item?.id)}
+                        checked
+                        // onChange={(e) => handleBlock(e, item?.id)}
                       />
                     </div>
                   </div>
