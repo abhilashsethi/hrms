@@ -1,13 +1,10 @@
 import {
-	AccessTime,
 	DeleteRounded,
-	EditRounded,
 	Info,
 	MoreVertRounded,
 	Place,
 } from "@mui/icons-material";
 import {
-	Chip,
 	IconButton,
 	ListItemIcon,
 	Menu,

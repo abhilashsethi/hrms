@@ -1,19 +1,18 @@
 import { Add } from "@mui/icons-material";
-import { Button, Grid, MenuItem, TextField } from "@mui/material";
+import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { GuestColumn, GuestsGrid } from "components/admin/guest";
 import {
   AdminBreadcrumbs,
   FiltersContainer,
   GridAndList,
-  HeadText,
   Loader,
+  LoaderAnime,
   SkeletonLoader,
 } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
-import { User } from "types";
 
 const AllGuests = () => {
   const [isGrid, setIsGrid] = useState(true);
@@ -25,15 +24,17 @@ const AllGuests = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any[]>(`guests?page=${pageNumber}&limit=8`);
-  console.log("guestData", guestData);
-
+  } = useFetch<any[]>(
+    `guests?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+      isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    }`
+  );
   return (
     <PanelLayout title="All Guests - Admin Panel">
       <section className="px-8 py-4">
-        <div className="flex justify-between">
+        <div className="md:flex justify-between">
           <AdminBreadcrumbs links={links} />
-          <div className="flex gap-4 items-center">
+          <div className="md:flex gap-4 items-center">
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             <Link href="/admin/guests/create-guest">
               <Button
@@ -85,6 +86,25 @@ const AllGuests = () => {
             <GuestColumn data={guestData} mutate={mutate} />
           </>
         )}
+        {!guestData?.length && <LoaderAnime />}
+        <section className="mb-6">
+          {guestData?.length ? (
+            <div className="flex justify-center md:py-8 py-4">
+              <Stack spacing={2}>
+                <Pagination
+                  count={Math.ceil(
+                    Number(pagination?.total || 1) /
+                      Number(pagination?.limit || 1)
+                  )}
+                  onChange={(e, v: number) => {
+                    setPageNumber(v);
+                  }}
+                  variant="outlined"
+                />
+              </Stack>
+            </div>
+          ) : null}
+        </section>
       </section>
     </PanelLayout>
   );

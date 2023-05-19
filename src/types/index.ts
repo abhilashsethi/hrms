@@ -2,131 +2,131 @@ import { SVGProps } from "react";
 export type IconType = JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>;
 
 export interface BloodGroup {
-  A_Positive: "A_Positive";
+	A_Positive: "A_Positive";
 
-  A_Negative: "A_Negative";
+	A_Negative: "A_Negative";
 
-  B_Positive: "B_Positive";
+	B_Positive: "B_Positive";
 
-  B_Negative: "B_Negative";
+	B_Negative: "B_Negative";
 
-  AB_Positive: "AB_Positive";
+	AB_Positive: "AB_Positive";
 
-  AB_Negative: "AB_Negative";
+	AB_Negative: "AB_Negative";
 
-  O_Positive: "O_Positive";
+	O_Positive: "O_Positive";
 
-  O_Negative: "O_Negative";
+	O_Negative: "O_Negative";
 }
 
 export interface Gender {
-  Male: "Male";
-  Female: "Female";
+	Male: "Male";
+	Female: "Female";
 }
 
 export type EmailTemplateType = {
-  _id: string;
-  content: string;
-  title: string;
-  createdAt: string;
-  updatedAt: string;
+	_id: string;
+	content: string;
+	title: string;
+	createdAt: string;
+	updatedAt: string;
 };
 
 export type Card = {
-  id: string;
-  cardId: string;
-  isBlocked: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  userId: string | null;
-  user: User | null;
-  validFrom?: string | null;
-  validTill?: string | null;
-  guestId?: string | null;
-  guest?: Guest | null;
+	id: string;
+	cardId: string;
+	isBlocked: boolean;
+	createdAt: Date;
+	updatedAt: Date;
+	userId: string | null;
+	user: User | null;
+	validFrom?: string | null;
+	validTill?: string | null;
+	guestId?: string | null;
+	guest?: Guest | null;
 };
 
 export type Attendance = {
-  id: string;
-  date: Date;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  user: User;
+	id: string;
+	date: Date;
+	userId: string;
+	createdAt: Date;
+	updatedAt: Date;
+	user: User;
 };
 
 export interface Guest {
-  id?: string;
-  company?: string | null;
-  createdAt?: string;
-  email?: string | null;
-  gender?: string;
-  isBlocked?: boolean;
-  name?: string;
-  phone?: string;
-  updatedAt?: Date;
-  visitInfo?: string | null;
+	id?: string;
+	company?: string | null;
+	createdAt?: string;
+	email?: string | null;
+	gender?: string;
+	isBlocked?: boolean;
+	name?: string;
+	phone?: string;
+	updatedAt?: Date;
+	visitInfo?: string | null;
 }
 
 export type User = {
-  id: string;
-  email: string;
-  password: string;
-  name: string;
-  phone: string;
-  isBlocked: boolean;
-  isOfficeAccessGranted: boolean;
-  role: { name?: string; id?: string; createdAt?: string; updatedAt?: string };
-  employeeID: string;
-  lat: number | null;
-  lng: number | null;
-  createdAt: Date;
-  updatedAt: Date;
-  photo?: string | null;
-  dob?: Date | null;
-  joiningDate?: Date | null;
-  linkedin?: string | null;
-  gender?: Gender;
-  gmail?: string | null;
-  github?: string | null;
-  IFSCCode?: string | null;
-  bankName?: string | null;
-  bloodGroup?: BloodGroup;
-  accountNo?: string | null;
-  panNo?: string | null;
-  aadharNo?: string | null;
-  address?: string | null;
-  roleId?: string;
-  projectIDs?: string[];
-  departmentId?: string;
-  department?: {
-    name?: string;
-    id?: string;
-    createdAt?: string;
-    updatedAt?: string;
-  };
-  wallet?: number;
+	id: string;
+	email: string;
+	password: string;
+	name: string;
+	phone: string;
+	isBlocked: boolean;
+	isOfficeAccessGranted: boolean;
+	role: { name?: string; id?: string; createdAt?: string; updatedAt?: string };
+	employeeID: string;
+	lat: number | null;
+	lng: number | null;
+	createdAt: Date;
+	updatedAt: Date;
+	photo?: string | null;
+	dob?: Date | null;
+	joiningDate?: Date | null;
+	linkedin?: string | null;
+	gender?: Gender;
+	gmail?: string | null;
+	github?: string | null;
+	IFSCCode?: string | null;
+	bankName?: string | null;
+	bloodGroup?: BloodGroup;
+	accountNo?: string | null;
+	panNo?: string | null;
+	aadharNo?: string | null;
+	address?: string | null;
+	roleId?: string;
+	projectIDs?: string[];
+	departmentId?: string;
+	department?: {
+		name?: string;
+		id?: string;
+		createdAt?: string;
+		updatedAt?: string;
+	};
+	wallet?: number;
 };
 
 export type Projects = {
-  name: string;
-  description: string | null;
-  devURL: string | null;
-  prodURL: string | null;
-  gmail: string | null;
-  github: string | null;
-  startDate: Date;
-  userIDs: string;
-  createdAt: Date;
-  updatedAt: Date;
+	name: string;
+	description: string | null;
+	devURL: string | null;
+	prodURL: string | null;
+	gmail: string | null;
+	github: string | null;
+	startDate: Date;
+	userIDs: string;
+	createdAt: Date;
+	updatedAt: Date;
 };
 export type Role = {
-  id: string;
-  name: string;
-  cardId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  users: User[];
+	id: string;
+	name: string;
+	cardId: string;
+	createdAt: Date;
+	updatedAt: Date;
+	users: User[];
 };
 
 export type Leave = {
@@ -139,35 +139,35 @@ export type Leave = {
 };
 
 export type Client = {
-  id: string;
-  name: string;
-  email: string;
-  _count: { projects?: number; tickets?: string };
-  gender: string;
-  isBlocked: boolean;
-  phone: number;
-  photo: string;
-  createdAt: Date;
-  updatedAt: Date;
-  country: string;
+	id: string;
+	name: string;
+	email: string;
+	_count: { projects?: number; tickets?: string };
+	gender: string;
+	isBlocked: boolean;
+	phone: number;
+	photo: string;
+	createdAt: Date;
+	updatedAt: Date;
+	country: string;
 };
 
 export interface MeetingTypes {
-  meetings?: MeetingProps[];
+	meetings?: MeetingProps[];
 }
-interface MeetingProps {
-  id?: string;
-  title?: string;
-  address?: string;
-  clientEmail?: string;
-  clientName?: string;
-  clientPhone?: string;
-  meetingDate?: string;
-  meetingEndTime?: string;
-  meetingStartTime?: string;
-  meetingPersonName?: string;
-  status?: string;
-  purpose?: string;
-  lat?: number;
-  lng?: number;
+export interface MeetingProps {
+	id?: string;
+	title?: string;
+	address?: string;
+	clientEmail?: string;
+	clientName?: string;
+	clientPhone?: string;
+	meetingDate?: string;
+	meetingEndTime?: string;
+	meetingStartTime?: string;
+	meetingPersonName?: string;
+	status?: string;
+	purpose?: string;
+	lat?: number;
+	lng?: number;
 }
