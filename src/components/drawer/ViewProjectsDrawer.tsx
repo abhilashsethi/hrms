@@ -1,17 +1,41 @@
-import { Avatar, Card, Container, Drawer, Modal, Tooltip } from "@mui/material";
-import { AccountTreeRounded, FreeBreakfast } from "@mui/icons-material";
+import {
+	Avatar,
+	Card,
+	Container,
+	Drawer,
+	IconButton,
+	Modal,
+	Tooltip,
+} from "@mui/material";
+import { AccountTreeRounded, Close, FreeBreakfast } from "@mui/icons-material";
 import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
 import { Loader } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { User } from "types";
+import { makeStyles } from "@material-ui/core";
 
 type Props = {
 	open?: boolean | any;
 	onClose: () => void;
 	setViewProject?: any;
 };
+
+const useStyles = makeStyles((theme) => ({
+	container: {
+		width: "100vw",
+		[theme.breakpoints.up("sm")]: {
+			maxWidth: "50vw",
+		},
+		[theme.breakpoints.up("md")]: {
+			maxWidth: "80vw",
+		},
+		[theme.breakpoints.up("lg")]: {
+			maxWidth: "30vw",
+		},
+	},
+}));
 
 const style = {
 	position: "absolute" as "absolute",
@@ -80,15 +104,12 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 		},
 	];
 
+	const classes = useStyles();
+
 	return (
 		<>
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
-				<Container
-					style={{
-						width: "30vw",
-						marginTop: "3.5vh",
-					}}
-				>
+				<Container style={{ marginTop: "1rem" }} className={classes.container}>
 					{/* Document Modal  */}
 					<Modal
 						open={openInfoModal}
@@ -114,6 +135,12 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 
 					<div className="flex items-center justify-between pb-4">
 						<p className="text-lg font-bold text-theme">View All Projects</p>
+						<IconButton onClick={() => onClose()}>
+							<Close
+								fontSize="small"
+								className="text-red-500 block md:hidden"
+							/>
+						</IconButton>
 					</div>
 
 					{isLoading && <Loader />}

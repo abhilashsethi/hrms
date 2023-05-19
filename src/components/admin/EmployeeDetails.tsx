@@ -144,7 +144,11 @@ const EmployeeDetails = () => {
     },
   ];
   if (isLoading) {
-    return <Loader />;
+    return (
+      <section className="min-h-screen">
+        <Loader />
+      </section>
+    );
   }
   return (
     <section>
