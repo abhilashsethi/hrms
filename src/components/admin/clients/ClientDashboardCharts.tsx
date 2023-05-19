@@ -11,17 +11,19 @@ const ClientDashboardCharts = ({ cards }: Props) => {
         {/* <ClientMultiDataChart text="Client Strength" type="bar" /> */}
         <ClientBarGraph
           labels={
-            cards?.clients?.length
+            cards?.clients?.countryWiseClientList?.length
               ? cards?.clients?.countryWiseClientList?.map(
                   (item: any) => item?.country
                 )
               : []
           }
-          data={[
-            cards?.clients?.countryWiseClientList?.map(
-              (item: any) => item?._count
-            ),
-          ]}
+          data={
+            cards?.clients?.countryWiseClientList?.length
+              ? cards?.clients?.countryWiseClientList?.map(
+                  (item: any) => item?._count
+                )
+              : []
+          }
           type="bar"
           text=""
         />
