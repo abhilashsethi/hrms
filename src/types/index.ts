@@ -128,6 +128,16 @@ export type Role = {
 	updatedAt: Date;
 	users: User[];
 };
+
+export type Leave = {
+  id?: string;
+  photo?: string | undefined;
+  name?: string | undefined;
+  role?: string | undefined;
+  status?: string | undefined;
+  credit?: number | undefined;
+};
+
 export type Client = {
 	id: string;
 	name: string;

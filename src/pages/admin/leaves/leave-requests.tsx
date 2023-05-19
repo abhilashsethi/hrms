@@ -6,43 +6,33 @@ import {
 } from "@mui/icons-material";
 import { Button, IconButton, MenuItem, TextField } from "@mui/material";
 import { LeavesColumn, LeavesGrid } from "components/admin";
-import { AdminBreadcrumbs, FiltersContainer } from "components/core";
+import {
+  AdminBreadcrumbs,
+  FiltersContainer,
+  GridAndList,
+} from "components/core";
 import { CreateLeave } from "components/dialogues";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
+import { Leave } from "types";
 
 const LeaveRequests = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [leaveType, setLeaveType] = useState<string>("");
   const [leaveStatus, setLeaveStatus] = useState<string>("");
   const [isLeave, setIsLeave] = useState<boolean>(false);
+
+  const { data: leavesData } = useFetch<Leave[]>(`leaves`);
+  console.log(leavesData);
   return (
     <PanelLayout title="Leaves - Admin Panel">
-      <section className="px-8 py-2">
+      <section className="md:px-8 px-4 py-2">
         <CreateLeave open={isLeave} handleClose={() => setIsLeave(false)} />
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center py-4 md:flex-row flex-col">
           <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
-            <div className="flex gap-1">
-              <IconButton onClick={() => setIsGrid(true)} size="small">
-                <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                    isGrid && `border-2 border-theme`
-                  }`}
-                >
-                  <GridViewRounded className={`${isGrid && `!text-theme`}`} />
-                </div>
-              </IconButton>
-              <IconButton onClick={() => setIsGrid(false)} size="small">
-                <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                    !isGrid && `border-2 border-theme`
-                  }`}
-                >
-                  <TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
-                </div>
-              </IconButton>
-            </div>
+            <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             <Button
               onClick={() => setIsLeave((prev) => !prev)}
               startIcon={<Add />}
@@ -98,7 +88,7 @@ const LeaveRequests = () => {
           </div>
         </FiltersContainer>
         {isGrid ? (
-          <LeavesGrid data={leavData} />
+          <LeavesGrid data={leavesData} />
         ) : (
           <LeavesColumn data={leavData} />
         )}

@@ -14,6 +14,7 @@ import Link from "next/link";
 
 const EmployeeProfile = () => {
   const [activeMonth, setActiveMonth] = useState();
+  console.log(activeMonth);
   const router = useRouter();
   const [attendances, setAttendances] = useState<any>([]);
   function renderEventContent(eventInfo: any) {
@@ -48,7 +49,7 @@ const EmployeeProfile = () => {
       </>
     );
   }
-  const { data: attendanceData } = useFetch<any>(
+  const { data: attendanceData, isLoading } = useFetch<any>(
     `attendances/${router?.query?.id}`
   );
   useEffect(() => {
@@ -80,31 +81,36 @@ const EmployeeProfile = () => {
         <EmployeeDetails />
         {/* <CardHead /> */}
         {/* <ProfileTabs /> */}
-        <div className="flex gap-3">
-          <div className="w-full">
-            <div className="mb-4 flex justify-between">
-              <HeadText title="Month wise attendance" />
-              <Link
-                href={`/admin/employees/attendance-report?empId=${router?.query?.id}`}
-              >
-                <Button
-                  variant="contained"
-                  className="!bg-theme"
-                  startIcon={<BarChart />}
+        {isLoading ? null : (
+          <div className="flex gap-3">
+            <div className="w-full">
+              <div className="mb-4 flex justify-between">
+                <HeadText title="Month wise attendance" />
+                <Link
+                  href={`/admin/employees/attendance-report?empId=${router?.query?.id}`}
                 >
-                  VIEW REPORT
-                </Button>
-              </Link>
+                  <Button
+                    variant="contained"
+                    className="!bg-theme"
+                    startIcon={<BarChart />}
+                  >
+                    VIEW REPORT
+                  </Button>
+                </Link>
+              </div>
+              <FullCalendar
+                plugins={[dayGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                weekends={true}
+                eventContent={renderEventContent}
+                events={attendances}
+                datesSet={(dateInfo: any) =>
+                  setActiveMonth(dateInfo?.view?.currentStart?.getMonth())
+                }
+              />
             </div>
-            <FullCalendar
-              plugins={[dayGridPlugin, interactionPlugin]}
-              initialView="dayGridMonth"
-              weekends={true}
-              eventContent={renderEventContent}
-              events={attendances}
-            />
           </div>
-        </div>
+        )}
       </section>
     </PanelLayout>
   );
