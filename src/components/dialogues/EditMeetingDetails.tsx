@@ -15,44 +15,105 @@ import {
 } from "@mui/material";
 import { FileUpload } from "components/core";
 import { Formik, Form, ErrorMessage } from "formik";
+import { useChange, useFetch } from "hooks";
+import moment from "moment";
 import { ChangeEvent, useState } from "react";
+import Swal from "sweetalert2";
+import { MeetingProps } from "types";
 import * as Yup from "yup";
 
 interface Props {
 	open: boolean;
 	handleClose: any;
+	meetingId?: any;
+	mutate?: any;
 }
-const initialValues = {
-	meetingName: "",
-	startTime: "",
-	endTime: "",
-	clientName: "",
-	clientEmail: "",
-	clientPhone: "",
-	clientCountry: "",
-	membersVisited: "",
-};
 
 const validationSchema = Yup.object().shape({
-	meetingName: Yup.string().required("Meeting Name is Required"),
-	startTime: Yup.string().required("Start Time is required"),
-	endTime: Yup.string().required("End Time is required"),
+	title: Yup.string().required("Meeting Name is Required"),
+	meetingStartTime: Yup.string().required("Start Time is required"),
+	meetingEndTime: Yup.string().required("End Time is required"),
 	clientName: Yup.string().required("Client Name is required"),
 	clientEmail: Yup.string().required("Client Email is required"),
 	clientPhone: Yup.string().required("Client Phone is required"),
-	clientCountry: Yup.string().required("Client Country is required"),
-	membersVisited: Yup.string().required("Members Visited is required"),
+	// clientCountry: Yup.string().required("Client Country is required"),
+	meetingPersonName: Yup.string().required("Members Visited is required"),
 });
-const EditMeetingDetails = ({ open, handleClose }: Props) => {
+const EditMeetingDetails = ({
+	open,
+	handleClose,
+	meetingId,
+	mutate,
+}: Props) => {
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState("one");
 	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
-	const handleSubmit = async (values: any) => {
-		console.log(values);
-		return;
+	const { data: meetingDetails, isLoading } = useFetch<MeetingProps>(
+		`meetings/${meetingId}`
+	);
+	// console.log(meetingDetails);
+
+	const initialValues = {
+		title: `${meetingDetails?.title ? meetingDetails?.title : ""}`,
+		meetingStartTime: `${
+			meetingDetails?.meetingStartTime ? meetingDetails?.meetingStartTime : ""
+		}`,
+		meetingEndTime: `${
+			meetingDetails?.meetingEndTime ? meetingDetails?.meetingEndTime : ""
+		}`,
+		clientName: `${
+			meetingDetails?.clientName ? meetingDetails?.clientName : ""
+		}`,
+		clientEmail: `${
+			meetingDetails?.clientEmail ? meetingDetails?.clientEmail : ""
+		}`,
+		clientPhone: `${
+			meetingDetails?.clientPhone ? meetingDetails?.clientPhone : ""
+		}`,
+		// clientCountry: "",
+		meetingPersonName: `${
+			meetingDetails?.meetingPersonName ? meetingDetails?.meetingPersonName : ""
+		}`,
 	};
+
+	const { change } = useChange();
+	const handleSubmit = async (values: any) => {
+		// console.log(meetingId);
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to update status?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, update!",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				const res = await change(`meetings/${meetingId}`, {
+					method: "PATCH",
+					body: {
+						title: values?.title,
+						clientName: values?.clientName,
+						clientEmail: values?.clientEmail,
+						clientPhone: values?.clientPhone,
+						meetingPersonName: values?.meetingPersonName,
+						meetingStartTime: new Date(values?.meetingStartTime).toISOString(),
+						meetingEndTime: new Date(values?.meetingEndTime).toISOString(),
+					},
+				});
+				mutate();
+				if (res?.status !== 200) {
+					Swal.fire(`Error`, "Something went wrong!", "error");
+					return;
+				}
+				Swal.fire(`Success`, "Status updated successfully!!", "success");
+				return;
+			}
+		});
+	};
+
 	return (
 		<Dialog
 			onClose={handleClose}
@@ -104,12 +165,12 @@ const EditMeetingDetails = ({ open, handleClose }: Props) => {
 									size="small"
 									fullWidth
 									placeholder="Meeting Name"
-									name="meetingName"
-									value={values.meetingName}
+									name="title"
+									value={values.title}
 									onChange={handleChange}
 									onBlur={handleBlur}
-									error={touched.meetingName && !!errors.meetingName}
-									helperText={touched.meetingName && errors.meetingName}
+									error={touched.title && !!errors.title}
+									helperText={touched.title && errors.title}
 								/>
 
 								<p className="font-medium text-gray-700 my-2">Start Time</p>
@@ -117,26 +178,32 @@ const EditMeetingDetails = ({ open, handleClose }: Props) => {
 									size="small"
 									fullWidth
 									placeholder="Start Time"
-									name="startTime"
-									type="time"
-									value={values.startTime}
+									name="meetingStartTime"
+									type="datetime-local"
+									value={moment(values.meetingStartTime).format(
+										"YYYY-MM-DDTHH:mm"
+									)}
 									onChange={handleChange}
 									onBlur={handleBlur}
-									error={touched.startTime && !!errors.startTime}
-									helperText={touched.startTime && errors.startTime}
+									error={touched.meetingStartTime && !!errors.meetingStartTime}
+									helperText={
+										touched.meetingStartTime && errors.meetingStartTime
+									}
 								/>
 								<p className="font-medium text-gray-700 my-2">End Time</p>
 								<TextField
 									size="small"
 									fullWidth
 									placeholder="End Time"
-									name="endTime"
-									type="time"
-									value={values.endTime}
+									name="meetingEndTime"
+									type="datetime-local"
+									value={moment(values.meetingEndTime).format(
+										"YYYY-MM-DDTHH:mm"
+									)}
 									onChange={handleChange}
 									onBlur={handleBlur}
-									error={touched.endTime && !!errors.endTime}
-									helperText={touched.endTime && errors.endTime}
+									error={touched.meetingEndTime && !!errors.meetingEndTime}
+									helperText={touched.meetingEndTime && errors.meetingEndTime}
 								/>
 								<p className="font-medium text-gray-700 my-2">Client Name</p>
 								<TextField
@@ -174,7 +241,7 @@ const EditMeetingDetails = ({ open, handleClose }: Props) => {
 									error={touched.clientPhone && !!errors.clientPhone}
 									helperText={touched.clientPhone && errors.clientPhone}
 								/>
-								<p className="font-medium text-gray-700 my-2">Client Country</p>
+								{/* <p className="font-medium text-gray-700 my-2">Client Country</p>
 								<TextField
 									size="small"
 									fullWidth
@@ -185,7 +252,7 @@ const EditMeetingDetails = ({ open, handleClose }: Props) => {
 									onBlur={handleBlur}
 									error={touched.clientCountry && !!errors.clientCountry}
 									helperText={touched.clientCountry && errors.clientCountry}
-								/>
+								/> */}
 								<p className="font-medium text-gray-700 my-2">
 									Members Visited
 								</p>
@@ -193,12 +260,16 @@ const EditMeetingDetails = ({ open, handleClose }: Props) => {
 									size="small"
 									fullWidth
 									placeholder="Members Visited"
-									name="membersVisited"
-									value={values.membersVisited}
+									name="meetingPersonName"
+									value={values.meetingPersonName}
 									onChange={handleChange}
 									onBlur={handleBlur}
-									error={touched.membersVisited && !!errors.membersVisited}
-									helperText={touched.membersVisited && errors.membersVisited}
+									error={
+										touched.meetingPersonName && !!errors.meetingPersonName
+									}
+									helperText={
+										touched.meetingPersonName && errors.meetingPersonName
+									}
 								/>
 
 								<div className="flex justify-center mt-4">

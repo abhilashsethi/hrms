@@ -263,7 +263,7 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
 														></iframe>
 														{/* <iframe
 															className="w-full py-2"
-															src={`https://maps.google.com/maps?q='+${rowData?.lat}+','+${rowData?.lng}+'&hl=es&z=14&amp;output=embed`}
+															src={`https://maps.google.com/maps?q='+20.2961+','+85.8245+'&hl=es&z=14&amp;output=embed`}
 															loading="lazy"
 															referrerPolicy="no-referrer-when-downgrade"
 														></iframe> */}

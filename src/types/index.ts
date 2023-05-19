@@ -130,7 +130,7 @@ export type Client = {
 export interface MeetingTypes {
 	meetings?: MeetingProps[];
 }
-interface MeetingProps {
+export interface MeetingProps {
 	id?: string;
 	title?: string;
 	address?: string;
