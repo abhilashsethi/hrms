@@ -14,7 +14,6 @@ import Link from "next/link";
 
 const EmployeeProfile = () => {
   const [activeMonth, setActiveMonth] = useState();
-  console.log(activeMonth);
   const router = useRouter();
   const [attendances, setAttendances] = useState<any>([]);
   function renderEventContent(eventInfo: any) {
