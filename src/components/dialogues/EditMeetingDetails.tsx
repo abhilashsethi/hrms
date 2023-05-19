@@ -123,9 +123,9 @@ const EditMeetingDetails = ({
 		>
 			<DialogTitle
 				id="customized-dialog-title"
-				sx={{ p: 2, minWidth: "40rem !important" }}
+				// sx={{ p: 2, minWidth: "40rem !important" }}
 			>
-				<p className="text-center text-xl font-bold text-theme tracking-wide">
+				<p className="text-center md:text-xl text-lg font-bold text-theme tracking-wide">
 					EDIT MEETING DETAILS
 				</p>
 				<IconButton
