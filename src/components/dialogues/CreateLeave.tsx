@@ -12,9 +12,12 @@ import {
   RadioGroup,
   CircularProgress,
   MenuItem,
+  Autocomplete,
+  Box,
 } from "@mui/material";
-import { FileUpload } from "components/core";
+import { FileUpload, PhotoViewerSmall } from "components/core";
 import { Formik, Form, ErrorMessage } from "formik";
+import { useFetch } from "hooks";
 import { ChangeEvent, useState } from "react";
 import * as Yup from "yup";
 
@@ -24,11 +27,13 @@ interface Props {
 }
 const initialValues = {
   name: "",
-  leavesType: "",
-  to: "",
-  from: "",
-  date: "",
-  message: "",
+  type: "",
+  startDate: "",
+  endDate: "",
+  variant: "",
+  status: "",
+  reason: "",
+  userId: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -38,6 +43,7 @@ const validationSchema = Yup.object().shape({
 const CreateLeave = ({ open, handleClose }: Props) => {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("one");
+  const { data: usersData } = useFetch(`users`);
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
@@ -91,12 +97,42 @@ const CreateLeave = ({ open, handleClose }: Props) => {
                 <p className="font-medium text-gray-700 mb-2">
                   Select Employee
                 </p>
-                <TextField
-                  size="small"
+                <Autocomplete
+                  options={usersData as any}
                   fullWidth
-                  placeholder="Select Employee"
+                  autoHighlight
+                  getOptionLabel={(option: any) => option.name}
+                  onChange={(e, r) => {
+                    setFieldValue("userId", r?.id);
+                  }}
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      <div className="mr-2">
+                        <PhotoViewerSmall
+                          size="2rem"
+                          name={option.name}
+                          photo={option.photo}
+                        />
+                      </div>
+                      {option.name}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Select Employee"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "", // disable autocomplete and autofill
+                      }}
+                    />
+                  )}
                 />
-                <h1 className="mt-4">Select Leave Type</h1>
+                <h1 className="mt-4">Leave Variant</h1>
                 <div className="flex justify-center pt-2">
                   <RadioGroup
                     row
@@ -106,23 +142,23 @@ const CreateLeave = ({ open, handleClose }: Props) => {
                     onChange={handleRadioChange}
                   >
                     <FormControlLabel
-                      value="half"
+                      value="HalfDay"
                       control={<Radio />}
-                      label="Half Day Leave"
+                      label="Half Day"
                     />
                     <FormControlLabel
-                      value="one"
+                      value="FullDay"
                       control={<Radio />}
-                      label="One Day Leave"
+                      label="Full Day"
                     />
                     <FormControlLabel
                       value="multiple"
                       control={<Radio />}
-                      label="Multiple Day Leave"
+                      label="Multiple Days"
                     />
                   </RadioGroup>
                 </div>
-                {value == "one" ? (
+                {value == "FullDay" ? (
                   <>
                     <p className="font-medium text-gray-700 my-2">Date</p>
                     <TextField
@@ -130,41 +166,41 @@ const CreateLeave = ({ open, handleClose }: Props) => {
                       fullWidth
                       placeholder="From"
                       type="date"
-                      name="date"
-                      value={values.date}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.date && !!errors.date}
-                      helperText={touched.date && errors.date}
+                      //   name="date"
+                      //   value={values.date}
+                      //   onChange={handleChange}
+                      //   onBlur={handleBlur}
+                      //   error={touched.date && !!errors.date}
+                      //   helperText={touched.date && errors.date}
                     />
                   </>
                 ) : value == "multiple" ? (
                   <>
-                    <p className="font-medium text-gray-700 my-2">From</p>
+                    <p className="font-medium text-gray-700 my-2">Start Date</p>
                     <TextField
                       size="small"
                       fullWidth
-                      placeholder="From"
+                      placeholder="Start Date"
                       type="date"
-                      name="from"
-                      value={values.from}
+                      name="startDate"
+                      value={values.startDate}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.from && !!errors.from}
-                      helperText={touched.from && errors.from}
+                      error={touched.startDate && !!errors.startDate}
+                      helperText={touched.startDate && errors.startDate}
                     />
-                    <p className="font-medium text-gray-700 my-2">To</p>
+                    <p className="font-medium text-gray-700 my-2">End Date</p>
                     <TextField
                       size="small"
                       fullWidth
-                      placeholder="To"
+                      placeholder="End Date"
                       type="date"
-                      name="to"
-                      value={values.to}
+                      name="endDate"
+                      value={values.endDate}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.to && !!errors.to}
-                      helperText={touched.to && errors.to}
+                      error={touched.endDate && !!errors.endDate}
+                      helperText={touched.endDate && errors.endDate}
                     />
                   </>
                 ) : (
@@ -177,11 +213,11 @@ const CreateLeave = ({ open, handleClose }: Props) => {
                         fullWidth
                         name="leavesType"
                         placeholder="Select leave type"
-                        value={values.leavesType}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.leavesType && !!errors.leavesType}
-                        helperText={touched.leavesType && errors.leavesType}
+                        // value={values.leavesType}
+                        // onChange={handleChange}
+                        // onBlur={handleBlur}
+                        // error={touched.leavesType && !!errors.leavesType}
+                        // helperText={touched.leavesType && errors.leavesType}
                       >
                         {leavesType.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
@@ -192,28 +228,29 @@ const CreateLeave = ({ open, handleClose }: Props) => {
                     </div>
                   </>
                 )}
-                <p className="font-medium text-gray-700 my-2">Message</p>
+                <p className="font-medium text-gray-700 my-2">Reason</p>
                 <TextField
                   size="small"
                   fullWidth
                   multiline
                   rows={4}
-                  placeholder="Message"
-                  name="message"
-                  value={values.message}
+                  placeholder="Reason"
+                  name="reason"
+                  value={values.reason}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={touched.message && !!errors.message}
-                  helperText={touched.message && errors.message}
+                  error={touched.reason && !!errors.reason}
+                  helperText={touched.reason && errors.reason}
                 />
-                <FileUpload
-                  values={values}
-                  setImageValue={(event: any) => {
+                <h1 className="py-1 mt-1">Upload Document</h1>
+                <input
+                  className="w-full border-2 py-2 px-2 cursor-pointer"
+                  placeholder="Upload document"
+                  type="file"
+                  onChange={(event: any) => {
                     setFieldValue("image", event.currentTarget.files[0]);
                   }}
-                >
-                  <ErrorMessage name="image" />
-                </FileUpload>
+                />
                 <div className="flex justify-center mt-4">
                   <Button
                     type="submit"
