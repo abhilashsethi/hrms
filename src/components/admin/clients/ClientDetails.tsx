@@ -108,7 +108,7 @@ const ClientDetails = () => {
                       />
                     </p>
                   </div>
-                  <div className="px-4 grid justify-items-end ">
+                  <div className="px-4 grid md:justify-items-end ">
                     <span>
                       <ClientProfileImage values={clientData} mutate={mutate} />
                     </span>

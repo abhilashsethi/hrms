@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { User } from "types";
 import moment from "moment";
+import ICONS from "assets/icons";
 
 type Props = {
   open?: boolean | any;
@@ -46,12 +47,7 @@ const ViewProjectsDrawerClient = ({
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
-        <Container
-          style={{
-            width: "30vw",
-            marginTop: "3.5vh",
-          }}
-        >
+        <Container className="lg:w-[30vw] mt-[3.5vh]">
           {/* Document Modal  */}
           <Modal
             open={openInfoModal}
@@ -73,6 +69,9 @@ const ViewProjectsDrawerClient = ({
             </Card>
           </Modal>
           <div className="flex items-center justify-between pb-4">
+            <span onClick={() => onClose && onClose()}>
+              <ICONS.Close />
+            </span>
             <p className="text-lg font-bold text-theme">View All Projects</p>
           </div>
 

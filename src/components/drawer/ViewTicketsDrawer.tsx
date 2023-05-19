@@ -14,6 +14,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
+import ICONS from "assets/icons";
 import { Loader } from "components/core";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
@@ -81,6 +82,9 @@ const ViewTicketsDrawer = ({
             </Card>
           </Modal>
           <div className="flex items-center justify-between pb-4">
+            <span onClick={() => onClose && onClose()}>
+              <ICONS.Close />
+            </span>
             <p className="text-lg font-bold text-theme">View All TIckets</p>
           </div>
 
