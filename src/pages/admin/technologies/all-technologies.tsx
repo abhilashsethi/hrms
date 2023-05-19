@@ -85,5 +85,9 @@ export default AllTechnologies;
 
 const links = [
   { id: 1, page: "Technology", link: "/admin/technologies" },
-  { id: 2, page: "All Technology", link: "/admin/technology/all-technologies" },
+  {
+    id: 2,
+    page: "All Technology",
+    link: "/admin/technologies/all-technologies",
+  },
 ];

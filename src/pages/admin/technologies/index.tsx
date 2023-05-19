@@ -8,19 +8,15 @@ import PanelLayout from "layouts/panel";
 import { useState } from "react";
 
 const Technologies = () => {
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
-  const { data: roleDataCard } = useFetch<any>(
-    `roles?page=${pageNumber}&limit=3`
-  );
   const { data: techDashboard } = useFetch<any>(
     `technologies/dashboard/details`
   );
-  console.log(techDashboard);
+  const { data: tech } = useFetch<any[]>(`technologies?page=1&limit=3`);
   return (
     <PanelLayout title="Technologies - HRMS Searchingyard">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
-        <DashBoardCardTech dashboardData={techDashboard} />
+        <DashBoardCardTech dashboardData={techDashboard} tech={tech} />
         <DashboardChartsTech dashboardData={techDashboard} />
       </section>
     </PanelLayout>
