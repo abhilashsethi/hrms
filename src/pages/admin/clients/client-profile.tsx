@@ -23,9 +23,3 @@ const links = [
     link: "/admin/clients/client-profile",
   },
 ];
-
-// const attendance = [
-//   { title: "PRESENT", date: "2023-04-03" },
-//   { title: "ABSENT", date: "2023-04-04" },
-//   { title: "PRESENT", date: "2023-04-05" },
-// ];

@@ -8,7 +8,7 @@ const Roles = () => {
   const { data: roleDataCard } = useFetch<any>(
     `roles?page=${pageNumber}&limit=3`
   );
-  const { data: roleDashboard } = useFetch<any>(`roles/dashboard`);
+  const { data: roleDashboard } = useFetch<any>(`roles/dashboard/details`);
 
   return (
     <PanelLayout title="Roles - SY HR MS">
