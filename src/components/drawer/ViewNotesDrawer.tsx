@@ -175,7 +175,7 @@ const ViewNotesDrawer = ({
 													<p className="font-semibold">
 														Added By :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{item?.addedById}
+															{item?.addedBy?.name}
 														</span>
 													</p>
 
