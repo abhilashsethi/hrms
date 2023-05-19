@@ -52,7 +52,7 @@ const Projects = () => {
         <div className="w-full flex gap-2 mb-4">
           {skeletons?.map((item) => (
             <>
-              <SkeletonsStructure />
+              <SkeletonsStructure key={item?.id} />
             </>
           ))}
         </div>
