@@ -8,7 +8,6 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { AccountTreeRounded, Close, FreeBreakfast } from "@mui/icons-material";
-import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
 import { Loader } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
@@ -145,11 +144,6 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 
 					{isLoading && <Loader />}
 					<div className="mt-4 flex flex-col gap-4">
-						{/* {!searchedUser?.length && (
-							<p className="py-8 text-center flex gap-3 items-center justify-center">
-								<Search /> No results found!
-							</p>
-						)} */}
 						{Projects_Details?.map((item, index) => {
 							return (
 								<div className="">
