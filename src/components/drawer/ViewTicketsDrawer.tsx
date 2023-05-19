@@ -26,7 +26,8 @@ type Props = {
   open?: boolean | any;
   onClose: () => void;
   setViewTickets?: any;
-  ticket: any;
+  ticket?: any;
+  isLoading?: any;
 };
 
 const style = {
@@ -43,58 +44,22 @@ const style = {
   p: 4,
 };
 
-const Projects_Details = [
-  {
-    id: 1,
-    title: "Project Title",
-    name: "Shrinu Readdy",
-    startDate: "25-04-2023",
-    endDate: "25-05-2023",
-  },
-  {
-    id: 2,
-    title: "Project Title",
-    name: "Shrinu Readdy",
-    startDate: "25-04-2023",
-    endDate: "25-05-2023",
-  },
-  {
-    id: 3,
-    title: "Project Title",
-    name: "Shrinu Readdy",
-    startDate: "25-04-2023",
-    endDate: "25-05-2023",
-  },
-  {
-    id: 4,
-    title: "Project Title",
-    name: "Shrinu Readdy",
-    startDate: "25-04-2023",
-    endDate: "25-05-2023",
-  },
-];
-
 const ViewTicketsDrawer = ({
   open,
   onClose,
   setViewTickets,
   ticket,
+  isLoading,
 }: Props) => {
   const [openInfoModal, setOpenInfoModal] = useState(false);
   const handleInfoOpen = () => {
     setOpenInfoModal(true);
   };
   const handleInfoCloseModal = () => setOpenInfoModal(false);
-  const { data: users, isLoading } = useFetch<User[]>(`users`);
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
-        <Container
-          style={{
-            width: "30vw",
-            marginTop: "3.5vh",
-          }}
-        >
+        <Container className="lg:w-[30vw] mt-[3.5vh]">
           {/* Document Modal  */}
           <Modal
             open={openInfoModal}

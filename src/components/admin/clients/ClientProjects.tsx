@@ -3,27 +3,28 @@ import moment from "moment";
 import { AccountTreeRounded, Handyman } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { useState } from "react";
-import { ViewProjectsDrawer } from "components/drawer";
+import { ViewProjectsDrawerClient } from "components/drawer";
 interface Props {
   projectData?: any;
+  isLoading?: any;
 }
-const ClientProjects = ({ projectData }: Props) => {
+const ClientProjects = ({ projectData, isLoading }: Props) => {
   const [projects, setProjects] = useState(false);
   const [viewProjects, setViewProjects] = useState<any>(null);
+  console.log(projectData);
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
-      <ViewProjectsDrawer
+      <ViewProjectsDrawerClient
         open={projects}
         onClose={() => setProjects(false)}
         setViewProject={setViewProjects}
+        projectData={projectData}
+        isLoading={isLoading}
       />
       <div className="flex justify-between">
         <HeadText title={`Projects (${projectData?.length})`} />
         <Tooltip title="View All Projects">
-          <div
-            // onClick={() => setTickets(true)}
-            className="rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-500 flex-col gap-2 "
-          >
+          <div className="rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-500 flex-col gap-2 ">
             <span className="bg-[#dbe3ff] p-2 shadow-lg rounded-md transition-all ease-in-out duration-200">
               <Handyman onClick={() => setProjects(true)} />
             </span>
@@ -43,12 +44,19 @@ const ClientProjects = ({ projectData }: Props) => {
                 <p className="text-sm font-semibold tracking-wide">
                   {item?.name}
                 </p>
-                <span className="py-1 px-3 rounded-md bg-emerald-100 tracking-wide border-green-400 border-[1px] text-green-500 text-xs font-semibold">
+                <span
+                  className={`py-1 px-3 rounded-md ${
+                    item?.status === "Pending"
+                      ? `bg-yellow-100 border-yellow-400 border-[1px] text-yellow-500 `
+                      : `bg-emerald-100 border-green-400 border-[1px] text-green-500 `
+                  } text-xs font-semibold tracking-wide`}
+                >
                   {item?.status}
                 </span>
               </div>
               <p className="text-sm tracking-wide">
-                Deadline : {moment(new Date()).format("ll")}
+                Deadline :{" "}
+                {item?.endDate ? moment(item?.endDate).format("ll") : "Not Set"}
               </p>
             </div>
           </div>
@@ -59,24 +67,3 @@ const ClientProjects = ({ projectData }: Props) => {
 };
 
 export default ClientProjects;
-
-const cards = [
-  {
-    id: 1,
-    title: "HRMS for SY",
-    deadline: "May 10, 2023",
-    status: "COMPLETED",
-  },
-  {
-    id: 2,
-    title: "Yard ERP",
-    deadline: "May 10, 2023",
-    status: "COMPLETED",
-  },
-  {
-    id: 3,
-    title: "Yard CRM",
-    deadline: "May 10, 2023",
-    status: "COMPLETED",
-  },
-];
