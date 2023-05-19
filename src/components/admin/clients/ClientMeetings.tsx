@@ -8,8 +8,9 @@ import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 interface Props {
   ticketsData?: any;
+  isLoading?: any;
 }
-const ClientMeetings = ({ ticketsData }: Props) => {
+const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
   const router = useRouter();
   const [tickets, setTickets] = useState(false);
   const [viewTickets, setViewTickets] = useState<any>(null);
@@ -21,6 +22,7 @@ const ClientMeetings = ({ ticketsData }: Props) => {
         onClose={() => setTickets(false)}
         setViewTickets={setViewTickets}
         ticket={ticketsData}
+        isLoading={isLoading}
       />
       <div className="flex justify-between">
         <HeadText title={`Tickets (${ticketsData?.length})`} />

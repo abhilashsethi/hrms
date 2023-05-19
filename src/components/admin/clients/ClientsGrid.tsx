@@ -66,7 +66,7 @@ const MoreOption = ({ item, mutate }: any) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { data: ticketsData } = useFetch<any>(
+  const { data: ticketsData, isLoading } = useFetch<any>(
     `tickets?${ticketsId ? `&clientId=${ticketsId}` : ""}`
   );
   const handleDelete = async (item: Client) => {
@@ -131,6 +131,7 @@ const MoreOption = ({ item, mutate }: any) => {
           onClose={() => setTickets(false)}
           setViewTickets={setViewTickets}
           ticket={ticketsData}
+          isLoading={isLoading}
         />
         <div className="absolute right-[10px] top-[10px]">
           <Tooltip title="More">

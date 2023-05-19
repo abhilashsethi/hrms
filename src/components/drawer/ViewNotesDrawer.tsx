@@ -1,18 +1,8 @@
-import {
-	AccountTreeRounded,
-	Add,
-	BorderColor,
-	Close,
-	EventNote,
-	FreeBreakfast,
-	Receipt,
-	SupportAgent,
-} from "@mui/icons-material";
+import { Add, Close, EventNote } from "@mui/icons-material";
 import {
 	Avatar,
 	Button,
 	Card,
-	CircularProgress,
 	Container,
 	Drawer,
 	IconButton,

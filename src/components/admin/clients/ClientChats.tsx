@@ -13,7 +13,7 @@ const ClientChats = () => {
   const [tickets, setTickets] = useState(false);
   const router = useRouter();
   const [viewTickets, setViewTickets] = useState<any>(null);
-  const { data: ticketsData } = useFetch<any>(
+  const { data: ticketsData, isLoading } = useFetch<any>(
     `tickets?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
   );
   return (
@@ -23,6 +23,7 @@ const ClientChats = () => {
         onClose={() => setTickets(false)}
         setViewTickets={setViewTickets}
         ticket={ticketsData}
+        isLoading={isLoading}
       />
 
       <HeadText title="Requester Details" />

@@ -3,8 +3,8 @@ import { AdminBreadcrumbs } from "components/core";
 import { ClientDetails } from "components/admin/clients";
 const ClientProfile = () => {
   return (
-    <PanelLayout title="User Profile - SY HR MS">
-      <section className="px-8 mx-auto p-4">
+    <PanelLayout title="Client Profile - SY HR MS">
+      <section className="lg:px-8 px-4 py-4">
         <div className="pb-4">
           <AdminBreadcrumbs links={links} />
         </div>
