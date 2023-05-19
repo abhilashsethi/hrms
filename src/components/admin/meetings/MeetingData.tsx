@@ -18,15 +18,17 @@ import {
 	DocPreview,
 	UpdateClient,
 } from "components/dialogues";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Client, MeetingTypes } from "types";
+import { Client, MeetingProps, MeetingTypes } from "types";
 import { ViewNotesDrawer, ViewTicketsDrawer } from "components/drawer";
 import { DEFAULTPROFILE, DOC, IMG, PDF, XLS } from "assets/home";
 import AddDocument from "components/dialogues/AddDocument";
 import EditMeetingDetails from "components/dialogues/EditMeetingDetails";
 import { useTheme } from "@emotion/react";
+import moment from "moment";
+import Swal from "sweetalert2";
 
 const MeetingData = () => {
 	const router = useRouter();
@@ -44,12 +46,12 @@ const MeetingData = () => {
 		title: "Preview",
 	});
 	const {
-		data: meetingData,
+		data: meetingDetails,
 		mutate,
 		isLoading,
-	} = useFetch<MeetingTypes>(`meetings/${router?.query?.id}`);
+	} = useFetch<MeetingProps>(`meetings/${router?.query?.id}`);
 
-	console.log(meetingData);
+	// console.log(meetingDetails);
 
 	if (isLoading) {
 		return <Loader />;
@@ -66,6 +68,8 @@ const MeetingData = () => {
 			<EditMeetingDetails
 				open={editDetails}
 				handleClose={() => setEditDetails(false)}
+				meetingId={router?.query?.id}
+				mutate={mutate}
 			/>
 
 			<UpdateClient
@@ -82,6 +86,8 @@ const MeetingData = () => {
 				open={tickets}
 				onClose={() => setTickets(false)}
 				setViewTickets={setViewTickets}
+				meetingDetails={meetingDetails}
+				mutate={mutate}
 				// ticket={tickets}
 			/>
 			<section className="mb-12 flex gap-3">
@@ -103,50 +109,71 @@ const MeetingData = () => {
 								<div>
 									<p className="pb-1 text-lg font-semibold">
 										Meeting Name :{" "}
-										<span className="font-normal">HRMS Meeting</span>
+										<span className="font-normal">{meetingDetails?.title}</span>
 									</p>
 									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
-										<p className=" font-semibold">Time</p> : <AccessTime />
-										<span>10:00 AM - 12:00 PM</span>
+										{/* <p className=" font-semibold">Time</p> : <AccessTime /> */}
+										<div className="flex py-2 md:py-0">
+											<p className="font-semibold text-sm md:text-base">
+												Meeting Start Dt :{" "}
+											</p>
+											{/* <AccessTime /> */}
+											<span className="text-sm md:text-base">{`${moment(
+												meetingDetails?.meetingDate
+											).format("LL")}, ${moment(
+												meetingDetails?.meetingStartTime
+											).format("LT")}`}</span>
+										</div>
+									</div>
+									<div className="flex py-2 md:py-0">
+										<p className="font-semibold text-sm md:text-base">
+											Meeting End Dt :{" "}
+										</p>
+										{/* <AccessTime /> */}
+										<span className="text-sm md:text-base">
+											{`${moment(meetingDetails?.meetingDate).format(
+												"LL"
+											)}, ${moment(meetingDetails?.meetingEndTime).format(
+												"LT"
+											)}`}
+										</span>
 									</div>
 									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
 										<p className=" font-semibold">Client Name</p> :{" "}
-										<span>John Smith</span>
+										<span>{meetingDetails?.clientName}</span>
 									</div>
 									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
 										<p className=" font-semibold">Client Email</p> :{" "}
-										<span>john@gmail.com</span>
+										<span>{meetingDetails?.clientEmail}</span>
 									</div>
 									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
 										<p className=" font-semibold">Client Phone</p> :{" "}
-										<span>8496587412</span>
+										<span>{meetingDetails?.clientPhone}</span>
 									</div>
-									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
-										<p className=" font-semibold">Client Country</p> :{" "}
-										<span>Australia</span>
-									</div>
+
 									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
 										<p className=" font-semibold">Members Visited</p> :{" "}
-										<span>Srinu Readdy</span>
+										<span>{meetingDetails?.meetingPersonName}</span>
 									</div>
 									<div className="w-full">
 										<div className="flex justify-end">
 											<Button
 												variant="contained"
 												className="!bg-blue-500 "
-												startIcon={<Add />}
+												// startIcon={<Add />}
 												size="small"
 												onClick={() => setTickets(true)}
 											>
-												Add Note
+												View Notes
 											</Button>
 										</div>
 										<p className="font-semibold pb-3">Documents :</p>
 										<div className="grid grid-cols-3 w-2/3 gap-6">
-											{docs.map((item, i) => {
+											{docs.map((item: any, i) => {
 												return (
 													<Tooltip title="Click to Preview">
 														<div
+															key={i}
 															className="cursor-pointer"
 															onClick={() =>
 																setIsPreview({

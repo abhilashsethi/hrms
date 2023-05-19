@@ -1,5 +1,7 @@
 import {
 	AccountTreeRounded,
+	Add,
+	BorderColor,
 	EventNote,
 	FreeBreakfast,
 	Receipt,
@@ -7,6 +9,7 @@ import {
 } from "@mui/icons-material";
 import {
 	Avatar,
+	Button,
 	Card,
 	CircularProgress,
 	Container,
@@ -17,6 +20,7 @@ import {
 import { DEFAULTPROFILE, DOC, IMG, PDF, SAMPLEDP } from "assets/home";
 import { Loader } from "components/core";
 import { DocPreview } from "components/dialogues";
+import AddMeetingNotes from "components/dialogues/AddMeetingNotes";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
@@ -29,6 +33,8 @@ type Props = {
 	onClose: () => void;
 	setViewTickets?: any;
 	ticket?: any;
+	meetingDetails: any;
+	mutate?: any;
 };
 
 const style = {
@@ -45,38 +51,14 @@ const style = {
 	p: 4,
 };
 
-const Projects_Details = [
-	{
-		id: 1,
-		title: "Project Title",
-		name: "Shrinu Readdy",
-		startDate: "25-04-2023",
-		endDate: "25-05-2023",
-	},
-	{
-		id: 2,
-		title: "Project Title",
-		name: "Shrinu Readdy",
-		startDate: "25-04-2023",
-		endDate: "25-05-2023",
-	},
-	{
-		id: 3,
-		title: "Project Title",
-		name: "Shrinu Readdy",
-		startDate: "25-04-2023",
-		endDate: "25-05-2023",
-	},
-	{
-		id: 4,
-		title: "Project Title",
-		name: "Shrinu Readdy",
-		startDate: "25-04-2023",
-		endDate: "25-05-2023",
-	},
-];
-
-const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
+const ViewNotesDrawer = ({
+	open,
+	onClose,
+	setViewTickets,
+	ticket,
+	meetingDetails,
+	mutate,
+}: Props) => {
 	const [openInfoModal, setOpenInfoModal] = useState(false);
 	const handleInfoOpen = () => {
 		setOpenInfoModal(true);
@@ -92,6 +74,10 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 		title: "Preview",
 	});
 
+	const [editDetails, setEditDetails] = useState<boolean>(false);
+
+	// console.log(meetingDetails);
+
 	return (
 		<>
 			<DocPreview
@@ -99,6 +85,14 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 				handleClose={() => setIsPreview({ dialogue: false })}
 				title={isPreview?.title}
 			/>
+
+			<AddMeetingNotes
+				open={editDetails}
+				handleClose={() => setEditDetails(false)}
+				details={meetingDetails}
+				mutate={mutate}
+			/>
+
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
 				<Container
 					style={{
@@ -128,15 +122,24 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 					</Modal>
 					<div className="flex items-center justify-between pb-4">
 						<p className="text-lg font-bold text-theme">View All Notes</p>
+						<Button
+							variant="contained"
+							className="!bg-blue-500 "
+							startIcon={<Add />}
+							size="small"
+							onClick={() => setEditDetails((prev) => !prev)}
+						>
+							Add Notes
+						</Button>
 					</div>
 
 					{isLoading && <Loader />}
 					<div className="mt-4 flex flex-col gap-4">
 						<div className="">
-							{Note_Details?.map((item, i) => {
+							{meetingDetails?.notes?.map((item: any, i: any) => {
 								return (
 									<div
-										// key={index}
+										key={i}
 										className="w-full relative rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 mb-8"
 									>
 										<div className="absolute -top-4">
@@ -162,7 +165,7 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 													<p className="font-semibold">
 														Notes :{" "}
 														<span className="text-sm text-gray-600">
-															{item?.notes}
+															{item?.text}
 														</span>
 														<span className="font-semibold text-sm text-gray-500">
 															{/* {item?.name} */}
@@ -171,8 +174,19 @@ const ViewNotesDrawer = ({ open, onClose, setViewTickets, ticket }: Props) => {
 													<p className="font-semibold">
 														Added By :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{item?.addedBy}
+															{item?.addedById}
 														</span>
+													</p>
+
+													<p className="font-semibold">
+														Note Link :{" "}
+														<a
+															className="text-sm font-medium text-blue-500 underline"
+															target="_blank"
+															href={`${item?.link}`}
+														>
+															Note Link
+														</a>
 													</p>
 												</div>
 												<Tooltip title="Details">
