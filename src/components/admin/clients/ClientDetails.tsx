@@ -34,6 +34,8 @@ const ClientDetails = () => {
   const { data: projectData } = useFetch<any>(
     `projects?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
   );
+  console.log("clients", clientData);
+  console.log("projectData", projectData);
 
   const basicDetails = [
     {
@@ -134,7 +136,7 @@ const ClientDetails = () => {
                       className="bg-white p-1 rounded-lg mb-3 text-theme"
                     />
                     <p className={`text-sm text-gray-800 font-semibold`}>
-                      Ongoing Projects
+                      Completed Projects
                     </p>
                     <p className="text-sm font-medium">12</p>
                   </div>
@@ -156,7 +158,7 @@ const ClientDetails = () => {
                       className="bg-white p-1 rounded-lg mb-3 text-theme"
                     />
                     <p className={`text-sm text-gray-800 font-semibold`}>
-                      Active Bugs
+                      Resolved Tickets
                     </p>
                     <p className="text-sm font-medium">8</p>
                   </div>

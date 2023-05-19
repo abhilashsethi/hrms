@@ -48,14 +48,15 @@ const AllClients = () => {
   return (
     <>
       <PanelLayout title="All Clients - SY HR MS">
-        <section className="px-8">
+        <section className="lg:px-8 px-4">
           <UploadEmployData
             open={isUpload}
             handleClose={() => setIsUpload(false)}
           />
-          <div className="flex justify-between items-center py-4">
+          <div className="lg:flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
-            <div className="flex gap-4 items-center">
+
+            <div className="md:flex gap-4 items-center">
               <div className="flex gap-1">
                 <IconButton onClick={() => setIsGrid(true)} size="small">
                   <div
@@ -78,6 +79,16 @@ const AllClients = () => {
                   </div>
                 </IconButton>
               </div>
+              <Link href="/admin/clients/add-clients">
+                <Button
+                  fullWidth
+                  className="!bg-theme"
+                  variant="contained"
+                  startIcon={<Add />}
+                >
+                  ADD CLIENTS
+                </Button>
+              </Link>
             </div>
           </div>
           <FiltersContainer>
@@ -118,16 +129,6 @@ const AllClients = () => {
                   </MenuItem>
                 ))}
               </TextField>
-              <Link href="/admin/clients/add-clients">
-                <Button
-                  fullWidth
-                  className="!bg-theme"
-                  variant="contained"
-                  startIcon={<Add />}
-                >
-                  ADD CLIENTS
-                </Button>
-              </Link>
             </div>
           </FiltersContainer>
           {isGrid ? (

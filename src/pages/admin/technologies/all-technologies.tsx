@@ -1,10 +1,11 @@
 import { Add } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Button, Pagination, Stack } from "@mui/material";
 import { TechnologyGrid, TechnologyTable } from "components/admin/Technology";
 import {
   AdminBreadcrumbs,
   GridAndList,
   Loader,
+  LoaderAnime,
   SkeletonLoader,
 } from "components/core";
 import { CreateTechnology } from "components/dialogues";
@@ -22,6 +23,7 @@ const AllTechnologies = () => {
     isLoading,
     pagination,
   } = useFetch<any[]>(`technologies?page=${pageNumber}&limit=8`);
+  console.log(tech);
   return (
     <PanelLayout title="All Technologies - HRMS Searchingyard">
       <CreateTechnology
@@ -57,6 +59,23 @@ const AllTechnologies = () => {
             <TechnologyTable data={tech} mutate={mutate} />
           </>
         )}
+        {!tech?.length && <LoaderAnime />}
+        {tech?.length ? (
+          <div className="flex justify-center py-8">
+            <Stack spacing={2}>
+              <Pagination
+                count={Math.ceil(
+                  Number(pagination?.total || 1) /
+                    Number(pagination?.limit || 1)
+                )}
+                onChange={(e, v: number) => {
+                  setPageNumber(v);
+                }}
+                variant="outlined"
+              />
+            </Stack>
+          </div>
+        ) : null}
       </section>
     </PanelLayout>
   );
@@ -66,5 +85,9 @@ export default AllTechnologies;
 
 const links = [
   { id: 1, page: "Technology", link: "/admin/technologies" },
-  { id: 2, page: "All Technology", link: "/admin/technology/all-technologies" },
+  {
+    id: 2,
+    page: "All Technology",
+    link: "/admin/technologies/all-technologies",
+  },
 ];
