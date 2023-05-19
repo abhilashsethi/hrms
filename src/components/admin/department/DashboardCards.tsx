@@ -1,5 +1,3 @@
-import { Grid } from "@mui/material";
-import React from "react";
 interface Props {
   data?: any;
 }

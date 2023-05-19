@@ -16,12 +16,7 @@ const RoleInformation = ({ open, onClose, roleId }: Props) => {
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
-        <Container
-          style={{
-            width: "30vw",
-            marginTop: "3.5vh",
-          }}
-        >
+        <Container className="lg:w-[30vw] w-full mt-[3.5vh]">
           <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
             <PeopleRounded />
             MEMBERS

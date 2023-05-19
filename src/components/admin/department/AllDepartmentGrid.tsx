@@ -1,5 +1,5 @@
 import { Delete, Edit, Info } from "@mui/icons-material";
-import { Grid, IconButton, Tooltip } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { UpdateDepartment } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
@@ -73,13 +73,13 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
         onClose={() => setIsInfo({ dialogue: false })}
         roleId={isInfo?.role?.id}
       />
-      <div className="mt-4">
-        <Grid container spacing={3}>
+      <div className="my-4">
+        <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
           {data?.map((item: any) => (
-            <Grid key={item?.id} item lg={3}>
-              <div className="h-40 w-full hover:scale-105 ease-in-out transition-all duration-200 bg-white border-b-4 border-cyan-600 shadow-lg rounded-xl flex justify-center items-center">
-                <div className="flex flex-col items-center gap-4">
-                  <p className="text-lg font-semibold tracking-wide capitalize">
+            <div key={item?.id}>
+              <div className="px-4 h-48 w-full hover:scale-105 ease-in-out transition-all duration-200 bg-white border-b-4 border-cyan-600 shadow-lg rounded-xl flex justify-center items-center">
+                <div className="grid justify-items-center items-center gap-4">
+                  <p className="text-lg font-semibold tracking-wide text-center capitalize">
                     {item?.name}
                   </p>
                   <div className="w-full px-8 flex gap-2 justify-center">
@@ -122,9 +122,9 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
                   </div>
                 </div>
               </div>
-            </Grid>
+            </div>
           ))}
-        </Grid>
+        </div>
       </div>
     </>
   );

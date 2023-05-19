@@ -4,11 +4,13 @@ import { EmployeeDetails } from "components/admin";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
-import { Check, Close } from "@mui/icons-material";
+import { BarChart, Check, Close } from "@mui/icons-material";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import { Button } from "@mui/material";
+import Link from "next/link";
 
 const EmployeeProfile = () => {
   const [activeMonth, setActiveMonth] = useState();
@@ -60,6 +62,15 @@ const EmployeeProfile = () => {
     setAttendances(reqData);
   }, [attendanceData]);
 
+  const links = [
+    { id: 1, page: "Employees", link: "/admin/employees" },
+    {
+      id: 2,
+      page: "Employee Profile",
+      link: `/admin/employees/employee-profile?id=${router?.query?.id}`,
+    },
+  ];
+
   return (
     <PanelLayout title="User Profile - SY HR MS">
       <section className="md:px-8 px-2 mx-auto">
@@ -71,8 +82,19 @@ const EmployeeProfile = () => {
         {/* <ProfileTabs /> */}
         <div className="flex gap-3">
           <div className="w-full">
-            <div className="mb-4">
+            <div className="mb-4 flex justify-between">
               <HeadText title="Month wise attendance" />
+              <Link
+                href={`/admin/employees/attendance-report?empId=${router?.query?.id}`}
+              >
+                <Button
+                  variant="contained"
+                  className="!bg-theme"
+                  startIcon={<BarChart />}
+                >
+                  VIEW REPORT
+                </Button>
+              </Link>
             </div>
             <FullCalendar
               plugins={[dayGridPlugin, interactionPlugin]}
@@ -89,14 +111,6 @@ const EmployeeProfile = () => {
 };
 
 export default EmployeeProfile;
-const links = [
-  { id: 1, page: "Employees", link: "/admin/employees" },
-  {
-    id: 2,
-    page: "Employee Profile",
-    link: "/admin/employees/employee-profile",
-  },
-];
 
 // const attendance = [
 //   { title: "PRESENT", date: "2023-04-03" },

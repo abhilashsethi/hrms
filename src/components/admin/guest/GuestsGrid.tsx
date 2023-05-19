@@ -159,17 +159,21 @@ const CardContent = ({ item, mutate }: any) => {
         <div className="flex gap-2 items-center font-semibold text-sm">
           {item?.designation}
         </div>
-        <div className="grid grid-cols-2 gap-6 px-2 text-sm justify-items-center">
+        <div className="grid md:grid-cols-2 gap-6 px-2 text-sm justify-items-center">
           <div className="grid gap-2 px-4 py-2 shadow-xl rounded-md text-center ">
             <p className="font-semibold">Valid From</p>
             <p className="text-gray-500 font-medium">
-              {item?.valid ? item?.valid : "---"}
+              {item?.card.length
+                ? moment(item?.card[0]?.validFrom).format("lll")
+                : "---"}
             </p>
           </div>
           <div className="grid gap-2 px-4 py-2 shadow-xl rounded-md text-center ">
             <p className="font-semibold">Valid Till</p>
             <p className="text-gray-500 font-medium">
-              {item?.valid ? item?.valid : "---"}
+              {item?.card.length
+                ? moment(item?.card[0]?.validTill).format("lll")
+                : "---"}
             </p>
           </div>
         </div>

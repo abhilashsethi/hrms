@@ -79,6 +79,7 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
         userId={selectedUser}
         open={isValidity}
         mutate={mutate}
+        closeDrawer={onClose}
         handleClose={() => setIsValidity(false)}
       />
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>

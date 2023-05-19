@@ -3,18 +3,14 @@ import { Button } from "@mui/material";
 import { TechnologyGrid, TechnologyTable } from "components/admin/Technology";
 import {
   AdminBreadcrumbs,
-  FiltersContainer,
   GridAndList,
-  HeadText,
   Loader,
   SkeletonLoader,
 } from "components/core";
 import { CreateTechnology } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import Link from "next/link";
 import { useState } from "react";
-import { User } from "types";
 
 const AllTechnologies = () => {
   const [isGrid, setIsGrid] = useState(true);
@@ -34,10 +30,10 @@ const AllTechnologies = () => {
         mutate={mutate}
       />
       <section className="px-8 py-4">
-        <div className="flex justify-between">
+        <div className="lg:flex justify-between">
           <AdminBreadcrumbs links={links} />
           {/* <HeadText title="ALL TECHNOLOGY" /> */}
-          <div className="flex gap-4 items-center">
+          <div className="md:flex gap-4 items-center">
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             <Button
               onClick={() => setIsCreate(true)}

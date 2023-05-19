@@ -1,5 +1,5 @@
 import { Add, Upload } from "@mui/icons-material";
-import { useTheme, useMediaQuery } from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
 import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import {
@@ -25,8 +25,10 @@ const AllEmployees = () => {
   const [isRole, setIsRole] = useState<string | null>(null);
   const [isDepartment, setIsDepartment] = useState<string | null>(null);
   const [isUpload, setIsUpload] = useState(false);
-  const [empId, setEmpId] = useState("");
+  const [empId, setEmpId] = useState<string | null>(null);
   const { data: roleData } = useFetch<any>(`roles`);
+  const { data: departmentData } = useFetch<any>(`departments`);
+  console.log(departmentData);
   const {
     data: employees,
     mutate,
@@ -35,7 +37,9 @@ const AllEmployees = () => {
   } = useFetch<User[]>(
     `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
       empId ? `&employeeID=${empId}` : ""
-    }${isRole ? `&role=${isRole}` : ""}`
+    }${isRole ? `&role=${isRole}` : ""}${
+      isDepartment ? `&department=${isDepartment}` : ""
+    }`
   );
   return (
     <PanelLayout title="All Users - SY HR MS">
@@ -72,7 +76,14 @@ const AllEmployees = () => {
             </div>
           </div>
         </div>
-        <FiltersContainer>
+        <FiltersContainer
+          changes={() => {
+            setEmpId(null);
+            setUsername(null);
+            setIsRole(null);
+            setIsDepartment(null);
+          }}
+        >
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 gap-2">
             <TextField
               fullWidth
@@ -108,7 +119,7 @@ const AllEmployees = () => {
               value={isDepartment ? isDepartment : ""}
               onChange={(e) => setIsDepartment(e.target.value)}
             >
-              {roleData?.roles?.map((option: any) => (
+              {departmentData?.departments?.map((option: any) => (
                 <MenuItem key={option.id} value={option.name}>
                   {option.name}
                 </MenuItem>

@@ -93,10 +93,7 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle
-          id="customized-dialog-title"
-          sx={{ p: 2, minWidth: "40rem !important" }}
-        >
+        <DialogTitle id="customized-dialog-title">
           <p className="text-center text-md font-bold text-theme te tracking-wide">
             Bank Information Update
           </p>
