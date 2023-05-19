@@ -117,7 +117,7 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
                   name: _?.userId
                     ? _?.user?.name
                     : _?.guestId
-                    ? "Guest ID"
+                    ? _?.guest?.name
                     : "---",
                   validFrom: _?.userId
                     ? "---"

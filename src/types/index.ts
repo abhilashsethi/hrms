@@ -43,6 +43,7 @@ export type Card = {
   validFrom?: string | null;
   validTill?: string | null;
   guestId?: string | null;
+  guest?: Guest | null;
 };
 
 export type Attendance = {
@@ -53,6 +54,19 @@ export type Attendance = {
   updatedAt: Date;
   user: User;
 };
+
+export interface Guest {
+  id?: string;
+  company?: string | null;
+  createdAt?: string;
+  email?: string | null;
+  gender?: string;
+  isBlocked?: boolean;
+  name?: string;
+  phone?: string;
+  updatedAt?: Date;
+  visitInfo?: string | null;
+}
 
 export type User = {
   id: string;
