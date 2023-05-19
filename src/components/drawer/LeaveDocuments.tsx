@@ -13,15 +13,15 @@ type Props = {
 };
 const useStyles = makeStyles((theme) => ({
   container: {
-    width: "100%",
+    width: "100vw",
     [theme.breakpoints.up("sm")]: {
-      maxWidth: "50%",
+      maxWidth: "50vw",
     },
     [theme.breakpoints.up("md")]: {
-      maxWidth: "80%",
+      maxWidth: "80vw",
     },
     [theme.breakpoints.up("lg")]: {
-      maxWidth: "80%",
+      maxWidth: "30vw",
     },
   },
 }));
