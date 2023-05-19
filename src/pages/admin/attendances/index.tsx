@@ -5,7 +5,9 @@ import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
 const Attendance = () => {
-  const { data: attendanceData } = useFetch<any>(`attendances/dashboard`);
+  const { data: attendanceData } = useFetch<any>(
+    `attendances/dashboard/details/data`
+  );
   const { data: absentData } = useFetch<any>(
     `attendances/${new Date().toISOString().slice(0, 10)}/absent`
   );
@@ -20,19 +22,21 @@ const Attendance = () => {
     <PanelLayout title="Attendance Dashboard - Admin Panel">
       <>
         <WelcomeUser title="Welcome Superadmin!" />
-        <div className="px-4 pt-4">
+        <div className="lg:px-8 px-4 pt-4">
           <AdminBreadcrumbs links={links} />
         </div>
-        <AttendanceCard
-          absentData={absentData}
-          presentData={presentData}
-          allData={allData}
-        />
-        <AttendanceCharts
-          absentData={absentData}
-          presentData={presentData}
-          allData={allData}
-        />
+        <div className="lg:px-8 px-4 pt-4">
+          <AttendanceCard
+            absentData={absentData}
+            presentData={presentData}
+            allData={allData}
+          />
+          <AttendanceCharts
+            absentData={absentData}
+            presentData={presentData}
+            allData={allData}
+          />
+        </div>
       </>
     </PanelLayout>
   );
