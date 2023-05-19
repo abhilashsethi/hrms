@@ -2,6 +2,7 @@ import {
 	AccountTreeRounded,
 	Add,
 	BorderColor,
+	Close,
 	EventNote,
 	FreeBreakfast,
 	Receipt,
@@ -14,6 +15,7 @@ import {
 	CircularProgress,
 	Container,
 	Drawer,
+	IconButton,
 	Modal,
 	Tooltip,
 } from "@mui/material";
@@ -27,6 +29,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
+import { makeStyles } from "@material-ui/core";
 
 type Props = {
 	open?: boolean | any;
@@ -36,6 +39,21 @@ type Props = {
 	meetingDetails: any;
 	mutate?: any;
 };
+
+const useStyles = makeStyles((theme) => ({
+	container: {
+		width: "100vw",
+		[theme.breakpoints.up("sm")]: {
+			maxWidth: "50vw",
+		},
+		[theme.breakpoints.up("md")]: {
+			maxWidth: "80vw",
+		},
+		[theme.breakpoints.up("lg")]: {
+			maxWidth: "30vw",
+		},
+	},
+}));
 
 const style = {
 	position: "absolute" as "absolute",
@@ -51,14 +69,7 @@ const style = {
 	p: 4,
 };
 
-const ViewNotesDrawer = ({
-	open,
-	onClose,
-	setViewTickets,
-	ticket,
-	meetingDetails,
-	mutate,
-}: Props) => {
+const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 	const [openInfoModal, setOpenInfoModal] = useState(false);
 	const handleInfoOpen = () => {
 		setOpenInfoModal(true);
@@ -75,8 +86,7 @@ const ViewNotesDrawer = ({
 	});
 
 	const [editDetails, setEditDetails] = useState<boolean>(false);
-
-	// console.log(meetingDetails);
+	const classes = useStyles();
 
 	return (
 		<>
@@ -95,11 +105,12 @@ const ViewNotesDrawer = ({
 
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
 				<Container
-					style={{
-						width: "30vw",
-						marginTop: "3.5vh",
-					}}
-					// className="lg:w-[30vw]"
+					style={{ marginTop: "1rem" }}
+					className={classes.container}
+					// style={{
+					// 	width: "30vw",
+					// 	marginTop: "3.5vh",
+					// }}
 				>
 					{/* Document Modal  */}
 					<Modal
@@ -123,15 +134,23 @@ const ViewNotesDrawer = ({
 					</Modal>
 					<div className="flex items-center justify-between pb-4">
 						<p className="text-lg font-bold text-theme">View All Notes</p>
-						<Button
-							variant="contained"
-							className="!bg-blue-500 "
-							startIcon={<Add />}
-							size="small"
-							onClick={() => setEditDetails((prev) => !prev)}
-						>
-							Add Notes
-						</Button>
+						<div className="flex ">
+							<Button
+								variant="contained"
+								className="!bg-blue-500 "
+								startIcon={<Add />}
+								size="small"
+								onClick={() => setEditDetails((prev) => !prev)}
+							>
+								Add Notes
+							</Button>
+							<IconButton onClick={() => onClose()}>
+								<Close
+									fontSize="small"
+									className="text-red-500 block md:hidden"
+								/>
+							</IconButton>
+						</div>
 					</div>
 
 					{isLoading && <Loader />}
@@ -175,7 +194,7 @@ const ViewNotesDrawer = ({
 													<p className="font-semibold">
 														Added By :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{item?.addedById}
+															{item?.addedBy?.name}
 														</span>
 													</p>
 
