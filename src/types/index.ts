@@ -150,6 +150,8 @@ export type Client = {
 	createdAt: Date;
 	updatedAt: Date;
 	country: string;
+	completedProjectCount: number;
+	resolvedTicketCount:number;
 };
 
 export interface MeetingTypes {
