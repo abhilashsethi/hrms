@@ -23,12 +23,16 @@ const LeaveRequests = () => {
   const [leaveStatus, setLeaveStatus] = useState<string>("");
   const [isLeave, setIsLeave] = useState<boolean>(false);
 
-  const { data: leavesData } = useFetch<Leave[]>(`leaves`);
+  const { data: leavesData, mutate } = useFetch<Leave[]>(`leaves`);
   console.log(leavesData);
   return (
     <PanelLayout title="Leaves - Admin Panel">
       <section className="md:px-8 px-4 py-2">
-        <CreateLeave open={isLeave} handleClose={() => setIsLeave(false)} />
+        <CreateLeave
+          mutate={mutate}
+          open={isLeave}
+          handleClose={() => setIsLeave(false)}
+        />
         <div className="flex justify-between items-center py-4 md:flex-row flex-col">
           <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
