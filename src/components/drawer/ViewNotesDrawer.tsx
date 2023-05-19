@@ -69,14 +69,7 @@ const style = {
 	p: 4,
 };
 
-const ViewNotesDrawer = ({
-	open,
-	onClose,
-	setViewTickets,
-	ticket,
-	meetingDetails,
-	mutate,
-}: Props) => {
+const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 	const [openInfoModal, setOpenInfoModal] = useState(false);
 	const handleInfoOpen = () => {
 		setOpenInfoModal(true);
@@ -94,7 +87,6 @@ const ViewNotesDrawer = ({
 
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 	const classes = useStyles();
-	// console.log(meetingDetails);
 
 	return (
 		<>
@@ -119,7 +111,6 @@ const ViewNotesDrawer = ({
 					// 	width: "30vw",
 					// 	marginTop: "3.5vh",
 					// }}
-					// className="lg:w-[30vw]"
 				>
 					{/* Document Modal  */}
 					<Modal
