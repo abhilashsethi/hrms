@@ -6,14 +6,14 @@ import { ViewTicketsDrawer } from "components/drawer";
 import React, { useState } from "react";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
-
-const ClientMeetings = () => {
+interface Props {
+  ticketsData?: any;
+}
+const ClientMeetings = ({ ticketsData }: Props) => {
   const router = useRouter();
   const [tickets, setTickets] = useState(false);
   const [viewTickets, setViewTickets] = useState<any>(null);
-  const { data: ticketsData } = useFetch<any>(
-    `tickets?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
-  );
+
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl">
       <ViewTicketsDrawer

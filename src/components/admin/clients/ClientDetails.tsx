@@ -34,7 +34,9 @@ const ClientDetails = () => {
   const { data: projectData } = useFetch<any>(
     `projects?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
   );
+
   console.log(projectData);
+  console.log("clientData", clientData);
   const basicDetails = [
     {
       id: 1,
@@ -192,8 +194,8 @@ const ClientDetails = () => {
           </Grid>
           <Grid item lg={4}>
             <div className="w-full h-full">
-              <ClientMeetings />
-              <ClientProjects />
+              <ClientMeetings ticketsData={ticketsData} />
+              <ClientProjects projectData={projectData} />
             </div>
           </Grid>
         </Grid>
