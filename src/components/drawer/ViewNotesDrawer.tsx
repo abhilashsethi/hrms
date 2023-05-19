@@ -99,6 +99,7 @@ const ViewNotesDrawer = ({
 						width: "30vw",
 						marginTop: "3.5vh",
 					}}
+					// className="lg:w-[30vw]"
 				>
 					{/* Document Modal  */}
 					<Modal
@@ -174,7 +175,7 @@ const ViewNotesDrawer = ({
 													<p className="font-semibold">
 														Added By :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{item?.addedById}
+															{item?.addedBy?.name}
 														</span>
 													</p>
 

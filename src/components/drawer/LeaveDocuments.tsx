@@ -1,17 +1,33 @@
-import { Add, Delete, Info, InsertDriveFileRounded } from "@mui/icons-material";
-import { Button, Container, Drawer, Tooltip } from "@mui/material";
-import { DOC, IMG, PDF, XLS } from "assets/home";
+import { Close, Info } from "@mui/icons-material";
+import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
+import { PDF } from "assets/home";
 import { PhotoViewer } from "components/core";
 import { DocPreview } from "components/dialogues";
 import moment from "moment";
 import { useState } from "react";
+import { makeStyles } from "@material-ui/core";
 
 type Props = {
   open?: boolean | any;
   onClose: () => void;
 };
+const useStyles = makeStyles((theme) => ({
+  container: {
+    width: "100vw",
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: "50vw",
+    },
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "80vw",
+    },
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: "30vw",
+    },
+  },
+}));
 
 const LeaveDocuments = ({ open, onClose }: Props) => {
+  const classes = useStyles();
   const [isPreview, setIsPreview] = useState<{
     dialogue?: boolean;
     title?: string;
@@ -27,16 +43,16 @@ const LeaveDocuments = ({ open, onClose }: Props) => {
         title={isPreview?.title}
       />
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
-        <Container
-          style={{
-            width: "30vw",
-            marginTop: "3.5vh",
-          }}
-        >
-          <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
-            <Info />
-            Leave Details
-          </p>
+        <Container style={{ marginTop: "1rem" }} className={classes.container}>
+          <div className="flex justify-between">
+            <h1 className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
+              <Info />
+              Leave Details
+            </h1>
+            <IconButton onClick={() => onClose()}>
+              <Close fontSize="small" className="text-red-500" />
+            </IconButton>
+          </div>
           <div>
             <h1 className="font-semibold">Team Manager</h1>
             <div className="h-20 w-full mt-2 flex gap-4 items-center">

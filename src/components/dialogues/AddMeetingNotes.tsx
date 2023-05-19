@@ -37,8 +37,8 @@ const AddMeetingNotes = ({ open, handleClose, details, mutate }: Props) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
 	const { user } = useAuth();
-	console.log(user);
-	console.log(details);
+	// console.log(user);
+	// console.log(details);
 	const initialValues = {
 		text: "",
 		link: null,
@@ -47,7 +47,7 @@ const AddMeetingNotes = ({ open, handleClose, details, mutate }: Props) => {
 
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
-		console.log(values);
+		// console.log(values);
 
 		Swal.fire({
 			title: "Are you sure?",
@@ -65,7 +65,7 @@ const AddMeetingNotes = ({ open, handleClose, details, mutate }: Props) => {
 						text: values.text,
 						link: url,
 						docType: values?.link?.type,
-						addedBy: user?.name,
+						addedById: user?.id,
 					},
 				];
 				const res = await change(`meetings/add-notes/${details?.id}`, {
@@ -161,33 +161,6 @@ const AddMeetingNotes = ({ open, handleClose, details, mutate }: Props) => {
 										alt="Preview"
 									/>
 								)}
-
-								{/* <TextField
-									size="small"
-									fullWidth
-									placeholder="Choose File"
-									name="link"
-									type="file"
-									value={values.link}
-									onChange={(e: any) =>
-										setFieldValue("link", e?.target?.files[0])
-									}
-									onBlur={handleBlur}
-									error={touched.link && !!errors.link}
-									helperText={touched.link && errors.link}
-								/> */}
-								{/* <p className="font-medium text-gray-700 my-2">Doc Type</p>
-								<TextField
-									size="small"
-									fullWidth
-									placeholder="Doc Type"
-									name="docType"
-									value={values.docType}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									error={touched.docType && !!errors.docType}
-									helperText={touched.docType && errors.docType}
-								/> */}
 
 								<div className="flex justify-center mt-4">
 									<Button

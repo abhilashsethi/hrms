@@ -1,13 +1,4 @@
-import {
-	AccessTime,
-	AccountTree,
-	Add,
-	BorderColor,
-	BugReport,
-	Handyman,
-	Receipt,
-	Send,
-} from "@mui/icons-material";
+import { BorderColor } from "@mui/icons-material";
 import { Button, Grid, Tooltip, useMediaQuery } from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
@@ -77,43 +68,39 @@ const MeetingData = () => {
 				open={isDialogue}
 				handleClose={() => setIsDialogue(false)}
 			/>
-			{/* <ViewTicketsDrawer
-				open={tickets}
-				onClose={() => setTickets(false)}
-				setViewTickets={setViewTickets}
-			/> */}
 			<ViewNotesDrawer
 				open={tickets}
 				onClose={() => setTickets(false)}
 				setViewTickets={setViewTickets}
 				meetingDetails={meetingDetails}
 				mutate={mutate}
-				// ticket={tickets}
 			/>
 			<section className="mb-12 flex gap-3">
-				<div className="w-full m-auto rounded-lg bg-white shadow-xl p-4">
-					<div className="relative w-full bg-blue-100/50 rounded-lg p-4">
-						<div className="absolute top-3 left-[25rem]">
-							<Button
-								variant="contained"
-								className="!bg-blue-500 "
-								startIcon={<BorderColor />}
-								size="small"
-								onClick={() => setEditDetails((prev) => !prev)}
-							>
-								Edit
-							</Button>
-						</div>
-						<Grid container spacing={3}>
-							<Grid item lg={5}>
+				<div className="w-full m-auto rounded-lg bg-white shadow-xl lg:p-4 p-1 px-2">
+					<div className="w-full bg-blue-100/50 rounded-lg lg:p-4 p-1">
+						<div className="grid lg:grid-cols-2 gap-5">
+							<div>
+								<div className="flex justify-end">
+									<Button
+										variant="contained"
+										className="!bg-blue-500 "
+										startIcon={<BorderColor />}
+										size="small"
+										onClick={() => setEditDetails((prev) => !prev)}
+									>
+										Edit
+									</Button>
+								</div>
 								<div>
-									<p className="pb-1 text-lg font-semibold">
-										Meeting Name :{" "}
-										<span className="font-normal">{meetingDetails?.title}</span>
-									</p>
+									<div className="pb-1 lg:text-base text-sm font-semibold md:flex">
+										<p>Meeting Name : </p>
+										<span className="md:text-base text-sm font-normal">
+											{meetingDetails?.title}
+										</span>
+									</div>
 									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
 										{/* <p className=" font-semibold">Time</p> : <AccessTime /> */}
-										<div className="flex py-2 md:py-0">
+										<div className="md:flex py-2 md:py-0">
 											<p className="font-semibold text-sm md:text-base">
 												Meeting Start Dt :{" "}
 											</p>
@@ -125,7 +112,7 @@ const MeetingData = () => {
 											).format("LT")}`}</span>
 										</div>
 									</div>
-									<div className="flex py-2 md:py-0">
+									<div className="md:flex py-2 md:py-0">
 										<p className="font-semibold text-sm md:text-base">
 											Meeting End Dt :{" "}
 										</p>
@@ -138,22 +125,42 @@ const MeetingData = () => {
 											)}`}
 										</span>
 									</div>
-									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
-										<p className=" font-semibold">Client Name</p> :{" "}
-										<span>{meetingDetails?.clientName}</span>
+									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">
+										<p className="md:text-base text-sm font-semibold">
+											Client Name
+										</p>{" "}
+										:{" "}
+										<span className="md:text-base text-sm">
+											{meetingDetails?.clientName}
+										</span>
 									</div>
-									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
-										<p className=" font-semibold">Client Email</p> :{" "}
-										<span>{meetingDetails?.clientEmail}</span>
+									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">
+										<p className="lg:text-base text-sm font-semibold">
+											Client Email
+										</p>{" "}
+										:{" "}
+										<span className="md:text-base text-sm">
+											{meetingDetails?.clientEmail}
+										</span>
 									</div>
-									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
-										<p className=" font-semibold">Client Phone</p> :{" "}
-										<span>{meetingDetails?.clientPhone}</span>
+									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">
+										<p className=" font-semibold md:text-base text-sm">
+											Client Phone
+										</p>{" "}
+										:{" "}
+										<span className="md:text-base text-sm">
+											{meetingDetails?.clientPhone}
+										</span>
 									</div>
 
-									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
-										<p className=" font-semibold">Members Visited</p> :{" "}
-										<span>{meetingDetails?.meetingPersonName}</span>
+									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">
+										<p className=" font-semibold md:text-base text-sm">
+											Members Visited
+										</p>{" "}
+										:{" "}
+										<span className="md:text-base text-sm">
+											{meetingDetails?.meetingPersonName}
+										</span>
 									</div>
 									<div className="w-full">
 										<div className="flex justify-end">
@@ -191,7 +198,7 @@ const MeetingData = () => {
 										</div>
 									</div>
 								</div>
-							</Grid>
+							</div>
 							<Grid item lg={7}>
 								<div className="w-full h-full">
 									<iframe
@@ -202,7 +209,7 @@ const MeetingData = () => {
 									></iframe>
 								</div>
 							</Grid>
-						</Grid>
+						</div>
 					</div>
 				</div>
 			</section>
