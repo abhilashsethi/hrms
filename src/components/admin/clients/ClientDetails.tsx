@@ -35,8 +35,6 @@ const ClientDetails = () => {
     `projects?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
   );
 
-  console.log(projectData);
-  console.log("clientData", clientData);
   const basicDetails = [
     {
       id: 1,
@@ -82,87 +80,85 @@ const ClientDetails = () => {
         setViewTickets={setViewTickets}
         ticket={ticketsData}
       />
-      <section className="mb-12 flex gap-3">
-        <Grid container spacing={2}>
-          <Grid item lg={8}>
+      <section className="">
+        <div className="grid lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-2">
             <div className="w-full rounded-lg bg-white shadow-xl p-4">
               <div className="w-full bg-blue-100/50 rounded-lg p-8">
-                <Grid container spacing={3}>
-                  <Grid item lg={9}>
-                    <div className="tracking-wide w-full h-full">
-                      <p className="font-semibold tracking-wide">
-                        {clientData?.name || "---"}
-                      </p>
-                      <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
-                        <RenderIconRow
-                          value={clientData?.email || "---"}
-                          isEmail
-                        />
-                      </p>
-                      <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
-                        <RenderIconRow
-                          value={clientData?.phone || "---"}
-                          isPhone
-                        />
-                      </p>
-                      <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
-                        <CountryNameFlag
-                          countryName={clientData?.country || "---"}
-                        />
-                      </p>
-                    </div>
-                  </Grid>
-                  <Grid item lg={3}>
-                    <ClientProfileImage values={clientData} mutate={mutate} />
-                  </Grid>
-                </Grid>
-                <div className="flex justify-between items-center pt-4">
-                  <div className="w-full flex justify-between gap-3">
-                    <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-3 rounded-md shadow-lg bg-[#bbcbff] ">
-                      <Handyman
-                        fontSize="large"
-                        className="bg-white p-1 rounded-lg mb-3 text-theme"
+                <div className="grid lg:grid-cols-2 gap-4">
+                  <div className="tracking-wide w-full h-full">
+                    <p className="font-semibold tracking-wide">
+                      {clientData?.name || "---"}
+                    </p>
+                    <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
+                      <RenderIconRow
+                        value={clientData?.email || "---"}
+                        isEmail
                       />
-                      <p className={`text-sm text-gray-800 font-semibold`}>
-                        Total Projects
-                      </p>
-                      <p className="text-sm font-medium">
-                        {" "}
-                        {clientData?._count?.projects}
-                      </p>
-                    </div>
-                    <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-3 rounded-md shadow-lg bg-[#b9e9fd]">
-                      <AccountTree
-                        fontSize="large"
-                        className="bg-white p-1 rounded-lg mb-3 text-theme"
+                    </p>
+                    <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
+                      <RenderIconRow
+                        value={clientData?.phone || "---"}
+                        isPhone
                       />
-                      <p className={`text-sm text-gray-800 font-semibold`}>
-                        Ongoing Projects
-                      </p>
-                      <p className="text-sm font-medium">12</p>
-                    </div>
-                    <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-3 rounded-md shadow-lg bg-[#f6c8ff]">
-                      <Receipt
-                        fontSize="large"
-                        className="bg-white p-1 rounded-lg mb-3 text-theme"
+                    </p>
+                    <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
+                      <CountryNameFlag
+                        countryName={clientData?.country || "---"}
                       />
-                      <p className={`text-sm text-gray-800 font-semibold`}>
-                        Total Tickets
-                      </p>
-                      <p className="text-sm font-medium">
-                        {clientData?._count.tickets}
-                      </p>
-                    </div>
-                    <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center w-1/3 py-3 rounded-md shadow-lg bg-[#feb76f]">
-                      <BugReport
-                        fontSize="large"
-                        className="bg-white p-1 rounded-lg mb-3 text-theme"
-                      />
-                      <p className={`text-sm text-gray-800 font-semibold`}>
-                        Active Bugs
-                      </p>
-                      <p className="text-sm font-medium">8</p>
-                    </div>
+                    </p>
+                  </div>
+                  <div className="px-4 grid md:justify-items-end ">
+                    <span>
+                      <ClientProfileImage values={clientData} mutate={mutate} />
+                    </span>
+                  </div>
+                </div>
+                <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4 items-center pt-4">
+                  <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#bbcbff] ">
+                    <Handyman
+                      fontSize="large"
+                      className="bg-white p-1 rounded-lg mb-3 text-theme"
+                    />
+                    <p className={`text-sm text-gray-800 font-semibold`}>
+                      Total Projects
+                    </p>
+                    <p className="text-sm font-medium">
+                      {" "}
+                      {clientData?._count?.projects}
+                    </p>
+                  </div>
+                  <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#b9e9fd]">
+                    <AccountTree
+                      fontSize="large"
+                      className="bg-white p-1 rounded-lg mb-3 text-theme"
+                    />
+                    <p className={`text-sm text-gray-800 font-semibold`}>
+                      Ongoing Projects
+                    </p>
+                    <p className="text-sm font-medium">12</p>
+                  </div>
+                  <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#f6c8ff]">
+                    <Receipt
+                      fontSize="large"
+                      className="bg-white p-1 rounded-lg mb-3 text-theme"
+                    />
+                    <p className={`text-sm text-gray-800 font-semibold`}>
+                      Total Tickets
+                    </p>
+                    <p className="text-sm font-medium">
+                      {clientData?._count.tickets}
+                    </p>
+                  </div>
+                  <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#feb76f]">
+                    <BugReport
+                      fontSize="large"
+                      className="bg-white p-1 rounded-lg mb-3 text-theme"
+                    />
+                    <p className={`text-sm text-gray-800 font-semibold`}>
+                      Active Bugs
+                    </p>
+                    <p className="text-sm font-medium">8</p>
                   </div>
                 </div>
               </div>
@@ -191,14 +187,14 @@ const ClientDetails = () => {
                 ))}
               </section>
             </div>
-          </Grid>
-          <Grid item lg={4}>
+          </div>
+          <div>
             <div className="w-full h-full">
-              <ClientMeetings ticketsData={ticketsData} />
-              <ClientProjects projectData={projectData} />
+              <ClientMeetings ticketsData={ticketsData} isLoading={isLoading} />
+              <ClientProjects projectData={projectData} isLoading={isLoading} />
             </div>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </section>
     </section>
   );
