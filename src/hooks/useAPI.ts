@@ -11,8 +11,8 @@ export const getAccessToken = () => {
 };
 
 export const BASE_URL: "https://hrms.yardiot.com/api/v1" = `https://hrms.yardiot.com/api/v1`;
-// export const BASE_URL: "http://192.168.29.102/8080/api/v1" =
-// 	"http://192.168.29.102/8080/api/v1";
+// export const BASE_URL: "http://192.168.29.25/8080/api/v1" =
+// 	"http://192.168.29.25/8080/api/v1";
 
 // `http://192.168.29.117:8080/api/v1`
 
