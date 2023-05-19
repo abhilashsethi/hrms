@@ -14,6 +14,7 @@ import Link from "next/link";
 
 const EmployeeProfile = () => {
   const [activeMonth, setActiveMonth] = useState();
+  console.log(activeMonth);
   const router = useRouter();
   const [attendances, setAttendances] = useState<any>([]);
   function renderEventContent(eventInfo: any) {
@@ -102,6 +103,9 @@ const EmployeeProfile = () => {
               weekends={true}
               eventContent={renderEventContent}
               events={attendances}
+              datesSet={(dateInfo: any) =>
+                setActiveMonth(dateInfo?.view?.currentStart?.getMonth())
+              }
             />
           </div>
         </div>
