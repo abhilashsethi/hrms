@@ -115,13 +115,25 @@ const Projects = () => {
               <div className="grid grid-cols-2 w-4/5 gap-1 text-sm py-2">
                 <div className="font-semibold">Created :</div>
                 <div className="flex gap-2 items-center">
-                  <Event className="!text-gray-600" fontSize="small" />{" "}
-                  <span>{moment(item?.startDate).format("ll")}</span>
+                  {item?.startDate ? (
+                    <Event className="!text-gray-600" fontSize="small" />
+                  ) : null}
+                  <span>
+                    {item?.startDate
+                      ? moment(item?.startDate).format("ll")
+                      : `Not specified`}
+                  </span>
                 </div>
                 <div className="font-semibold">Deadline :</div>
                 <div className="flex gap-2 items-center">
-                  <Event className="!text-gray-600" fontSize="small" />{" "}
-                  <span>{moment(item?.endDate).format("ll")}</span>
+                  {item?.endDate ? (
+                    <Event className="!text-gray-600" fontSize="small" />
+                  ) : null}
+                  <span>
+                    {item?.endDate
+                      ? moment(item?.endDate).format("ll")
+                      : `Not specified`}
+                  </span>
                 </div>
                 <div className="font-semibold">Quick Links :</div>
                 <span

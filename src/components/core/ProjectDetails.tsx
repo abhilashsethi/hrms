@@ -33,6 +33,7 @@ import { ProjectBasicDetailsUpdate } from "components/dialogues";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { Projects } from "types";
+import moment from "moment";
 
 const ProjectDetails = () => {
   const router = useRouter();
@@ -44,7 +45,7 @@ const ProjectDetails = () => {
   const { data: projectData } = useFetch<Projects>(
     `projects/${router?.query?.id}`
   );
-  // console.log(projectData);
+  console.log(projectData);
 
   const shortCuts: shortCutTypes[] = [
     {
@@ -69,19 +70,23 @@ const ProjectDetails = () => {
     {
       id: 1,
       title: "Created",
-      value: "May 9, 2023",
+      value: `${moment(projectData?.createdAt).format("ll")}`,
       icon: <Event fontSize="small" />,
     },
     {
       id: 2,
       title: "Deadline",
-      value: "May 9, 2023",
+      value: `${
+        projectData?.createdAt
+          ? moment(projectData?.createdAt).format("ll")
+          : `Not specified`
+      }`,
       icon: <Event fontSize="small" />,
     },
     {
       id: 3,
       title: "Gmail",
-      value: "hrms@gmail.com",
+      value: `${projectData?.gmail ? projectData?.gmail : `---`}`,
       icon: <Google fontSize="small" />,
     },
     {
