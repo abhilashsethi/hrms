@@ -39,7 +39,7 @@ export const MuiTblOptions = () => {
     },
     actionsColumnIndex: -1,
     addRowPosition: "first",
-    pageSize: 5,
+    pageSize: 8,
     detailPanelColumnAlignment: "right",
     exportAllData: true,
     headerSelectionProps: { color: "secondary" },

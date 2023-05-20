@@ -1,15 +1,11 @@
-import {
-  Add,
-  GridViewRounded,
-  RadioButtonChecked,
-  TableRowsRounded,
-} from "@mui/icons-material";
-import { Button, IconButton, MenuItem, TextField } from "@mui/material";
+import { Add, RadioButtonChecked } from "@mui/icons-material";
+import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { LeavesColumn, LeavesGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
   FiltersContainer,
   GridAndList,
+  LoaderAnime,
 } from "components/core";
 import { CreateLeave } from "components/dialogues";
 import { useFetch } from "hooks";
@@ -19,11 +15,21 @@ import { Leave } from "types";
 
 const LeaveRequests = () => {
   const [isGrid, setIsGrid] = useState(true);
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [userName, setUsername] = useState<string | null>(null);
+  const [empId, setEmpId] = useState<string | null>(null);
   const [leaveType, setLeaveType] = useState<string>("");
   const [leaveStatus, setLeaveStatus] = useState<string>("");
   const [isLeave, setIsLeave] = useState<boolean>(false);
-
-  const { data: leavesData, mutate } = useFetch<Leave[]>(`leaves`);
+  const {
+    data: leavesData,
+    mutate,
+    pagination,
+  } = useFetch<Leave[]>(
+    `leaves?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+      empId ? `&employeeID=${empId}` : ""
+    }`
+  );
   console.log(leavesData);
   return (
     <PanelLayout title="Leaves - Admin Panel">
@@ -53,12 +59,12 @@ const LeaveRequests = () => {
               fullWidth
               size="small"
               placeholder="Employee Id"
-              // onChange={(e) => setEmpId(e.target.value)}
+              onChange={(e) => setEmpId(e.target.value)}
             />
             <TextField
               fullWidth
               size="small"
-              // onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder="Employee Name"
             />
             <TextField
@@ -83,7 +89,7 @@ const LeaveRequests = () => {
               value={leaveStatus ? leaveStatus : ""}
               onChange={(e) => setLeaveStatus(e?.target?.value)}
             >
-              {status.map((option: any) => (
+              {statuses.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
                   {option.value}
                 </MenuItem>
@@ -92,10 +98,29 @@ const LeaveRequests = () => {
           </div>
         </FiltersContainer>
         {isGrid ? (
-          <LeavesGrid data={leavesData} />
+          <LeavesGrid data={leavesData} mutate={mutate} />
         ) : (
-          <LeavesColumn data={leavData} />
+          <LeavesColumn data={leavesData} mutate={mutate} />
         )}
+        {!leavesData?.length && <LoaderAnime />}
+        <section className="mb-6">
+          {leavesData?.length ? (
+            <div className="flex justify-center md:py-8 py-4">
+              <Stack spacing={2}>
+                <Pagination
+                  count={Math.ceil(
+                    Number(pagination?.total || 1) /
+                      Number(pagination?.limit || 1)
+                  )}
+                  onChange={(e, v: number) => {
+                    setPageNumber(v);
+                  }}
+                  variant="outlined"
+                />
+              </Stack>
+            </div>
+          ) : null}
+        </section>
       </section>
     </PanelLayout>
   );
@@ -108,7 +133,7 @@ const links = [
   { id: 2, page: "Leave Requests", link: "/admin/leaves/leave-requests" },
 ];
 
-const status = [
+const statuses = [
   {
     id: 1,
     value: "Pending",
@@ -121,14 +146,14 @@ const status = [
   },
   {
     id: 3,
-    value: "Declined",
+    value: "Rejected",
     icon: <RadioButtonChecked fontSize="small" className="!text-red-500" />,
   },
 ];
 
 const types = [
-  { id: 1, value: "Sick Leave" },
-  { id: 2, value: "Casual Leave" },
+  { id: 1, value: "Casual" },
+  { id: 2, value: "Sick" },
 ];
 
 const leavData = [
