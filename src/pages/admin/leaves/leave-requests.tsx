@@ -5,6 +5,7 @@ import {
   AdminBreadcrumbs,
   FiltersContainer,
   GridAndList,
+  Loader,
   LoaderAnime,
 } from "components/core";
 import { CreateLeave } from "components/dialogues";
@@ -25,12 +26,14 @@ const LeaveRequests = () => {
     data: leavesData,
     mutate,
     pagination,
+    isLoading,
   } = useFetch<Leave[]>(
     `leaves?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
       empId ? `&employeeID=${empId}` : ""
+    }${leaveStatus ? `&status=${leaveStatus}` : ""}${
+      leaveType ? `&type=${leaveType}` : ""
     }`
   );
-  console.log(leavesData);
   return (
     <PanelLayout title="Leaves - Admin Panel">
       <section className="md:px-8 px-4 py-2">
@@ -77,7 +80,7 @@ const LeaveRequests = () => {
             >
               {types.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
-                  {option.value}
+                  {option.label}
                 </MenuItem>
               ))}
             </TextField>
@@ -91,17 +94,27 @@ const LeaveRequests = () => {
             >
               {statuses.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
-                  {option.value}
+                  {option.label}
                 </MenuItem>
               ))}
             </TextField>
           </div>
         </FiltersContainer>
-        {isGrid ? (
-          <LeavesGrid data={leavesData} mutate={mutate} />
+        {isLoading ? (
+          <div className="w-full h-[80vh]">
+            <Loader />
+          </div>
         ) : (
-          <LeavesColumn data={leavesData} mutate={mutate} />
+          <>
+            {" "}
+            {isGrid ? (
+              <LeavesGrid data={leavesData} mutate={mutate} />
+            ) : (
+              <LeavesColumn data={leavesData} mutate={mutate} />
+            )}
+          </>
         )}
+
         {!leavesData?.length && <LoaderAnime />}
         <section className="mb-6">
           {leavesData?.length ? (
@@ -137,23 +150,29 @@ const statuses = [
   {
     id: 1,
     value: "Pending",
-    icon: <RadioButtonChecked fontSize="small" className="!text-blue-500" />,
+    label: "Pending",
   },
   {
     id: 2,
     value: "Approved",
-    icon: <RadioButtonChecked fontSize="small" className="!text-green-500" />,
+    label: "Approved",
   },
   {
     id: 3,
     value: "Rejected",
-    icon: <RadioButtonChecked fontSize="small" className="!text-red-500" />,
+    label: "Rejected",
+  },
+  {
+    id: 4,
+    value: null,
+    label: "All",
   },
 ];
 
 const types = [
-  { id: 1, value: "Casual" },
-  { id: 2, value: "Sick" },
+  { id: 1, value: "Casual", label: "Casual" },
+  { id: 2, value: "Sick", label: "Sick" },
+  { id: 2, value: null, label: "All" },
 ];
 
 const leavData = [
