@@ -27,3 +27,5 @@ export { default as MeetingProgressBar } from "./MeetingProgressBar";
 export { default as AnalyticsSemiCircle } from "./AnalyticsSemiCircle";
 export { default as TechnologyDonutChart } from "./TechnologyDonutChart";
 export { default as TechnologyBarChart } from "./TechnologyBarChart";
+export { default as GuestDonutChart } from "./GuestDonutChart";
+export { default as GuestBarChart } from "./GuestBarChart";

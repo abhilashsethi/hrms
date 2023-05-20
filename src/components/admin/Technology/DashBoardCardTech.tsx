@@ -1,8 +1,10 @@
 import { AssignmentTurnedIn, ContentPasteGo } from "@mui/icons-material";
 interface Props {
   dashboardData?: any;
+  tech?: any;
 }
-const DashBoardCardTech = ({ dashboardData }: Props) => {
+
+const DashBoardCardTech = ({ dashboardData, tech }: Props) => {
   return (
     <div className="flex gap-2 py-4">
       <div className="w-full ">
@@ -25,8 +27,7 @@ const DashBoardCardTech = ({ dashboardData }: Props) => {
               </span>
             </div>
           </div>
-
-          {dashboardData?.TechInfo?.usedProjectCount?.map((item: any) => (
+          {tech?.map((item: any) => (
             <>
               <div key={item?.id}>
                 <div className="border-4 border-b-theme h-32 bg-white w-full py-4 px-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-300 ease-in-out">
@@ -42,7 +43,7 @@ const DashBoardCardTech = ({ dashboardData }: Props) => {
                     {item?.name}
                   </span>
                   <span className="text-xl text-theme text-center font-semibold">
-                    {item?._count?.usedProjectIds}
+                    {item?.usedProjectIds?.length}
                   </span>
                 </div>
               </div>

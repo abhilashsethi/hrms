@@ -7,7 +7,9 @@ import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
 const GuestsDashboard = () => {
-  const { data: guestData, isLoading } = useFetch<any>(`guests/dashboard`);
+  const { data: guestData, isLoading } = useFetch<any>(
+    `guests/dashboard/details`
+  );
   console.log(guestData);
   return (
     <PanelLayout title="Guests Dashboard - Admin Panel">

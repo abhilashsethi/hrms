@@ -17,9 +17,9 @@ const AllProjects = () => {
 
   return (
     <PanelLayout title="All Projects - SY HR MS">
-      <section className="px-8">
+      <section className="md:px-8 px-3">
         <TechnologiesFilter open={isTech} onClose={() => setIsTech(false)} />
-        <div className="flex justify-between items-center py-4">
+        <div className="flex md:justify-between justify-start md:items-center items-start py-4 md:flex-row flex-col">
           <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
             <Link href="/admin/projects/create-projects">

@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const ClientBarGraph = ({
+const GuestBarChart = ({
   type,
   text = "",
   labels,
@@ -188,4 +188,4 @@ const ClientBarGraph = ({
   );
 };
 
-export default ClientBarGraph;
+export default GuestBarChart;

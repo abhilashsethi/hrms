@@ -39,7 +39,7 @@ const ClientsGrid = ({ data, mutate }: Props) => {
   return (
     <>
       <section className="py-6 ">
-        <div className="grid grid-cols-4 gap-6 py-6 items-center justify-center">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6 items-center justify-center">
           {data?.map((item: any, index: any) => (
             <div key={index}>
               <MoreOption item={item} mutate={mutate} />
@@ -125,14 +125,14 @@ const MoreOption = ({ item, mutate }: any) => {
   //   };
   return (
     <>
-      <div className="flex flex-col px-4 py-4 h-full justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-white hover:scale-105 ease-in-out transition-all duration-200">
-        <ViewTicketsDrawer
-          open={tickets}
-          onClose={() => setTickets(false)}
-          setViewTickets={setViewTickets}
-          ticket={ticketsData}
-          isLoading={isLoading}
-        />
+      <ViewTicketsDrawer
+        open={tickets}
+        onClose={() => setTickets(false)}
+        setViewTickets={setViewTickets}
+        ticket={ticketsData}
+        isLoading={isLoading}
+      />
+      <div className="flex flex-col px-4 w-full py-4 h-full justify-center justify-items-center text-center rounded-md shadow-xl drop-shadow-lg bg-white md:hover:scale-105 ease-in-out transition-all duration-200">
         <div className="absolute right-[10px] top-[10px]">
           <Tooltip title="More">
             <IconButton onClick={handleClick}>
@@ -209,7 +209,7 @@ const MoreOption = ({ item, mutate }: any) => {
           </p>
           <p className="mb-2 text-sm text-slate-400 font-medium">{item.role}</p>
         </div>
-        <div className="flex gap-3 justify-center">
+        <div className="md:flex grid gap-3 justify-center">
           <button
             onClick={() => {
               setTickets(true), setTicketsId(item?.id);

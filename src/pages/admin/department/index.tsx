@@ -4,7 +4,9 @@ import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
 const index = () => {
-  const { data: departmentDashboard } = useFetch<any>(`departments/dashboard`);
+  const { data: departmentDashboard } = useFetch<any>(
+    `departments/dashboard/details`
+  );
   return (
     <PanelLayout title="All Departments - Admin Panel">
       <>

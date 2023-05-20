@@ -9,9 +9,11 @@ import { Client } from "types";
 import { BLOCK, CUSTOMER, HANDSHAKE, INACTIVE } from "assets/dashboard_Icons";
 
 const index = () => {
-  const { data: clientData, isLoading } = useFetch<Client>(`clients/dashboard`);
+  const { data: clientData, isLoading } = useFetch<Client>(
+    `clients/dashboard/details`
+  );
 
-  console.log("clientData", clientData);
+  // console.log("clientData", clientData);
   return (
     <PanelLayout title="Clients Dashboard - SY HR MS">
       <div className="px-4 pt-4">
@@ -20,7 +22,7 @@ const index = () => {
       <div className="flex gap-2 py-4">
         <div className="w-full px-4 ">
           <ClientDashboardCard cards={clientData} />
-          <ClientDashboardCharts />
+          <ClientDashboardCharts cards={clientData} />
         </div>
       </div>
     </PanelLayout>
