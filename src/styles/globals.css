@@ -212,3 +212,7 @@ a {
 		transform: rotateX(-180deg);
 	}
 }
+
+.iframe-container {
+	overflow: hidden;
+}

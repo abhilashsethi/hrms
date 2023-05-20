@@ -93,55 +93,45 @@ const AttendanceDashBoard = ({ allData, absentData, presentData }: Props) => {
 
   return (
     <>
-      <div className="flex gap-2 py-4">
-        <Grid container spacing={1}>
-          <Grid item lg={8}>
-            <div className="w-full px-4 ">
-              <Grid container spacing={2}>
-                {cards?.map((item) => (
-                  <Grid key={item?.id} item lg={4}>
-                    <div className="hover:scale-105 transition duration-300 ease-in-out border-2 border-b-theme h-28 w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
-                      <div className="flex justify-around items-center">
-                        <div>{item?.icon}</div>
-                      </div>
-                      <span className="pt-2 text-theme font-semibold text-center tracking-wide text-md">
-                        {item?.title}
-                      </span>
-                      <span className="text-xl text-theme text-center font-semibold ">
-                        {item?.count}
-                      </span>
-                    </div>
-                  </Grid>
-                ))}
-              </Grid>
-              <div className="mt-6">
-                <div className="mb-4">
-                  <HeadText title="Month-wise attendance" />
+      <div className="grid lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2">
+          <div className="grid lg:grid-cols-3 gap-4 py-4">
+            {cards?.map((item) => (
+              <div className="hover:scale-105 bg-white transition duration-300 ease-in-out border-2 border-b-theme h-28 w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
+                <div className="flex justify-around items-center">
+                  <div>{item?.icon}</div>
                 </div>
-                <div className="bg-white p-4 rounded-lg shadow-xl">
-                  <FullCalendar
-                    plugins={[dayGridPlugin]}
-                    initialView="dayGridMonth"
-                    weekends={true}
-                    eventContent={renderEventContent}
-                    events={attendances}
-                    datesSet={(dateInfo: any) =>
-                      setCurrentMonth(dateInfo?.view?.currentStart?.getMonth())
-                    }
-                  />
-                </div>
+                <span className="pt-2 text-theme font-semibold text-center tracking-wide text-md">
+                  {item?.title}
+                </span>
+                <span className="text-xl text-theme text-center font-semibold ">
+                  {item?.count}
+                </span>
               </div>
+            ))}
+          </div>
+          <div className="mt-6">
+            <div className="mb-4">
+              <HeadText title="Month-wise attendance" />
             </div>
-          </Grid>
-          <Grid item lg={4}>
-            <div className="w-full h-full">
-              <div className="w-full h-full">
-                <EmployeeAllAttendance />
-                <UpcomingLeaves />
-              </div>
+            <div className="bg-white p-4 rounded-lg shadow-xl">
+              <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                weekends={true}
+                eventContent={renderEventContent}
+                events={attendances}
+                datesSet={(dateInfo: any) =>
+                  setCurrentMonth(dateInfo?.view?.currentStart?.getMonth())
+                }
+              />
             </div>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
+        <div className="">
+          <EmployeeAllAttendance />
+          <UpcomingLeaves />
+        </div>
       </div>
     </>
   );

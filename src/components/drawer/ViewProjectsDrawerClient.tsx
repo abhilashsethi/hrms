@@ -109,16 +109,26 @@ const ViewProjectsDrawerClient = ({
                     <div className="mt-4">
                       <h1 className="text-md font-semibold mb-2">Team Lead</h1>{" "}
                       <div className="flex w-full justify-between items-center gap-5">
+                        {/* <Avatar
+                          alt={item?.manager?.name}
+                          src={item?.manager?.photo}
+                          className="h-20 w-20 bg-slate-400 rounded-full shadow-xl"
+                        /> */}
+
                         <img
                           className="h-20 w-20 bg-slate-400 rounded-full shadow-xl"
-                          src={"/manager.png"}
+                          src={
+                            item?.manager?.photo
+                              ? item?.manager?.photo
+                              : "/manager.png"
+                          }
                           alt=""
                         />
                         <div className="">
                           <p className="font-semibold">
                             Name :{" "}
                             <span className="font-semibold text-sm text-gray-500">
-                              {item?.name}
+                              {item?.manager?.name}
                             </span>
                           </p>
                           <p className="font-semibold">

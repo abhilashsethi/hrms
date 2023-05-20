@@ -39,7 +39,7 @@ export const MuiTblOptions = () => {
     },
     actionsColumnIndex: -1,
     addRowPosition: "first",
-    pageSize: 8,
+    pageSize: 5,
     detailPanelColumnAlignment: "right",
     exportAllData: true,
     headerSelectionProps: { color: "secondary" },
@@ -196,3 +196,8 @@ export async function deleteFile(path: string) {
     console.log(error);
   }
 }
+
+export const DocTypeGenerate = (file: any) => {
+  const datestring = Date.now();
+  return `${datestring}.` + `${file?.split("/")[1]}`;
+};
