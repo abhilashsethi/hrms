@@ -9,11 +9,13 @@ import {
   PendingActions,
   RadioButtonChecked,
 } from "@mui/icons-material";
-import { Button, Menu, MenuItem, Paper } from "@mui/material";
+import { Button, CircularProgress, Menu, MenuItem, Paper } from "@mui/material";
 import { HeadStyle, PhotoViewerSmall } from "components/core";
 import { LeaveDocuments } from "components/drawer";
+import { useChange, useFetch } from "hooks";
 import moment from "moment";
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useEffect } from "react";
+import Swal from "sweetalert2";
 import { MuiTblOptions } from "utils";
 
 interface Array {
@@ -28,37 +30,128 @@ interface Array {
   approvedByHR?: string | undefined;
 }
 interface Props {
-  data?: Array[];
+  data?: any;
+  mutate?: any;
 }
 
-const LeavesColumn = ({ data }: Props) => {
+const LeavesColumn = ({ data, mutate }: Props) => {
+  const [activeData, setActiveData] = useState<any>({});
   const [isDetails, setIsDetails] = useState(false);
-  const renderStatus = (status: any) => {
-    switch (status) {
+
+  const { change } = useChange();
+  const [loading, setLoading] = useState(false);
+  const [rloading, setRLoading] = useState(false);
+  const [isDocuments, setIsDocuments] = useState(false);
+  const approveLeave = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to approve!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, approve!",
+    }).then(async (result) => {
+      if (result?.isConfirmed) {
+        setLoading(true);
+        try {
+          const res = await change(`leaves/${id}`, {
+            method: "PATCH",
+            body: { status: "Approved" },
+          });
+          setLoading(false);
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            setLoading(false);
+            return;
+          }
+          Swal.fire(`Success`, `Status changed successfully!`, `success`);
+          mutate();
+          return;
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
+  };
+  const rejectLeave = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to reject!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, reject!",
+    }).then(async (result) => {
+      if (result?.isConfirmed) {
+        setRLoading(true);
+        try {
+          const res = await change(`leaves/${id}`, {
+            method: "PATCH",
+            body: { status: "Rejected" },
+          });
+          setRLoading(false);
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            setRLoading(false);
+            return;
+          }
+          Swal.fire(`Success`, `Status changed successfully!`, `success`);
+          mutate();
+          return;
+        } catch (error) {
+          console.log(error);
+          setRLoading(false);
+        } finally {
+          setRLoading(false);
+        }
+      }
+    });
+  };
+  const renderStatus = (item: any) => {
+    switch (item?.status) {
       case "Approved":
         return (
-          <div className="">
-            <span className="!bg-[#44bd44] w-32 text-sm shadow-md text-white px-4 rounded-full py-1 tracking-wide flex gap-2 items-center">
-              <Done fontSize="small" /> {status}
+          <div className="flex justify-center">
+            <span className="bg-green-600 text-white white rounded-full px-6 py-1 text-sm">
+              {item?.status}
             </span>
           </div>
         );
       case "Pending":
         return (
           <>
-            <div className="md:flex items-center justify-center gap-2">
+            <div className="md:flex items-center justify-center mt-2 pt-2 space-x-3">
               <Button
-                className="!bg-[#44bd44]"
+                onClick={() => approveLeave(item?.id)}
+                className="!bg-green-600"
                 variant="contained"
-                startIcon={<Check />}
+                disabled={loading}
+                startIcon={loading ? <CircularProgress size={20} /> : <Check />}
                 size="small"
               >
                 ACCEPT
               </Button>
               <Button
+                onClick={() => rejectLeave(item?.id)}
                 className="!bg-red-600"
+                disabled={rloading}
                 variant="contained"
-                startIcon={<Close />}
+                startIcon={
+                  rloading ? <CircularProgress size={20} /> : <Close />
+                }
                 size="small"
               >
                 DECLINE
@@ -66,27 +159,29 @@ const LeavesColumn = ({ data }: Props) => {
             </div>
           </>
         );
-      case "Decline":
+      case "Rejected":
         return (
-          <div className="">
-            <span className="!bg-red-600 w-28 text-sm shadow-md text-white px-4 rounded-full py-1 tracking-wide flex gap-2 items-center">
-              <Close fontSize="small" /> {status}
+          <div className="flex justify-center">
+            <span className="bg-red-600 text-white rounded-full px-6 py-1 text-sm">
+              {item?.status}
             </span>
           </div>
         );
       default:
         return (
-          <div className="">
-            <span className="!bg-blue-500 w-28 text-sm shadow-md text-white px-4 rounded-full py-1 tracking-wide flex gap-2 items-center">
-              <HourglassBottomRounded fontSize="small" /> Pending
-            </span>
-          </div>
+          <>
+            <span>{item?.status}</span>
+          </>
         );
     }
   };
   return (
     <>
-      <LeaveDocuments open={isDetails} onClose={() => setIsDetails(false)} />
+      <LeaveDocuments
+        data={activeData}
+        open={isDetails}
+        onClose={() => setIsDetails(false)}
+      />
       <div className="mt-6">
         <MaterialTable
           components={{
@@ -97,7 +192,14 @@ const LeavesColumn = ({ data }: Props) => {
           data={
             !data?.length
               ? []
-              : data?.map((_: any, i: number) => ({ ..._, sn: i + 1 }))
+              : data?.map((_: any, i: number) => ({
+                  ..._,
+                  sn: i + 1,
+                  name: _?.user?.name,
+                  photo: _?.user?.photo ? _?.user?.photo : null,
+                  role: _?.user?.role?.name,
+                  thisMonth: getYearLeaves(_?.user?.id),
+                }))
           }
           options={{
             ...MuiTblOptions(),
@@ -113,7 +215,7 @@ const LeavesColumn = ({ data }: Props) => {
               title: "Photo",
               tooltip: "Photo",
               searchable: true,
-              field: "name",
+              field: "photo",
               render: (item) => (
                 <PhotoViewerSmall
                   name={item?.name}
@@ -141,18 +243,17 @@ const LeavesColumn = ({ data }: Props) => {
                 </span>
               ),
             },
-            {
-              title: "Monthly Left",
-              tooltip: "Role",
-              field: "role",
-              render: (item) => <span className="">{item?.monthlyleft}</span>,
-            },
-            {
-              title: "Annual Left",
-              tooltip: "Role",
-              field: "role",
-              render: (item) => <span className="">{item?.anuualleft}</span>,
-            },
+            // {
+            //   title: "This Month Leaves",
+            //   tooltip: "This Month Leaves",
+            //   field: "thisMonth",
+            // },
+            // {
+            //   title: "This Year Leaves",
+            //   tooltip: "Role",
+            //   field: "role",
+            //   render: (item) => <span>{getYearLeaves(item?.user?.id)}</span>,
+            // },
             {
               title: "Details",
               tooltip: "Details",
@@ -161,7 +262,10 @@ const LeavesColumn = ({ data }: Props) => {
                 {
                   return (
                     <div
-                      onClick={() => setIsDetails(true)}
+                      onClick={() => {
+                        setActiveData(item);
+                        setIsDetails(true);
+                      }}
                       className="h-7 w-7 bg-black text-white flex justify-center items-center rounded-md cursor-pointer hover:scale-105 transition-all ease-in-out duration-300 shadow-lg"
                     >
                       <Info fontSize="small" />
@@ -170,68 +274,70 @@ const LeavesColumn = ({ data }: Props) => {
                 }
               },
             },
-            {
-              title: "Approved by Manager",
-              tooltip: "status",
-              width: "3%",
-              field: "status",
-              render: (item) => (
-                <>
-                  {item?.approvedByManager === "yes" ? (
-                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-green-500">
-                      <Check fontSize="small" className="" />
-                    </div>
-                  ) : item?.approvedByManager === "pending" ? (
-                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-blue-500">
-                      <HourglassBottomRounded fontSize="small" className="" />
-                    </div>
-                  ) : (
-                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-red-600">
-                      <Close fontSize="small" className="" />
-                    </div>
-                  )}
-                </>
-              ),
-            },
-            {
-              title: "Approved by HR",
-              tooltip: "status",
-              field: "status",
-              render: (item) => (
-                <>
-                  {item?.approvedByHR === "yes" ? (
-                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-green-500">
-                      <Check fontSize="small" className="" />
-                    </div>
-                  ) : item?.approvedByHR === "pending" ? (
-                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-blue-500">
-                      <HourglassBottomRounded fontSize="small" className="" />
-                    </div>
-                  ) : (
-                    <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-red-600">
-                      <Close fontSize="small" className="" />
-                    </div>
-                  )}
-                </>
-              ),
-            },
+            // {
+            //   title: "Approved by Manager",
+            //   tooltip: "status",
+            //   width: "3%",
+            //   field: "status",
+            //   render: (item) => (
+            //     <>
+            //       {item?.approvedByManager === "yes" ? (
+            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-green-500">
+            //           <Check fontSize="small" className="" />
+            //         </div>
+            //       ) : item?.approvedByManager === "pending" ? (
+            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-blue-500">
+            //           <HourglassBottomRounded fontSize="small" className="" />
+            //         </div>
+            //       ) : (
+            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-red-600">
+            //           <Close fontSize="small" className="" />
+            //         </div>
+            //       )}
+            //     </>
+            //   ),
+            // },
+            // {
+            //   title: "Approved by HR",
+            //   tooltip: "status",
+            //   field: "status",
+            //   render: (item) => (
+            //     <>
+            //       {item?.approvedByHR === "yes" ? (
+            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-green-500">
+            //           <Check fontSize="small" className="" />
+            //         </div>
+            //       ) : item?.approvedByHR === "pending" ? (
+            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-blue-500">
+            //           <HourglassBottomRounded fontSize="small" className="" />
+            //         </div>
+            //       ) : (
+            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-red-600">
+            //           <Close fontSize="small" className="" />
+            //         </div>
+            //       )}
+            //     </>
+            //   ),
+            // },
             {
               title: "Status",
               tooltip: "Status",
               field: "status",
               render: (item) => {
                 {
-                  return <div>{renderStatus(item.status)}</div>;
+                  return <div>{renderStatus(item)}</div>;
                 }
               },
             },
             {
               title: "Created At",
               tooltip: "Created At",
-              field: "status",
+              field: "createdAt",
               render: (item) => (
                 <span className="text-sm">
-                  {moment(new Date().toISOString()).format("lll")}
+                  {moment(new Date(item?.createdAt).toISOString()).format(
+                    "lll"
+                  )}
                 </span>
               ),
             },
@@ -327,3 +433,10 @@ const status = [
     icon: <RadioButtonChecked fontSize="small" className="!text-red-500" />,
   },
 ];
+
+const getYearLeaves = ({ id }: any) => {
+  const { data: empLeaves } = useFetch<any>(`leaves/details/${id}`);
+  return empLeaves?.totalLeavesCurrentYear
+    ? empLeaves?.totalLeavesCurrentYear
+    : 0;
+};

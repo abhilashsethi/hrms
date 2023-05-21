@@ -30,12 +30,22 @@ import {
 } from "components/drawer";
 import { useState } from "react";
 import { ProjectBasicDetailsUpdate } from "components/dialogues";
+import { useFetch } from "hooks";
+import { useRouter } from "next/router";
+import { Projects } from "types";
+import moment from "moment";
 
 const ProjectDetails = () => {
+  const router = useRouter();
   const [isURL, setIsURL] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [isDocuments, setIsDocuments] = useState(false);
   const [isMembers, setIsMembers] = useState(false);
+
+  const { data: projectData } = useFetch<Projects>(
+    `projects/${router?.query?.id}`
+  );
+  console.log(projectData);
 
   const shortCuts: shortCutTypes[] = [
     {
@@ -56,6 +66,36 @@ const ProjectDetails = () => {
       onClick: () => setIsDocuments(true),
     },
   ];
+  const BasicData = [
+    {
+      id: 1,
+      title: "Created",
+      value: `${moment(projectData?.createdAt).format("ll")}`,
+      icon: <Event fontSize="small" />,
+    },
+    {
+      id: 2,
+      title: "Deadline",
+      value: `${
+        projectData?.createdAt
+          ? moment(projectData?.createdAt).format("ll")
+          : `Not specified`
+      }`,
+      icon: <Event fontSize="small" />,
+    },
+    {
+      id: 3,
+      title: "Gmail",
+      value: `${projectData?.gmail ? projectData?.gmail : `---`}`,
+      icon: <Google fontSize="small" />,
+    },
+    {
+      id: 4,
+      title: "Industry",
+      value: "Government Schemas ",
+      icon: <Apartment fontSize="small" />,
+    },
+  ];
   return (
     <div className="mt-2">
       <ProjectBasicDetailsUpdate
@@ -66,14 +106,18 @@ const ProjectDetails = () => {
         open={isDocuments}
         onClose={() => setIsDocuments(false)}
       />
-      <ProjectMembers open={isMembers} onClose={() => setIsMembers(false)} />
+      <ProjectMembers
+        projectId={router?.query?.id}
+        open={isMembers}
+        onClose={() => setIsMembers(false)}
+      />
       <ProjectURLS open={isURL} onClose={() => setIsURL(false)} />
       <Grid container spacing={2}>
         <Grid item lg={8}>
           <div className="w-full bg-white rounded-md shadow-jubilation p-6">
             <div className="flex justify-between items-center">
               <h1 className="font-semibold tracking-wide text-lg text-secondary">
-                HRMS - Searchingyard
+                {projectData?.name}
               </h1>
               <Button
                 size="small"
@@ -87,11 +131,26 @@ const ProjectDetails = () => {
             </div>
             <div className="flex gap-2 items-center mt-2">
               <span className="text-sm font-semibold">Status : </span>
-              <Chip label="Progress" color="warning" size="small" />
+              <span
+                className={`px-3 py-1 uppercase rounded-sm shadow-md text-xs tracking-wide font-semibold text-white ${
+                  projectData?.status === "Pending"
+                    ? `bg-yellow-500`
+                    : projectData?.status === "Ongoing"
+                    ? `bg-blue-500`
+                    : projectData?.status === "Onhold"
+                    ? `bg-red-500`
+                    : projectData?.status === "Completed"
+                    ? `bg-green-500`
+                    : `bg-slate-500`
+                }`}
+              >
+                {projectData?.status}
+              </span>
+              {/* <Chip label="Progress" color="warning" size="small" /> */}
             </div>
             <div className="flex gap-4 w-full">
               <div className="flex flex-col gap-3 mt-4 w-2/3">
-                {data?.map((item) => (
+                {BasicData?.map((item) => (
                   <div
                     key={item?.id}
                     className=" w-full flex items-start gap-4"
@@ -153,7 +212,7 @@ const ProjectDetails = () => {
         </Grid>
         <Grid item lg={4}>
           <div className="w-full">
-            <ProjectDescription />
+            <ProjectDescription description={projectData?.description} />
             <ClientDetails />
             <TechnologyUsed />
           </div>
@@ -165,32 +224,6 @@ const ProjectDetails = () => {
 
 export default ProjectDetails;
 
-const data = [
-  {
-    id: 1,
-    title: "Created",
-    value: "May 9, 2023",
-    icon: <Event fontSize="small" />,
-  },
-  {
-    id: 2,
-    title: "Deadline",
-    value: "May 9, 2023",
-    icon: <Event fontSize="small" />,
-  },
-  {
-    id: 3,
-    title: "Gmail",
-    value: "hrms@gmail.com",
-    icon: <Google fontSize="small" />,
-  },
-  {
-    id: 4,
-    title: "Industry",
-    value: "Government Schemas ",
-    icon: <Apartment fontSize="small" />,
-  },
-];
 interface shortCutTypes {
   id?: number;
   icon?: any;

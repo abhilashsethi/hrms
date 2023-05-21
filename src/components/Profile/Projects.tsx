@@ -12,11 +12,13 @@ import {
   ListItemIcon,
   Menu,
   MenuItem,
+  Pagination,
   Skeleton,
+  Stack,
   Tooltip,
 } from "@mui/material";
 import { AWS, CSS, JAVASCRIPT, NEXTJS, REACT } from "assets/svgicons";
-import { PhotoViewer } from "components/core";
+import { LoaderAnime, PhotoViewer } from "components/core";
 import { ProjectAddLink, ProjectUpdate } from "components/dialogues";
 import { ProjectMembers, ProjectURLS } from "components/drawer";
 import { useChange, useFetch } from "hooks";
@@ -27,7 +29,14 @@ import Swal from "sweetalert2";
 import { Projects } from "types";
 
 const Projects = () => {
-  const [isURL, setIsURL] = useState(false);
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [url, setUrl] = useState<{
+    dialogue?: boolean;
+    projectId?: string | null;
+  }>({
+    dialogue: false,
+    projectId: null,
+  });
   const [isMembers, setIsMembers] = useState<{ dialogue?: boolean }>({
     dialogue: false,
   });
@@ -36,14 +45,20 @@ const Projects = () => {
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
+
   const {
     data: projectData,
     mutate,
     isLoading,
-  } = useFetch<Projects[]>(`projects`);
+    pagination,
+  } = useFetch<Projects[]>(`projects?page=${pageNumber}&limit=6`);
+  console.log(projectData);
   return (
     <>
-      <ProjectURLS open={isURL} onClose={() => setIsURL(false)} />
+      <ProjectURLS
+        open={url?.dialogue}
+        onClose={() => setUrl({ dialogue: false })}
+      />
       <ProjectMembers
         open={isMembers?.dialogue}
         onClose={() => setIsMembers({ dialogue: false })}
@@ -80,42 +95,49 @@ const Projects = () => {
                   <span className="font-semibold">Industry</span>
                   <span className="">Government Schemas</span>
                 </span>
-                <span className="px-3 py-1 rounded-sm bg-green-500 shadow-md text-xs tracking-wide font-semibold text-white">
-                  COMPLETED
+                <span
+                  className={`px-3 py-1 uppercase rounded-sm shadow-md text-xs tracking-wide font-semibold text-white ${
+                    item?.status === "Pending"
+                      ? `bg-yellow-500`
+                      : item?.status === "Ongoing"
+                      ? `bg-blue-500`
+                      : item?.status === "Onhold"
+                      ? `bg-red-500`
+                      : item?.status === "Completed"
+                      ? `bg-green-500`
+                      : `bg-slate-500`
+                  }`}
+                >
+                  {item?.status}
                 </span>
               </div>
-              {/* <div className="pb-2 text-md tracking-wide">
-                <span className="font-semibold text-sm">Description : </span>
-                <div className="h-16 w-full">
-                  <p className="text-sm tracking-wide pt-1">
-                    {item?.description}
-                  </p>
-                </div>
-              </div> */}
-              <div>
-                <h1 className="font-semibold text-sm">Client Information : </h1>
-                <div className="w-full border-2 mt-1 rounded-md p-3 flex gap-3 items-center">
-                  <PhotoViewer size="3rem" />
-                  <div>
-                    <h2 className="text-sm font-semibold">Calvin Klein</h2>
-                    <h2 className="font-light text-sm">client@sy.com</h2>
-                  </div>
-                </div>
-              </div>
+              <ViewClient data={item} />
               <div className="grid grid-cols-2 w-4/5 gap-1 text-sm py-2">
                 <div className="font-semibold">Created :</div>
                 <div className="flex gap-2 items-center">
-                  <Event className="!text-gray-600" fontSize="small" />{" "}
-                  <span>{moment(item?.startDate).format("ll")}</span>
+                  {item?.startDate ? (
+                    <Event className="!text-gray-600" fontSize="small" />
+                  ) : null}
+                  <span>
+                    {item?.startDate
+                      ? moment(item?.startDate).format("ll")
+                      : `Not specified`}
+                  </span>
                 </div>
                 <div className="font-semibold">Deadline :</div>
                 <div className="flex gap-2 items-center">
-                  <Event className="!text-gray-600" fontSize="small" />{" "}
-                  <span>{moment(item?.endDate).format("ll")}</span>
+                  {item?.endDate ? (
+                    <Event className="!text-gray-600" fontSize="small" />
+                  ) : null}
+                  <span>
+                    {item?.endDate
+                      ? moment(item?.endDate).format("ll")
+                      : `Not specified`}
+                  </span>
                 </div>
                 <div className="font-semibold">Quick Links :</div>
                 <span
-                  onClick={() => setIsURL(true)}
+                  onClick={() => setUrl({ dialogue: true })}
                   className="w-full py-1 flex justify-center cursor-pointer hover:scale-105 transition-all ease-in-out duration-200 rounded-sm bg-gradient-to-r from-blue-500 via-blue-500 to-blue-300 shadow-md text-xs tracking-wide font-semibold text-white"
                 >
                   Project URLs
@@ -136,22 +158,10 @@ const Projects = () => {
                       alt="Remy Sharp"
                       src={item?.Manager?.photo || " "}
                     />
-                    <Avatar
-                      alt="Travis Howard"
-                      src={item?.Manager?.photo || " "}
-                    />
-                    <Avatar
-                      alt="Cindy Baker"
-                      src={item?.Manager?.photo || " "}
-                    />
-                    <Avatar
-                      alt="Cindy Baker"
-                      src={item?.Manager?.photo || " "}
-                    />
-                    <Avatar
-                      alt="Cindy Baker"
-                      src={item?.Manager?.photo || " "}
-                    />
+                    <Avatar alt="S" src={item?.Manager?.photo || " "} />
+                    <Avatar alt="A" src={item?.Manager?.photo || " "} />
+                    <Avatar alt="F" src={item?.Manager?.photo || " "} />
+                    <Avatar alt="F" src={item?.Manager?.photo || " "} />
                   </AvatarGroup>
                   <span>{item?.Manager?.name}</span>
                 </div>
@@ -169,19 +179,30 @@ const Projects = () => {
                   ))}
                 </div>
               </div>
-
-              {/* <div className="py-1 text-md">
-              <span className="text-sm font-semibold">Team Members :</span>
-              <ProfilesView item={item?.userIDs} />
-              {!item?.userIDs?.length && (
-                <p className="text-sm tracking-wide pb-4">
-                  No team members to show.
-                </p>
-              )}
-            </div> */}
             </div>
           </div>
         ))}
+      </div>
+      <div>
+        {!projectData?.length && <LoaderAnime />}
+        <section className="mb-6">
+          {projectData?.length ? (
+            <div className="flex justify-center md:py-8 py-4">
+              <Stack spacing={2}>
+                <Pagination
+                  count={Math.ceil(
+                    Number(pagination?.total || 1) /
+                      Number(pagination?.limit || 1)
+                  )}
+                  onChange={(e, v: number) => {
+                    setPageNumber(v);
+                  }}
+                  variant="outlined"
+                />
+              </Stack>
+            </div>
+          ) : null}
+        </section>
       </div>
     </>
   );
@@ -193,26 +214,6 @@ interface Props {
   item: any;
   mutate?: any;
 }
-
-const ProfilesView = ({ item }: Props) => {
-  const [myData, setMyData] = useState<any>([]);
-  const { data: usersData, isLoading } = useFetch<any>(`users`);
-  useEffect(() => {
-    let reqData = usersData?.filter((dt: any) => item?.includes(dt?.id));
-    setMyData(reqData);
-  }, [item]);
-  return (
-    <div className="py-2 flex justify-start">
-      <AvatarGroup max={5}>
-        {myData?.map((teams: any) => (
-          <>
-            <Avatar alt={teams?.name} src={teams?.photo || " "} />
-          </>
-        ))}
-      </AvatarGroup>
-    </div>
-  );
-};
 const MoreOption = ({ item, mutate }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { change } = useChange();
@@ -315,7 +316,7 @@ const MoreOption = ({ item, mutate }: Props) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <Link href="/admin/projects/project-details">
+        <Link href={`/admin/projects/project-details?id=${item?.id}`}>
           <MenuItem>
             <ListItemIcon>
               <EditRounded fontSize="small" />
@@ -389,6 +390,30 @@ const SkeletonsStructure = () => {
           <Skeleton variant="text" sx={{ fontSize: "1rem", width: "60%" }} />
         </div>
       </div>
+    </div>
+  );
+};
+
+const ViewClient = ({ data }: any) => {
+  const { data: clientData } = useFetch<any>(`clients/${data?.clientId}`);
+  return (
+    <div>
+      <h1 className="font-semibold text-sm">Client Information : </h1>
+      {data?.client ? (
+        <div className="w-full border-2 mt-1 rounded-md p-3 flex gap-3 items-center">
+          <PhotoViewer
+            name={clientData?.name}
+            photo={clientData?.photo}
+            size="3rem"
+          />
+          <div>
+            <h2 className="text-sm font-semibold">{clientData?.name}</h2>
+            <h2 className="font-light text-sm">{clientData?.email}</h2>
+          </div>
+        </div>
+      ) : (
+        <span className="py-4 text-sm">Not specified</span>
+      )}
     </div>
   );
 };

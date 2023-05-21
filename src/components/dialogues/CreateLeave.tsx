@@ -38,10 +38,9 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
   const initialValues = {
     type: "",
     startDate: "",
-    endDate: null,
     variant: "",
-    status: "pending",
     reason: "",
+    endDate: null,
     userId: "",
     leaveMonth: `${moment(new Date().toISOString()).format("MMMM")}`,
     leaveYear: `${moment(new Date().toISOString()).format("YYYY")}`,
@@ -54,11 +53,17 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
     setValue((event.target as HTMLInputElement).value);
   };
   const handleSubmit = async (values: any, { resetForm }: any) => {
+    const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
+      if (value) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
     setLoading(true);
     try {
       const res = await change(`leaves`, {
         body: {
-          ...values,
+          ...reqValue,
           startDate: new Date(values?.startDate).toISOString(),
         },
       });

@@ -47,7 +47,6 @@ const CreateProjects = () => {
 
   const handleSubmit = async (values: any) => {
     setLoading(true);
-    console.log(values);
     try {
       Swal.fire(`Info`, `Please Wait..., It will take Some time!`, `info`);
       const res = await change(`projects`, {
