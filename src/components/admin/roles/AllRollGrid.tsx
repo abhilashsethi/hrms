@@ -8,12 +8,11 @@ import Swal from "sweetalert2";
 import { Role } from "types";
 
 interface Props {
-  data?: any;
+  data?: Role[];
   mutate?: any;
-  isLoading?: any;
 }
 
-const AllRollGrid = ({ data, mutate, isLoading }: Props) => {
+const AllRollGrid = ({ data, mutate }: Props) => {
   const [roleData, setRoleData] = useState("");
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{
@@ -73,7 +72,6 @@ const AllRollGrid = ({ data, mutate, isLoading }: Props) => {
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
         roleData={roleData}
-        isLoading={isLoading}
       />
       <RoleInformation
         open={isInfo?.dialogue}
@@ -82,7 +80,7 @@ const AllRollGrid = ({ data, mutate, isLoading }: Props) => {
       />
       <div className="mt-4">
         <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
-          {data?.roles?.map((item: any) => (
+          {data?.map((item: any) => (
             <div key={item?.id}>
               <div className="py-4 w-full bg-gradient-to-b from-theme-50/50 via-white to-white shadow-lg rounded-lg flex justify-center items-center">
                 <div className="flex flex-col items-center gap-3">

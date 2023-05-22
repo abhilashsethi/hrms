@@ -6,6 +6,7 @@ import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import { AllRollGrid, AllRollColumn } from "components/admin/roles";
+import { Role } from "types";
 const AllRoles = () => {
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [isGrid, setIsGrid] = useState(true);
@@ -15,9 +16,8 @@ const AllRoles = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any>(`roles?page=${pageNumber}&limit=8`);
+  } = useFetch<Role[]>(`roles?page=${pageNumber}&limit=8`);
   console.log(roleData);
-  console.log(pagination);
   return (
     <PanelLayout title="All Roles - Admin Panel">
       <section className="px-8 py-4">
@@ -64,11 +64,7 @@ const AllRoles = () => {
         {isGrid ? (
           <>
             {isLoading && <Loader />}
-            <AllRollGrid
-              data={roleData}
-              mutate={mutate}
-              isLoading={isLoading}
-            />
+            <AllRollGrid data={roleData} mutate={mutate} />
           </>
         ) : (
           <>
@@ -76,8 +72,8 @@ const AllRoles = () => {
             <AllRollColumn data={roleData} mutate={mutate} />
           </>
         )}
-        {!roleData?.roles?.length && <LoaderAnime />}
-        {roleData?.roles?.length ? (
+        {!roleData?.length && <LoaderAnime />}
+        {roleData?.length ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination
