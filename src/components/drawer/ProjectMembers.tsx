@@ -18,7 +18,7 @@ import { EmployeesListDrawer, PhotoViewer } from "components/core";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { Projects } from "types";
+import { Projects, User } from "types";
 
 type Props = {
   open?: boolean | any;
@@ -28,9 +28,9 @@ type Props = {
 
 const ProjectMembers = ({ open, onClose, projectId }: Props) => {
   const { change } = useChange();
-  const { data: employeesData } = useFetch(`users`);
+  const { data: employeesData } = useFetch<User[]>(`users`);
   const [isMembers, setIsMembers] = useState(false);
-  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const { data: projectData, mutate } = useFetch<Projects>(
     `projects/${projectId}`
@@ -144,8 +144,8 @@ const ProjectMembers = ({ open, onClose, projectId }: Props) => {
                   multiple
                   options={employeesData ? (employeesData as any) : []}
                   getOptionLabel={(option: any) => option.name}
-                  onChange={(e, r) =>
-                    setSelectedMembers(r.map((i) => i?.id) as any)
+                  isOptionEqualToValue={(option, value: any) =>
+                    option?._id === value._id
                   }
                   renderInput={(params) => (
                     <TextField

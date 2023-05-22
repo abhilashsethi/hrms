@@ -1,5 +1,4 @@
 import {
-  Autocomplete,
   Button,
   CircularProgress,
   Dialog,
@@ -7,6 +6,7 @@ import {
   DialogTitle,
   IconButton,
   InputLabel,
+  MenuItem,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -56,25 +56,13 @@ const ProjectBasicDetailsUpdate = ({
     startDate: `${employData?.startDate ? employData?.startDate : ""}`,
     endDate: `${employData?.endDate ? employData?.endDate : ""}`,
     status: `${employData?.status ? employData?.status : ""}`,
-    industry: `${employData?.industry ? employData?.industry : ""}`,
+    // industry: `${employData?.industry ? employData?.industry : ""}`,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      const form = new FormData();
-      form.append("name", values?.name);
-      form.append("description", values?.description);
-      form.append("gmail", values?.gmail);
-      form.append("startDate", values?.startDate);
-      form.append("endDate", values?.endDate);
-      form.append("status", values?.status);
-      form.append("industry", values?.industry);
-      values?.userIDs?.forEach((item: string) => {
-        return form.append("userIDs", item);
-      });
       const res = await change(`projects/${id}`, {
         method: "PATCH",
-        // isFormData: true,
         body: values,
       });
       setLoading(false);
@@ -87,7 +75,12 @@ const ProjectBasicDetailsUpdate = ({
       Swal.fire(`Success`, `Updated Successfully`, `success`);
       handleClose();
       return;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -177,19 +170,24 @@ const ProjectBasicDetailsUpdate = ({
                           <InputLabel htmlFor="name">Status</InputLabel>
                         </div>
                         <TextField
-                          fullWidth
+                          select
                           size="small"
-                          id="status"
-                          placeholder="Status"
+                          fullWidth
                           name="status"
                           value={values.status}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.status && !!errors.status}
                           helperText={touched.status && errors.status}
-                        />
+                        >
+                          {statuses.map((option) => (
+                            <MenuItem key={option.id} value={option.label}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
                       </div>
-                      <div className="px-4 py-2">
+                      {/* <div className="px-4 py-2">
                         <div className="py-2">
                           <InputLabel htmlFor="gmail">Industry</InputLabel>
                         </div>
@@ -205,7 +203,7 @@ const ProjectBasicDetailsUpdate = ({
                           error={touched.industry && !!errors.industry}
                           helperText={touched.industry && errors.industry}
                         />
-                      </div>
+                      </div> */}
 
                       <div className="px-4 py-2">
                         <div className="py-2">
@@ -301,3 +299,10 @@ const ProjectBasicDetailsUpdate = ({
 };
 
 export default ProjectBasicDetailsUpdate;
+
+const statuses = [
+  { id: 1, label: "Pending" },
+  { id: 2, label: "Ongoing" },
+  { id: 3, label: "Onhold" },
+  { id: 4, label: "Completed" },
+];

@@ -41,8 +41,7 @@ const ProjectDetails = () => {
 	const [isUpdate, setIsUpdate] = useState(false);
 	const [isDocuments, setIsDocuments] = useState(false);
 	const [isMembers, setIsMembers] = useState(false);
-
-	const { data: projectData } = useFetch<Projects>(
+	const { data: projectData, mutate } = useFetch<Projects>(
 		`projects/${router?.query?.id}`
 	);
 	console.log(projectData);
@@ -101,6 +100,8 @@ const ProjectDetails = () => {
 			<ProjectBasicDetailsUpdate
 				open={isUpdate}
 				handleClose={() => setIsUpdate(false)}
+				id={router?.query?.id}
+				mutate={mutate}
 			/>
 			<ProjectDocuments
 				open={isDocuments}
@@ -111,7 +112,11 @@ const ProjectDetails = () => {
 				open={isMembers}
 				onClose={() => setIsMembers(false)}
 			/>
-			<ProjectURLS open={isURL} onClose={() => setIsURL(false)} />
+			<ProjectURLS
+				id={router?.query?.id}
+				open={isURL}
+				onClose={() => setIsURL(false)}
+			/>
 			<Grid container spacing={2}>
 				<Grid item lg={8}>
 					<div className="w-full bg-white rounded-md shadow-jubilation p-6">
