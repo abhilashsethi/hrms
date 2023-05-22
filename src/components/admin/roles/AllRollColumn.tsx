@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { Role } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 interface Props {
-  data?: any;
+  data?: Role[];
   mutate?: any;
 }
 const AllRollColumn = ({ data, mutate }: Props) => {
@@ -29,7 +29,7 @@ const AllRollColumn = ({ data, mutate }: Props) => {
       <MaterialTable
         title={<HeadStyle name="All Roles" icon={<PeopleRounded />} />}
         isLoading={!data}
-        data={data?.roles ? getDataWithSL<any>(data?.roles) : []}
+        data={data ? getDataWithSL<any>(data) : []}
         options={{ ...MuiTblOptions(), selection: false }}
         columns={[
           {

@@ -7,7 +7,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { Role } from "types";
 interface Props {
-  data?: any;
+  data?: Role[];
   mutate?: any;
 }
 const AllDepartmentGrid = ({ data, mutate }: Props) => {
@@ -19,8 +19,8 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
   const { change } = useChange();
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
-    id?: string | null;
-  }>({ dialogue: false, id: null });
+    departmentData?: string | null;
+  }>({ dialogue: false, departmentData: null });
 
   const handleDelete = async (id: string) => {
     Swal.fire({
@@ -63,7 +63,7 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
   return (
     <>
       <UpdateDepartment
-        id={isUpdate?.id}
+        departmentData={isUpdate?.departmentData}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
@@ -75,7 +75,7 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
       />
       <div className="my-4">
         <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
-          {data?.departments?.map((item: any) => (
+          {data?.map((item: any) => (
             <div key={item?.id}>
               <div className="px-4 h-48 w-full hover:scale-105 ease-in-out transition-all duration-200 bg-white border-b-4 border-cyan-600 shadow-lg rounded-xl flex justify-center items-center">
                 <div className="grid justify-items-center items-center gap-4">
@@ -99,9 +99,9 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
                       </Tooltip>
                     </div>
                     <div
-                      onClick={() =>
-                        setIsUpdate({ dialogue: true, id: item?.id })
-                      }
+                      onClick={() => {
+                        setIsUpdate({ dialogue: true, departmentData: item });
+                      }}
                       className="h-10 w-10 cursor-pointer hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-xl rounded-full bg-gradient-to-r from-blue-600 to-blue-400 flex justify-center items-center text-lg font-semibold hover:from-blue-400 hover:to-blue-600"
                     >
                       <Tooltip title="Edit">

@@ -21,7 +21,7 @@ const AllDepartment = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any[]>(`departments?page=${pageNumber}&limit=8`);
+  } = useFetch<Role[]>(`departments?page=${pageNumber}&limit=8`);
 
   return (
     <PanelLayout title="All Departments - Admin Panel">
