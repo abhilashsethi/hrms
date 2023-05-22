@@ -1,3 +1,4 @@
+import { makeStyles } from "@material-ui/core";
 import { Add, Close, Delete, Person } from "@mui/icons-material";
 import {
 	Button,
@@ -6,18 +7,16 @@ import {
 	Drawer,
 	IconButton,
 	Modal,
-	Tooltip,
 } from "@mui/material";
 import { DOC, IMG, PDF, XLS } from "assets/home";
 import { Loader } from "components/core";
 import { DocPreview } from "components/dialogues";
-import { useChange, useFetch } from "hooks";
-import { useEffect, useState } from "react";
-import { User } from "types";
-import { makeStyles } from "@material-ui/core";
 import AddDocumentDialogue from "components/dialogues/AddDocumentDialogue";
+import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { User } from "types";
 
 type Props = {
 	open?: boolean | any;

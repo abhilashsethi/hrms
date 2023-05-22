@@ -7,20 +7,20 @@ import {
 	ReceiptLongRounded,
 	Send,
 } from "@mui/icons-material";
-import { Grid, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { RenderIconRow } from "components/common";
-import { useFetch } from "hooks";
-import { User } from "types";
-import EmployeeProfileImage from "./EmployeeProfileImage";
 import { ChangeProfile } from "components/dialogues";
-import { useState } from "react";
-import { useRouter } from "next/router";
 import {
 	ViewDocumentDrawer,
 	ViewLeaveDrawer,
 	ViewProjectsDrawer,
 } from "components/drawer";
+import { useFetch } from "hooks";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { User } from "types";
 import CopyClipboard from "./CopyCliboard";
+import EmployeeProfileImage from "./EmployeeProfileImage";
 
 const ViewEmployeeHead = () => {
 	const [document, setDocument] = useState(false);
@@ -35,6 +35,7 @@ const ViewEmployeeHead = () => {
 	const { data: employData, mutate } = useFetch<User>(
 		`users/${router?.query?.id}`
 	);
+	// console.log(employData);
 
 	const shortCuts: shortCutTypes[] = [
 		{
@@ -117,6 +118,7 @@ const ViewEmployeeHead = () => {
 						open={leaves}
 						onClose={() => setLeaves(false)}
 						setViewLeaves={setViewLeaves}
+						employeeId={employData?.employeeID}
 					/>
 					<ViewProjectsDrawer
 						open={projects}

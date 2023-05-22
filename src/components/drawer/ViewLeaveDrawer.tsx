@@ -1,16 +1,18 @@
-import { Container, Drawer, IconButton } from "@mui/material";
-import { Loader } from "components/core";
-import { useChange, useFetch } from "hooks";
-import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import { User } from "types";
 import { makeStyles } from "@material-ui/core";
 import { Close } from "@mui/icons-material";
+import { Container, Drawer, IconButton } from "@mui/material";
+import { Loader } from "components/core";
+import { useFetch } from "hooks";
+import moment from "moment";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { User } from "types";
 
 type Props = {
 	open?: boolean | any;
 	onClose: () => void;
 	setViewLeaves?: any;
+	employeeId?: any;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -69,17 +71,26 @@ const Projects_Details = [
 	},
 ];
 
-const ViewLeaveDrawer = ({ open, onClose, setViewLeaves }: Props) => {
+const ViewLeaveDrawer = ({
+	open,
+	onClose,
+	setViewLeaves,
+	employeeId,
+}: Props) => {
+	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedUser, setSelectedUser] = useState<string | null>(null);
 	const [searchedUser, setSearchedUser] = useState<any>([]);
-
 	const [openInfoModal, setOpenInfoModal] = useState(false);
 	const handleInfoOpen = () => {
 		setOpenInfoModal(true);
 	};
 	const handleInfoCloseModal = () => setOpenInfoModal(false);
+
+	const { data: leaveData, isLoading: leaveDataLoading } = useFetch<any[]>(
+		`leaves?employeeID=${employeeId}`
+	);
 
 	const { data: users, isLoading } = useFetch<User[]>(`users`);
 	useEffect(() => {
@@ -91,12 +102,6 @@ const ViewLeaveDrawer = ({ open, onClose, setViewLeaves }: Props) => {
 		}
 	}, [users, searchTerm]);
 
-	const Drawer_document = [
-		{
-			id: 1,
-			title: "Document Title 1",
-		},
-	];
 	const classes = useStyles();
 
 	return (
@@ -117,31 +122,45 @@ const ViewLeaveDrawer = ({ open, onClose, setViewLeaves }: Props) => {
 
 					{isLoading && <Loader />}
 					<div className="mt-4 flex flex-col gap-4">
-						{/* {!searchedUser?.length && (
-							<p className="py-8 text-center flex gap-3 items-center justify-center">
-								<Search /> No results found!
-							</p>
-						)} */}
-						{Projects_Details?.map((item, index) => {
+						{leaveData?.map((item, index) => {
 							return (
 								<div className="">
 									<div
 										key={index}
-										className="w-full h-28 rounded-l-xl shadow-xl px-2 py-2 bg-[#edf4fe] my-3"
+										className={`w-full h-full rounded-l-xl shadow-xl px-2 py-2 bg-[#edf4fe] my-3`}
 									>
 										<div className="flex flex-col gap-3 font-semibold text-blue-700">
-											<div className="flex gap-2">
-												Date :{" "}
-												<span className="text-black font-medium">
-													{item?.date}
-												</span>
-											</div>
+											{item?.variant === "MultipleDays" ? (
+												<>
+													<div className="flex gap-2">
+														Start Date :{" "}
+														<span className="text-black font-medium">
+															{moment(item?.startDate)?.format("DD/MM/YYYY")}
+														</span>
+													</div>
+													<div className="flex gap-2">
+														End Date :{" "}
+														<span className="text-black font-medium">
+															{moment(item?.endDate)?.format("DD/MM/YYYY")}
+														</span>
+													</div>
+												</>
+											) : (
+												<div className="flex gap-2">
+													Date :{" "}
+													<span className="text-black font-medium">
+														{moment(item?.startDate)?.format("DD/MM/YYYY")}
+													</span>
+												</div>
+											)}
 											<div>
 												Status :{" "}
 												<span
 													className={`text-sm ${
 														item?.status === "Rejected"
 															? "bg-red-500"
+															: item?.status === "Pending"
+															? "bg-yellow-500"
 															: "bg-green-500"
 													} text-white p-1 rounded-lg`}
 												>
@@ -149,9 +168,9 @@ const ViewLeaveDrawer = ({ open, onClose, setViewLeaves }: Props) => {
 												</span>
 											</div>
 											<div>
-												Credits Used :{" "}
+												Leave Type :{" "}
 												<span className="text-black font-medium">
-													{item?.credit}
+													{item?.type}
 												</span>
 											</div>
 										</div>
