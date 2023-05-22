@@ -22,9 +22,9 @@ type Props = {
   setTechnologies?: any;
 };
 const initialValues = {
-  empName: [],
-  clientName: [],
-  technologies: [],
+  empName: [null],
+  clientName: [null],
+  technologies: [null],
 };
 const TechnologiesFilter = ({
   open,
@@ -37,7 +37,10 @@ const TechnologiesFilter = ({
   const { data: clientData } = useFetch<any[]>(`clients`);
   const { data: techData } = useFetch<any[]>(`technologies`);
   const handleSubmit = async (values: any) => {
-    console.log(values);
+    // console.log(values);
+    setEmpName(values?.empName);
+    setClientName(values?.clientName);
+    setTechnologies(values?.technologies);
   };
   return (
     <>
@@ -95,7 +98,9 @@ const TechnologiesFilter = ({
                     <Autocomplete
                       multiple
                       options={clientData ? (clientData as any) : []}
-                      value={values?.clientName}
+                      value={clientData?.filter((item: any) =>
+                        values?.clientName?.includes(item?.name)
+                      )}
                       id="clientName"
                       onChange={(e: any, r: any) => {
                         setFieldValue(
@@ -116,7 +121,9 @@ const TechnologiesFilter = ({
                     <Autocomplete
                       multiple
                       options={techData ? (techData as any) : []}
-                      value={values?.technologies}
+                      value={techData?.filter((item: any) =>
+                        values?.technologies?.includes(item?.name)
+                      )}
                       id="technologies"
                       onChange={(e: any, r: any) => {
                         setFieldValue(

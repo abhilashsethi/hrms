@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 const AllProjects = () => {
-  
+  const [moreFilter, setMoreFilter] = useState<any>(null);
   const [clientName, setClientName] = useState("");
   const [Technologies, setTechnologies] = useState("");
   const [empName, setEmpName] = useState("");
@@ -24,9 +24,9 @@ const AllProjects = () => {
   const handleChange = (event: any) => {
     setStatus(event.target.value);
   };
-  console.log("Technologies",Technologies);
-  console.log("empName",empName);
-  console.log("clientName",clientName);
+  console.log("Technologies", Technologies);
+  console.log("empName", empName);
+  console.log("clientName", clientName);
   const {
     data: projectData,
     mutate,
