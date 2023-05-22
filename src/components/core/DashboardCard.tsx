@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 interface ARRAY {
   id?: number | undefined;
   icon?: JSX.Element | any;
-  count?: number | undefined;
+  count?: number | undefined | string;
   title?: string | undefined;
   img?: string | undefined;
   bg?: string | undefined;
