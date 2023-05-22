@@ -1,24 +1,40 @@
 import { Add, Construction, MoreHoriz, Search } from "@mui/icons-material";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { Projects } from "components/Profile";
-import { AdminBreadcrumbs, FiltersContainer } from "components/core";
+import {
+  AdminBreadcrumbs,
+  FiltersContainer,
+  LoaderAnime,
+} from "components/core";
 import { TechnologiesFilter } from "components/drawer";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
 
 const AllProjects = () => {
+  const [empName, setEmpName] = useState("");
   const [isTech, setIsTech] = useState(false);
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [status, setStatus] = useState("");
   const [isBug, setIsBug] = useState("");
   const handleChange = (event: any) => {
     setStatus(event.target.value);
   };
-
+  const {
+    data: projectData,
+    mutate,
+    isLoading,
+    pagination,
+  } = useFetch<any[]>(`projects?page=${pageNumber}&limit=6`);
   return (
     <PanelLayout title="All Projects - SY HR MS">
       <section className="md:px-8 px-3">
-        <TechnologiesFilter open={isTech} onClose={() => setIsTech(false)} />
+        <TechnologiesFilter
+          open={isTech}
+          onClose={() => setIsTech(false)}
+          // setEmpName={setEmpName}
+        />
         <div className="flex md:justify-between justify-start md:items-center items-start py-4 md:flex-row flex-col">
           <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
@@ -76,8 +92,27 @@ const AllProjects = () => {
           </div>
         </FiltersContainer>
         <div className="mt-4">
-          <Projects />
+          <Projects mutate={mutate} projectData={projectData} />
         </div>
+        {projectData?.length === 0 && <LoaderAnime />}
+        <section className="mb-6">
+          {projectData?.length ? (
+            <div className="flex justify-center md:py-8 py-4">
+              <Stack spacing={2}>
+                <Pagination
+                  count={Math.ceil(
+                    Number(pagination?.total || 1) /
+                      Number(pagination?.limit || 1)
+                  )}
+                  onChange={(e, v: number) => {
+                    setPageNumber(v);
+                  }}
+                  variant="outlined"
+                />
+              </Stack>
+            </div>
+          ) : null}
+        </section>
       </section>
     </PanelLayout>
   );
