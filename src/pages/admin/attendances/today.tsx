@@ -95,12 +95,12 @@ const TodayAttendance = () => {
   return (
     <PanelLayout title="Today Attendance - SY HR MS">
       <section className="px-8 py-4">
-        <div className="mt-4 flex justify-between">
+        <div className="mt-4 lg:flex justify-between">
           <AdminBreadcrumbs links={links} />
-          <div className="flex gap-4 items-center">
+          <div className="lg:flex gap-4 items-center">
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             {/* -----------------Date select section---------------- */}
-            <div className="flex gap-3 items-center">
+            <div className="md:flex gap-3 items-center">
               {/* <ChevronLeftRounded /> */}
               <div className="tracking-wide flex gap-4 items-center font-semibold">
                 {moment(selectedDate).format("ll")}
@@ -125,18 +125,18 @@ const TodayAttendance = () => {
           </div>
         </div>
         <div className="mt-4">
-          <Grid container spacing={2}>
+          <div className="grid lg:grid-cols-3 gap-4">
             {cards?.map((item) => (
-              <Grid key={item?.id} item lg={4}>
+              <div key={item?.id}>
                 <div className="w-full tracking-wide border-b-4 hover:bg-theme hover:text-white hover:border-white border-theme h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center transition-all ease duration-300">
                   <p className="text-base font-semibold text-center">
                     {item?.title}
                   </p>
                   <p className="text-lg font-bold">{item?.value}</p>
                 </div>
-              </Grid>
+              </div>
             ))}
-          </Grid>
+          </div>
         </div>
         <FiltersContainer>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 mb-4">

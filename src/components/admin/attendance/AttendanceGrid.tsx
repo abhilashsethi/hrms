@@ -18,9 +18,9 @@ interface Props {
 const AttendanceGrid = ({ data }: Props) => {
   return (
     <div className="mt-6">
-      <Grid container spacing={2}>
+      <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
         {data?.map((item: any) => (
-          <Grid key={item?.id} item lg={3}>
+          <div key={item?.id}>
             <div className="h-full w-full bg-white shadow-xl rounded-2xl flex flex-col items-center gap-4 py-4 px-4 hover:scale-105 ease-in-out transition-all duration-150">
               <div className="w-full flex justify-between items-center">
                 {/* <div className="flex gap-2 items-center"> */}
@@ -89,9 +89,9 @@ const AttendanceGrid = ({ data }: Props) => {
                 )}
               </div>
             </div>
-          </Grid>
+          </div>
         ))}
-      </Grid>
+      </div>
     </div>
   );
 };

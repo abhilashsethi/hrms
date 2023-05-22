@@ -99,7 +99,9 @@ const AllDepartment = () => {
               />
             </Stack>
           </div>
-        ) : null}
+        ) : (
+          ""
+        )}
       </section>
     </PanelLayout>
   );
