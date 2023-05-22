@@ -7,7 +7,7 @@ interface Props {
 const AttendanceCharts = ({ allData, absentData, presentData }: Props) => {
   return (
     <>
-      <div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
+      <div className="grid grid-cols-12 content-between gap-6 !mb-6">
         <div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">
             Attendance from last week

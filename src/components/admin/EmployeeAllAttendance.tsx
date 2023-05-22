@@ -49,10 +49,10 @@ const EmployeeAllAttendance = () => {
     props: CircularProgressProps & { value: number }
   ) {
     return (
-      <Box sx={{ position: "relative", display: "inline-flex" }}>
+      <div className="relative md:flex">
         <CircularProgress size={80} variant="determinate" {...props} />
-        <Box
-          sx={{
+        <div
+          style={{
             top: 0,
             left: 0,
             bottom: 0,
@@ -68,13 +68,13 @@ const EmployeeAllAttendance = () => {
             component="div"
             color="text.secondary"
           >{`${Math.round(props.value)}%`}</Typography>
-        </Box>
-      </Box>
+        </div>
+      </div>
     );
   }
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl">
-      <div className="flex justify-between items-center">
+      <div className="md:flex justify-between items-center">
         <div>
           <p className="tracking-wide font-semibold">% Of Attendance</p>
         </div>
@@ -96,7 +96,7 @@ const EmployeeAllAttendance = () => {
           </TextField>
         </div>
       </div>
-      <div className="flex justify-between items-center py-10 px-4">
+      <div className="md:flex justify-between items-center py-10 px-4">
         <CircularProgressWithLabel value={progress} />
         <div className="flex gap-7 items-center">
           <div>
