@@ -136,7 +136,7 @@ const ViewTicketsDrawer = ({
                           </div>
                           <Tooltip title="Details">
                             <Link
-                              href={`/admin/clients/view-ticket-details${item?.id}`}
+                              href={`/admin/clients/view-ticket-details?id=${item?.id}`}
                             >
                               <div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
                                 <span className="p-2 bg-white shadow-lg rounded-md transition-all ease-in-out duration-200">

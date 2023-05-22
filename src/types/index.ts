@@ -108,7 +108,15 @@ export type User = {
   wallet?: number;
 };
 
+interface urlTypes {
+  id?: string;
+  link?: string | undefined;
+  projectId?: string | undefined;
+  title?: string | undefined;
+}
+
 export type Projects = {
+  URLs?: urlTypes[];
   name: string;
   description: string | null;
   devURL: string | null;

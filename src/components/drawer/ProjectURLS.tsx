@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useChange, useFetch } from "hooks";
+import Link from "next/link";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Projects } from "types";
@@ -35,6 +36,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
   const [isCreate, setIsCreate] = useState(false);
   const { change } = useChange();
   const { data: projectData, mutate } = useFetch<Projects>(`projects/${id}`);
+  console.log(projectData);
   const removeURL = () => {
     try {
       Swal.fire({
@@ -66,7 +68,6 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
       setLoading(true);
       try {
         const res = await change(`projects/add-links/${id}`, {
-          method: "PATCH",
           body: reqData,
         });
         setLoading(false);
@@ -77,6 +78,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
         }
         mutate();
         Swal.fire(`Success`, `Created Successfully`, `success`);
+        setIsCreate(false);
         return;
       } catch (error) {
         console.log(error);
@@ -164,7 +166,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
               </form>
             )}
             <div className="mt-4 flex flex-col gap-4">
-              {urls?.map((item, i) => (
+              {projectData?.URLs?.map((item: any, i) => (
                 <div
                   key={item?.id}
                   className="p-2 rounded-md shadow-jubilation border-b-2 border-theme"
@@ -188,9 +190,11 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
                     </div>
                   </div>
                   <div className="flex gap-2 items-center mt-3">
-                    <span className="custom-button bg-green-500">
-                      <Visibility fontSize="small" /> CLICK TO VIEW
-                    </span>
+                    <a target="_blank" href={item?.link}>
+                      <span className="custom-button bg-green-500">
+                        <Visibility fontSize="small" /> CLICK TO VIEW
+                      </span>
+                    </a>
                     <Tooltip title="Copy to clipboard">
                       <span className="custom-button bg-slate-800">
                         <ContentCopy fontSize="small" /> COPY LINK
