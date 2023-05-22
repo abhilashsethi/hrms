@@ -11,7 +11,7 @@ const CardStatus = ({
 	text?: string;
 }) => {
 	const { data: cardData, mutate } = useFetch<Card[]>(`cards`);
-	console.log(cardData);
+	// console.log(cardData);
 
 	const options = {
 		labels: ["Blocked", "Un-Blocked"],
