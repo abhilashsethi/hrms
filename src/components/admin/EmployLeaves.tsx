@@ -17,14 +17,7 @@ const EmployLeaves = ({ employeeId }: Props) => {
 	const { data: leaveDetails, isLoading: leaveDataLoading } = useFetch<any[]>(
 		`leaves?employeeID=${employeeId}`
 	);
-	console.log(
-		leaveDetails
-			?.sort(
-				(a: any, b: any) =>
-					(new Date(b.createdAt) as any) - (new Date(a.createdAt) as any)
-			)
-			?.slice(0, 4)
-	);
+
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
 			<HeadText title="Employee Leaves" />
