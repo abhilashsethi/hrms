@@ -150,9 +150,11 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
                         <div>
                           <Autocomplete
                             multiple
-                            options={employeesData}
+                            options={
+                              employeesData ? (employeesData as any) : []
+                            }
                             size="small"
-                            getOptionLabel={(option) => option.title}
+                            getOptionLabel={(option: any) => option.name}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
