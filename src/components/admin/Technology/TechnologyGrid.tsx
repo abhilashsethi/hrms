@@ -49,8 +49,8 @@ const CardContent = ({ item, mutate }: any) => {
   };
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
-    id?: string | null;
-  }>({ dialogue: false, id: null });
+    techData?: string | null;
+  }>({ dialogue: false, techData: null });
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -87,7 +87,7 @@ const CardContent = ({ item, mutate }: any) => {
   return (
     <>
       <UpdateTechnology
-        id={isUpdate?.id}
+        techData={isUpdate?.techData}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
@@ -135,7 +135,7 @@ const CardContent = ({ item, mutate }: any) => {
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
             <MenuItem
-              onClick={() => setIsUpdate({ dialogue: true, id: item?.id })}
+              onClick={() => setIsUpdate({ dialogue: true, techData: item })}
             >
               <ListItemIcon>
                 <EditRounded fontSize="small" />

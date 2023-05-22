@@ -21,23 +21,20 @@ interface Props {
   open: any;
   handleClose: any;
   mutate?: any;
-  id?: any;
+  techData?: any;
 }
 
 const validationSchema = yup.object().shape({
   name: yup.string().required("Required!"),
   //   image: yup.string().required("Required!"),
+  logo: yup.mixed().required("Image is required"),
 });
-const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
-  const { data: technologies, isLoading } = useFetch<{
-    name: string;
-    logo: any;
-  }>(`technologies/${id}`);
+const UpdateDepartment = ({ open, handleClose, mutate, techData }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const initialValues = {
-    name: `${technologies?.name ? technologies?.name : ""}`,
-    logo: `${technologies?.logo ? technologies?.logo : ""}`,
+    name: `${techData?.name ? techData?.name : ""}`,
+    logo: `${techData?.logo ? techData?.logo : ""}`,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
@@ -47,8 +44,8 @@ const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
     const filename = uniId.replace(".png", "");
     try {
       const url = await uploadFile(values?.logo, `${filename}.png`);
-      const name = values.name;
-      const res = await change(`technologies/${id}`, {
+      console.log(values?.logo);
+      const res = await change(`technologies/${techData?.id}`, {
         method: "PATCH",
         body: { logo: url, name: name },
       });
@@ -119,28 +116,26 @@ const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
               setFieldValue,
             }) => (
               <Form className="flex flex-col gap-4">
-                {!isLoading && (
-                  <>
-                    <SingleImageUpdate
-                      values={values}
-                      setImageValue={(event: any) => {
-                        setFieldValue("logo", event.currentTarget.files[0]);
-                      }}
-                    >
-                      <ErrorMessage name="logo" />
-                    </SingleImageUpdate>
-                    <TextField
-                      fullWidth
-                      placeholder="Enter Technology"
-                      name="name"
-                      value={values.name}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.name && !!errors.name}
-                      helperText={touched.name && errors.name}
-                    />
-                  </>
-                )}
+                <>
+                  <SingleImageUpdate
+                    values={values}
+                    setImageValue={(event: any) => {
+                      setFieldValue("logo", event.currentTarget.files[0]);
+                    }}
+                  >
+                    <ErrorMessage name="logo" />
+                  </SingleImageUpdate>
+                  <TextField
+                    fullWidth
+                    placeholder="Enter Technology"
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.name && !!errors.name}
+                    helperText={touched.name && errors.name}
+                  />
+                </>
 
                 <Button
                   type="submit"

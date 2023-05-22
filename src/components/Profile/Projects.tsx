@@ -26,10 +26,11 @@ import moment from "moment";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { Projects } from "types";
-
-const Projects = () => {
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+interface PROPS {
+  projectData?: any;
+  mutate?: any;
+}
+const Projects = ({ projectData, mutate }: PROPS) => {
   const [url, setUrl] = useState<{
     dialogue?: boolean;
     projectId?: string | null;
@@ -46,13 +47,6 @@ const Projects = () => {
     id?: string | null;
   }>({ dialogue: false, id: null });
 
-  const {
-    data: projectData,
-    mutate,
-    isLoading,
-    pagination,
-  } = useFetch<Projects[]>(`projects?page=${pageNumber}&limit=6`);
-  console.log(projectData);
   return (
     <>
       <ProjectURLS
@@ -183,27 +177,7 @@ const Projects = () => {
           </div>
         ))}
       </div>
-      <div>
-        {projectData?.length === 0 && <LoaderAnime />}
-        <section className="mb-6">
-          {projectData?.length ? (
-            <div className="flex justify-center md:py-8 py-4">
-              <Stack spacing={2}>
-                <Pagination
-                  count={Math.ceil(
-                    Number(pagination?.total || 1) /
-                      Number(pagination?.limit || 1)
-                  )}
-                  onChange={(e, v: number) => {
-                    setPageNumber(v);
-                  }}
-                  variant="outlined"
-                />
-              </Stack>
-            </div>
-          ) : null}
-        </section>
-      </div>
+      <div></div>
     </>
   );
 };
