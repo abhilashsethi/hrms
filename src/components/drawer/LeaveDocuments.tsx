@@ -1,11 +1,11 @@
 import { Close, Info } from "@mui/icons-material";
 import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
 import { PDF } from "assets/home";
-import { PhotoViewer } from "components/core";
 import { DocPreview } from "components/dialogues";
 import moment from "moment";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core";
+import { useFetch } from "hooks";
 
 type Props = {
   open?: boolean | any;
@@ -36,6 +36,9 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
     dialogue: false,
     title: "Preview",
   });
+  const { data: myData } = useFetch(`leaves/${data?.id}`);
+  console.log(myData);
+
   return (
     <>
       <DocPreview
