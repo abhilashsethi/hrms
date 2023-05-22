@@ -20,12 +20,21 @@ interface Props {
   handleClose: any;
   mutate?: any;
   id?: any;
+  roleData?: any;
+  isLoading?: any;
 }
 
-const UpdateRole = ({ open, handleClose, mutate, id }: Props) => {
-  const { data: roleData, isLoading } = useFetch<{ name: string }>(
-    `roles/${id}`
-  );
+const UpdateRole = ({
+  open,
+  roleData,
+  handleClose,
+  mutate,
+  id,
+  isLoading,
+}: Props) => {
+  // const { data: roleData, isLoading } = useFetch<{ name: string }>(
+  //   `roles/${id}`
+  // );
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const formik = useFormik({

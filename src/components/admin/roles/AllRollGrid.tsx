@@ -8,11 +8,13 @@ import Swal from "sweetalert2";
 import { Role } from "types";
 
 interface Props {
-  data?: [Role];
+  data?: any;
   mutate?: any;
+  isLoading?: any;
 }
 
-const AllRollGrid = ({ data, mutate }: Props) => {
+const AllRollGrid = ({ data, mutate, isLoading }: Props) => {
+  const [roleData, setRoleData] = useState("");
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{
     dialogue?: boolean;
@@ -70,6 +72,8 @@ const AllRollGrid = ({ data, mutate }: Props) => {
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
+        roleData={roleData}
+        isLoading={isLoading}
       />
       <RoleInformation
         open={isInfo?.dialogue}
@@ -78,7 +82,7 @@ const AllRollGrid = ({ data, mutate }: Props) => {
       />
       <div className="mt-4">
         <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
-          {data?.map((item: any) => (
+          {data?.roles?.map((item: any) => (
             <div key={item?.id}>
               <div className="py-4 w-full bg-gradient-to-b from-theme-50/50 via-white to-white shadow-lg rounded-lg flex justify-center items-center">
                 <div className="flex flex-col items-center gap-3">
@@ -102,9 +106,10 @@ const AllRollGrid = ({ data, mutate }: Props) => {
                       </Tooltip>
                     </div>
                     <div
-                      onClick={() =>
-                        setIsUpdate({ dialogue: true, id: item?.id })
-                      }
+                      onClick={() => {
+                        setIsUpdate({ dialogue: true, id: item?.id }),
+                          setRoleData(item);
+                      }}
                       className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-blue-600 to-blue-400 flex justify-center items-center text-lg font-semibold"
                     >
                       <Tooltip title="Edit">

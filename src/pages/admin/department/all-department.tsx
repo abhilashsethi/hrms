@@ -21,7 +21,7 @@ const AllDepartment = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any>(`departments?page=${pageNumber}&limit=8`);
+  } = useFetch<any[]>(`departments?page=${pageNumber}&limit=8`);
 
   return (
     <PanelLayout title="All Departments - Admin Panel">
@@ -69,22 +69,16 @@ const AllDepartment = () => {
         {isGrid ? (
           <>
             {isLoading && <Loader />}
-            <AllDepartmentGrid
-              data={departmentData?.departments}
-              mutate={mutate}
-            />
+            <AllDepartmentGrid data={departmentData} mutate={mutate} />
           </>
         ) : (
           <>
             {isLoading && <Loader />}
-            <AllDepartmentColumn
-              data={departmentData?.departments}
-              mutate={mutate}
-            />
+            <AllDepartmentColumn data={departmentData} mutate={mutate} />
           </>
         )}
-        {!departmentData?.departments?.length && <LoaderAnime />}
-        {departmentData?.departments?.length ? (
+        {!departmentData?.length && <LoaderAnime />}
+        {departmentData?.length ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination

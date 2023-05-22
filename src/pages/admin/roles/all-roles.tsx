@@ -16,7 +16,8 @@ const AllRoles = () => {
     isLoading,
     pagination,
   } = useFetch<any>(`roles?page=${pageNumber}&limit=8`);
-
+  console.log(roleData);
+  console.log(pagination);
   return (
     <PanelLayout title="All Roles - Admin Panel">
       <section className="px-8 py-4">
@@ -63,12 +64,16 @@ const AllRoles = () => {
         {isGrid ? (
           <>
             {isLoading && <Loader />}
-            <AllRollGrid data={roleData?.roles} mutate={mutate} />
+            <AllRollGrid
+              data={roleData}
+              mutate={mutate}
+              isLoading={isLoading}
+            />
           </>
         ) : (
           <>
             {isLoading && <Loader />}
-            <AllRollColumn data={roleData?.roles} mutate={mutate} />
+            <AllRollColumn data={roleData} mutate={mutate} />
           </>
         )}
         {!roleData?.roles?.length && <LoaderAnime />}

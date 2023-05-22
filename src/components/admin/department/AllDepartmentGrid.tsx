@@ -7,7 +7,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { Role } from "types";
 interface Props {
-  data?: [Role];
+  data?: any;
   mutate?: any;
 }
 const AllDepartmentGrid = ({ data, mutate }: Props) => {
@@ -75,7 +75,7 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
       />
       <div className="my-4">
         <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
-          {data?.map((item: any) => (
+          {data?.departments?.map((item: any) => (
             <div key={item?.id}>
               <div className="px-4 h-48 w-full hover:scale-105 ease-in-out transition-all duration-200 bg-white border-b-4 border-cyan-600 shadow-lg rounded-xl flex justify-center items-center">
                 <div className="grid justify-items-center items-center gap-4">

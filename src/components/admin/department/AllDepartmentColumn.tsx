@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { Role } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 interface Props {
-  data?: [Role];
+  data?: any;
   mutate?: any;
 }
 const AllDepartmentColumn = ({ data, mutate }: Props) => {
@@ -29,8 +29,8 @@ const AllDepartmentColumn = ({ data, mutate }: Props) => {
       />
       <MaterialTable
         title={<HeadStyle name="All Department" icon={<PeopleRounded />} />}
-        isLoading={!data}
-        data={data ? getDataWithSL<any>(data) : []}
+        isLoading={!data?.departments}
+        data={data?.departments ? getDataWithSL<any>(data?.departments) : []}
         options={{ ...MuiTblOptions(), selection: false }}
         columns={[
           {
