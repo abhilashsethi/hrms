@@ -11,13 +11,34 @@ import {
   Drawer,
   TextField,
 } from "@mui/material";
+import { Form, Formik } from "formik";
+import { useFetch } from "hooks";
 
 type Props = {
   open?: boolean | any;
   onClose: () => void;
+  setEmpName?: any;
+  setClientName?: any;
+  setTechnologies?: any;
 };
-
-const TechnologiesFilter = ({ open, onClose }: Props) => {
+const initialValues = {
+  empName: [],
+  clientName: [],
+  technologies: [],
+};
+const TechnologiesFilter = ({
+  open,
+  onClose,
+  setEmpName,
+  setTechnologies,
+  setClientName,
+}: Props) => {
+  const { data: employeesData } = useFetch<any[]>(`users`);
+  const { data: clientData } = useFetch<any[]>(`clients`);
+  const { data: techData } = useFetch<any[]>(`technologies`);
+  const handleSubmit = async (values: any) => {
+    console.log(values);
+  };
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
@@ -32,59 +53,100 @@ const TechnologiesFilter = ({ open, onClose }: Props) => {
             More Filters
           </p>
           <div>
-            <h4 className="text-sm font-light">
-              Please select the fields to filter the projects.
-            </h4>
-            <div>
-              <h1 className="mt-4 mb-2">Employee Name </h1>
-              <Autocomplete
-                multiple
-                options={top100Films}
-                getOptionLabel={(option) => option?.title}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Employee Names"
-                    placeholder="Select Employees"
-                  />
-                )}
-              />
-              <h1 className="mt-4 mb-2">Client Name </h1>
-              <Autocomplete
-                multiple
-                options={top100Films}
-                getOptionLabel={(option) => option?.title}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Client Names"
-                    placeholder="Select Clients"
-                  />
-                )}
-              />
-              <h1 className="mt-4 mb-2">Technologies </h1>
-              <Autocomplete
-                multiple
-                options={top100Films}
-                getOptionLabel={(option) => option?.title}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Technologies"
-                    placeholder="Select Technologies"
-                  />
-                )}
-              />
-            </div>
-            <div className="flex justify-center mt-10">
-              <Button
-                startIcon={<FilterListRounded />}
-                variant="contained"
-                className="!bg-theme"
-              >
-                Filter
-              </Button>
-            </div>
+            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                setFieldValue,
+              }) => (
+                <Form>
+                  <h4 className="text-sm font-light">
+                    Please select the fields to filter the projects.
+                  </h4>
+                  <div>
+                    <h1 className="mt-4 mb-2">Employee Name </h1>
+                    <Autocomplete
+                      multiple
+                      options={employeesData ? (employeesData as any) : []}
+                      value={employeesData?.filter((item: any) =>
+                        values?.empName?.includes(item?.name)
+                      )}
+                      id="empName"
+                      onChange={(e: any, r: any) => {
+                        setFieldValue(
+                          "empName",
+                          r?.map((data: { name: any }) => data?.name)
+                        );
+                      }}
+                      getOptionLabel={(option: any) => option?.name}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Employee Names"
+                          onBlur={handleBlur}
+                          placeholder="Select Employees"
+                        />
+                      )}
+                    />
+                    <h1 className="mt-4 mb-2">Client Name </h1>
+                    <Autocomplete
+                      multiple
+                      options={clientData ? (clientData as any) : []}
+                      value={values?.clientName}
+                      id="clientName"
+                      onChange={(e: any, r: any) => {
+                        setFieldValue(
+                          "clientName",
+                          r?.map((data: { name: string }) => data?.name)
+                        );
+                      }}
+                      getOptionLabel={(option: any) => option?.name}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Client Names"
+                          placeholder="Select Clients"
+                        />
+                      )}
+                    />
+                    <h1 className="mt-4 mb-2">Technologies </h1>
+                    <Autocomplete
+                      multiple
+                      options={techData ? (techData as any) : []}
+                      value={values?.technologies}
+                      id="technologies"
+                      onChange={(e: any, r: any) => {
+                        setFieldValue(
+                          "technologies",
+                          r?.map((data: { name: string }) => data?.name)
+                        );
+                      }}
+                      getOptionLabel={(option: any) => option?.name}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Technologies"
+                          placeholder="Select Technologies"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className="flex justify-center mt-10">
+                    <Button
+                      type="submit"
+                      startIcon={<FilterListRounded />}
+                      variant="contained"
+                      className="!bg-theme"
+                    >
+                      Filter
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </Container>
       </Drawer>

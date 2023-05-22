@@ -13,6 +13,9 @@ import Link from "next/link";
 import { useState } from "react";
 
 const AllProjects = () => {
+  
+  const [clientName, setClientName] = useState("");
+  const [Technologies, setTechnologies] = useState("");
   const [empName, setEmpName] = useState("");
   const [isTech, setIsTech] = useState(false);
   const [pageNumber, setPageNumber] = useState<number | null>(1);
@@ -21,6 +24,9 @@ const AllProjects = () => {
   const handleChange = (event: any) => {
     setStatus(event.target.value);
   };
+  console.log("Technologies",Technologies);
+  console.log("empName",empName);
+  console.log("clientName",clientName);
   const {
     data: projectData,
     mutate,
@@ -33,7 +39,9 @@ const AllProjects = () => {
         <TechnologiesFilter
           open={isTech}
           onClose={() => setIsTech(false)}
-          // setEmpName={setEmpName}
+          setEmpName={setEmpName}
+          setTechnologies={setTechnologies}
+          setClientName={setClientName}
         />
         <div className="flex md:justify-between justify-start md:items-center items-start py-4 md:flex-row flex-col">
           <AdminBreadcrumbs links={links} />
