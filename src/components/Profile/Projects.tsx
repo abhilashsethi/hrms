@@ -184,7 +184,7 @@ const Projects = () => {
         ))}
       </div>
       <div>
-        {!projectData?.length && <LoaderAnime />}
+        {projectData?.length === 0 && <LoaderAnime />}
         <section className="mb-6">
           {projectData?.length ? (
             <div className="flex justify-center md:py-8 py-4">
