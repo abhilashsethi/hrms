@@ -30,7 +30,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
-  const { data, isLoading } = useFetch<any>(`users`);
+  const { data: employeesData, isLoading } = useFetch<any>(`users`);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
@@ -150,7 +150,7 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
                         <div>
                           <Autocomplete
                             multiple
-                            options={team}
+                            options={employeesData}
                             size="small"
                             getOptionLabel={(option) => option.title}
                             renderInput={(params) => (
@@ -191,7 +191,7 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
                           loading ? <CircularProgress size={20} /> : <Check />
                         }
                       >
-                        UPDATE
+                        CREATE
                       </Button>
                     </div>
                   </Form>

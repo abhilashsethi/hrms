@@ -75,7 +75,12 @@ const ProjectBasicDetailsUpdate = ({
       Swal.fire(`Success`, `Updated Successfully`, `success`);
       handleClose();
       return;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
