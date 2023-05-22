@@ -37,10 +37,10 @@ const TechnologiesFilter = ({
   const { data: clientData } = useFetch<any[]>(`clients`);
   const { data: techData } = useFetch<any[]>(`technologies`);
   const handleSubmit = async (values: any) => {
-    // console.log(values);
     setEmpName(values?.empName);
     setClientName(values?.clientName);
     setTechnologies(values?.technologies);
+    onClose();
   };
   return (
     <>
@@ -57,14 +57,7 @@ const TechnologiesFilter = ({
           </p>
           <div>
             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                setFieldValue,
-              }) => (
+              {({ values, handleBlur, setFieldValue }) => (
                 <Form>
                   <h4 className="text-sm font-light">
                     Please select the fields to filter the projects.
@@ -75,13 +68,13 @@ const TechnologiesFilter = ({
                       multiple
                       options={employeesData ? (employeesData as any) : []}
                       value={employeesData?.filter((item: any) =>
-                        values?.empName?.includes(item?.name)
+                        values?.empName?.includes(item?.id)
                       )}
                       id="empName"
                       onChange={(e: any, r: any) => {
                         setFieldValue(
                           "empName",
-                          r?.map((data: { name: any }) => data?.name)
+                          r?.map((data: { id: any }) => data?.id)
                         );
                       }}
                       getOptionLabel={(option: any) => option?.name}
