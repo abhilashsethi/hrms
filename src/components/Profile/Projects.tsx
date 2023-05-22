@@ -24,7 +24,7 @@ import { ProjectMembers, ProjectURLS } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { Projects } from "types";
 

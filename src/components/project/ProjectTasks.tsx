@@ -60,7 +60,7 @@ const ProjectTasks = () => {
               iusto? Libero.
             </p>
             <h2 className="mt-2 text-sm font-semibold text-slate-700">
-              Assigned To :{" "}
+              Assigned To :
             </h2>
             <div className="flex justify-start mt-4">
               <AvatarGroup
