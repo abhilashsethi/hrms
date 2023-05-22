@@ -1,3 +1,5 @@
+import { makeStyles } from "@material-ui/core";
+import { AccountTreeRounded, Close, FreeBreakfast } from "@mui/icons-material";
 import {
 	Avatar,
 	Card,
@@ -7,15 +9,13 @@ import {
 	Modal,
 	Tooltip,
 } from "@mui/material";
-import { AccountTreeRounded, Close, FreeBreakfast } from "@mui/icons-material";
 import { Loader } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { useFetch } from "hooks";
+import moment from "moment";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { User } from "types";
-import { makeStyles } from "@material-ui/core";
-import { useRouter } from "next/router";
-import moment from "moment";
 
 type Props = {
 	open?: boolean | any;
@@ -218,7 +218,9 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 												<Tooltip title="Project Details">
 													<div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
 														<span className="p-2 bg-white shadow-lg rounded-md transition-all ease-in-out duration-200">
-															<Link href={"/admin/projects/project-details"}>
+															<Link
+																href={`/admin/projects/project-details?id=${item?.id}`}
+															>
 																<AccountTreeRounded />{" "}
 															</Link>
 														</span>
