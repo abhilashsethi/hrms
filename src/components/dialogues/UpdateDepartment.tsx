@@ -14,28 +14,33 @@ import * as yup from "yup";
 import { useState } from "react";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
+import { Role } from "types";
 
 interface Props {
   open: any;
   handleClose: any;
   mutate?: any;
-  id?: any;
+  departmentData?: any;
 }
 
-const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
-  const { data: roleData, isLoading } = useFetch<{ name: string }>(
-    `departments/${id}`
-  );
+const UpdateDepartment = ({
+  open,
+  handleClose,
+  mutate,
+  departmentData,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const formik = useFormik({
-    initialValues: { name: `${roleData?.name ? roleData?.name : ""}` },
+    initialValues: {
+      name: `${departmentData?.name ? departmentData?.name : ""}`,
+    },
     enableReinitialize: true,
     validationSchema: yup.object({ name: yup.string().required("Required!") }),
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const res = await change(`departments/${id}`, {
+        const res = await change(`departments/${departmentData?.id}`, {
           method: "PATCH",
           body: values,
         });
@@ -93,18 +98,16 @@ const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
         <div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
           <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-            {!isLoading && (
-              <TextField
-                fullWidth
-                placeholder="Enter Department"
-                name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.name && !!formik.errors.name}
-                helperText={formik.touched.name && formik.errors.name}
-              />
-            )}
+            <TextField
+              fullWidth
+              placeholder="Enter Department"
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.name && !!formik.errors.name}
+              helperText={formik.touched.name && formik.errors.name}
+            />
 
             <Button
               type="submit"

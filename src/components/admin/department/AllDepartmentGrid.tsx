@@ -7,7 +7,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { Role } from "types";
 interface Props {
-  data?: [Role];
+  data?: Role[];
   mutate?: any;
 }
 const AllDepartmentGrid = ({ data, mutate }: Props) => {
@@ -19,8 +19,8 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
   const { change } = useChange();
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
-    id?: string | null;
-  }>({ dialogue: false, id: null });
+    departmentData?: string | null;
+  }>({ dialogue: false, departmentData: null });
 
   const handleDelete = async (id: string) => {
     Swal.fire({
@@ -63,7 +63,7 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
   return (
     <>
       <UpdateDepartment
-        id={isUpdate?.id}
+        departmentData={isUpdate?.departmentData}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
@@ -99,9 +99,9 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
                       </Tooltip>
                     </div>
                     <div
-                      onClick={() =>
-                        setIsUpdate({ dialogue: true, id: item?.id })
-                      }
+                      onClick={() => {
+                        setIsUpdate({ dialogue: true, departmentData: item });
+                      }}
                       className="h-10 w-10 cursor-pointer hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-xl rounded-full bg-gradient-to-r from-blue-600 to-blue-400 flex justify-center items-center text-lg font-semibold hover:from-blue-400 hover:to-blue-600"
                     >
                       <Tooltip title="Edit">

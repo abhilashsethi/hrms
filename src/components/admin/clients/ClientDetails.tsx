@@ -33,8 +33,6 @@ const ClientDetails = () => {
   const { data: projectData } = useFetch<any>(
     `projects?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
   );
-  console.log("clients", clientData);
-  console.log("projectData", projectData);
 
   const basicDetails = [
     {

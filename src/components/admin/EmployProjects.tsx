@@ -3,29 +3,43 @@ import moment from "moment";
 import { AccountTreeRounded } from "@mui/icons-material";
 import { status } from "nprogress";
 
-const EmployProjects = () => {
+type Props = {
+	projectDetails?: any;
+};
+
+const EmployProjects = ({ projectDetails }: Props) => {
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
 			<HeadText title="Latest Projects" />
 			<div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
-				{cards?.map((item, i) => (
+				{projectDetails?.slice(0, 4)?.map((item: any, i: any) => (
 					<div key={i} className="flex gap-1 py-3 border-b-[1px]">
 						<div className="w-1/5 flex justify-center items-center">
 							<div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
 								<AccountTreeRounded className="!text-secondary" />
 							</div>
 						</div>
-						<div className="w-4/5 h-12">
+						<div className="w-4/5">
 							<div className="flex justify-between pr-3 items-center">
 								<p className="text-sm font-semibold tracking-wide">
-									{item?.title}
+									{item?.description?.length >= 20
+										? item?.description?.substring(0, 20) + "..."
+										: item?.description}
 								</p>
-								<span className="py-1 px-3 rounded-md bg-emerald-100 tracking-wide border-green-400 border-[1px] text-green-500 text-xs font-semibold">
+								<span
+									className={`py-1 px-3 rounded-md  ${
+										item?.status === "Rejected"
+											? "bg-red-500"
+											: item?.status === "Pending"
+											? "bg-yellow-500"
+											: "bg-green-500"
+									} tracking-wide text-white text-xs font-semibold`}
+								>
 									{item?.status}
 								</span>
 							</div>
 							<p className="text-sm tracking-wide">
-								Deadline : {moment(new Date()).format("ll")}
+								Starts On : {moment(item?.startDate).format("ll")}
 							</p>
 						</div>
 					</div>

@@ -8,11 +8,12 @@ import Swal from "sweetalert2";
 import { Role } from "types";
 
 interface Props {
-  data?: [Role];
+  data?: Role[];
   mutate?: any;
 }
 
 const AllRollGrid = ({ data, mutate }: Props) => {
+  const [roleData, setRoleData] = useState("");
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{
     dialogue?: boolean;
@@ -70,6 +71,7 @@ const AllRollGrid = ({ data, mutate }: Props) => {
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
+        roleData={roleData}
       />
       <RoleInformation
         open={isInfo?.dialogue}
@@ -102,9 +104,10 @@ const AllRollGrid = ({ data, mutate }: Props) => {
                       </Tooltip>
                     </div>
                     <div
-                      onClick={() =>
-                        setIsUpdate({ dialogue: true, id: item?.id })
-                      }
+                      onClick={() => {
+                        setIsUpdate({ dialogue: true, id: item?.id }),
+                          setRoleData(item);
+                      }}
                       className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-blue-600 to-blue-400 flex justify-center items-center text-lg font-semibold"
                     >
                       <Tooltip title="Edit">

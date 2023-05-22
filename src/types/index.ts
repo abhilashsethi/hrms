@@ -137,6 +137,7 @@ export type Role = {
   createdAt: Date;
   updatedAt: Date;
   users: User[];
+  departments:string;
 };
 
 export type Leave = {

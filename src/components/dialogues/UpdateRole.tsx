@@ -20,12 +20,13 @@ interface Props {
   handleClose: any;
   mutate?: any;
   id?: any;
+  roleData?: any;
 }
 
-const UpdateRole = ({ open, handleClose, mutate, id }: Props) => {
-  const { data: roleData, isLoading } = useFetch<{ name: string }>(
-    `roles/${id}`
-  );
+const UpdateRole = ({ open, roleData, handleClose, mutate, id }: Props) => {
+  // const { data: roleData, isLoading } = useFetch<{ name: string }>(
+  //   `roles/${id}`
+  // );
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const formik = useFormik({
@@ -93,18 +94,16 @@ const UpdateRole = ({ open, handleClose, mutate, id }: Props) => {
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
         <div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
           <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-            {!isLoading && (
-              <TextField
-                fullWidth
-                placeholder="Enter Role"
-                name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.name && !!formik.errors.name}
-                helperText={formik.touched.name && formik.errors.name}
-              />
-            )}
+            <TextField
+              fullWidth
+              placeholder="Enter Role"
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.name && !!formik.errors.name}
+              helperText={formik.touched.name && formik.errors.name}
+            />
 
             <Button
               type="submit"

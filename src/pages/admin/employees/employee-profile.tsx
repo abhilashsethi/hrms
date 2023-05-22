@@ -87,7 +87,7 @@ const EmployeeProfile = () => {
 							<div className="mb-4 flex justify-between">
 								<HeadText title="Month wise attendance" />
 								<Link
-									href={`/admin/employees/attendance-report?empId=${router?.query?.id}`}
+									href={`/admin/employees/attendance-report?empId=${router?.query?.id}&month=${activeMonth}`}
 								>
 									<Button
 										variant="contained"
