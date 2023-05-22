@@ -23,7 +23,6 @@ const AllTechnologies = () => {
     isLoading,
     pagination,
   } = useFetch<any[]>(`technologies?page=${pageNumber}&limit=8`);
-  console.log(tech);
   return (
     <PanelLayout title="All Technologies - HRMS Searchingyard">
       <CreateTechnology

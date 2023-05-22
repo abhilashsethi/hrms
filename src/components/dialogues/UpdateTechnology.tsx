@@ -41,9 +41,12 @@ const UpdateDepartment = ({ open, handleClose, mutate, id }: Props) => {
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
-    const uniId = new Date().getTime();
+    const uniId = initialValues?.logo?.substring(
+      initialValues?.logo?.lastIndexOf("/") + 1
+    );
+    const filename = uniId.replace(".png", "");
     try {
-      const url = await uploadFile(values?.logo, `${uniId}.png`);
+      const url = await uploadFile(values?.logo, `${filename}.png`);
       const name = values.name;
       const res = await change(`technologies/${id}`, {
         method: "PATCH",
