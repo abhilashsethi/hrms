@@ -14,7 +14,7 @@ import Link from "next/link";
 
 const EmployeeProfile = () => {
 	const [activeMonth, setActiveMonth] = useState();
-	console.log(activeMonth);
+	// console.log(activeMonth);
 	const router = useRouter();
 	const [attendances, setAttendances] = useState<any>([]);
 	function renderEventContent(eventInfo: any) {
@@ -87,7 +87,7 @@ const EmployeeProfile = () => {
 							<div className="mb-4 flex justify-between">
 								<HeadText title="Month wise attendance" />
 								<Link
-									href={`/admin/employees/attendance-report?empId=${router?.query?.id}`}
+									href={`/admin/employees/attendance-report?empId=${router?.query?.id}&month=${activeMonth}`}
 								>
 									<Button
 										variant="contained"

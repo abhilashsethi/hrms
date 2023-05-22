@@ -9,6 +9,14 @@ import { MuiTblOptions } from "utils";
 
 const AttendanceReport = () => {
 	const router = useRouter();
+	// console.log(router?.query?.empId?.toLocaleString());
+	const getMonthName = (monthNumber: any) => {
+		const date = new Date(2000, monthNumber, 1); // Creating a Date object with the year 2000 and the given month number
+		const monthName = date.toLocaleString("default", { month: "long" }); // Getting the month name using the 'long' option
+
+		return monthName;
+	};
+	console.log(getMonthName(router?.query?.month));
 	const links = [
 		{ id: 1, page: "Employee Profile", link: "/admin/employees" },
 		{
@@ -18,9 +26,9 @@ const AttendanceReport = () => {
 		},
 	];
 	const { data: attendanceData } = useFetch<any>(
-		`attendances/${router?.query?.empId}`
+		`attendances/${router?.query?.empId}?month=${router?.query?.month}`
 	);
-	console.log(attendanceData);
+	// console.log(attendanceData);
 	return (
 		<PanelLayout title="Monthly Report - ">
 			<section className="px-8 py-4">
@@ -31,7 +39,9 @@ const AttendanceReport = () => {
 					<MaterialTable
 						title={
 							<HeadStyle
-								name="Employee Attendance for current month"
+								name={`Employee Attendance for ${getMonthName(
+									router?.query?.month
+								)}`}
 								icon={<Checklist />}
 							/>
 						}
