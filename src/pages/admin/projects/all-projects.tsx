@@ -75,7 +75,6 @@ const AllProjects = () => {
             </Button>
           </div>
         </FiltersContainer>
-
         <div className="mt-4">
           <Projects />
         </div>
