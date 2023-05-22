@@ -196,3 +196,8 @@ export async function deleteFile(path: string) {
     console.log(error);
   }
 }
+
+export const DocTypeGenerate = (file: any) => {
+  const datestring = Date.now();
+  return `${datestring}.` + `${file?.split("/")[1]}`;
+};

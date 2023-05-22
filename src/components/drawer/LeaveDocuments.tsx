@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core";
 type Props = {
   open?: boolean | any;
   onClose: () => void;
+  data?: any;
 };
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LeaveDocuments = ({ open, onClose }: Props) => {
+const LeaveDocuments = ({ open, onClose, data }: Props) => {
   const classes = useStyles();
   const [isPreview, setIsPreview] = useState<{
     dialogue?: boolean;
@@ -54,26 +55,42 @@ const LeaveDocuments = ({ open, onClose }: Props) => {
             </IconButton>
           </div>
           <div>
-            <h1 className="font-semibold">Team Manager</h1>
+            {/* <h1 className="font-semibold">Team Manager</h1>
             <div className="h-20 w-full mt-2 flex gap-4 items-center">
               <PhotoViewer name="Srinu Reddy" />
               <div>
                 <h2 className="font-semibold tracking-wide">Srinu Reddy</h2>
                 <h2 className="text-gray-600">Developer</h2>
               </div>
-            </div>
+            </div> */}
             <h1 className="font-semibold mt-4">Leave Type</h1>
-            <h2 className="text-gray-600">Sick Leave</h2>
-            <h1 className="font-semibold mt-4">Leave On</h1>
-            <h2 className="text-gray-600 tracking-wide">
-              Second Half - {moment(new Date().toISOString()).format("ll")}
-            </h2>
-            <h1 className="font-semibold mt-4">Message </h1>
-            <p className="tracking-wide">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil
-              quidem deleniti necessitatibus quas minus ad, architecto nesciunt
-              id exercitationem labore!
-            </p>
+            <h2 className="text-gray-600">{data?.type}</h2>
+            {data?.variant === "MultipleDays" ? (
+              <>
+                <h1 className="font-semibold mt-4">Starts From</h1>
+                <h2 className="text-gray-600 tracking-wide">
+                  {moment(data?.startDate).format("ll")}
+                </h2>
+                <h1 className="font-semibold mt-4">Ends At</h1>
+                <h2 className="text-gray-600 tracking-wide">
+                  {moment(data?.endDate).format("ll")}
+                </h2>
+              </>
+            ) : (
+              <>
+                <h1 className="font-semibold mt-4">Leave On</h1>
+                <h2 className="text-gray-600 tracking-wide">
+                  {moment(data?.startDate).format("ll")}
+                </h2>
+              </>
+            )}
+
+            <h1 className="font-semibold mt-4">Reason </h1>
+            {data?.reason ? (
+              <p className="tracking-wide">{data?.reason}</p>
+            ) : (
+              <p className="tracking-wide">Not specified.</p>
+            )}
           </div>
           <h1 className="font-semibold my-4">Documents </h1>
           <div className="flex w-full">
@@ -96,6 +113,10 @@ const LeaveDocuments = ({ open, onClose }: Props) => {
                 </Tooltip>
               ))}
             </div>
+          </div>
+          <div>
+            <h1 className="mt-4 font-semibold">Approved By</h1>
+            <p className="mt-2">No Members approved.</p>
           </div>
         </Container>
       </Drawer>

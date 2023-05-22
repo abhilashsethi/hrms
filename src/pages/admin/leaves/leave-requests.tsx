@@ -1,15 +1,12 @@
-import {
-  Add,
-  GridViewRounded,
-  RadioButtonChecked,
-  TableRowsRounded,
-} from "@mui/icons-material";
-import { Button, IconButton, MenuItem, TextField } from "@mui/material";
+import { Add, RadioButtonChecked } from "@mui/icons-material";
+import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { LeavesColumn, LeavesGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
   FiltersContainer,
   GridAndList,
+  Loader,
+  LoaderAnime,
 } from "components/core";
 import { CreateLeave } from "components/dialogues";
 import { useFetch } from "hooks";
@@ -19,12 +16,24 @@ import { Leave } from "types";
 
 const LeaveRequests = () => {
   const [isGrid, setIsGrid] = useState(true);
+  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [userName, setUsername] = useState<string | null>(null);
+  const [empId, setEmpId] = useState<string | null>(null);
   const [leaveType, setLeaveType] = useState<string>("");
   const [leaveStatus, setLeaveStatus] = useState<string>("");
   const [isLeave, setIsLeave] = useState<boolean>(false);
-
-  const { data: leavesData, mutate } = useFetch<Leave[]>(`leaves`);
-  console.log(leavesData);
+  const {
+    data: leavesData,
+    mutate,
+    pagination,
+    isLoading,
+  } = useFetch<Leave[]>(
+    `leaves?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+      empId ? `&employeeID=${empId}` : ""
+    }${leaveStatus ? `&status=${leaveStatus}` : ""}${
+      leaveType ? `&type=${leaveType}` : ""
+    }`
+  );
   return (
     <PanelLayout title="Leaves - Admin Panel">
       <section className="md:px-8 px-4 py-2">
@@ -53,12 +62,12 @@ const LeaveRequests = () => {
               fullWidth
               size="small"
               placeholder="Employee Id"
-              // onChange={(e) => setEmpId(e.target.value)}
+              onChange={(e) => setEmpId(e.target.value)}
             />
             <TextField
               fullWidth
               size="small"
-              // onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder="Employee Name"
             />
             <TextField
@@ -71,7 +80,7 @@ const LeaveRequests = () => {
             >
               {types.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
-                  {option.value}
+                  {option.label}
                 </MenuItem>
               ))}
             </TextField>
@@ -83,19 +92,48 @@ const LeaveRequests = () => {
               value={leaveStatus ? leaveStatus : ""}
               onChange={(e) => setLeaveStatus(e?.target?.value)}
             >
-              {status.map((option: any) => (
+              {statuses.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
-                  {option.value}
+                  {option.label}
                 </MenuItem>
               ))}
             </TextField>
           </div>
         </FiltersContainer>
-        {isGrid ? (
-          <LeavesGrid data={leavesData} />
+        {isLoading ? (
+          <div className="w-full h-[80vh]">
+            <Loader />
+          </div>
         ) : (
-          <LeavesColumn data={leavData} />
+          <>
+            {" "}
+            {isGrid ? (
+              <LeavesGrid data={leavesData} mutate={mutate} />
+            ) : (
+              <LeavesColumn data={leavesData} mutate={mutate} />
+            )}
+          </>
         )}
+
+        {!leavesData?.length && <LoaderAnime />}
+        <section className="mb-6">
+          {leavesData?.length ? (
+            <div className="flex justify-center md:py-8 py-4">
+              <Stack spacing={2}>
+                <Pagination
+                  count={Math.ceil(
+                    Number(pagination?.total || 1) /
+                      Number(pagination?.limit || 1)
+                  )}
+                  onChange={(e, v: number) => {
+                    setPageNumber(v);
+                  }}
+                  variant="outlined"
+                />
+              </Stack>
+            </div>
+          ) : null}
+        </section>
       </section>
     </PanelLayout>
   );
@@ -108,27 +146,33 @@ const links = [
   { id: 2, page: "Leave Requests", link: "/admin/leaves/leave-requests" },
 ];
 
-const status = [
+const statuses = [
   {
     id: 1,
     value: "Pending",
-    icon: <RadioButtonChecked fontSize="small" className="!text-blue-500" />,
+    label: "Pending",
   },
   {
     id: 2,
     value: "Approved",
-    icon: <RadioButtonChecked fontSize="small" className="!text-green-500" />,
+    label: "Approved",
   },
   {
     id: 3,
-    value: "Declined",
-    icon: <RadioButtonChecked fontSize="small" className="!text-red-500" />,
+    value: "Rejected",
+    label: "Rejected",
+  },
+  {
+    id: 4,
+    value: null,
+    label: "All",
   },
 ];
 
 const types = [
-  { id: 1, value: "Sick Leave" },
-  { id: 2, value: "Casual Leave" },
+  { id: 1, value: "Casual", label: "Casual" },
+  { id: 2, value: "Sick", label: "Sick" },
+  { id: 2, value: null, label: "All" },
 ];
 
 const leavData = [

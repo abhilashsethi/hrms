@@ -14,8 +14,49 @@ import {
 	DevicesOther,
 	PendingActions,
 } from "@mui/icons-material";
+import { useFetch } from "hooks";
 
 const Meetings = () => {
+	const { data: meetingData, mutate } = useFetch<any>(
+		`meetings/dashboard/details`
+	);
+	console.log(meetingData?.Meetings?.totalMeetings);
+
+	const cards = [
+		{
+			id: 1,
+			icon: <ContactPhone className="text-theme" />,
+			count: meetingData?.Meetings?.totalMeetings,
+			title: "Total Meetings",
+			img: MEETINGICON.src,
+			bg: "from-blue-500 to-blue-300",
+		},
+		{
+			id: 2,
+			icon: <PendingActions className="text-theme" />,
+			count: "20",
+			title: "Upcoming Meetings",
+			bg: "from-yellow-500 to-yellow-300",
+			img: MEETINGICON2.src,
+		},
+		{
+			id: 3,
+			icon: <AssignmentTurnedIn className="text-theme" />,
+			count: "10",
+			title: "Completed Meetings",
+			bg: "from-emerald-500 to-emerald-300",
+			img: MEETINGICON3.src,
+		},
+		{
+			id: 4,
+			icon: <DevicesOther className="text-theme" />,
+			count: "18",
+			title: "Total Meeting Locations",
+			bg: "from-purple-500 to-purple-300",
+			img: MEETINGICON4.src,
+		},
+	];
+
 	return (
 		<PanelLayout title="Meetings - Admin Panel">
 			<div>
@@ -38,38 +79,3 @@ const Meetings = () => {
 };
 
 export default Meetings;
-
-const cards = [
-	{
-		id: 1,
-		icon: <ContactPhone className="text-theme" />,
-		count: "34",
-		title: "Total Meetings",
-		img: MEETINGICON.src,
-		bg: "from-blue-500 to-blue-300",
-	},
-	{
-		id: 2,
-		icon: <PendingActions className="text-theme" />,
-		count: "20",
-		title: "Upcoming Meetings",
-		bg: "from-yellow-500 to-yellow-300",
-		img: MEETINGICON2.src,
-	},
-	{
-		id: 3,
-		icon: <AssignmentTurnedIn className="text-theme" />,
-		count: "10",
-		title: "Completed Meetings",
-		bg: "from-emerald-500 to-emerald-300",
-		img: MEETINGICON3.src,
-	},
-	{
-		id: 4,
-		icon: <DevicesOther className="text-theme" />,
-		count: "18",
-		title: "Total Meeting Locations",
-		bg: "from-purple-500 to-purple-300",
-		img: MEETINGICON4.src,
-	},
-];

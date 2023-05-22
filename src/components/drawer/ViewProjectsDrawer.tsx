@@ -14,6 +14,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { User } from "types";
 import { makeStyles } from "@material-ui/core";
+import { useRouter } from "next/router";
+import moment from "moment";
 
 type Props = {
 	open?: boolean | any;
@@ -75,6 +77,7 @@ const Projects_Details = [
 ];
 
 const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
+	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedUser, setSelectedUser] = useState<string | null>(null);
@@ -104,6 +107,11 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 	];
 
 	const classes = useStyles();
+
+	const { data: projectDetails, mutate } = useFetch<any>(
+		`projects?memberId=${router?.query?.id}`
+	);
+	// console.log(projectDetails);
 
 	return (
 		<>
@@ -144,7 +152,7 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 
 					{isLoading && <Loader />}
 					<div className="mt-4 flex flex-col gap-4">
-						{Projects_Details?.map((item, index) => {
+						{projectDetails?.map((item: any, index: any) => {
 							return (
 								<div className="">
 									<div
@@ -164,13 +172,19 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 											</Avatar>
 										</div>
 										<div className="flex justify-end w-full">
-											<p className="border border-green-500 p-1 rounded-full text-xs font-semibold text-white bg-green-500 hover:scale-105 transition duration-300 ease-in-out cursor-pointer">
-												Progress
+											<p
+												className={`border border-green-500 p-1 rounded-full text-xs font-semibold text-white ${
+													item?.status === "Pending"
+														? "bg-red-500"
+														: "bg-green-500"
+												} hover:scale-105 transition duration-300 ease-in-out cursor-pointer`}
+											>
+												{item?.status}
 											</p>
 										</div>
 										<div className=" text-center">
 											<h1 className="text-lg font-bold inline-block">
-												{item?.title}
+												{item?.name}
 											</h1>{" "}
 										</div>
 										<div className="mt-4">
@@ -178,26 +192,26 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 											<div className="flex w-full justify-between items-center gap-5">
 												<img
 													className="h-20 w-20 bg-slate-400 rounded-full shadow-xl"
-													src={"/manager.png"}
+													src={item?.manager?.photo || "/manager.png"}
 													alt=""
 												/>
 												<div className="">
 													<p className="font-semibold">
 														Name :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{item?.name}
+															{item?.manager?.name}
 														</span>
 													</p>
 													<p className="font-semibold">
 														Start Date :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{item?.startDate}
+															{moment(item?.startDate).format("yyyy-MM-DD")}
 														</span>
 													</p>
 													<p className="font-semibold">
 														End Date :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{item?.endDate}
+															{moment(item?.endDate).format("yyyy-MM-DD")}
 														</span>
 													</p>
 												</div>
