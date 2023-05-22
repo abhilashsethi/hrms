@@ -41,11 +41,10 @@ const ProjectDetails = () => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [isDocuments, setIsDocuments] = useState(false);
   const [isMembers, setIsMembers] = useState(false);
-
-  const { data: projectData } = useFetch<Projects>(
+  const { data: projectData, mutate } = useFetch<Projects>(
     `projects/${router?.query?.id}`
   );
-  console.log(projectData);
+  // console.log(projectData);
 
   const shortCuts: shortCutTypes[] = [
     {
@@ -101,6 +100,8 @@ const ProjectDetails = () => {
       <ProjectBasicDetailsUpdate
         open={isUpdate}
         handleClose={() => setIsUpdate(false)}
+        id={router?.query?.id}
+        mutate={mutate}
       />
       <ProjectDocuments
         open={isDocuments}

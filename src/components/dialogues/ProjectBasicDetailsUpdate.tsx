@@ -1,5 +1,4 @@
 import {
-  Autocomplete,
   Button,
   CircularProgress,
   Dialog,
@@ -56,25 +55,13 @@ const ProjectBasicDetailsUpdate = ({
     startDate: `${employData?.startDate ? employData?.startDate : ""}`,
     endDate: `${employData?.endDate ? employData?.endDate : ""}`,
     status: `${employData?.status ? employData?.status : ""}`,
-    industry: `${employData?.industry ? employData?.industry : ""}`,
+    // industry: `${employData?.industry ? employData?.industry : ""}`,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      const form = new FormData();
-      form.append("name", values?.name);
-      form.append("description", values?.description);
-      form.append("gmail", values?.gmail);
-      form.append("startDate", values?.startDate);
-      form.append("endDate", values?.endDate);
-      form.append("status", values?.status);
-      form.append("industry", values?.industry);
-      values?.userIDs?.forEach((item: string) => {
-        return form.append("userIDs", item);
-      });
       const res = await change(`projects/${id}`, {
         method: "PATCH",
-        // isFormData: true,
         body: values,
       });
       setLoading(false);
@@ -189,7 +176,7 @@ const ProjectBasicDetailsUpdate = ({
                           helperText={touched.status && errors.status}
                         />
                       </div>
-                      <div className="px-4 py-2">
+                      {/* <div className="px-4 py-2">
                         <div className="py-2">
                           <InputLabel htmlFor="gmail">Industry</InputLabel>
                         </div>
@@ -205,7 +192,7 @@ const ProjectBasicDetailsUpdate = ({
                           error={touched.industry && !!errors.industry}
                           helperText={touched.industry && errors.industry}
                         />
-                      </div>
+                      </div> */}
 
                       <div className="px-4 py-2">
                         <div className="py-2">
