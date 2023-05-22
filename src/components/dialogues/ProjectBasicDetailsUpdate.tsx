@@ -6,6 +6,7 @@ import {
   DialogTitle,
   IconButton,
   InputLabel,
+  MenuItem,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -164,17 +165,22 @@ const ProjectBasicDetailsUpdate = ({
                           <InputLabel htmlFor="name">Status</InputLabel>
                         </div>
                         <TextField
-                          fullWidth
+                          select
                           size="small"
-                          id="status"
-                          placeholder="Status"
+                          fullWidth
                           name="status"
                           value={values.status}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.status && !!errors.status}
                           helperText={touched.status && errors.status}
-                        />
+                        >
+                          {statuses.map((option) => (
+                            <MenuItem key={option.id} value={option.label}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
                       </div>
                       {/* <div className="px-4 py-2">
                         <div className="py-2">
@@ -288,3 +294,10 @@ const ProjectBasicDetailsUpdate = ({
 };
 
 export default ProjectBasicDetailsUpdate;
+
+const statuses = [
+  { id: 1, label: "Pending" },
+  { id: 2, label: "Ongoing" },
+  { id: 3, label: "Onhold" },
+  { id: 4, label: "Completed" },
+];
