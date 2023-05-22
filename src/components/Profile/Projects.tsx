@@ -24,7 +24,7 @@ import { ProjectMembers, ProjectURLS } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { Projects } from "types";
 
@@ -56,6 +56,7 @@ const Projects = () => {
   return (
     <>
       <ProjectURLS
+        id={url?.projectId}
         open={url?.dialogue}
         onClose={() => setUrl({ dialogue: false })}
       />
@@ -93,7 +94,9 @@ const Projects = () => {
               <div className="flex justify-between items-start py-4">
                 <span className="text-sm flex flex-col">
                   <span className="font-semibold">Industry</span>
-                  <span className="">Government Schemas</span>
+                  <span className="">
+                    {item?.industry ? item?.indutry : "Not specified"}
+                  </span>
                 </span>
                 <span
                   className={`px-3 py-1 uppercase rounded-sm shadow-md text-xs tracking-wide font-semibold text-white ${
@@ -137,8 +140,10 @@ const Projects = () => {
                 </div>
                 <div className="font-semibold">Quick Links :</div>
                 <span
-                  onClick={() => setUrl({ dialogue: true })}
-                  className="w-full py-1 flex justify-center cursor-pointer hover:scale-105 transition-all ease-in-out duration-200 rounded-sm bg-gradient-to-r from-blue-500 via-blue-500 to-blue-300 shadow-md text-xs tracking-wide font-semibold text-white"
+                  onClick={() =>
+                    setUrl({ dialogue: true, projectId: item?.id })
+                  }
+                  className="w-full py-2 flex justify-center cursor-pointer hover:scale-105 transition-all ease-in-out duration-200 rounded-sm bg-gradient-to-r from-slate-700 via-slate-500 to-slate-500 shadow-md text-xs tracking-wide font-semibold text-white"
                 >
                   Project URLs
                 </span>
@@ -148,37 +153,26 @@ const Projects = () => {
                 <div className="flex gap-6 items-center">
                   <span className="text-sm font-semibold">Team :</span>
                 </div>
-                <div className="flex gap-2 group items-center pt-2">
-                  <AvatarGroup
-                    className="!cursor-pointer"
-                    onClick={() => setIsMembers({ dialogue: true })}
-                    max={4}
-                  >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={item?.Manager?.photo || " "}
-                    />
-                    <Avatar alt="S" src={item?.Manager?.photo || " "} />
-                    <Avatar alt="A" src={item?.Manager?.photo || " "} />
-                    <Avatar alt="F" src={item?.Manager?.photo || " "} />
-                    <Avatar alt="F" src={item?.Manager?.photo || " "} />
-                  </AvatarGroup>
-                  <span>{item?.Manager?.name}</span>
-                </div>
+                {!item?.involvedMembers?.length ? (
+                  <p>No Members assigned.</p>
+                ) : (
+                  <div className="flex gap-2 group items-center pt-2">
+                    <AvatarGroup
+                      className="!cursor-pointer"
+                      onClick={() => setIsMembers({ dialogue: true })}
+                      max={4}
+                    >
+                      {item?.involvedMembers?.map(
+                        (data: { name?: string; photo?: string }) => (
+                          <Avatar alt={data?.name} src={data?.photo || " "} />
+                        )
+                      )}
+                    </AvatarGroup>
+                    <span>{item?.Manager?.name}</span>
+                  </div>
+                )}
               </div>
-              <div>
-                <span className="text-sm font-semibold">Technology Used:</span>
-                <div className="py-4 flex gap-3 flex-wrap">
-                  {techs?.map((item) => (
-                    <img
-                      key={item?.id}
-                      className="h-7 object-contain"
-                      src={item?.img}
-                      alt="photo"
-                    />
-                  ))}
-                </div>
-              </div>
+              <TechnologySection techIds={item?.technologyIds} />
             </div>
           </div>
         ))}
@@ -413,6 +407,44 @@ const ViewClient = ({ data }: any) => {
         </div>
       ) : (
         <span className="py-4 text-sm">Not specified</span>
+      )}
+    </div>
+  );
+};
+
+interface techSectionProps {
+  techIds?: string[];
+}
+
+const TechnologySection = ({ techIds }: techSectionProps) => {
+  const [techStacks, setTechStacks] = useState<any>([]);
+  const { data: techData } = useFetch<any>(`technologies`);
+  useEffect(() => {
+    let reqData = techData?.filter((item: any) => {
+      return techIds?.includes(item?.id);
+    });
+    setTechStacks(reqData);
+  }, [techData]);
+  console.log(techStacks);
+
+  return (
+    <div>
+      <span className="text-sm font-semibold">Technology Used:</span>
+      {!techStacks?.length ? (
+        <p>Not specified</p>
+      ) : (
+        <div className="py-4 flex gap-3 flex-wrap">
+          {techStacks?.map((item: any) => (
+            <Tooltip title={item?.name}>
+              <img
+                key={item?.id}
+                className="h-7 object-contain"
+                src={item?.logo}
+                alt="photo"
+              />
+            </Tooltip>
+          ))}
+        </div>
       )}
     </div>
   );

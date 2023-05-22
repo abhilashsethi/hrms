@@ -1,6 +1,7 @@
 import {
   AddCardRounded,
   CheckCircle,
+  Close,
   Person,
   Search,
 } from "@mui/icons-material";
@@ -114,17 +115,17 @@ const SelectManager = ({ open, onClose, setSelectedManager }: Props) => {
                   {selectedUser && selectedUser === item?.id ? (
                     <Button
                       size="small"
+                      onClick={() => {
+                        setSelectedManager(null);
+                        setSelectedUser(null);
+                      }}
                       startIcon={
-                        loading ? (
-                          <CircularProgress size={20} />
-                        ) : (
-                          <CheckCircle />
-                        )
+                        loading ? <CircularProgress size={20} /> : <Close />
                       }
-                      className="!bg-emerald-500"
+                      className="!bg-red-500"
                       variant="contained"
                     >
-                      SELECTED
+                      REMOVE
                     </Button>
                   ) : (
                     <div>

@@ -106,7 +106,6 @@ const LeaveRequests = () => {
           </div>
         ) : (
           <>
-            {" "}
             {isGrid ? (
               <LeavesGrid data={leavesData} mutate={mutate} />
             ) : (
@@ -115,7 +114,7 @@ const LeaveRequests = () => {
           </>
         )}
 
-        {!leavesData?.length && <LoaderAnime />}
+        {leavesData?.length === 0 && <LoaderAnime />}
         <section className="mb-6">
           {leavesData?.length ? (
             <div className="flex justify-center md:py-8 py-4">

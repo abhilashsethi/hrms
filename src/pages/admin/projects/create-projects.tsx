@@ -14,6 +14,7 @@ import * as Yup from "yup";
 const initialValues = {
   name: "",
   description: "",
+  industry: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -43,19 +44,23 @@ const CreateProjects = () => {
     );
     setMembersData(reqData);
   }, [selectedMembers]);
-  console.log(selectedManager);
 
   const handleSubmit = async (values: any) => {
+    const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
+      if (value) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
     setLoading(true);
     try {
       Swal.fire(`Info`, `Please Wait..., It will take Some time!`, `info`);
       const res = await change(`projects`, {
         body: {
-          name: values?.name,
-          description: values?.description,
-          managerId: `${selectedManager ? selectedManager?.id : ""}`,
+          ...reqValue,
+          managerId: selectedManager ? selectedManager?.id : null,
           involvedMemberIds:
-            selectedMembers?.length >= 1 ? selectedMembers : [],
+            selectedMembers?.length >= 1 ? selectedMembers : null,
         },
       });
       console.log(res);
@@ -133,6 +138,22 @@ const CreateProjects = () => {
                         helperText={touched.name && errors.name}
                       />
                     </div>
+                    <div className="px-4">
+                      <div className="py-2">
+                        <InputLabel htmlFor="name">Industry</InputLabel>
+                      </div>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        placeholder="Industry"
+                        name="industry"
+                        value={values.industry}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.industry && !!errors.industry}
+                        helperText={touched.industry && errors.industry}
+                      />
+                    </div>
                     <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="description">
@@ -205,7 +226,10 @@ const CreateProjects = () => {
                         <div className="py-2 flex gap-2 items-center">
                           <InputLabel htmlFor="name">Team Members </InputLabel>
                           {membersData?.length ? (
-                            <div className="h-4 w-4 flex justify-center items-center text-white bg-theme rounded-full text-xs font-semibold">
+                            <div
+                              onClick={() => setIsMembers(true)}
+                              className="h-4 w-4 flex justify-center cursor-pointer items-center text-white bg-theme rounded-full text-xs font-semibold"
+                            >
                               {membersData?.length}
                             </div>
                           ) : null}

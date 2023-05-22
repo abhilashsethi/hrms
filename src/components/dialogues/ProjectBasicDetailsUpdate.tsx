@@ -56,14 +56,21 @@ const ProjectBasicDetailsUpdate = ({
     startDate: `${employData?.startDate ? employData?.startDate : ""}`,
     endDate: `${employData?.endDate ? employData?.endDate : ""}`,
     status: `${employData?.status ? employData?.status : ""}`,
+    industry: `${employData?.industry ? employData?.industry : ""}`,
     // industry: `${employData?.industry ? employData?.industry : ""}`,
   };
   const handleSubmit = async (values: any) => {
+    const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
+      if (value) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
     setLoading(true);
     try {
       const res = await change(`projects/${id}`, {
         method: "PATCH",
-        body: values,
+        body: reqValue,
       });
       setLoading(false);
       if (res?.status !== 200) {
@@ -163,6 +170,22 @@ const ProjectBasicDetailsUpdate = ({
                           onBlur={handleBlur}
                           error={touched.gmail && !!errors.gmail}
                           helperText={touched.gmail && errors.gmail}
+                        />
+                      </div>
+                      <div className="px-4 py-2">
+                        <div className="py-2">
+                          <InputLabel htmlFor="gmail">Industry</InputLabel>
+                        </div>
+                        <TextField
+                          size="small"
+                          fullWidth
+                          placeholder="Industry"
+                          name="industry"
+                          value={values.industry}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.industry && !!errors.industry}
+                          helperText={touched.industry && errors.industry}
                         />
                       </div>
                       <div className="px-4 py-2">
