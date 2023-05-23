@@ -3,13 +3,16 @@ import { Avatar, AvatarGroup, Button, Checkbox } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import { ProjectCreateTask } from "components/dialogues";
 import moment from "moment";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const ProjectTasks = () => {
   const [isCreate, setIsCreate] = useState(false);
+  const router = useRouter();
   return (
     <>
       <ProjectCreateTask
+        id={router?.query?.id}
         open={isCreate}
         handleClose={() => setIsCreate(false)}
       />

@@ -221,45 +221,21 @@ const CardComponent = ({ item, mutate }: Props) => {
             {item?.user?.name}
           </p>
           <p className="mb-2 text-sm">{item?.user?.role?.name}</p>
-          <GetBalanceCredits id={item?.user?.id} />
+          <div className="mb-2 text-sm group flex items-center justify-center gap-2 pb-2">
+            <div className="flex w-full justify-center gap-2">
+              <div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
+                <p className="font-semibold">This Month Leaves</p>
+                <p>{item?.totalLeaveThisMonth | 0}</p>
+              </div>
+              <div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
+                <p className="font-semibold">This Year Leaves</p>
+                <p>{item?.totalLeaveThisYear | 0}</p>
+              </div>
+            </div>
+          </div>
           <div className="">{renderStatus(item)}</div>
         </div>
       </div>
     </Grid>
-  );
-};
-
-const GetBalanceCredits = ({ id }: any) => {
-  const [monthLeaves, setMonthLeaves] = useState<any>(0);
-  const { data: empLeaves } = useFetch<any>(`leaves/details/${id}`);
-
-  useEffect(() => {
-    const currentMonth = new Date().toLocaleString("default", {
-      month: "long",
-    });
-    if (empLeaves?.monthWiseLeaves?.hasOwnProperty(currentMonth)) {
-      const value = empLeaves?.monthWiseLeaves[currentMonth];
-      setMonthLeaves(value);
-    } else {
-      setMonthLeaves(0);
-    }
-  }, [empLeaves]);
-  return (
-    <div className="mb-2 text-sm group flex items-center justify-center gap-2 pb-2">
-      <div className="flex w-full justify-center gap-2">
-        <div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
-          <p className="font-semibold">This Month Leaves</p>
-          <p>{monthLeaves}</p>
-        </div>
-        <div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
-          <p className="font-semibold">This Year Leaves</p>
-          <p>
-            {empLeaves?.totalLeavesCurrentYear
-              ? empLeaves?.totalLeavesCurrentYear
-              : 0}
-          </p>
-        </div>
-      </div>
-    </div>
   );
 };

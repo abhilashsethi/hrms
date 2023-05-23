@@ -2,11 +2,10 @@ import {
   AccountTree,
   Add,
   Check,
+  Close,
   ContentCopy,
   Delete,
-  Edit,
   Visibility,
-  YouTube,
 } from "@mui/icons-material";
 import {
   Alert,
@@ -21,11 +20,11 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useChange, useFetch } from "hooks";
-import Link from "next/link";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { Projects } from "types";
 import * as yup from "yup";
+import { makeStyles } from "@material-ui/core";
 
 type Props = {
   open?: boolean | any;
@@ -33,6 +32,20 @@ type Props = {
   id?: any;
 };
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    width: "100vw",
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: "50vw",
+    },
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "80vw",
+    },
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: "30vw",
+    },
+  },
+}));
 const ProjectURLS = ({ open, onClose, id }: Props) => {
   const [isSnackbar, setIsSnackbar] = React.useState(false);
   const handleClick = () => {
@@ -45,7 +58,6 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
     if (reason === "clickaway") {
       return;
     }
-
     setIsSnackbar(false);
   };
   const [loading, setLoading] = useState(false);
@@ -53,7 +65,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
   const { change } = useChange();
   const { data: projectData, mutate } = useFetch<Projects>(`projects/${id}`);
   console.log(projectData);
-  const removeURL = (urlId: string) => {
+  const removeURL = (projectId: string) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -66,8 +78,9 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            const res = await change(`projects/remove-links//${urlId}`, {
+            const res = await change(`projects/remove-links/${id}`, {
               method: "DELETE",
+              body: { links: [`${projectId}`] },
             });
             setLoading(false);
             if (res?.status !== 200) {
@@ -124,6 +137,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
       }
     },
   });
+  const classes = useStyles();
   return (
     <>
       <Snackbar open={isSnackbar} autoHideDuration={5000} onClose={handleClose}>
@@ -132,16 +146,20 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
         </Alert>
       </Snackbar>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
-        <Container
-          style={{
-            width: "30vw",
-            marginTop: "3.5vh",
-          }}
-        >
-          <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
-            <AccountTree />
-            Project URLs
-          </p>
+        <Container style={{ marginTop: "1rem" }} className={classes.container}>
+          <div className="flex justify-between items-center">
+            {" "}
+            <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
+              <AccountTree />
+              Project URLs
+            </p>
+            <IconButton onClick={() => onClose()}>
+              <Close
+                fontSize="small"
+                className="text-red-500 block md:hidden"
+              />
+            </IconButton>
+          </div>
           <div>
             <h4 className="font-semibold">Project Name : </h4>
             <h4 className="text-theme font-semibold tracking-wide">
