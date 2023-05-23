@@ -1,26 +1,20 @@
-import { CopyClipboard, HeadStyle, PhotoViewerSmall } from "components/core";
+import MaterialTable from "@material-table/core";
 import {
   Article,
   Event,
   EventAvailable,
-  Info,
   InfoOutlined,
   PeopleRounded,
   Receipt,
   Tag,
 } from "@mui/icons-material";
-import { MuiTblOptions } from "utils";
-import MaterialTable from "@material-table/core";
+import { Card, Modal, Tooltip } from "@mui/material";
+import { SAMPLEDP } from "assets/home";
+import { CopyClipboard, HeadStyle, PhotoViewerSmall } from "components/core";
+import { useFetch } from "hooks";
 import { useState } from "react";
-import {
-  Autocomplete,
-  Avatar,
-  Card,
-  Modal,
-  TextField,
-  Tooltip,
-} from "@mui/material";
-import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
+import { User } from "types";
+import { MuiTblOptions } from "utils";
 
 const style = {
   position: "absolute" as "absolute",
@@ -40,15 +34,25 @@ const AllLeaveRequests = () => {
     setOpenInfoModal(true);
   };
   const handleInfoCloseModal = () => setOpenInfoModal(false);
+  const { data: leaveData } = useFetch<User[]>(`leaves/credits`);
+  console.log(leaveData);
   return (
     <section className="mt-8">
       <MaterialTable
         title={<HeadStyle name="Employee Leaves" icon={<PeopleRounded />} />}
-        isLoading={!data}
+        isLoading={!leaveData}
         data={
-          !data?.length
+          !leaveData?.length
             ? []
-            : data?.map((_: any, i: number) => ({ ..._, sn: i + 1 }))
+            : leaveData?.map((_: any, i: number) => ({
+                ..._,
+                sl: i + 1,
+                total: _?.leavesData?.total,
+                accepted: _?.leavesData?.totalAccepted,
+                rejected: _?.leavesData?.totalAccepted,
+                carryover: _?.leavesData?.carryOver,
+                used: _?.leavesData?.totalApplied,
+              }))
         }
         options={{ ...MuiTblOptions(), selection: true }}
         columns={[
@@ -90,11 +94,11 @@ const AllLeaveRequests = () => {
           {
             title: "Employee ID",
             tooltip: "Employee ID",
-            field: "empid",
+            field: "employeeID",
             render: (item) => {
               return (
                 <div className="font-semibold">
-                  <CopyClipboard value={item?.empid} />
+                  <CopyClipboard value={item?.employeeID} />
                 </div>
               );
             },

@@ -43,24 +43,29 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
-    try {
-      const res = await change(`projects/${id}`, {
-        method: "PATCH",
-        body: {
+    const reqData = {
+      tasks: [
+        {
           assignedUsersIds: values?.assignedUserIds,
           title: values?.title,
           description: values?.description,
           status: values?.status,
         },
+      ],
+    };
+    try {
+      const res = await change(`projects/add-tasks/${id}`, {
+        method: "PATCH",
+        body: reqData,
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire("Error", res?.results?.msg || "Unable to Update", "error");
+        Swal.fire("Error", res?.results?.msg || "Unable to Create", "error");
         setLoading(false);
         return;
       }
       mutate();
-      Swal.fire(`Success`, `Updated Successfully`, `success`);
+      Swal.fire(`Success`, `Created Successfully`, `success`);
       setLoading(false);
       handleClose();
       return;

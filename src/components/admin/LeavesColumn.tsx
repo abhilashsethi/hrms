@@ -330,6 +330,16 @@ const LeavesColumn = ({ data, mutate }: Props) => {
               },
             },
             {
+              title: "Total leaves this month",
+              tooltip: "Total leaves this month",
+              field: "totalLeaveThisMonth",
+            },
+            {
+              title: "Total leaves this year",
+              tooltip: "Total leaves this year",
+              field: "totalLeaveThisYear",
+            },
+            {
               title: "Created At",
               tooltip: "Created At",
               field: "createdAt",

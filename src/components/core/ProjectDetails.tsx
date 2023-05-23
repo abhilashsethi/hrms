@@ -175,7 +175,12 @@ const ProjectDetails = () => {
               {!projectData?.involvedMembers?.length ? (
                 <div>
                   <p>No Members assigned</p>
-                  <Button variant="contained" className="bg-theme" size="small">
+                  <Button
+                    onClick={() => setIsMembers(true)}
+                    variant="contained"
+                    className="bg-theme"
+                    size="small"
+                  >
                     Assign Members
                   </Button>
                 </div>
