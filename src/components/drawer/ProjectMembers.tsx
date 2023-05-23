@@ -24,6 +24,9 @@ import { Projects, User } from "types";
 const initialValues = {
   managerId: "",
 };
+const members = {
+  involvedMemberIds: [""],
+};
 type Props = {
   open?: boolean | any;
   onClose: () => void;
@@ -91,7 +94,7 @@ const ProjectMembers = ({
   const updateManager = async (values: any) => {
     setLoading(true);
     try {
-      const res = await change(`projects/${projectData?.id}`, {
+      const res = await change(`projects/update-members/${projectData?.id}`, {
         method: "PATCH",
         body: values,
       });
@@ -112,7 +115,7 @@ const ProjectMembers = ({
       setLoading(false);
     }
   };
-  const updateMembers = () => {
+  const updateMembers = (values: any) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to update members!",
@@ -123,36 +126,33 @@ const ProjectMembers = ({
       confirmButtonText: "Yes, update!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        if (selectedMembers?.length) {
-          try {
-            setLoading(true);
-            const res = await change(`projects/update-members/${projectId}`, {
-              method: "PATCH",
-              body: {
-                members: selectedMembers,
-              },
-            });
+        console.log(values);
+        try {
+          setLoading(true);
+          const res = await change(`projects/update-members/${projectId}`, {
+            method: "PATCH",
+            body: [values],
+          });
+          setLoading(false);
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Unable to Update",
+              "error"
+            );
             setLoading(false);
-            if (res?.status !== 200) {
-              Swal.fire(
-                "Error",
-                res?.results?.msg || "Unable to Update",
-                "error"
-              );
-              setLoading(false);
-              return;
-            }
-            mutate();
-            Swal.fire(`Success`, `Members updated successfully!`, `success`);
             return;
-          } catch (error) {
-            console.log(error);
-            setLoading(false);
-          } finally {
-            setLoading(false);
           }
+          mutate();
+          Swal.fire(`Success`, `Members updated successfully!`, `success`);
+          return;
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        } finally {
+          setLoading(false);
         }
-        Swal.fire(`Instruction`, `Please select members to update!`, `info`);
+
         return;
       }
     });
@@ -231,13 +231,15 @@ const ProjectMembers = ({
                 >
                   <Close className="!text-[1rem] !text-white" />
                 </div>
-                <PhotoViewer
-                  name={projectData?.manager?.name}
-                  photo={projectData?.manager?.photo}
-                />
-                <h3 className="text-sm font-semibold">
-                  {projectData?.manager?.name}
-                </h3>
+                <div className="grid px-1 pt-2 gap-2 justify-items-center">
+                  <PhotoViewer
+                    name={projectData?.manager?.name}
+                    photo={projectData?.manager?.photo}
+                  />
+                  <h3 className="text-sm font-semibold">
+                    {projectData?.manager?.name}
+                  </h3>
+                </div>
               </div>
             ) : (
               <div className="grid justify-items-center lg:py-12 py-6">
@@ -267,36 +269,48 @@ const ProjectMembers = ({
             </div>
             {isMembers && (
               <div className="mt-4">
-                <Autocomplete
-                  multiple
-                  options={employeesData ? (employeesData as any) : []}
-                  getOptionLabel={(option: any) => option.name}
-                  isOptionEqualToValue={(option, value: any) =>
-                    option?._id === value._id
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="standard"
-                      label="Team Members"
-                      placeholder="Select Members"
-                    />
+                <Formik initialValues={members} onSubmit={updateMembers}>
+                  {({ values, handleBlur, setFieldValue }) => (
+                    <Form>
+                      <Autocomplete
+                        multiple
+                        options={employeesData ? (employeesData as any) : []}
+                        getOptionLabel={(option: any) => option.name}
+                        value={employeesData?.filter((item: any) =>
+                          values?.involvedMemberIds?.includes(item?.id)
+                        )}
+                        onChange={(e: any, r: any) => {
+                          setFieldValue(
+                            "involvedMemberIds",
+                            r?.map((data: { id: any }) => data?.id)
+                          );
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="standard"
+                            label="Team Members"
+                            placeholder="Select Members"
+                          />
+                        )}
+                      />
+                      <div className="flex justify-end mt-3">
+                        <Button
+                          type="submit"
+                          size="small"
+                          variant="contained"
+                          className="!bg-theme"
+                          disabled={loading}
+                          startIcon={
+                            loading ? <CircularProgress size={20} /> : <Check />
+                          }
+                        >
+                          UPDATE
+                        </Button>
+                      </div>
+                    </Form>
                   )}
-                />
-                <div className="flex justify-end mt-3">
-                  <Button
-                    onClick={() => updateMembers()}
-                    size="small"
-                    variant="contained"
-                    className="!bg-theme"
-                    disabled={loading}
-                    startIcon={
-                      loading ? <CircularProgress size={20} /> : <Check />
-                    }
-                  >
-                    UPDATE
-                  </Button>
-                </div>
+                </Formik>
               </div>
             )}
             {projectData?.involvedMemberIds?.length ? (
