@@ -1,10 +1,11 @@
 import {
 	Add,
+	Close,
 	Delete,
 	Download,
 	InsertDriveFileRounded,
 } from "@mui/icons-material";
-import { Avatar, Container, Drawer, Tooltip } from "@mui/material";
+import { Avatar, Container, Drawer, IconButton, Tooltip } from "@mui/material";
 import { NODOCUMENT } from "assets/animations";
 import { DOC, IMG, PDF, XLS } from "assets/home";
 import { LoaderAnime } from "components/core";
@@ -13,11 +14,27 @@ import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { makeStyles } from "@material-ui/core";
 
 type Props = {
 	open?: boolean | any;
 	onClose: () => void;
 };
+
+const useStyles = makeStyles((theme) => ({
+	container: {
+		width: "100vw",
+		[theme.breakpoints.up("sm")]: {
+			maxWidth: "50vw",
+		},
+		[theme.breakpoints.up("md")]: {
+			maxWidth: "80vw",
+		},
+		[theme.breakpoints.up("lg")]: {
+			maxWidth: "30vw",
+		},
+	},
+}));
 
 const ProjectDocuments = ({ open, onClose }: Props) => {
 	const router = useRouter();
@@ -64,8 +81,7 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 			}
 		});
 	};
-
-	console.log(activeDocLink);
+	const classes = useStyles();
 
 	return (
 		<>
@@ -85,13 +101,15 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 			/>
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
 				<Container
-					style={{
-						width: "30vw",
-						marginTop: "3.5vh",
-					}}
+					style={{ marginTop: "1rem" }}
+					className={classes.container}
+					// style={{
+					// 	width: "30vw",
+					// 	marginTop: "3.5vh",
+					// }}
 				>
 					<div className="flex items-center justify-between pb-4">
-						<p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
+						<p className="text-lg font-bold text-theme flex gap-3 items-center">
 							<InsertDriveFileRounded />
 							Project Documents
 						</p>
@@ -105,6 +123,12 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 								className="text-theme group-hover:text-white transition duration-500 ease-in-out"
 							/>
 						</button>
+						<IconButton onClick={() => onClose()}>
+							<Close
+								fontSize="small"
+								className="text-red-500 block md:hidden"
+							/>
+						</IconButton>
 					</div>
 					<div className="flex justify-center w-full">
 						<div className="flex gap-2 flex-wrap">
