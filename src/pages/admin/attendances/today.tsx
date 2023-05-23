@@ -71,21 +71,17 @@ const TodayAttendance = () => {
     {
       id: 1,
       title: "Total Users",
-      value: `${allUser?.results?.length ? allUser?.results?.length : `0`}`,
+      value: `${allUser?.length ? allUser?.length : `0`}`,
     },
     {
       id: 2,
       title: "Present",
-      value: `${
-        presentData?.results?.length ? presentData?.results?.length : `0`
-      }`,
+      value: `${presentData?.length ? presentData?.length : `0`}`,
     },
     {
       id: 3,
       title: "Absent",
-      value: `${
-        absentData?.results?.length ? absentData?.results?.length : `0`
-      }`,
+      value: `${absentData?.length ? absentData?.length : `0`}`,
     },
   ];
   const tomorrow = addDays(new Date(), 1);

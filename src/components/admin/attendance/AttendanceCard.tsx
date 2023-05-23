@@ -60,9 +60,7 @@ const AttendanceDashBoard = ({ allData, absentData, presentData }: Props) => {
           className="text-theme group-hover:text-white shadow-xl rounded-lg"
         />
       ),
-      count: `${
-        presentData?.results?.length ? presentData?.results?.length : `0`
-      }`,
+      count: `${presentData?.length ? presentData?.length : `0`}`,
       title: "Today Present",
     },
     {
@@ -73,9 +71,7 @@ const AttendanceDashBoard = ({ allData, absentData, presentData }: Props) => {
           className="text-theme group-hover:text-white shadow-xl rounded-lg"
         />
       ),
-      count: `${
-        absentData?.results?.length ? absentData?.results?.length : `0`
-      }`,
+      count: `${absentData?.length ? absentData?.length : `0`}`,
       title: "Today Absent",
     },
     {
@@ -86,7 +82,7 @@ const AttendanceDashBoard = ({ allData, absentData, presentData }: Props) => {
           className="text-theme group-hover:text-white shadow-xl rounded-lg"
         />
       ),
-      count: `${allData?.results?.length ? allData?.results?.length : `0`}`,
+      count: `${allData?.length ? allData?.length : `0`}`,
       title: "Total Employees",
     },
   ];
