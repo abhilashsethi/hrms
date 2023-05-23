@@ -227,7 +227,7 @@ const ProjectDetails = () => {
           <div className="w-full">
             <ProjectDescription description={projectData?.description} />
             <ClientDetails projectData={projectData} mutate={mutate} />
-            <TechnologyUsed />
+            <TechnologyUsed projectData={projectData} mutate={mutate} />
           </div>
         </Grid>
       </Grid>
