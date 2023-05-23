@@ -37,7 +37,6 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
 		title: "Preview",
 	});
 	const { data: myData } = useFetch(`leaves/${data?.id}`);
-	// console.log(myData);
 
 	return (
 		<>
@@ -98,23 +97,27 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
 					<h1 className="font-semibold my-4">Documents </h1>
 					<div className="flex w-full">
 						<div className="flex gap-2 flex-wrap">
-							{docs?.map((item) => (
-								<Tooltip title="Click to preview">
-									<div
-										onClick={() =>
-											setIsPreview({ dialogue: true, title: item?.title })
-										}
-										key={item?.id}
-										className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
-									>
-										<img className="w-12" src={item?.img} alt="photo" />
-										<p className="text-xs">
-											{item?.title?.slice(0, 9)}
-											{item?.title?.length > 9 ? "..." : null}
-										</p>
-									</div>
-								</Tooltip>
-							))}
+							{data?.docs?.length ? (
+								docs?.map((item) => (
+									<Tooltip title="Click to preview">
+										<div
+											onClick={() =>
+												setIsPreview({ dialogue: true, title: item?.title })
+											}
+											key={item?.id}
+											className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
+										>
+											<img className="w-12" src={item?.img} alt="photo" />
+											<p className="text-xs">
+												{item?.title?.slice(0, 9)}
+												{item?.title?.length > 9 ? "..." : null}
+											</p>
+										</div>
+									</Tooltip>
+								))
+							) : (
+								<p>No documents Uploaded</p>
+							)}
 						</div>
 					</div>
 					<div>
