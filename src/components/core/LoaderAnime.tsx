@@ -25,7 +25,11 @@ const LoaderAnimeLarge = ({
 	return (
 		<div className=" w-full flex flex-col justify-center items-center">
 			<div className="">
-				<Lottie options={defaultOptions} />
+				<Lottie
+					options={defaultOptions}
+					height={animeHight}
+					width={animeWidth}
+				/>
 			</div>
 			<span className="text-xl capitalize tracking-wide">
 				{text ? text : "No result found!"}
