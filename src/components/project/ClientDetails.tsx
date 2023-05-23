@@ -36,6 +36,8 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, remove!",
       }).then(async (result) => {
+        Swal.fire("Removed!", "Client removed Api in progress!", "info");
+        return;
         try {
           if (result.isConfirmed) {
             const response = await change(`projects/${projectData.id}`, {
