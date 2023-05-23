@@ -7,6 +7,8 @@ import { useAuth, useMutation } from "hooks";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import { User } from "types";
+import { Button, CircularProgress } from "@mui/material";
+import { LoginOutlined } from "@mui/icons-material";
 
 const LoginSchema = [
 	{
@@ -93,10 +95,9 @@ const LoginAuth = () => {
 							Welcome to HRMS
 						</h1>
 						<p className="text-themeDarkGray md:font-medium text-sm md:tracking-wide tracking-normal  leading-6 md:text-start text-justify">
-							It is a long established fact that a reader will be distracted by
-							the readable content of a page when looking at its layout. The
-							point of using Lorem Ipsum is that it has a more-or-less normal
-							distribution of letters,
+							Streamline HR processes, optimize employee management, and enhance
+							productivity with our innovative HR management system. Simplify HR
+							tasks and empower your workforce for success.
 						</p>
 					</div>
 					<div className="flex md:w-[12rem] w-[10rem] md:h-[12rem] h-[10rem] rotate-animation-two bg-blue-200 absolute top-[-50px] right-[-50px] items-center justify-center rotate-[38deg]">
@@ -204,12 +205,28 @@ const LoginAuth = () => {
 												Remember my preference
 											</label>
 										</div>
-										<button
-											type="submit"
-											className="bg-blue-600 w-full text-white px-4 py-2 rounded-md hover:bg-opacity-80 transition-all duration-300 hover:shadow-md"
-										>
-											Sign in
-										</button>
+										<div className="w-full">
+											<Button
+												fullWidth
+												type="submit"
+												disabled={
+													formik.isSubmitting || !formik.isValid || isMutating
+												}
+												variant="contained"
+												color="primary"
+												className="!bg-blue-600"
+												size="large"
+												startIcon={
+													isMutating ? (
+														<CircularProgress size={16} />
+													) : (
+														<LoginOutlined />
+													)
+												}
+											>
+												Login
+											</Button>
+										</div>
 									</div>
 
 									<div className="flex items-center justify-center w-full">

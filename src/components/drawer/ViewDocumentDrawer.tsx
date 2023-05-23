@@ -8,8 +8,9 @@ import {
 	IconButton,
 	Modal,
 } from "@mui/material";
+import { NODOCUMENT } from "assets/animations";
 import { DOC, IMG, PDF, XLS } from "assets/home";
-import { Loader } from "components/core";
+import { Loader, LoaderAnime } from "components/core";
 import { DocPreview } from "components/dialogues";
 import AddDocumentDialogue from "components/dialogues/AddDocumentDialogue";
 import { useChange, useFetch } from "hooks";
@@ -92,7 +93,7 @@ const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
 	const { data: documentDetails, mutate } = useFetch<any>(
 		`users/${router?.query?.id}`
 	);
-	// console.log(documentDetails);
+	console.log(documentDetails?.document);
 
 	const { change } = useChange();
 	const handleDelete = (id: string) => {
@@ -198,53 +199,53 @@ const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
 					<div className="mt-4 flex flex-col gap-4">
 						<div className="flex justify-center w-full">
 							<div className="grid grid-cols-3 gap-3">
-								{documentDetails?.documents?.map((item: any) => (
-									<div
-										key={item?.id}
-										className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
-									>
-										<img
-											onClick={() => {
-												setIsPreview({ dialogue: true, title: item?.title });
-												setActiveDocLink(item?.link);
-												setActiveId(item?.id);
-											}}
-											className="w-12"
-											src={item?.docType === "pdf" ? PDF.src : ""}
-											alt="photo"
-										/>
-										<p className="text-xs">
-											{item?.title?.slice(0, 9)}
-											{item?.title?.length > 9 ? "..." : null}
-										</p>
-										<Button
-											onClick={() => {
-												// setActiveId(item?.id);
-												handleDelete(item?.id);
-											}}
-											variant="contained"
-											className="!bg-red-500 text-xs"
-											startIcon={<Delete />}
+								{documentDetails?.documents?.length ? (
+									documentDetails?.documents?.map((item: any) => (
+										<div
+											key={item?.id}
+											className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
 										>
-											DELETE
-										</Button>
+											<img
+												onClick={() => {
+													setIsPreview({
+														dialogue: true,
+														title: item?.title,
+													});
+													setActiveDocLink(item?.link);
+													setActiveId(item?.id);
+												}}
+												className="w-12"
+												src={item?.docType === "pdf" ? PDF.src : ""}
+												alt="photo"
+											/>
+											<p className="text-xs">
+												{item?.title?.slice(0, 9)}
+												{item?.title?.length > 9 ? "..." : null}
+											</p>
+											<Button
+												onClick={() => {
+													// setActiveId(item?.id);
+													handleDelete(item?.id);
+												}}
+												variant="contained"
+												className="!bg-red-500 text-xs"
+												startIcon={<Delete />}
+											>
+												DELETE
+											</Button>
+										</div>
+									))
+								) : (
+									<div className="md:w-[27vw] w-[100vw] mt-28 flex justify-center items-center">
+										<LoaderAnime
+											image={NODOCUMENT}
+											animeHight={400}
+											text={"No Documents found!"}
+										/>
 									</div>
-								))}
+								)}
 							</div>
 						</div>
-
-						{/* <div className="mt-8 flex gap-2">
-							<Tooltip title="Add Document">
-								<div className="h-24 w-24 cursor-pointer shadow-md rounded-md bg-slate-300 hover:bg-blue-500 transition-all ease-in-out duration-200 flex flex-col gap-2 items-center justify-center">
-									<Add />
-								</div>
-							</Tooltip>
-							<Tooltip title="Delete All">
-								<div className="h-24 w-24 cursor-pointer shadow-md rounded-md bg-red-300 hover:bg-blue-500 transition-all ease-in-out duration-200 flex flex-col gap-2 items-center justify-center">
-									<Delete />
-								</div>
-							</Tooltip>
-						</div> */}
 					</div>
 				</Container>
 			</Drawer>
