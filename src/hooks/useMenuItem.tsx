@@ -18,6 +18,7 @@ import {
 } from "@mui/icons-material";
 import useAuth from "./useAuth";
 import ICONS from "assets/icons";
+import { Icon } from "@mui/material";
 export default () => {
 	const { user } = useAuth();
 	if (user?.role?.name === "CEO")
@@ -42,7 +43,7 @@ export default () => {
 					{
 						key: "2-2",
 						title: "Scanned Cards",
-						icon: <QrCodeScannerRounded />,
+						icon: <ICONS.Scanned_Cards />,
 						route: "/admin/cards/scanned",
 					},
 				],
@@ -111,7 +112,7 @@ export default () => {
 					{
 						key: "13-2",
 						title: "All Guests",
-						icon: <ElevatorRounded />,
+						icon: <ICONS.All_Guests />,
 						route: "/admin/guests/all-guests",
 					},
 					{
@@ -136,7 +137,7 @@ export default () => {
 					{
 						key: "5-2",
 						title: "Date Wise Attendance",
-						icon: <PlaylistAddCheckCircleRounded />,
+						icon: <ICONS.Data_Wise_Attendance />,
 						route: "/admin/attendances/today",
 					},
 				],
@@ -168,7 +169,7 @@ export default () => {
 					{
 						key: "9-2",
 						title: "Leave Requests",
-						icon: <PendingActionsRounded />,
+						icon: <ICONS.All_Leave_Requests />,
 						route: "/admin/leaves/leave-requests",
 					},
 					{
@@ -193,7 +194,7 @@ export default () => {
 					{
 						key: "6-2",
 						title: "All Meetings",
-						icon: <Groups />,
+						icon: <ICONS.All_Meetings />,
 						route: "/admin/meetings/all-meetings",
 					},
 				],
@@ -212,7 +213,7 @@ export default () => {
 					{
 						key: "7-2",
 						title: "All Projects",
-						icon: <DesignServicesRounded />,
+						icon: <ICONS.All_Projects />,
 						route: "/admin/projects/all-projects",
 					},
 					{
