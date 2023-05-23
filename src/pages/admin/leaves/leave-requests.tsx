@@ -28,12 +28,14 @@ const LeaveRequests = () => {
     pagination,
     isLoading,
   } = useFetch<Leave[]>(
-    `leaves?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+    `leaves/all?${userName ? `&employeeName=${userName}` : ""}${
       empId ? `&employeeID=${empId}` : ""
     }${leaveStatus ? `&status=${leaveStatus}` : ""}${
       leaveType ? `&type=${leaveType}` : ""
     }`
   );
+  // page=${pageNumber}&limit=8
+  console.log(leavesData);
   return (
     <PanelLayout title="Leaves - Admin Panel">
       <section className="md:px-8 px-4 py-2">

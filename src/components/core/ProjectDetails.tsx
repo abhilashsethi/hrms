@@ -44,6 +44,7 @@ const ProjectDetails = () => {
   const { data: projectData, mutate } = useFetch<Projects>(
     `projects/${router?.query?.id}`
   );
+  console.log(projectData);
 
   const shortCuts: shortCutTypes[] = [
     {
@@ -171,25 +172,33 @@ const ProjectDetails = () => {
                   </div>
                 ))}
               </div>
-              <div className="flex flex-col justify-center w-1/3 items-center">
-                <h1 className="text-slate-600 font-semibold mt-4">TEAM</h1>
-                <div
-                  onClick={() => setIsMembers(true)}
-                  className="flex justify-start mt-4"
-                >
-                  <AvatarGroup
-                    className="!cursor-pointer"
-                    //   onClick={() => setIsMembers({ dialogue: true })}
-                    max={4}
+              {!projectData?.involvedMembers?.length ? (
+                <div>
+                  <p>No Members assigned</p>
+                  <Button
+                    onClick={() => setIsMembers(true)}
+                    variant="contained"
+                    className="bg-theme"
+                    size="small"
                   >
-                    <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
-                    <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
-                    <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
-                    <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
-                    <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
-                  </AvatarGroup>
+                    Assign Members
+                  </Button>
                 </div>
-              </div>
+              ) : (
+                <div className="flex flex-col justify-center w-1/3 items-center">
+                  <h1 className="text-slate-600 font-semibold mt-4">TEAM</h1>
+                  <div
+                    onClick={() => setIsMembers(true)}
+                    className="flex justify-start mt-4"
+                  >
+                    <AvatarGroup className="!cursor-pointer" max={4}>
+                      {projectData?.involvedMembers?.map((data) => (
+                        <Avatar alt={data?.name} src={data?.photo || " "} />
+                      ))}
+                    </AvatarGroup>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* ------------shortcuts------------ */}
@@ -218,7 +227,7 @@ const ProjectDetails = () => {
           <div className="w-full">
             <ProjectDescription description={projectData?.description} />
             <ClientDetails projectData={projectData} mutate={mutate} />
-            <TechnologyUsed />
+            <TechnologyUsed projectData={projectData} mutate={mutate} />
           </div>
         </Grid>
       </Grid>

@@ -12,7 +12,6 @@ import ProjectBugs from "./ProjectBugs";
 
 const ProjectTabs = () => {
   const [value, setValue] = React.useState("1");
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };

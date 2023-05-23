@@ -1,4 +1,4 @@
-import { Check, Delete, Person } from "@mui/icons-material";
+import { Add, Check, Delete, Person } from "@mui/icons-material";
 import {
   Autocomplete,
   Button,
@@ -36,25 +36,36 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, remove!",
       }).then(async (result) => {
-        Swal.fire("Removed!", "Client removed Api in progress!", "info");
-        return;
-        try {
-          if (result.isConfirmed) {
-            const response = await change(`projects/${projectData.id}`, {
-              method: "DELETE",
-            });
-            if (response?.status !== 200) {
-              Swal.fire("Error", "Something went wrong!", "error");
+        if (result.isConfirmed) {
+          setLoading(true);
+
+          try {
+            if (result.isConfirmed) {
+              const response = await change(
+                `projects/remove-client/${projectData.id}`,
+                {
+                  method: "PATCH",
+                }
+              );
+              setLoading(false);
+
+              if (response?.status !== 200) {
+                Swal.fire("Error", "Something went wrong!", "error");
+                setLoading(false);
+              }
+              Swal.fire("Removed!", "Client removed successfully!", "success");
+              mutate();
+              setLoading(false);
             }
-            Swal.fire("Removed!", "Client removed successfully!", "success");
-            mutate();
+          } catch (error) {
+            console.log(error);
+            setLoading(false);
           }
-        } catch (error) {
-          console.log(error);
         }
       });
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
   const handleSubmit = async (values: any) => {
@@ -94,7 +105,7 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             {({ values, handleBlur, setFieldValue }) => (
               <Form>
-                <div>
+                <div className="pt-4">
                   <Autocomplete
                     options={clientData}
                     getOptionLabel={(option: any) => option.name}
@@ -182,14 +193,15 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
         </>
       ) : (
         <>
-          <div className="grid justify-items-center">
+          <div className="grid justify-items-center lg:py-12 py-6">
             <Button
-              startIcon={<ICONS.Add />}
+              size="small"
+              startIcon={<Add />}
               onClick={() => setIsUpdate((prev) => !prev)}
               variant="contained"
-              className="!bg-theme !hover:bg-theme-600 !text-white !text-lg !font-semibold tracking-wide px-2"
+              className="!bg-theme !hover:bg-theme-600 !text-white !font-semibold tracking-wide px-2"
             >
-              Add Client
+              ADD CLIENT
             </Button>
           </div>
         </>
