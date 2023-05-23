@@ -56,6 +56,7 @@ const TodayAttendance = () => {
       userName ? `&employeeName=${userName}` : ""
     }${empId ? `&employeeId=${empId}` : ""}${order ? `&orderBy=${order}` : ""}`
   );
+  console.log(attendance);
   const { data: absentData } = useFetch<any>(
     `attendances/${selectedDate.toISOString().slice(0, 10)}/absent`
   );
@@ -198,13 +199,13 @@ const TodayAttendance = () => {
           ) : (
             <>
               {isGrid ? (
-                <AttendanceGrid data={attendance?.results} />
+                <AttendanceGrid data={attendance} />
               ) : (
-                <AttendanceList data={attendance?.results} />
+                <AttendanceList data={attendance} />
               )}
             </>
           )}
-          {!attendance?.results?.length && <LoaderAnime />}
+          {attendance?.length === 0 ? <LoaderAnime /> : null}
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination
