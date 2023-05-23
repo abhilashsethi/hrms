@@ -9,18 +9,20 @@ import {
   YouTube,
 } from "@mui/icons-material";
 import {
+  Alert,
   Button,
   CircularProgress,
   Container,
   Drawer,
   IconButton,
+  Snackbar,
   TextField,
   Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
-import { useState } from "react";
+import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { Projects } from "types";
 import * as yup from "yup";
@@ -32,12 +34,26 @@ type Props = {
 };
 
 const ProjectURLS = ({ open, onClose, id }: Props) => {
+  const [isSnackbar, setIsSnackbar] = React.useState(false);
+  const handleClick = () => {
+    setIsSnackbar(true);
+  };
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setIsSnackbar(false);
+  };
   const [loading, setLoading] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
   const { change } = useChange();
   const { data: projectData, mutate } = useFetch<Projects>(`projects/${id}`);
   console.log(projectData);
-  const removeURL = () => {
+  const removeURL = (urlId: string) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -47,9 +63,28 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, remove!",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-          Swal.fire("Removed!", "URL removed successfully!", "success");
+          try {
+            const res = await change(`projects/remove-links//${urlId}`, {
+              method: "DELETE",
+            });
+            setLoading(false);
+            if (res?.status !== 200) {
+              Swal.fire(
+                "Error",
+                res?.results?.msg || "Unable to Delete",
+                "error"
+              );
+              setLoading(false);
+              return;
+            }
+            mutate();
+            Swal.fire(`Removed!`, `Deleted Successfully`, `success`);
+            return;
+          } catch (error) {
+            console.log(error);
+          }
         }
       });
     } catch (error) {
@@ -78,6 +113,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
         }
         mutate();
         Swal.fire(`Success`, `Created Successfully`, `success`);
+        formik.resetForm();
         setIsCreate(false);
         return;
       } catch (error) {
@@ -90,6 +126,11 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
   });
   return (
     <>
+      <Snackbar open={isSnackbar} autoHideDuration={5000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Link copied to clipboard
+        </Alert>
+      </Snackbar>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
         <Container
           style={{
@@ -177,13 +218,11 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
                       <span className="font-semibold">{item?.title}</span>
                     </h1>
                     <div>
-                      <Tooltip title="Edit">
-                        <IconButton size="small">
-                          <Edit />
-                        </IconButton>
-                      </Tooltip>
                       <Tooltip title="Delete">
-                        <IconButton onClick={() => removeURL()} size="small">
+                        <IconButton
+                          onClick={() => removeURL(item?.id)}
+                          size="small"
+                        >
                           <Delete className="!text-red-500" />
                         </IconButton>
                       </Tooltip>
@@ -196,7 +235,14 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
                       </span>
                     </a>
                     <Tooltip title="Copy to clipboard">
-                      <span className="custom-button bg-slate-800">
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigator.clipboard.writeText(item?.link);
+                          handleClick();
+                        }}
+                        className="custom-button bg-slate-800"
+                      >
                         <ContentCopy fontSize="small" /> COPY LINK
                       </span>
                     </Tooltip>

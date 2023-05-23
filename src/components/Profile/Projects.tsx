@@ -171,7 +171,6 @@ const Projects = ({ projectData, mutate }: PROPS) => {
           </div>
         ))}
       </div>
-      <div></div>
     </>
   );
 };
