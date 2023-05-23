@@ -1,4 +1,4 @@
-import { Check, Close, Edit } from "@mui/icons-material";
+import { Check, Close, Add } from "@mui/icons-material";
 import {
   Autocomplete,
   Button,
@@ -37,9 +37,13 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            const res = await change(`projects/remove-links/${techId}`, {
-              method: "DELETE",
-            });
+            const res = await change(
+              `projects/remove-techs/${projectData?.id}`,
+              {
+                method: "DELETE",
+                body: { TechStacksIds: [`${techId}`] },
+              }
+            );
             setLoading(false);
             if (res?.status !== 200) {
               Swal.fire(
@@ -91,18 +95,23 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
     <section className="w-full rounded-md p-6 mt-4 bg-white shadow-jubilation">
       <div className="flex justify-between items-center">
         <h1 className="font-semibold text-gray-600">Technology Used</h1>
-        <Tooltip title="Update">
-          <IconButton onClick={() => setIsUpdate((prev) => !prev)} size="small">
-            <Edit />
-          </IconButton>
-        </Tooltip>
+        {projectData?.technologies?.length ? (
+          <Tooltip title="Add Technology">
+            <IconButton
+              onClick={() => setIsUpdate((prev) => !prev)}
+              size="small"
+            >
+              <Add />
+            </IconButton>
+          </Tooltip>
+        ) : null}
       </div>
       {isUpdate && (
         <>
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             {({ values, handleBlur, setFieldValue }) => (
               <Form>
-                <div>
+                <div className="pt-4">
                   <Autocomplete
                     multiple
                     options={techData ? (techData as any) : []}
@@ -146,41 +155,45 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
           </Formik>
         </>
       )}
-      <div className="py-4 grid md:grid-cols-3 gap-3 flex-wrap">
-        {projectData?.technologies?.map((item: any) => (
-          <div
-            key={item?.id}
-            className="px-4 py-4 relative mt-3 rounded-md flex flex-col gap-2 items-center justify-center shadow-jubilation"
-          >
+      {projectData?.technologies?.length ? (
+        <div className="py-4 grid md:grid-cols-3 gap-3 flex-wrap">
+          {projectData?.technologies?.map((item: any) => (
             <div
-              onClick={() => removeTechnology(item?.id)}
-              className="absolute right-[5px] top-[4px] cursor-pointer bg-red-500 h-6 w-6 rounded-full flex justify-center items-center"
+              key={item?.id}
+              className="px-4 py-4 relative mt-3 rounded-md flex flex-col gap-2 items-center justify-center shadow-jubilation"
             >
-              <Close className="!text-[1rem] !text-white" />
+              <div
+                onClick={() => removeTechnology(item?.id)}
+                className="absolute right-[5px] top-[4px] cursor-pointer bg-red-500 h-6 w-6 rounded-full flex justify-center items-center"
+              >
+                <Close className="!text-[1rem] !text-white" />
+              </div>
+              <img
+                className="h-7 object-contain"
+                src={item?.logo}
+                alt="photo"
+              />
+              <h3 className="text-sm font-semibold">{item?.name}</h3>
             </div>
-            <img className="h-7 object-contain" src={item?.logo} alt="photo" />
-            <h3 className="text-sm font-semibold">{item?.name}</h3>
+          ))}
+        </div>
+      ) : (
+        <>
+          <div className="grid justify-items-center lg:py-12 py-6">
+            <Button
+              size="small"
+              startIcon={<Add />}
+              onClick={() => setIsUpdate((prev) => !prev)}
+              variant="contained"
+              className="!bg-theme !hover:bg-theme-600 !text-white !font-semibold tracking-wide px-2"
+            >
+              ADD TECHNOLOGY
+            </Button>
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </section>
   );
 };
 
 export default TechnologyUsed;
-
-const techs = [
-  { id: 1, img: REACT.src },
-  { id: 2, img: JAVASCRIPT.src },
-  { id: 3, img: NEXTJS.src },
-  { id: 4, img: AWS.src },
-  { id: 5, img: CSS.src },
-];
-
-const team = [
-  { title: "JavaScript", year: 1994 },
-  { title: "Typescript", year: 1972 },
-  { title: "AWS", year: 1974 },
-  { title: "React", year: 2008 },
-  { title: "Next.Js", year: 1957 },
-];
