@@ -73,7 +73,7 @@ const AddDocumentDialogue = ({ open, handleClose, details }: Props) => {
 						link: url,
 					},
 				});
-				// mutate();
+				mutate();
 				if (res?.status !== 200) {
 					Swal.fire(`Error`, "Something went wrong!", "error");
 					return;
@@ -132,7 +132,7 @@ const AddDocumentDialogue = ({ open, handleClose, details }: Props) => {
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
-								<p className="font-medium text-gray-700 mb-2">Note Text</p>
+								<p className="font-medium text-gray-700 mb-2">Note</p>
 								<TextField
 									size="small"
 									fullWidth
@@ -155,13 +155,13 @@ const AddDocumentDialogue = ({ open, handleClose, details }: Props) => {
 										setFieldValue("link", e?.target?.files[0])
 									}
 								/>
-								{values.link && (
+								{/* {values.link && (
 									<img
 										className="w-24 object-contain"
 										src={URL.createObjectURL(values.link)}
 										alt="Preview"
 									/>
-								)}
+								)} */}
 
 								<div className="flex justify-center mt-4">
 									<Button

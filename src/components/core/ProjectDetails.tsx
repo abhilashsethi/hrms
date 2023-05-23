@@ -44,7 +44,6 @@ const ProjectDetails = () => {
   const { data: projectData, mutate } = useFetch<Projects>(
     `projects/${router?.query?.id}`
   );
-  console.log(projectData);
 
   const shortCuts: shortCutTypes[] = [
     {
@@ -226,7 +225,7 @@ const ProjectDetails = () => {
         <Grid item lg={4}>
           <div className="w-full">
             <ProjectDescription description={projectData?.description} />
-            <ClientDetails />
+            <ClientDetails projectData={projectData} mutate={mutate} />
             <TechnologyUsed />
           </div>
         </Grid>
