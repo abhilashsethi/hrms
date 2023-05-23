@@ -53,7 +53,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
   const { change } = useChange();
   const { data: projectData, mutate } = useFetch<Projects>(`projects/${id}`);
   console.log(projectData);
-  const removeURL = (urlId: string) => {
+  const removeURL = (projectId: string) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -66,8 +66,9 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            const res = await change(`projects/remove-links//${urlId}`, {
+            const res = await change(`projects/remove-links/${id}`, {
               method: "DELETE",
+              body: { links: [`${projectId}`] },
             });
             setLoading(false);
             if (res?.status !== 200) {

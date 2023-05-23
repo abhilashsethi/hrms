@@ -7,6 +7,7 @@ import {
   DialogTitle,
   IconButton,
   InputLabel,
+  MenuItem,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -16,7 +17,6 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
-import moment from "moment";
 import { useState } from "react";
 
 interface Props {
@@ -39,14 +39,19 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
     title: "",
     description: "",
     status: "",
+    assignedUserIds: [],
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
       const res = await change(`projects/${id}`, {
         method: "PATCH",
-        // isFormData: true,
-        body: values,
+        body: {
+          assignedUsersIds: values?.assignedUserIds,
+          title: values?.title,
+          description: values?.description,
+          status: values?.status,
+        },
       });
       setLoading(false);
       if (res?.status !== 200) {
@@ -56,6 +61,7 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
       }
       mutate();
       Swal.fire(`Success`, `Updated Successfully`, `success`);
+      setLoading(false);
       handleClose();
       return;
     } catch (error) {}
@@ -155,6 +161,12 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
                             }
                             size="small"
                             getOptionLabel={(option: any) => option.name}
+                            onChange={(e, r) =>
+                              setFieldValue(
+                                "assignedUserIds",
+                                r.map((d) => d?.id)
+                              )
+                            }
                             renderInput={(params) => (
                               <TextField
                                 {...params}
@@ -171,16 +183,22 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
                         </div>
                         <TextField
                           fullWidth
+                          select
+                          label="Status"
                           size="small"
-                          id="status"
-                          placeholder="Status"
                           name="status"
                           value={values.status}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.status && !!errors.status}
                           helperText={touched.status && errors.status}
-                        />
+                        >
+                          {statuses?.map((option: any) => (
+                            <MenuItem key={option.id} value={option.value}>
+                              {option.value}
+                            </MenuItem>
+                          ))}
+                        </TextField>
                       </div>
                     </div>
                     <div className="flex justify-center py-4">
@@ -215,4 +233,11 @@ const team = [
   { title: "Chinmay", year: 1974 },
   { title: "Abhilash", year: 2008 },
   { title: "Sunil", year: 1957 },
+];
+
+const statuses = [
+  { id: 1, value: "Open" },
+  { id: 2, value: "Pending" },
+  { id: 3, value: "Ongoing" },
+  { id: 4, value: "Completed" },
 ];
