@@ -25,7 +25,7 @@ const initialValues = {
   managerId: "",
 };
 const members = {
-  involvedMemberIds: [""],
+  members: [""],
 };
 type Props = {
   open?: boolean | any;
@@ -94,7 +94,7 @@ const ProjectMembers = ({
   const updateManager = async (values: any) => {
     setLoading(true);
     try {
-      const res = await change(`projects/update-members/${projectData?.id}`, {
+      const res = await change(`projects/${projectData?.id}`, {
         method: "PATCH",
         body: values,
       });
@@ -129,10 +129,13 @@ const ProjectMembers = ({
         console.log(values);
         try {
           setLoading(true);
-          const res = await change(`projects/update-members/${projectId}`, {
-            method: "PATCH",
-            body: [values],
-          });
+          const res = await change(
+            `projects/update-members/${projectData?.id}`,
+            {
+              method: "PATCH",
+              body: values,
+            }
+          );
           setLoading(false);
           if (res?.status !== 200) {
             Swal.fire(
@@ -273,11 +276,11 @@ const ProjectMembers = ({
                         options={employeesData ? (employeesData as any) : []}
                         getOptionLabel={(option: any) => option.name}
                         value={employeesData?.filter((item: any) =>
-                          values?.involvedMemberIds?.includes(item?.id)
+                          values?.members?.includes(item?.id)
                         )}
                         onChange={(e: any, r: any) => {
                           setFieldValue(
-                            "involvedMemberIds",
+                            "members",
                             r?.map((data: { id: any }) => data?.id)
                           );
                         }}
