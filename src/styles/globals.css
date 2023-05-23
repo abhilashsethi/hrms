@@ -216,3 +216,68 @@ a {
 .iframe-container {
 	overflow: hidden;
 }
+
+*:disabled {
+	cursor: not-allowed;
+}
+*:focus {
+	outline: none;
+}
+
+.rotate-animation-one {
+	animation: rotate-animation-one 8s linear infinite;
+}
+@keyframes rotate-animation-one {
+	0% {
+		transform: translate(0%, 0%) rotate(38deg);
+	}
+	20% {
+		transform: translate(-5%, 0%) rotate(38deg);
+	}
+	40% {
+		transform: translate(-5%, -7%) rotate(38deg);
+	}
+	60% {
+		transform: translate(5%, -7%) rotate(38deg);
+	}
+	80% {
+		transform: translate(5%, 0%) rotate(38deg);
+	}
+	100% {
+		transform: translate(0%, 0%) rotate(38deg);
+	}
+}
+
+.rotate-animation-two {
+	animation: rotate-animation-one 8s linear infinite;
+}
+@keyframes rotate-animation-one {
+	0% {
+		transform: translate(0%, 0%) rotate(38deg);
+	}
+	20% {
+		transform: translate(-5%, 0%) rotate(38deg);
+	}
+	40% {
+		transform: translate(-5%, -7%) rotate(38deg);
+	}
+	60% {
+		transform: translate(5%, -7%) rotate(38deg);
+	}
+	80% {
+		transform: translate(5%, 0%) rotate(38deg);
+	}
+	100% {
+		transform: translate(0%, 0%) rotate(38deg);
+	}
+}
+
+.background-remove {
+	background-image: url("/BGLOGIN.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	@media (max-width: 600px) {
+		background: none !important;
+	}
+}

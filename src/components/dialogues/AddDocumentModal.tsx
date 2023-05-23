@@ -65,7 +65,8 @@ const AddDocumentModal = ({ open, handleClose, details }: Props) => {
 			if (result.isConfirmed) {
 				const url = await uploadFile(values?.link, `${Date.now()}.${dtype}`);
 				// console.log(url);
-				const res = await change(`projects/add-doc/${router?.query?.id}`, {
+
+				const res = await change(`users/add-doc/${router?.query?.id}`, {
 					method: "POST",
 					body: {
 						title: values.title,
