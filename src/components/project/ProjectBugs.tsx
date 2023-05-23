@@ -7,15 +7,33 @@ import {
 import { Avatar, Button, IconButton, Tooltip } from "@mui/material";
 import { DEFAULTIMG, DEFAULTPROFILE } from "assets/home";
 import { PhotoViewer } from "components/core";
+import { ProjectCreateBug } from "components/dialogues";
+import { useFetch } from "hooks";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const ProjectBugs = () => {
+  const router = useRouter();
+  const [isCreate, setIsCreate] = useState(false);
   const [isDescription, setIsDescription] = useState(false);
+  const {
+    data: projectData,
+    mutate,
+    isLoading,
+  } = useFetch<any>(`projects/${router?.query?.id}`);
+
   return (
     <section>
+      <ProjectCreateBug
+        id={router?.query?.id}
+        open={isCreate}
+        mutate={mutate}
+        handleClose={() => setIsCreate(false)}
+      />
       <div className="flex gap-2 pb-2 mb-2 border-b-2">
         <div className="w-[60%]">
           <Button
+            onClick={() => setIsCreate(true)}
             size="small"
             className="!bg-cyan-500"
             variant="contained"
