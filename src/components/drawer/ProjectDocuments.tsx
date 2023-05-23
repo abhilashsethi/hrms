@@ -108,14 +108,20 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 					// 	marginTop: "3.5vh",
 					// }}
 				>
+					<IconButton
+						className="flex justify-end w-full"
+						onClick={() => onClose()}
+					>
+						<Close fontSize="small" className="text-red-500 block md:hidden" />
+					</IconButton>
 					<div className="flex items-center justify-between pb-4">
-						<p className="text-lg font-bold text-theme flex gap-3 items-center">
+						<p className="md:text-lg text-md font-bold text-theme flex gap-3 items-center">
 							<InsertDriveFileRounded />
 							Project Documents
 						</p>
 						<button
 							onClick={() => setGetDocument((prev) => !prev)}
-							className="flex text-sm items-center bg-white text-theme p-1 rounded-md group hover:bg-theme hover:text-white border border-theme"
+							className="flex text-sm items-center bg-white text-theme md:p-1 p-[2px] rounded-md group hover:bg-theme hover:text-white border border-theme"
 						>
 							Add Document{" "}
 							<Add
@@ -123,12 +129,6 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 								className="text-theme group-hover:text-white transition duration-500 ease-in-out"
 							/>
 						</button>
-						<IconButton onClick={() => onClose()}>
-							<Close
-								fontSize="small"
-								className="text-red-500 block md:hidden"
-							/>
-						</IconButton>
 					</div>
 					<div className="flex justify-center w-full">
 						<div className="flex gap-2 flex-wrap">
