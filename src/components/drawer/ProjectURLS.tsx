@@ -63,9 +63,13 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
   const [loading, setLoading] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
   const { change } = useChange();
-  const { data: projectData, mutate } = useFetch<Projects>(`projects/${id}`);
+  const {
+    data: projectData,
+    mutate,
+    isLoading,
+  } = useFetch<Projects>(`projects/${id}`);
   console.log(projectData);
-  const removeURL = (projectId: string) => {
+  const removeURL = (urlId: string) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -80,7 +84,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
           try {
             const res = await change(`projects/remove-links/${id}`, {
               method: "DELETE",
-              body: { links: [`${projectId}`] },
+              body: { linkIds: [`${urlId}`] },
             });
             setLoading(false);
             if (res?.status !== 200) {
@@ -162,6 +166,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
           </div>
           <div>
             <h4 className="font-semibold">Project Name : </h4>
+            {isLoading && <p>Please wait...</p>}
             <h4 className="text-theme font-semibold tracking-wide">
               {projectData?.name}
             </h4>
@@ -224,6 +229,10 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
                 </div>
               </form>
             )}
+            {isLoading && <p>Please wait...</p>}
+            {projectData?.URLs?.length === 0 ? (
+              <p className="py-4">No URLs added...</p>
+            ) : null}
             <div className="mt-4 flex flex-col gap-4">
               {projectData?.URLs?.map((item: any, i) => (
                 <div
