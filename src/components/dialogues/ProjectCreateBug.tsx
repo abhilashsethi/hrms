@@ -18,6 +18,7 @@ import * as Yup from "yup";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import { uploadFile } from "utils";
 
 interface Props {
   open?: any;
@@ -39,7 +40,8 @@ const validationSchema = Yup.object().shape({
       "fileType",
       "Only image files are allowed",
       (value: any) => !value || (value && value.type.startsWith("image/"))
-    ),
+    )
+    .required("Required!"),
 });
 
 const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
@@ -48,31 +50,36 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
   const { change } = useChange();
   const router = useRouter();
   const { data: employData } = useFetch<any>(`projects/${id}`);
+  console.log(employData);
   const initialValues = {
     title: "",
     description: "",
     status: "",
     assignedUserIds: [],
+    detectedBy: "",
     pictures: null,
   };
   const handleSubmit = async (values: any) => {
-    console.log(values);
-    return;
+    const dtype = values?.pictures && values?.pictures?.type.split("/")[1];
     setLoading(true);
-    const reqData = {
-      bugs: [
-        {
-          assignedUsersIds: values?.assignedUserIds,
-          title: values?.title,
-          description: values?.description,
-          status: values?.status,
-        },
-      ],
-    };
     try {
+      const url =
+        values?.pictures &&
+        (await uploadFile(values?.pictures, `${Date.now()}.${dtype}`));
       const res = await change(`projects/add-bugs/${id}`, {
         method: "PATCH",
-        body: reqData,
+        body: {
+          bugs: [
+            {
+              title: values?.title,
+              description: values?.description,
+              pictures: [`${url}`],
+              status: values?.status,
+              detectedById: values?.detectedBy,
+              projectId: id,
+            },
+          ],
+        },
       });
       setLoading(false);
       if (res?.status !== 200) {
@@ -80,8 +87,8 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `Created Successfully`, `success`);
       mutate();
+      Swal.fire(`Success`, `Created Successfully`, `success`);
       setLoading(false);
       handleClose();
       return;
@@ -187,7 +194,20 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
                               setFieldValue("detectedBy", r?.id)
                             }
                             renderInput={(params) => (
-                              <TextField {...params} placeholder="Members" />
+                              <TextField
+                                {...params}
+                                placeholder="Members"
+                                name="detectedBy"
+                                value={values.detectedBy}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={
+                                  touched.detectedBy && !!errors.detectedBy
+                                }
+                                helperText={
+                                  touched.detectedBy && errors.detectedBy
+                                }
+                              />
                             )}
                           />
                         </div>
@@ -222,16 +242,18 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
                         <input
                           type="file"
                           name="link"
-                          placeholder="Choose Document"
+                          placeholder="Choose Image"
                           onChange={(e: any) =>
                             setFieldValue("pictures", e?.target?.files[0])
                           }
                         />
-                        <ErrorMessage
-                          name="pictures"
-                          component="div"
-                          className="error"
-                        />
+                        <span className="text-red-500">
+                          <ErrorMessage
+                            name="pictures"
+                            component="div"
+                            className="error"
+                          />
+                        </span>
                         {values.pictures && (
                           <img
                             className="w-24 object-contain mt-4"
@@ -280,4 +302,5 @@ const statuses = [
   { id: 2, value: "Pending" },
   { id: 3, value: "Ongoing" },
   { id: 4, value: "Completed" },
+  { id: 4, value: "Reviewed" },
 ];
