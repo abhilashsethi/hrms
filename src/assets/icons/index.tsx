@@ -1930,5 +1930,153 @@ const ICONS = {
 			</svg>
 		);
 	},
+
+	Add_Employee: (props: IconType) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<path
+					d="M54.2425 294.434C69.4046 278.95 83.7544 263.537 103.637 255.308C106.598 254.082 111.283 253.645 113.762 255.155C139.668 270.936 167.564 279.277 197.937 278.541C225.062 277.883 249.569 268.594 272.99 255.476C276.188 253.685 282.195 253.524 285.243 255.361C322.311 277.705 349.992 308.185 366.913 348.587C371.261 358.968 368.467 365.087 362.29 372.209C329.673 409.814 290.118 436.07 240.989 446.727C199.971 455.624 159.86 452.936 120.066 439.069C89.8772 428.549 64.3652 411.044 41.0904 390.015C31.6901 381.521 24.3367 370.763 16 360.974C24.3917 336.379 36.0495 313.954 54.2425 294.434Z"
+					fill="url(#paint0_linear_1641_135)"
+					stroke="black"
+					stroke-width="20"
+				/>
+				<path
+					d="M120.648 185.965C100.744 148.79 108.476 110.65 133.911 84.8871C156.307 62.2025 184.717 54.9057 216.386 63.4898C269.617 77.9183 294.479 140.951 264.865 188.905C239.464 230.036 181.832 241.391 143.403 210.766C134.92 204.005 128.434 194.739 120.648 185.965Z"
+					fill="url(#paint1_linear_1641_135)"
+					stroke="black"
+					stroke-width="20"
+				/>
+				<path
+					d="M418.979 102.362V256.408"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M496 179.385H341.955"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<defs>
+					<linearGradient
+						id="paint0_linear_1641_135"
+						x1="192.51"
+						y1="254.056"
+						x2="192.51"
+						y2="451.875"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_1641_135"
+						x1="193.452"
+						y1="60"
+						x2="193.452"
+						y2="228.167"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+				</defs>
+			</svg>
+		);
+	},
+
+	All_Employee: (props: IconType) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<path
+					d="M91.4551 147.091C91.4551 92.3646 135.82 48 190.546 48C245.272 48 289.637 92.3646 289.637 147.091C289.637 201.817 245.272 246.182 190.546 246.182C135.82 246.182 91.4551 201.817 91.4551 147.091Z"
+					fill="url(#paint0_linear_1641_120)"
+					stroke="black"
+					stroke-width="20"
+				/>
+				<path
+					d="M313.833 237.252C308.235 244.895 311.981 256.182 321.454 256.182C381.705 256.182 430.545 207.34 430.545 147.091C430.545 86.8417 381.705 38 321.454 38C311.981 38 308.235 49.2874 313.833 56.9297C332.344 82.198 343.273 113.368 343.273 147.091C343.273 180.814 332.344 211.984 313.833 237.252Z"
+					fill="black"
+					stroke="url(#paint1_linear_1641_120)"
+					stroke-width="20"
+				/>
+				<path
+					d="M430.546 474.364C418.495 474.364 408.727 464.596 408.727 452.545V408.909C408.727 376.188 397.945 344.078 378.631 317.929C373.412 310.862 378.123 299.818 386.909 299.818C415.842 299.818 443.591 311.312 464.05 331.771C484.506 352.228 496 379.976 496 408.909V452.545C496 464.596 486.232 474.364 474.182 474.364H430.546Z"
+					fill="black"
+					stroke="url(#paint2_linear_1641_120)"
+					stroke-width="20"
+				/>
+				<path
+					d="M55.0228 338.842L55.0232 338.842C73.6064 320.258 98.8105 309.818 125.091 309.818H256C282.281 309.818 307.486 320.258 326.067 338.842L326.067 338.842C344.651 357.423 355.091 382.628 355.091 408.909V452.545C355.091 459.073 349.8 464.364 343.273 464.364H37.8182C31.2912 464.364 26 459.073 26 452.545V408.909C26 382.628 36.4399 357.423 55.0228 338.842Z"
+					fill="url(#paint3_linear_1641_120)"
+					stroke="black"
+					stroke-width="20"
+				/>
+				<defs>
+					<linearGradient
+						id="paint0_linear_1641_120"
+						x1="190.546"
+						y1="38"
+						x2="190.546"
+						y2="256.182"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_1641_120"
+						x1="370.878"
+						y1="38"
+						x2="370.878"
+						y2="256.182"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint2_linear_1641_120"
+						x1="436.227"
+						y1="299.818"
+						x2="436.227"
+						y2="474.364"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint3_linear_1641_120"
+						x1="190.545"
+						y1="299.818"
+						x2="190.545"
+						y2="474.364"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+				</defs>
+			</svg>
+		);
+	},
 };
 export default ICONS;
