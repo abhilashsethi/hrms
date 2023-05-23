@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
-import { Formik, Form } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
@@ -26,8 +26,20 @@ interface Props {
   id?: any;
 }
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required("Title is required!"),
-  description: Yup.string().required("Description is required!"),
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().required("Description is required"),
+  detectedBy: Yup.string().required("Required!"),
+  pictures: Yup.mixed()
+    .test(
+      "fileSize",
+      "File size is too large",
+      (value: any) => !value || (value && value.size <= 5000000)
+    )
+    .test(
+      "fileType",
+      "Only image files are allowed",
+      (value: any) => !value || (value && value.type.startsWith("image/"))
+    ),
 });
 
 const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
@@ -44,6 +56,8 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
     pictures: null,
   };
   const handleSubmit = async (values: any) => {
+    console.log(values);
+    return;
     setLoading(true);
     const reqData = {
       bugs: [
@@ -160,28 +174,20 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
                       </div>
                       <div className="px-4 py-2">
                         <div className="py-2">
-                          <InputLabel htmlFor="name">Assign Members</InputLabel>
+                          <InputLabel htmlFor="name">Detected By</InputLabel>
                         </div>
                         <div>
                           <Autocomplete
-                            multiple
                             options={
                               employeesData ? (employeesData as any) : []
                             }
                             size="small"
                             getOptionLabel={(option: any) => option.name}
                             onChange={(e, r) =>
-                              setFieldValue(
-                                "assignedUserIds",
-                                r.map((d) => d?.id)
-                              )
+                              setFieldValue("detectedBy", r?.id)
                             }
                             renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                label="Select Members"
-                                placeholder="Members"
-                              />
+                              <TextField {...params} placeholder="Members" />
                             )}
                           />
                         </div>
@@ -220,6 +226,11 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
                           onChange={(e: any) =>
                             setFieldValue("pictures", e?.target?.files[0])
                           }
+                        />
+                        <ErrorMessage
+                          name="pictures"
+                          component="div"
+                          className="error"
                         />
                         {values.pictures && (
                           <img
