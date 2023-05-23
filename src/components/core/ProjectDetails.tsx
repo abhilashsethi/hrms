@@ -44,6 +44,7 @@ const ProjectDetails = () => {
   const { data: projectData, mutate } = useFetch<Projects>(
     `projects/${router?.query?.id}`
   );
+  console.log(projectData);
 
   const shortCuts: shortCutTypes[] = [
     {

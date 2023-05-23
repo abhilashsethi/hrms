@@ -64,12 +64,14 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
         setLoading(false);
         return;
       }
-      mutate();
       Swal.fire(`Success`, `Created Successfully`, `success`);
+      mutate();
       setLoading(false);
       handleClose();
       return;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
