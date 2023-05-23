@@ -38,7 +38,6 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           setLoading(true);
-
           try {
             if (result.isConfirmed) {
               const response = await change(
@@ -53,8 +52,8 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
                 Swal.fire("Error", "Something went wrong!", "error");
                 setLoading(false);
               }
-              Swal.fire("Removed!", "Client removed successfully!", "success");
               mutate();
+              Swal.fire("Removed!", "Client removed successfully!", "success");
               setLoading(false);
             }
           } catch (error) {
@@ -211,11 +210,3 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
 };
 
 export default ClientDetails;
-
-const team = [
-  { title: "Srinu Reddy", year: 1994 },
-  { title: "Loushik Kumar", year: 1972 },
-  { title: "Chinmay", year: 1974 },
-  { title: "Abhilash", year: 2008 },
-  { title: "Sunil", year: 1957 },
-];
