@@ -66,7 +66,7 @@ const AddDocumentModal = ({ open, handleClose, details }: Props) => {
 				const url = await uploadFile(values?.link, `${Date.now()}.${dtype}`);
 				// console.log(url);
 
-				const res = await change(`users/add-doc/${router?.query?.id}`, {
+				const res = await change(`projects/add-doc/${router?.query?.id}`, {
 					method: "POST",
 					body: {
 						title: values.title,
@@ -132,7 +132,7 @@ const AddDocumentModal = ({ open, handleClose, details }: Props) => {
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
-								<p className="font-medium text-gray-700 mb-2">Note Text</p>
+								<p className="font-medium text-gray-700 mb-2">Document Title</p>
 								<TextField
 									size="small"
 									fullWidth

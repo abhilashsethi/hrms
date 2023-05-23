@@ -66,7 +66,7 @@ const EmployLeaves = ({ employeeId }: Props) => {
 			</p> */}
 			<HeadText title="Recent" />
 			<div className="mt-2 flex flex-col gap-1 py-2 max-h-60 overflow-y-auto px-2">
-				{leaveDetails?.map((item, i) => (
+				{leaveDetails?.slice(0, 4)?.map((item, i) => (
 					<div
 						key={i}
 						className="h-20 w-full border-2 rounded-md p-2 flex gap-4"
