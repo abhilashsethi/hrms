@@ -36,25 +36,36 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, remove!",
       }).then(async (result) => {
-        Swal.fire("Removed!", "Client removed Api in progress!", "info");
-        return;
-        try {
-          if (result.isConfirmed) {
-            const response = await change(`projects/${projectData.id}`, {
-              method: "DELETE",
-            });
-            if (response?.status !== 200) {
-              Swal.fire("Error", "Something went wrong!", "error");
+        if (result.isConfirmed) {
+          setLoading(true);
+
+          try {
+            if (result.isConfirmed) {
+              const response = await change(
+                `projects/remove-client/${projectData.id}`,
+                {
+                  method: "DELETE",
+                }
+              );
+              setLoading(false);
+
+              if (response?.status !== 200) {
+                Swal.fire("Error", "Something went wrong!", "error");
+                setLoading(false);
+              }
+              Swal.fire("Removed!", "Client removed successfully!", "success");
+              mutate();
+              setLoading(false);
             }
-            Swal.fire("Removed!", "Client removed successfully!", "success");
-            mutate();
+          } catch (error) {
+            console.log(error);
+            setLoading(false);
           }
-        } catch (error) {
-          console.log(error);
         }
       });
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
   const handleSubmit = async (values: any) => {
