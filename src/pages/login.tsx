@@ -28,10 +28,8 @@ const Login = () => {
   const handleLogin = async (values: any, submitProps: any) => {
     try {
       const res = await trigger(values);
-      // console.log(res);
       if (!res.success) return Swal.fire("Error", res.msg, "error");
       const user: User = { ...res.data.user };
-      // console.log(user);
       setUser(user);
       setToken(res.data.accessToken);
       if (user?.role?.name === "CEO")
