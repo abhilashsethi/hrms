@@ -219,7 +219,7 @@ export default () => {
 					{
 						key: "7-3",
 						title: "Create Project",
-						icon: <AddRounded />,
+						icon: <ICONS.Add_Project />,
 						route: "/admin/projects/create-projects",
 					},
 				],
@@ -257,7 +257,7 @@ export default () => {
 					{
 						key: "8-2",
 						title: "All Roles",
-						icon: <ManageAccountsRounded />,
+						icon: <ICONS.All_Roles />,
 						route: "/admin/roles/all-roles",
 					},
 				],
@@ -276,7 +276,7 @@ export default () => {
 					{
 						key: "10-2",
 						title: "All Department",
-						icon: <MedicalInformationRounded />,
+						icon: <ICONS.All_Departments />,
 						route: "/admin/department/all-department",
 					},
 				],
@@ -295,7 +295,7 @@ export default () => {
 					{
 						key: "11-1",
 						title: "Change Password",
-						icon: <Key />,
+						icon: <ICONS.Change_Password />,
 						route: "/admin/change-password",
 					},
 					// {

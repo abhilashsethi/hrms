@@ -111,7 +111,7 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 	const { data: projectDetails, mutate } = useFetch<any>(
 		`projects?memberId=${router?.query?.id}`
 	);
-	// console.log(projectDetails);
+	console.log(projectDetails);
 
 	return (
 		<>
@@ -189,7 +189,7 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 										</div>
 										<div className="mt-4">
 											<h1 className="text-md font-semibold mb-2">Team Lead</h1>{" "}
-											<div className="flex w-full justify-between items-center gap-5">
+											<div className="flex w-full justify-between items-center">
 												<img
 													className="h-20 w-20 bg-slate-400 rounded-full shadow-xl"
 													src={item?.manager?.photo || "/manager.png"}
@@ -199,19 +199,25 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 													<p className="font-semibold">
 														Name :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{item?.manager?.name}
+															{item?.manager?.name
+																? item?.manager?.name
+																: "Name not Specified"}
 														</span>
 													</p>
 													<p className="font-semibold">
 														Start Date :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{moment(item?.startDate).format("yyyy-MM-DD")}
+															{item?.startDate
+																? moment(item?.startDate).format("yyyy-MM-DD")
+																: "Date Not Specified"}
 														</span>
 													</p>
 													<p className="font-semibold">
 														End Date :{" "}
 														<span className="font-semibold text-sm text-gray-500">
-															{moment(item?.endDate).format("yyyy-MM-DD")}
+															{item?.startDate
+																? moment(item?.startDate).format("yyyy-MM-DD")
+																: "Date Not Specified"}
 														</span>
 													</p>
 												</div>
