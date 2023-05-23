@@ -109,8 +109,10 @@ const ProjectDetails = () => {
       />
       <ProjectMembers
         projectId={router?.query?.id}
+        projectData={projectData}
         open={isMembers}
         onClose={() => setIsMembers(false)}
+        mutate={mutate}
       />
       <ProjectURLS
         id={router?.query?.id}

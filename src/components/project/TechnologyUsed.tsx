@@ -160,20 +160,22 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
           {projectData?.technologies?.map((item: any) => (
             <div
               key={item?.id}
-              className="px-4 py-4 relative mt-3 rounded-md flex flex-col gap-2 items-center justify-center shadow-jubilation"
+              className="px-4 py-4 relative mt-3 rounded-md shadow-jubilation"
             >
               <div
                 onClick={() => removeTechnology(item?.id)}
-                className="absolute right-[5px] top-[4px] cursor-pointer bg-red-500 h-6 w-6 rounded-full flex justify-center items-center"
+                className="absolute right-[5px] top-[4px] cursor-pointer shadow-md bg-red-500 h-6 w-6 rounded-full flex justify-center items-center"
               >
                 <Close className="!text-[1rem] !text-white" />
               </div>
-              <img
-                className="h-7 object-contain"
-                src={item?.logo}
-                alt="photo"
-              />
-              <h3 className="text-sm font-semibold">{item?.name}</h3>
+              <div className="grid px-1 pt-2 gap-2 justify-items-center">
+                <img
+                  className="h-7 object-contain"
+                  src={item?.logo}
+                  alt="photo"
+                />
+                <h3 className="text-sm font-semibold">{item?.name}</h3>
+              </div>
             </div>
           ))}
         </div>

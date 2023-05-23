@@ -19,8 +19,8 @@ const AttendanceCharts = ({ allData, absentData, presentData }: Props) => {
           <DonutChart
             labels={["Present", "Absent"]}
             series={[
-              presentData?.results?.length ? presentData?.results?.length : `0`,
-              absentData?.results?.length ? absentData?.results?.length : `0`,
+              presentData?.length ? presentData?.length : `0`,
+              absentData?.length ? absentData?.length : `0`,
             ]}
             text=""
             type="donut"
