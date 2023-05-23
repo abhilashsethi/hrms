@@ -74,15 +74,7 @@ const ProjectTasks = () => {
               Assigned To :
             </h2>
             <div className="flex justify-start mt-4">
-              <AvatarGroup
-                className="!cursor-pointer"
-                //   onClick={() => setIsMembers({ dialogue: true })}
-                max={4}
-              >
-                <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
-                <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
-                <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
-                <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
+              <AvatarGroup className="!cursor-pointer" max={4}>
                 <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
               </AvatarGroup>
             </div>

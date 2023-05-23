@@ -184,15 +184,11 @@ const ProjectMembers = ({
                       <Autocomplete
                         options={employeesData ? (employeesData as any) : []}
                         getOptionLabel={(option: any) => option.name}
-                        isOptionEqualToValue={(option, value) =>
-                          option.name === value.managerId
-                        }
                         value={employeesData?.find(
                           (option: any) => option.name === values.managerId
                         )}
                         onChange={(e: any, r: any) => {
                           setFieldValue("managerId", r.id);
-                          // setManagerId(r.id);
                         }}
                         id="managerId"
                         renderInput={(params) => (

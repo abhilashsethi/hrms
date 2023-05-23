@@ -1,6 +1,7 @@
 import {
   Add,
   ChevronRight,
+  Edit,
   InsertDriveFile,
   Person,
 } from "@mui/icons-material";
@@ -21,6 +22,7 @@ const ProjectBugs = () => {
     mutate,
     isLoading,
   } = useFetch<any>(`projects/${router?.query?.id}`);
+  console.log(projectData);
 
   return (
     <section>
@@ -53,7 +55,7 @@ const ProjectBugs = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        {cards.map((item, i) => (
+        {projectData?.bugs.map((item: any, i: any) => (
           <CardComponent index={i} key={item?.id} item={item} />
         ))}
       </div>
@@ -73,13 +75,13 @@ const cards = [
 interface Props {
   key?: number;
   index?: number;
-  item?: { title?: string };
+  item?: { title?: string; status?: string };
 }
 
 const CardComponent = ({ key, index, item }: Props) => {
   const [isDescription, setIsDescription] = useState(false);
   return (
-    <div key={key} className="border-b-2 py-2">
+    <div className="border-b-2 py-2">
       <div className=" w-full rounded-md py-3 flex items-start">
         <div className="w-[57%] pr-3">
           <div className="flex gap-2">
@@ -95,9 +97,21 @@ const CardComponent = ({ key, index, item }: Props) => {
         </div>
         <div className="w-[43%] h-8 flex justify-between pl-4 text-sm tracking-wide items-center text-slate-600">
           <span
-            className={`text-xs font-medium px-3 py-1 h-6 rounded-full text-white bg-green-400`}
+            className={`text-xs font-medium px-3 py-1 h-6 rounded-full text-white ${
+              item?.status === "Completed"
+                ? `bg-green-400`
+                : item?.status === "Open"
+                ? `bg-purple-400`
+                : item?.status === "Pending"
+                ? `bg-yellow-400`
+                : item?.status === "Ongoing"
+                ? `bg-blue-400`
+                : item?.status === "Reviewed"
+                ? `bg-black`
+                : `bg-slate-600`
+            }`}
           >
-            COMPLETED
+            {item?.status}
           </span>
           <span>
             <Tooltip title="Documents">
@@ -121,15 +135,32 @@ const CardComponent = ({ key, index, item }: Props) => {
         </div>
       </div>
       {isDescription ? (
-        <div className="transition-all ease-in-out duration-200">
-          <h1 className="text-sm font-semibold text-gray-600">Description :</h1>
-          <p className="text-sm py-3 tracking-wide">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
-            consectetur perspiciatis officiis est necessitatibus, possimus
-            aspernatur quisquam ipsam nihil voluptas!
-          </p>
+        <div className="flex gap-2 justify-between items-end">
+          <div className="transition-all ease-in-out duration-200 w-[90%]">
+            <h1 className="text-sm font-semibold text-gray-600">
+              Description :
+            </h1>
+            <p className="text-sm py-3 tracking-wide">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt
+              consectetur perspiciatis officiis est necessitatibus, possimus
+              aspernatur quisquam ipsam nihil voluptas!
+            </p>
+          </div>
+          <div className="w-[10%] pb-4">
+            {" "}
+            <IconButton>
+              <Edit />
+            </IconButton>
+          </div>
         </div>
       ) : null}
     </div>
   );
 };
+
+const statuses = [
+  { id: 1, value: "Open" },
+  { id: 2, value: "Pending" },
+  { id: 3, value: "Ongoing" },
+  { id: 4, value: "Completed" },
+];

@@ -106,7 +106,11 @@ const AllProjects = () => {
           </div>
         </FiltersContainer>
         <div className="mt-4">
-          <Projects mutate={mutate} projectData={projectData} />
+          <Projects
+            mutate={mutate}
+            projectData={projectData}
+            isLoading={isLoading}
+          />
         </div>
         {projectData?.length === 0 && <LoaderAnime />}
         <section className="mb-6">

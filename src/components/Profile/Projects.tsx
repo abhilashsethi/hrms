@@ -29,8 +29,9 @@ import Swal from "sweetalert2";
 interface PROPS {
   projectData?: any;
   mutate?: any;
+  isLoading?: any;
 }
-const Projects = ({ projectData, mutate }: PROPS) => {
+const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
   const [url, setUrl] = useState<{
     dialogue?: boolean;
     projectId?: string | null;
@@ -58,7 +59,7 @@ const Projects = ({ projectData, mutate }: PROPS) => {
         open={isMembers?.dialogue}
         onClose={() => setIsMembers({ dialogue: false })}
       />
-      {!projectData?.length && (
+      {isLoading && (
         <div className="w-full flex gap-2 mb-4">
           {skeletons?.map((item) => (
             <>
