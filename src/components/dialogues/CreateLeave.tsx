@@ -1,22 +1,22 @@
 import { Check, Close } from "@mui/icons-material";
 import {
+	Autocomplete,
+	Box,
 	Button,
+	CircularProgress,
 	Dialog,
 	DialogContent,
 	DialogTitle,
-	IconButton,
-	TextField,
-	Tooltip,
 	FormControlLabel,
+	IconButton,
+	MenuItem,
 	Radio,
 	RadioGroup,
-	CircularProgress,
-	MenuItem,
-	Autocomplete,
-	Box,
+	TextField,
+	Tooltip,
 } from "@mui/material";
-import { FileUpload, PhotoViewerSmall } from "components/core";
-import { Formik, Form, ErrorMessage } from "formik";
+import { PhotoViewerSmall } from "components/core";
+import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { ChangeEvent, useState } from "react";
@@ -30,7 +30,7 @@ interface Props {
 	mutate?: any;
 }
 
-const validationSchema = Yup.object().shape({
+const validationSchema = Yup.object({
 	userId: Yup.string().required("Select an employee"),
 	startDate: Yup.string().required("Please enter date"),
 	variant: Yup.string().required("Please select a variant!"),
@@ -57,10 +57,14 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
 
 	const handleSubmit = async (values: any, { resetForm }: any) => {
 		console.log(values);
-		const dtype = values?.link?.type.split("/")[1];
+		const dtype = values?.link && values?.link?.type.split("/")[1];
+		console.log(dtype);
 		setLoading(true);
 		try {
-			const url = await uploadFile(values?.link, `${Date.now()}.${dtype}`);
+			const url =
+				values?.link &&
+				(await uploadFile(values?.link, `${Date.now()}.${dtype}`));
+			console.log(url);
 			const res = await change(`leaves`, {
 				body: {
 					leaveMonth: values?.leaveMonth,
@@ -73,6 +77,7 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
 					docs: [{ link: url, docType: dtype }],
 				},
 			});
+			console.log(res);
 			setLoading(false);
 			if (res?.status !== 201) {
 				Swal.fire(

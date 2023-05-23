@@ -23,6 +23,7 @@ const ProjectTasks = () => {
         mutate={mutate}
         handleClose={() => setIsCreate(false)}
       />
+
       <div className="flex border-b-2 pb-2 justify-end">
         <Button
           onClick={() => setIsCreate(true)}
