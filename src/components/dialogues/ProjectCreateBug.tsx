@@ -26,6 +26,7 @@ interface Props {
   mutate?: any;
   id?: any;
 }
+
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
@@ -289,18 +290,10 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
 
 export default ProjectCreateBug;
 
-const team = [
-  { title: "Srinu Reddy", year: 1994 },
-  { title: "Loushik Kumar", year: 1972 },
-  { title: "Chinmay", year: 1974 },
-  { title: "Abhilash", year: 2008 },
-  { title: "Sunil", year: 1957 },
-];
-
 const statuses = [
   { id: 1, value: "Open" },
   { id: 2, value: "Pending" },
   { id: 3, value: "Ongoing" },
-  { id: 4, value: "Completed" },
+  { id: 4, value: "Fixed" },
   { id: 4, value: "Reviewed" },
 ];

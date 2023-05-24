@@ -48,11 +48,13 @@ const ViewScreenshot = ({ open, handleClose, link }: Props) => {
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
         <div className="md:w-full w-full md:px-4 px-2 tracking-wide">
           <section>
-            <img
-              className="h-[20rem] object-contain"
-              src={DEFAULTIMG.src}
-              alt="img"
-            />
+            {link && (
+              <img
+                className="h-[20rem] object-contain"
+                src={link ? link : DEFAULTIMG.src}
+                alt="img"
+              />
+            )}
           </section>
         </div>
       </DialogContent>
