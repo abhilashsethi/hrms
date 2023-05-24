@@ -315,7 +315,10 @@ const ProjectMembers = ({
             {projectData?.involvedMemberIds?.length ? (
               <div className="mt-4 flex flex-col gap-2">
                 {projectData?.involvedMembers?.map((item) => (
-                  <div className="h-24 w-full border-[1px] rounded-lg flex gap-3 items-center px-4">
+                  <div
+                    key={item?.id}
+                    className="h-24 w-full border-[1px] relative rounded-lg flex gap-3 items-center px-4"
+                  >
                     <PhotoViewer
                       name={item?.name}
                       photo={item?.photo ? item?.photo : null}
@@ -352,16 +355,3 @@ const ProjectMembers = ({
 };
 
 export default ProjectMembers;
-
-const reqData = [
-  { id: 1, name: "Abhilash Sethi", email: "abhilash@sy.com" },
-  { id: 2, name: "Sunil Mishra", email: "sunil@sy.com" },
-];
-
-const team = [
-  { title: "Srinu Reddy", year: 1994 },
-  { title: "Loushik Kumar", year: 1972 },
-  { title: "Chinmay", year: 1974 },
-  { title: "Abhilash", year: 2008 },
-  { title: "Sunil", year: 1957 },
-];
