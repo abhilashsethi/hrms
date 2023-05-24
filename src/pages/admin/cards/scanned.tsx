@@ -97,7 +97,7 @@ const Cards = () => {
             </>
           )}
         </div>
-        {!cardData?.length && <LoaderAnime />}
+        {cardData?.length === 0 ? <LoaderAnime /> : null}
         <div className="flex justify-center py-8">
           <Stack spacing={2}>
             <Pagination

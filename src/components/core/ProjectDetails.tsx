@@ -91,7 +91,7 @@ const ProjectDetails = () => {
     {
       id: 4,
       title: "Industry",
-      value: "Government Schemas ",
+      value: `${projectData?.industry ? projectData?.industry : `---`}`,
       icon: <Apartment fontSize="small" />,
     },
   ];
