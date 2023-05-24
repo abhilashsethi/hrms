@@ -197,7 +197,7 @@ const LeavesColumn = ({ data, mutate }: Props) => {
                   sn: i + 1,
                   name: _?.user?.name,
                   photo: _?.user?.photo ? _?.user?.photo : null,
-                  role: _?.user?.role?.name,
+                  role: _?.user?.role,
                   thisMonth: getYearLeaves(_?.user?.id),
                 }))
           }

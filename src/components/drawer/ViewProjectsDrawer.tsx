@@ -111,7 +111,7 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 	const { data: projectDetails, mutate } = useFetch<any>(
 		`projects?memberId=${router?.query?.id}`
 	);
-	console.log(projectDetails);
+	// console.log(projectDetails);
 
 	return (
 		<>

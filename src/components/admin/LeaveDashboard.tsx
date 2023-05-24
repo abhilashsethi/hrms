@@ -21,9 +21,18 @@ import {
 import { LeaveBarChart, LeaveDonutChart } from "components/analytics";
 import { DashboardCard } from "components/core";
 import { useFetch } from "hooks";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 
 const LeaveDashboard = () => {
+	const [leaveMonthData, setLeaveMonthData] = useState<{
+		months?: any;
+		casual?: any;
+		sick?: any;
+	}>({
+		months: [],
+		casual: [],
+		sick: [],
+	});
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -37,6 +46,28 @@ const LeaveDashboard = () => {
 		`leaves/dashboard/details`
 	);
 	// console.log(leaveData);
+	console.log(leaveMonthData);
+
+	useEffect(() => {
+		let monthData =
+			leaveData?.leaves?.leaveCountMonthWiseArr[0]?.leaveCounts?.map(
+				(data: any) => data?.month
+			);
+		let casualLeave =
+			leaveData?.leaves?.leaveCountMonthWiseArr[0]?.leaveCounts?.map(
+				(data: any) => data?.count
+			);
+		let sickLeave =
+			leaveData?.leaves?.leaveCountMonthWiseArr[1]?.leaveCounts?.map(
+				(data: any) => data?.count
+			);
+
+		setLeaveMonthData({
+			casual: casualLeave,
+			sick: sickLeave,
+			months: monthData,
+		});
+	}, [leaveData]);
 
 	const monthWiseLeaveDetails = leaveData?.leaves?.monthWiseLeaveList;
 
@@ -79,32 +110,24 @@ const LeaveDashboard = () => {
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 				<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="font-bold text-lg text-center">Leave Overview</p>
-					<LeaveBarChart
-						series={[
-							{
-								name: "Sick Leave",
-								data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-							},
+					{
+						<LeaveBarChart
+							series={[
+								{
+									name: "Sick Leave",
+									data: leaveMonthData?.sick ? leaveMonthData?.sick : [],
+								},
 
-							{
-								name: "Casual Leave",
-								data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-							},
-						]}
-						categories={[
-							"Feb",
-							"Mar",
-							"Apr",
-							"May",
-							"Jun",
-							"Jul",
-							"Aug",
-							"Sep",
-							"Oct",
-						]}
-						type="bar"
-						text=""
-					/>
+								{
+									name: "Casual Leave",
+									data: leaveMonthData?.casual ? leaveMonthData?.casual : [],
+								},
+							]}
+							categories={leaveMonthData?.months ? leaveMonthData?.months : []}
+							type="bar"
+							text=""
+						/>
+					}
 				</div>
 				<div className="col-span-12 w-full flex flex-col justify-center md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Leave Details</p>
