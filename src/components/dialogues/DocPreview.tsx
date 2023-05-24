@@ -58,21 +58,6 @@ const DocPreview = ({
 			<DialogContent className="app-scrollbar" sx={{ p: 2 }}>
 				<div className="md:w-full w-full md:px-4 px-2 tracking-wide">
 					<div className="py-4 w-full flex justify-center items-center">
-						{/* <img
-							className="h-[28rem] object-contain shadow-lg"
-							src="https://data.unhcr.org/images/documents/big_4cda85d892a5c0b5dd63b510a9c83e9c9d06e739.jpg"
-							alt="photo"
-						/> */}
-						{/* <div>
-							<iframe
-								src={
-									"https://data.unhcr.org/images/documents/big_4cda85d892a5c0b5dd63b510a9c83e9c9d06e739.jpg"
-								}
-								width="100%"
-								height="500"
-								title="Document Preview"
-							></iframe>
-						</div> */}
 						<iframe
 							src={activeLink ? activeLink : ``}
 							width="100%"

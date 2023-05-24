@@ -13,7 +13,7 @@ const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
   const [viewTickets, setViewTickets] = useState<any>(null);
 
   return (
-    <section className="w-full p-6 rounded-lg bg-white shadow-xl">
+    <section className="px-4 py-2 rounded-lg bg-white shadow-xl">
       <ViewTicketsDrawer
         open={tickets}
         onClose={() => setTickets(false)}
@@ -21,7 +21,7 @@ const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
         ticket={ticketsData}
         isLoading={isLoading}
       />
-      <div className="flex justify-between">
+      <div className="md:flex justify-between">
         <HeadText title={`Tickets (${ticketsData?.length})`} />
         <Tooltip title="View All Tickets">
           <div

@@ -57,15 +57,14 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
   const { change } = useChange();
   const handleSubmit = async (values: any) => {
     setLoading(true);
-    const uniId = new Date().getTime();
+    const uniId = values?.link?.type.split("/")[1];
     try {
-      const url = await uploadFile(values?.image, `${uniId}.png`);
+      const url = await uploadFile(values?.image, `${Date.now()}.${uniId}`);
       const name = values.name;
       const res = await change(`technologies`, {
         body: { logo: url, name: name },
       });
       mutate();
-      //  const res = await change(`technologies`, { body: values });
       setLoading(false);
       if (res?.status !== 201) {
         Swal.fire(
