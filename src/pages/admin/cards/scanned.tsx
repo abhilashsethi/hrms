@@ -16,6 +16,7 @@ import { Card } from "types";
 const Cards = () => {
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [empId, setEmpId] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [userName, setUsername] = useState<string | null>(null);
   const [cardId, setCardId] = useState<string | null>(null);
   const [userType, setUserType] = useState<string | null>(null);
@@ -30,7 +31,7 @@ const Cards = () => {
       empId ? `&employeeID=${empId}` : ""
     }${cardId ? `&cardId=${cardId}` : ""}${
       userType ? `&assignedTo=${userType}` : ""
-    }`
+    }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
     <PanelLayout title="Scanned Cards - SY HR MS">
@@ -41,7 +42,15 @@ const Cards = () => {
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
           </div>
         </div>
-        <FiltersContainer>
+        <FiltersContainer
+          changes={() => {
+            setEmpId(null);
+            setUsername(null);
+            setCardId(null);
+            setUserType(null);
+            setIsOrderBy(null);
+          }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <TextField
               fullWidth
@@ -78,6 +87,20 @@ const Cards = () => {
               {usertypes?.map((option: any) => (
                 <MenuItem key={option?.id} value={option.value}>
                   {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              fullWidth
+              select
+              label="Order By"
+              size="small"
+              value={isOrderBy ? isOrderBy : ""}
+              onChange={(e) => setIsOrderBy(e?.target?.value)}
+            >
+              {short.map((option) => (
+                <MenuItem key={option.id} value={option.value}>
+                  {option.name}
                 </MenuItem>
               ))}
             </TextField>
@@ -131,4 +154,9 @@ const usertypes: Array<UserTypeItem> = [
   { id: 1, value: "Employee", label: "Employee" },
   { id: 2, value: "Guest", label: "Guest" },
   { id: 2, value: null, label: "All" },
+];
+
+const short = [
+  { id: 1, value: "createdAt:asc", name: "Created Ascending" },
+  { id: 2, value: "createdAt:desc", name: "Created Descending" },
 ];
