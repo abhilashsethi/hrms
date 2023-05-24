@@ -1,5 +1,5 @@
 import PanelLayout from "layouts/panel";
-import { AdminBreadcrumbs } from "components/core";
+import { AdminBreadcrumbs, Loader } from "components/core";
 import {
   ClientDashboardCard,
   ClientDashboardCharts,
@@ -20,6 +20,7 @@ const index = () => {
         <AdminBreadcrumbs links={links} />
       </div>
       <div className="flex gap-2 py-4">
+        {isLoading && <Loader />}
         <div className="w-full px-4 ">
           <ClientDashboardCard cards={clientData} />
           <ClientDashboardCharts cards={clientData} />

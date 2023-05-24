@@ -12,7 +12,14 @@ import {
 	Menu,
 	MenuItem,
 } from "@mui/material";
+import {
+	CASUAL_LEAVE,
+	MEETINGICON,
+	SICK_LEAVE,
+	TOTAL_LEAVES,
+} from "assets/dashboard_Icons";
 import { LeaveBarChart, LeaveDonutChart } from "components/analytics";
+import { DashboardCard } from "components/core";
 import { useFetch } from "hooks";
 import { MouseEvent, useState } from "react";
 
@@ -41,18 +48,24 @@ const LeaveDashboard = () => {
 				? leaveData?.leaves?.totalLeaves
 				: 0,
 			title: "Total Leaves",
+			bg: "from-blue-500 to-blue-300",
+			img: TOTAL_LEAVES.src,
 		},
 		{
 			id: 2,
 			icon: <Sick fontSize="large" className="text-theme " />,
 			count: leaveData?.leaves?.leaveTypesList[1]?._count,
 			title: "Sick Leave",
+			bg: "from-yellow-500 to-yellow-300",
+			img: SICK_LEAVE.src,
 		},
 		{
 			id: 4,
 			icon: <Pending fontSize="large" className="text-theme " />,
 			count: leaveData?.leaves?.leaveTypesList[0]?._count,
 			title: "Casual Leave",
+			bg: "from-emerald-500 to-emerald-300",
+			img: CASUAL_LEAVE.src,
 		},
 	];
 
@@ -60,44 +73,7 @@ const LeaveDashboard = () => {
 		<>
 			<div className="flex gap-2 py-4">
 				<div className="w-3/4 px-4 ">
-					<Grid container spacing={2}>
-						{cards?.map((item) => (
-							<Grid key={item?.id} item lg={4}>
-								<div className="border-2 border-b-theme hover:scale-105 transition duration-500 ease-in-out h-36 bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
-									<div className="flex justify-end">
-										<IconButton size="small" onClick={handleClick}>
-											<MoreVert className="" />
-										</IconButton>
-										<Menu
-											anchorEl={anchorEl}
-											open={open}
-											onClose={handleClose}
-											MenuListProps={{
-												"aria-labelledby": "basic-button",
-											}}
-										>
-											<MenuItem onClick={handleClose}>All Users</MenuItem>
-											<MenuItem onClick={handleClose}>View Dashboard</MenuItem>
-										</Menu>
-									</div>
-									<div className="flex justify-around items-center">
-										<div>
-											{item?.icon}
-											<span className="font-semibold tracking-wide text-sm">
-												{item?.title}
-											</span>
-										</div>
-										<span className="text-xl text-theme font-semibold">
-											{item?.count}
-										</span>
-									</div>
-									<span className="font-semibold tracking-wide text-sm">
-										{item?.title}
-									</span>
-								</div>
-							</Grid>
-						))}
-					</Grid>
+					<DashboardCard data={cards} />
 				</div>
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">

@@ -14,3 +14,6 @@ export { default as Logo } from "./logo.png";
 export { default as BGLOGIN } from "./BGLOGIN.png";
 export { default as Hide } from "./hide.png";
 export { default as View } from "./view.png";
+export { default as TOTAL_LEAVES } from "./log-out.png";
+export { default as SICK_LEAVE } from "./prescription.png";
+export { default as CASUAL_LEAVE } from "./exit.png";

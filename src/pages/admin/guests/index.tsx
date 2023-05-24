@@ -10,7 +10,7 @@ const GuestsDashboard = () => {
   const { data: guestData, isLoading } = useFetch<any>(
     `guests/dashboard/details`
   );
-  console.log(guestData);
+  // console.log(guestData);
   return (
     <PanelLayout title="Guests Dashboard - Admin Panel">
       <section className="lg:px-8 px-4 py-4">

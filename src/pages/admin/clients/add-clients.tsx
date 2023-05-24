@@ -8,7 +8,7 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { ClientImageUpload } from "components/core";
+import { AdminBreadcrumbs, ClientImageUpload } from "components/core";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -98,8 +98,11 @@ const AddClients = () => {
   };
   return (
     <PanelLayout title="All Clients - SY HR MS">
+      <div className="pt-4  px-2 ">
+        <AdminBreadcrumbs links={links} />
+      </div>
       <section className="w-full px-2 py-4 flex justify-center items-center">
-        <div className="p-6 w-3/4 rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+        <div className="p-6 lg:w-3/4 rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -318,4 +321,8 @@ export default AddClients;
 const genders = [
   { id: 1, value: "Male" },
   { id: 2, value: "Female" },
+];
+const links = [
+  { id: 1, page: "Clients", link: "/admin/clients" },
+  { id: 2, page: "Add Clients", link: "/admin/clients/add-clients" },
 ];
