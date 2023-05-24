@@ -241,7 +241,10 @@ const ProjectMembers = ({
                 </div>
               </div>
             ) : (
-              <div className="grid justify-items-center lg:py-12 py-6">
+              <div className="flex gap-4 flex-col px-12 lg:py-4 py-6">
+                <h1 className="text-center ">
+                  Team manager not mentioned, click to add
+                </h1>
                 <Button
                   size="small"
                   startIcon={<Add />}
