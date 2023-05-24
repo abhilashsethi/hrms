@@ -19,8 +19,8 @@ const LeaveRequests = () => {
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [userName, setUsername] = useState<string | null>(null);
   const [empId, setEmpId] = useState<string | null>(null);
-  const [leaveType, setLeaveType] = useState<string>("");
-  const [leaveStatus, setLeaveStatus] = useState<string>("");
+  const [leaveType, setLeaveType] = useState<string | null>(null);
+  const [leaveStatus, setLeaveStatus] = useState<string | null>(null);
   const [isLeave, setIsLeave] = useState<boolean>(false);
   const {
     data: leavesData,
@@ -58,7 +58,14 @@ const LeaveRequests = () => {
             </Button>
           </div>
         </div>
-        <FiltersContainer>
+        <FiltersContainer
+          changes={() => {
+            setLeaveStatus(null);
+            setLeaveType(null);
+            setEmpId(null);
+            setUsername(null);
+          }}
+        >
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <TextField
               fullWidth
