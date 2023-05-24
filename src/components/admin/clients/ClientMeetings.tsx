@@ -3,15 +3,12 @@ import moment from "moment";
 import { AccountTreeRounded, Receipt } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { ViewTicketsDrawer } from "components/drawer";
-import React, { useState } from "react";
-import { useFetch } from "hooks";
-import { useRouter } from "next/router";
+import { useState } from "react";
 interface Props {
   ticketsData?: any;
   isLoading?: any;
 }
 const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
-  const router = useRouter();
   const [tickets, setTickets] = useState(false);
   const [viewTickets, setViewTickets] = useState<any>(null);
 
