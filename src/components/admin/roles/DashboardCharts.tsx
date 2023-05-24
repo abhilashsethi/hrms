@@ -25,7 +25,7 @@ const DashboardCharts = ({ dashboardData, roleCard }: Props) => {
             text=""
           />
         </div>
-        <div className="w-full flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
+        <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Role Details</p>
           <RoleDonutChart
             labels={
