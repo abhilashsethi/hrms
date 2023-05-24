@@ -25,6 +25,7 @@ import Swal from "sweetalert2";
 import { Projects } from "types";
 import * as yup from "yup";
 import { makeStyles } from "@material-ui/core";
+import Link from "next/link";
 
 type Props = {
   open?: boolean | any;
@@ -256,7 +257,12 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
                     </div>
                   </div>
                   <div className="flex gap-2 items-center mt-3">
-                    <a target="_blank" href={item?.link}>
+                    <a
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      // prefetch={false}
+                      href={item?.link}
+                    >
                       <span className="custom-button bg-green-500">
                         <Visibility fontSize="small" /> CLICK TO VIEW
                       </span>

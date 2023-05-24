@@ -32,7 +32,6 @@ const Cards = () => {
       userType ? `&assignedTo=${userType}` : ""
     }`
   );
-  console.log(cardData);
   return (
     <PanelLayout title="Scanned Cards - SY HR MS">
       <section className="md:px-8 px-2 md:py-4 py-2">
@@ -97,7 +96,7 @@ const Cards = () => {
             </>
           )}
         </div>
-        {!cardData?.length && <LoaderAnime />}
+        {cardData?.length === 0 ? <LoaderAnime /> : null}
         <div className="flex justify-center py-8">
           <Stack spacing={2}>
             <Pagination

@@ -97,7 +97,9 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
   return (
     <section className="w-full bg-white shadow-jubilation mt-4 rounded-md p-6">
       <div className="flex justify-between items-center">
-        <h1 className="font-semibold text-gray-600">Client Details</h1>
+        <h1 className="font-semibold text-gray-600 underline">
+          Client Details
+        </h1>
       </div>
       {isUpdate && (
         <>
@@ -192,7 +194,10 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
         </>
       ) : (
         <>
-          <div className="grid justify-items-center lg:py-12 py-6">
+          <div className="flex flex-col gap-2 lg:py-12 py-6">
+            <h1 className="text-center">
+              Client details not specified. Click here to add clients
+            </h1>
             <Button
               size="small"
               startIcon={<Add />}

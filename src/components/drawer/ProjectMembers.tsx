@@ -25,7 +25,7 @@ const initialValues = {
   managerId: "",
 };
 const members = {
-  involvedMemberIds: [""],
+  members: [""],
 };
 type Props = {
   open?: boolean | any;
@@ -94,7 +94,7 @@ const ProjectMembers = ({
   const updateManager = async (values: any) => {
     setLoading(true);
     try {
-      const res = await change(`projects/update-members/${projectData?.id}`, {
+      const res = await change(`projects/${projectData?.id}`, {
         method: "PATCH",
         body: values,
       });
@@ -129,10 +129,13 @@ const ProjectMembers = ({
         console.log(values);
         try {
           setLoading(true);
-          const res = await change(`projects/update-members/${projectId}`, {
-            method: "PATCH",
-            body: [values],
-          });
+          const res = await change(
+            `projects/update-members/${projectData?.id}`,
+            {
+              method: "PATCH",
+              body: values,
+            }
+          );
           setLoading(false);
           if (res?.status !== 200) {
             Swal.fire(
@@ -273,11 +276,11 @@ const ProjectMembers = ({
                         options={employeesData ? (employeesData as any) : []}
                         getOptionLabel={(option: any) => option.name}
                         value={employeesData?.filter((item: any) =>
-                          values?.involvedMemberIds?.includes(item?.id)
+                          values?.members?.includes(item?.id)
                         )}
                         onChange={(e: any, r: any) => {
                           setFieldValue(
-                            "involvedMemberIds",
+                            "members",
                             r?.map((data: { id: any }) => data?.id)
                           );
                         }}
@@ -312,7 +315,10 @@ const ProjectMembers = ({
             {projectData?.involvedMemberIds?.length ? (
               <div className="mt-4 flex flex-col gap-2">
                 {projectData?.involvedMembers?.map((item) => (
-                  <div className="h-24 w-full border-[1px] rounded-lg flex gap-3 items-center px-4">
+                  <div
+                    key={item?.id}
+                    className="h-24 w-full border-[1px] relative rounded-lg flex gap-3 items-center px-4"
+                  >
                     <PhotoViewer
                       name={item?.name}
                       photo={item?.photo ? item?.photo : null}
@@ -349,16 +355,3 @@ const ProjectMembers = ({
 };
 
 export default ProjectMembers;
-
-const reqData = [
-  { id: 1, name: "Abhilash Sethi", email: "abhilash@sy.com" },
-  { id: 2, name: "Sunil Mishra", email: "sunil@sy.com" },
-];
-
-const team = [
-  { title: "Srinu Reddy", year: 1994 },
-  { title: "Loushik Kumar", year: 1972 },
-  { title: "Chinmay", year: 1974 },
-  { title: "Abhilash", year: 2008 },
-  { title: "Sunil", year: 1957 },
-];

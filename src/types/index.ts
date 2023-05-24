@@ -126,13 +126,20 @@ export type Projects = {
   startDate: Date;
   userIDs: string;
   createdAt: Date;
+  industry?: string;
   updatedAt: Date;
   status?: string;
   id?: string;
-  involvedMemberIds?:string[];
-  managerId?:string[];
+  involvedMemberIds?: string[];
+  managerId?: string[];
   involvedMembers?: User[];
-  manager?:{name?:string, photo?:string | null, id?: string; createdAt?: string; updatedAt?: string}
+  manager?: {
+    name?: string;
+    photo?: string | null;
+    id?: string;
+    createdAt?: string;
+    updatedAt?: string;
+  };
 };
 export type Role = {
   id: string;
@@ -141,7 +148,7 @@ export type Role = {
   createdAt: Date;
   updatedAt: Date;
   users: User[];
-  departments:string;
+  departments: string;
 };
 
 export type Leave = {

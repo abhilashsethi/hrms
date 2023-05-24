@@ -94,7 +94,9 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
   return (
     <section className="w-full rounded-md p-6 mt-4 bg-white shadow-jubilation">
       <div className="flex justify-between items-center">
-        <h1 className="font-semibold text-gray-600">Technology Used</h1>
+        <h1 className="font-semibold text-gray-600 underline">
+          Technology Used
+        </h1>
         {projectData?.technologies?.length ? (
           <Tooltip title="Add Technology">
             <IconButton
@@ -181,9 +183,13 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
         </div>
       ) : (
         <>
-          <div className="grid justify-items-center lg:py-12 py-6">
+          <div className="flex flex-col gap-4 lg:py-12 py-6">
+            <h1 className="text-center">
+              Technology details not mentioned, click to add.
+            </h1>
             <Button
               size="small"
+              fullWidth
               startIcon={<Add />}
               onClick={() => setIsUpdate((prev) => !prev)}
               variant="contained"

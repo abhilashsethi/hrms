@@ -27,6 +27,7 @@ interface Props {
 }
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required!"),
+  description: Yup.string().required("Required field!"),
 });
 
 const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
