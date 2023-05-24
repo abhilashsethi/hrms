@@ -4,6 +4,11 @@ interface Props {
   data?: any;
 }
 const DashboardChartsGuest = ({ data }: Props) => {
+  const getMonthName = (monthNumber: any) => {
+    const date = new Date();
+    date.setMonth(monthNumber - 1);
+    return date.toLocaleString("default", { month: "long" });
+  };
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
@@ -11,16 +16,16 @@ const DashboardChartsGuest = ({ data }: Props) => {
           <p className="font-bold text-lg text-center">Guest Overview</p>
           <GuestBarChart
             labels={
-              data?.GuestInfo?.guestCountByGender?.length
-                ? data?.GuestInfo?.guestCountByGender?.map(
-                    (item: any) => item?.gender
+              data?.GuestInfo?.guestCountMonthWise?.length
+                ? data?.GuestInfo?.guestCountMonthWise?.map((item: any) =>
+                    getMonthName(item?.month)
                   )
                 : []
             }
             data={
-              data?.GuestInfo?.guestCountByGender?.length
-                ? data?.GuestInfo?.guestCountByGender?.map(
-                    (item: any) => item?._count
+              data?.GuestInfo?.guestCountMonthWise?.length
+                ? data?.GuestInfo?.guestCountMonthWise?.map(
+                    (item: any) => item?.guestCount
                   )
                 : []
             }
