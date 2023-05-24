@@ -16,11 +16,6 @@ interface Props {
 }
 
 const DashboardCard = ({ data }: Props) => {
-	const { data: meetingData, mutate } = useFetch<any>(
-		`meetings/dashboard/details`
-	);
-	console.log(meetingData);
-
 	return (
 		<div className="w-full px-4 ">
 			<Grid container spacing={2}>

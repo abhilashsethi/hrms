@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
 	link: Yup.string().required("Choose Document"),
 	// docType: Yup.string().required("Note Doc type is required"),
 });
-const AddDocumentDialogue = ({ open, handleClose, details }: Props) => {
+const AddDocumentDialogue = ({ open, handleClose }: Props) => {
 	// console.log(details);
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
@@ -50,17 +50,17 @@ const AddDocumentDialogue = ({ open, handleClose, details }: Props) => {
 
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
-		console.log(values);
+		// console.log(values);
 		const dtype = values?.link?.type.split("/")[1];
 		// console.log(dtype);
 		Swal.fire({
 			title: "Are you sure?",
-			text: "You want to update status?",
+			text: "You want to add documents?",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
 			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, update!",
+			confirmButtonText: "Yes, Add",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				const url = await uploadFile(values?.link, `${Date.now()}.${dtype}`);
@@ -78,7 +78,8 @@ const AddDocumentDialogue = ({ open, handleClose, details }: Props) => {
 					Swal.fire(`Error`, "Something went wrong!", "error");
 					return;
 				}
-				Swal.fire(`Success`, "Status Added successfully!!", "success");
+				Swal.fire(`Success`, "Document Added successfully!!", "success");
+				handleClose();
 				return;
 			}
 		});
