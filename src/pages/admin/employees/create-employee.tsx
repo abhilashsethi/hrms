@@ -69,7 +69,7 @@ const CreateEmployee = () => {
       }
       return acc;
     }, {});
-    return;
+
     setLoading(true);
     try {
       delete values.confirmPassword;
