@@ -15,6 +15,7 @@ import { useState } from "react";
 const AllProjects = () => {
   const [clientName, setClientName] = useState("");
   const [projectName, setProjectName] = useState(null);
+  const [bugStatus, setBugStatus] = useState(null);
   const [Technologies, setTechnologies] = useState("");
   const [empName, setEmpName] = useState("");
   const [isTech, setIsTech] = useState(false);
@@ -35,7 +36,9 @@ const AllProjects = () => {
   } = useFetch<any[]>(
     `projects?page=${pageNumber}&limit=6${
       projectName ? `&name=${projectName}` : ""
-    }${status ? `&projectStatus=${status}` : ""}`
+    }${status ? `&projectStatus=${status}` : ""}${
+      bugStatus ? `&bugStatus=${bugStatus}` : ""
+    }`
   );
   return (
     <PanelLayout title="All Projects - SY HR MS">
@@ -84,23 +87,23 @@ const AllProjects = () => {
               value={status}
               onChange={handleChange}
             >
-              {roles.map((option) => (
+              {statuses?.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
-                  {option.value}
+                  {option.label}
                 </MenuItem>
               ))}
             </TextField>
             <TextField
               fullWidth
               select
-              label="Bugs"
+              label="Bug status"
               size="small"
               value={isBug}
-              onChange={(e) => setIsBug(e.target?.value)}
+              onChange={(e: any) => setBugStatus(e.target?.value)}
             >
-              {bugSelects.map((option) => (
+              {bugSelects?.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
-                  {option.value}
+                  {option.label}
                 </MenuItem>
               ))}
             </TextField>
@@ -148,15 +151,20 @@ const AllProjects = () => {
 
 export default AllProjects;
 
-const roles = [
-  { id: 1, value: "Completed" },
-  { id: 2, value: "Ongoing" },
-  { id: 3, value: "Onhold" },
-  { id: 4, value: "Pending" },
+const statuses = [
+  { id: 1, value: "Completed", label: "Completed" },
+  { id: 2, value: "Ongoing", label: "Ongoing" },
+  { id: 3, value: "Onhold", label: "Onhold" },
+  { id: 4, value: "Pending", label: "Pending" },
+  { id: 4, value: "", label: "All" },
 ];
 const bugSelects = [
-  { id: 1, value: "No Bugs" },
-  { id: 2, value: "Bugs" },
+  { id: 1, value: "Open", label: "Open" },
+  { id: 2, value: "Pending", label: "Pending" },
+  { id: 3, value: "Ongoing", label: "Ongoing" },
+  { id: 4, value: "Fixed", label: "Fixed" },
+  { id: 5, value: "Reviewed", label: "Reviewed" },
+  { id: 6, value: "", label: "All" },
 ];
 
 const links = [
