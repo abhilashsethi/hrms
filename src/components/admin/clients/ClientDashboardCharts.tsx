@@ -7,7 +7,7 @@ const ClientDashboardCharts = ({ cards }: Props) => {
   console.log(cards);
   return (
     <div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
-      <div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-8 !border-grey-500 rounded-xl !shadow-xl">
+      <div className="col-span-12 pt-9 w-full bg-white gap-5 md:col-span-12 lg:col-span-8 !border-grey-500 rounded-xl !shadow-xl">
         <p className="text-lg text-center font-bold">Client Strength</p>
         {/* <ClientMultiDataChart text="Client Strength" type="bar" /> */}
         <ClientBarGraph
@@ -29,7 +29,7 @@ const ClientDashboardCharts = ({ cards }: Props) => {
           text=""
         />
       </div>
-      <div className="col-span-12 pt-9 w-full gap-5 md:col-span-12 lg:col-span-4 !border-grey-500 rounded-xl !shadow-xl">
+      <div className="col-span-12 px-2 py-4 pt-9 bg-white w-full gap-5 md:col-span-12 lg:col-span-4 !border-grey-500 rounded-xl !shadow-xl">
         <p className="text-center text-lg font-bold">Country Strength</p>
         <ClientLineCharts
           labels={
