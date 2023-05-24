@@ -17,7 +17,7 @@ const AttendanceList = ({ data }: Props) => {
         title={"Today Attendance"}
         isLoading={!data}
         data={data ? getDataWithSL<Attendance>(data) : []}
-        options={{ ...MuiTblOptions(), selection: true }}
+        options={{ ...MuiTblOptions(), selection: false }}
         columns={[
           {
             title: "#",
@@ -27,13 +27,7 @@ const AttendanceList = ({ data }: Props) => {
           },
           {
             title: "Name",
-            // field: "name",
-            render: ({ data }: any) => (
-              <>
-                <Avatar alt={data?.name} src={data?.photo} />
-                <p>{data?.name}</p>
-              </>
-            ),
+            field: "name",
           },
           {
             title: "Email",
