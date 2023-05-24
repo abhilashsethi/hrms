@@ -41,7 +41,6 @@ const AllEmployees = () => {
 			isDepartment ? `&department=${isDepartment}` : ""
 		}`
 	);
-	console.log(employees);
 	return (
 		<PanelLayout title="All Users - SY HR MS">
 			<section className="md:px-8 px-4">
@@ -106,7 +105,7 @@ const AllEmployees = () => {
 							value={isRole ? isRole : ""}
 							onChange={(e) => setIsRole(e?.target?.value)}
 						>
-							{roleData?.roles?.map((option: any) => (
+							{roleData?.map((option: any) => (
 								<MenuItem key={option.id} value={option.name}>
 									{option.name}
 								</MenuItem>
@@ -120,7 +119,7 @@ const AllEmployees = () => {
 							value={isDepartment ? isDepartment : ""}
 							onChange={(e) => setIsDepartment(e.target.value)}
 						>
-							{departmentData?.departments?.map((option: any) => (
+							{departmentData?.map((option: any) => (
 								<MenuItem key={option.id} value={option.name}>
 									{option.name}
 								</MenuItem>

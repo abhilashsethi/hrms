@@ -104,6 +104,7 @@ const CreateEmployee = () => {
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
+              enableReinitialize={true}
               onSubmit={handleSubmit}
             >
               {({

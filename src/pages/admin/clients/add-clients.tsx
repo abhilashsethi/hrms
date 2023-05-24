@@ -27,6 +27,7 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
+  gender: Yup.string().required("Gender is required!"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
     .min(2, "Name must be at least 2 characters")
