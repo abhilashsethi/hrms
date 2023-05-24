@@ -15,12 +15,12 @@ import {
 	PendingActions,
 } from "@mui/icons-material";
 import { useFetch } from "hooks";
+import { useState } from "react";
 
 const Meetings = () => {
 	const { data: meetingData, mutate } = useFetch<any>(
 		`meetings/dashboard/details`
 	);
-	console.log(meetingData);
 
 	const cards = [
 		{
