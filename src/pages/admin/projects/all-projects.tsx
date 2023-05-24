@@ -14,6 +14,7 @@ import { useState } from "react";
 
 const AllProjects = () => {
   const [clientName, setClientName] = useState("");
+  const [projectName, setProjectName] = useState(null);
   const [Technologies, setTechnologies] = useState("");
   const [empName, setEmpName] = useState("");
   const [isTech, setIsTech] = useState(false);
@@ -31,7 +32,11 @@ const AllProjects = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any[]>(`projects?page=${pageNumber}&limit=6`);
+  } = useFetch<any[]>(
+    `projects?page=${pageNumber}&limit=6${
+      projectName ? `&name=${projectName}` : ""
+    }${status ? `&projectStatus=${status}` : ""}`
+  );
   return (
     <PanelLayout title="All Projects - SY HR MS">
       <section className="md:px-8 px-3">
@@ -65,7 +70,12 @@ const AllProjects = () => {
           }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <TextField fullWidth size="small" placeholder="Project Name" />
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Project Name"
+              onChange={(e: any) => setProjectName(e.target.value)}
+            />
             <TextField
               fullWidth
               select
