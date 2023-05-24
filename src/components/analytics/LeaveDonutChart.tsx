@@ -4,13 +4,17 @@ const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 const LeaveDonutChart = ({
 	type,
 	text = "",
+	series,
+	labels,
 }: {
 	type: "bar" | "area" | "line" | "pie" | "donut";
 	text?: string;
+	series?: any;
+	labels?: any;
 }) => {
 	const options = {
-		labels: ["Sick Leave", "Paid Leave", "Casual Leave", "OTHER"],
-		series: [166, 115, 31, 47],
+		labels,
+		series,
 		chart: {
 			type: "donut",
 		},
@@ -47,7 +51,7 @@ const LeaveDonutChart = ({
 		<ApexCharts
 			height={"500"}
 			options={{
-				series: [166, 115, 31, 47],
+				series,
 				chart: {
 					type: "donut",
 				},
@@ -65,7 +69,7 @@ const LeaveDonutChart = ({
 					},
 				],
 
-				labels: ["Sick Leave", "Paid Leave", "Casual Leave", "OTHER"],
+				labels,
 
 				colors: [
 					"#106EAD",

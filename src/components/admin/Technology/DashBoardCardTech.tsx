@@ -27,7 +27,7 @@ const DashBoardCardTech = ({ dashboardData, tech }: Props) => {
               </span>
             </div>
           </div>
-          {tech?.map((item: any) => (
+          {/* {tech?.map((item: any) => (
             <>
               <div key={item?.id}>
                 <div className="border-4 border-b-theme h-32 bg-white w-full py-4 px-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-300 ease-in-out">
@@ -48,7 +48,7 @@ const DashBoardCardTech = ({ dashboardData, tech }: Props) => {
                 </div>
               </div>
             </>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

@@ -10,17 +10,41 @@ const DashboardChartsGuest = ({ data }: Props) => {
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">Guest Overview</p>
           <GuestBarChart
-            labels={["jan", "Feb", "mar"]}
-            data={["20", "5", "1"]}
+            labels={
+              data?.GuestInfo?.guestCountByGender?.length
+                ? data?.GuestInfo?.guestCountByGender?.map(
+                    (item: any) => item?.gender
+                  )
+                : []
+            }
+            data={
+              data?.GuestInfo?.guestCountByGender?.length
+                ? data?.GuestInfo?.guestCountByGender?.map(
+                    (item: any) => item?._count
+                  )
+                : []
+            }
             type="bar"
             text=""
           />
         </div>
-        <div className="w-full flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
+        <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Guest Details</p>
           <GuestDonutChart
-            labels={["Male", "Female"]}
-            series={[20, 80]}
+            labels={
+              data?.GuestInfo?.guestCountByGender?.length
+                ? data?.GuestInfo?.guestCountByGender?.map(
+                    (item: any) => item?.gender
+                  )
+                : []
+            }
+            series={
+              data?.GuestInfo?.guestCountByGender?.length
+                ? data?.GuestInfo?.guestCountByGender?.map(
+                    (item: any) => item?._count
+                  )
+                : []
+            }
             text=""
             type="donut"
             colors={[

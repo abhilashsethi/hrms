@@ -1,4 +1,10 @@
-import { LeaveBarChart, LeaveDonutChart } from "components/analytics";
+import {
+	ContentPasteGo,
+	MoreVert,
+	Pending,
+	Schedule,
+	Sick,
+} from "@mui/icons-material";
 import {
 	Grid,
 	IconButton,
@@ -6,15 +12,9 @@ import {
 	Menu,
 	MenuItem,
 } from "@mui/material";
-import { useState, MouseEvent } from "react";
+import { LeaveBarChart, LeaveDonutChart } from "components/analytics";
 import { useFetch } from "hooks";
-import {
-	ContentPasteGo,
-	Pending,
-	MoreVert,
-	Sick,
-	Schedule,
-} from "@mui/icons-material";
+import { MouseEvent, useState } from "react";
 
 const LeaveDashboard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -26,29 +26,32 @@ const LeaveDashboard = () => {
 		setAnchorEl(null);
 	};
 
+	const { data: leaveData, isLoading } = useFetch<any>(
+		`leaves/dashboard/details`
+	);
+	// console.log(leaveData);
+
+	const monthWiseLeaveDetails = leaveData?.leaves?.monthWiseLeaveList;
+
 	const cards = [
 		{
 			id: 1,
 			icon: <ContentPasteGo fontSize="large" className="text-theme " />,
-			count: "10",
+			count: leaveData?.leaves?.totalLeaves
+				? leaveData?.leaves?.totalLeaves
+				: 0,
 			title: "Total Leaves",
 		},
 		{
 			id: 2,
 			icon: <Sick fontSize="large" className="text-theme " />,
-			count: "34",
+			count: leaveData?.leaves?.leaveTypesList[1]?._count,
 			title: "Sick Leave",
-		},
-		{
-			id: 3,
-			icon: <Schedule fontSize="large" className="text-theme " />,
-			count: "34",
-			title: "Paid Leave",
 		},
 		{
 			id: 4,
 			icon: <Pending fontSize="large" className="text-theme " />,
-			count: "34",
+			count: leaveData?.leaves?.leaveTypesList[0]?._count,
 			title: "Casual Leave",
 		},
 	];
@@ -59,7 +62,7 @@ const LeaveDashboard = () => {
 				<div className="w-3/4 px-4 ">
 					<Grid container spacing={2}>
 						{cards?.map((item) => (
-							<Grid key={item?.id} item lg={3}>
+							<Grid key={item?.id} item lg={4}>
 								<div className="border-2 border-b-theme hover:scale-105 transition duration-500 ease-in-out h-36 bg-white w-full p-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer">
 									<div className="flex justify-end">
 										<IconButton size="small" onClick={handleClick}>
@@ -96,33 +99,48 @@ const LeaveDashboard = () => {
 						))}
 					</Grid>
 				</div>
-				<div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col justify-center gap-3">
-					<div className="flex justify-around items-center gap-2 ">
-						<div className="border border-gray-400 px-4 py-6 rounded-xl cursor-pointer hover:scale-95 transition duration-200 ease-in-out eas">
-							<div className="flex justify-between items-center gap-3">
-								<span className="text-theme font-semibold">Today Present</span>
-								<span className="font-semibold text-emerald-600">+70%</span>
-							</div>
-							<LinearProgress variant="determinate" value={70} />
-						</div>
-						<div className="border border-gray-400 px-4 py-6 rounded-xl cursor-pointer hover:scale-95 transition duration-200 ease-in-out">
-							<div className="flex justify-between items-center gap-3">
-								<span className="text-theme font-semibold">Today Absent</span>
-								<span className="font-semibold text-emerald-600">+30%</span>
-							</div>
-							<LinearProgress variant="determinate" value={40} />
-						</div>
-					</div>
-				</div>
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 				<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="font-bold text-lg text-center">Leave Overview</p>
-					<LeaveBarChart type="bar" text="" />
+					<LeaveBarChart
+						series={[
+							{
+								name: "Sick Leave",
+								data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+							},
+
+							{
+								name: "Casual Leave",
+								data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+							},
+						]}
+						categories={[
+							"Feb",
+							"Mar",
+							"Apr",
+							"May",
+							"Jun",
+							"Jul",
+							"Aug",
+							"Sep",
+							"Oct",
+						]}
+						type="bar"
+						text=""
+					/>
 				</div>
 				<div className="col-span-12 w-full flex flex-col justify-center md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Leave Details</p>
-					<LeaveDonutChart text="" type="donut" />
+					<LeaveDonutChart
+						series={[
+							leaveData?.leaves?.leaveTypesList[1]?._count,
+							leaveData?.leaves?.leaveTypesList[0]?._count,
+						]}
+						text=""
+						type="donut"
+						labels={["Sick Leave", "Casual Leave"]}
+					/>
 				</div>
 			</div>
 		</>

@@ -5,29 +5,20 @@ const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 const LeaveBarChart = ({
 	type,
 	text = "",
+	series,
+	categories,
 }: {
 	type: "bar" | "area" | "line";
 	text?: string;
+	series?: any;
+	categories?: any;
 }) => {
 	const [monthlyData, setMonthlyData] = useState([]);
 
 	let mounted = false;
 
 	const options = {
-		series: [
-			{
-				name: "Sick Leave",
-				data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-			},
-			{
-				name: "Paid Leave",
-				data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-			},
-			{
-				name: "Casual Leave",
-				data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-			},
-		],
+		series,
 		chart: {
 			type: "bar",
 			height: 350,
@@ -48,17 +39,7 @@ const LeaveBarChart = ({
 			colors: ["transparent"],
 		},
 		xaxis: {
-			categories: [
-				"Feb",
-				"Mar",
-				"Apr",
-				"May",
-				"Jun",
-				"Jul",
-				"Aug",
-				"Sep",
-				"Oct",
-			],
+			categories,
 		},
 		yaxis: {
 			title: {
@@ -81,20 +62,7 @@ const LeaveBarChart = ({
 		<ApexCharts
 			height={"500"}
 			options={{
-				series: [
-					{
-						name: "Sick Leave",
-						data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-					},
-					{
-						name: "Paid Leave",
-						data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-					},
-					{
-						name: "Casual Leave",
-						data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-					},
-				],
+				series,
 				chart: {
 					type: "bar",
 					height: 350,
@@ -115,17 +83,7 @@ const LeaveBarChart = ({
 					colors: ["transparent"],
 				},
 				xaxis: {
-					categories: [
-						"Feb",
-						"Mar",
-						"Apr",
-						"May",
-						"Jun",
-						"Jul",
-						"Aug",
-						"Sep",
-						"Oct",
-					],
+					categories,
 				},
 				yaxis: {
 					title: {
