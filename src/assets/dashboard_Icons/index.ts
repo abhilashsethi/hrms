@@ -17,3 +17,7 @@ export { default as View } from "./view.png";
 export { default as TOTAL_LEAVES } from "./log-out.png";
 export { default as SICK_LEAVE } from "./prescription.png";
 export { default as CASUAL_LEAVE } from "./exit.png";
+export { default as PROJECT } from "./project.png";
+export { default as ON_GOING_PROJECT } from "./risk.png";
+export { default as COMPLETED_PROJECT } from "./complete.png";
+export { default as PENDING_PROJECT } from "./file.png";
