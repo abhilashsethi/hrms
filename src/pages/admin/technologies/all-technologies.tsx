@@ -1,8 +1,9 @@
 import { Add } from "@mui/icons-material";
-import { Button, Pagination, Stack } from "@mui/material";
+import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { TechnologyGrid, TechnologyTable } from "components/admin/Technology";
 import {
   AdminBreadcrumbs,
+  FiltersContainer,
   GridAndList,
   Loader,
   LoaderAnime,
@@ -14,6 +15,8 @@ import PanelLayout from "layouts/panel";
 import { useState } from "react";
 
 const AllTechnologies = () => {
+  const [userName, setUsername] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [isGrid, setIsGrid] = useState(true);
   const [isCreate, setIsCreate] = useState(false);
   const [pageNumber, setPageNumber] = useState<number | null>(1);
@@ -22,7 +25,11 @@ const AllTechnologies = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any[]>(`technologies?page=${pageNumber}&limit=8`);
+  } = useFetch<any[]>(
+    `technologies?page=${pageNumber}&limit=8${
+      userName ? `&name=${userName}` : ""
+    }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
+  );
   return (
     <PanelLayout title="All Technologies - HRMS Searchingyard">
       <CreateTechnology
@@ -33,7 +40,6 @@ const AllTechnologies = () => {
       <section className="px-8 py-4">
         <div className="lg:flex justify-between">
           <AdminBreadcrumbs links={links} />
-          {/* <HeadText title="ALL TECHNOLOGY" /> */}
           <div className="md:flex gap-4 items-center">
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             <Button
@@ -46,7 +52,39 @@ const AllTechnologies = () => {
             </Button>
           </div>
         </div>
-
+        <div>
+          <FiltersContainer
+            changes={() => {
+              setIsOrderBy(null);
+              setUsername(null);
+            }}
+          >
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <TextField
+                fullWidth
+                size="small"
+                id="name"
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Client Name"
+                name="name"
+              />
+              <TextField
+                fullWidth
+                select
+                label="Ascending/Descending"
+                size="small"
+                value={isOrderBy ? isOrderBy : ""}
+                onChange={(e) => setIsOrderBy(e?.target?.value)}
+              >
+                {short.map((option) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+          </FiltersContainer>
+        </div>
         {isGrid ? (
           <>
             {isLoading && <SkeletonLoader />}
@@ -89,4 +127,10 @@ const links = [
     page: "All Technology",
     link: "/admin/technologies/all-technologies",
   },
+];
+const short = [
+  { id: 1, value: "name:asc", name: "Name Ascending" },
+  { id: 2, value: "name:desc", name: "Name Descending" },
+  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
+  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
