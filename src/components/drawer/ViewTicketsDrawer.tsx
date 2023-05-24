@@ -1,27 +1,10 @@
-import {
-  AccountTreeRounded,
-  FreeBreakfast,
-  Receipt,
-  SupportAgent,
-} from "@mui/icons-material";
-import {
-  Avatar,
-  Card,
-  CircularProgress,
-  Container,
-  Drawer,
-  Modal,
-  Tooltip,
-} from "@mui/material";
-import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
+import { Receipt, SupportAgent } from "@mui/icons-material";
+import { Avatar, Card, Container, Drawer, Modal, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { Loader } from "components/core";
-import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import { User } from "types";
+import { useState } from "react";
 
 type Props = {
   open?: boolean | any;
@@ -53,9 +36,7 @@ const ViewTicketsDrawer = ({
   isLoading,
 }: Props) => {
   const [openInfoModal, setOpenInfoModal] = useState(false);
-  const handleInfoOpen = () => {
-    setOpenInfoModal(true);
-  };
+
   const handleInfoCloseModal = () => setOpenInfoModal(false);
   return (
     <>
@@ -100,7 +81,6 @@ const ViewTicketsDrawer = ({
                     >
                       <div className="absolute -top-4">
                         <Avatar
-                          onClick={() => handleInfoOpen()}
                           variant="rounded"
                           className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
                         >

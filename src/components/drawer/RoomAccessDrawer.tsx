@@ -41,7 +41,6 @@ const RoomAccessDrawer = ({ open, onClose, cardId, mutate }: Props) => {
   const { change } = useChange();
   const { data: accessData, isLoading } = useFetch<any>(`cards/${cardId}`);
   const classes = useStyles();
-  console.log(accessData);
   const [items, setItems] = useState<any>([]);
   useEffect(() => {
     let reqData: any = rooms?.map((item) => {

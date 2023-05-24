@@ -192,7 +192,7 @@ const ClientDetails = () => {
             </div>
           </div>
           <div>
-            <div className="px-2 w-full h-full">
+            <div className="w-full h-full">
               <ClientMeetings ticketsData={ticketsData} isLoading={isLoading} />
               <ClientProjects projectData={projectData} isLoading={isLoading} />
             </div>
