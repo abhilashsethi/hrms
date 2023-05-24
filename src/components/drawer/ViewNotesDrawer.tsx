@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 import { makeStyles } from "@material-ui/core";
+import { useRouter } from "next/router";
 
 type Props = {
 	open?: boolean | any;
@@ -60,6 +61,8 @@ const style = {
 };
 
 const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
+	// console.log(meetingDetails);
+	const router = useRouter();
 	const [openInfoModal, setOpenInfoModal] = useState(false);
 	const handleInfoOpen = () => {
 		setOpenInfoModal(true);
@@ -77,6 +80,40 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 	const classes = useStyles();
+
+	const { change } = useChange();
+	const handleDelete = (meetingId: string, noteId: any) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to delete!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then(async (result) => {
+			try {
+				if (result.isConfirmed) {
+					const response = await change(
+						`meetings/remove-notes/${router?.query?.id}/${meetingId}`,
+						{
+							method: "DELETE",
+							body: {
+								notes: [`${noteId}`],
+							},
+						}
+					);
+					if (response?.status !== 200) {
+						Swal.fire("Error", "Something went wrong!", "error");
+					}
+					Swal.fire("Success", "Deleted successfully!", "success");
+					mutate();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		});
+	};
 
 	return (
 		<>
@@ -103,7 +140,7 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 					// }}
 				>
 					{/* Document Modal  */}
-					<Modal
+					{/* <Modal
 						open={openInfoModal}
 						onClose={handleInfoCloseModal}
 						aria-labelledby="modal-modal-title"
@@ -121,7 +158,7 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 								title="Document Preview"
 							/>
 						</Card>
-					</Modal>
+					</Modal> */}
 					<div className="flex items-center justify-between pb-4">
 						<p className="text-lg font-bold text-theme">View All Notes</p>
 						<div className="flex ">
@@ -213,6 +250,16 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 														</div>
 													</div>
 												</Tooltip>
+											</div>
+											<div className="flex justify-end">
+												<button
+													className="bg-red-500 px-2 py-1 rounded-lg text-sm font-semibold text-white"
+													onClick={() =>
+														handleDelete(meetingDetails?.id, item?.id)
+													}
+												>
+													Delete
+												</button>
 											</div>
 										</div>
 									</div>

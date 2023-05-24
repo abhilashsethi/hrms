@@ -51,12 +51,12 @@ const AddMeetingNotes = ({ open, handleClose, details, mutate }: Props) => {
 
 		Swal.fire({
 			title: "Are you sure?",
-			text: "You want to update status?",
+			text: "You want to add Note ?",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
 			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, update!",
+			confirmButtonText: "Yes, Add",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				const url = await uploadFile(values?.link, `${Date.now()}`);
@@ -79,7 +79,8 @@ const AddMeetingNotes = ({ open, handleClose, details, mutate }: Props) => {
 					Swal.fire(`Error`, "Something went wrong!", "error");
 					return;
 				}
-				Swal.fire(`Success`, "Status updated successfully!!", "success");
+				Swal.fire(`Success`, "Note added successfully!!", "success");
+				handleClose();
 				return;
 			}
 		});
