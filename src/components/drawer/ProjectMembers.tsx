@@ -30,18 +30,11 @@ const members = {
 type Props = {
   open?: boolean | any;
   onClose: () => void;
-  projectId?: any;
   projectData?: Projects;
   mutate?: any;
 };
 
-const ProjectMembers = ({
-  open,
-  onClose,
-  projectId,
-  projectData,
-  mutate,
-}: Props) => {
+const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
   const { change } = useChange();
 
   const { data: employeesData } = useFetch<User[]>(`users`);

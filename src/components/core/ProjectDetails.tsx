@@ -44,7 +44,7 @@ const ProjectDetails = () => {
   const { data: projectData, mutate } = useFetch<Projects>(
     `projects/${router?.query?.id}`
   );
-  console.log(projectData);
+  // console.log(projectData);
 
   const shortCuts: shortCutTypes[] = [
     {
@@ -109,7 +109,6 @@ const ProjectDetails = () => {
         onClose={() => setIsDocuments(false)}
       />
       <ProjectMembers
-        projectId={router?.query?.id}
         projectData={projectData}
         open={isMembers}
         onClose={() => setIsMembers(false)}
