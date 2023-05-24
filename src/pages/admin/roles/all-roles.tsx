@@ -1,6 +1,18 @@
 import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
-import { Button, IconButton, Pagination, Stack } from "@mui/material";
-import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  Pagination,
+  Stack,
+  TextField,
+} from "@mui/material";
+import {
+  AdminBreadcrumbs,
+  FiltersContainer,
+  Loader,
+  LoaderAnime,
+} from "components/core";
 import { CreateRole } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -10,13 +22,19 @@ import { Role } from "types";
 const AllRoles = () => {
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [isGrid, setIsGrid] = useState(true);
+  const [userName, setUsername] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [isCreate, setIsCreate] = useState(false);
   const {
     data: roleData,
     mutate,
     isLoading,
     pagination,
-  } = useFetch<Role[]>(`roles?page=${pageNumber}&limit=8`);
+  } = useFetch<Role[]>(
+    `roles?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+      isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    }`
+  );
   return (
     <PanelLayout title="All Roles - Admin Panel">
       <section className="px-8 py-4">
@@ -59,7 +77,39 @@ const AllRoles = () => {
             </Button>
           </div>
         </div>
-
+        <div>
+          <FiltersContainer
+            changes={() => {
+              setIsOrderBy(null);
+              setUsername(null);
+            }}
+          >
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <TextField
+                fullWidth
+                size="small"
+                id="name"
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Client Name"
+                name="name"
+              />
+              <TextField
+                fullWidth
+                select
+                label="Ascending/Descending"
+                size="small"
+                value={isOrderBy ? isOrderBy : ""}
+                onChange={(e) => setIsOrderBy(e?.target?.value)}
+              >
+                {short.map((option) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+          </FiltersContainer>
+        </div>
         {isGrid ? (
           <>
             {isLoading && <Loader />}
@@ -102,4 +152,10 @@ const links = [
     page: "All Roles",
     link: "/admin/roles/all-roles",
   },
+];
+const short = [
+  { id: 1, value: "name:asc", name: "Name Ascending" },
+  { id: 2, value: "name:desc", name: "Name Descending" },
+  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
+  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
