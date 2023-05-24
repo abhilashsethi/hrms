@@ -20,7 +20,7 @@ const Meetings = () => {
 	const { data: meetingData, mutate } = useFetch<any>(
 		`meetings/dashboard/details`
 	);
-	console.log(meetingData?.Meetings?.totalMeetings);
+	console.log(meetingData);
 
 	const cards = [
 		{
@@ -66,7 +66,36 @@ const Meetings = () => {
 				<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 					<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
 						<p className="font-bold text-lg text-center">Meeting Overview</p>
-						<MeetingAnalytics text="" type="line" />
+						<MeetingAnalytics
+							series={[
+								{
+									name: "Upcoming Meetings",
+									type: "column",
+									data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+								},
+								{
+									name: "Completed Meetings",
+									type: "area",
+									data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+								},
+							]}
+							labels={[
+								"Jan",
+								"Feb",
+								"Mar",
+								"Apr",
+								"May",
+								"Jun",
+								"Jul",
+								"Aug",
+								"Sep",
+								"Oct",
+								"Nov",
+								"Dec",
+							]}
+							text=""
+							type="line"
+						/>
 					</div>
 					<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 						<p className="font-bold text-lg text-center">Meeting Details</p>
