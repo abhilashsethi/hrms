@@ -92,7 +92,13 @@ const AllClients = () => {
               </Link>
             </div>
           </div>
-          <FiltersContainer>
+          <FiltersContainer
+            changes={() => {
+              setUsername(null);
+              setIsOrderBy(null);
+              setIsIssue(null);
+            }}
+          >
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <TextField
                 fullWidth

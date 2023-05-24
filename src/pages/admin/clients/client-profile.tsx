@@ -19,7 +19,7 @@ const links = [
   { id: 1, page: "Clients", link: "/admin/clients" },
   {
     id: 2,
-    page: "Client Profile",
-    link: "/admin/clients/client-profile",
+    page: "All Client",
+    link: "/admin/clients/all-clients",
   },
 ];

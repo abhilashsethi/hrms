@@ -318,11 +318,18 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
             //   }
             // },
             async onRowDelete(oldData) {
-              const response = await change(`cards/${oldData.id}`, {
-                method: "DELETE",
-              });
-              mutate();
-              Swal.fire("Success", "Removed successfully!", "success");
+              try {
+                const response = await change(`cards/${oldData?.id}`, {
+                  method: "DELETE",
+                });
+                if (response?.status !== 200) {
+                  Swal.fire("Error", "Something went wrong!", "error");
+                }
+                mutate();
+                Swal.fire("Success", "Deleted successfully!", "success");
+              } catch (error) {
+                console.log(error);
+              }
             },
           }}
         />
