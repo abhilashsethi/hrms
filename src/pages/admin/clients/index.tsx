@@ -12,7 +12,6 @@ const index = () => {
     `clients/dashboard/details`
   );
 
-  console.log("clientData", clientData);
   return (
     <PanelLayout title="Clients Dashboard - SY HR MS">
       <div className="px-4 pt-4">

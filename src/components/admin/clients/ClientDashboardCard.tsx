@@ -15,7 +15,7 @@ const ClientDashboardCard = ({ cards }: Props) => {
       id: 2,
       icon: <img src={BLOCK.src} className="w-16" alt="" />,
       count: cards?.clients?.blockedClients,
-      title: "Female",
+      title: "Total Blocked Client",
       color: "bg-gradient-to-br from-green-500 to-emerald-400",
     },
     {
@@ -40,11 +40,9 @@ const ClientDashboardCard = ({ cards }: Props) => {
         {cardsData?.map((data: any, id: any) => (
           <div
             key={id}
-            className={`hover:scale-105 grid justify-center justify-items-center cursor-pointer transition duration-500 ease-in-out w-full tracking-wide bg-gradient-to-br from-blue-600 to-cyan-400 shadow-lg rounded-xl p-4 h-36 `}
+            className={`hover:scale-105 grid justify-center justify-items-center cursor-pointer transition duration-500 ease-in-out w-full tracking-wide ${data?.color} shadow-lg rounded-xl p-4 h-36 `}
           >
-            <div className="">
-              <img src={data?.icon} className="w-16" alt="" />
-            </div>
+            <div className="">{data?.icon}</div>
             <p className="text-lg font-medium text-white">{data?.count}</p>
             <p className="text-lg font-semibold text-white">{data?.title}</p>
           </div>

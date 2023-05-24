@@ -4,7 +4,6 @@ interface Props {
   cards?: any;
 }
 const ClientDashboardCharts = ({ cards }: Props) => {
-  console.log(cards);
   return (
     <div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
       <div className="col-span-12 pt-9 w-full bg-white gap-5 md:col-span-12 lg:col-span-8 !border-grey-500 rounded-xl !shadow-xl">
@@ -13,8 +12,8 @@ const ClientDashboardCharts = ({ cards }: Props) => {
         <ClientBarGraph
           labels={
             cards?.clients?.countryWiseClientList?.length
-              ? cards?.clients?.countryWiseClientList?.map(
-                  (item: any) => item?._count
+              ? cards?.clients?.countryWiseClientList?.map((item: any) =>
+                  item?.country ? item?.country : "Not Added"
                 )
               : []
           }
@@ -33,15 +32,15 @@ const ClientDashboardCharts = ({ cards }: Props) => {
         <p className="text-center text-lg font-bold">Country Strength</p>
         <ClientLineCharts
           labels={
-            cards?.clients?.countryWiseClientList?.length
-              ? cards?.clients?.countryWiseClientList?.map(
-                  (item: any) => item?._count
+            cards?.clients?.genderWiseClientCount?.length
+              ? cards?.clients?.genderWiseClientCount?.map((item: any) =>
+                  item?.gender ? item?.gender : "Not Added"
                 )
               : []
           }
           series={
-            cards?.clients?.countryWiseClientList?.length
-              ? cards?.clients?.countryWiseClientList?.map(
+            cards?.clients?.genderWiseClientCount?.length
+              ? cards?.clients?.genderWiseClientCount?.map(
                   (item: any) => item?._count
                 )
               : []
