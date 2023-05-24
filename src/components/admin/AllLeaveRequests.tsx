@@ -47,7 +47,7 @@ const AllLeaveRequests = () => {
             : leaveData?.map((_: any, i: number) => ({
                 ..._,
                 sl: i + 1,
-                total: _?.leavesData?.total,
+                total: 12,
                 accepted: _?.leavesData?.totalAccepted,
                 rejected: _?.leavesData?.totalAccepted,
                 carryover: _?.leavesData?.carryOver,
