@@ -90,7 +90,7 @@ const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
                 <span className="text-sm flex flex-col">
                   <span className="font-semibold">Industry</span>
                   <span className="">
-                    {item?.industry ? item?.indutry : "Not specified"}
+                    {item?.industry ? item?.industry : "Not specified"}
                   </span>
                 </span>
                 <span
@@ -109,7 +109,28 @@ const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
                   {item?.status}
                 </span>
               </div>
-              <ViewClient data={item} />
+              <div>
+                <h1 className="font-semibold text-sm">Client Information : </h1>
+                {item?.client ? (
+                  <div className="w-full border-2 mt-1 rounded-md p-3 flex gap-3 items-center">
+                    <PhotoViewer
+                      name={item?.client?.name}
+                      photo={item?.client?.photo}
+                      size="3rem"
+                    />
+                    <div>
+                      <h2 className="text-sm font-semibold">
+                        {item?.client?.name}
+                      </h2>
+                      <h2 className="font-light text-sm">
+                        {item?.client?.email}
+                      </h2>
+                    </div>
+                  </div>
+                ) : (
+                  <span className="py-4 text-sm">Not specified</span>
+                )}
+              </div>
               <div className="grid grid-cols-2 w-4/5 gap-1 text-sm py-2">
                 <div className="font-semibold">Created :</div>
                 <div className="flex gap-2 items-center">
@@ -167,7 +188,25 @@ const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
                   </div>
                 )}
               </div>
-              <TechnologySection techIds={item?.technologyIds} />
+              <div>
+                <span className="text-sm font-semibold">Technology Used:</span>
+                {!item?.technologies?.length ? (
+                  <p>Not specified</p>
+                ) : (
+                  <div className="py-4 flex gap-3 flex-wrap">
+                    {item?.technologies?.map((data: any) => (
+                      <Tooltip title={data?.name}>
+                        <img
+                          key={data?.id}
+                          className="h-7 object-contain"
+                          src={data?.logo}
+                          alt="photo"
+                        />
+                      </Tooltip>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -362,64 +401,6 @@ const SkeletonsStructure = () => {
   );
 };
 
-const ViewClient = ({ data }: any) => {
-  const { data: clientData } = useFetch<any>(`clients/${data?.clientId}`);
-  return (
-    <div>
-      <h1 className="font-semibold text-sm">Client Information : </h1>
-      {data?.client ? (
-        <div className="w-full border-2 mt-1 rounded-md p-3 flex gap-3 items-center">
-          <PhotoViewer
-            name={clientData?.name}
-            photo={clientData?.photo}
-            size="3rem"
-          />
-          <div>
-            <h2 className="text-sm font-semibold">{clientData?.name}</h2>
-            <h2 className="font-light text-sm">{clientData?.email}</h2>
-          </div>
-        </div>
-      ) : (
-        <span className="py-4 text-sm">Not specified</span>
-      )}
-    </div>
-  );
-};
-
 interface techSectionProps {
   techIds?: string[];
 }
-
-const TechnologySection = ({ techIds }: techSectionProps) => {
-  const [techStacks, setTechStacks] = useState<any>([]);
-  const { data: techData } = useFetch<any>(`technologies`);
-  useEffect(() => {
-    let reqData = techData?.filter((item: any) => {
-      return techIds?.includes(item?.id);
-    });
-    setTechStacks(reqData);
-  }, [techData]);
-  console.log(techStacks);
-
-  return (
-    <div>
-      <span className="text-sm font-semibold">Technology Used:</span>
-      {!techStacks?.length ? (
-        <p>Not specified</p>
-      ) : (
-        <div className="py-4 flex gap-3 flex-wrap">
-          {techStacks?.map((item: any) => (
-            <Tooltip title={item?.name}>
-              <img
-                key={item?.id}
-                className="h-7 object-contain"
-                src={item?.logo}
-                alt="photo"
-              />
-            </Tooltip>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};

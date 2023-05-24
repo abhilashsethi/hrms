@@ -43,11 +43,30 @@ const UpdateDepartment = ({ open, handleClose, mutate, techData }: Props) => {
     );
     const filename = uniId.replace(".png", "");
     try {
-      const url = await uploadFile(values?.logo, `${filename}.png`);
-      console.log(values?.logo);
+      if (techData?.logo !== values?.logo) {
+        const url = await uploadFile(values?.logo, `${filename}.png`);
+        const res = await change(`technologies/${techData?.id}`, {
+          method: "PATCH",
+          body: { logo: url, name: values?.name },
+        });
+        setLoading(false);
+        if (res?.status !== 200) {
+          Swal.fire(
+            "Error",
+            res?.results?.msg || "Something went wrong!",
+            "error"
+          );
+          setLoading(false);
+          return;
+        }
+        mutate();
+        handleClose();
+        Swal.fire(`Success`, `Updated Successfully!`, `success`);
+        return;
+      }
       const res = await change(`technologies/${techData?.id}`, {
         method: "PATCH",
-        body: { logo: url, name: name },
+        body: { name: values?.name },
       });
       setLoading(false);
       if (res?.status !== 200) {

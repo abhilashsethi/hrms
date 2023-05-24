@@ -37,9 +37,10 @@ const AllProjects = () => {
     `projects?page=${pageNumber}&limit=6${
       projectName ? `&name=${projectName}` : ""
     }${status ? `&projectStatus=${status}` : ""}${
-      bugStatus ? `&bugStatus=${bugStatus}` : ""
+      bugStatus ? `&bugs=${bugStatus}` : ""
     }`
   );
+  console.log(projectData);
   return (
     <PanelLayout title="All Projects - SY HR MS">
       <section className="md:px-8 px-3">
@@ -98,7 +99,7 @@ const AllProjects = () => {
               select
               label="Bug status"
               size="small"
-              value={isBug}
+              value={bugStatus}
               onChange={(e: any) => setBugStatus(e.target?.value)}
             >
               {bugSelects?.map((option: any) => (
@@ -156,7 +157,7 @@ const statuses = [
   { id: 2, value: "Ongoing", label: "Ongoing" },
   { id: 3, value: "Onhold", label: "Onhold" },
   { id: 4, value: "Pending", label: "Pending" },
-  { id: 4, value: "", label: "All" },
+  { id: 4, value: null, label: "All" },
 ];
 const bugSelects = [
   { id: 1, value: "Open", label: "Open" },
@@ -164,7 +165,7 @@ const bugSelects = [
   { id: 3, value: "Ongoing", label: "Ongoing" },
   { id: 4, value: "Fixed", label: "Fixed" },
   { id: 5, value: "Reviewed", label: "Reviewed" },
-  { id: 6, value: "", label: "All" },
+  { id: 6, value: null, label: "All" },
 ];
 
 const links = [
