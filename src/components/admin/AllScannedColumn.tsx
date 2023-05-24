@@ -185,7 +185,7 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
             },
             {
               title: "Unblock / Block",
-              field: "createdAt",
+              field: "isBlocked",
               align: "center",
               render: (data) => (
                 <IOSSwitch
@@ -198,6 +198,7 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
             {
               title: "Assign / Remove",
               field: "employeeId",
+              export: false,
               render: (data) => (
                 <>
                   {data?.userId || data?.guestId ? (

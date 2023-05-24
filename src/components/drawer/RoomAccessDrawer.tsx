@@ -78,8 +78,8 @@ const RoomAccessDrawer = ({ open, onClose, cardId, mutate }: Props) => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, change!",
       }).then(async (result) => {
-        setLoading(true);
         if (result.isConfirmed) {
+          setLoading(true);
           const res = await change(`cards/${cardId}`, {
             method: "PATCH",
             body: { accessTo: reqData?.map((data: any) => data?.value) },

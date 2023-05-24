@@ -32,7 +32,6 @@ const Cards = () => {
       userType ? `&assignedTo=${userType}` : ""
     }`
   );
-  console.log(cardData);
   return (
     <PanelLayout title="Scanned Cards - SY HR MS">
       <section className="md:px-8 px-2 md:py-4 py-2">
