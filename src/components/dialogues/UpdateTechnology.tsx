@@ -44,7 +44,7 @@ const UpdateDepartment = ({ open, handleClose, mutate, techData }: Props) => {
     const filename = uniId.replace(".png", "");
     try {
       if (techData?.logo !== values?.logo) {
-        const url = await uploadFile(values?.logo, `${filename}.png`);
+        const url = await uploadFile(values?.logo, `${filename}`);
         const res = await change(`technologies/${techData?.id}`, {
           method: "PATCH",
           body: { logo: url, name: values?.name },
