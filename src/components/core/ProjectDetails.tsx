@@ -57,6 +57,7 @@ const ProjectDetails = () => {
       id: 2,
       icon: <Forum />,
       title: "Chats",
+      onClick: () => router?.push(`/admin/projects/project-chats`),
     },
     {
       id: 3,
