@@ -1,21 +1,19 @@
 import { Check, Close } from "@mui/icons-material";
 import {
 	Button,
+	CircularProgress,
 	Dialog,
 	DialogContent,
 	DialogTitle,
 	IconButton,
 	TextField,
 	Tooltip,
-	CircularProgress,
 } from "@mui/material";
-import { FileUpload } from "components/core";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Form, Formik } from "formik";
 import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
 import { uploadFile } from "utils";
 import * as Yup from "yup";
 
@@ -23,16 +21,13 @@ interface Props {
 	open: boolean;
 	handleClose: any;
 	details?: any;
-	// mutate?: any;
 }
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required("Document title is Required"),
 	link: Yup.string().required("Choose Document"),
-	// docType: Yup.string().required("Note Doc type is required"),
 });
 const AddDocumentDialogue = ({ open, handleClose }: Props) => {
-	// console.log(details);
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState("one");
@@ -40,19 +35,14 @@ const AddDocumentDialogue = ({ open, handleClose }: Props) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
 	const { user } = useAuth();
-	// console.log(user);
-	// console.log(details);
 	const initialValues = {
 		title: "",
 		link: null,
-		// docType: "",
 	};
 
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
-		// console.log(values);
 		const dtype = values?.link?.type.split("/")[1];
-		// console.log(dtype);
 		Swal.fire({
 			title: "Are you sure?",
 			text: "You want to add documents?",
@@ -64,8 +54,6 @@ const AddDocumentDialogue = ({ open, handleClose }: Props) => {
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				const url = await uploadFile(values?.link, `${Date.now()}.${dtype}`);
-				// console.log(url);
-
 				const res = await change(`users/add-doc/${router?.query?.id}`, {
 					method: "POST",
 					body: {
@@ -156,13 +144,6 @@ const AddDocumentDialogue = ({ open, handleClose }: Props) => {
 										setFieldValue("link", e?.target?.files[0])
 									}
 								/>
-								{/* {values.link && (
-									<img
-										className="w-24 object-contain"
-										src={URL.createObjectURL(values.link)}
-										alt="Preview"
-									/>
-								)} */}
 
 								<div className="flex justify-center mt-4">
 									<Button
