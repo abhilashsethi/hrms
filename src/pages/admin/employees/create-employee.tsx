@@ -16,7 +16,6 @@ import PanelLayout from "layouts/panel";
 import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
 import * as Yup from "yup";
 const initialValues = {
   name: "",
@@ -30,8 +29,6 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  roleId: Yup.string().required("Employee Id is required!"),
-  departmentId: Yup.string().required("Department Id is required!"),
   employeeID: Yup.string().required("Employee Id is required!"),
   name: Yup.string()
     .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
@@ -66,11 +63,18 @@ const CreateEmployee = () => {
   const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
+    const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
+      if (!key.includes("confirmPassword") && value) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
     setLoading(true);
     try {
       delete values.confirmPassword;
       const res = await change(`users`, {
-        body: values,
+        body: reqValue,
       });
       setLoading(false);
       if (res?.status !== 201) {
@@ -118,7 +122,7 @@ const CreateEmployee = () => {
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="md:py-2 py-1">
                         <InputLabel htmlFor="name">
-                          First Name <span className="text-red-600">*</span>
+                          Name <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
@@ -279,7 +283,7 @@ const CreateEmployee = () => {
                         fullWidth
                         size="small"
                         id="roleId"
-                        options={roleData?.roles || []}
+                        options={roleData || []}
                         onChange={(e: any, r: any) => {
                           setFieldValue("roleId", r?.id);
                         }}
@@ -287,7 +291,7 @@ const CreateEmployee = () => {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label="Employee Name"
+                            label="Role"
                             placeholder="Assigned"
                             onBlur={handleBlur}
                             error={touched.roleId && !!errors.roleId}
@@ -306,7 +310,7 @@ const CreateEmployee = () => {
                         fullWidth
                         size="small"
                         id="departmentId"
-                        options={departmentsData?.departments || []}
+                        options={departmentsData || []}
                         onChange={(e: any, r: any) => {
                           setFieldValue("departmentId", r?.id);
                         }}
