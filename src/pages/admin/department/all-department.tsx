@@ -37,7 +37,7 @@ const AllDepartment = () => {
     pagination,
   } = useFetch<Role[]>(
     `departments?page=${pageNumber}&limit=8${
-      userName ? `&name=${userName}` : ""
+      userName ? `&contains=${userName}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
 

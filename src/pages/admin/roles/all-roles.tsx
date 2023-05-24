@@ -31,9 +31,9 @@ const AllRoles = () => {
     isLoading,
     pagination,
   } = useFetch<Role[]>(
-    `roles?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
-      isOrderBy ? `&orderBy=${isOrderBy}` : ""
-    }`
+    `roles?page=${pageNumber}&limit=8${
+      userName ? `&contains=${userName}` : ""
+    }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
     <PanelLayout title="All Roles - Admin Panel">
