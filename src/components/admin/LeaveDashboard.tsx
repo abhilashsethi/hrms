@@ -99,24 +99,6 @@ const LeaveDashboard = () => {
 						))}
 					</Grid>
 				</div>
-				<div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col justify-center gap-3">
-					<div className="flex justify-around items-center gap-2 ">
-						<div className="border border-gray-400 px-4 py-6 rounded-xl cursor-pointer hover:scale-95 transition duration-200 ease-in-out eas">
-							<div className="flex justify-between items-center gap-3">
-								<span className="text-theme font-semibold">Today Present</span>
-								<span className="font-semibold text-emerald-600">+70%</span>
-							</div>
-							<LinearProgress variant="determinate" value={70} />
-						</div>
-						<div className="border border-gray-400 px-4 py-6 rounded-xl cursor-pointer hover:scale-95 transition duration-200 ease-in-out">
-							<div className="flex justify-between items-center gap-3">
-								<span className="text-theme font-semibold">Today Absent</span>
-								<span className="font-semibold text-emerald-600">+30%</span>
-							</div>
-							<LinearProgress variant="determinate" value={40} />
-						</div>
-					</div>
-				</div>
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 				<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
