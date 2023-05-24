@@ -143,23 +143,29 @@ const GuestProfile = () => {
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Room Access" />
                 </div>
-                {guestData?.card[0]?.accessTo?.map((item: any, i: any) => (
-                  <div
-                    key={i}
-                    className="grid grid-cols-3 gap-2 items-center font-medium py-1.5"
-                  >
-                    <div className="col-span-2">
-                      <p className="text-sm text-gray-600">{item} :</p>
-                    </div>
-                    <div className="">
-                      <ReverseIOSSwitch
-                        disabled
-                        checked
-                        // onChange={(e) => handleBlock(e, item?.id)}
-                      />
-                    </div>
-                  </div>
-                ))}
+                {guestData?.card[0]?.accessTo?.length ? (
+                  <>
+                    {guestData?.card[0]?.accessTo?.map((item: any, i: any) => (
+                      <div
+                        key={i}
+                        className="grid grid-cols-3 gap-2 items-center font-medium py-1.5"
+                      >
+                        <div className="col-span-2">
+                          <p className="text-sm text-gray-600">{item} :</p>
+                        </div>
+                        <div className="">
+                          <ReverseIOSSwitch
+                            disabled
+                            checked
+                            // onChange={(e) => handleBlock(e, item?.id)}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <p className="py-4 px-4">Not Granted</p>
+                )}
               </section>
             </div>
           </div>
@@ -179,6 +185,6 @@ const GuestProfile = () => {
 
 export default GuestProfile;
 const links = [
-  { id: 1, page: "All Guests", link: "/admin/guests/all-guests" },
-  { id: 2, page: "Guest Profile", link: "/admin/guests/guest-profile" },
+  { id: 1, page: "Guests", link: "/admin/guests" },
+  { id: 2, page: "All Guests", link: "/admin/guests/all-guests" },
 ];

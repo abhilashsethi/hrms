@@ -164,9 +164,9 @@ const CardContent = ({ item, mutate }: any) => {
             <p className="font-semibold">Valid From</p>
             <p className="text-gray-500 font-medium">
               {item?.card.length ? (
-                moment(item?.card[0]?.validFrom).format("lll")
+                moment(item?.card[0]?.validFrom).format("ll")
               ) : (
-                <p className="py-2">Not Granted</p>
+                <p className="text-gray-500 font-medium">Not Granted</p>
               )}
             </p>
           </div>
@@ -174,9 +174,9 @@ const CardContent = ({ item, mutate }: any) => {
             <p className="font-semibold">Valid Till</p>
             <p className="text-gray-500 font-medium">
               {item?.card.length ? (
-                moment(item?.card[0]?.validTill).format("lll")
+                moment(item?.card[0]?.validTill).format("ll")
               ) : (
-                <p className="py-2">Not Granted</p>
+                <p className="text-gray-500 font-medium">Not Granted</p>
               )}
             </p>
           </div>
