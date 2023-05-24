@@ -66,7 +66,7 @@ const ProjectBugs = () => {
             key={item?.id}
             item={item}
             mutate={mutate}
-            projectId={item?.id}
+            projectId={projectData?.id}
           />
         ))}
       </div>
@@ -115,10 +115,10 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
     }).then(async (result) => {
       try {
         if (result.isConfirmed) {
-          const response = await change(`projects/remove-tasks/${projectId}`, {
+          const response = await change(`projects/remove-bugs/${projectId}`, {
             method: "DELETE",
             body: {
-              tasks: [`${id}`],
+              bugs: [`${id}`],
             },
           });
           if (response?.status !== 200) {

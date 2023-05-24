@@ -140,6 +140,7 @@ const CardComponent = ({ item, mutate }: Props) => {
       }
     });
   };
+
   return (
     <>
       <RoomAccessDrawer
@@ -199,7 +200,9 @@ const CardComponent = ({ item, mutate }: Props) => {
                         {item?.user?.email}
                       </p>
                       <p className="text-xs text-blue-900">
-                        {item?.user?.bloodGroup}
+                        {/* {item?.user?.bloodGroup} */}
+                        {item?.user?.bloodGroup &&
+                          SwitchBloodgroup(item?.user?.bloodGroup)}
                       </p>
                     </div>
                   </div>
@@ -399,3 +402,50 @@ interface Props {
   id?: string;
   data?: Card[];
 }
+
+const SwitchBloodgroup = (bloodGroup: any) => {
+  // const renderStatus = (bloodGroup: any) => {
+  //   switch (bloodGroup) {
+  //     case "A_Positive":
+  //       return "A+";
+  //     case "A_Negative":
+  //       return "A-";
+  //     case "B_Negative":
+  //       return "B-";
+  //     case "B_Positive":
+  //       return "B+";
+  //     case "AB_Positive":
+  //       return "AB+";
+  //     case "AB_Negative":
+  //       return "AB-";
+  //     case "O_Positive":
+  //       return "O+";
+  //     case "O_Negative":
+  //       return "O-";
+  //     default:
+  //       return "";
+  //   }
+  // };
+  return (
+    <p>
+      Blood Group :{` `}
+      {bloodGroup === "A_Positive"
+        ? "A+"
+        : bloodGroup === "A_Negative"
+        ? "A-"
+        : bloodGroup === "B_Negative"
+        ? "B-"
+        : bloodGroup === "B_Positive"
+        ? "B+"
+        : bloodGroup === "AB_Positive"
+        ? "AB+"
+        : bloodGroup === "AB_Negative"
+        ? "AB-"
+        : bloodGroup === "O_Positive"
+        ? "O+"
+        : bloodGroup === "O_Negative"
+        ? "0-"
+        : ""}
+    </p>
+  );
+};

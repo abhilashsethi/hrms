@@ -1,20 +1,63 @@
-import { Add, CheckBox, Edit } from "@mui/icons-material";
-import { Avatar, AvatarGroup, Button, Checkbox } from "@mui/material";
+import { Add, CheckBox, Delete, Edit } from "@mui/icons-material";
+import {
+  Avatar,
+  AvatarGroup,
+  Button,
+  Checkbox,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
-import { ProjectCreateTask } from "components/dialogues";
-import { useFetch } from "hooks";
+import { ProjectCreateTask, UpdateTaskStatus } from "components/dialogues";
+import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const ProjectTasks = () => {
+  const { change } = useChange();
   const [isCreate, setIsCreate] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
   const router = useRouter();
   const {
     data: projectData,
     mutate,
     isLoading,
   } = useFetch<any>(`projects/${router?.query?.id}`);
+
+  const handleDelete = (id: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      try {
+        if (result.isConfirmed) {
+          const response = await change(
+            `projects/remove-tasks/${projectData?.id}`,
+            {
+              method: "DELETE",
+              body: {
+                tasks: [`${id}`],
+              },
+            }
+          );
+          if (response?.status !== 200) {
+            Swal.fire("Error", "Something went wrong!", "error");
+          }
+          mutate();
+          Swal.fire("Success", "Deleted successfully!", "success");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
   return (
     <>
       <ProjectCreateTask
@@ -48,6 +91,12 @@ const ProjectTasks = () => {
                 : "bg-cyan-50"
             }`}
           >
+            <UpdateTaskStatus
+              handleClose={() => setIsUpdate(false)}
+              id={item?.id}
+              mutate={mutate}
+              open={isUpdate}
+            />
             <div className="flex justify-end text-xs">
               <p>{moment(item?.createdAt).format("ll")}</p>
             </div>
@@ -73,10 +122,22 @@ const ProjectTasks = () => {
             <h2 className="mt-2 text-sm font-semibold text-slate-700">
               Assigned To :
             </h2>
-            <div className="flex justify-start mt-4">
+            <div className="flex justify-between mt-4">
               <AvatarGroup className="!cursor-pointer" max={4}>
                 <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
               </AvatarGroup>
+              <div className="flex gap-2 items-center">
+                <Tooltip title="Edit">
+                  <IconButton onClick={() => setIsUpdate(true)}>
+                    <Edit />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete">
+                  <IconButton onClick={() => handleDelete(item?.id)}>
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </div>
             </div>
           </div>
         ))}

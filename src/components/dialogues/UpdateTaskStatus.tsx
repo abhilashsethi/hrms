@@ -18,6 +18,8 @@ import * as Yup from "yup";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
+import { uploadFile } from "utils";
+import { Projects } from "types";
 
 interface Props {
   open?: any;
@@ -27,7 +29,7 @@ interface Props {
 }
 const validationSchema = Yup.object().shape({});
 
-const UpdateBugStatus = ({ open, handleClose, mutate, id }: Props) => {
+const UpdateTaskStatus = ({ open, handleClose, mutate, id }: Props) => {
   const [bugData, setBugData] = useState<any>({});
   const router = useRouter();
   const { data: projectData } = useFetch<any>(`projects/${router?.query?.id}`);
@@ -39,14 +41,14 @@ const UpdateBugStatus = ({ open, handleClose, mutate, id }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { data: employData } = useFetch<any>(`projects/${id}`);
+  console.log(employData);
   const initialValues = {
     status: `${bugData?.status ? bugData?.status : ""}`,
   };
   const handleSubmit = async (values: any) => {
-    const dtype = values?.pictures && values?.pictures?.type.split("/")[1];
     setLoading(true);
     try {
-      const res = await change(`projects/update-bug/${id}`, {
+      const res = await change(`projects/update-task/${id}`, {
         method: "PATCH",
         body: {
           status: values?.status,
@@ -160,12 +162,11 @@ const UpdateBugStatus = ({ open, handleClose, mutate, id }: Props) => {
   );
 };
 
-export default UpdateBugStatus;
+export default UpdateTaskStatus;
 
 const statuses = [
   { id: 1, value: "Open" },
   { id: 2, value: "Pending" },
   { id: 3, value: "Ongoing" },
-  { id: 4, value: "Fixed" },
-  { id: 4, value: "Reviewed" },
+  { id: 4, value: "Completed" },
 ];
