@@ -1,10 +1,22 @@
 import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
-import { Button, IconButton, Pagination, Stack } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  Pagination,
+  Stack,
+  TextField,
+} from "@mui/material";
 import {
   AllDepartmentColumn,
   AllDepartmentGrid,
 } from "components/admin/department";
-import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
+import {
+  AdminBreadcrumbs,
+  FiltersContainer,
+  Loader,
+  LoaderAnime,
+} from "components/core";
 import { CreateDepartment } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -15,13 +27,19 @@ const AllDepartment = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [isCreate, setIsCreate] = useState(false);
   const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [userName, setUsername] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
 
   const {
     data: departmentData,
     mutate,
     isLoading,
     pagination,
-  } = useFetch<Role[]>(`departments?page=${pageNumber}&limit=8`);
+  } = useFetch<Role[]>(
+    `departments?page=${pageNumber}&limit=8${
+      userName ? `&name=${userName}` : ""
+    }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
+  );
 
   return (
     <PanelLayout title="All Departments - Admin Panel">
@@ -65,7 +83,39 @@ const AllDepartment = () => {
             </Button>
           </div>
         </div>
-
+        <div>
+          <FiltersContainer
+            changes={() => {
+              setIsOrderBy(null);
+              setUsername(null);
+            }}
+          >
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <TextField
+                fullWidth
+                size="small"
+                id="name"
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Client Name"
+                name="name"
+              />
+              <TextField
+                fullWidth
+                select
+                label="Ascending/Descending"
+                size="small"
+                value={isOrderBy ? isOrderBy : ""}
+                onChange={(e) => setIsOrderBy(e?.target?.value)}
+              >
+                {short.map((option) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+          </FiltersContainer>
+        </div>
         {isGrid ? (
           <>
             {isLoading && <Loader />}
@@ -110,4 +160,10 @@ const links = [
     page: "All Department",
     link: "/admin/department/all-department",
   },
+];
+const short = [
+  { id: 1, value: "name:asc", name: "Name Ascending" },
+  { id: 2, value: "name:desc", name: "Name Descending" },
+  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
+  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
