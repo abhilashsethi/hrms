@@ -15,7 +15,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { EmployeesListDrawer, PhotoViewer } from "components/core";
+import { PhotoViewer } from "components/core";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -30,24 +30,16 @@ const members = {
 type Props = {
   open?: boolean | any;
   onClose: () => void;
-  projectId?: any;
-  projectData?: Projects;
+  projectData?: Projects | null;
   mutate?: any;
 };
 
-const ProjectMembers = ({
-  open,
-  onClose,
-  projectId,
-  projectData,
-  mutate,
-}: Props) => {
+const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
   const { change } = useChange();
 
   const { data: employeesData } = useFetch<User[]>(`users`);
   const [isManager, setIsManager] = useState(false);
   const [isMembers, setIsMembers] = useState(false);
-  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
   const removeManager = () => {
@@ -164,15 +156,19 @@ const ProjectMembers = ({
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
         <Container
-          style={{
-            width: "30vw",
-            marginTop: "3.5vh",
-          }}
-        >
+        className="md:w-[30vw] mt-[3.5vh]"
+        > 
+         <IconButton
+            className="flex justify-end w-full"
+            onClick={() => onClose()}
+          >
+            <Close fontSize="small" className="text-red-500 block md:hidden" />
+          </IconButton>
           <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
             <PeopleRounded />
             Project Members
           </p>
+          
           <div>
             <h4 className="font-semibold">Project Name : </h4>
             <h4 className="text-theme font-semibold tracking-wide">
@@ -222,7 +218,7 @@ const ProjectMembers = ({
                 )}
               </Formik>
             )}
-            {projectData?.managerId ? (
+            {projectData?.manager ? (
               <div className="h-32 w-32 px-4 relative mt-3 rounded-md flex flex-col gap-2 items-center justify-center shadow-jubilation">
                 <div
                   onClick={() => removeManager()}
@@ -258,7 +254,7 @@ const ProjectMembers = ({
             )}
             <div className="flex justify-between">
               <h4 className="font-semibold mt-4">Team Members : </h4>
-              {projectData?.involvedMemberIds?.length ? (
+              {projectData?.involvedMembers?.length ? (
                 <Tooltip title="Add Members">
                   <IconButton
                     onClick={() => setIsMembers((prev) => !prev)}
@@ -315,7 +311,7 @@ const ProjectMembers = ({
                 </Formik>
               </div>
             )}
-            {projectData?.involvedMemberIds?.length ? (
+            {projectData?.involvedMembers?.length ? (
               <div className="mt-4 flex flex-col gap-2">
                 {projectData?.involvedMembers?.map((item) => (
                   <div

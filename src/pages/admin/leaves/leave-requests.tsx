@@ -34,7 +34,6 @@ const LeaveRequests = () => {
       leaveStatus ? `&status=${leaveStatus}` : ""
     }${leaveType ? `&type=${leaveType}` : ""}`
   );
-  // page=${pageNumber}&limit=8
   console.log(leavesData);
   return (
     <PanelLayout title="Leaves - Admin Panel">

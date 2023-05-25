@@ -1,9 +1,15 @@
 import { Avatar, AvatarGroup } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
+import { useFetch } from "hooks";
 import moment from "moment";
 import React from "react";
+import { Tickets } from "types";
 
 const ProjectSupport = () => {
+  const { data: ticketsData, mutate } = useFetch<Tickets>(
+    `tickets`
+  );
+  console.log(ticketsData);
   return (
     <section className="">
       <div className="w-full rounded-md p-6 shadow-jubilation">

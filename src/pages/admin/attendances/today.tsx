@@ -38,8 +38,8 @@ const TodayAttendance = () => {
   const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [searchedUser, setSearchedUser] = useState<any>([]);
   const [status, setStatus] = useState("all");
-  const [order, setOrder] = useState("all");
-  const [userName, setUsername] = useState("");
+  const [order, setOrder] = useState<string | null>(null);
+  const [userName, setUsername] = useState<string | null>(null);
   const [empId, setEmpId] = useState<string | null>(null);
   const dateRef = useRef<any>();
   function handleDateChange(date: any) {
@@ -135,7 +135,13 @@ const TodayAttendance = () => {
             ))}
           </div>
         </div>
-        <FiltersContainer>
+        <FiltersContainer
+          changes={() => {
+            setEmpId(null);
+            setUsername(null);
+            setOrder(null);
+          }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 mb-4">
             <TextField
               fullWidth
@@ -230,9 +236,8 @@ const selects = [
   { id: 3, value: "all", label: "All" },
 ];
 const orderBy = [
-  { id: 1, value: "createdAt:asc", name: "New" },
-  { id: 2, value: "createdAt:desc", name: "Old" },
-  { id: 3, value: "", name: "None" },
+  { id: 1, value: "createdAt:asc", name: "Created Ascending" },
+  { id: 2, value: "createdAt:desc", name: "Created Descending" },
 ];
 const links = [
   { id: 1, page: "Attendances", link: "/admin/attendances" },
