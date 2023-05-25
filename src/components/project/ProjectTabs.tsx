@@ -1,4 +1,4 @@
-import React from "react";
+import { SyntheticEvent, useState } from "react";
 import {
   AssignmentTurnedIn,
   BugReport,
@@ -9,12 +9,14 @@ import { Box, Tab } from "@mui/material";
 import ProjectTasks from "./ProjectTasks";
 import ProjectSupport from "./ProjectSupport";
 import ProjectBugs from "./ProjectBugs";
+import { Projects } from "types";
 
 const ProjectTabs = () => {
-  const [value, setValue] = React.useState("1");
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const [value, setValue] = useState("1");
+  const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
   return (
     <div className="w-full border-2 mt-8 rounded-md">
       <div>

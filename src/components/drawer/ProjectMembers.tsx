@@ -15,7 +15,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { EmployeesListDrawer, PhotoViewer } from "components/core";
+import { PhotoViewer } from "components/core";
 import { useChange, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -40,7 +40,6 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
   const { data: employeesData } = useFetch<User[]>(`users`);
   const [isManager, setIsManager] = useState(false);
   const [isMembers, setIsMembers] = useState(false);
-  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
   const removeManager = () => {
@@ -158,11 +157,18 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
         <Container
         className="md:w-[30vw] mt-[3.5vh]"
-        >
+        > 
+         <IconButton
+            className="flex justify-end w-full"
+            onClick={() => onClose()}
+          >
+            <Close fontSize="small" className="text-red-500 block md:hidden" />
+          </IconButton>
           <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
             <PeopleRounded />
             Project Members
           </p>
+          
           <div>
             <h4 className="font-semibold">Project Name : </h4>
             <h4 className="text-theme font-semibold tracking-wide">
