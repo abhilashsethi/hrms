@@ -3,13 +3,13 @@ import { Loader, PhotoViewer } from "components/core";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { TicketsConversations, User } from "types";
+import { Tickets, User } from "types";
 import ClientChats from "./ClientChats";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { Send } from "@mui/icons-material";
 interface Props  {
-  ticketsData?: TicketsConversations[] | null;
+  ticketsData?: Tickets[] | null;
 }
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 

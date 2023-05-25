@@ -3,12 +3,12 @@ import { AdminBreadcrumbs } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
-import { TicketsConversations } from "types";
+import { Tickets } from "types";
 
 const ViewTicketDetails = () => {
   const router = useRouter();
-  const { data: ticketsData, mutate, isLoading } = useFetch<TicketsConversations[]>(
-    `ticket-conversations/${router?.query?.id}`
+  const { data: ticketsData, mutate, isLoading } = useFetch<Tickets[]>(
+    `tickets/${router?.query?.id}`
   );
   console.log("ticketsData",ticketsData);
   return (
