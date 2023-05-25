@@ -141,6 +141,7 @@ export type Tickets = {
   assignedUserIds?: User[];
   createdAt?: string;
   updatedAt?: string;
+  conversations?: TicketsConversations[];
 };
 export type Projects = {
   URLs?: urlTypes[];
