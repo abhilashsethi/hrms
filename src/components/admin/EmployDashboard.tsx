@@ -47,47 +47,52 @@ const EmployDashboard = () => {
 	}>(`cards/dashboard/details`);
 
 	const { data: projectData } = useFetch<Projects[]>(`projects`);
-	console.log(projectData);
+	// console.log(projectData);
 
 	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
-	const cards1 = [
-		{
-			id: 1,
-			icon: <People fontSize="large" className="text-theme" />,
-			count: employeeData?.length,
-			route: "/admin/employees/all-employees",
-			title: "Total Employees",
-		},
-		{
-			id: 2,
-			icon: <AccountTreeRounded fontSize="large" className="text-theme" />,
-			count:
-				employeeData?.filter((item) => item?.isBlocked === false)?.length || 0,
-			route: "",
-			title: "Active Employees",
-		},
-		{
-			id: 3,
-			icon: (
-				<PlaylistAddCheckCircleRounded
-					fontSize="large"
-					className="text-theme"
-				/>
-			),
-			route: "",
-			count: employeeData?.filter((item) => item?.isBlocked)?.length || 0,
-			title: "Inactive Employees",
-		},
-		{
-			id: 4,
-			icon: <DoNotTouchRounded fontSize="large" className="text-theme" />,
-			count:
-				employeeData?.filter((item) => item?.isOfficeAccessGranted)?.length ||
-				0,
-			route: "",
-			title: "Total Office Access",
-		},
-	];
+	// console.log(employeeData);
+
+	const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
+	console.log(employeeDetails);
+	const roleData = employeeDetails?.departmentWiseUsers;
+	// const cards1 = [
+	// 	{
+	// 		id: 1,
+	// 		icon: <People fontSize="large" className="text-theme" />,
+	// 		count: employeeData?.length,
+	// 		route: "/admin/employees/all-employees",
+	// 		title: "Total Employees",
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		icon: <AccountTreeRounded fontSize="large" className="text-theme" />,
+	// 		count:
+	// 			employeeData?.filter((item) => item?.isBlocked === false)?.length || 0,
+	// 		route: "",
+	// 		title: "Active Employees",
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		icon: (
+	// 			<PlaylistAddCheckCircleRounded
+	// 				fontSize="large"
+	// 				className="text-theme"
+	// 			/>
+	// 		),
+	// 		route: "",
+	// 		count: employeeData?.filter((item) => item?.isBlocked)?.length || 0,
+	// 		title: "Inactive Employees",
+	// 	},
+	// 	{
+	// 		id: 4,
+	// 		icon: <DoNotTouchRounded fontSize="large" className="text-theme" />,
+	// 		count:
+	// 			employeeData?.filter((item) => item?.isOfficeAccessGranted)?.length ||
+	// 			0,
+	// 		route: "",
+	// 		title: "Total Office Access",
+	// 	},
+	// ];
 	const cards = [
 		{
 			id: 1,
@@ -121,8 +126,9 @@ const EmployDashboard = () => {
 		{
 			id: 3,
 			icon: <AssignmentTurnedIn className="text-theme" />,
-			count: 0,
-			title: "Present Today",
+			count:
+				employeeData?.filter((item) => item?.isBlocked === false)?.length || 0,
+			title: "Un-Blocked",
 			bg: "from-emerald-500 to-emerald-300",
 			img: CARDICON3.src,
 			className: "h-40",
@@ -166,17 +172,41 @@ const EmployDashboard = () => {
 							</span>
 						</div>
 					</div>
-					<UpcomingLeaves />
+					<UpcomingLeaves data={employeeData} />
 				</div>
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6 mx-5 -mt-7 !mb-6">
 				<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Role-wise Strength</p>
-					<RolewiseStrength text="" type="bar" />
+					<RolewiseStrength
+						series={[
+							{
+								name: "Strength",
+								data: roleData?.length
+									? roleData?.map((item: any) =>
+											item?._count ? item?._count : 0
+									  )
+									: null,
+							},
+						]}
+						categories={
+							roleData?.length
+								? roleData?.map((item: any) =>
+										item?.name ? item?.name : "Not Specified"
+								  )
+								: null
+						}
+						text=""
+						type="bar"
+					/>
 				</div>
 				<div className="col-span-12  pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Employee Gender Ratio</p>
-					<GenderRation text="" type="donut" />
+					<GenderRation
+						genderData={employeeDetails?.groupByGender}
+						text=""
+						type="donut"
+					/>
 				</div>
 			</div>
 		</>

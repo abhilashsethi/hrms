@@ -5,21 +5,20 @@ const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 const RolewiseStrength = ({
 	type,
 	text = "",
+	series,
+	categories,
 }: {
 	type: "bar" | "area" | "line";
 	text?: string;
+	series?: any;
+	categories?: any;
 }) => {
 	const [monthlyData, setMonthlyData] = useState([]);
 
 	let mounted = false;
 
 	const options = {
-		series: [
-			{
-				name: "Strength",
-				data: [23, 21, 15, 10, 14, 13, 10, 5],
-			},
-		],
+		series,
 		chart: {
 			height: 400,
 			type: "bar",
@@ -47,16 +46,7 @@ const RolewiseStrength = ({
 		},
 
 		xaxis: {
-			categories: [
-				"Web Dev.",
-				"Application Dev.",
-				"IT Mang.",
-				"Accounts Mang.",
-				"Support Mang.",
-				"Marketing",
-				"Ui/UX",
-				"SEO Analyst",
-			],
+			categories,
 			position: "bottom",
 			axisBorder: {
 				show: false,
@@ -144,16 +134,7 @@ const RolewiseStrength = ({
 				},
 
 				xaxis: {
-					categories: [
-						"Web Dev.",
-						"Application Dev.",
-						"IT Mang.",
-						"Accounts Mang.",
-						"Support Mang.",
-						"Marketing",
-						"Ui/UX",
-						"SEO Analyst",
-					],
+					categories,
 					position: "bottom",
 
 					axisBorder: {
