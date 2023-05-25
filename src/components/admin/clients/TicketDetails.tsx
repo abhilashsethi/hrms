@@ -6,16 +6,19 @@ import { useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { User } from "types";
+import { TicketsConversations, User } from "types";
 import ClientChats from "./ClientChats";
 
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { Send } from "@mui/icons-material";
 import { ViewTicketsDrawer } from "components/drawer";
+interface Props  {
+  ticketsData?: TicketsConversations[] | null;
+}
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
-const TicketDetails = () => {
+const TicketDetails = ({ticketsData}:Props) => {
   const router = useRouter();
   const [value, setValue] = useState("");
   const [viewTickets, setViewTickets] = useState<any>(null);

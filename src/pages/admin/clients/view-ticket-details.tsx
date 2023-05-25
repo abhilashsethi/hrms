@@ -16,7 +16,7 @@ const ViewTicketDetails = () => {
         <section className="px-8">
           <div className="pb-4">
             <AdminBreadcrumbs links={links} />
-            <TicketDetails />
+            <TicketDetails ticketsData={ticketsData}/>
           </div>
         </section>
       </PanelLayout>
