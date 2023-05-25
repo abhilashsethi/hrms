@@ -119,8 +119,8 @@ const ProjectDetails = () => {
         open={isURL}
         onClose={() => setIsURL(false)}
       />
-      <Grid container spacing={2}>
-        <Grid item lg={8}>
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="md:col-span-2">
           <div className="w-full bg-white rounded-md shadow-jubilation p-6">
             <div className="flex justify-between items-center">
               <h1 className="font-semibold tracking-wide text-lg text-secondary">
@@ -155,20 +155,20 @@ const ProjectDetails = () => {
               </span>
               {/* <Chip label="Progress" color="warning" size="small" /> */}
             </div>
-            <div className="flex gap-4 w-full">
-              <div className="flex flex-col gap-3 mt-4 w-2/3">
+            <div className="md:flex px-1 gap-4 w-full">
+              <div className="md:flex flex-col gap-3 mt-4 md:w-2/3">
                 {BasicData?.map((item) => (
                   <div
                     key={item?.id}
-                    className=" w-full flex items-start gap-4"
+                    className=" w-full md:flex grid items-start gap-2 md:gap-4"
                   >
-                    <div className="w-1/3">
+                    <div className="md:w-1/3">
                       <p className="text-sm font-semibold text-slate-600 flex gap-2 items-center">
                         {item?.icon}
                         <span>{item?.title} :</span>
                       </p>
                     </div>
-                    <div className="w-1/2">
+                    <div className="md:w-1/2">
                       <p className="text-sm">{item?.value}</p>
                     </div>
                   </div>
@@ -187,7 +187,7 @@ const ProjectDetails = () => {
                   </Button>
                 </div>
               ) : (
-                <div className="flex flex-col justify-center w-1/3 items-center">
+                <div className="flex flex-col justify-center md:w-1/3 items-center">
                   <h1 className="text-slate-600 font-semibold mt-4">TEAM</h1>
                   <div
                     onClick={() => setIsMembers(true)}
@@ -209,12 +209,12 @@ const ProjectDetails = () => {
                 <Tooltip key={item?.id} title={item?.title}>
                   <div
                     onClick={item?.onClick}
-                    className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
+                    className="md:w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2"
                   >
                     <span className="p-2 bg-white shadow-lg rounded-md group-hover:rotate-[-12deg] transition-all ease-in-out duration-200">
                       <span>{item?.icon}</span>
                     </span>
-                    <p className="text-xs text-center font-semibold ">
+                    <p className="text-xs md:flex hidden text-center font-semibold ">
                       {item?.title}
                     </p>
                   </div>
@@ -224,15 +224,15 @@ const ProjectDetails = () => {
 
             <ProjectTabs />
           </div>
-        </Grid>
-        <Grid item lg={4}>
+        </div>
+        <div>
           <div className="w-full">
             <ProjectDescription description={projectData?.description} />
             <ClientDetails projectData={projectData} mutate={mutate} />
             <TechnologyUsed projectData={projectData} mutate={mutate} />
           </div>
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     </div>
   );
 };

@@ -22,9 +22,9 @@ type Props = {
   setTechnologies?: any;
 };
 const initialValues = {
-  empName: [null],
-  clientName: [null],
-  technologies: [null],
+  empName: "",
+  clientName: "",
+  technologies: "",
 };
 const TechnologiesFilter = ({
   open,
@@ -33,9 +33,9 @@ const TechnologiesFilter = ({
   setTechnologies,
   setClientName,
 }: Props) => {
-  const { data: employeesData } = useFetch<any[]>(`users`);
-  const { data: clientData } = useFetch<any[]>(`clients`);
-  const { data: techData } = useFetch<any[]>(`technologies`);
+  const { data: employeesData } = useFetch<any>(`users`);
+  const { data: clientData } = useFetch<any>(`clients`);
+  const { data: techData } = useFetch<any>(`technologies`);
   const handleSubmit = async (values: any) => {
     setEmpName(values?.empName);
     setClientName(values?.clientName);
@@ -67,14 +67,18 @@ const TechnologiesFilter = ({
                     <Autocomplete
                       multiple
                       options={employeesData ? (employeesData as any) : []}
-                      value={employeesData?.filter((item: any) =>
-                        values?.empName?.includes(item?.id)
-                      )}
+                      value={
+                        employeesData?.length
+                          ? employeesData?.filter((item: any) =>
+                              values?.empName?.includes(item?.name)
+                            )
+                          : {}
+                      }
                       id="empName"
                       onChange={(e: any, r: any) => {
                         setFieldValue(
                           "empName",
-                          r?.map((data: { id: any }) => data?.id)
+                          r?.map((data: any) => data?.name)
                         );
                       }}
                       getOptionLabel={(option: any) => option?.name}
@@ -92,7 +96,7 @@ const TechnologiesFilter = ({
                       multiple
                       options={clientData ? (clientData as any) : []}
                       value={clientData?.filter((item: any) =>
-                        values?.clientName?.includes(item?.name)
+                        values?.clientName?.includes(item?.name?.toString())
                       )}
                       id="clientName"
                       onChange={(e: any, r: any) => {
@@ -114,10 +118,15 @@ const TechnologiesFilter = ({
                     <Autocomplete
                       multiple
                       options={techData ? (techData as any) : []}
-                      value={techData?.filter((item: any) =>
-                        values?.technologies?.includes(item?.name)
-                      )}
-                      id="technologies"
+                      value={
+                        values?.technologies?.length
+                          ? techData?.filter((item: any) => {
+                              return values?.technologies?.includes(
+                                item?.name?.toString()
+                              );
+                            })
+                          : []
+                      }
                       onChange={(e: any, r: any) => {
                         setFieldValue(
                           "technologies",

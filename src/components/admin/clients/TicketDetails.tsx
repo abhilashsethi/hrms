@@ -1,21 +1,19 @@
-import { Button, Grid, IconButton, Tooltip } from "@mui/material";
-import ICONS from "assets/icons";
-import { RenderIconRow } from "components/common";
-import { HeadText, Loader, PhotoViewer } from "components/core";
+import { Button } from "@mui/material";
+import { Loader, PhotoViewer } from "components/core";
 import { useFetch } from "hooks";
-import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { User } from "types";
+import { Tickets, User } from "types";
 import ClientChats from "./ClientChats";
-
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { Send } from "@mui/icons-material";
-import { ViewTicketsDrawer } from "components/drawer";
+interface Props  {
+  ticketsData?: Tickets[] | null;
+}
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
-const TicketDetails = () => {
+const TicketDetails = ({ticketsData}:Props) => {
   const router = useRouter();
   const [value, setValue] = useState("");
   const [viewTickets, setViewTickets] = useState<any>(null);
@@ -31,15 +29,14 @@ const TicketDetails = () => {
   return (
     <section>
       <section className="mb-12 flex gap-3">
-        <Grid container spacing={2}>
-          <Grid item lg={8}>
+        <div className="grid lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-2">
             <div className="w-full bg-white shadow-xl rounded-lg p-8 mt-4">
               <div className="flex items-center gap-2 -ml-5">
                 <div className="h-3 w-3 rounded-sm bg-theme"></div>
                 <p className="font-bold tracking-wide">Conversations</p>
               </div>
-              <Grid container spacing={3}>
-                <Grid item lg={12}>
+              <div className="grid">
                   <div className="flex flex-col gap-1 mt-4 max-h-[20rem] overflow-y-auto">
                     {chats?.map((item, i) => (
                       <div
@@ -68,18 +65,13 @@ const TicketDetails = () => {
                       </div>
                     ))}
                   </div>
-                </Grid>
-              </Grid>
+              </div>
             </div>
             <div className="mt-8">
               <ReactQuill
                 placeholder="Reply message ..."
                 theme="snow"
                 value={value}
-                // onChange={(e: any) => {
-                //   setValue(e);
-                //   formik.setFieldValue("content", e);
-                // }}
                 style={{
                   height: "150px",
                   lineHeight: "0px",
@@ -96,13 +88,13 @@ const TicketDetails = () => {
                 </Button>
               </div>
             </div>
-          </Grid>
-          <Grid item lg={4}>
+          </div>
+          <div>
             <div className="w-full h-full">
               <ClientChats />
             </div>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </section>
     </section>
   );

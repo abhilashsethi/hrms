@@ -1,33 +1,23 @@
-import {
-  Add,
-  GridViewRounded,
-  Search,
-  TableRowsRounded,
-  Upload,
-} from "@mui/icons-material";
-import { Button, IconButton, MenuItem, TextField } from "@mui/material";
-import { EmployeesColumn } from "components/admin";
 import TicketDetails from "components/admin/clients/TicketDetails";
 import { AdminBreadcrumbs } from "components/core";
-import { UploadEmployData } from "components/dialogues";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { Tickets } from "types";
 
 const ViewTicketDetails = () => {
-  const [isGrid, setIsGrid] = useState(true);
-  const [isUpload, setIsUpload] = useState(false);
-  const [value, setValue] = useState("Web Developer");
-  const handleChange = (event: any) => {
-    setValue(event.target.value);
-  };
+  const router = useRouter();
+  const { data: ticketsData, mutate, isLoading } = useFetch<Tickets[]>(
+    `tickets/${router?.query?.id}`
+  );
+  console.log("ticketsData",ticketsData);
   return (
     <>
       <PanelLayout title="Ticket Details - SY HR MS">
         <section className="px-8">
           <div className="pb-4">
             <AdminBreadcrumbs links={links} />
-            <TicketDetails />
+            <TicketDetails ticketsData={ticketsData}/>
           </div>
         </section>
       </PanelLayout>

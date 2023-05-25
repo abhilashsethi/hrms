@@ -1,4 +1,4 @@
-import React from "react";
+import { SyntheticEvent, useState } from "react";
 import {
   AssignmentTurnedIn,
   BugReport,
@@ -9,20 +9,22 @@ import { Box, Tab } from "@mui/material";
 import ProjectTasks from "./ProjectTasks";
 import ProjectSupport from "./ProjectSupport";
 import ProjectBugs from "./ProjectBugs";
+import { Projects } from "types";
 
 const ProjectTabs = () => {
-  const [value, setValue] = React.useState("1");
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const [value, setValue] = useState("1");
+  const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
   return (
     <div className="w-full border-2 mt-8 rounded-md">
-      <Box sx={{ width: "100%", typography: "body1" }}>
+      <div>
         <TabContext value={value}>
           <Box sx={{ borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab
-                sx={{ width: "33%" }}
+                sx={{ width: "30%" }}
                 icon={<AssignmentTurnedIn fontSize="small" />}
                 iconPosition="start"
                 label="TASKS"
@@ -31,14 +33,14 @@ const ProjectTabs = () => {
               <Tab
                 icon={<SupportAgent fontSize="small" />}
                 iconPosition="start"
-                sx={{ width: "33%" }}
+                sx={{ width: "30%" }}
                 label="SUPPORT"
                 value="2"
               />
               <Tab
                 icon={<BugReport fontSize="small" />}
                 iconPosition="start"
-                sx={{ width: "33%" }}
+                sx={{ width: "30%" }}
                 label="BUGS"
                 value="3"
               />
@@ -54,7 +56,7 @@ const ProjectTabs = () => {
             <ProjectBugs />
           </TabPanel>
         </TabContext>
-      </Box>
+      </div>
     </div>
   );
 };
