@@ -6,6 +6,7 @@ import {
 	DialogContent,
 	DialogTitle,
 	IconButton,
+	MenuItem,
 	TextField,
 	Tooltip,
 } from "@mui/material";
@@ -21,13 +22,14 @@ interface Props {
 	open: boolean;
 	handleClose: any;
 	details?: any;
+	mutate?: any;
 }
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required("Document title is Required"),
 	link: Yup.string().required("Choose Document"),
 });
-const AddDocumentDialogue = ({ open, handleClose }: Props) => {
+const AddDocumentDialogue = ({ open, handleClose, mutate }: Props) => {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState("one");
@@ -38,6 +40,7 @@ const AddDocumentDialogue = ({ open, handleClose }: Props) => {
 	const initialValues = {
 		title: "",
 		link: null,
+		type: "",
 	};
 
 	const { change } = useChange();
@@ -61,19 +64,18 @@ const AddDocumentDialogue = ({ open, handleClose }: Props) => {
 						link: url,
 					},
 				});
-				mutate();
+				console.log(res);
 				if (res?.status !== 200) {
 					Swal.fire(`Error`, "Something went wrong!", "error");
 					return;
 				}
+				mutate();
 				Swal.fire(`Success`, "Document Added successfully!!", "success");
 				handleClose();
 				return;
 			}
 		});
 	};
-
-	const { data: documentDetails, mutate, isLoading } = useFetch<any>(`users`);
 
 	return (
 		<Dialog
@@ -87,7 +89,7 @@ const AddDocumentDialogue = ({ open, handleClose }: Props) => {
 				sx={{ p: 2, minWidth: "40rem !important" }}
 			>
 				<p className="text-center text-xl font-bold text-theme tracking-wide">
-					ADD NOTES
+					ADD DOCUMENT
 				</p>
 				<IconButton
 					aria-label="close"
@@ -133,6 +135,27 @@ const AddDocumentDialogue = ({ open, handleClose }: Props) => {
 									error={touched.title && !!errors.title}
 									helperText={touched.title && errors.title}
 								/>
+								<p className="font-medium text-gray-700 my-2">Leave Type</p>
+								<div className="w-full">
+									<TextField
+										size="small"
+										select
+										fullWidth
+										name="type"
+										placeholder="Document Type"
+										value={values.type}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										error={touched.type && !!errors.type}
+										helperText={touched.type && errors.type}
+									>
+										{types.map((option) => (
+											<MenuItem key={option.value} value={option.value}>
+												{option.name}
+											</MenuItem>
+										))}
+									</TextField>
+								</div>
 
 								<p className="font-medium text-gray-700 my-2">Choose File</p>
 								<input
@@ -171,4 +194,8 @@ export default AddDocumentDialogue;
 const leavesType = [
 	{ id: 1, value: "First_Half" },
 	{ id: 2, value: "Second_Half" },
+];
+const types = [
+	{ id: 1, value: "pdf", name: "PDF" },
+	{ id: 2, value: "img", name: "IMAGE" },
 ];
