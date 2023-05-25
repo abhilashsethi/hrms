@@ -42,7 +42,7 @@ const MeetingData = () => {
 		isLoading,
 	} = useFetch<any>(`meetings/${router?.query?.id}`);
 
-	console.log(meetingDetails);
+	// console.log(meetingDetails);
 
 	if (isLoading) {
 		return <Loader />;

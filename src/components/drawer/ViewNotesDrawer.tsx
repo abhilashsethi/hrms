@@ -181,9 +181,6 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 					<div className="mt-4 flex flex-col gap-4">
 						<div className="">
 							{meetingDetails?.notes?.map((item: any, i: any) => {
-								{
-									console.log(item);
-								}
 								return (
 									<div
 										key={i}
