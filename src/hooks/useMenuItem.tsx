@@ -87,13 +87,13 @@ export default () => {
 					{
 						key: "4-2",
 						title: "All Clients",
-						icon: <Diversity3Rounded />,
+						icon: <ICONS.All_Clients />,
 						route: "/admin/clients/all-clients",
 					},
 					{
 						key: "4-3",
 						title: "Add Clients",
-						icon: <Diversity3Rounded />,
+						icon: <ICONS.Add_Clients />,
 						route: "/admin/clients/add-clients",
 					},
 				],
@@ -118,7 +118,7 @@ export default () => {
 					{
 						key: "13-3",
 						title: "Add Guest",
-						icon: <ElevatorRounded />,
+						icon: <ICONS.Add_Guest />,
 						route: "/admin/guests/create-guest",
 					},
 				],
@@ -238,7 +238,7 @@ export default () => {
 					{
 						key: "12-2",
 						title: "All Technologies",
-						icon: <DesignServicesRounded />,
+						icon: <ICONS.All_Tech />,
 						route: "/admin/technologies/all-technologies",
 					},
 				],
