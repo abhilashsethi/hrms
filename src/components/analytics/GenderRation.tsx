@@ -1,24 +1,29 @@
 import { useFetch } from "hooks";
 import dynamic from "next/dynamic";
 import { User, Gender } from "types";
+import React, { useState, useEffect } from "react";
+
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const GenderRation = ({
 	type,
 	text = "",
+	genderData,
 }: {
 	type: "bar" | "area" | "line" | "pie" | "donut";
 	text?: string;
+	data?: any;
+	genderData?: any;
 }) => {
-	const { data: employeeData, mutate } = useFetch<any[]>(`users`);
-	// console.log(employeeData);
-
 	const options = {
-		labels: ["Male", "Female"],
-		series: [
-			employeeData?.filter((item) => item?.gender === "Male")?.length || 0,
-			employeeData?.filter((item) => item?.gender === "Female")?.length || 0,
-		],
+		labels: genderData?.length
+			? genderData?.map((item: any) =>
+					item?.gender ? item?.gender : "Not Specified"
+			  )
+			: null,
+		series: genderData?.length
+			? genderData?.map((item: any) => (item?._count ? item?._count : 0))
+			: null,
 		chart: {
 			type: "donut",
 		},
@@ -52,7 +57,9 @@ const GenderRation = ({
 		<ApexCharts
 			height={"500"}
 			options={{
-				series: [44, 55, 41, 17, 15],
+				series: genderData?.length
+					? genderData?.map((item: any) => (item?._count ? item?._count : 0))
+					: null,
 				chart: {
 					type: "donut",
 				},
@@ -70,7 +77,11 @@ const GenderRation = ({
 					},
 				],
 
-				labels: ["Male", "Female"],
+				labels: genderData?.length
+					? genderData?.map((item: any) =>
+							item?.gender ? item?.gender : "Not Specified"
+					  )
+					: null,
 
 				colors: ["#106EAD", "#C33C5E", "#25d366", "#BD33B5", "#E60023"],
 
