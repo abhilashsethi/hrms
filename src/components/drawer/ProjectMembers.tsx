@@ -30,7 +30,7 @@ const members = {
 type Props = {
   open?: boolean | any;
   onClose: () => void;
-  projectData?: Projects;
+  projectData?: Projects | null;
   mutate?: any;
 };
 
@@ -157,10 +157,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
         <Container
-          style={{
-            width: "30vw",
-            marginTop: "3.5vh",
-          }}
+        className="md:w-[30vw] mt-[3.5vh]"
         >
           <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
             <PeopleRounded />
@@ -215,7 +212,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
                 )}
               </Formik>
             )}
-            {projectData?.managerId ? (
+            {projectData?.manager ? (
               <div className="h-32 w-32 px-4 relative mt-3 rounded-md flex flex-col gap-2 items-center justify-center shadow-jubilation">
                 <div
                   onClick={() => removeManager()}
@@ -251,7 +248,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
             )}
             <div className="flex justify-between">
               <h4 className="font-semibold mt-4">Team Members : </h4>
-              {projectData?.involvedMemberIds?.length ? (
+              {projectData?.involvedMembers?.length ? (
                 <Tooltip title="Add Members">
                   <IconButton
                     onClick={() => setIsMembers((prev) => !prev)}
@@ -308,7 +305,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
                 </Formik>
               </div>
             )}
-            {projectData?.involvedMemberIds?.length ? (
+            {projectData?.involvedMembers?.length ? (
               <div className="mt-4 flex flex-col gap-2">
                 {projectData?.involvedMembers?.map((item) => (
                   <div

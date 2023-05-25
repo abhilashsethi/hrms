@@ -38,7 +38,7 @@ const ProjectBugs = () => {
       />
       <ViewScreenshot />
       <div className="flex gap-2 pb-2 mb-2 border-b-2">
-        <div className="w-[60%]">
+        <div className="md:w-[60%]">
           <Button
             onClick={() => setIsCreate(true)}
             size="small"
@@ -49,7 +49,7 @@ const ProjectBugs = () => {
             ADD NEW
           </Button>
         </div>
-        <div className="w-[40%] h-8 flex justify-between pl-4 pr-12 text-xs tracking-wide items-center text-slate-600">
+        <div className="md:w-[40%] h-8 flex justify-between pl-4 pr-12 text-xs tracking-wide items-center text-slate-600">
           <span>STATUS</span>
           <span>DOCS</span>
           <span>
@@ -75,13 +75,6 @@ const ProjectBugs = () => {
 };
 
 export default ProjectBugs;
-
-const cards = [
-  { id: 1, title: "Login functionality not working properly!" },
-  { id: 2, title: "Issue in profile image upload!" },
-  { id: 3, title: "Change password issue!" },
-  { id: 4, title: "Form upload issue!" },
-];
 
 interface Props {
   key?: number;
@@ -148,19 +141,19 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
       />
       <div className="border-b-2 py-2">
         <div className=" w-full rounded-md py-3 flex items-start">
-          <div className="w-[57%] pr-3">
+          <div className="md:w-[57%] pr-3">
             <div className="flex gap-2">
               <div className="h-4 w-4 bg-slate-500 rounded-full text-white flex justify-center items-center text-xs">
                 {Number(index) + 1}
               </div>
-              <div className="w-[90%]">
+              <div className="md:w-[90%]">
                 <h1 className="text-sm font-medium text-slate-900">
                   {item?.title}
                 </h1>
               </div>
             </div>
           </div>
-          <div className="w-[43%] h-8 flex justify-between pl-4 text-sm tracking-wide items-center text-slate-600">
+          <div className="md:w-[43%] md:h-8 md:flex justify-between pl-4 text-sm tracking-wide items-center text-slate-600">
             <span
               className={`text-xs font-medium px-3 py-1 h-6 rounded-full text-white ${
                 item?.status === "Completed"
@@ -185,7 +178,9 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
                 </IconButton>
               </Tooltip>
             </span>
+            <div className="md:flex hidden">
             <ProfileImage id={item?.bugs?.detectedBy} />
+            </div>
             <IconButton
               onClick={() => setIsDescription((prev) => !prev)}
               size="small"
@@ -207,7 +202,7 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
               </h1>
               <p className="text-sm py-3 tracking-wide">{item?.description}</p>
             </div>
-            <div className="w-[10%] pb-4 flex gap-2">
+            <div className="md:w-[10%] pb-4 flex gap-2">
               <IconButton onClick={() => setIsUpdate(true)} size="small">
                 <Edit />
               </IconButton>
@@ -222,12 +217,6 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
   );
 };
 
-const statuses = [
-  { id: 1, value: "Open" },
-  { id: 2, value: "Pending" },
-  { id: 3, value: "Ongoing" },
-  { id: 4, value: "Completed" },
-];
 
 const ProfileImage = ({ id }: any) => {
   const { data: personData } = useFetch<User>(`users/${id}`);

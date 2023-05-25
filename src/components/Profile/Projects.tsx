@@ -12,20 +12,19 @@ import {
   ListItemIcon,
   Menu,
   MenuItem,
-  Pagination,
   Skeleton,
-  Stack,
   Tooltip,
 } from "@mui/material";
 import { AWS, CSS, JAVASCRIPT, NEXTJS, REACT } from "assets/svgicons";
-import { LoaderAnime, PhotoViewer } from "components/core";
+import { PhotoViewer } from "components/core";
 import { ProjectAddLink, ProjectUpdate } from "components/dialogues";
 import { ProjectMembers, ProjectURLS } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import { MouseEvent, useState, useEffect } from "react";
+import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
+import { Projects } from "types";
 interface PROPS {
   projectData?: any;
   mutate?: any;
@@ -39,9 +38,8 @@ const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
     dialogue: false,
     projectId: null,
   });
-  const [isMembers, setIsMembers] = useState<{ dialogue?: boolean }>({
-    dialogue: false,
-  });
+  const [isMembers, setIsMembers] = useState(false);
+  const [isProjectData, setIsProjectData] = useState<Projects | null>(null);
 
   return (
     <>
@@ -51,10 +49,10 @@ const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
         onClose={() => setUrl({ dialogue: false })}
       />
       <ProjectMembers
-        projectData={projectData}
+        projectData={isProjectData}
         mutate={mutate}
-        open={isMembers?.dialogue}
-        onClose={() => setIsMembers({ dialogue: false })}
+        open={isMembers}
+        onClose={() => setIsMembers(false)}
       />
       {isLoading && (
         <div className="w-full flex gap-2 mb-4">
@@ -172,7 +170,7 @@ const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
                   <div className="flex gap-2 group items-center pt-2">
                     <AvatarGroup
                       className="!cursor-pointer"
-                      onClick={() => setIsMembers({ dialogue: true })}
+                      onClick={() => {setIsMembers(true), setIsProjectData(item)}}
                       max={4}
                     >
                       {item?.involvedMembers?.map(
