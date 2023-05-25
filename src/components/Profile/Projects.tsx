@@ -42,11 +42,6 @@ const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
   const [isMembers, setIsMembers] = useState<{ dialogue?: boolean }>({
     dialogue: false,
   });
-  const { change } = useChange();
-  const [isUpdate, setIsUpdate] = useState<{
-    dialogue?: boolean;
-    id?: string | null;
-  }>({ dialogue: false, id: null });
 
   return (
     <>
@@ -56,6 +51,8 @@ const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
         onClose={() => setUrl({ dialogue: false })}
       />
       <ProjectMembers
+        projectData={projectData}
+        mutate={mutate}
         open={isMembers?.dialogue}
         onClose={() => setIsMembers({ dialogue: false })}
       />
