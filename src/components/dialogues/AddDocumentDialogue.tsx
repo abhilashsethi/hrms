@@ -62,6 +62,7 @@ const AddDocumentDialogue = ({ open, handleClose, mutate }: Props) => {
 					body: {
 						title: values.title,
 						link: url,
+						docType: values.type,
 					},
 				});
 				console.log(res);
