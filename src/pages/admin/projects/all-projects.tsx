@@ -1,4 +1,4 @@
-import { Add, Construction, MoreHoriz, Search } from "@mui/icons-material";
+import { Add, MoreHoriz } from "@mui/icons-material";
 import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
 import { Projects } from "components/Profile";
 import {
@@ -25,10 +25,6 @@ const AllProjects = () => {
   const handleChange = (event: any) => {
     setStatus(event.target.value);
   };
-  console.log("Technologies", Technologies);
-  console.log("empName", empName);
-  console.log("clientName", clientName);
-
   const {
     data: projectData,
     mutate,
