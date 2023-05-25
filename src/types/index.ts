@@ -114,6 +114,23 @@ interface urlTypes {
   projectId?: string | undefined;
   title?: string | undefined;
 }
+export type TicketsConversations = {
+  id: string;
+  ticketId: string;
+  text?: string;
+  userInfo?: {
+    id?: string;
+    isClient?: boolean;
+    name?: string;
+  };
+  ticket?: {
+    id?: string;
+    description?: string;
+    title?: string;
+  };
+  createdAt?: string;
+  updatedAt?: string;
+};
 export type Tickets = {
   id: string;
   title?: string;
