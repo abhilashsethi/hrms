@@ -40,7 +40,7 @@ const MeetingData = () => {
 		data: meetingDetails,
 		mutate,
 		isLoading,
-	} = useFetch<MeetingProps>(`meetings/${router?.query?.id}`);
+	} = useFetch<any>(`meetings/${router?.query?.id}`);
 
 	// console.log(meetingDetails);
 
@@ -176,21 +176,29 @@ const MeetingData = () => {
 										</div>
 										<p className="font-semibold pb-3">Documents :</p>
 										<div className="grid grid-cols-3 w-2/3 gap-6">
-											{docs.map((item: any, i) => {
+											{meetingDetails?.docs.map((item: any, i: any) => {
 												return (
 													<Tooltip title="Click to Preview">
-														<div
-															key={i}
-															className="cursor-pointer"
-															onClick={() =>
-																setIsPreview({
-																	dialogue: true,
-																	title: "Doc 53426",
-																})
-															}
-														>
-															<img className="w-12" src={item?.img} alt="" />
-															<p className="text-xs">{item?.title}</p>
+														<div key={i} className="cursor-pointer">
+															<a
+																target="_blank"
+																className="cursor-pointer flex flex-col items-center justify-center"
+																href={`${item?.link}`}
+															>
+																<img
+																	className="w-12"
+																	src={
+																		item?.docType === "pdf"
+																			? PDF.src
+																			: item?.docType === "png"
+																			? IMG.src
+																			: DOC.src
+																	}
+																	alt=""
+																/>
+
+																<p className="text-xs">{item?.title}</p>
+															</a>
 														</div>
 													</Tooltip>
 												);
@@ -219,11 +227,11 @@ const MeetingData = () => {
 
 export default MeetingData;
 
-const docs = [
-	{ id: 1, title: "Doc 53426", img: PDF.src },
-	{ id: 2, title: "Doc 53426", img: DOC.src },
-	{ id: 3, title: "Doc 53426", img: XLS.src },
-	{ id: 4, title: "Doc 53426", img: IMG.src },
-	{ id: 5, title: "Doc 53426", img: PDF.src },
-	{ id: 6, title: "Doc 53426", img: PDF.src },
-];
+// const docs = [
+// 	{ id: 1, title: "Doc 53426", img: PDF.src },
+// 	{ id: 2, title: "Doc 53426", img: DOC.src },
+// 	{ id: 3, title: "Doc 53426", img: XLS.src },
+// 	{ id: 4, title: "Doc 53426", img: IMG.src },
+// 	{ id: 5, title: "Doc 53426", img: PDF.src },
+// 	{ id: 6, title: "Doc 53426", img: PDF.src },
+// ];
