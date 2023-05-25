@@ -2,10 +2,11 @@ import TicketDetails from "components/admin/clients/TicketDetails";
 import { AdminBreadcrumbs } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import router from "next/router";
+import { useRouter } from "next/router";
 import { TicketsConversations } from "types";
 
 const ViewTicketDetails = () => {
+  const router = useRouter();
   const { data: ticketsData, mutate, isLoading } = useFetch<TicketsConversations[]>(
     `ticket-conversations/${router?.query?.id}`
   );
