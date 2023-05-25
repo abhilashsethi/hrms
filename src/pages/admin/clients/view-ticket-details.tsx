@@ -7,7 +7,7 @@ import { Tickets } from "types";
 
 const ViewTicketDetails = () => {
   const router = useRouter();
-  const { data: ticketsData, mutate, isLoading } = useFetch<Tickets[]>(
+  const { data: ticketsData, mutate, isLoading } = useFetch<Tickets>(
     `tickets/${router?.query?.id}`
   );
   console.log("ticketsData",ticketsData);

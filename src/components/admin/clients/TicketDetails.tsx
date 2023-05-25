@@ -3,25 +3,25 @@ import { Loader, PhotoViewer } from "components/core";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Tickets, User } from "types";
+import { Tickets, TicketsConversations, User } from "types";
 import ClientChats from "./ClientChats";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { Send } from "@mui/icons-material";
+import moment from "moment";
 interface Props  {
-  ticketsData?: Tickets[] | null;
+  ticketsData?: Tickets | null;
 }
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 const TicketDetails = ({ticketsData}:Props) => {
   const router = useRouter();
   const [value, setValue] = useState("");
-  const [viewTickets, setViewTickets] = useState<any>(null);
   const {
-    data: employData,
+    data: ticketConversation,
     mutate,
     isLoading,
-  } = useFetch<User>(`users/${router?.query?.id}`);
+  } = useFetch<TicketsConversations>(`ticket-conversation`);
 
   if (isLoading) {
     return <Loader />;
@@ -38,28 +38,28 @@ const TicketDetails = ({ticketsData}:Props) => {
               </div>
               <div className="grid">
                   <div className="flex flex-col gap-1 mt-4 max-h-[20rem] overflow-y-auto">
-                    {chats?.map((item, i) => (
+                    {ticketsData?.conversations?.map((item, i) => (
                       <div
                         key={i}
                         className="flex gap-3 py-3 px-1 border-b-[1px]"
                       >
                         <div className="flex justify-start items-center">
                           <div className=" bg-theme-100 rounded-full flex justify-center items-center">
-                            {item?.icon}
+                            <PhotoViewer photo={ "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"} size="3rem" />
                           </div>
                         </div>
                         <div className="">
                           <div className="flex relative pr-3 items-center">
                             <p className="text-sm font-semibold tracking-wide">
-                              {item?.name}
+                              {item?.userInfo?.name}
                             </p>
                             <p className="pr-3 text-xs font-semibold text-gray-500 place-content-end tracking-wide absolute right-0">
-                              {item?.time}
+                              {moment(item?.createdAt).format('ll')}
                             </p>
                           </div>
                           <p className="text-sm tracking-wide">
                             {/* Deadline : {moment(new Date()).format("ll")} */}
-                            {item?.details}
+                            {item?.text}
                           </p>
                         </div>
                       </div>
