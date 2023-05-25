@@ -13,11 +13,11 @@ import Link from "next/link";
 import { useState } from "react";
 
 const AllProjects = () => {
-  const [clientName, setClientName] = useState("");
+  const [clientName, setClientName] = useState<string[]>([]);
   const [projectName, setProjectName] = useState(null);
   const [bugStatus, setBugStatus] = useState(null);
-  const [Technologies, setTechnologies] = useState("");
-  const [empName, setEmpName] = useState("");
+  const [Technologies, setTechnologies] = useState<string[]>([]);
+  const [empName, setEmpName] = useState<string[]>([]);
   const [isTech, setIsTech] = useState(false);
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [status, setStatus] = useState("");
@@ -28,6 +28,7 @@ const AllProjects = () => {
   console.log("Technologies", Technologies);
   console.log("empName", empName);
   console.log("clientName", clientName);
+
   const {
     data: projectData,
     mutate,
@@ -38,9 +39,18 @@ const AllProjects = () => {
       projectName ? `&name=${projectName}` : ""
     }${status ? `&projectStatus=${status}` : ""}${
       bugStatus ? `&bugs=${bugStatus}` : ""
-    }`
+    }` +
+      (Technologies?.length
+        ? Technologies?.map((item) => `&techName=${item}`)?.join("")
+        : "") +
+      (empName?.length
+        ? empName?.map((item) => `&memberName=${item}`)?.join("")
+        : "") +
+      (clientName?.length
+        ? clientName?.map((item) => `&clientName=${item}`)?.join("")
+        : "")
   );
-  console.log(projectData);
+
   return (
     <PanelLayout title="All Projects - SY HR MS">
       <section className="md:px-8 px-3">
@@ -67,9 +77,9 @@ const AllProjects = () => {
         </div>
         <FiltersContainer
           changes={() => {
-            setClientName(""),
-              setTechnologies(""),
-              setEmpName(""),
+            setClientName([]),
+              setTechnologies([]),
+              setEmpName([]),
               setIsBug("");
           }}
         >
