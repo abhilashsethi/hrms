@@ -94,15 +94,12 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 		}).then(async (result) => {
 			try {
 				if (result.isConfirmed) {
-					const response = await change(
-						`meetings/remove-notes/${router?.query?.id}/${meetingId}`,
-						{
-							method: "DELETE",
-							body: {
-								notes: [`${noteId}`],
-							},
-						}
-					);
+					const response = await change(`meetings/remove-notes/${meetingId}`, {
+						method: "DELETE",
+						body: {
+							notes: [`${noteId}`],
+						},
+					});
 					if (response?.status !== 200) {
 						Swal.fire("Error", "Something went wrong!", "error");
 					}
