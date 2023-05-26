@@ -3,7 +3,7 @@ import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 // import RolewiseStrength from "components/analytics/RolewiseStrength";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { HeadText, UpcomingLeaves } from "components/core";
 import EmployeeAllAttendance from "../EmployeeAllAttendance";
 import { useFetch } from "hooks";

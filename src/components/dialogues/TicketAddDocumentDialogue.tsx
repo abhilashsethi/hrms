@@ -1,100 +1,76 @@
 import { Check, Close } from "@mui/icons-material";
 import {
 	Button,
+	CircularProgress,
 	Dialog,
 	DialogContent,
 	DialogTitle,
 	IconButton,
+	MenuItem,
 	TextField,
 	Tooltip,
-	CircularProgress,
-	MenuItem,
 } from "@mui/material";
-import { FileUpload } from "components/core";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Form, Formik } from "formik";
 import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
 import { uploadFile } from "utils";
 import * as Yup from "yup";
 
 interface Props {
 	open: boolean;
 	handleClose: any;
-	// details?: any;
+	details?: any;
 	mutate?: any;
+	ticketsData?: any;
 }
-
+const initialValues = {
+	// title: "",
+	link: null,
+	type: "",
+};
 const validationSchema = Yup.object().shape({
-	title: Yup.string().required("Document title is Required"),
+	// title: Yup.string().required("Document title is Required"),
 	link: Yup.string().required("Choose Document"),
-	// docType: Yup.string().required("Note Doc type is required"),
 });
-const AddDocumentModal = ({ open, handleClose, mutate }: Props) => {
-	// console.log(details);
-	const router = useRouter();
+const TicketAddDocumentDialogue = ({ open, ticketsData, handleClose, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
-	const [value, setValue] = useState("one");
-	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue((event.target as HTMLInputElement).value);
-	};
-	const { user } = useAuth();
-	// console.log(user);
-	// console.log(details);
-	const initialValues = {
-		title: "",
-		link: null,
-		// docType: "",
-		type: "",
-	};
-
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
-		// console.log(values);
-		const dtype = values?.link?.type.split("/")[1];
-		// console.log(dtype);
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to Add Document?",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, update!",
-		}).then(async (result) => {
-			if (result.isConfirmed) {
-				const url = await uploadFile(values?.link, `${Date.now()}.${dtype}`);
-				// console.log(url);
+		setLoading(true);
+		try {
+			const docType = values?.link?.type.split("/")[1];
+			const url = await uploadFile(values?.link, `${Date.now()}.${docType}`);
 
-				const res = await change(`projects/add-doc/${router?.query?.id}`, {
-					method: "POST",
-					body: {
-						title: values.title,
-						link: url,
-						docType: values.type,
-					},
-				});
+			const res = await change(`tickets/add-doc/${ticketsData?.id}`, {
+				method: "PATCH",
+				body: {
+					// title: values.title,
+					filetype: values.type,
+					link: url,
+				},
+			});
+			console.log(res);
 
-				if (res?.status !== 200) {
-					Swal.fire(`Error`, "Something went wrong!", "error");
-					return;
-				}
-				mutate();
-				Swal.fire(`Success`, "Status Added successfully!!", "success");
-				handleClose();
-				console.log(res);
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+				setLoading(false);
 				return;
 			}
-		});
-	};
+			mutate();
+			Swal.fire(`Success`, `Document Added successfully!`, `success`);
+			handleClose();
 
-	const {
-		data: documentDetails,
-		mutate: docMutate,
-		isLoading,
-	} = useFetch<any>(`users`);
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	return (
 		<Dialog
@@ -108,7 +84,7 @@ const AddDocumentModal = ({ open, handleClose, mutate }: Props) => {
 				sx={{ p: 2, minWidth: "40rem !important" }}
 			>
 				<p className="text-center text-xl font-bold text-theme tracking-wide">
-					ADD DOCUMENTS
+					ADD DOCUMENT
 				</p>
 				<IconButton
 					aria-label="close"
@@ -142,7 +118,7 @@ const AddDocumentModal = ({ open, handleClose, mutate }: Props) => {
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
-								<p className="font-medium text-gray-700 mb-2">Document Title</p>
+								{/* <p className="font-medium text-gray-700 mb-2">Document Title</p>
 								<TextField
 									size="small"
 									fullWidth
@@ -153,8 +129,7 @@ const AddDocumentModal = ({ open, handleClose, mutate }: Props) => {
 									onBlur={handleBlur}
 									error={touched.title && !!errors.title}
 									helperText={touched.title && errors.title}
-								/>
-
+								/> */}
 								<p className="font-medium text-gray-700 my-2">Document Type</p>
 								<div className="w-full">
 									<TextField
@@ -187,13 +162,6 @@ const AddDocumentModal = ({ open, handleClose, mutate }: Props) => {
 										setFieldValue("link", e?.target?.files[0])
 									}
 								/>
-								{/* {values.link && (
-									<img
-										className="w-24 object-contain"
-										src={URL.createObjectURL(values.link)}
-										alt="Preview"
-									/>
-								)} */}
 
 								<div className="flex justify-center mt-4">
 									<Button
@@ -217,7 +185,8 @@ const AddDocumentModal = ({ open, handleClose, mutate }: Props) => {
 	);
 };
 
-export default AddDocumentModal;
+export default TicketAddDocumentDialogue;
+
 const types = [
 	{ id: 1, value: "pdf", name: "PDF" },
 	{ id: 2, value: "img", name: "IMAGE" },

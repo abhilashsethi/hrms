@@ -1,5 +1,5 @@
 import { MenuItem, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CircularProgress, {
   CircularProgressProps,
 } from "@mui/material/CircularProgress";
@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 
 const EmpAttendanceIndividual = () => {
   const [absents, setAbsents] = useState(0);
-  const [progress, setProgress] = React.useState(80);
+  const [progress, setProgress] = useState(80);
   const [activeMonth, setActiveMonth] = useState(
     `?month=${new Date().getMonth()}`
   );

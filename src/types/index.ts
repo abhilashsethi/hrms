@@ -131,17 +131,24 @@ export type TicketsConversations = {
   createdAt?: string;
   updatedAt?: string;
 };
+export interface DocumentType {
+  docId?: string;
+  filetype?: string;
+  link?: string;
+  name?: string;
+  createdAt?: string;
+}
 export type Tickets = {
   id: string;
   title?: string;
   clientId?: string;
-  documents?: string[];
+  documents?: DocumentType[];
   associatedProjectId?: string;
   description?: string | null;
   isResolved?: boolean;
   assignedUserIds?: User[];
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: any | null;
+  updatedAt?: string | null;
   conversations?: TicketsConversations[];
   client?: Client;
 };

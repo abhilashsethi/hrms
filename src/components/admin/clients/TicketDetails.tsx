@@ -1,6 +1,6 @@
 import { Button, CircularProgress } from "@mui/material";
 import { Loader, PhotoViewer } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { Form, Formik } from "formik";
 import { useState } from "react";
@@ -11,33 +11,28 @@ import "react-quill/dist/quill.snow.css";
 import { Send } from "@mui/icons-material";
 import moment from "moment";
 import Swal from "sweetalert2";
+import { clock } from "utils";
 interface Props {
   ticketsData?: Tickets | null;
   ticketLoading?: any;
+  mutateTicket?: any
 }
 const initialValues = {
   text: "",
 };
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
-const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
+const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
-  const [value, setValue] = useState("");
-  const {
-    data: ticketConversation,
-    mutate,
-    isLoading,
-  } = useFetch<TicketsConversations>(`ticket-conversation`);
-
-  const handleSubmit = async (values: any) => {
-    console.log("value", values);
-    return
+  const { user } = useAuth();
+  const handleSubmit = async (values: any, { resetForm }: any) => {
     setLoading(true);
     try {
-      delete values.confirmPassword;
-      const res = await change(`ticket-conversation`, {
-        body: values,
+      const ticketText = { text: values?.text, ticketId: router?.query?.id, userInfo: { id: user?.id, name: user?.name } }
+      const res = await change(`ticket-conversations`, {
+        body: ticketText,
       });
       setLoading(false);
       if (res?.status !== 201) {
@@ -45,7 +40,9 @@ const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
         setLoading(false);
         return;
       }
+      mutateTicket()
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      resetForm();
       return;
     } catch (error) {
       console.log(error);
@@ -55,7 +52,7 @@ const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
     }
   };
   return (
-    <section className="mb-12 flex gap-3">
+    <section className="">
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
           <div className="w-full bg-white shadow-xl rounded-lg p-8 mt-4">
@@ -67,10 +64,13 @@ const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
               <div className="flex flex-col gap-1 mt-4 max-h-[20rem] overflow-y-auto">
                 {ticketLoading ? <p>Loading Please wait .....</p> : (
                   <>
-
                     {ticketsData?.conversations?.length ? (
                       <>
-                        {ticketsData?.conversations?.map((item, i) => (
+                        {ticketsData?.conversations?.sort(
+                          (a: any, b: any) =>
+                            (new Date(b?.createdAt) as any) -
+                            (new Date(a?.createdAt) as any)
+                        )?.map((item: any, i) => (
                           <div
                             key={i}
                             className="flex gap-3 py-3 px-1 border-b-[1px]"
@@ -86,12 +86,14 @@ const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
                                   {item?.userInfo?.name}
                                 </p>
                                 <p className="pr-3 text-xs font-semibold text-gray-500 tracking-wide">
-                                  {moment(item?.createdAt).format('ll')}
+                                  {clock(item?.createdAt).fromNow()}
+                                  {/* {moment(item?.createdAt).format('ll')} */}
                                 </p>
                               </div>
                               <p className="text-sm tracking-wide">
                                 {/* Deadline : {moment(new Date()).format("ll")} */}
-                                {item?.text}
+                                <div dangerouslySetInnerHTML={{ __html: `${item?.text}` }}></div>
+
                               </p>
                             </div>
                           </div>
@@ -107,22 +109,21 @@ const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
           >
             {({
               values,
-              errors,
-              touched,
-              handleChange,
               handleBlur,
               setFieldValue,
             }) => (
               <Form>
-                <div className="mt-8 bg-white">
+                <div className="mt-8">
 
                   <ReactQuill
                     placeholder="Reply message ..."
                     theme="snow"
                     value={values.text}
-                    className="h-[150px] "
+                    onChange={(value) => setFieldValue('text', value)}
+                    onBlur={handleBlur('text')}
+                    className="lg:h-[150px] w-full bg-white"
                   />
-                  <div className="flex justify-end items-end w-full pr-2">
+                  <div className="flex md:pt-0 pt-4 justify-end items-end w-full pr-2">
                     <Button
                       type="submit"
                       variant="contained"
@@ -141,10 +142,8 @@ const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
             )}
           </Formik>
         </div>
-        <div>
-          <div className="w-full h-full">
-            <ClientChats ticketsData={ticketsData} ticketLoading={ticketLoading} />
-          </div>
+        <div className="w-full py-4 h-full">
+          <ClientChats ticketsData={ticketsData} ticketLoading={ticketLoading} mutateTicket={mutateTicket} />
         </div>
       </div>
     </section>

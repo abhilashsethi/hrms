@@ -1,28 +1,25 @@
+import { makeStyles } from "@material-ui/core";
 import {
 	Add,
 	Close,
 	Delete,
-	Download,
 	InsertDriveFileRounded,
 } from "@mui/icons-material";
 import {
-	Avatar,
 	Button,
 	CircularProgress,
 	Container,
 	Drawer,
 	IconButton,
-	Tooltip,
 } from "@mui/material";
 import { NODOCUMENT } from "assets/animations";
-import { DOC, IMG, PDF, XLS } from "assets/home";
+import { DOC, IMG, PDF, Video, XLS } from "assets/home";
 import { LoaderAnime } from "components/core";
-import AddDocumentModal from "components/dialogues/AddDocumentModal";
+import AddVideoModal from "components/dialogues/AddVideoModal";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { makeStyles } from "@material-ui/core";
 
 type Props = {
 	open?: boolean | any;
@@ -44,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ProjectDocuments = ({ open, onClose }: Props) => {
+const ProjectVideoDrawer = ({ open, onClose }: Props) => {
 	const router = useRouter();
 	const [isPreview, setIsPreview] = useState<{
 		dialogue?: boolean;
@@ -53,9 +50,8 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 		dialogue: false,
 		title: "Preview",
 	});
-	const [activeDocLink, setActiveDocLink] = useState<any>();
-	const [activeId, setActiveId] = useState<any>();
 	const [getDocument, setGetDocument] = useState<boolean>(false);
+
 	const { data: documentDetails, mutate } = useFetch<any>(
 		`projects/${router?.query?.id}`
 	);
@@ -64,45 +60,30 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 
 	return (
 		<>
-			{/* <DocPreview
-				open={isPreview?.dialogue}
-				handleClose={() => setIsPreview({ dialogue: false })}
-				title={isPreview?.title}
-				data={documentDetails?.documents}
-				activeLink={activeDocLink}
-			/> */}
-
-			<AddDocumentModal
+			<AddVideoModal
 				open={getDocument}
 				handleClose={() => setGetDocument(false)}
 				// details={meetingDetails}
 				mutate={mutate}
 			/>
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
-				<Container
-					style={{ marginTop: "1rem" }}
-					className={classes.container}
-					// style={{
-					// 	width: "30vw",
-					// 	marginTop: "3.5vh",
-					// }}
-				>
+				<Container style={{ marginTop: "1rem" }} className={classes.container}>
 					<IconButton
 						className="flex justify-end w-full"
 						onClick={() => onClose()}
 					>
 						<Close fontSize="small" className="text-red-500 block md:hidden" />
 					</IconButton>
-					<div className="flex items-center justify-between pb-4">
+					<div className="flex items-center justify-between pb-7">
 						<p className="md:text-lg text-md font-bold text-theme flex gap-3 items-center">
 							<InsertDriveFileRounded />
-							Project Documents
+							Project Video Links
 						</p>
 						<button
 							onClick={() => setGetDocument((prev) => !prev)}
 							className="flex text-sm items-center bg-white text-theme md:p-1 p-[2px] rounded-md group hover:bg-theme hover:text-white border border-theme"
 						>
-							Add Document{" "}
+							Add Video Link
 							<Add
 								fontSize="small"
 								className="text-theme group-hover:text-white transition duration-500 ease-in-out"
@@ -117,34 +98,11 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 										key={item?.id}
 										className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
 									>
-										{/* <img
-                    onClick={() => {
-                      setIsPreview({
-                        dialogue: true,
-                        title: item?.title,
-                      });
-                      setActiveDocLink(item?.link);
-                      setActiveId(item?.id);
-                    }}
-                    className="w-12"
-                    src={item?.docType === "pdf" ? PDF.src : IMG.src}
-                    alt="photo"
-                  /> */}
 										<a
 											className="cursor-pointer flex flex-col items-center justify-center"
 											href={`${item?.link}`}
 										>
-											<img
-												className="w-12"
-												src={
-													item?.docType === "pdf"
-														? PDF.src
-														: item?.docType === "img"
-														? IMG.src
-														: DOC.src
-												}
-												alt=""
-											/>
+											<img className="w-12" src={Video.src} alt="" />
 										</a>
 										<p className="text-xs">
 											{item?.title?.slice(0, 9)}
@@ -171,7 +129,7 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 	);
 };
 
-export default ProjectDocuments;
+export default ProjectVideoDrawer;
 
 const docs = [
 	{ id: 1, title: "Doc 53426", img: PDF.src },

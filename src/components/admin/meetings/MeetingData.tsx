@@ -174,22 +174,6 @@ const MeetingData = () => {
 												View Notes
 											</Button>
 										</div>
-										<p className="font-semibold pb-3">Video Links :</p>
-										<div className="grid grid-cols-3 w-2/3 gap-6">
-											<Tooltip title="Click to Preview">
-												<div className="cursor-pointer">
-													<a
-														target="_blank"
-														className="cursor-pointer flex flex-col items-center justify-center"
-														href={""}
-													>
-														<img className="w-12" src={Video.src} alt="" />
-
-														<p className="text-xs">Video Title</p>
-													</a>
-												</div>
-											</Tooltip>
-										</div>
 										<p className="font-semibold pb-3">Documents :</p>
 										<div className="grid grid-cols-3 w-2/3 gap-6">
 											{meetingDetails?.docs.map((item: any, i: any) => {
