@@ -1,6 +1,6 @@
 import { Button, CircularProgress } from "@mui/material";
 import { Loader, PhotoViewer } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { Form, Formik } from "formik";
 import { useState } from "react";
@@ -14,30 +14,24 @@ import Swal from "sweetalert2";
 interface Props {
   ticketsData?: Tickets | null;
   ticketLoading?: any;
+  mutateTicket?: any
 }
 const initialValues = {
   text: "",
 };
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
-const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
+const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
-  const [value, setValue] = useState("");
-  const {
-    data: ticketConversation,
-    mutate,
-    isLoading,
-  } = useFetch<TicketsConversations>(`ticket-conversation`);
-
-  const handleSubmit = async (values: any) => {
-    console.log("value", values);
-    return
+  const { user } = useAuth();
+  const handleSubmit = async (values: any, { resetForm }: any) => {
     setLoading(true);
     try {
-      delete values.confirmPassword;
-      const res = await change(`ticket-conversation`, {
-        body: values,
+      const ticketText = { text: values?.text, ticketId: router?.query?.id, userInfo: { id: user?.id, name: user?.name } }
+      const res = await change(`ticket-conversations`, {
+        body: ticketText,
       });
       setLoading(false);
       if (res?.status !== 201) {
@@ -45,7 +39,9 @@ const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
         setLoading(false);
         return;
       }
+      mutateTicket()
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      resetForm();
       return;
     } catch (error) {
       console.log(error);
@@ -91,7 +87,8 @@ const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
                               </div>
                               <p className="text-sm tracking-wide">
                                 {/* Deadline : {moment(new Date()).format("ll")} */}
-                                {item?.text}
+                                <div dangerouslySetInnerHTML={{ __html: `${item?.text}` }}></div>
+
                               </p>
                             </div>
                           </div>
@@ -107,9 +104,6 @@ const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
           >
             {({
               values,
-              errors,
-              touched,
-              handleChange,
               handleBlur,
               setFieldValue,
             }) => (
@@ -120,6 +114,8 @@ const TicketDetails = ({ ticketsData, ticketLoading }: Props) => {
                     placeholder="Reply message ..."
                     theme="snow"
                     value={values.text}
+                    onChange={(value) => setFieldValue('text', value)}
+                    onBlur={handleBlur('text')}
                     className="h-[150px] "
                   />
                   <div className="flex justify-end items-end w-full pr-2">

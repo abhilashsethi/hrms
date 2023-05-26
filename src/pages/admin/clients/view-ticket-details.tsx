@@ -10,14 +10,13 @@ const ViewTicketDetails = () => {
   const { data: ticketsData, mutate, isLoading } = useFetch<Tickets>(
     `tickets/${router?.query?.id}`
   );
-  console.log("ticketsData",ticketsData);
   return (
     <>
       <PanelLayout title="Ticket Details - Admin Panel">
         <section className="px-8">
           <div className="pb-4">
             <AdminBreadcrumbs links={links} />
-            <TicketDetails ticketsData={ticketsData} ticketLoading={isLoading}/>
+            <TicketDetails ticketsData={ticketsData} mutateTicket={mutate} ticketLoading={isLoading} />
           </div>
         </section>
       </PanelLayout>

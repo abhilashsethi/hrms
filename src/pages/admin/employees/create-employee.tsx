@@ -35,7 +35,6 @@ const validationSchema = Yup.object().shape({
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name must be less than 50 characters")
     .required("Name is required!"),
-
   phone: Yup.string()
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
@@ -70,15 +69,14 @@ const CreateEmployee = () => {
       return acc;
     }, {});
 
-    setLoading(true);
     try {
-      delete values.confirmPassword;
-      const res = await change(`users`, {
+      setLoading(true);
+      const res: any = await change(`users`, {
         body: reqValue,
       });
       setLoading(false);
       if (res?.status !== 201) {
-        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+        Swal.fire("Error", res?.results?.message || "Unable to Submit", "info");
         setLoading(false);
         return;
       }
@@ -198,7 +196,7 @@ const CreateEmployee = () => {
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="con-password">
-                          Confirm Password{" "}
+                          Confirm Password
                           <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
@@ -336,11 +334,6 @@ const CreateEmployee = () => {
                   <div className="flex justify-center md:py-4 py-2">
                     <Button
                       type="submit"
-                      size={
-                        useMediaQuery(theme.breakpoints.down("sm"))
-                          ? "small"
-                          : "medium"
-                      }
                       variant="contained"
                       className="!bg-theme"
                       disabled={loading}
