@@ -192,10 +192,7 @@ const AddDocumentDialogue = ({ open, handleClose, mutate }: Props) => {
 };
 
 export default AddDocumentDialogue;
-const leavesType = [
-	{ id: 1, value: "First_Half" },
-	{ id: 2, value: "Second_Half" },
-];
+
 const types = [
 	{ id: 1, value: "pdf", name: "PDF" },
 	{ id: 2, value: "img", name: "IMAGE" },
