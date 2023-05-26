@@ -1,32 +1,24 @@
 import {
-	DailyAttendance,
-	GenderRation,
-	RolewiseStrength,
-} from "components/analytics";
-import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
-import { DashboardCard, UpcomingLeaves } from "components/core";
-import { useState, MouseEvent } from "react";
-import ICONS from "assets/icons";
-import { useFetch } from "hooks";
-import {
-	AccountTreeRounded,
 	AssignmentTurnedIn,
 	ContactPhone,
 	DevicesOther,
-	DoNotTouchRounded,
-	MoreVert,
 	PendingActions,
-	People,
-	PlaylistAddCheckCircleRounded,
 } from "@mui/icons-material";
-import { Projects, User } from "types";
-import Link from "next/link";
 import {
 	CARDICON1,
 	CARDICON2,
 	CARDICON3,
 	CARDICON4,
 } from "assets/dashboard_Icons";
+import {
+	DailyAttendance,
+	GenderRation,
+	RolewiseStrength,
+} from "components/analytics";
+import { DashboardCard, UpcomingLeaves } from "components/core";
+import { useFetch } from "hooks";
+import { MouseEvent, useState } from "react";
+import { Projects, User } from "types";
 
 const EmployDashboard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -47,52 +39,13 @@ const EmployDashboard = () => {
 	}>(`cards/dashboard/details`);
 
 	const { data: projectData } = useFetch<Projects[]>(`projects`);
-	// console.log(projectData);
 
 	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
-	// console.log(employeeData);
 
 	const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
-	console.log(employeeDetails);
+
 	const roleData = employeeDetails?.departmentWiseUsers;
-	// const cards1 = [
-	// 	{
-	// 		id: 1,
-	// 		icon: <People fontSize="large" className="text-theme" />,
-	// 		count: employeeData?.length,
-	// 		route: "/admin/employees/all-employees",
-	// 		title: "Total Employees",
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		icon: <AccountTreeRounded fontSize="large" className="text-theme" />,
-	// 		count:
-	// 			employeeData?.filter((item) => item?.isBlocked === false)?.length || 0,
-	// 		route: "",
-	// 		title: "Active Employees",
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		icon: (
-	// 			<PlaylistAddCheckCircleRounded
-	// 				fontSize="large"
-	// 				className="text-theme"
-	// 			/>
-	// 		),
-	// 		route: "",
-	// 		count: employeeData?.filter((item) => item?.isBlocked)?.length || 0,
-	// 		title: "Inactive Employees",
-	// 	},
-	// 	{
-	// 		id: 4,
-	// 		icon: <DoNotTouchRounded fontSize="large" className="text-theme" />,
-	// 		count:
-	// 			employeeData?.filter((item) => item?.isOfficeAccessGranted)?.length ||
-	// 			0,
-	// 		route: "",
-	// 		title: "Total Office Access",
-	// 	},
-	// ];
+
 	const cards = [
 		{
 			id: 1,

@@ -11,7 +11,6 @@ const DailyAttendance = ({
 	text?: string;
 	data?: any;
 }) => {
-	console.log(data);
 	const options = {
 		series: [
 			{
