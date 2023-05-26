@@ -12,3 +12,4 @@ export { default as Others } from "./Others.svg";
 export { default as ScannedCard } from "./ScannedCards.svg";
 export { default as Attendance } from "./Today'sAttendance.svg";
 export { default as Users } from "./TotalUsers.svg";
+export { default as Video } from "./multimedia.png";

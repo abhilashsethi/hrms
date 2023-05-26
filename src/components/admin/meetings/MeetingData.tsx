@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Client, MeetingProps, MeetingTypes } from "types";
 import { ViewNotesDrawer, ViewTicketsDrawer } from "components/drawer";
-import { DEFAULTPROFILE, DOC, IMG, PDF, XLS } from "assets/home";
+import { DEFAULTPROFILE, DOC, IMG, PDF, Video, XLS } from "assets/home";
 import AddDocument from "components/dialogues/AddDocument";
 import EditMeetingDetails from "components/dialogues/EditMeetingDetails";
 import { useTheme } from "@emotion/react";
@@ -174,6 +174,22 @@ const MeetingData = () => {
 												View Notes
 											</Button>
 										</div>
+										<p className="font-semibold pb-3">Video Links :</p>
+										<div className="grid grid-cols-3 w-2/3 gap-6">
+											<Tooltip title="Click to Preview">
+												<div className="cursor-pointer">
+													<a
+														target="_blank"
+														className="cursor-pointer flex flex-col items-center justify-center"
+														href={""}
+													>
+														<img className="w-12" src={Video.src} alt="" />
+
+														<p className="text-xs">Video Title</p>
+													</a>
+												</div>
+											</Tooltip>
+										</div>
 										<p className="font-semibold pb-3">Documents :</p>
 										<div className="grid grid-cols-3 w-2/3 gap-6">
 											{meetingDetails?.docs.map((item: any, i: any) => {
@@ -190,7 +206,7 @@ const MeetingData = () => {
 																	src={
 																		item?.docType === "pdf"
 																			? PDF.src
-																			: item?.docType === "png"
+																			: item?.docType === "img"
 																			? IMG.src
 																			: DOC.src
 																	}
