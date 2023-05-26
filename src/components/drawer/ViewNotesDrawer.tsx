@@ -1,8 +1,9 @@
-import { Add, Close, EventNote } from "@mui/icons-material";
+import { Add, Close, Delete, EventNote } from "@mui/icons-material";
 import {
 	Avatar,
 	Button,
 	Card,
+	CircularProgress,
 	Container,
 	Drawer,
 	IconButton,
@@ -181,6 +182,7 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 					<div className="mt-4 flex flex-col gap-4">
 						<div className="">
 							{meetingDetails?.notes?.map((item: any, i: any) => {
+								console.log(item);
 								return (
 									<div
 										key={i}
@@ -226,7 +228,6 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 														Note Link :{" "}
 														<a
 															className="text-sm font-medium text-blue-500 underline"
-															target="_blank"
 															href={`${item?.link}`}
 														>
 															Note Link
@@ -248,15 +249,13 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 													</div>
 												</Tooltip>
 											</div>
+
 											<div className="flex justify-end">
-												<button
-													className="bg-red-500 px-2 py-1 rounded-lg text-sm font-semibold text-white"
-													onClick={() =>
-														handleDelete(meetingDetails?.id, item?.id)
-													}
-												>
-													Delete
-												</button>
+												<DeleteButton
+													meetingId={meetingDetails?.id}
+													id={item?.id}
+													mutate={mutate}
+												/>
 											</div>
 										</div>
 									</div>
@@ -272,29 +271,94 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 
 export default ViewNotesDrawer;
 
-const Note_Details = [
-	{
-		id: 1,
-		notes: "Yard ERP Notes",
-		img: <img className="w-12" src={PDF.src} alt="" />,
-		addedBy: "Sales Person",
-	},
-	{
-		id: 2,
-		notes: "HRMS meeting notes ",
-		img: <img className="w-12" src={IMG.src} alt="" />,
-		addedBy: "Sales Person",
-	},
-	{
-		id: 3,
-		notes: "Meeting Notes",
-		img: <img className="w-12" src={DOC.src} alt="" />,
-		addedBy: "Sales Person",
-	},
-	{
-		id: 4,
-		notes: "Meeting Notes",
-		img: <img className="w-12" src={PDF.src} alt="" />,
-		addedBy: "Sales Person",
-	},
-];
+interface ButtonProps {
+	id?: string | null | undefined;
+	mutate?: any;
+	meetingId?: any;
+}
+
+const DeleteButton = ({ id, mutate, meetingId }: ButtonProps) => {
+	const router = useRouter();
+	const [loading, setLoading] = useState(false);
+	const { change } = useChange();
+	const handleDelete = (meetingId: any, id: any) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to delete!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then(async (result) => {
+			try {
+				setLoading(true);
+				if (result.isConfirmed) {
+					const response = await change(`meetings/remove-notes/${meetingId}`, {
+						method: "DELETE",
+						body: {
+							notes: [`${id}`],
+						},
+					});
+					setLoading(false);
+					if (response?.status !== 200) {
+						Swal.fire("Error", "Something went wrong!", "error");
+					}
+					mutate();
+					Swal.fire("Success", "Deleted successfully!", "success");
+				}
+			} catch (error) {
+				console.log(error);
+				setLoading(false);
+			} finally {
+				setLoading(false);
+			}
+		});
+	};
+	return (
+		<Button
+			onClick={() => {
+				// setActiveId(item?.id);
+				handleDelete(meetingId, id);
+			}}
+			disabled={loading}
+			variant="contained"
+			className="!bg-red-500 text-xs"
+			startIcon={loading ? <CircularProgress size={20} /> : <Delete />}
+			size="small"
+		>
+			DELETE
+		</Button>
+	);
+};
+
+// const { change } = useChange();
+// const handleDelete = (meetingId: string, noteId: any) => {
+// 	Swal.fire({
+// 		title: "Are you sure?",
+// 		text: "You want to delete!",
+// 		icon: "warning",
+// 		showCancelButton: true,
+// 		confirmButtonColor: "#3085d6",
+// 		cancelButtonColor: "#d33",
+// 		confirmButtonText: "Yes, delete it!",
+// 	}).then(async (result) => {
+// 		try {
+// 			if (result.isConfirmed) {
+// 				const response = await change(`meetings/remove-notes/${meetingId}`, {
+// 					method: "DELETE",
+// 					body: {
+// 						notes: [`${noteId}`],
+// 					},
+// 				});
+// 				if (response?.status !== 200) {
+// 					Swal.fire("Error", "Something went wrong!", "error");
+// 				}
+// 				Swal.fire("Success", "Deleted successfully!", "success");
+// 				mutate();
+// 			}
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	});
+// };

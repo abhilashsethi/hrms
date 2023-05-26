@@ -8,6 +8,7 @@ import {
 	TextField,
 	Tooltip,
 	CircularProgress,
+	MenuItem,
 } from "@mui/material";
 import { FileUpload } from "components/core";
 import { Formik, Form, ErrorMessage } from "formik";
@@ -22,8 +23,8 @@ import * as Yup from "yup";
 interface Props {
 	open: boolean;
 	handleClose: any;
-	details?: any;
-	// mutate?: any;
+	// details?: any;
+	mutate?: any;
 }
 
 const validationSchema = Yup.object().shape({
@@ -31,7 +32,7 @@ const validationSchema = Yup.object().shape({
 	link: Yup.string().required("Choose Document"),
 	// docType: Yup.string().required("Note Doc type is required"),
 });
-const AddDocumentModal = ({ open, handleClose, details }: Props) => {
+const AddDocumentModal = ({ open, handleClose, mutate }: Props) => {
 	// console.log(details);
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
@@ -46,6 +47,7 @@ const AddDocumentModal = ({ open, handleClose, details }: Props) => {
 		title: "",
 		link: null,
 		// docType: "",
+		type: "",
 	};
 
 	const { change } = useChange();
@@ -55,7 +57,7 @@ const AddDocumentModal = ({ open, handleClose, details }: Props) => {
 		// console.log(dtype);
 		Swal.fire({
 			title: "Are you sure?",
-			text: "You want to update status?",
+			text: "You want to Add Document?",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
@@ -71,20 +73,28 @@ const AddDocumentModal = ({ open, handleClose, details }: Props) => {
 					body: {
 						title: values.title,
 						link: url,
+						docType: values.type,
 					},
 				});
-				// mutate();
+
 				if (res?.status !== 200) {
 					Swal.fire(`Error`, "Something went wrong!", "error");
 					return;
 				}
+				mutate();
 				Swal.fire(`Success`, "Status Added successfully!!", "success");
+				handleClose();
+				console.log(res);
 				return;
 			}
 		});
 	};
 
-	const { data: documentDetails, mutate, isLoading } = useFetch<any>(`users`);
+	const {
+		data: documentDetails,
+		mutate: docMutate,
+		isLoading,
+	} = useFetch<any>(`users`);
 
 	return (
 		<Dialog
@@ -136,7 +146,7 @@ const AddDocumentModal = ({ open, handleClose, details }: Props) => {
 								<TextField
 									size="small"
 									fullWidth
-									placeholder="Notes"
+									placeholder="Title"
 									name="title"
 									value={values.title}
 									onChange={handleChange}
@@ -144,6 +154,28 @@ const AddDocumentModal = ({ open, handleClose, details }: Props) => {
 									error={touched.title && !!errors.title}
 									helperText={touched.title && errors.title}
 								/>
+
+								<p className="font-medium text-gray-700 my-2">Document Type</p>
+								<div className="w-full">
+									<TextField
+										size="small"
+										select
+										fullWidth
+										name="type"
+										placeholder="Document Type"
+										value={values.type}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										error={touched.type && !!errors.type}
+										helperText={touched.type && errors.type}
+									>
+										{types.map((option) => (
+											<MenuItem key={option.value} value={option.value}>
+												{option.name}
+											</MenuItem>
+										))}
+									</TextField>
+								</div>
 
 								<p className="font-medium text-gray-700 my-2">Choose File</p>
 								<input
@@ -155,13 +187,13 @@ const AddDocumentModal = ({ open, handleClose, details }: Props) => {
 										setFieldValue("link", e?.target?.files[0])
 									}
 								/>
-								{values.link && (
+								{/* {values.link && (
 									<img
 										className="w-24 object-contain"
 										src={URL.createObjectURL(values.link)}
 										alt="Preview"
 									/>
-								)}
+								)} */}
 
 								<div className="flex justify-center mt-4">
 									<Button
@@ -186,7 +218,7 @@ const AddDocumentModal = ({ open, handleClose, details }: Props) => {
 };
 
 export default AddDocumentModal;
-const leavesType = [
-	{ id: 1, value: "First_Half" },
-	{ id: 2, value: "Second_Half" },
+const types = [
+	{ id: 1, value: "pdf", name: "PDF" },
+	{ id: 2, value: "img", name: "IMAGE" },
 ];
