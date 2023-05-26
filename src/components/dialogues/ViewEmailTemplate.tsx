@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DEFAULTIMG } from "assets/home";
+import Link from "next/link";
 import Swal from "sweetalert2";
 
 interface Props {
@@ -48,13 +49,15 @@ const ViewEmailTemplate = ({ open, handleClose, id }: Props) => {
             />
           </section>
           <div className="flex justify-center mt-4 font-semibold mb-3 gap-4">
-            <Button
-              variant="contained"
-              startIcon={<Edit />}
-              className="!bg-blue-500"
-            >
-              Edit
-            </Button>
+            <Link href="/admin/templates/edit-template">
+              <Button
+                variant="contained"
+                startIcon={<Edit />}
+                className="!bg-blue-500"
+              >
+                Edit
+              </Button>
+            </Link>
             <Button
               variant="contained"
               startIcon={<Delete />}

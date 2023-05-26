@@ -1,4 +1,4 @@
-import { Email, FileCopy, Send, Visibility } from "@mui/icons-material";
+import { Delete, Visibility } from "@mui/icons-material";
 import { Button, Grid } from "@mui/material";
 import { EMAILTEMP } from "assets/dashboard_Icons";
 import { AdminBreadcrumbs } from "components/core";
@@ -6,7 +6,6 @@ import { UseTemplate, ViewEmailTemplate } from "components/dialogues";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import EmailEditor from "react-email-editor";
 
 const SavedTemplates = () => {
   const [isView, setIsView] = useState<{
@@ -16,17 +15,7 @@ const SavedTemplates = () => {
   const [isUse, setIsUse] = useState(false);
   const router = useRouter();
   const links = [
-    { id: 1, page: "All Employees", link: "/admin/all-employees" },
-    {
-      id: 2,
-      page: "Employee Profile",
-      link: `/admin/employees/employee-profile?id=${router?.query?.empId}`,
-    },
-    {
-      id: 3,
-      page: "Send Email",
-      link: `/admin/employees/send-email?empId=${router?.query?.empId}`,
-    },
+    { id: 1, page: "Saved Templates", link: "/admin/saved-templates" },
   ];
   const emailEditorRef = useRef<any>(null);
   const onLoad = () => {};
@@ -49,7 +38,7 @@ const SavedTemplates = () => {
           </div>
           <div className="flex justify-between items-center">
             <h1 className="text-theme font-semibold mt-4 text-lg">
-              Select Email
+              Saved Templates
             </h1>
           </div>
           <Grid container spacing={1.5} marginTop={0.5}>
@@ -68,6 +57,7 @@ const SavedTemplates = () => {
                   />
                   <div className="flex gap-2">
                     <Button
+                      size="small"
                       variant="contained"
                       startIcon={<Visibility />}
                       className="!bg-blue-500"
@@ -78,12 +68,12 @@ const SavedTemplates = () => {
                       View
                     </Button>
                     <Button
+                      size="small"
                       variant="contained"
-                      startIcon={<Email />}
-                      className="!bg-green-500"
-                      onClick={() => setIsUse(true)}
+                      startIcon={<Delete />}
+                      className="!bg-red-600"
                     >
-                      Use
+                      Delete
                     </Button>
                   </div>
                 </div>
