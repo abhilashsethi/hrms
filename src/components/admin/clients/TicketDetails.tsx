@@ -67,7 +67,11 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 
                     {ticketsData?.conversations?.length ? (
                       <>
-                        {ticketsData?.conversations?.map((item: any, i) => (
+                        {ticketsData?.conversations?.sort(
+                          (a: any, b: any) =>
+                            (new Date(b?.createdAt) as any) -
+                            (new Date(a?.createdAt) as any)
+                        )?.map((item: any, i) => (
                           <div
                             key={i}
                             className="flex gap-3 py-3 px-1 border-b-[1px]"
