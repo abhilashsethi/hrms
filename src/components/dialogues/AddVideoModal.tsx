@@ -1,43 +1,33 @@
 import { Check, Close } from "@mui/icons-material";
 import {
 	Button,
+	CircularProgress,
 	Dialog,
 	DialogContent,
 	DialogTitle,
 	IconButton,
 	TextField,
 	Tooltip,
-	CircularProgress,
-	MenuItem,
-	RadioGroup,
-	FormControlLabel,
-	Radio,
 } from "@mui/material";
-import { FileUpload } from "components/core";
-import { Formik, Form, ErrorMessage } from "formik";
-import { useAuth, useChange, useFetch } from "hooks";
+import { Form, Formik } from "formik";
+import { useChange } from "hooks";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
 import { uploadFile } from "utils";
 import * as Yup from "yup";
 
 interface Props {
 	open: boolean;
 	handleClose: any;
-	// details?: any;
 	mutate?: any;
 }
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required("Video title is Required"),
 	link: Yup.string().required("Video link is Required"),
-	// docType: Yup.string().required("Note Doc type is required"),
-	// type: Yup.string().required("Please select One Option!"),
 });
 const AddVideoModal = ({ open, handleClose, mutate }: Props) => {
-	// console.log(details);
 	const [isVideo, setIsVideo] = useState();
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
@@ -45,21 +35,15 @@ const AddVideoModal = ({ open, handleClose, mutate }: Props) => {
 	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
-	const { user } = useAuth();
-	// console.log(user);
-	// console.log(details);
 	const initialValues = {
 		title: "",
 		link: "",
 		type: "",
-		// docType: "",
 	};
 
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
-		// console.log(values);
 		const dtype = values?.link?.type.split("/")[1];
-		// console.log(dtype);
 		Swal.fire({
 			title: "Are you sure?",
 			text: "You want to Add Document?",
@@ -103,12 +87,6 @@ const AddVideoModal = ({ open, handleClose, mutate }: Props) => {
 			}
 		});
 	};
-
-	const {
-		data: documentDetails,
-		mutate: docMutate,
-		isLoading,
-	} = useFetch<any>(`users`);
 
 	return (
 		<Dialog
@@ -176,7 +154,6 @@ const AddVideoModal = ({ open, handleClose, mutate }: Props) => {
 									type="file"
 									name="link"
 									placeholder="Choose Document"
-									// value={values?.link}
 									onChange={(e: any) => {
 										setFieldValue("link", e.target.files[0]);
 									}}
@@ -205,7 +182,3 @@ const AddVideoModal = ({ open, handleClose, mutate }: Props) => {
 };
 
 export default AddVideoModal;
-const types = [
-	{ id: 1, value: "pdf", name: "PDF" },
-	{ id: 2, value: "img", name: "IMAGE" },
-];
