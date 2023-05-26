@@ -31,7 +31,7 @@ const AllTechnologies = () => {
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
-    <PanelLayout title="All Technologies - HRMS Searchingyard">
+    <PanelLayout title="All Technologies - Admin Panel">
       <CreateTechnology
         open={isCreate}
         handleClose={() => setIsCreate(false)}

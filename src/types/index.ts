@@ -143,6 +143,7 @@ export type Tickets = {
   createdAt?: string;
   updatedAt?: string;
   conversations?: TicketsConversations[];
+  client?: Client;
 };
 export type Projects = {
   URLs?: urlTypes[];

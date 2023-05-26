@@ -3,7 +3,7 @@ import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
 const AllLeaves = () => {
   return (
-    <PanelLayout title="All Leave Requests - SY HR MS">
+    <PanelLayout title="All Leave Requests - Admin Panel">
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
         <AllLeaveRequests />

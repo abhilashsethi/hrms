@@ -13,7 +13,7 @@ const Technologies = () => {
   );
   const { data: tech } = useFetch<any[]>(`technologies?page=1&limit=3`);
   return (
-    <PanelLayout title="Technologies - HRMS Searchingyard">
+    <PanelLayout title="Technologies - Admin Panel">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
         {isLoading && <Loader />}
