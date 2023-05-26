@@ -25,7 +25,7 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
       <TicketAddDocumentDialogue
         open={getDocument}
         handleClose={() => setGetDocument(false)}
-        // details={meetingDetails}
+        ticketsData={ticketsData}
         mutate={mutateTicket}
       />
       <HeadText title="Requester Details" />
@@ -110,11 +110,13 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
         </div>
         {ticketsData?.documents?.length ? (
           <>
-            <div className="grid w-full gap-6">
-              <div className="cursor-pointer">
-                <img className="w-12" src={PDF.src} alt="" />
-                <p className="text-xs">doc_1002...</p>
-              </div>
+            <div className="grid lg:grid-cols-5 md:grid-cols-3 w-full gap-6">
+              {ticketsData?.documents?.map((docData) => (
+                <div key={docData?.docId} className="cursor-pointer">
+                  <img className="w-12" src={PDF.src} alt="" />
+                  <p className="text-xs">doc_1002...</p>
+                </div>
+              ))}
               {/* <div className="border border-theme h-8 mt-3 flex justify-center items-center rounded-lg text-sm text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white">
               <button onClick={() => setTickets(true)}>View All</button>
             </div> */}
