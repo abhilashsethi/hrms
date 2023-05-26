@@ -14,7 +14,6 @@ import Link from "next/link";
 
 const EmployeeProfile = () => {
   const [activeMonth, setActiveMonth] = useState();
-  // console.log(activeMonth);
   const router = useRouter();
   const [attendances, setAttendances] = useState<any>([]);
   function renderEventContent(eventInfo: any) {
@@ -79,8 +78,6 @@ const EmployeeProfile = () => {
           <AdminBreadcrumbs links={links} />
         </div>
         <EmployeeDetails />
-        {/* <CardHead /> */}
-        {/* <ProfileTabs /> */}
         {isLoading ? null : (
           <div className="flex gap-3">
             <div className="w-full">
@@ -117,9 +114,3 @@ const EmployeeProfile = () => {
 };
 
 export default EmployeeProfile;
-
-// const attendance = [
-//   { title: "PRESENT", date: "2023-04-03" },
-//   { title: "ABSENT", date: "2023-04-04" },
-//   { title: "PRESENT", date: "2023-04-05" },
-// ];
