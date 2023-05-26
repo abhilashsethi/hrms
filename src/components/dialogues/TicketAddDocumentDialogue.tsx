@@ -23,59 +23,53 @@ interface Props {
 	handleClose: any;
 	details?: any;
 	mutate?: any;
+	ticketsData?: any;
 }
-
+const initialValues = {
+	// title: "",
+	link: null,
+	type: "",
+};
 const validationSchema = Yup.object().shape({
-	title: Yup.string().required("Document title is Required"),
+	// title: Yup.string().required("Document title is Required"),
 	link: Yup.string().required("Choose Document"),
 });
-const TicketAddDocumentDialogue = ({ open, handleClose, mutate }: Props) => {
-	const router = useRouter();
+const TicketAddDocumentDialogue = ({ open, ticketsData, handleClose, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
-	const [value, setValue] = useState("one");
-	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue((event.target as HTMLInputElement).value);
-	};
-	const { user } = useAuth();
-	const initialValues = {
-		title: "",
-		link: null,
-		type: "",
-	};
-
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
-		const dtype = values?.link?.type.split("/")[1];
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to add documents?",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, Add",
-		}).then(async (result) => {
-			if (result.isConfirmed) {
-				const url = await uploadFile(values?.link, `${Date.now()}.${dtype}`);
-				const res = await change(`tickets`, {
-					method: "POST",
-					body: {
-						title: values.title,
-						link: url,
-						docType: values.type,
-					},
-				});
-				console.log(res);
-				if (res?.status !== 200) {
-					Swal.fire(`Error`, "Something went wrong!", "error");
-					return;
-				}
-				mutate();
-				Swal.fire(`Success`, "Document Added successfully!!", "success");
-				handleClose();
+		setLoading(true);
+		try {
+			const docType = values?.link?.type.split("/")[1];
+			const url = await uploadFile(values?.link, `${Date.now()}.${docType}`);
+
+			const res = await change(`tickets/add-doc/${ticketsData?.id}`, {
+				method: "PATCH",
+				body: {
+					// title: values.title,
+					filetype: values.type,
+					link: url,
+				},
+			});
+			console.log(res);
+
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+				setLoading(false);
 				return;
 			}
-		});
+			mutate();
+			Swal.fire(`Success`, `Document Added successfully!`, `success`);
+			handleClose();
+
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -124,7 +118,7 @@ const TicketAddDocumentDialogue = ({ open, handleClose, mutate }: Props) => {
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
-								<p className="font-medium text-gray-700 mb-2">Document Title</p>
+								{/* <p className="font-medium text-gray-700 mb-2">Document Title</p>
 								<TextField
 									size="small"
 									fullWidth
@@ -135,7 +129,7 @@ const TicketAddDocumentDialogue = ({ open, handleClose, mutate }: Props) => {
 									onBlur={handleBlur}
 									error={touched.title && !!errors.title}
 									helperText={touched.title && errors.title}
-								/>
+								/> */}
 								<p className="font-medium text-gray-700 my-2">Document Type</p>
 								<div className="w-full">
 									<TextField

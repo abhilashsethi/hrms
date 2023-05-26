@@ -1,6 +1,8 @@
 import { Receipt, SupportAgent } from "@mui/icons-material";
 import { Avatar, Card, Container, Drawer, Modal, Tooltip } from "@mui/material";
+import { NODOCUMENT } from "assets/animations";
 import ICONS from "assets/icons";
+import { ProjectDrawerSkeletonLoading } from "components/admin/clients";
 import { Loader } from "components/core";
 import moment from "moment";
 import Link from "next/link";
@@ -69,7 +71,8 @@ const ViewTicketsDrawer = ({
             <p className="text-lg font-bold text-theme">View All TIckets</p>
           </div>
 
-          {isLoading && <Loader />}
+          {isLoading && <ProjectDrawerSkeletonLoading />}
+
           <div className="mt-4 flex flex-col gap-4">
             {ticket?.length ? (
               ticket?.map((item: any, index: any) => {
@@ -137,7 +140,10 @@ const ViewTicketsDrawer = ({
                 );
               })
             ) : (
-              <p className="text-center py-4">No ticket</p>
+              <>
+                <Loader image={NODOCUMENT} />
+                <p className="text-center py-4">No ticket</p>
+              </>
             )}
           </div>
         </Container>

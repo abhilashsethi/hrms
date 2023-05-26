@@ -1,16 +1,17 @@
 import { HeadText, PhotoViewer } from "components/core";
 import moment from "moment";
-import { AccountTreeRounded, Add } from "@mui/icons-material";
+import { AccountTreeRounded, Add, Delete } from "@mui/icons-material";
 import { RenderIconRow } from "components/common";
-import { Avatar, AvatarGroup, Button, Tooltip } from "@mui/material";
+import { Avatar, AvatarGroup, Button, CircularProgress, Tooltip } from "@mui/material";
 import { DEFAULTPROFILE, DOC, IMG, PDF, XLS } from "assets/home";
 import { useRouter } from "next/router";
 import { ViewTicketsDrawer } from "components/drawer";
 import React, { useState } from "react";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import { Tickets } from "types";
 import TicketDetailsSkeletonLoading from "./TicketDetailsSkeletonLoading";
 import { TicketAddDocumentDialogue } from "components/dialogues";
+import Swal from "sweetalert2";
 interface Props {
   ticketsData?: Tickets | null;
   ticketLoading?: any;
@@ -25,7 +26,7 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
       <TicketAddDocumentDialogue
         open={getDocument}
         handleClose={() => setGetDocument(false)}
-        // details={meetingDetails}
+        ticketsData={ticketsData}
         mutate={mutateTicket}
       />
       <HeadText title="Requester Details" />
@@ -110,11 +111,14 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
         </div>
         {ticketsData?.documents?.length ? (
           <>
-            <div className="grid w-full gap-6">
-              <div className="cursor-pointer">
-                <img className="w-12" src={PDF.src} alt="" />
-                <p className="text-xs">doc_1002...</p>
-              </div>
+            <div className="grid lg:grid-cols-5 md:grid-cols-3 w-full gap-6">
+              {ticketsData?.documents?.map((docData) => (
+                <div key={docData?.docId} className="cursor-pointer">
+                  <img className="w-12" src={PDF.src} alt="" />
+                  <p className="text-xs">doc_1002...</p>
+                  <DeleteButton id={docData?.docId} mutateTicket={mutateTicket} ticketsData={ticketsData} />
+                </div>
+              ))}
               {/* <div className="border border-theme h-8 mt-3 flex justify-center items-center rounded-lg text-sm text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white">
               <button onClick={() => setTickets(true)}>View All</button>
             </div> */}
@@ -132,3 +136,64 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 export default ClientChats;
 
 
+interface ButtonProps {
+  id?: string | null | undefined;
+  mutateTicket?: any;
+  ticketsData?: Tickets;
+}
+
+const DeleteButton = ({ id, mutateTicket, ticketsData }: ButtonProps) => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const { change } = useChange();
+  const handleDelete = (id: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      try {
+        setLoading(true);
+        if (result.isConfirmed) {
+          const response = await change(
+            `tickets/remove-doc/${ticketsData?.id}`,
+            {
+              method: "DELETE",
+              body: { documentId: id }
+            }
+          );
+          setLoading(false);
+          if (response?.status !== 200) {
+            Swal.fire("Error", "Something went wrong!", "error");
+          }
+          mutateTicket();
+          Swal.fire("Success", "Deleted successfully!", "success");
+        }
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    });
+  };
+  return (
+    <Button
+      onClick={() => {
+        // setActiveId(item?.id);
+        handleDelete(id);
+      }}
+      disabled={loading}
+      variant="contained"
+      className="!bg-red-500 text-xs"
+      startIcon={loading ? <CircularProgress size={20} /> : <Delete />}
+      size="small"
+    >
+      DELETE
+    </Button>
+  );
+};
