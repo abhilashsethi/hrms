@@ -85,7 +85,7 @@ const CreateProjects = () => {
     return <Loader />;
   }
   return (
-    <PanelLayout title="Projects - SY HR MS">
+    <PanelLayout title="Projects - Admin Panel">
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
         <SelectManager

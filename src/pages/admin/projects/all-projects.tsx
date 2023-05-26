@@ -48,7 +48,7 @@ const AllProjects = () => {
   );
 
   return (
-    <PanelLayout title="All Projects - SY HR MS">
+    <PanelLayout title="All Projects - Admin Panel">
       <section className="md:px-8 px-3">
         <TechnologiesFilter
           open={isTech}

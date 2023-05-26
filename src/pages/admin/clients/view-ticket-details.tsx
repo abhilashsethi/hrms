@@ -13,7 +13,7 @@ const ViewTicketDetails = () => {
   console.log("ticketsData",ticketsData);
   return (
     <>
-      <PanelLayout title="Ticket Details - SY HR MS">
+      <PanelLayout title="Ticket Details - Admin Panel">
         <section className="px-8">
           <div className="pb-4">
             <AdminBreadcrumbs links={links} />

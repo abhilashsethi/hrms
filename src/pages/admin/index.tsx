@@ -3,7 +3,7 @@ import PanelLayout from "layouts/panel";
 
 const AdminHome = () => {
   return (
-    <PanelLayout title="Home - Admin Panel">
+    <PanelLayout title="Technologies - Admin Panel">
       <>
         <WelcomeUser title="Welcome Superadmin!" />
         <AdminDashboard />

@@ -34,7 +34,7 @@ const Cards = () => {
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
-    <PanelLayout title="Scanned Cards - SY HR MS">
+    <PanelLayout title="Scanned Cards - Admin Panel">
       <section className="md:px-8 px-2 md:py-4 py-2">
         <div className="flex justify-between md:items-center md:flex-row flex-col items-start">
           <AdminBreadcrumbs links={links} />
@@ -157,6 +157,8 @@ const usertypes: Array<UserTypeItem> = [
 ];
 
 const short = [
-  { id: 1, value: "createdAt:asc", name: "Created Ascending" },
-  { id: 2, value: "createdAt:desc", name: "Created Descending" },
+  { id: 1, value: "name:asc", name: "Name Ascending" },
+  { id: 2, value: "name:desc", name: "Name descending" },
+  { id: 3, value: "createdAt:asc", name: "CARD CREATED ASCENDING" },
+  { id: 4, value: "createdAt:desc", name: "CARD CREATED DESCENDING" },
 ];

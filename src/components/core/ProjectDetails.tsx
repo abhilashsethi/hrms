@@ -44,7 +44,6 @@ const ProjectDetails = () => {
   const { data: projectData, mutate } = useFetch<Projects>(
     `projects/${router?.query?.id}`
   );
-  // console.log(projectData);
 
   const shortCuts: shortCutTypes[] = [
     {
@@ -153,7 +152,6 @@ const ProjectDetails = () => {
               >
                 {projectData?.status}
               </span>
-              {/* <Chip label="Progress" color="warning" size="small" /> */}
             </div>
             <div className="md:flex px-1 gap-4 w-full">
               <div className="md:flex flex-col gap-3 mt-4 md:w-2/3">
@@ -221,7 +219,6 @@ const ProjectDetails = () => {
                 </Tooltip>
               ))}
             </div>
-
             <ProjectTabs />
           </div>
         </div>

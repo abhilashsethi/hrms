@@ -36,7 +36,7 @@ const LeaveRequests = () => {
   );
   console.log(leavesData);
   return (
-    <PanelLayout title="Leaves - Admin Panel">
+    <PanelLayout title="Leave Requests - Admin Panel">
       <section className="md:px-8 px-4 py-2">
         <CreateLeave
           mutate={mutate}

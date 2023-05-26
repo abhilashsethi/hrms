@@ -13,7 +13,7 @@ const Roles = () => {
   );
 
   return (
-    <PanelLayout title="Roles - SY HR MS">
+    <PanelLayout title="Roles - Admin Panel">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
         {isLoading && <Loader />}

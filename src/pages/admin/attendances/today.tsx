@@ -90,7 +90,7 @@ const TodayAttendance = () => {
     disabledDates.push(addDays(tomorrow, i));
   }
   return (
-    <PanelLayout title="Today Attendance - SY HR MS">
+    <PanelLayout title="Today Attendance - Admin Panel">
       <section className="px-8 py-4">
         <div className="mt-4 lg:flex justify-between">
           <AdminBreadcrumbs links={links} />
