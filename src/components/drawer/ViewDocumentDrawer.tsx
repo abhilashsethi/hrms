@@ -194,8 +194,8 @@ const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
 														item?.docType === "pdf"
 															? PDF.src
 															: item?.docType === "img"
-															? IMG.src
-															: DOC.src
+																? IMG.src
+																: DOC.src
 													}
 													alt=""
 												/>
