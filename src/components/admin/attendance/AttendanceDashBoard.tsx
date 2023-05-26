@@ -10,7 +10,7 @@ import { useFetch } from "hooks";
 import moment from "moment";
 import { DailyAttendance, DonutChart } from "components/analytics";
 import ICONS from "assets/icons";
-
+import { MouseEvent } from "react";
 const AttendanceDashBoard = () => {
   const [attendances, setAttendances] = useState([]);
   function renderEventContent(eventInfo: any) {
@@ -31,9 +31,9 @@ const AttendanceDashBoard = () => {
       </>
     );
   }
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
