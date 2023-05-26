@@ -1,5 +1,5 @@
 import { MenuItem, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CircularProgress, {
   CircularProgressProps,
 } from "@mui/material/CircularProgress";
@@ -15,7 +15,7 @@ const EmployeeAllAttendance = () => {
     totalPresent: 0,
     totalAbsent: 0,
   });
-  const [progress, setProgress] = React.useState(0);
+  const [progress, setProgress] = useState(0);
   const [activeMonth, setActiveMonth] = useState(new Date().getMonth());
 
   const { data: attendanceData } = useFetch<any>(

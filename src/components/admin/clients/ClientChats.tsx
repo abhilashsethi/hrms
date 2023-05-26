@@ -10,17 +10,26 @@ import React, { useState } from "react";
 import { useFetch } from "hooks";
 import { Tickets } from "types";
 import TicketDetailsSkeletonLoading from "./TicketDetailsSkeletonLoading";
+import { TicketAddDocumentDialogue } from "components/dialogues";
 interface Props {
   ticketsData?: Tickets | null;
   ticketLoading?: any;
+  mutateTicket?: any;
 }
-const ClientChats = ({ ticketsData, ticketLoading }: Props) => {
+const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
+  const [getDocument, setGetDocument] = useState<boolean>(false);
   const [tickets, setTickets] = useState(false);
 
   return (
     <section className="w-full p-4 rounded-lg bg-white shadow-xl">
+      <TicketAddDocumentDialogue
+        open={getDocument}
+        handleClose={() => setGetDocument(false)}
+        // details={meetingDetails}
+        mutate={mutateTicket}
+      />
       <HeadText title="Requester Details" />
-      {ticketsData ? (<>
+      {ticketLoading ? (<TicketDetailsSkeletonLoading />) : (<>
         <div className="md:flex items-center gap-4">
           <div className="my-2">
             <PhotoViewer
@@ -95,38 +104,27 @@ const ClientChats = ({ ticketsData, ticketLoading }: Props) => {
           <p className="font-semibold mt-3 mb-2">Documents</p>
           <Tooltip title="Add more">
             <button className="mt-5 bg-white text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white border border-theme rounded-lg px-4">
-              <Add className="" />
+              <Add onClick={() => setGetDocument((prev) => !prev)} className="" />
             </button>
           </Tooltip>
         </div>
-        <div className="grid lg:grid-cols-3 w-full gap-6">
-          {ticketsData?.documents?.length ? (<>
-            <div className="cursor-pointer">
-              <img className="w-12" src={PDF.src} alt="" />
-              <p className="text-xs">doc_1002...</p>
-            </div>
-            <div className="cursor-pointer">
-              <img className="w-12" src={DOC.src} alt="" />
-              <p className="text-xs">doc_1003...</p>
-            </div>
-            <div className="cursor-pointer">
-              <img className="w-12" src={XLS.src} alt="" />
-              <p className="text-xs">doc_1004...</p>
-            </div>
-            <div className="cursor-pointer">
-              <img className="w-12" src={IMG.src} alt="" />
-              <p className="text-xs">doc_1005...</p>
-            </div>
-            <div className="cursor-pointer">
-              <img className="w-12" src="/docs.png" alt="" />
-              <p className="text-xs">doc_1006...</p>
-            </div>
-            <div className="border border-theme h-8 mt-3 flex justify-center items-center rounded-lg text-sm text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white">
+        {ticketsData?.documents?.length ? (
+          <>
+            <div className="grid w-full gap-6">
+              <div className="cursor-pointer">
+                <img className="w-12" src={PDF.src} alt="" />
+                <p className="text-xs">doc_1002...</p>
+              </div>
+              {/* <div className="border border-theme h-8 mt-3 flex justify-center items-center rounded-lg text-sm text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white">
               <button onClick={() => setTickets(true)}>View All</button>
+            </div> */}
             </div>
-          </>) : <p>No Document Added</p>}
-        </div>
-      </>) : <TicketDetailsSkeletonLoading />}
+          </>
+        ) : <div className="grid gap-1 justify-items-center">
+          <p>No Document</p>
+          <Button variant="contained" startIcon={<Add />} onClick={() => setGetDocument((prev) => !prev)} className="!bg-theme text-white font-semibold tracking-wide hover:scale-95 transition duration-300 ease-in-out">Add Document</Button>
+        </div>}
+      </>)}
     </section>
   );
 };

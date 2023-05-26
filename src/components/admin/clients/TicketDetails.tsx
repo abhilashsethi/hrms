@@ -64,7 +64,6 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
               <div className="flex flex-col gap-1 mt-4 max-h-[20rem] overflow-y-auto">
                 {ticketLoading ? <p>Loading Please wait .....</p> : (
                   <>
-
                     {ticketsData?.conversations?.length ? (
                       <>
                         {ticketsData?.conversations?.sort(
@@ -144,7 +143,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
           </Formik>
         </div>
         <div className="w-full py-4 h-full">
-          <ClientChats ticketsData={ticketsData} ticketLoading={ticketLoading} />
+          <ClientChats ticketsData={ticketsData} ticketLoading={ticketLoading} mutateTicket={mutateTicket} />
         </div>
       </div>
     </section>
