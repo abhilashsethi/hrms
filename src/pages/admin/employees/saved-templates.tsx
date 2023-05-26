@@ -2,7 +2,7 @@ import { Email, FileCopy, Send, Visibility } from "@mui/icons-material";
 import { Button, Grid } from "@mui/material";
 import { EMAILTEMP } from "assets/dashboard_Icons";
 import { AdminBreadcrumbs } from "components/core";
-import { ViewEmailTemplate } from "components/dialogues";
+import { UseTemplate, ViewEmailTemplate } from "components/dialogues";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -13,6 +13,7 @@ const SavedTemplates = () => {
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
+  const [isUse, setIsUse] = useState(false);
   const router = useRouter();
   const links = [
     { id: 1, page: "All Employees", link: "/admin/all-employees" },
@@ -42,6 +43,7 @@ const SavedTemplates = () => {
             handleClose={() => setIsView({ dialogue: false })}
             id={isView?.id}
           />
+          <UseTemplate open={isUse} handleClose={() => setIsUse(false)} />
           <div className="md:w-auto w-full">
             <AdminBreadcrumbs links={links} />
           </div>
@@ -79,6 +81,7 @@ const SavedTemplates = () => {
                       variant="contained"
                       startIcon={<Email />}
                       className="!bg-green-500"
+                      onClick={() => setIsUse(true)}
                     >
                       Use
                     </Button>
