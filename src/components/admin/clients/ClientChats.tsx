@@ -126,6 +126,7 @@ const ClientChats = ({ ticketsData, ticketLoading }: Props) => {
             </div>
           </>) : <p>No Document Added</p>}
         </div>
+        <TicketDetailsSkeletonLoading />
       </>) : <TicketDetailsSkeletonLoading />}
     </section>
   );
@@ -133,65 +134,4 @@ const ClientChats = ({ ticketsData, ticketLoading }: Props) => {
 
 export default ClientChats;
 
-const chats = [
-  {
-    id: 1,
-    icon: (
-      <PhotoViewer
-        photo={
-          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-        }
-        size="3rem"
-      />
-    ),
-    name: "John Smith",
-    details:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas nobis id tempora impedit facere cupiditate rem officiis repellendus quasi delectus!",
-    status: "COMPLETED",
-  },
-  {
-    id: 2,
-    icon: (
-      <PhotoViewer
-        photo={
-          "https://t4.ftcdn.net/jpg/02/14/74/61/360_F_214746128_31JkeaP6rU0NzzzdFC4khGkmqc8noe6h.jpg"
-        }
-        size="3rem"
-      />
-    ),
-    name: "Shrinu Readdy",
-    details:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas ",
-    status: "COMPLETED",
-  },
-  {
-    id: 3,
-    icon: (
-      <PhotoViewer
-        photo={
-          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-        }
-        size="3rem"
-      />
-    ),
-    name: "John Smith",
-    details:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas nobis id tempora impedit facere cupiditate rem officiis repellendus quasi delectus!",
-    status: "COMPLETED",
-  },
-  {
-    id: 4,
-    icon: (
-      <PhotoViewer
-        photo={
-          "https://t4.ftcdn.net/jpg/02/14/74/61/360_F_214746128_31JkeaP6rU0NzzzdFC4khGkmqc8noe6h.jpg"
-        }
-        size="3rem"
-      />
-    ),
-    name: "Shrinu Readdy",
-    details:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas ",
-    status: "COMPLETED",
-  },
-];
+
