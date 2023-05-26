@@ -5,22 +5,23 @@ const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 const DailyAttendance = ({
 	type,
 	text = "",
+	data,
 }: {
 	type: "bar" | "area" | "line";
 	text?: string;
+	data?: any;
 }) => {
-	let mounted = false;
-
+	console.log(data);
 	const options = {
 		series: [
 			{
 				name: "Present",
-				data: [31, 40, 28, 51, 42],
+				data: data?.map((item: any) => item?.count),
 			},
-			{
-				name: "Absent",
-				data: [11, 32, 45, 32, 34],
-			},
+			// {
+			// 	name: "Absent",
+			// 	data: [11, 32, 45, 32, 34],
+			// },
 		],
 		chart: {
 			height: 350,
@@ -34,7 +35,7 @@ const DailyAttendance = ({
 		},
 		xaxis: {
 			type: "category",
-			categories: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+			categories: data?.map((item: any) => item?._id),
 		},
 		tooltip: {
 			x: {
@@ -59,12 +60,12 @@ const DailyAttendance = ({
 				series: [
 					{
 						name: "Present",
-						data: [31, 40, 28, 51, 42],
+						data: data?.map((item: any) => item?.count),
 					},
-					{
-						name: "Absent",
-						data: [11, 32, 45, 32, 34],
-					},
+					// {
+					// 	name: "Absent",
+					// 	data: [11, 32, 45, 32, 34],
+					// },
 				],
 				chart: {
 					height: 350,
@@ -78,7 +79,7 @@ const DailyAttendance = ({
 				},
 				xaxis: {
 					type: "category",
-					categories: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+					categories: data?.map((item: any) => item?._id),
 				},
 				tooltip: {
 					x: {

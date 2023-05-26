@@ -8,22 +8,18 @@ const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 const GenderRation = ({
 	type,
 	text = "",
-	genderData,
+	series,
+	labels,
 }: {
 	type: "bar" | "area" | "line" | "pie" | "donut";
 	text?: string;
 	data?: any;
-	genderData?: any;
+	series?: any;
+	labels?: any;
 }) => {
 	const options = {
-		labels: genderData?.length
-			? genderData?.map((item: any) =>
-					item?.gender ? item?.gender : "Not Specified"
-			  )
-			: null,
-		series: genderData?.length
-			? genderData?.map((item: any) => (item?._count ? item?._count : 0))
-			: null,
+		labels,
+		series,
 		chart: {
 			type: "donut",
 		},
@@ -57,9 +53,7 @@ const GenderRation = ({
 		<ApexCharts
 			height={"500"}
 			options={{
-				series: genderData?.length
-					? genderData?.map((item: any) => (item?._count ? item?._count : 0))
-					: null,
+				series,
 				chart: {
 					type: "donut",
 				},
@@ -77,12 +71,7 @@ const GenderRation = ({
 					},
 				],
 
-				labels: genderData?.length
-					? genderData?.map((item: any) =>
-							item?.gender ? item?.gender : "Not Specified"
-					  )
-					: null,
-
+				labels,
 				colors: ["#106EAD", "#C33C5E", "#25d366", "#BD33B5", "#E60023"],
 
 				title: {

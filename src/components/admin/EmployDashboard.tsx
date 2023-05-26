@@ -145,7 +145,11 @@ const EmployDashboard = () => {
 
 					<div className="grid grid-cols-12 content-between gap-10 m-5 !mb-6">
 						<div className="col-span-12 pt-20 w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
-							<DailyAttendance text="Employee's Report" type="area" />
+							<DailyAttendance
+								text="Employee's Report"
+								type="area"
+								data={employeeDetails?.lastWeekAttendanceArr}
+							/>
 						</div>
 					</div>
 				</div>
@@ -179,22 +183,26 @@ const EmployDashboard = () => {
 				<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Role-wise Strength</p>
 					<RolewiseStrength
-						series={[
-							{
-								name: "Strength",
-								data: roleData?.length
-									? roleData?.map((item: any) =>
-											item?._count ? item?._count : 0
-									  )
-									: null,
-							},
-						]}
+						series={
+							roleData?.length
+								? [
+										{
+											name: "Strength",
+											data: roleData?.length
+												? roleData?.map((item: any) =>
+														item?._count ? item?._count : 0
+												  )
+												: [],
+										},
+								  ]
+								: []
+						}
 						categories={
 							roleData?.length
 								? roleData?.map((item: any) =>
 										item?.name ? item?.name : "Not Specified"
 								  )
-								: null
+								: []
 						}
 						text=""
 						type="bar"
@@ -203,7 +211,20 @@ const EmployDashboard = () => {
 				<div className="col-span-12  pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Employee Gender Ratio</p>
 					<GenderRation
-						genderData={employeeDetails?.groupByGender}
+						series={
+							employeeDetails?.groupByGender?.length
+								? employeeDetails?.groupByGender?.map(
+										(item: any) => item?._count
+								  )
+								: []
+						}
+						labels={
+							employeeDetails?.groupByGender?.length
+								? employeeDetails?.groupByGender?.map((item: any) =>
+										item?.gender ? item?.gender : []
+								  )
+								: []
+						}
 						text=""
 						type="donut"
 					/>
