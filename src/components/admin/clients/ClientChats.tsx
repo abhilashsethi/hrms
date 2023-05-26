@@ -126,7 +126,6 @@ const ClientChats = ({ ticketsData, ticketLoading }: Props) => {
             </div>
           </>) : <p>No Document Added</p>}
         </div>
-        <TicketDetailsSkeletonLoading />
       </>) : <TicketDetailsSkeletonLoading />}
     </section>
   );
