@@ -135,57 +135,58 @@ const TodayAttendance = () => {
             ))}
           </div>
         </div>
-        <FiltersContainer
-          changes={() => {
-            setEmpId(null);
-            setUsername(null);
-            setOrder(null);
-          }}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4 mb-4">
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Employee Id"
-              name="employeeId"
-              onChange={(e) => setEmpId(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Employee Name"
-              onChange={(e) => setUsername(e.target.value)}
-              name="employeeName"
-            />
-            <TextField
-              size="small"
-              fullWidth
-              select
-              label="Status"
-              defaultValue="all"
-              onChange={(e: any) => setStatus(e.target.value)}
-            >
-              {selects.map((option: any) => (
-                <MenuItem key={option.id} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              size="small"
-              fullWidth
-              select
-              label="Order By"
-              // defaultValue="all"
-              onChange={(e: any) => setOrder(e.target.value)}
-            >
-              {orderBy.map((option: any) => (
-                <MenuItem key={option.id} value={option.value}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
-            {/* <Button
+        <section className="mt-4">
+          <FiltersContainer
+            changes={() => {
+              setEmpId(null);
+              setUsername(null);
+              setOrder(null);
+            }}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+              <TextField
+                fullWidth
+                size="small"
+                placeholder="Employee Id"
+                name="employeeId"
+                onChange={(e) => setEmpId(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                size="small"
+                placeholder="Employee Name"
+                onChange={(e) => setUsername(e.target.value)}
+                name="employeeName"
+              />
+              <TextField
+                size="small"
+                fullWidth
+                select
+                label="Status"
+                defaultValue="all"
+                onChange={(e: any) => setStatus(e.target.value)}
+              >
+                {selects.map((option: any) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                size="small"
+                fullWidth
+                select
+                label="Order By"
+                // defaultValue="all"
+                onChange={(e: any) => setOrder(e.target.value)}
+              >
+                {orderBy.map((option: any) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+              {/* <Button
               fullWidth
               startIcon={<Search />}
               variant="contained"
@@ -193,8 +194,9 @@ const TodayAttendance = () => {
             >
               Search
             </Button> */}
-          </div>
-        </FiltersContainer>
+            </div>
+          </FiltersContainer>
+        </section>
         <section>
           {isLoading ? (
             <Loader />
