@@ -51,7 +51,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
     }
   };
   return (
-    <section className="mb-12 flex gap-3">
+    <section className="">
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
           <div className="w-full bg-white shadow-xl rounded-lg p-8 mt-4">
@@ -108,7 +108,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
               setFieldValue,
             }) => (
               <Form>
-                <div className="mt-8 bg-white">
+                <div className="mt-8">
 
                   <ReactQuill
                     placeholder="Reply message ..."
@@ -116,9 +116,9 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
                     value={values.text}
                     onChange={(value) => setFieldValue('text', value)}
                     onBlur={handleBlur('text')}
-                    className="h-[150px] "
+                    className="lg:h-[150px] w-full bg-white"
                   />
-                  <div className="flex justify-end items-end w-full pr-2">
+                  <div className="flex md:pt-0 pt-4 justify-end items-end w-full pr-2">
                     <Button
                       type="submit"
                       variant="contained"
@@ -137,10 +137,8 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
             )}
           </Formik>
         </div>
-        <div>
-          <div className="w-full h-full">
-            <ClientChats ticketsData={ticketsData} ticketLoading={ticketLoading} />
-          </div>
+        <div className="w-full py-4 h-full">
+          <ClientChats ticketsData={ticketsData} ticketLoading={ticketLoading} />
         </div>
       </div>
     </section>

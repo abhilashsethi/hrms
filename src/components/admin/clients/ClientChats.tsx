@@ -18,11 +18,11 @@ const ClientChats = ({ ticketsData, ticketLoading }: Props) => {
   const [tickets, setTickets] = useState(false);
 
   return (
-    <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
+    <section className="w-full p-4 rounded-lg bg-white shadow-xl">
       <HeadText title="Requester Details" />
       {ticketsData ? (<>
-        <div className="flex items-center gap-4">
-          <div className="mt-2">
+        <div className="md:flex items-center gap-4">
+          <div className="my-2">
             <PhotoViewer
               photo={ticketsData?.client?.photo}
               name={ticketsData?.client?.name}
