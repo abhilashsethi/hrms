@@ -15,3 +15,5 @@ export { default as DepartmentInformation } from "./DepartmentInformation";
 export { default as LeaveDocuments } from "./LeaveDocuments";
 export { default as ViewNotesDrawer } from "./ViewNotesDrawer";
 export { default as ViewProjectsDrawerClient } from "./ViewProjectsDrawerClient";
+export { default as ViewProjectsDrawerClientMain } from "./ViewProjectsDrawerClientMain";
+

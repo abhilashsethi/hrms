@@ -6,3 +6,4 @@ export { default as ClientsGrid } from "./ClientsGrid";
 export { default as ClientDashboardCard } from "./ClientDashboardCard";
 export { default as ClientDashboardCharts } from "./ClientDashboardCharts";
 export { default as TicketDetailsSkeletonLoading } from "./TicketDetailsSkeletonLoading";
+export { default as ProjectDrawerSkeletonLoading } from "./ProjectDrawerSkeletonLoading";
