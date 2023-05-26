@@ -1,14 +1,14 @@
-// import { Hide, Logo, View } from "@/assets/login";
-import React, { useState } from "react";
-import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
+import { LoginOutlined } from "@mui/icons-material";
+import { Button, CircularProgress } from "@mui/material";
 import { Hide, Logo, View } from "assets/dashboard_Icons";
+import { Field, Form, Formik } from "formik";
 import { useAuth, useMutation } from "hooks";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
-import { Button, CircularProgress } from "@mui/material";
-import { LoginOutlined } from "@mui/icons-material";
+import * as Yup from "yup";
 
 const LoginSchema = [
   {
@@ -71,10 +71,13 @@ const LoginAuth = () => {
           () => router.push(`/admin/hr`)
         );
       return Swal.fire("Error", "You Don't Have Access To This Page", "error");
-    } catch (error) {
+    } catch (err) {
       submitProps.setSubmitting(false);
-      Swal.fire("Error", "Invalid login credentials", "error");
-      console.log(error);
+      Swal.fire(
+        "Error",
+        "Server not available, Please try after sometime!",
+        "error"
+      );
     }
   };
 
@@ -194,14 +197,13 @@ const LoginAuth = () => {
                     </Field>
                   ))}
                   <div className="flex flex-col items-start justify-between w-full gap-4">
-                    <div className="flex items-center gap-2">
-                      <input type="checkbox" name="remember" id="remember" />
-                      <label
-                        htmlFor="remember"
-                        className="text-themeDarkGray text-sm font-semibold"
+                    <div className="flex items-center justify-end w-full">
+                      <Link
+                        href="/forgot-password"
+                        className="text-sm font-semibold hover:text-blue-600"
                       >
-                        Remember my preference
-                      </label>
+                        Forgot Password?
+                      </Link>
                     </div>
                     <div className="w-full">
                       <Button
@@ -210,9 +212,8 @@ const LoginAuth = () => {
                         disabled={
                           formik.isSubmitting || !formik.isValid || isMutating
                         }
-                        variant="contained"
+                        variant="outlined"
                         color="primary"
-                        className="!bg-blue-600"
                         size="large"
                         startIcon={
                           isMutating ? (
@@ -222,18 +223,9 @@ const LoginAuth = () => {
                           )
                         }
                       >
-                        Login
+                        LOGIN
                       </Button>
                     </div>
-                  </div>
-
-                  <div className="flex items-center justify-center w-full">
-                    <a
-                      href="#"
-                      className="text-themeDarkGray text-sm font-semibold"
-                    >
-                      Forgot Password?
-                    </a>
                   </div>
                 </Form>
               )}
