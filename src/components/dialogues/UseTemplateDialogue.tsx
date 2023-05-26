@@ -31,8 +31,11 @@ const UseTemplate = ({ open, handleClose, mutate }: Props) => {
   const { change } = useChange();
   const formik = useFormik({
     initialValues: { subject: "" },
-    validationSchema: yup.object({ name: yup.string().required("Required!") }),
+    validationSchema: yup.object({
+      subject: yup.string().required("Required!"),
+    }),
     onSubmit: async (values) => {
+      return;
       setLoading(true);
       try {
         const res = await change(`roles`, { body: values });
