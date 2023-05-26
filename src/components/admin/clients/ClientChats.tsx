@@ -8,23 +8,19 @@ import { useRouter } from "next/router";
 import { ViewTicketsDrawer } from "components/drawer";
 import React, { useState } from "react";
 import { useFetch } from "hooks";
-
-const ClientChats = () => {
+import { Tickets } from "types";
+interface Props  {
+  ticketsData?: Tickets | null;
+  ticketLoading?: any;
+}
+const ClientChats = ({ticketsData, ticketLoading}:Props) => {
   const [tickets, setTickets] = useState(false);
   const router = useRouter();
   const [viewTickets, setViewTickets] = useState<any>(null);
-  const { data: ticketsData, isLoading } = useFetch<any>(
-    `tickets?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
-  );
+
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
-      <ViewTicketsDrawer
-        open={tickets}
-        onClose={() => setTickets(false)}
-        setViewTickets={setViewTickets}
-        ticket={ticketsData}
-        isLoading={isLoading}
-      />
+  
 
       <HeadText title="Requester Details" />
       <div className="flex items-center gap-4">
@@ -50,23 +46,22 @@ const ClientChats = () => {
       <div className="font-semibold my-3">
         Support Title :{"  "}
         <span className="font-medium text-gray-600">
-          {"  "}Arrange a Meeting
+          {ticketsData?.title}
         </span>
       </div>
       <div className="font-semibold mt-3">Support Description :</div>
       <p className="text-gray-600 font-medium text-sm">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates
-        adipisci a facere voluptatum debitis totam asperiores temporibus cumque
-        commodi .
+     {ticketsData?.description}
       </p>
       <div className="flex items-center mt-3 gap-3">
         <div className="font-semibold ">Issue Resolved :</div>
         <div className="text-xs bg-[#44bd44] text-white p-1 rounded-md font-semibold px-2">
-          Yes
+          {ticketsData?.isResolved ? <p> Yes</p> : <p>No</p>}
         </div>
       </div>
       <p className="font-semibold mt-3 mb-2">Assigned Members</p>
       <div className="flex justify-start">
+        {ticketsData?.assignedUserIds?.length ?
         <AvatarGroup
           className="!cursor-pointer"
           //   onClick={() => setIsMembers({ dialogue: true })}
@@ -96,6 +91,7 @@ const ClientChats = () => {
           <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
           <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
         </AvatarGroup>
+        : <p>Not Added</p>}
       </div>
 
       <div className="flex justify-between">
@@ -106,7 +102,8 @@ const ClientChats = () => {
           </button>
         </Tooltip>
       </div>
-      <div className="grid grid-cols-3 w-2/3 gap-6">
+      <div className="grid lg:grid-cols-3 lg:w-2/3 gap-6">
+        {ticketsData?.documents?.length ? (<>
         <div className="cursor-pointer">
           <img className="w-12" src={PDF.src} alt="" />
           <p className="text-xs">doc_1002...</p>
@@ -123,6 +120,7 @@ const ClientChats = () => {
           <img className="w-12" src={IMG.src} alt="" />
           <p className="text-xs">doc_1005...</p>
         </div>
+        </>):<p>No Document Added</p>}
         <div className="cursor-pointer">
           <img className="w-12" src="/docs.png" alt="" />
           <p className="text-xs">doc_1006...</p>

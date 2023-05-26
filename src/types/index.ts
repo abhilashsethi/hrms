@@ -135,6 +135,7 @@ export type Tickets = {
   id: string;
   title?: string;
   clientId?: string;
+  documents?: string[];
   associatedProjectId?: string;
   description?: string | null;
   isResolved?: boolean;

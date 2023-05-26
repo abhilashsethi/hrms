@@ -11,11 +11,11 @@ import { Send } from "@mui/icons-material";
 import moment from "moment";
 interface Props  {
   ticketsData?: Tickets | null;
+  ticketLoading?: any;
 }
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
-const TicketDetails = ({ticketsData}:Props) => {
-  const router = useRouter();
+const TicketDetails = ({ticketsData, ticketLoading}:Props) => {
   const [value, setValue] = useState("");
   const {
     data: ticketConversation,
@@ -23,11 +23,8 @@ const TicketDetails = ({ticketsData}:Props) => {
     isLoading,
   } = useFetch<TicketsConversations>(`ticket-conversation`);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+ 
   return (
-    <section>
       <section className="mb-12 flex gap-3">
         <div className="grid lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
@@ -37,7 +34,10 @@ const TicketDetails = ({ticketsData}:Props) => {
                 <p className="font-bold tracking-wide">Conversations</p>
               </div>
               <div className="grid">
+                {ticketLoading ? <p>Loading Please wait .....</p> :(
                   <div className="flex flex-col gap-1 mt-4 max-h-[20rem] overflow-y-auto">
+                   {ticketsData?.conversations?.length ? (
+                    <>
                     {ticketsData?.conversations?.map((item, i) => (
                       <div
                         key={i}
@@ -49,7 +49,7 @@ const TicketDetails = ({ticketsData}:Props) => {
                           </div>
                         </div>
                         <div className="">
-                          <div className="flex relative pr-3 items-center">
+                          <div className="flex justify-between pr-3 items-center">
                             <p className="text-sm font-semibold tracking-wide">
                               {item?.userInfo?.name}
                             </p>
@@ -63,8 +63,9 @@ const TicketDetails = ({ticketsData}:Props) => {
                           </p>
                         </div>
                       </div>
-                    ))}
+                    ))} </>): <p>No conversation</p> }
                   </div>
+                )}
               </div>
             </div>
             <div className="mt-8">
@@ -91,12 +92,11 @@ const TicketDetails = ({ticketsData}:Props) => {
           </div>
           <div>
             <div className="w-full h-full">
-              <ClientChats />
+              <ClientChats ticketsData={ticketsData} ticketLoading={ticketLoading}/>
             </div>
           </div>
         </div>
       </section>
-    </section>
   );
 };
 
