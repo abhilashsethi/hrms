@@ -3,6 +3,7 @@ import { Button, CircularProgress } from "@mui/material";
 import { Hide, Logo, View } from "assets/dashboard_Icons";
 import { Field, Form, Formik } from "formik";
 import { useAuth, useMutation } from "hooks";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -196,14 +197,13 @@ const LoginAuth = () => {
                     </Field>
                   ))}
                   <div className="flex flex-col items-start justify-between w-full gap-4">
-                    <div className="flex items-center gap-2">
-                      <input type="checkbox" name="remember" id="remember" />
-                      <label
-                        htmlFor="remember"
-                        className="text-themeDarkGray text-sm font-semibold"
+                    <div className="flex items-center justify-end w-full">
+                      <Link
+                        href="/forgot-password"
+                        className="text-sm font-semibold hover:text-blue-600"
                       >
-                        Remember my preference
-                      </label>
+                        Forgot Password?
+                      </Link>
                     </div>
                     <div className="w-full">
                       <Button
@@ -212,9 +212,8 @@ const LoginAuth = () => {
                         disabled={
                           formik.isSubmitting || !formik.isValid || isMutating
                         }
-                        variant="contained"
+                        variant="outlined"
                         color="primary"
-                        className="!bg-blue-600"
                         size="large"
                         startIcon={
                           isMutating ? (
@@ -224,18 +223,9 @@ const LoginAuth = () => {
                           )
                         }
                       >
-                        Login
+                        LOGIN
                       </Button>
                     </div>
-                  </div>
-
-                  <div className="flex items-center justify-center w-full">
-                    <a
-                      href="#"
-                      className="text-themeDarkGray text-sm font-semibold"
-                    >
-                      Forgot Password?
-                    </a>
                   </div>
                 </Form>
               )}
