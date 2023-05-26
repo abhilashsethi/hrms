@@ -140,8 +140,8 @@ export type Tickets = {
   description?: string | null;
   isResolved?: boolean;
   assignedUserIds?: User[];
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: any | null;
+  updatedAt?: string | null;
   conversations?: TicketsConversations[];
   client?: Client;
 };

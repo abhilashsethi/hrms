@@ -11,6 +11,7 @@ import "react-quill/dist/quill.snow.css";
 import { Send } from "@mui/icons-material";
 import moment from "moment";
 import Swal from "sweetalert2";
+import { clock } from "utils";
 interface Props {
   ticketsData?: Tickets | null;
   ticketLoading?: any;
@@ -51,7 +52,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
     }
   };
   return (
-    <section className="mb-12 flex gap-3">
+    <section className="">
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
           <div className="w-full bg-white shadow-xl rounded-lg p-8 mt-4">
@@ -63,10 +64,13 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
               <div className="flex flex-col gap-1 mt-4 max-h-[20rem] overflow-y-auto">
                 {ticketLoading ? <p>Loading Please wait .....</p> : (
                   <>
-
                     {ticketsData?.conversations?.length ? (
                       <>
-                        {ticketsData?.conversations?.map((item, i) => (
+                        {ticketsData?.conversations?.sort(
+                          (a: any, b: any) =>
+                            (new Date(b?.createdAt) as any) -
+                            (new Date(a?.createdAt) as any)
+                        )?.map((item: any, i) => (
                           <div
                             key={i}
                             className="flex gap-3 py-3 px-1 border-b-[1px]"
@@ -82,7 +86,8 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
                                   {item?.userInfo?.name}
                                 </p>
                                 <p className="pr-3 text-xs font-semibold text-gray-500 tracking-wide">
-                                  {moment(item?.createdAt).format('ll')}
+                                  {clock(item?.createdAt).fromNow()}
+                                  {/* {moment(item?.createdAt).format('ll')} */}
                                 </p>
                               </div>
                               <p className="text-sm tracking-wide">
@@ -108,7 +113,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
               setFieldValue,
             }) => (
               <Form>
-                <div className="mt-8 bg-white">
+                <div className="mt-8">
 
                   <ReactQuill
                     placeholder="Reply message ..."
@@ -116,9 +121,9 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
                     value={values.text}
                     onChange={(value) => setFieldValue('text', value)}
                     onBlur={handleBlur('text')}
-                    className="h-[150px] "
+                    className="lg:h-[150px] w-full bg-white"
                   />
-                  <div className="flex justify-end items-end w-full pr-2">
+                  <div className="flex md:pt-0 pt-4 justify-end items-end w-full pr-2">
                     <Button
                       type="submit"
                       variant="contained"
@@ -137,10 +142,8 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
             )}
           </Formik>
         </div>
-        <div>
-          <div className="w-full h-full">
-            <ClientChats ticketsData={ticketsData} ticketLoading={ticketLoading} />
-          </div>
+        <div className="w-full py-4 h-full">
+          <ClientChats ticketsData={ticketsData} ticketLoading={ticketLoading} mutateTicket={mutateTicket} />
         </div>
       </div>
     </section>
