@@ -88,7 +88,7 @@ const ClientChats = ({ ticketsData, ticketLoading }: Props) => {
               <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
               <Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
             </AvatarGroup>
-            : <p>Not Added</p>}
+            : <p>Not Assigned</p>}
         </div>
 
         <div className="flex justify-between">

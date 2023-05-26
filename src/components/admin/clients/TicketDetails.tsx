@@ -11,6 +11,7 @@ import "react-quill/dist/quill.snow.css";
 import { Send } from "@mui/icons-material";
 import moment from "moment";
 import Swal from "sweetalert2";
+import { clock } from "utils";
 interface Props {
   ticketsData?: Tickets | null;
   ticketLoading?: any;
@@ -66,7 +67,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 
                     {ticketsData?.conversations?.length ? (
                       <>
-                        {ticketsData?.conversations?.map((item, i) => (
+                        {ticketsData?.conversations?.map((item: any, i) => (
                           <div
                             key={i}
                             className="flex gap-3 py-3 px-1 border-b-[1px]"
@@ -82,7 +83,8 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
                                   {item?.userInfo?.name}
                                 </p>
                                 <p className="pr-3 text-xs font-semibold text-gray-500 tracking-wide">
-                                  {moment(item?.createdAt).format('ll')}
+                                  {clock(item?.createdAt).fromNow()}
+                                  {/* {moment(item?.createdAt).format('ll')} */}
                                 </p>
                               </div>
                               <p className="text-sm tracking-wide">
