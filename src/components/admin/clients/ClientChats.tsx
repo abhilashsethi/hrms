@@ -19,8 +19,6 @@ const ClientChats = ({ ticketsData, ticketLoading }: Props) => {
 
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
-
-
       <HeadText title="Requester Details" />
       {ticketsData ? (<>
         <div className="flex items-center gap-4">
@@ -101,7 +99,7 @@ const ClientChats = ({ ticketsData, ticketLoading }: Props) => {
             </button>
           </Tooltip>
         </div>
-        <div className="grid lg:grid-cols-3 lg:w-2/3 gap-6">
+        <div className="grid lg:grid-cols-3 w-full gap-6">
           {ticketsData?.documents?.length ? (<>
             <div className="cursor-pointer">
               <img className="w-12" src={PDF.src} alt="" />

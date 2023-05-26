@@ -35,14 +35,10 @@ const roles = [
 
 const links = [
   { id: 1, page: "Clients", link: "/admin/clients" },
-  // {
-  // 	id: 2,
-  // 	page: "Client Profile",
-  // 	link: "/admin/clients/client-profile",
-  // },
   {
-    id: 3,
-    page: "View Ticket Details",
-    link: "/admin/clients/view-ticket-details",
+    id: 2,
+    page: "All Client",
+    link: "/admin/clients/all-clients",
   },
+
 ];
