@@ -35,12 +35,14 @@ import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { Projects } from "types";
 import moment from "moment";
+import ProjectVideoDrawer from "components/drawer/ProjectVideoDrawer";
 
 const ProjectDetails = () => {
 	const router = useRouter();
 	const [isURL, setIsURL] = useState(false);
 	const [isUpdate, setIsUpdate] = useState(false);
 	const [isDocuments, setIsDocuments] = useState(false);
+	const [isVideo, setIsVideo] = useState(false);
 	const [isMembers, setIsMembers] = useState(false);
 	const { data: projectData, mutate } = useFetch<Projects>(
 		`projects/${router?.query?.id}`
@@ -69,7 +71,7 @@ const ProjectDetails = () => {
 			id: 4,
 			icon: <Videocam />,
 			title: "Videos",
-			onClick: () => setIsDocuments(true),
+			onClick: () => setIsVideo(true),
 		},
 	];
 	const BasicData = [
@@ -114,6 +116,7 @@ const ProjectDetails = () => {
 				open={isDocuments}
 				onClose={() => setIsDocuments(false)}
 			/>
+			<ProjectVideoDrawer open={isVideo} onClose={() => setIsVideo(false)} />
 			<ProjectMembers
 				projectData={projectData}
 				open={isMembers}
