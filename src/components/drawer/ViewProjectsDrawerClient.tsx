@@ -1,13 +1,14 @@
 import { Avatar, Card, Container, Drawer, Modal, Tooltip } from "@mui/material";
 import { AccountTreeRounded, FreeBreakfast } from "@mui/icons-material";
 import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
-import { Loader } from "components/core";
+import { Loader, LoaderAnime } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { User } from "types";
 import moment from "moment";
 import ICONS from "assets/icons";
+import { ProjectDrawerSkeletonLoading } from "components/admin/clients";
 
 type Props = {
 	open?: boolean | any;
@@ -75,8 +76,9 @@ const ViewProjectsDrawerClient = ({
 						<p className="text-lg font-bold text-theme">View All Projects</p>
 					</div>
 
-					{isLoading && <Loader />}
+					{isLoading && <ProjectDrawerSkeletonLoading />}
 					<div className="mt-4 flex flex-col gap-4">
+						{projectData?.length === 0 ? (<LoaderAnime text={"No Project Available"} />) : null}
 						{projectData?.map((item: any, index: any) => {
 							return (
 								<div className="">
