@@ -9,7 +9,7 @@ import {
   Loader,
 } from "components/core";
 import { UpdateClient } from "components/dialogues";
-import { ViewTicketsDrawer } from "components/drawer";
+import { ViewProjectsDrawerClient, ViewProjectsDrawerClientMain, ViewTicketsDrawer } from "components/drawer";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -21,6 +21,7 @@ const ClientDetails = () => {
   const router = useRouter();
   const [isDialogue, setIsDialogue] = useState(false);
   const [tickets, setTickets] = useState(false);
+  const [projects, setProjects] = useState(false);
   const [viewTickets, setViewTickets] = useState<any>(null);
   const {
     data: clientData,
@@ -79,6 +80,11 @@ const ClientDetails = () => {
         setViewTickets={setViewTickets}
         ticket={ticketsData}
       />
+      <ViewProjectsDrawerClient
+        open={projects}
+        onClose={() => setProjects(false)}
+        projectData={projectData}
+      />
       <section className="">
         <div className="grid lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
@@ -114,7 +120,7 @@ const ClientDetails = () => {
                   </div>
                 </div>
                 <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4 items-center pt-4">
-                  <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#bbcbff] ">
+                  <div onClick={() => setProjects(true)} className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#bbcbff] ">
                     <Handyman
                       fontSize="large"
                       className="bg-white p-1 rounded-lg mb-3 text-theme"
@@ -127,7 +133,7 @@ const ClientDetails = () => {
                       {clientData?._count?.projects}
                     </p>
                   </div>
-                  <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#b9e9fd]">
+                  <div onClick={() => setProjects(true)} className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#b9e9fd]">
                     <AccountTree
                       fontSize="large"
                       className="bg-white p-1 rounded-lg mb-3 text-theme"
@@ -139,7 +145,7 @@ const ClientDetails = () => {
                       {clientData?.completedProjectCount}
                     </p>
                   </div>
-                  <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#f6c8ff]">
+                  <div onClick={() => setTickets(true)} className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#f6c8ff]">
                     <Receipt
                       fontSize="large"
                       className="bg-white p-1 rounded-lg mb-3 text-theme"
@@ -151,7 +157,7 @@ const ClientDetails = () => {
                       {clientData?._count.tickets}
                     </p>
                   </div>
-                  <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#feb76f]">
+                  <div onClick={() => setTickets(true)} className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer text-center py-3 rounded-md shadow-lg bg-[#feb76f]">
                     <BugReport
                       fontSize="large"
                       className="bg-white p-1 rounded-lg mb-3 text-theme"

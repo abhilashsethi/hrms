@@ -101,31 +101,7 @@ const MoreOption = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
-  //   const handleBlock = async (e: any, item: any) => {
-  //     Swal.fire({
-  //       title: "Are you sure?",
-  //       text: "You want to update status?",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Yes, update!",
-  //     }).then(async (result) => {
-  //       if (result.isConfirmed) {
-  //         const res = await change(`clients/${item?.id}`, {
-  //           method: "PATCH",
-  //           body: { isBlocked: !e.target?.checked },
-  //         });
-  //         mutate();
-  //         if (res?.status !== 200) {
-  //           Swal.fire(`Error`, "Something went wrong!", "error");
-  //           return;
-  //         }
-  //         Swal.fire(`Success`, "User Blocked successfully!!", "success");
-  //         return;
-  //       }
-  //     });
-  //   };
+
   return (
     <>
       <ViewTicketsDrawer
