@@ -13,7 +13,7 @@ const index = () => {
   );
 
   return (
-    <PanelLayout title="Clients Dashboard - SY HR MS">
+    <PanelLayout title="Clients Dashboard - Admin Panel">
       <div className="px-4 pt-4">
         <AdminBreadcrumbs links={links} />
       </div>

@@ -47,7 +47,7 @@ const AllClients = () => {
   );
   return (
     <>
-      <PanelLayout title="All Clients - SY HR MS">
+      <PanelLayout title="All Clients - Admin Panel">
         <section className="lg:px-8 px-4">
           <UploadEmployData
             open={isUpload}
