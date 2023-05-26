@@ -135,12 +135,14 @@ export type Tickets = {
   id: string;
   title?: string;
   clientId?: string;
+  documents?: string[];
   associatedProjectId?: string;
   description?: string | null;
   isResolved?: boolean;
   assignedUserIds?: User[];
   createdAt?: string;
   updatedAt?: string;
+  conversations?: TicketsConversations[];
 };
 export type Projects = {
   URLs?: urlTypes[];

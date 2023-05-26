@@ -142,7 +142,7 @@ const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
 				open={getDocument}
 				handleClose={() => setGetDocument(false)}
 				// details={meetingDetails}
-				// mutate={mutate}
+				mutate={mutate}
 			/>
 
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>

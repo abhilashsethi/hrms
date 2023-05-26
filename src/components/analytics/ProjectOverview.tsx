@@ -59,7 +59,7 @@ const ProjectOverview = ({
 				"Nov",
 				"Dec",
 			],
-			position: "top",
+			position: "bottom",
 			axisBorder: {
 				show: false,
 			},
@@ -158,7 +158,7 @@ const ProjectOverview = ({
 						"Nov",
 						"Dec",
 					],
-					position: "top",
+					position: "bottom",
 					axisBorder: {
 						show: false,
 					},
