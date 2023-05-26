@@ -1888,6 +1888,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-email-editor@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@types/react-email-editor/-/react-email-editor-1.5.1.tgz#b36a5ceb85e27d8eae51735f7c59f39e584e5701"
+  integrity sha512-d6qqfnurOFGFB+JPyLA4QZDLgMdqbftYZSF6BzfYmlsjcysoDawAABdSN/fVRvcBgH5+Ta5/mXeuN+4PvwPRkA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-is@^16.7.1 || ^17.0.0":
   version "17.0.3"
   resolved "https://registry.npmjs.org/@types/react-is/-/react-is-17.0.3.tgz"
@@ -3554,6 +3561,11 @@ react-double-scrollbar@0.0.15:
   version "0.0.15"
   resolved "https://registry.npmjs.org/react-double-scrollbar/-/react-double-scrollbar-0.0.15.tgz"
   integrity sha512-dLz3/WBIpgFnzFY0Kb4aIYBMT2BWomHuW2DH6/9jXfS6/zxRRBUFQ04My4HIB7Ma7QoRBpcy8NtkPeFgcGBpgg==
+
+react-email-editor@^1.6.3:
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/react-email-editor/-/react-email-editor-1.7.8.tgz#f8b56e92fbd3249f3fe83fb26983145f7efd103d"
+  integrity sha512-hnoWpOmBjCnRdLwd6uwZRN+tfCEaSEzZ0KN357pAAF6lotDT7DWHM15QZ2NYhlki4p7yDkMPwVrYgmLEv9aDHw==
 
 react-fast-compare@^2.0.1:
   version "2.0.4"

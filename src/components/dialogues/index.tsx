@@ -25,4 +25,5 @@ export { default as ProjectCreateBug } from "./ProjectCreateBug";
 export { default as UpdateBugStatus } from "./UpdateBugStatus";
 export { default as UpdateTask } from "./UpdateTask";
 export { default as UpdateTaskStatus } from "./UpdateTaskStatus";
+export { default as ViewEmailTemplate } from "./ViewEmailTemplate";
 export { default as TicketAddDocumentDialogue } from "./TicketAddDocumentDialogue";
