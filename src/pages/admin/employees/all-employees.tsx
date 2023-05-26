@@ -28,7 +28,6 @@ const AllEmployees = () => {
   const [empId, setEmpId] = useState<string | null>(null);
   const { data: roleData } = useFetch<any>(`roles`);
   const { data: departmentData } = useFetch<any>(`departments`);
-  // console.log(departmentData);
   const {
     data: employees,
     mutate,
