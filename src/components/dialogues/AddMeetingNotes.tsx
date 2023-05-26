@@ -48,7 +48,7 @@ const AddMeetingNotes = ({ open, handleClose, details, mutate }: Props) => {
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
 		// console.log(values);
-
+		const dtype = values?.link?.type.split("/")[1];
 		Swal.fire({
 			title: "Are you sure?",
 			text: "You want to add Note ?",
@@ -59,7 +59,7 @@ const AddMeetingNotes = ({ open, handleClose, details, mutate }: Props) => {
 			confirmButtonText: "Yes, Add",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
-				const url = await uploadFile(values?.link, `${Date.now()}`);
+				const url = await uploadFile(values?.link, `${Date.now()}.${dtype}`);
 				const notes = [
 					{
 						text: values.text,

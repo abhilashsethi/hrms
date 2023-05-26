@@ -124,11 +124,11 @@ const AddDocumentDialogue = ({ open, handleClose, mutate }: Props) => {
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
-								<p className="font-medium text-gray-700 mb-2">Note</p>
+								<p className="font-medium text-gray-700 mb-2">Document Title</p>
 								<TextField
 									size="small"
 									fullWidth
-									placeholder="Notes"
+									placeholder="Title"
 									name="title"
 									value={values.title}
 									onChange={handleChange}
@@ -136,7 +136,7 @@ const AddDocumentDialogue = ({ open, handleClose, mutate }: Props) => {
 									error={touched.title && !!errors.title}
 									helperText={touched.title && errors.title}
 								/>
-								<p className="font-medium text-gray-700 my-2">Leave Type</p>
+								<p className="font-medium text-gray-700 my-2">Document Type</p>
 								<div className="w-full">
 									<TextField
 										size="small"
