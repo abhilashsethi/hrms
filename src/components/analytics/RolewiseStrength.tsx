@@ -101,12 +101,13 @@ const RolewiseStrength = ({
 		<ApexCharts
 			height={"500"}
 			options={{
-				series: [
-					{
-						name: "Strength",
-						data: [23, 21, 15, 10, 14, 13, 10, 5],
-					},
-				],
+				// series: [
+				// 	{
+				// 		name: "Strength",
+				// 		data: [23, 21, 15, 10, 14, 13, 10, 5],
+				// 	},
+				// ],
+				series,
 				chart: {
 					height: 400,
 					type: "bar",
