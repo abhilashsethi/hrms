@@ -8,7 +8,7 @@ type Props = {
 };
 
 const EmployProjects = ({ projectDetails }: Props) => {
-	console.log(projectDetails);
+	// console.log(projectDetails);
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
 			<HeadText title="Latest Projects" />

@@ -13,6 +13,7 @@ import { User } from "types";
 import {
 	Button,
 	Card,
+	CircularProgress,
 	Container,
 	Drawer,
 	IconButton,
@@ -93,41 +94,6 @@ const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
 	const { data: documentDetails, mutate } = useFetch<any>(
 		`users/${router?.query?.id}`
 	);
-	console.log(documentDetails?.document);
-
-	const { change } = useChange();
-	const handleDelete = (id: string) => {
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to delete!",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, delete it!",
-		}).then(async (result) => {
-			try {
-				if (result.isConfirmed) {
-					const response = await change(
-						`users/delete-doc/${router?.query?.id}/${id}`,
-						{
-							method: "DELETE",
-						}
-					);
-					if (response?.status !== 200) {
-						Swal.fire("Error", "Something went wrong!", "error");
-					}
-					Swal.fire("Success", "Deleted successfully!", "success");
-					mutate();
-				}
-			} catch (error) {
-				console.log(error);
-			}
-		});
-	};
-
-	// console.log(activeDocLink);
-
 	return (
 		<>
 			<DocPreview
@@ -205,7 +171,7 @@ const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
 											key={item?.id}
 											className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
 										>
-											<img
+											{/* <img
 												onClick={() => {
 													setIsPreview({
 														dialogue: true,
@@ -215,24 +181,30 @@ const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
 													setActiveId(item?.id);
 												}}
 												className="w-12"
-												src={item?.docType === "pdf" ? PDF.src : ""}
+												src={item?.docType === "pdf" ? PDF.src : IMG.src}
 												alt="photo"
-											/>
+											/> */}
+											<a
+												className="cursor-pointer flex flex-col items-center justify-center"
+												href={`${item?.link}`}
+											>
+												<img
+													className="w-12"
+													src={
+														item?.docType === "pdf"
+															? PDF.src
+															: item?.docType === "img"
+															? IMG.src
+															: DOC.src
+													}
+													alt=""
+												/>
+											</a>
 											<p className="text-xs">
 												{item?.title?.slice(0, 9)}
 												{item?.title?.length > 9 ? "..." : null}
 											</p>
-											<Button
-												onClick={() => {
-													// setActiveId(item?.id);
-													handleDelete(item?.id);
-												}}
-												variant="contained"
-												className="!bg-red-500 text-xs"
-												startIcon={<Delete />}
-											>
-												DELETE
-											</Button>
+											<DeleteButton id={item?.id} mutate={mutate} />
 										</div>
 									))
 								) : (
@@ -291,3 +263,62 @@ const Drawer_document = [
 		title: "Document Title 6",
 	},
 ];
+interface ButtonProps {
+	id?: string | null | undefined;
+	mutate?: any;
+}
+
+const DeleteButton = ({ id, mutate }: ButtonProps) => {
+	const router = useRouter();
+	const [loading, setLoading] = useState(false);
+	const { change } = useChange();
+	const handleDelete = (id: any) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to delete!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then(async (result) => {
+			try {
+				setLoading(true);
+				if (result.isConfirmed) {
+					const response = await change(
+						`users/delete-doc/${router?.query?.id}/${id}`,
+						{
+							method: "DELETE",
+						}
+					);
+					setLoading(false);
+					if (response?.status !== 200) {
+						Swal.fire("Error", "Something went wrong!", "error");
+					}
+					mutate();
+					Swal.fire("Success", "Deleted successfully!", "success");
+				}
+			} catch (error) {
+				console.log(error);
+				setLoading(false);
+			} finally {
+				setLoading(false);
+			}
+		});
+	};
+	return (
+		<Button
+			onClick={() => {
+				// setActiveId(item?.id);
+				handleDelete(id);
+			}}
+			disabled={loading}
+			variant="contained"
+			className="!bg-red-500 text-xs"
+			startIcon={loading ? <CircularProgress size={20} /> : <Delete />}
+			size="small"
+		>
+			DELETE
+		</Button>
+	);
+};
