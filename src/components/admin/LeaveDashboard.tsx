@@ -27,7 +27,7 @@ const LeaveDashboard = () => {
 	const { data: leaveData, isLoading } = useFetch<any>(
 		`leaves/dashboard/details`
 	);
-	// console.log(leaveData);
+	console.log(leaveData);
 	// console.log(leaveMonthData);
 
 	useEffect(() => {
@@ -115,8 +115,12 @@ const LeaveDashboard = () => {
 					<p className="text-lg font-bold text-center">Leave Details</p>
 					<LeaveDonutChart
 						series={[
-							leaveData?.leaves?.leaveTypesList[1]?._count,
-							leaveData?.leaves?.leaveTypesList[0]?._count,
+							leaveData?.leaves?.leaveTypesList
+								? leaveData?.leaves?.leaveTypesList[1]?._count
+								: [],
+							leaveData?.leaves?.leaveTypesList
+								? leaveData?.leaves?.leaveTypesList[0]?._count
+								: [],
 						]}
 						text=""
 						type="donut"

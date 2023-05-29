@@ -32,3 +32,4 @@ export { default as ClientImageUpload } from "./ClientImageUpload";
 export { default as DashboardCard } from "./DashboardCard";
 export { default as FileUpload } from "./FileUpload";
 export { default as ChatSection } from "./ChatSection";
+export { default as EmployeeDataUpload } from "./EmployeeDataUpload";
