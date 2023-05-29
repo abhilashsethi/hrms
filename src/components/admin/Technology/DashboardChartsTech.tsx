@@ -9,17 +9,17 @@ const DashboardChartsTech = ({ dashboardData }: Props) => {
         <p className="font-bold text-lg text-center">Technology Overview</p>
         <TechnologyBarChart
           labels={
-            dashboardData?.TechInfo?.usedProjectCount?.length
-              ? dashboardData?.TechInfo?.usedProjectCount?.map(
-                  (item: any) => item?.name
-                )
+            dashboardData?.TechInfo?.usedProjectCountArr?.length
+              ? dashboardData?.TechInfo?.usedProjectCountArr?.map(
+                (item: any) => item?.name
+              )
               : []
           }
           data={
-            dashboardData?.TechInfo?.usedProjectCount?.length
-              ? dashboardData?.TechInfo?.usedProjectCount?.map(
-                  (item: any) => item?._count?.usedProjectIds
-                )
+            dashboardData?.TechInfo?.usedProjectCountArr?.length
+              ? dashboardData?.TechInfo?.usedProjectCountArr?.map(
+                (item: any) => item?.usedProjectIdCount
+              )
               : []
           }
           type="bar"
@@ -30,17 +30,17 @@ const DashboardChartsTech = ({ dashboardData }: Props) => {
         <p className="text-lg font-bold text-center">Technology Details</p>
         <TechnologyDonutChart
           labels={
-            dashboardData?.TechInfo?.usedProjectCount?.length
-              ? dashboardData?.TechInfo?.usedProjectCount?.map(
-                  (item: any) => item?.name
-                )
+            dashboardData?.TechInfo?.usedProjectCountArr?.length
+              ? dashboardData?.TechInfo?.usedProjectCountArr?.map(
+                (item: any) => item?.name
+              )
               : []
           }
           series={
-            dashboardData?.TechInfo?.usedProjectCount?.length
-              ? dashboardData?.TechInfo?.usedProjectCount?.map(
-                  (item: any) => item?._count?.usedProjectIds
-                )
+            dashboardData?.TechInfo?.usedProjectCountArr?.length
+              ? dashboardData?.TechInfo?.usedProjectCountArr?.map(
+                (item: any) => item?.usedProjectIdCount
+              )
               : []
           }
           text=""

@@ -11,6 +11,7 @@ const Technologies = () => {
   const { data: techDashboard, isLoading } = useFetch<any>(
     `technologies/dashboard/details`
   );
+  console.log(techDashboard);
   const { data: tech } = useFetch<any[]>(`technologies?page=1&limit=3`);
   return (
     <PanelLayout title="Technologies - Admin Panel">
