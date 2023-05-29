@@ -1,9 +1,16 @@
 import { Add, Close, FilterListRounded } from "@mui/icons-material";
-import { Button, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  Pagination,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { TechnologyGrid, TechnologyTable } from "components/admin/Technology";
 import {
   AdminBreadcrumbs,
-  FiltersContainer,
   GridAndList,
   Loader,
   LoaderAnime,
@@ -19,14 +26,15 @@ const AllTechnologies = () => {
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [isGrid, setIsGrid] = useState(true);
   const [isCreate, setIsCreate] = useState(false);
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const {
     data: tech,
     mutate,
     isLoading,
     pagination,
   } = useFetch<any[]>(
-    `technologies?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""
+    `technologies?page=${pageNumber}&limit=8${
+      userName ? `&name=${userName}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
@@ -63,8 +71,18 @@ const AllTechnologies = () => {
                   setUsername(null);
                 }}
               >
-                <Tooltip title={isOrderBy != null || userName != null ? `Remove Filters` : `Filter`}>
-                  {isOrderBy != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                <Tooltip
+                  title={
+                    isOrderBy != null || userName != null
+                      ? `Remove Filters`
+                      : `Filter`
+                  }
+                >
+                  {isOrderBy != null || userName != null ? (
+                    <Close className={"!text-white"} />
+                  ) : (
+                    <FilterListRounded className={"!text-white"} />
+                  )}
                 </Tooltip>
               </IconButton>
             </div>
@@ -113,11 +131,12 @@ const AllTechnologies = () => {
               <Pagination
                 count={Math.ceil(
                   Number(pagination?.total || 1) /
-                  Number(pagination?.limit || 1)
+                    Number(pagination?.limit || 1)
                 )}
                 onChange={(e, v: number) => {
                   setPageNumber(v);
                 }}
+                page={pageNumber}
                 variant="outlined"
               />
             </Stack>
