@@ -31,7 +31,7 @@ const validationSchema = yup.object().shape({
   //   image: yup.string().required("Required!"),
   image: yup
     .mixed()
-    .required("Image is required")
+    .required("Image is required!")
     .test("fileSize", "Image size is too large", (value: any) => {
       if (value) {
         const maxSize = 300 * 1024; // Maximum size in bytes (300KB)
@@ -43,6 +43,7 @@ const validationSchema = yup.object().shape({
       if (value) {
         const supportedFormats = [
           "image/jpeg",
+          "image/jpg",
           "image/png",
           "image/gif",
           "image/svg+xml",
@@ -57,7 +58,9 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
   const { change } = useChange();
   const handleSubmit = async (values: any) => {
     setLoading(true);
-    const uniId = values?.link?.type.split("/")[1];
+    const uniId = values?.image?.type.split("/")[1].split("+")[0];;
+    console.log(uniId);
+
     try {
       const url = await uploadFile(values?.image, `${Date.now()}.${uniId}`);
       const name = values.name;

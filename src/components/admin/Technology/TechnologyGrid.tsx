@@ -18,9 +18,7 @@ import { useChange } from "hooks";
 import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
 import { deleteFile } from "utils";
-interface ARRAY {
-  id?: string;
-}
+
 interface Props {
   data?: any;
   mutate?: any;
@@ -67,6 +65,8 @@ const CardContent = ({ item, mutate }: any) => {
         confirmButtonText: "Yes, delete!",
       }).then(async (result) => {
         if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+
           const res = await change(`technologies/${item?.id}`, {
             method: "DELETE",
           });
@@ -84,6 +84,7 @@ const CardContent = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
+  console.log(item?.logo);
   return (
     <>
       <UpdateTechnology
