@@ -835,7 +835,7 @@ const ICONS = {
       fill="none"
       strokeWidth="2"
       viewBox="0 0 24 24"
-      stroke-linecap="round"
+      strokeLinecap="round"
       strokeLinejoin="round"
       height="1em"
       width="1em"
@@ -966,7 +966,7 @@ const ICONS = {
       fill="none"
       strokeWidth="2"
       viewBox="0 0 24 24"
-      stroke-linecap="round"
+      strokeLinecap="round"
       strokeLinejoin="round"
       height="1em"
       width="1em"
@@ -1055,7 +1055,7 @@ const ICONS = {
           fill="url(#paint0_linear_1631_195)"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -1107,14 +1107,14 @@ const ICONS = {
           fill="url(#paint0_linear_1631_198)"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M16 211.909H496"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <defs>
@@ -1336,14 +1336,14 @@ const ICONS = {
           d="M176 495.999H69.3332C55.1884 495.999 41.6229 490.38 31.6209 480.378C21.619 470.376 16 456.811 16 442.666V69.3332C16 55.1884 21.619 41.6229 31.6209 31.6209C41.6229 21.619 55.1884 16 69.3332 16H176"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M495.999 256H176"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -1354,7 +1354,7 @@ const ICONS = {
           d="M362.666 389.333L429.333 322.666L495.999 256L362.666 122.666"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <defs>
@@ -1468,7 +1468,7 @@ const ICONS = {
           d="M16 316L256 436L496 316"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -1476,7 +1476,7 @@ const ICONS = {
           fill="url(#paint1_linear_1635_47)"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <defs>
@@ -1812,7 +1812,7 @@ const ICONS = {
           d="M445.109 335.476H456C478.062 335.476 496 317.538 496 295.476V215.476C496 193.413 478.062 175.476 456 175.476H445.109M445.109 335.476H416V303.476V207.476V175.476H445.109M445.109 335.476C410.073 404.143 384 446.976 256 470.976M66.8906 175.476H56C33.9375 175.476 16 193.413 16 215.476V295.476C16 317.538 33.9375 335.476 56 335.476H80C88.8438 335.476 96 328.32 96 319.476V207.476V175.476H66.8906ZM66.8906 175.476C162.667 6.14272 329 -13.524 445.109 175.476M256 79.4761C185.422 79.4761 128 136.898 128 207.476V287.476C128 358.054 185.422 415.476 256 415.476C326.578 415.476 384 358.054 384 287.476V207.476C384 136.898 326.578 79.4761 256 79.4761Z"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <defs>
           <linearGradient
@@ -1957,14 +1957,14 @@ const ICONS = {
           d="M418.979 102.362V256.408"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M496 179.385H341.955"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <defs>
@@ -2092,25 +2092,25 @@ const ICONS = {
           d="M16 190.815V63.3704C16 38.5176 36.1472 18.3704 61 18.3704H192.593"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <path
           d="M190.816 496H63.3711C38.5183 496 18.3711 475.853 18.3711 451L18.3711 319.407"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <path
           d="M321.778 16L449.223 16C474.075 16 494.223 36.1472 494.223 61V192.593"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <path
           d="M496 321.778V449.222C496 474.075 475.853 494.222 451 494.222H319.407"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <path
           d="M358.125 105.284H155.853C127.925 105.284 105.285 127.924 105.285 155.852V358.123C105.285 386.051 127.925 408.691 155.853 408.691H358.125C386.053 408.691 408.693 386.051 408.693 358.123V155.852C408.693 127.924 386.053 105.284 358.125 105.284Z"
@@ -2232,28 +2232,28 @@ const ICONS = {
           fill="url(#paint0_linear_1670_89)"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M336 56V136"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M176 56V136"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M76 216H436"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -2261,7 +2261,7 @@ const ICONS = {
           d="M291 305L242.875 353.125L221 331.25"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <defs>
@@ -2330,7 +2330,7 @@ const ICONS = {
           d="M99.8834 382.495H71.9222C57.0907 382.495 42.8667 376.603 32.3792 366.115C21.8918 355.628 16 341.404 16 326.572V74.9222C16 60.0907 21.8918 45.8667 32.3792 35.3792C42.8667 24.8918 57.0907 19 71.9222 19H323.572C338.404 19 352.628 24.8918 363.115 35.3792C373.603 45.8667 379.495 60.0907 379.495 74.9222V102.883"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -2338,7 +2338,7 @@ const ICONS = {
           fill="url(#paint1_linear_1673_145)"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -2419,7 +2419,7 @@ const ICONS = {
           d="M16 376L256 496L496 376"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path d="M16 256L256 376L496 256" fill="url(#paint1_linear_1674_170)" />
@@ -2427,7 +2427,7 @@ const ICONS = {
           d="M16 256L256 376L496 256"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -2435,7 +2435,7 @@ const ICONS = {
           fill="url(#paint2_linear_1674_170)"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <defs>
@@ -2491,21 +2491,21 @@ const ICONS = {
           fill="url(#paint0_linear_1674_181)"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M418 74V230"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M496 152H340"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <defs>
@@ -2648,7 +2648,7 @@ const ICONS = {
           d="M16 81.7666V212.676H146.909"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -2659,7 +2659,7 @@ const ICONS = {
           d="M495.999 430.857V299.948H365.09"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -2670,7 +2670,7 @@ const ICONS = {
           d="M441.236 190.857C430.171 159.587 411.364 131.63 386.572 109.594C361.779 87.5578 331.808 72.1614 299.456 64.8413C267.103 57.5211 233.424 58.5158 201.559 67.7325C169.695 76.9493 140.685 94.0876 117.236 117.548L16 212.676M496 299.948L394.764 395.076C371.315 418.536 342.305 435.675 310.441 444.892C278.576 454.108 244.897 455.103 212.544 447.783C180.192 440.463 150.221 425.066 125.428 403.03C100.636 380.994 81.8291 353.037 70.7636 321.767"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -2678,7 +2678,7 @@ const ICONS = {
           fill="url(#paint3_linear_1675_229)"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
@@ -2689,7 +2689,7 @@ const ICONS = {
           d="M219.889 249V220.111C219.889 210.534 223.693 201.349 230.465 194.577C237.238 187.805 246.423 184 256 184C265.577 184 274.762 187.805 281.534 194.577C288.306 201.349 292.111 210.534 292.111 220.111V249"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <defs>
@@ -2780,14 +2780,14 @@ const ICONS = {
           d="M415.834 108.385V268.72"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M496 188.552H335.666"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <defs>
@@ -2930,14 +2930,14 @@ const ICONS = {
           d="M397.42 105.621V302.786"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M496.001 204.203H298.836"
           stroke="black"
           strokeWidth="20"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
         />
         <defs>
