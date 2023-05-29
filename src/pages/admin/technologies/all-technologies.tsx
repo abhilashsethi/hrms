@@ -1,5 +1,5 @@
-import { Add } from "@mui/icons-material";
-import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
+import { Add, Close, FilterListRounded } from "@mui/icons-material";
+import { Button, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
 import { TechnologyGrid, TechnologyTable } from "components/admin/Technology";
 import {
   AdminBreadcrumbs,
@@ -52,17 +52,28 @@ const AllTechnologies = () => {
           </div>
         </div>
         <div>
-          <FiltersContainer
-            changes={() => {
-              setIsOrderBy(null);
-              setUsername(null);
-            }}
-          >
+          <div className="md:flex gap-4 justify-between w-full py-2">
+            <div
+              className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+            >
+              <IconButton
+                onClick={() => {
+                  setIsOrderBy(null);
+                  setUsername(null);
+                }}
+              >
+                <Tooltip title={isOrderBy != null || userName != null ? `Remove Filters` : `Filter`}>
+                  {isOrderBy != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                </Tooltip>
+              </IconButton>
+            </div>
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <TextField
                 fullWidth
                 size="small"
                 id="name"
+                value={userName ? userName : ""}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Client Name"
                 name="name"
@@ -82,7 +93,7 @@ const AllTechnologies = () => {
                 ))}
               </TextField>
             </div>
-          </FiltersContainer>
+          </div>
         </div>
         {isGrid ? (
           <>
