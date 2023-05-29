@@ -6,7 +6,7 @@ interface Props {
 	value?: any;
 }
 
-const CopyClipboard = ({ value }: Props) => {
+const EmployeeProfileCopyLink = ({ value }: Props) => {
 	const [isSnackbar, setIsSnackbar] = React.useState(false);
 	const handleClick = () => {
 		setIsSnackbar(true);
@@ -29,8 +29,9 @@ const CopyClipboard = ({ value }: Props) => {
 				</Alert>
 			</Snackbar>
 			<div className="group flex gap-2 items-center text-sm">
-				{value?.slice(0, 15)}
-				{value?.length >= 15 ? "..." : ""}
+				{value}
+				{/* {value?.slice(0, 15)} */}
+				{/* {value?.length >= 15 ? "..." : ""} */}
 				<Tooltip title="Copy to clipboard">
 					<span
 						onClick={(e) => {
@@ -47,4 +48,4 @@ const CopyClipboard = ({ value }: Props) => {
 		</>
 	);
 };
-export default CopyClipboard;
+export default EmployeeProfileCopyLink;
