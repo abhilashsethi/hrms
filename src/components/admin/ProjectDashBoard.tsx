@@ -51,7 +51,7 @@ const ProjectDashBoard = () => {
 		{
 			id: 1,
 			img: PROJECT.src,
-			count: projectData?.Projects?.totalProjects,
+			count: "20",
 			title: "Total Project",
 			bg: "from-blue-500 to-blue-300",
 		},

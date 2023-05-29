@@ -43,6 +43,7 @@ const EmployDashboard = () => {
 	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
 
 	const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
+	// console.log(employeeDetails);
 
 	const roleData = employeeDetails?.departmentWiseUsers;
 
@@ -55,6 +56,7 @@ const EmployDashboard = () => {
 			img: CARDICON1.src,
 			bg: "from-blue-500 to-blue-300",
 			className: "h-40",
+			link: "/admin/employees/all-employees",
 		},
 		{
 			id: 4,
@@ -66,6 +68,7 @@ const EmployDashboard = () => {
 			bg: "from-purple-500 to-purple-300",
 			img: CARDICON4.src,
 			className: "h-40",
+			link: "/admin/cards/scanned",
 		},
 		{
 			id: 2,
@@ -75,6 +78,7 @@ const EmployDashboard = () => {
 			bg: "from-yellow-500 to-yellow-300",
 			img: CARDICON2.src,
 			className: "h-40",
+			link: "/admin/employees/all-employees",
 		},
 		{
 			id: 3,
@@ -85,6 +89,7 @@ const EmployDashboard = () => {
 			bg: "from-emerald-500 to-emerald-300",
 			img: CARDICON3.src,
 			className: "h-40",
+			link: "/admin/employees/all-employees",
 		},
 	];
 
@@ -97,11 +102,12 @@ const EmployDashboard = () => {
 					</div>
 
 					<div className="grid grid-cols-12 content-between gap-10 m-5 !mb-6">
-						<div className="col-span-12 pt-20 w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
+						<div className="col-span-12 bg-white pt-20 w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
 							<DailyAttendance
 								text="Employee's Report"
 								type="area"
 								data={employeeDetails?.lastWeekAttendanceArr}
+								totalUsers={employeeDetails?.totalUsers}
 							/>
 						</div>
 					</div>
@@ -121,7 +127,7 @@ const EmployDashboard = () => {
 							<span className="text-lg font-semibold text-theme">
 								{projectData?.length
 									? projectData?.filter((item) => item?.status === "Ongoing")
-											?.length
+										?.length
 									: 0}
 							</span>
 							<span className="w-1/2 text-center font-semibold">
@@ -133,28 +139,28 @@ const EmployDashboard = () => {
 				</div>
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6 mx-5 -mt-7 !mb-6">
-				<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
+				<div className="col-span-12 pt-9 w-full bg-white  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Role-wise Strength</p>
 					<RolewiseStrength
 						series={
 							roleData?.length
 								? [
-										{
-											name: "Strength",
-											data: roleData?.length
-												? roleData?.map((item: any) =>
-														item?._count ? item?._count : 0
-												  )
-												: [],
-										},
-								  ]
+									{
+										name: "Strength",
+										data: roleData?.length
+											? roleData?.map((item: any) =>
+												item?._count ? item?._count : 0
+											)
+											: [],
+									},
+								]
 								: []
 						}
 						categories={
 							roleData?.length
 								? roleData?.map((item: any) =>
-										item?.name ? item?.name : "Not Specified"
-								  )
+									item?.name ? item?.name : "Not Specified"
+								)
 								: []
 						}
 						text=""
@@ -162,20 +168,20 @@ const EmployDashboard = () => {
 					/>
 				</div>
 				<div className="col-span-12  pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold text-center">Employee Gender Ratio</p>
+					<p className="text-lg font-bold bg-white text-center">Employee Gender Ratio</p>
 					<GenderRation
 						series={
 							employeeDetails?.groupByGender?.length
 								? employeeDetails?.groupByGender?.map(
-										(item: any) => item?._count
-								  )
+									(item: any) => item?._count
+								)
 								: []
 						}
 						labels={
 							employeeDetails?.groupByGender?.length
 								? employeeDetails?.groupByGender?.map((item: any) =>
-										item?.gender ? item?.gender : []
-								  )
+									item?.gender ? item?.gender : []
+								)
 								: []
 						}
 						text=""

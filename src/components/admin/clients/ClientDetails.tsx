@@ -7,18 +7,21 @@ import {
   CountryNameFlag,
   HeadText,
   Loader,
+  ReverseIOSSwitch,
 } from "components/core";
 import { UpdateClient } from "components/dialogues";
 import { ViewProjectsDrawerClient, ViewProjectsDrawerClientMain, ViewTicketsDrawer } from "components/drawer";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Client } from "types";
 import ClientMeetings from "./ClientMeetings";
 import ClientProjects from "./ClientProjects";
+import Swal from "sweetalert2";
 
 const ClientDetails = () => {
   const router = useRouter();
+  const { change } = useChange();
   const [isDialogue, setIsDialogue] = useState(false);
   const [tickets, setTickets] = useState(false);
   const [projects, setProjects] = useState(false);
@@ -67,6 +70,31 @@ const ClientDetails = () => {
   if (isLoading) {
     return <Loader />;
   }
+  const handleBlock = async (e: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to update status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await change(`clients/${clientData?.id}`, {
+          method: "PATCH",
+          body: { isBlocked: !e.target?.checked },
+        });
+        mutate();
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "Client status updated successfully!!", "success");
+        return;
+      }
+    });
+  };
   return (
     <section>
       <UpdateClient
@@ -112,7 +140,17 @@ const ClientDetails = () => {
                         countryName={clientData?.country || "---"}
                       />
                     </p>
+                    <div className="w-full py-2 flex gap-2 mt-2">
+                      <div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
+                        <p className="font-semibold tracking-wide text-sm">STATUS</p>
+                        <ReverseIOSSwitch
+                          checked={clientData?.isBlocked}
+                          onChange={(e) => handleBlock(e)}
+                        />
+                      </div>
+                    </div>
                   </div>
+
                   <div className="px-4 grid md:justify-items-end ">
                     <span>
                       <ClientProfileImage values={clientData} mutate={mutate} />

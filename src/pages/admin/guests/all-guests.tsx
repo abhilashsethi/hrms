@@ -30,7 +30,7 @@ const AllGuests = () => {
   );
   return (
     <PanelLayout title="All Guests - Admin Panel">
-      <section className="px-8 py-4">
+      <section className="lg:px-8 px-4 py-4">
         <div className="md:flex justify-between">
           <AdminBreadcrumbs links={links} />
           <div className="md:flex gap-4 items-center">

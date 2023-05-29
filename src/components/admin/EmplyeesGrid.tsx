@@ -13,7 +13,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { RenderIconRow } from "components/common";
-import { CopyClipboard, IOSSwitch, PhotoViewer } from "components/core";
+import { CopyClipboard, IOSSwitch, PhotoViewer, ReverseIOSSwitch } from "components/core";
 import { useChange } from "hooks";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
@@ -218,7 +218,7 @@ const CardContent = ({ item, mutate }: any) => {
 			<div className="w-full px-8 flex gap-2 mt-2 justify-center">
 				<div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
 					<p className="font-semibold tracking-wide text-sm">STATUS</p>
-					<IOSSwitch
+					<ReverseIOSSwitch
 						checked={item?.isBlocked}
 						onChange={(e) => handleBlock(e, item?.id)}
 					/>

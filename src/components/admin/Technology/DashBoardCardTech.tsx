@@ -1,4 +1,5 @@
 import { AssignmentTurnedIn, ContentPasteGo } from "@mui/icons-material";
+import Link from "next/link";
 interface Props {
   dashboardData?: any;
   tech?: any;
@@ -9,7 +10,7 @@ const DashBoardCardTech = ({ dashboardData, tech }: Props) => {
     <div className="flex gap-2 py-4">
       <div className="w-full ">
         <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
-          <div>
+          <Link href={"/admin/technologies/all-technologies"}>
             <div className="border-4 border-b-theme h-32 bg-white w-full py-4 px-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-300 ease-in-out">
               <div className="flex justify-around items-center">
                 <div>
@@ -26,7 +27,7 @@ const DashBoardCardTech = ({ dashboardData, tech }: Props) => {
                 {dashboardData?.TechInfo?.totalTechnologyCount}
               </span>
             </div>
-          </div>
+          </Link>
           {/* {tech?.map((item: any) => (
             <>
               <div key={item?.id}>

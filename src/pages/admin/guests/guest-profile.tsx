@@ -14,6 +14,7 @@ import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const GuestProfile = () => {
   const router = useRouter();
@@ -58,6 +59,31 @@ const GuestProfile = () => {
       value: `${guestData?.company ? guestData?.company : "---"}`,
     },
   ];
+  const handleBlock = async (e: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to update status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await change(`guests/${guestData?.id}`, {
+          method: "PATCH",
+          body: { isBlocked: !e.target?.checked },
+        });
+        mutate();
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "Client status updated successfully!!", "success");
+        return;
+      }
+    });
+  };
   if (isLoading) {
     return (
       <PanelLayout title="Guest Profile - Admin Panel">
@@ -109,6 +135,16 @@ const GuestProfile = () => {
             <span className="text-white font-semibold">
               {guestData?.company || "---"}
             </span>
+            <div className="w-full py-2 flex gap-2 mt-2 justify-center">
+              <div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
+                <p className="font-semibold text-white tracking-wide text-sm">STATUS</p>
+                <ReverseIOSSwitch
+                  checked={guestData?.isBlocked}
+                  onChange={(e) => handleBlock(e)}
+                />
+              </div>
+            </div>
+
           </div>
           <div className="md:col-span-2 bg-white py-4 px-4 shadow-lg shadow-gray-600 rounded-lg">
             <div className="grid md:grid-cols-2 gap-4">
@@ -157,7 +193,7 @@ const GuestProfile = () => {
                           <ReverseIOSSwitch
                             disabled
                             checked
-                            // onChange={(e) => handleBlock(e, item?.id)}
+                          // onChange={(e) => handleBlock(e, item?.id)}
                           />
                         </div>
                       </div>
