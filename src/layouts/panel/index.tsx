@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Drawer from "./drawer";
-import { NOTIFICATIONBELL } from "assets/home";
+import { CHATICON, NOTIFICATIONBELL } from "assets/home";
 import { PhotoViewerSmall } from "components/core";
 type Props = {
   children: JSX.Element | JSX.Element[];
@@ -141,26 +141,47 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                   )?.title
                 }
               </h1>
-              <div className="flex items-center gap-3">
-                <Link
-                  href={
-                    user?.role?.name === "CEO"
-                      ? "/admin"
-                      : user?.role?.name === "HR"
-                      ? "/admin"
-                      : "/"
-                  }
-                >
-                  <Tooltip title="Notifications">
-                    <p className="cursor-pointer rounded-lg bg-[#bbcbff87] p-2 shadow-md">
-                      <img
-                        className="h-5 object-contain"
-                        src={NOTIFICATIONBELL.src}
-                        alt=""
-                      />
-                    </p>
-                  </Tooltip>
-                </Link>
+              <div className="flex items-center gap-4">
+                <div className="flex gap-4 items-center">
+                  <Link
+                    href={
+                      user?.role?.name === "CEO"
+                        ? "/admin/chat"
+                        : user?.role?.name === "HR"
+                        ? "/admin"
+                        : "/"
+                    }
+                  >
+                    <Tooltip title="Chats">
+                      <p className="cursor-pointer rounded-lg group bg-[#ffeb6b87] hover:bg-white transition-all ease-in-out duration-200 p-2 shadow-md">
+                        <img
+                          className="h-5 object-contain group-hover:scale-105 transition-all ease-in-out duration-200"
+                          src={CHATICON.src}
+                          alt=""
+                        />
+                      </p>
+                    </Tooltip>
+                  </Link>
+                  <Link
+                    href={
+                      user?.role?.name === "CEO"
+                        ? "/admin"
+                        : user?.role?.name === "HR"
+                        ? "/admin"
+                        : "/"
+                    }
+                  >
+                    <Tooltip title="Notifications">
+                      <p className="cursor-pointer group rounded-lg bg-[#bbcbff87] hover:bg-white transition-all ease-in-out duration-200 p-2 shadow-md">
+                        <img
+                          className="h-5 object-contain group-hover:scale-105 transition-all ease-in-out duration-200"
+                          src={NOTIFICATIONBELL.src}
+                          alt=""
+                        />
+                      </p>
+                    </Tooltip>
+                  </Link>
+                </div>
                 <Tooltip title="Profile">
                   <div className="flex w-fit  items-center justify-start gap-2 overflow-hidden bg-white">
                     {/* <Chip

@@ -1,4 +1,4 @@
-import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
+import { Add, Close, FilterListRounded, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
 import {
   Button,
   IconButton,
@@ -6,6 +6,7 @@ import {
   Pagination,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import {
   AllDepartmentColumn,
@@ -13,7 +14,6 @@ import {
 } from "components/admin/department";
 import {
   AdminBreadcrumbs,
-  FiltersContainer,
   Loader,
   LoaderAnime,
 } from "components/core";
@@ -81,17 +81,29 @@ const AllDepartment = () => {
           </div>
         </div>
         <div>
-          <FiltersContainer
-            changes={() => {
-              setIsOrderBy(null);
-              setUsername(null);
-            }}
-          >
+          <div className="md:flex gap-4 justify-between w-full py-2">
+            <div
+              className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+            >
+              <IconButton
+                onClick={() => {
+                  setIsOrderBy(null);
+                  setUsername(null);
+                }}
+              >
+                <Tooltip title={isOrderBy != null || userName != null ? `Remove Filters` : `Filter`}>
+                  {isOrderBy != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                </Tooltip>
+              </IconButton>
+            </div>
+
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <TextField
                 fullWidth
                 size="small"
                 id="name"
+                value={userName ? userName : ""}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Client Name"
                 name="name"
@@ -111,7 +123,7 @@ const AllDepartment = () => {
                 ))}
               </TextField>
             </div>
-          </FiltersContainer>
+          </div>
         </div>
         {isGrid ? (
           <>
