@@ -159,6 +159,7 @@ const DeleteButton = ({ id, mutateTicket, ticketsData }: ButtonProps) => {
       try {
         setLoading(true);
         if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
           const response = await change(
             `tickets/remove-doc/${ticketsData?.id}`,
             {

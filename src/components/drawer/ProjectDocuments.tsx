@@ -82,10 +82,10 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 				<Container
 					style={{ marginTop: "1rem" }}
 					className={classes.container}
-					// style={{
-					// 	width: "30vw",
-					// 	marginTop: "3.5vh",
-					// }}
+				// style={{
+				// 	width: "30vw",
+				// 	marginTop: "3.5vh",
+				// }}
 				>
 					<IconButton
 						className="flex justify-end w-full"
@@ -140,8 +140,8 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 													item?.docType === "pdf"
 														? PDF.src
 														: item?.docType === "img"
-														? IMG.src
-														: DOC.src
+															? IMG.src
+															: DOC.src
 												}
 												alt=""
 											/>
@@ -205,6 +205,7 @@ const DeleteButton = ({ id, mutate }: ButtonProps) => {
 			try {
 				setLoading(true);
 				if (result.isConfirmed) {
+					Swal.fire(`Info`, "It will take some time", "info");
 					const response = await change(
 						`projects/delete-doc/${router?.query?.id}/${id}`,
 						{

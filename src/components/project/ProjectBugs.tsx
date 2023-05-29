@@ -108,6 +108,7 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
     }).then(async (result) => {
       try {
         if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
           const response = await change(`projects/remove-bugs/${projectId}`, {
             method: "DELETE",
             body: {
@@ -155,19 +156,18 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
           </div>
           <div className="md:w-[43%] md:h-8 md:flex justify-between pl-4 text-sm tracking-wide items-center text-slate-600">
             <span
-              className={`text-xs font-medium px-3 py-1 h-6 rounded-full text-white ${
-                item?.status === "Completed"
+              className={`text-xs font-medium px-3 py-1 h-6 rounded-full text-white ${item?.status === "Completed"
                   ? `bg-green-400`
                   : item?.status === "Open"
-                  ? `bg-purple-400`
-                  : item?.status === "Pending"
-                  ? `bg-yellow-400`
-                  : item?.status === "Ongoing"
-                  ? `bg-blue-400`
-                  : item?.status === "Reviewed"
-                  ? `bg-black`
-                  : `bg-slate-600`
-              }`}
+                    ? `bg-purple-400`
+                    : item?.status === "Pending"
+                      ? `bg-yellow-400`
+                      : item?.status === "Ongoing"
+                        ? `bg-blue-400`
+                        : item?.status === "Reviewed"
+                          ? `bg-black`
+                          : `bg-slate-600`
+                }`}
             >
               {item?.status}
             </span>
@@ -179,7 +179,7 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
               </Tooltip>
             </span>
             <div className="md:flex hidden">
-            <ProfileImage id={item?.bugs?.detectedBy} />
+              <ProfileImage id={item?.bugs?.detectedBy} />
             </div>
             <IconButton
               onClick={() => setIsDescription((prev) => !prev)}
@@ -187,9 +187,8 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
             >
               <ChevronRight
                 fontSize="small"
-                className={`${
-                  isDescription ? `!rotate-[-90deg]` : ``
-                } transition-all ease-in-out duration-200`}
+                className={`${isDescription ? `!rotate-[-90deg]` : ``
+                  } transition-all ease-in-out duration-200`}
               />
             </IconButton>
           </div>

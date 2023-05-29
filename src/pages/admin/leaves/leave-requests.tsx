@@ -32,7 +32,6 @@ const LeaveRequests = () => {
     }${empId ? `&employeeID=${empId}` : ""}${leaveStatus ? `&status=${leaveStatus}` : ""
     }${leaveType ? `&type=${leaveType}` : ""}`
   );
-  console.log(leavesData);
   return (
     <PanelLayout title="Leave Requests - Admin Panel">
       <section className="md:px-8 px-4 py-2">

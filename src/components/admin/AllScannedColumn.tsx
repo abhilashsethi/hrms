@@ -71,6 +71,7 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
 		}).then(async (result) => {
 			try {
 				if (result.isConfirmed) {
+					Swal.fire(`Info`, "It will take some time", "info");
 					const response = await change(`cards/delete/${id}`, {
 						method: "DELETE",
 					});
@@ -112,30 +113,30 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
 						!data
 							? []
 							: (data?.map((_, i: number) => ({
-									..._,
-									sl: i + 1,
-									name: _?.userId
-										? _?.user?.name
-										: _?.guestId
+								..._,
+								sl: i + 1,
+								name: _?.userId
+									? _?.user?.name
+									: _?.guestId
 										? _?.guest?.name
 										: "---",
-									validFrom: _?.userId
-										? "---"
-										: _?.guestId
+								validFrom: _?.userId
+									? "---"
+									: _?.guestId
 										? _?.validFrom
 										: "---",
-									validTill: _?.userId
-										? "---"
-										: _?.guestId
+								validTill: _?.userId
+									? "---"
+									: _?.guestId
 										? _?.validTill
 										: "---",
-									userType: _?.userId
-										? "Employee"
-										: _?.guestId
+								userType: _?.userId
+									? "Employee"
+									: _?.guestId
 										? "Guest"
 										: "---",
-									userID: _?.userId ? _?.user?.employeeID : "---",
-							  })) as Card[])
+								userID: _?.userId ? _?.user?.employeeID : "---",
+							})) as Card[])
 					}
 					options={{ ...MuiTblOptions() }}
 					columns={[
