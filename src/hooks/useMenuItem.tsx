@@ -149,6 +149,12 @@ export default () => {
 						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/payroll/employee-salary",
 					},
+					{
+						key: "14-2",
+						title: "Configure",
+						icon: <ICONS.Dashboard_1 />,
+						route: "/admin/payroll/configure",
+					},
 				],
 			},
 			{
