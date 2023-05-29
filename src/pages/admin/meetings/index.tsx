@@ -25,7 +25,9 @@ const Meetings = () => {
 		{
 			id: 1,
 			icon: <ContactPhone className="text-theme" />,
-			count: meetingData?.Meetings?.totalMeetings,
+			count: meetingData?.Meetings?.totalMeetings
+				? meetingData?.Meetings?.totalMeetings
+				: 0,
 			title: "Total Meetings",
 			img: MEETINGICON.src,
 			bg: "from-blue-500 to-blue-300",
