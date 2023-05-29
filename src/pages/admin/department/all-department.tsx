@@ -26,7 +26,7 @@ import { Role } from "types";
 const AllDepartment = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [isCreate, setIsCreate] = useState(false);
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [userName, setUsername] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
 
@@ -35,7 +35,7 @@ const AllDepartment = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<Role[]>(
+  } = useFetch<any>(
     `departments?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
@@ -137,7 +137,7 @@ const AllDepartment = () => {
           </>
         )}
         {departmentData?.length === 0 ? <LoaderAnime /> : null}
-        {departmentData?.length ? (
+        {departmentData?.length > 1 ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination
@@ -149,6 +149,7 @@ const AllDepartment = () => {
                   setPageNumber(v);
                 }}
                 variant="outlined"
+                page={pageNumber}
               />
             </Stack>
           </div>

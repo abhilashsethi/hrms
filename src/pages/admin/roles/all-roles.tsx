@@ -20,7 +20,7 @@ import { useState } from "react";
 import { AllRollGrid, AllRollColumn } from "components/admin/roles";
 import { Role } from "types";
 const AllRoles = () => {
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [isGrid, setIsGrid] = useState(true);
   const [userName, setUsername] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
@@ -30,7 +30,7 @@ const AllRoles = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<Role[]>(
+  } = useFetch<any>(
     `roles?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
@@ -131,7 +131,7 @@ const AllRoles = () => {
           </>
         )}
         {roleData?.length === 0 ? <LoaderAnime /> : null}
-        {roleData?.length ? (
+        {roleData?.length > 1 ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination
@@ -142,6 +142,7 @@ const AllRoles = () => {
                 onChange={(e, v: number) => {
                   setPageNumber(v);
                 }}
+                page={pageNumber}
                 variant="outlined"
               />
             </Stack>
