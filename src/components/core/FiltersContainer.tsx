@@ -1,4 +1,4 @@
-import { FilterListRounded } from "@mui/icons-material";
+import { FilterListRounded, Close } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
 
@@ -8,13 +8,12 @@ interface Props {
 }
 
 const FiltersContainer = ({ children, changes }: Props) => {
-  const [isFilter, setIsFilter] = useState(false);
+  const [isFilter, setIsFilter] = useState(true);
   return (
     <div className="md:flex justify-between w-full py-2">
       <div
-        className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg ${
-          isFilter ? `bg-theme` : `bg-white`
-        }`}
+        className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg ${isFilter ? `bg-theme` : `bg-white`
+          }`}
       >
         <IconButton
           onClick={() => {
@@ -23,7 +22,8 @@ const FiltersContainer = ({ children, changes }: Props) => {
           }}
         >
           <Tooltip title={isFilter ? `Remove Filters` : `Filter`}>
-            <FilterListRounded className={`${isFilter ? `!text-white` : ``}`} />
+            {isFilter ? <Close className={`${isFilter ? `!text-white` : ``}`} /> : <FilterListRounded className={`${isFilter ? `!text-white` : ``}`} />}
+            {/* <FilterListRounded className={`${isFilter ? `!text-white` : ``}`} /> */}
           </Tooltip>
         </IconButton>
       </div>
