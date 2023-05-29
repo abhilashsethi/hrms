@@ -75,7 +75,7 @@ const AllTechnologies = () => {
                 id="name"
                 value={userName ? userName : ""}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Client Name"
+                placeholder="Technology Name"
                 name="name"
               />
               <TextField

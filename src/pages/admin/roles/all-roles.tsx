@@ -99,7 +99,7 @@ const AllRoles = () => {
                 id="name"
                 value={userName ? userName : ""}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Client Name"
+                placeholder="Role Name"
                 name="name"
               />
               <TextField

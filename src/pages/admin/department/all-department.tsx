@@ -105,7 +105,7 @@ const AllDepartment = () => {
                 id="name"
                 value={userName ? userName : ""}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Client Name"
+                placeholder="Department Name"
                 name="name"
               />
               <TextField
