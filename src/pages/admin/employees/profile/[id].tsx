@@ -11,8 +11,12 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { Button } from "@mui/material";
 import Link from "next/link";
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import { User } from "types";
 
-const EmployeeProfile = () => {
+const EmployeeProfile = ({
+  user,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [activeMonth, setActiveMonth] = useState();
   const router = useRouter();
   const [attendances, setAttendances] = useState<any>([]);
@@ -48,6 +52,7 @@ const EmployeeProfile = () => {
       </>
     );
   }
+
   const { data: attendanceData, isLoading } = useFetch<any>(
     `attendances/${router?.query?.id}`
   );
@@ -72,7 +77,7 @@ const EmployeeProfile = () => {
   ];
 
   return (
-    <PanelLayout title="User Profile - Admin Panel">
+    <PanelLayout title={`${user.name} - Profile `}>
       <section className="md:px-8 px-2 mx-auto">
         <div className="pb-4">
           <AdminBreadcrumbs links={links} />
@@ -114,3 +119,28 @@ const EmployeeProfile = () => {
 };
 
 export default EmployeeProfile;
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  // Fetch the list of users and generate paths for each user
+  const res = await fetch(`https://hrms.yardiot.com/api/v1/users`, {
+    headers: {
+      "x-access-token": `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNlb0BzZWFyY2hpbmd5YXJkLmNvbSIsIl9pZCI6IjY0NDI3NjljODAxZDk2M2M5OTliMzFkYiIsInJvbGUiOiI2NDNhNmZmYTAzZTg1ZjI1Y2FiMDcxMWEiLCJpYXQiOjE2ODI1NzY5OTV9.FGxmZwdu9oz_SX0Vx_TM9eCbJX-c5ZIccdnoMb3JQkg`,
+    },
+  });
+  const users = (await res.json()) as { data: User[] };
+
+  return {
+    paths: users.data.map((u) => ({ params: { id: u.id } })),
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps<{ user: User }> = async (
+  context
+) => {
+  const res = await fetch(
+    `https://hrms.yardiot.com/api/v1/users/${context.params?.id}`
+  );
+  const response = await res.json();
+  return { props: { user: response.data } };
+};
