@@ -1,13 +1,10 @@
 import { DailyAttendance, DonutChart } from "components/analytics";
-import { useFetch } from "hooks";
 interface Props {
-	allData?: any;
+	dashboardDetails?: any;
 	absentData?: any;
 	presentData?: any;
 }
-const AttendanceCharts = ({ allData, absentData, presentData }: Props) => {
-	const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
-	console.log(employeeDetails?.lastWeekAttendanceArr);
+const AttendanceCharts = ({ dashboardDetails, absentData, presentData }: Props) => {
 	return (
 		<>
 			<div className="grid grid-cols-12 content-between gap-6 !mb-6">
@@ -18,7 +15,7 @@ const AttendanceCharts = ({ allData, absentData, presentData }: Props) => {
 					<DailyAttendance
 						text=""
 						type="area"
-						data={employeeDetails?.lastWeekAttendanceArr}
+						data={dashboardDetails?.lastWeekAttendanceArr}
 					/>
 				</div>
 				<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">

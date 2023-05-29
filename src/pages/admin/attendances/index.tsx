@@ -7,23 +7,16 @@ import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
 const Attendance = () => {
-	const { data: attendanceData } = useFetch<any>(
-		`attendances/dashboard/details/data`
-	);
+	// const { data: attendanceData } = useFetch<any>(
+	// 	`attendances/dashboard/details/data`
+	// );
 	const { data: absentData } = useFetch<any>(
 		`attendances/${new Date().toISOString().slice(0, 10)}/absent`
 	);
 	const { data: presentData } = useFetch<any>(
 		`attendances/${new Date().toISOString().slice(0, 10)}/present`
 	);
-	const { data: allData } = useFetch<any>(
-		`attendances/${new Date().toISOString().slice(0, 10)}/all`
-	);
-	console.log("dashboard", attendanceData);
-
-	const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
-	console.log("dashboard", employeeDetails);
-
+	const { data: dashboardDetails } = useFetch<any>(`users/dashboard/details`);
 	const cards = [
 		{
 			id: 1,
@@ -59,7 +52,7 @@ const Attendance = () => {
 					className="text-theme group-hover:text-white shadow-xl rounded-lg"
 				/>
 			),
-			count: `${allData?.length ? allData?.length : `0`}`,
+			count: `${dashboardDetails?.totalUsers ? dashboardDetails?.totalUsers : `0`}`,
 			title: "Total Employees",
 			bg: "from-yellow-500 to-yellow-300",
 			img: GROUP.src,
@@ -78,7 +71,7 @@ const Attendance = () => {
 					<AttendanceCharts
 						absentData={absentData}
 						presentData={presentData}
-						allData={allData}
+						dashboardDetails={dashboardDetails}
 					/>
 				</div>
 			</>
