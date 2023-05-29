@@ -52,11 +52,10 @@ const TodayAttendance = () => {
   } = useFetch<any>(
     `attendances/${selectedDate
       .toISOString()
-      .slice(0, 10)}/${status}?page=${pageNumber}&limit=8${
-      userName ? `&employeeName=${userName}` : ""
+      .slice(0, 10)}/${status}?page=${pageNumber}&limit=8${userName ? `&employeeName=${userName}` : ""
     }${empId ? `&employeeId=${empId}` : ""}${order ? `&orderBy=${order}` : ""}`
   );
-  console.log(attendance);
+
   const { data: absentData } = useFetch<any>(
     `attendances/${selectedDate.toISOString().slice(0, 10)}/absent`
   );
@@ -215,7 +214,7 @@ const TodayAttendance = () => {
               <Pagination
                 count={Math.ceil(
                   Number(pagination?.total || 1) /
-                    Number(pagination?.limit || 1)
+                  Number(pagination?.limit || 1)
                 )}
                 onChange={(e, v: number) => {
                   setPageNumber(v);

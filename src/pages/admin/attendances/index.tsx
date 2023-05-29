@@ -1,8 +1,8 @@
 import { Groups, HowToReg, PersonOff } from "@mui/icons-material";
-import { CANCEL, CARDICON1, CHECK, GROUP } from "assets/dashboard_Icons";
+import { CANCEL, CHECK, GROUP } from "assets/dashboard_Icons";
 import { WelcomeUser } from "components/admin";
 import { AttendanceCharts } from "components/admin/attendance";
-import { AdminBreadcrumbs, DashboardCard } from "components/core";
+import { AdminBreadcrumbs, DashboardCard, Loader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
@@ -16,7 +16,7 @@ const Attendance = () => {
 	const { data: presentData } = useFetch<any>(
 		`attendances/${new Date().toISOString().slice(0, 10)}/present`
 	);
-	const { data: dashboardDetails } = useFetch<any>(`users/dashboard/details`);
+	const { data: dashboardDetails, isLoading } = useFetch<any>(`users/dashboard/details`);
 	const cards = [
 		{
 			id: 1,
@@ -58,7 +58,9 @@ const Attendance = () => {
 			img: GROUP.src,
 		},
 	];
-
+	if (isLoading) {
+		return <Loader />;
+	}
 	return (
 		<PanelLayout title="Attendance Dashboard - Admin Panel">
 			<>
