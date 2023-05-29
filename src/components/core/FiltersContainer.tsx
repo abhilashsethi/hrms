@@ -8,13 +8,12 @@ interface Props {
 }
 
 const FiltersContainer = ({ children, changes }: Props) => {
-  const [isFilter, setIsFilter] = useState(false);
+  const [isFilter, setIsFilter] = useState(true);
   return (
     <div className="md:flex justify-between w-full py-2">
       <div
-        className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg ${
-          isFilter ? `bg-theme` : `bg-white`
-        }`}
+        className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg ${isFilter ? `bg-theme` : `bg-white`
+          }`}
       >
         <IconButton
           onClick={() => {

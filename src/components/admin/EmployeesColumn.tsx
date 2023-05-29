@@ -1,7 +1,7 @@
 import MaterialTable from "@material-table/core";
 import { PeopleRounded, PersonRounded } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
-import { CopyClipboard, HeadStyle, IOSSwitch } from "components/core";
+import { CopyClipboard, HeadStyle, ReverseIOSSwitch } from "components/core";
 import { useChange } from "hooks";
 import Link from "next/link";
 import Swal from "sweetalert2";
@@ -51,10 +51,10 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
           !data
             ? []
             : (data?.map((_: any, i: number) => ({
-                ..._,
-                sl: i + 1,
-                roleName: _?.role?.name,
-              })) as any)
+              ..._,
+              sl: i + 1,
+              roleName: _?.role?.name,
+            })) as any)
         }
         options={{ ...MuiTblOptions() }}
         columns={[
@@ -122,7 +122,7 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
             emptyValue: "Not Provided",
             align: "center",
             render: (data) => (
-              <IOSSwitch
+              <ReverseIOSSwitch
                 checked={data?.isBlocked}
                 onChange={(e) => handleBlock(e, data?.id)}
               />
