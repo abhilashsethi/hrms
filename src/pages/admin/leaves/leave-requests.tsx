@@ -16,7 +16,7 @@ import { Leave } from "types";
 
 const LeaveRequests = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [userName, setUsername] = useState<string | null>(null);
   const [empId, setEmpId] = useState<string | null>(null);
   const [leaveType, setLeaveType] = useState<string | null>(null);
@@ -134,7 +134,10 @@ const LeaveRequests = () => {
 
         {leavesData?.length === 0 && <LoaderAnime />}
         <section className="mb-6">
-          {leavesData?.length ? (
+          {Math.ceil(
+            Number(pagination?.total || 1) /
+            Number(pagination?.limit || 1)
+          ) > 1 ? (
             <div className="flex justify-center md:py-8 py-4">
               <Stack spacing={2}>
                 <Pagination
@@ -145,6 +148,7 @@ const LeaveRequests = () => {
                   onChange={(e, v: number) => {
                     setPageNumber(v);
                   }}
+                  page={pageNumber}
                   variant="outlined"
                 />
               </Stack>

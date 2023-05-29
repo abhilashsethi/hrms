@@ -124,7 +124,10 @@ const AllTechnologies = () => {
           </>
         )}
         {tech?.length === 0 ? <LoaderAnime /> : null}
-        {tech?.length > 1 ? (
+        {Math.ceil(
+          Number(pagination?.total || 1) /
+          Number(pagination?.limit || 1)
+        ) > 1 ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination

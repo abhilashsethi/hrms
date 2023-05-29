@@ -37,7 +37,7 @@ import { AttendanceGrid, AttendanceList } from "components/admin/attendance";
 
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [selectedDate, setSelectedDate] = useState<any>(new Date());
   const [status, setStatus] = useState("all");
   const [order, setOrder] = useState<string | null>(null);
@@ -221,20 +221,27 @@ const TodayAttendance = () => {
             </>
           )}
           {attendance?.length === 0 ? <LoaderAnime /> : null}
-          <div className="flex justify-center py-8">
-            <Stack spacing={2}>
-              <Pagination
-                count={Math.ceil(
-                  Number(pagination?.total || 1) /
-                  Number(pagination?.limit || 1)
-                )}
-                onChange={(e, v: number) => {
-                  setPageNumber(v);
-                }}
-                variant="outlined"
-              />
-            </Stack>
-          </div>
+          {Math.ceil(
+            Number(pagination?.total || 1) /
+            Number(pagination?.limit || 1)
+          ) > 1 ?
+            <div className="flex justify-center py-8">
+
+              <Stack spacing={2}>
+                <Pagination
+                  count={Math.ceil(
+                    Number(pagination?.total || 1) /
+                    Number(pagination?.limit || 1)
+                  )}
+                  onChange={(e, v: number) => {
+                    setPageNumber(v);
+                  }}
+                  page={pageNumber}
+                  variant="outlined"
+                />
+              </Stack>
+            </div>
+            : null}
         </section>
       </section>
     </PanelLayout>

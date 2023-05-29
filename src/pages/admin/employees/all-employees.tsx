@@ -19,7 +19,7 @@ import { User } from "types";
 
 const AllEmployees = () => {
   const theme = useTheme();
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [isGrid, setIsGrid] = useState(true);
   const [userName, setUsername] = useState<string | null>(null);
   const [isRole, setIsRole] = useState<string | null>(null);
@@ -150,7 +150,10 @@ const AllEmployees = () => {
         )}
         {employees?.length === 0 ? <LoaderAnime /> : null}
         <section className="mb-6">
-          {employees?.length ? (
+          {Math.ceil(
+            Number(pagination?.total || 1) /
+            Number(pagination?.limit || 1)
+          ) > 1 ? (
             <div className="flex justify-center md:py-8 py-4">
               <Stack spacing={2}>
                 <Pagination
@@ -161,6 +164,7 @@ const AllEmployees = () => {
                   onChange={(e, v: number) => {
                     setPageNumber(v);
                   }}
+                  page={pageNumber}
                   variant="outlined"
                 />
               </Stack>
