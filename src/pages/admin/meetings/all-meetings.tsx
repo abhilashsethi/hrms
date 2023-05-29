@@ -1,5 +1,7 @@
 import {
+  Close,
   DateRange,
+  FilterListRounded,
   GridViewRounded,
   Send,
   TableRowsRounded,
@@ -11,11 +13,11 @@ import {
   MenuItem,
   Modal,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import { MeetingsColumn, MeetingsGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
-  FiltersContainer,
   Loader,
   SkeletonLoader,
 } from "components/core";
@@ -23,7 +25,6 @@ import { UploadEmployData } from "components/dialogues";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import { useRef, useState } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateRangePicker } from "materialui-daterange-picker";
 import { useFetch } from "hooks";
@@ -86,12 +87,9 @@ const AllMeetings = () => {
     mutate,
     isLoading,
   } = useFetch<MeetingTypes>(
-    `meetings?page=${pageNumber}&limit=8${
-      meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
-    }${meetingStatus ? `&status=${meetingStatus}` : ""}${
-      selectDate ? `&date=${selectDate}` : ""
-    }${currentRange?.startDate ? `&startDate=${currentRange?.startDate}` : ""}${
-      currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
+    `meetings?page=${pageNumber}&limit=8${meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
+    }${meetingStatus ? `&status=${meetingStatus}` : ""}${selectDate ? `&date=${selectDate}` : ""
+    }${currentRange?.startDate ? `&startDate=${currentRange?.startDate}` : ""}${currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
     }`
   );
   return (
@@ -117,55 +115,10 @@ const AllMeetings = () => {
                 open={open}
                 toggle={toggle}
                 onChange={(range: any) => setDateRange(range)}
-                // definedRanges={[
-                // 	{ label: "Today", startDate: new Date(), endDate: new Date() },
-                // 	{
-                // 		label: "Yesterday",
-                // 		startDate: moment().subtract(1, "day").toDate(),
-                // 		endDate: moment().subtract(1, "day").toDate(),
-                // 	},
-                // 	{
-                // 		label: "Last 7 Days",
-                // 		startDate: moment().subtract(7, "days").toDate(),
-                // 		endDate: moment().toDate(),
-                // 	},
-                // 	{
-                // 		label: "Last 15 Days",
-                // 		startDate: moment().subtract(15, "days").toDate(),
-                // 		endDate: moment().toDate(),
-                // 	},
-                // 	{
-                // 		label: "Last 30 Days",
-                // 		startDate: moment().subtract(30, "days").toDate(),
-                // 		endDate: moment().toDate(),
-                // 	},
-                // 	{
-                // 		label: "This Month",
-                // 		startDate: moment().startOf("month").toDate(),
-                // 		endDate: moment().endOf("month").toDate(),
-                // 	},
-                // 	{
-                // 		label: "Last Month",
-                // 		startDate: moment()
-                // 			.subtract(1, "month")
-                // 			.startOf("month")
-                // 			.toDate(),
-                // 		endDate: moment()
-                // 			.subtract(1, "month")
-                // 			.endOf("month")
-                // 			.toDate(),
-                // 	},
-                // 	{
-                // 		label: "Last 365 Days",
-                // 		startDate: moment().subtract(365, "days").toDate(),
-                // 		endDate: moment().toDate(),
-                // 	},
-                // ]}
               />
               <div className="flex justify-end mt-3 ">
                 <Button
                   endIcon={<Send />}
-                  // disabled={!currentRange?.startDate || !currentRange?.endDate}
                   variant="contained"
                   className="!bg-emerald-500 hover:scale-95 transition duration-200"
                   onClick={() => {
@@ -192,18 +145,16 @@ const AllMeetings = () => {
               <div className="flex gap-1">
                 <IconButton onClick={() => setIsGrid(true)} size="small">
                   <div
-                    className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                      isGrid && `border-2 border-theme`
-                    }`}
+                    className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${isGrid && `border-2 border-theme`
+                      }`}
                   >
                     <GridViewRounded className={`${isGrid && `!text-theme`}`} />
                   </div>
                 </IconButton>
                 <IconButton onClick={() => setIsGrid(false)} size="small">
                   <div
-                    className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                      !isGrid && `border-2 border-theme`
-                    }`}
+                    className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${!isGrid && `border-2 border-theme`
+                      }`}
                   >
                     <TableRowsRounded
                       className={`${!isGrid && `!text-theme`}`}
@@ -213,13 +164,30 @@ const AllMeetings = () => {
               </div>
             </div>
           </div>
-          <FiltersContainer>
+          <div className="md:flex gap-4 justify-between w-full py-2">
+            <div
+              className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+            >
+              <IconButton
+                onClick={() => {
+                  setSelectDate(null);
+                  setMeetingStatus(null);
+                  setMeetingPerson(null);
+                }}
+              >
+                <Tooltip title={selectDate != null || meetingStatus != null || meetingPerson != null ? `Remove Filters` : `Filter`}>
+                  {selectDate != null || meetingStatus != null || meetingPerson != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                </Tooltip>
+              </IconButton>
+            </div>
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <TextField
                 fullWidth
                 size="small"
                 id="employeeName"
                 placeholder="Member Name"
+                value={meetingPerson ? meetingPerson : null}
                 name="employeeName"
                 onChange={(e) => setMeetingPerson(e.target.value)}
               />
@@ -228,7 +196,7 @@ const AllMeetings = () => {
                 select
                 label="Select Status"
                 size="small"
-                value={meetingStatus}
+                value={meetingStatus ? meetingStatus : null}
                 onChange={(e) => setMeetingStatus(e?.target?.value)}
               >
                 {status.map((option) => (
@@ -244,7 +212,7 @@ const AllMeetings = () => {
                 placeholder="Select Date"
                 name="date"
                 type="date"
-                value={moment(selectDate).format("YYYY-MM-DD")}
+                value={selectDate ? moment(selectDate).format("YYYY-MM-DD") : null}
                 onChange={(e) => {
                   setSelectDate(new Date(e.target.value).toISOString());
                   console.log(new Date(e.target.value).toISOString());
@@ -261,7 +229,7 @@ const AllMeetings = () => {
                 Select Date Range
               </Button>
             </div>
-          </FiltersContainer>
+          </div>
 
           {/* {isGrid ? (
 						<MeetingsGrid data={meetingData?.meetings} mutate={mutate} />
