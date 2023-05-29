@@ -4,6 +4,7 @@ import {
   Dashboard,
   Email,
   FileCopy,
+  Forum,
   MedicalInformationRounded,
 } from "@mui/icons-material";
 import ICONS from "assets/icons";
@@ -288,6 +289,12 @@ export default () => {
             route: "/admin/templates/saved-templates",
           },
         ],
+      },
+      {
+        key: "24",
+        title: "Chats",
+        icon: <Forum />,
+        route: "/admin/chat",
       },
       {
         key: "15",
