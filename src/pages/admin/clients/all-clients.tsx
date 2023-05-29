@@ -4,7 +4,6 @@ import {
   FilterListRounded,
   GridViewRounded,
   TableRowsRounded,
-  Upload,
 } from "@mui/icons-material";
 import {
   Button,
@@ -18,7 +17,6 @@ import {
 import { ClientTableView, ClientsGrid } from "components/admin/clients";
 import {
   AdminBreadcrumbs,
-  FiltersContainer,
   Loader,
   LoaderAnime,
   SkeletonLoader,
@@ -37,7 +35,6 @@ const AllClients = () => {
   const [userName, setUsername] = useState<string | null>(null);
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [isUpload, setIsUpload] = useState(false);
-  const [isFilter, setIsFilter] = useState(true);
 
   const {
     data: clients,
@@ -99,7 +96,6 @@ const AllClients = () => {
             >
               <IconButton
                 onClick={() => {
-                  setIsFilter((prev) => !prev);
                   setIsOrderBy(null);
                   setIsIssue(null);
                   setUsername(null);
@@ -107,7 +103,6 @@ const AllClients = () => {
               >
                 <Tooltip title={isOrderBy != null || isIssue != null || userName != null ? `Remove Filters` : `Filter`}>
                   {isOrderBy != null || isIssue != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
-                  {/* <FilterListRounded className={`${isFilter ? `!text-white` : ``}`} /> */}
                 </Tooltip>
               </IconButton>
             </div>
