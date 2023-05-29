@@ -836,7 +836,7 @@ const ICONS = {
       strokeWidth="2"
       viewBox="0 0 24 24"
       stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinejoin="round"
       height="1em"
       width="1em"
       xmlns="http://www.w3.org/2000/svg"
@@ -967,7 +967,7 @@ const ICONS = {
       strokeWidth="2"
       viewBox="0 0 24 24"
       stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinejoin="round"
       height="1em"
       width="1em"
       xmlns="http://www.w3.org/2000/svg"
@@ -1056,7 +1056,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M448.802 46.0243H65.1397C62.268 46.0243 59.3867 46.2156 56.6063 46.9341C39.8864 51.2549 27.6337 63.1067 20.2895 75.6642C17.0488 81.2055 16 87.6736 16 94.0928V335.308C16 338.674 16.2668 342.054 17.2361 345.277C23.0955 364.761 39.1962 379.217 60.8241 379.217H448.159C453.533 379.217 458.935 378.479 463.824 376.248C483.284 367.366 495.12 351.895 495.12 340.369C495.784 268.319 496.714 116.249 495.12 84.3738C493.526 52.4989 463.577 45.5262 448.802 46.0243Z"
@@ -1073,8 +1073,8 @@ const ICONS = {
             y2="465.353"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1631_195"
@@ -1084,8 +1084,8 @@ const ICONS = {
             y2="379.217"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1108,14 +1108,14 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M16 211.909H496"
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -1126,8 +1126,8 @@ const ICONS = {
             y2="430.091"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1164,8 +1164,8 @@ const ICONS = {
             y2="487.83"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1631_223"
@@ -1175,8 +1175,8 @@ const ICONS = {
             y2="223.046"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1208,8 +1208,8 @@ const ICONS = {
             y2="430.091"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1240,8 +1240,8 @@ const ICONS = {
             y2="501.76"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1277,10 +1277,10 @@ const ICONS = {
             y2="461.429"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="0.265625" stop-color="white" />
-            <stop offset="0.713542" stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="0.265625" stopColor="white" />
+            <stop offset="0.713542" stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1311,8 +1311,8 @@ const ICONS = {
             y2="501.52"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1337,14 +1337,14 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M495.999 256H176"
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M362.666 389.333L429.333 322.666L495.999 256L362.666 122.666"
@@ -1355,7 +1355,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -1366,8 +1366,8 @@ const ICONS = {
             y2="495.999"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1634_2"
@@ -1377,8 +1377,8 @@ const ICONS = {
             y2="389.333"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1421,9 +1421,9 @@ const ICONS = {
             y2="429.606"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" stopOpacity="0" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1634_14"
@@ -1433,9 +1433,9 @@ const ICONS = {
             y2="429.482"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" stopOpacity="0" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1634_14"
@@ -1445,9 +1445,9 @@ const ICONS = {
             y2="347.291"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" stopOpacity="0" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1469,7 +1469,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M256 76L16 196L256 316L496 196L256 76Z"
@@ -1477,7 +1477,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -1488,8 +1488,8 @@ const ICONS = {
             y2="436"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1635_47"
@@ -1499,8 +1499,8 @@ const ICONS = {
             y2="316"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1537,8 +1537,8 @@ const ICONS = {
             y2="496"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1636_54"
@@ -1548,8 +1548,8 @@ const ICONS = {
             y2="239.076"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1586,8 +1586,8 @@ const ICONS = {
             y2="495.998"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1639_109"
@@ -1597,8 +1597,8 @@ const ICONS = {
             y2="346"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1787,8 +1787,8 @@ const ICONS = {
             y2="496"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1823,8 +1823,8 @@ const ICONS = {
             y2="470.976"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1901,8 +1901,8 @@ const ICONS = {
             y2="452.364"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1738_114"
@@ -1912,8 +1912,8 @@ const ICONS = {
             y2="452.364"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1738_114"
@@ -1923,8 +1923,8 @@ const ICONS = {
             y2="496"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -1958,14 +1958,14 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M496 179.385H341.955"
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -1976,8 +1976,8 @@ const ICONS = {
             y2="451.875"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1641_135"
@@ -1987,8 +1987,8 @@ const ICONS = {
             y2="228.167"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2038,8 +2038,8 @@ const ICONS = {
             y2="256.182"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1641_120"
@@ -2049,8 +2049,8 @@ const ICONS = {
             y2="256.182"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1641_120"
@@ -2060,8 +2060,8 @@ const ICONS = {
             y2="474.364"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint3_linear_1641_120"
@@ -2071,8 +2071,8 @@ const ICONS = {
             y2="474.364"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2127,8 +2127,8 @@ const ICONS = {
             y2="408.691"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2177,8 +2177,8 @@ const ICONS = {
             y2="202.955"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1669_26"
@@ -2188,8 +2188,8 @@ const ICONS = {
             y2="202.954"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1669_26"
@@ -2199,8 +2199,8 @@ const ICONS = {
             y2="461.012"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint3_linear_1669_26"
@@ -2210,8 +2210,8 @@ const ICONS = {
             y2="496"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2233,28 +2233,28 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M336 56V136"
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M176 56V136"
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M76 216H436"
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           opacity="0.7"
@@ -2262,7 +2262,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -2273,8 +2273,8 @@ const ICONS = {
             y2="456"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2305,8 +2305,8 @@ const ICONS = {
             y2="496"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2331,7 +2331,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M440.076 129.679H188.426C157.541 129.679 132.504 154.717 132.504 185.602V437.252C132.504 468.137 157.541 493.174 188.426 493.174H440.076C470.961 493.174 495.999 468.137 495.999 437.252V185.602C495.999 154.717 470.961 129.679 440.076 129.679Z"
@@ -2339,7 +2339,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M314.444 444.233H314.361C304.191 444.233 294.687 442.271 286.602 438.865C254.258 446.773 231 468.189 231 493.3H397.638C397.638 468.189 374.38 446.773 341.87 438.865C333.784 442.271 324.447 444.175 314.444 444.233Z"
@@ -2362,8 +2362,8 @@ const ICONS = {
             y2="382.495"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1673_145"
@@ -2373,8 +2373,8 @@ const ICONS = {
             y2="493.174"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1673_145"
@@ -2384,9 +2384,9 @@ const ICONS = {
             y2="493.3"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" stopOpacity="0" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint3_linear_1673_145"
@@ -2396,9 +2396,9 @@ const ICONS = {
             y2="411.109"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" stopOpacity="0" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2420,7 +2420,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path d="M16 256L256 376L496 256" fill="url(#paint1_linear_1674_170)" />
         <path
@@ -2428,7 +2428,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M256 16L16 136L256 256L496 136L256 16Z"
@@ -2436,7 +2436,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -2447,8 +2447,8 @@ const ICONS = {
             y2="496"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1674_170"
@@ -2458,8 +2458,8 @@ const ICONS = {
             y2="376"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1674_170"
@@ -2469,8 +2469,8 @@ const ICONS = {
             y2="256"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2492,21 +2492,21 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M418 74V230"
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M496 152H340"
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -2517,8 +2517,8 @@ const ICONS = {
             y2="438.8"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2564,8 +2564,8 @@ const ICONS = {
             y2="436.488"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1675_193"
@@ -2575,8 +2575,8 @@ const ICONS = {
             y2="459.027"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1675_193"
@@ -2586,8 +2586,8 @@ const ICONS = {
             y2="241.698"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2621,10 +2621,10 @@ const ICONS = {
             y2="451"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="0.302083" stop-color="white" />
-            <stop offset="0.708333" stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="0.302083" stopColor="white" />
+            <stop offset="0.708333" stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2649,7 +2649,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M495.999 430.857V299.948H365.09"
@@ -2660,7 +2660,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M441.236 190.857C430.171 159.587 411.364 131.63 386.572 109.594C361.779 87.5578 331.808 72.1614 299.456 64.8413C267.103 57.5211 233.424 58.5158 201.559 67.7325C169.695 76.9493 140.685 94.0876 117.236 117.548L16 212.676M496 299.948L394.764 395.076C371.315 418.536 342.305 435.675 310.441 444.892C278.576 454.108 244.897 455.103 212.544 447.783C180.192 440.463 150.221 425.066 125.428 403.03C100.636 380.994 81.8291 353.037 70.7636 321.767"
@@ -2671,7 +2671,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M306.556 249H205.444C197.467 249 191 255.467 191 263.444V314C191 321.977 197.467 328.444 205.444 328.444H306.556C314.533 328.444 321 321.977 321 314V263.444C321 255.467 314.533 249 306.556 249Z"
@@ -2679,7 +2679,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M219.889 249V220.111C219.889 210.534 223.693 201.349 230.465 194.577C237.238 187.805 246.423 184 256 184C265.577 184 274.762 187.805 281.534 194.577C288.306 201.349 292.111 210.534 292.111 220.111V249"
@@ -2690,7 +2690,7 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -2701,8 +2701,8 @@ const ICONS = {
             y2="212.676"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1675_229"
@@ -2712,8 +2712,8 @@ const ICONS = {
             y2="430.857"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1675_229"
@@ -2723,8 +2723,8 @@ const ICONS = {
             y2="452.624"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint3_linear_1675_229"
@@ -2734,8 +2734,8 @@ const ICONS = {
             y2="328.444"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint4_linear_1675_229"
@@ -2745,8 +2745,8 @@ const ICONS = {
             y2="249"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2781,14 +2781,14 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M496 188.552H335.666"
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -2799,8 +2799,8 @@ const ICONS = {
             y2="481.233"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1885_27"
@@ -2810,8 +2810,8 @@ const ICONS = {
             y2="237.123"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2864,8 +2864,8 @@ const ICONS = {
             y2="462.11"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1885_6"
@@ -2875,8 +2875,8 @@ const ICONS = {
             y2="253.882"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1885_6"
@@ -2886,8 +2886,8 @@ const ICONS = {
             y2="496"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint3_linear_1885_6"
@@ -2897,8 +2897,8 @@ const ICONS = {
             y2="236.329"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -2931,14 +2931,14 @@ const ICONS = {
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M496.001 204.203H298.836"
           stroke="black"
           strokeWidth="20"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <defs>
           <linearGradient
@@ -2949,8 +2949,8 @@ const ICONS = {
             y2="204.006"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1885_46"
@@ -2960,8 +2960,8 @@ const ICONS = {
             y2="489.292"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -3058,8 +3058,8 @@ const ICONS = {
             y2="346.732"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1885_82"
@@ -3069,8 +3069,8 @@ const ICONS = {
             y2="293.073"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1885_82"
@@ -3080,8 +3080,8 @@ const ICONS = {
             y2="79.4146"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint3_linear_1885_82"
@@ -3091,8 +3091,8 @@ const ICONS = {
             y2="129.171"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint4_linear_1885_82"
@@ -3102,8 +3102,8 @@ const ICONS = {
             y2="431.61"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint5_linear_1885_82"
@@ -3113,8 +3113,8 @@ const ICONS = {
             y2="496"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
@@ -3211,8 +3211,8 @@ const ICONS = {
             y2="346.732"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_1885_82"
@@ -3222,8 +3222,8 @@ const ICONS = {
             y2="293.073"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint2_linear_1885_82"
@@ -3233,8 +3233,8 @@ const ICONS = {
             y2="79.4146"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint3_linear_1885_82"
@@ -3244,8 +3244,8 @@ const ICONS = {
             y2="129.171"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint4_linear_1885_82"
@@ -3255,8 +3255,8 @@ const ICONS = {
             y2="431.61"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
           <linearGradient
             id="paint5_linear_1885_82"
@@ -3266,8 +3266,8 @@ const ICONS = {
             y2="496"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#C6C0E9" />
-            <stop offset="1" stop-color="white" />
+            <stop stopColor="#C6C0E9" />
+            <stop offset="1" stopColor="white" />
           </linearGradient>
         </defs>
       </svg>
