@@ -5,7 +5,7 @@ const Chats = () => {
   return (
     <PanelLayout title="Chats - Admin Panel">
       <section className="px-6 py-4">
-        <AdminBreadcrumbs links={links} />
+        {/* <AdminBreadcrumbs links={links} /> */}
         <ChatSection />
       </section>
     </PanelLayout>
