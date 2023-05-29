@@ -61,6 +61,12 @@ export default () => {
 						icon: <ICONS.Add_Employee />,
 						route: "/admin/employees/create-employee",
 					},
+					{
+						key: "3-4",
+						title: "Upload Employee's Data",
+						icon: <ICONS.Add_Employee />,
+						route: "/admin/employees/upload-employee-data",
+					},
 				],
 			},
 			{
