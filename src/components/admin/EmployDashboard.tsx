@@ -127,7 +127,7 @@ const EmployDashboard = () => {
 							<span className="text-lg font-semibold text-theme">
 								{projectData?.length
 									? projectData?.filter((item) => item?.status === "Ongoing")
-										?.length
+											?.length
 									: 0}
 							</span>
 							<span className="w-1/2 text-center font-semibold">
@@ -145,22 +145,22 @@ const EmployDashboard = () => {
 						series={
 							roleData?.length
 								? [
-									{
-										name: "Strength",
-										data: roleData?.length
-											? roleData?.map((item: any) =>
-												item?._count ? item?._count : 0
-											)
-											: [],
-									},
-								]
+										{
+											name: "Strength",
+											data: roleData?.length
+												? roleData?.map((item: any) =>
+														item?._count ? item?._count : 0
+												  )
+												: [],
+										},
+								  ]
 								: []
 						}
 						categories={
 							roleData?.length
 								? roleData?.map((item: any) =>
-									item?.name ? item?.name : "Not Specified"
-								)
+										item?.name ? item?.name : "Not Specified"
+								  )
 								: []
 						}
 						text=""
@@ -168,20 +168,22 @@ const EmployDashboard = () => {
 					/>
 				</div>
 				<div className="col-span-12  pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold bg-white text-center">Employee Gender Ratio</p>
+					<p className="text-lg font-bold bg-white text-center">
+						Employee Gender Ratio
+					</p>
 					<GenderRation
 						series={
 							employeeDetails?.groupByGender?.length
 								? employeeDetails?.groupByGender?.map(
-									(item: any) => item?._count
-								)
+										(item: any) => item?._count
+								  )
 								: []
 						}
 						labels={
 							employeeDetails?.groupByGender?.length
 								? employeeDetails?.groupByGender?.map((item: any) =>
-									item?.gender ? item?.gender : []
-								)
+										item?.gender ? item?.gender : []
+								  )
 								: []
 						}
 						text=""

@@ -38,8 +38,8 @@ const AllRollGrid = ({ data, mutate }: Props) => {
       confirmButtonText: "Yes, delete!",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        Swal.fire(`Info`, "It will take some time", "info");
         setLoading(true);
-        Swal.fire("", "Please Wait...", "info");
         try {
           const res = await change(`roles/${id}`, { method: "DELETE" });
           setLoading(false);

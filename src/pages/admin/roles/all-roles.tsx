@@ -1,4 +1,4 @@
-import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
+import { Add, Close, FilterListRounded, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
 import {
   Button,
   IconButton,
@@ -6,10 +6,10 @@ import {
   Pagination,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import {
   AdminBreadcrumbs,
-  FiltersContainer,
   Loader,
   LoaderAnime,
 } from "components/core";
@@ -20,7 +20,7 @@ import { useState } from "react";
 import { AllRollGrid, AllRollColumn } from "components/admin/roles";
 import { Role } from "types";
 const AllRoles = () => {
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [isGrid, setIsGrid] = useState(true);
   const [userName, setUsername] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
@@ -30,7 +30,7 @@ const AllRoles = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<Role[]>(
+  } = useFetch<any>(
     `roles?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
@@ -75,19 +75,31 @@ const AllRoles = () => {
           </div>
         </div>
         <div>
-          <FiltersContainer
-            changes={() => {
-              setIsOrderBy(null);
-              setUsername(null);
-            }}
-          >
+          <div className="md:flex gap-4 justify-between w-full py-2">
+            <div
+              className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+            >
+              <IconButton
+                onClick={() => {
+                  setIsOrderBy(null);
+                  setUsername(null);
+                }}
+              >
+                <Tooltip title={isOrderBy != null || userName != null ? `Remove Filters` : `Filter`}>
+                  {isOrderBy != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                </Tooltip>
+              </IconButton>
+            </div>
+
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <TextField
                 fullWidth
                 size="small"
                 id="name"
+                value={userName ? userName : ""}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Client Name"
+                placeholder="Role Name"
                 name="name"
               />
               <TextField
@@ -105,7 +117,7 @@ const AllRoles = () => {
                 ))}
               </TextField>
             </div>
-          </FiltersContainer>
+          </div>
         </div>
         {isGrid ? (
           <>
@@ -119,7 +131,10 @@ const AllRoles = () => {
           </>
         )}
         {roleData?.length === 0 ? <LoaderAnime /> : null}
-        {roleData?.length ? (
+        {Math.ceil(
+          Number(pagination?.total || 1) /
+          Number(pagination?.limit || 1)
+        ) > 1 ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination
@@ -130,6 +145,7 @@ const AllRoles = () => {
                 onChange={(e, v: number) => {
                   setPageNumber(v);
                 }}
+                page={pageNumber}
                 variant="outlined"
               />
             </Stack>

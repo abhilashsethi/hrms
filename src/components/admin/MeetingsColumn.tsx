@@ -63,6 +63,7 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
 		}).then(async (result) => {
 			try {
 				if (result.isConfirmed) {
+					Swal.fire(`Info`, "It will take some time", "info");
 					const response = await change(`meetings/${id}`, {
 						method: "DELETE",
 					});

@@ -1,3 +1,4 @@
+import { Key } from "@mui/icons-material";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -67,7 +68,9 @@ const DailyAttendance = ({
 					},
 					{
 						name: "Absent",
-						data: [11, 32, 45, 32, 34],
+						data: data?.map((item: any) =>
+							totalUsers ? totalUsers - item?.count : 0
+						),
 					},
 				],
 				chart: {

@@ -1,4 +1,5 @@
-import { MenuItem, Pagination, Stack, TextField } from "@mui/material";
+import { Close, FilterListRounded } from "@mui/icons-material";
+import { IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
 import { AllScannedColumn, AllScannedGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
@@ -14,7 +15,7 @@ import { useState } from "react";
 import { Card } from "types";
 
 const Cards = () => {
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [empId, setEmpId] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [userName, setUsername] = useState<string | null>(null);
@@ -27,10 +28,8 @@ const Cards = () => {
     mutate,
     pagination,
   } = useFetch<Card[]>(
-    `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${
-      empId ? `&employeeID=${empId}` : ""
-    }${cardId ? `&cardId=${cardId}` : ""}${
-      userType ? `&assignedTo=${userType}` : ""
+    `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${empId ? `&employeeID=${empId}` : ""
+    }${cardId ? `&cardId=${cardId}` : ""}${userType ? `&assignedTo=${userType}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
@@ -42,20 +41,32 @@ const Cards = () => {
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
           </div>
         </div>
-        <FiltersContainer
-          changes={() => {
-            setEmpId(null);
-            setUsername(null);
-            setCardId(null);
-            setUserType(null);
-            setIsOrderBy(null);
-          }}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <div className="md:flex gap-4 justify-between w-full py-2">
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+          >
+            <IconButton
+              onClick={() => {
+                setEmpId(null);
+                setUsername(null);
+                setCardId(null);
+                setUserType(null);
+                setIsOrderBy(null);
+              }}
+            >
+              <Tooltip title={isOrderBy != null || userType != null || cardId != null || empId != null || userName != null ? `Remove Filters` : `Filter`}>
+                {isOrderBy != null || userType != null || cardId != null || empId != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+              </Tooltip>
+            </IconButton>
+          </div>
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <TextField
               fullWidth
               size="small"
               placeholder="Employee Id"
+              value={empId ? empId : ""}
               onChange={(e) => {
                 setEmpId(e?.target?.value);
               }}
@@ -64,6 +75,7 @@ const Cards = () => {
               fullWidth
               size="small"
               placeholder="Employee Name"
+              value={userName ? userName : ""}
               onChange={(e) => {
                 setUsername(e?.target?.value);
               }}
@@ -72,6 +84,7 @@ const Cards = () => {
               fullWidth
               size="small"
               placeholder="Card Id"
+              value={cardId ? cardId : ""}
               onChange={(e) => {
                 setCardId(e?.target?.value);
               }}
@@ -105,7 +118,7 @@ const Cards = () => {
               ))}
             </TextField>
           </div>
-        </FiltersContainer>
+        </div>
         <div>
           {isGrid ? (
             <>
@@ -120,19 +133,25 @@ const Cards = () => {
           )}
         </div>
         {cardData?.length === 0 ? <LoaderAnime /> : null}
-        <div className="flex justify-center py-8">
-          <Stack spacing={2}>
-            <Pagination
-              count={Math.ceil(
-                Number(pagination?.total || 1) / Number(pagination?.limit || 1)
-              )}
-              onChange={(e, v: number) => {
-                setPageNumber(v);
-              }}
-              variant="outlined"
-            />
-          </Stack>
-        </div>
+        {Math.ceil(
+          Number(pagination?.total || 1) /
+          Number(pagination?.limit || 1)
+        ) > 1 ?
+          <div className="flex justify-center py-8">
+            <Stack spacing={2}>
+              <Pagination
+                count={Math.ceil(
+                  Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+                )}
+                onChange={(e, v: number) => {
+                  setPageNumber(v);
+                }}
+                page={pageNumber}
+                variant="outlined"
+              />
+            </Stack>
+          </div>
+          : null}
       </section>
     </PanelLayout>
   );

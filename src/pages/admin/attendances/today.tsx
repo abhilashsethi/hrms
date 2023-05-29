@@ -1,6 +1,8 @@
 import {
   ChevronLeftRounded,
   ChevronRightRounded,
+  Close,
+  FilterListRounded,
   GridViewRounded,
   InsertInvitationRounded,
   Search,
@@ -15,6 +17,7 @@ import {
   Pagination,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import {
   AdminBreadcrumbs,
@@ -34,9 +37,8 @@ import { AttendanceGrid, AttendanceList } from "components/admin/attendance";
 
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [selectedDate, setSelectedDate] = useState<any>(new Date());
-  const [searchedUser, setSearchedUser] = useState<any>([]);
   const [status, setStatus] = useState("all");
   const [order, setOrder] = useState<string | null>(null);
   const [userName, setUsername] = useState<string | null>(null);
@@ -135,17 +137,31 @@ const TodayAttendance = () => {
           </div>
         </div>
         <section className="mt-4">
-          <FiltersContainer
-            changes={() => {
-              setEmpId(null);
-              setUsername(null);
-              setOrder(null);
-            }}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+
+          <div className="md:flex gap-4 justify-between w-full py-2">
+            <div
+              className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+            >
+              <IconButton
+                onClick={() => {
+                  setEmpId(null);
+                  setUsername(null);
+                  setOrder(null);
+                  setStatus("all");
+                }}
+              >
+                <Tooltip title={order != null || status != "all" || empId != null || userName != null ? `Remove Filters` : `Filter`}>
+                  {order != null || status != "all" || empId != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                </Tooltip>
+              </IconButton>
+            </div>
+
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               <TextField
                 fullWidth
                 size="small"
+                value={empId ? empId : ""}
                 placeholder="Employee Id"
                 name="employeeId"
                 onChange={(e) => setEmpId(e.target.value)}
@@ -153,6 +169,7 @@ const TodayAttendance = () => {
               <TextField
                 fullWidth
                 size="small"
+                value={userName ? userName : ""}
                 placeholder="Employee Name"
                 onChange={(e) => setUsername(e.target.value)}
                 name="employeeName"
@@ -161,6 +178,7 @@ const TodayAttendance = () => {
                 size="small"
                 fullWidth
                 select
+                value={status != "null" ? status : "null"}
                 label="Status"
                 defaultValue="all"
                 onChange={(e: any) => setStatus(e.target.value)}
@@ -175,6 +193,7 @@ const TodayAttendance = () => {
                 size="small"
                 fullWidth
                 select
+                value={order ? order : ""}
                 label="Order By"
                 // defaultValue="all"
                 onChange={(e: any) => setOrder(e.target.value)}
@@ -185,16 +204,9 @@ const TodayAttendance = () => {
                   </MenuItem>
                 ))}
               </TextField>
-              {/* <Button
-              fullWidth
-              startIcon={<Search />}
-              variant="contained"
-              className="!bg-theme"
-            >
-              Search
-            </Button> */}
+
             </div>
-          </FiltersContainer>
+          </div>
         </section>
         <section>
           {isLoading ? (
@@ -209,20 +221,27 @@ const TodayAttendance = () => {
             </>
           )}
           {attendance?.length === 0 ? <LoaderAnime /> : null}
-          <div className="flex justify-center py-8">
-            <Stack spacing={2}>
-              <Pagination
-                count={Math.ceil(
-                  Number(pagination?.total || 1) /
-                  Number(pagination?.limit || 1)
-                )}
-                onChange={(e, v: number) => {
-                  setPageNumber(v);
-                }}
-                variant="outlined"
-              />
-            </Stack>
-          </div>
+          {Math.ceil(
+            Number(pagination?.total || 1) /
+            Number(pagination?.limit || 1)
+          ) > 1 ?
+            <div className="flex justify-center py-8">
+
+              <Stack spacing={2}>
+                <Pagination
+                  count={Math.ceil(
+                    Number(pagination?.total || 1) /
+                    Number(pagination?.limit || 1)
+                  )}
+                  onChange={(e, v: number) => {
+                    setPageNumber(v);
+                  }}
+                  page={pageNumber}
+                  variant="outlined"
+                />
+              </Stack>
+            </div>
+            : null}
         </section>
       </section>
     </PanelLayout>

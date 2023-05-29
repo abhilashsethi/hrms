@@ -1,5 +1,5 @@
-import { Add } from "@mui/icons-material";
-import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
+import { Add, Close, FilterListRounded } from "@mui/icons-material";
+import { Button, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
 import { LeavesColumn, LeavesGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
@@ -16,11 +16,11 @@ import { Leave } from "types";
 
 const LeaveRequests = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [userName, setUsername] = useState<string | null>(null);
   const [empId, setEmpId] = useState<string | null>(null);
-  const [leaveType, setLeaveType] = useState<string>("");
-  const [leaveStatus, setLeaveStatus] = useState<string>("");
+  const [leaveType, setLeaveType] = useState<string | null>(null);
+  const [leaveStatus, setLeaveStatus] = useState<string | null>(null);
   const [isLeave, setIsLeave] = useState<boolean>(false);
   const {
     data: leavesData,
@@ -28,13 +28,10 @@ const LeaveRequests = () => {
     pagination,
     isLoading,
   } = useFetch<Leave[]>(
-    `leaves/all?page=${pageNumber}&limit=8${
-      userName ? `&employeeName=${userName}` : ""
-    }${empId ? `&employeeID=${empId}` : ""}${
-      leaveStatus ? `&status=${leaveStatus}` : ""
+    `leaves/all?page=${pageNumber}&limit=8${userName ? `&employeeName=${userName}` : ""
+    }${empId ? `&employeeID=${empId}` : ""}${leaveStatus ? `&status=${leaveStatus}` : ""
     }${leaveType ? `&type=${leaveType}` : ""}`
   );
-  console.log(leavesData);
   return (
     <PanelLayout title="Leave Requests - Admin Panel">
       <section className="md:px-8 px-4 py-2">
@@ -57,17 +54,36 @@ const LeaveRequests = () => {
             </Button>
           </div>
         </div>
-        <FiltersContainer>
+        <div className="md:flex gap-4 justify-between w-full py-2">
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+          >
+            <IconButton
+              onClick={() => {
+                setEmpId(null);
+                setLeaveType(null);
+                setUsername(null);
+                setLeaveStatus(null);
+              }}
+            >
+              <Tooltip title={empId != null || leaveStatus != null || leaveType != null || userName != null ? `Remove Filters` : `Filter`}>
+                {empId != null || leaveStatus != null || leaveType != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+              </Tooltip>
+            </IconButton>
+          </div>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <TextField
               fullWidth
               size="small"
+              value={empId ? empId : ""}
               placeholder="Employee Id"
               onChange={(e) => setEmpId(e.target.value)}
             />
             <TextField
               fullWidth
               size="small"
+              value={userName ? userName : ""}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Employee Name"
             />
@@ -100,7 +116,7 @@ const LeaveRequests = () => {
               ))}
             </TextField>
           </div>
-        </FiltersContainer>
+        </div>
         {isLoading ? (
           <div className="w-full h-[80vh]">
             <Loader />
@@ -117,17 +133,21 @@ const LeaveRequests = () => {
 
         {leavesData?.length === 0 && <LoaderAnime />}
         <section className="mb-6">
-          {leavesData?.length ? (
+          {Math.ceil(
+            Number(pagination?.total || 1) /
+            Number(pagination?.limit || 1)
+          ) > 1 ? (
             <div className="flex justify-center md:py-8 py-4">
               <Stack spacing={2}>
                 <Pagination
                   count={Math.ceil(
                     Number(pagination?.total || 1) /
-                      Number(pagination?.limit || 1)
+                    Number(pagination?.limit || 1)
                   )}
                   onChange={(e, v: number) => {
                     setPageNumber(v);
                   }}
+                  page={pageNumber}
                   variant="outlined"
                 />
               </Stack>

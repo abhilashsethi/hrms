@@ -89,17 +89,16 @@ const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
                   </span>
                 </span>
                 <span
-                  className={`px-3 py-1 uppercase rounded-sm shadow-md text-xs tracking-wide font-semibold text-white ${
-                    item?.status === "Pending"
+                  className={`px-3 py-1 uppercase rounded-sm shadow-md text-xs tracking-wide font-semibold text-white ${item?.status === "Pending"
                       ? `bg-yellow-500`
                       : item?.status === "Ongoing"
-                      ? `bg-blue-500`
-                      : item?.status === "Onhold"
-                      ? `bg-red-500`
-                      : item?.status === "Completed"
-                      ? `bg-green-500`
-                      : `bg-slate-500`
-                  }`}
+                        ? `bg-blue-500`
+                        : item?.status === "Onhold"
+                          ? `bg-red-500`
+                          : item?.status === "Completed"
+                            ? `bg-green-500`
+                            : `bg-slate-500`
+                    }`}
                 >
                   {item?.status}
                 </span>
@@ -170,7 +169,7 @@ const Projects = ({ projectData, mutate, isLoading }: PROPS) => {
                   <div className="flex gap-2 group items-center pt-2">
                     <AvatarGroup
                       className="!cursor-pointer"
-                      onClick={() => {setIsMembers(true), setIsProjectData(item)}}
+                      onClick={() => { setIsMembers(true), setIsProjectData(item) }}
                       max={4}
                     >
                       {item?.involvedMembers?.map(
@@ -247,6 +246,7 @@ const MoreOption = ({ item, mutate }: Props) => {
         confirmButtonText: "Yes, delete!",
       }).then(async (result) => {
         if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
           const res = await change(`projects/${id}`, {
             method: "DELETE",
           });

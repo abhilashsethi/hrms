@@ -41,6 +41,7 @@ const ClientsGrid = ({ data, mutate }: Props) => {
         confirmButtonText: "Yes, delete!",
       }).then(async (result) => {
         if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
           const res = await change(`clients/${item?.id}`, {
             method: "DELETE",
           });

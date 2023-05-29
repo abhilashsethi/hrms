@@ -49,7 +49,7 @@ const MeetingAnalytics = ({
 		},
 		yaxis: {
 			title: {
-				text: "Points",
+				text: "Meeting Counts",
 			},
 			min: 0,
 		},
@@ -107,7 +107,7 @@ const MeetingAnalytics = ({
 				},
 				yaxis: {
 					title: {
-						text: "Points",
+						text: "Meeting Counts",
 					},
 					min: 0,
 				},

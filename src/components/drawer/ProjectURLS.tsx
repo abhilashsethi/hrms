@@ -82,6 +82,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
 				confirmButtonText: "Yes, remove!",
 			}).then(async (result) => {
 				if (result.isConfirmed) {
+					Swal.fire(`Info`, "It will take some time", "info");
 					try {
 						const res = await change(`projects/remove-links/${id}`, {
 							method: "DELETE",
