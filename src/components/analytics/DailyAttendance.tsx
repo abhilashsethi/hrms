@@ -6,10 +6,12 @@ const DailyAttendance = ({
 	type,
 	text = "",
 	data,
+	totalUsers,
 }: {
 	type: "bar" | "area" | "line";
 	text?: string;
 	data?: any;
+	totalUsers?: any;
 }) => {
 	const options = {
 		series: [
@@ -17,10 +19,12 @@ const DailyAttendance = ({
 				name: "Present",
 				data: data?.map((item: any) => item?.count),
 			},
-			// {
-			// 	name: "Absent",
-			// 	data: [11, 32, 45, 32, 34],
-			// },
+			{
+				name: "Absent",
+				data: data?.map((item: any) =>
+					totalUsers ? totalUsers - item?.count : 0
+				),
+			},
 		],
 		chart: {
 			height: 350,
@@ -51,7 +55,7 @@ const DailyAttendance = ({
 			},
 		},
 	};
-
+	// console.log({ totalUsers });
 	return (
 		<ApexCharts
 			height={"500"}
@@ -61,10 +65,10 @@ const DailyAttendance = ({
 						name: "Present",
 						data: data?.map((item: any) => item?.count),
 					},
-					// {
-					// 	name: "Absent",
-					// 	data: [11, 32, 45, 32, 34],
-					// },
+					{
+						name: "Absent",
+						data: [11, 32, 45, 32, 34],
+					},
 				],
 				chart: {
 					height: 350,

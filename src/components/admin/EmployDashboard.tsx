@@ -43,6 +43,7 @@ const EmployDashboard = () => {
 	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
 
 	const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
+	// console.log(employeeDetails);
 
 	const roleData = employeeDetails?.departmentWiseUsers;
 
@@ -102,6 +103,7 @@ const EmployDashboard = () => {
 								text="Employee's Report"
 								type="area"
 								data={employeeDetails?.lastWeekAttendanceArr}
+								totalUsers={employeeDetails?.totalUsers}
 							/>
 						</div>
 					</div>
