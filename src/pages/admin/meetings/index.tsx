@@ -33,26 +33,26 @@ const Meetings = () => {
 		{
 			id: 2,
 			icon: <PendingActions className="text-theme" />,
-			count: "20",
-			title: "Upcoming Meetings",
+			count: meetingData?.Meetings?.meetingStatusList
+				? meetingData?.Meetings?.meetingStatusList
+						?.filter((item: any) => item?.status === "Ongoing")
+						?.map((item: any) => item?._count)
+				: 0,
+			title: "Ongoing Meetings",
 			bg: "from-yellow-500 to-yellow-300",
 			img: MEETINGICON2.src,
 		},
 		{
 			id: 3,
 			icon: <AssignmentTurnedIn className="text-theme" />,
-			count: "10",
-			title: "Completed Meetings",
+			count: meetingData?.Meetings?.meetingStatusList
+				? meetingData?.Meetings?.meetingStatusList
+						?.filter((item: any) => item?.status === "Closed")
+						?.map((item: any) => item?._count)
+				: 0,
+			title: "Closed Meetings",
 			bg: "from-emerald-500 to-emerald-300",
 			img: MEETINGICON3.src,
-		},
-		{
-			id: 4,
-			icon: <DevicesOther className="text-theme" />,
-			count: "18",
-			title: "Total Meeting Locations",
-			bg: "from-purple-500 to-purple-300",
-			img: MEETINGICON4.src,
 		},
 	];
 
@@ -68,12 +68,12 @@ const Meetings = () => {
 						<MeetingAnalytics
 							series={[
 								{
-									name: "Upcoming Meetings",
+									name: "Total Meetings",
 									type: "column",
 									data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
 								},
 								{
-									name: "Completed Meetings",
+									name: "Closed Meetings",
 									type: "area",
 									data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
 								},
@@ -98,7 +98,24 @@ const Meetings = () => {
 					</div>
 					<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
 						<p className="font-bold text-lg text-center">Meeting Details</p>
-						<MeetingDonutChart text="" type="donut" />
+						<MeetingDonutChart
+							text=""
+							type="donut"
+							labels={
+								meetingData?.Meetings?.meetingStatusList
+									? meetingData?.Meetings?.meetingStatusList?.map(
+											(item: any) => item?.status
+									  )
+									: []
+							}
+							series={
+								meetingData?.Meetings?.meetingStatusList
+									? meetingData?.Meetings?.meetingStatusList?.map(
+											(item: any) => item?._count
+									  )
+									: []
+							}
+						/>
 					</div>
 				</div>
 			</div>
