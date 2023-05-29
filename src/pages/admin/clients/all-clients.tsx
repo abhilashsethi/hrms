@@ -1,5 +1,7 @@
 import {
   Add,
+  Close,
+  FilterListRounded,
   GridViewRounded,
   TableRowsRounded,
   Upload,
@@ -11,6 +13,7 @@ import {
   Pagination,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import { ClientTableView, ClientsGrid } from "components/admin/clients";
 import {
@@ -34,6 +37,7 @@ const AllClients = () => {
   const [userName, setUsername] = useState<string | null>(null);
   const [pageNumber, setPageNumber] = useState<number | null>(1);
   const [isUpload, setIsUpload] = useState(false);
+  const [isFilter, setIsFilter] = useState(true);
 
   const {
     data: clients,
@@ -88,18 +92,32 @@ const AllClients = () => {
               </Link>
             </div>
           </div>
-          <FiltersContainer
-            changes={() => {
-              setUsername(null);
-              setIsOrderBy(null);
-              setIsIssue(null);
-            }}
-          >
+          <div className="md:flex gap-4 justify-between w-full py-2">
+            <div
+              className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+            >
+              <IconButton
+                onClick={() => {
+                  setIsFilter((prev) => !prev);
+                  setIsOrderBy(null);
+                  setIsIssue(null);
+                  setUsername(null);
+                }}
+              >
+                <Tooltip title={isOrderBy != null || isIssue != null || userName != null ? `Remove Filters` : `Filter`}>
+                  {isOrderBy != null || isIssue != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                  {/* <FilterListRounded className={`${isFilter ? `!text-white` : ``}`} /> */}
+                </Tooltip>
+              </IconButton>
+            </div>
+
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <TextField
                 fullWidth
                 size="small"
                 id="name"
+                value={userName ? userName : ""}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Client Name"
                 name="name"
@@ -132,8 +150,9 @@ const AllClients = () => {
                   </MenuItem>
                 ))}
               </TextField>
+
             </div>
-          </FiltersContainer>
+          </div>
           {isGrid ? (
             <>
               {isLoading && <SkeletonLoader />}
