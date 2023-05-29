@@ -9,8 +9,8 @@ interface Props {
 }
 const LoaderAnimeLarge = ({
 	image,
-	animeHight = 250,
-	animeWidth = 250,
+	animeHight,
+	animeWidth,
 	text,
 }: Props) => {
 	const defaultOptions = {
@@ -27,8 +27,8 @@ const LoaderAnimeLarge = ({
 			<div className="">
 				<Lottie
 					options={defaultOptions}
-					height={animeHight}
-					width={animeWidth}
+					height={animeHight ? animeHight : 250}
+					width={animeWidth ? animeWidth : 250}
 				/>
 			</div>
 			<span className="text-xl capitalize tracking-wide">

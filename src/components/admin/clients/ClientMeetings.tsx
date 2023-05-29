@@ -1,4 +1,4 @@
-import { HeadText } from "components/core";
+import { HeadText, LoaderAnime } from "components/core";
 import moment from "moment";
 import { AccountTreeRounded, Receipt } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
@@ -35,46 +35,41 @@ const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
         </Tooltip>
       </div>
       <div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
-        {ticketsData?.length ? (
-          ticketsData?.map((item: any, i: any) => (
-            <>
-              <div key={i} className="flex gap-1 py-3 border-b-[1px]">
-                <div className="w-1/5 flex justify-center items-center">
-                  <div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
-                    <AccountTreeRounded className="!text-secondary" />
-                  </div>
-                </div>
-                <div className="w-4/5 h-20">
-                  <div className="flex justify-between pr-3 items-center">
-                    <p className="text-sm font-semibold tracking-wide">
-                      {item?.title}
-                    </p>
-                  </div>
-                  <p className="text-sm tracking-wide my-2">
-                    issueDate : {moment(new Date()).format("ll")}
-                  </p>
-                  <p className="text-sm tracking-wide my-2">
-                    Status :{" "}
-                    <span
-                      className={`py-1 px-3 rounded-md tracking-wide ${
-                        item?.isResolved
-                          ? "bg-emerald-100 border-green-400 border-[1px] text-green-500"
-                          : "bg-red-100 border-red-400 border-[1px] text-red-500"
-                      } text-xs font-semibold`}
-                    >
-                      {item?.isResolved ? "Yes" : "No"}
-                    </span>
-                  </p>
-                  {"  "}
+        {ticketsData?.length === 0 ? (<LoaderAnime animeHight={150} animeWidth={150} text={"No Ticket Available"} />) : null}
+        {ticketsData?.map((item: any, i: any) => (
+          <>
+            <div key={i} className="flex gap-1 py-3 border-b-[1px]">
+              <div className="w-1/5 flex justify-center items-center">
+                <div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
+                  <AccountTreeRounded className="!text-secondary" />
                 </div>
               </div>
-            </>
-          ))
-        ) : (
-          <>
-            <p className="text-center">No Tickets Available</p>
+              <div className="w-4/5 h-20">
+                <div className="flex justify-between pr-3 items-center">
+                  <p className="text-sm font-semibold tracking-wide">
+                    {item?.title}
+                  </p>
+                </div>
+                <p className="text-sm tracking-wide my-2">
+                  issueDate : {moment(new Date()).format("ll")}
+                </p>
+                <p className="text-sm tracking-wide my-2">
+                  Status :{" "}
+                  <span
+                    className={`py-1 px-3 rounded-md tracking-wide ${item?.isResolved
+                      ? "bg-emerald-100 border-green-400 border-[1px] text-green-500"
+                      : "bg-red-100 border-red-400 border-[1px] text-red-500"
+                      } text-xs font-semibold`}
+                  >
+                    {item?.isResolved ? "Yes" : "No"}
+                  </span>
+                </p>
+                {"  "}
+              </div>
+            </div>
           </>
-        )}
+        ))
+        }
       </div>
     </section>
   );

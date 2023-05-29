@@ -1,4 +1,4 @@
-import { HeadText } from "components/core";
+import { HeadText, LoaderAnime } from "components/core";
 import moment from "moment";
 import { AccountTreeRounded, Handyman } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
@@ -31,45 +31,38 @@ const ClientProjects = ({ projectData, isLoading }: Props) => {
         </Tooltip>
       </div>
       <div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
-        {projectData?.length ? (
-          <>
-            {projectData?.map((item: any, i: any) => (
-              <div key={i} className="flex gap-1 py-3 border-b-[1px]">
-                <div className="w-1/5 flex justify-center items-center">
-                  <div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
-                    <AccountTreeRounded className="!text-secondary" />
-                  </div>
-                </div>
-                <div className="w-4/5 h-12">
-                  <div className="flex justify-between pr-3 items-center">
-                    <p className="text-sm font-semibold tracking-wide">
-                      {item?.name}
-                    </p>
-                    <span
-                      className={`py-1 px-3 rounded-md ${
-                        item?.status === "Pending"
-                          ? `bg-yellow-100 border-yellow-400 border-[1px] text-yellow-500 `
-                          : `bg-emerald-100 border-green-400 border-[1px] text-green-500 `
-                      } text-xs font-semibold tracking-wide`}
-                    >
-                      {item?.status}
-                    </span>
-                  </div>
-                  <p className="text-sm tracking-wide">
-                    Deadline :{" "}
-                    {item?.endDate
-                      ? moment(item?.endDate).format("ll")
-                      : "Not Set"}
-                  </p>
-                </div>
+        {projectData?.length === 0 ? (<LoaderAnime animeHight={150} animeWidth={150} text={"No Project Available"} />) : null}
+        {projectData?.map((item: any, i: any) => (
+          <div key={i} className="flex gap-1 py-3 border-b-[1px]">
+            <div className="w-1/5 flex justify-center items-center">
+              <div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
+                <AccountTreeRounded className="!text-secondary" />
               </div>
-            ))}
-          </>
-        ) : (
-          <>
-            <p className="text-center">No Projects Available</p>
-          </>
-        )}
+            </div>
+            <div className="w-4/5 h-12">
+              <div className="flex justify-between pr-3 items-center">
+                <p className="text-sm font-semibold tracking-wide">
+                  {item?.name}
+                </p>
+                <span
+                  className={`py-1 px-3 rounded-md ${item?.status === "Pending"
+                    ? `bg-yellow-100 border-yellow-400 border-[1px] text-yellow-500 `
+                    : `bg-emerald-100 border-green-400 border-[1px] text-green-500 `
+                    } text-xs font-semibold tracking-wide`}
+                >
+                  {item?.status}
+                </span>
+              </div>
+              <p className="text-sm tracking-wide">
+                Deadline :{" "}
+                {item?.endDate
+                  ? moment(item?.endDate).format("ll")
+                  : "Not Set"}
+              </p>
+            </div>
+          </div>
+        ))}
+
       </div>
     </section>
   );

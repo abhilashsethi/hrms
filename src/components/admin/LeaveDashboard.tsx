@@ -1,23 +1,5 @@
-import {
-	ContentPasteGo,
-	MoreVert,
-	Pending,
-	Schedule,
-	Sick,
-} from "@mui/icons-material";
-import {
-	Grid,
-	IconButton,
-	LinearProgress,
-	Menu,
-	MenuItem,
-} from "@mui/material";
-import {
-	CASUAL_LEAVE,
-	MEETINGICON,
-	SICK_LEAVE,
-	TOTAL_LEAVES,
-} from "assets/dashboard_Icons";
+import { ContentPasteGo, Pending, Sick } from "@mui/icons-material";
+import { CASUAL_LEAVE, SICK_LEAVE, TOTAL_LEAVES } from "assets/dashboard_Icons";
 import { LeaveBarChart, LeaveDonutChart } from "components/analytics";
 import { DashboardCard } from "components/core";
 import { useFetch } from "hooks";
@@ -46,7 +28,7 @@ const LeaveDashboard = () => {
 		`leaves/dashboard/details`
 	);
 	// console.log(leaveData);
-	console.log(leaveMonthData);
+	// console.log(leaveMonthData);
 
 	useEffect(() => {
 		let monthData =

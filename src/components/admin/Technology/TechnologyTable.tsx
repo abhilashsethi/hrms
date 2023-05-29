@@ -48,7 +48,7 @@ const GuestColumn = ({ data, mutate }: Props) => {
   return (
     <section className="mt-8">
       <MaterialTable
-        title={<HeadStyle name="All Guests" icon={<PeopleRounded />} />}
+        title={<HeadStyle name="All Technology" icon={<PeopleRounded />} />}
         isLoading={!data}
         data={data ? getDataWithSL<any>(data) : []}
         options={{ ...MuiTblOptions(), selection: false }}

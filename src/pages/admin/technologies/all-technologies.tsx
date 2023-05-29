@@ -26,8 +26,7 @@ const AllTechnologies = () => {
     isLoading,
     pagination,
   } = useFetch<any[]>(
-    `technologies?page=${pageNumber}&limit=8${
-      userName ? `&name=${userName}` : ""
+    `technologies?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
@@ -96,14 +95,14 @@ const AllTechnologies = () => {
             <TechnologyTable data={tech} mutate={mutate} />
           </>
         )}
-        {!tech?.length && <LoaderAnime />}
+        {tech?.length === 0 ? <LoaderAnime /> : null}
         {tech?.length ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination
                 count={Math.ceil(
                   Number(pagination?.total || 1) /
-                    Number(pagination?.limit || 1)
+                  Number(pagination?.limit || 1)
                 )}
                 onChange={(e, v: number) => {
                   setPageNumber(v);

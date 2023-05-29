@@ -31,8 +31,7 @@ const AllRoles = () => {
     isLoading,
     pagination,
   } = useFetch<Role[]>(
-    `roles?page=${pageNumber}&limit=8${
-      userName ? `&contains=${userName}` : ""
+    `roles?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
@@ -50,18 +49,16 @@ const AllRoles = () => {
             <div className="flex gap-1">
               <IconButton onClick={() => setIsGrid(true)} size="small">
                 <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                    isGrid && `border-2 border-theme`
-                  }`}
+                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${isGrid && `border-2 border-theme`
+                    }`}
                 >
                   <GridViewRounded className={`${isGrid && `!text-theme`}`} />
                 </div>
               </IconButton>
               <IconButton onClick={() => setIsGrid(false)} size="small">
                 <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-                    !isGrid && `border-2 border-theme`
-                  }`}
+                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${!isGrid && `border-2 border-theme`
+                    }`}
                 >
                   <TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
                 </div>
@@ -121,14 +118,14 @@ const AllRoles = () => {
             <AllRollColumn data={roleData} mutate={mutate} />
           </>
         )}
-        {!roleData?.length && <LoaderAnime />}
+        {roleData?.length === 0 ? <LoaderAnime /> : null}
         {roleData?.length ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination
                 count={Math.ceil(
                   Number(pagination?.total || 1) /
-                    Number(pagination?.limit || 1)
+                  Number(pagination?.limit || 1)
                 )}
                 onChange={(e, v: number) => {
                   setPageNumber(v);

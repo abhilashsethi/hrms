@@ -11,8 +11,8 @@ import {
   Tooltip,
 } from "@mui/material";
 import { RenderIconRow } from "components/common";
-import { PhotoViewerGuests } from "components/core";
-import { ViewTicketsDrawer } from "components/drawer";
+import { PhotoViewerGuests, ReverseIOSSwitch } from "components/core";
+import { ViewProjectsDrawerClientMain, ViewTicketsDrawer } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import { useState, MouseEvent } from "react";
@@ -59,6 +59,8 @@ const MoreOption = ({ item, mutate }: any) => {
   const [viewTickets, setViewTickets] = useState<any>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { change } = useChange();
+  const [viewProjects, setViewProjects] = useState<any>(null);
+  const [projects, setProjects] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -69,6 +71,7 @@ const MoreOption = ({ item, mutate }: any) => {
   const { data: ticketsData, isLoading } = useFetch<any>(
     `tickets?${ticketsId ? `&clientId=${ticketsId}` : ""}`
   );
+
   const handleDelete = async (item: Client) => {
     try {
       Swal.fire({
@@ -98,31 +101,31 @@ const MoreOption = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
-  //   const handleBlock = async (e: any, item: any) => {
-  //     Swal.fire({
-  //       title: "Are you sure?",
-  //       text: "You want to update status?",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Yes, update!",
-  //     }).then(async (result) => {
-  //       if (result.isConfirmed) {
-  //         const res = await change(`clients/${item?.id}`, {
-  //           method: "PATCH",
-  //           body: { isBlocked: !e.target?.checked },
-  //         });
-  //         mutate();
-  //         if (res?.status !== 200) {
-  //           Swal.fire(`Error`, "Something went wrong!", "error");
-  //           return;
-  //         }
-  //         Swal.fire(`Success`, "User Blocked successfully!!", "success");
-  //         return;
-  //       }
-  //     });
-  //   };
+  const handleBlock = async (e: any, userId: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to update status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await change(`clients/${userId}`, {
+          method: "PATCH",
+          body: { isBlocked: !e.target?.checked },
+        });
+        mutate();
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "User status updated successfully!!", "success");
+        return;
+      }
+    });
+  };
   return (
     <>
       <ViewTicketsDrawer
@@ -131,6 +134,12 @@ const MoreOption = ({ item, mutate }: any) => {
         setViewTickets={setViewTickets}
         ticket={ticketsData}
         isLoading={isLoading}
+      />
+      <ViewProjectsDrawerClientMain
+        open={projects}
+        onClose={() => setProjects(false)}
+        setViewProject={setViewProjects}
+        ticketsId={ticketsId}
       />
       <div className="flex flex-col px-4 w-full py-4 h-full justify-center justify-items-center text-center rounded-md shadow-xl drop-shadow-lg bg-white md:hover:scale-105 ease-in-out transition-all duration-200">
         <div className="absolute right-[10px] top-[10px]">
@@ -209,6 +218,15 @@ const MoreOption = ({ item, mutate }: any) => {
           </p>
           <p className="mb-2 text-sm text-slate-400 font-medium">{item.role}</p>
         </div>
+        <div className="w-full px-8 flex gap-2 mt-2 justify-center">
+          <div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
+            <p className="font-semibold tracking-wide text-sm">STATUS</p>
+            <ReverseIOSSwitch
+              checked={item?.isBlocked}
+              onChange={(e) => handleBlock(e, item?.id)}
+            />
+          </div>
+        </div>
         <div className="md:flex grid gap-3 justify-center">
           <button
             onClick={() => {
@@ -218,7 +236,7 @@ const MoreOption = ({ item, mutate }: any) => {
           >
             Tickets <span>{`(${item._count.tickets})`}</span>
           </button>
-          <button className="rounded-md text-sm bg-secondary text-white font-semibold shadow-md px-4 py-1.5">
+          <button onClick={() => { setTicketsId(item?.id), setProjects(true); }} className="rounded-md text-sm bg-secondary text-white font-semibold shadow-md px-4 py-1.5">
             Projects <span>{`(${item._count.projects})`}</span>
           </button>
         </div>

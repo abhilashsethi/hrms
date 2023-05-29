@@ -21,4 +21,7 @@ export { default as PROJECT } from "./project.png";
 export { default as ON_GOING_PROJECT } from "./risk.png";
 export { default as COMPLETED_PROJECT } from "./complete.png";
 export { default as PENDING_PROJECT } from "./file.png";
+export { default as CHECK } from "./check.png";
+export { default as CANCEL } from "./cancel.png";
+export { default as GROUP } from "./group.png";
 export { default as EMAILTEMP } from "./email-temp.png";

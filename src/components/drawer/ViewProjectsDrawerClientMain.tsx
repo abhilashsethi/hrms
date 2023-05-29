@@ -1,7 +1,7 @@
 import { Avatar, Card, Container, Drawer, Modal, Tooltip } from "@mui/material";
 import { AccountTreeRounded, FreeBreakfast } from "@mui/icons-material";
 import { DEFAULTPROFILE, SAMPLEDP } from "assets/home";
-import { Loader, LoaderAnime } from "components/core";
+import { Loader, LoaderAnime, SkeletonLoader } from "components/core";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -9,13 +9,13 @@ import { User } from "types";
 import moment from "moment";
 import ICONS from "assets/icons";
 import { ProjectDrawerSkeletonLoading } from "components/admin/clients";
+import { NODOCUMENT } from "assets/animations";
 
 type Props = {
 	open?: boolean | any;
 	onClose: () => void;
 	setViewProject?: any;
-	projectData?: any;
-	isLoading?: any;
+	ticketsId?: any;
 };
 
 const style = {
@@ -32,19 +32,20 @@ const style = {
 	p: 4,
 };
 
-const ViewProjectsDrawerClient = ({
+const ViewProjectsDrawerClientMain = ({
 	open,
 	onClose,
 	setViewProject,
-	projectData,
-	isLoading,
+	ticketsId,
 }: Props) => {
 	const [openInfoModal, setOpenInfoModal] = useState(false);
 	const handleInfoOpen = () => {
 		setOpenInfoModal(true);
 	};
 	const handleInfoCloseModal = () => setOpenInfoModal(false);
-
+	const { data: projectData, isLoading } = useFetch<any>(
+		`projects?${ticketsId ? `&clientId=${ticketsId}` : ""}`
+	);
 	return (
 		<>
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
@@ -172,6 +173,7 @@ const ViewProjectsDrawerClient = ({
 								</div>
 							);
 						})}
+
 					</div>
 				</Container>
 			</Drawer>
@@ -179,4 +181,4 @@ const ViewProjectsDrawerClient = ({
 	);
 };
 
-export default ViewProjectsDrawerClient;
+export default ViewProjectsDrawerClientMain;
