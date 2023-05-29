@@ -1,4 +1,4 @@
-import { FilterListRounded } from "@mui/icons-material";
+import { FilterListRounded, Close } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { useState } from "react";
 
@@ -22,7 +22,8 @@ const FiltersContainer = ({ children, changes }: Props) => {
           }}
         >
           <Tooltip title={isFilter ? `Remove Filters` : `Filter`}>
-            <FilterListRounded className={`${isFilter ? `!text-white` : ``}`} />
+            {isFilter ? <Close className={`${isFilter ? `!text-white` : ``}`} /> : <FilterListRounded className={`${isFilter ? `!text-white` : ``}`} />}
+            {/* <FilterListRounded className={`${isFilter ? `!text-white` : ``}`} /> */}
           </Tooltip>
         </IconButton>
       </div>
