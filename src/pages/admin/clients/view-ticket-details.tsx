@@ -24,7 +24,6 @@ const ViewTicketDetails = () => {
     },
 
   ];
-  console.log(ticketsData);
   return (
     <>
       <PanelLayout title="Ticket Details - Admin Panel">

@@ -291,7 +291,7 @@ const CreateEmployee = () => {
                           <TextField
                             {...params}
                             // label="Role"
-                            placeholder="Assigned"
+                            placeholder="Role"
                             onBlur={handleBlur}
                             error={touched.roleId && !!errors.roleId}
                             helperText={touched.roleId && errors.roleId}
@@ -318,7 +318,7 @@ const CreateEmployee = () => {
                           <TextField
                             {...params}
                             // label="Department Name"
-                            placeholder="Assigned"
+                            placeholder="Department Name"
                             onBlur={handleBlur}
                             error={
                               touched.departmentId && !!errors.departmentId

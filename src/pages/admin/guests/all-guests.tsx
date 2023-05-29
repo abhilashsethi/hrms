@@ -71,7 +71,7 @@ const AllGuests = () => {
                 id="name"
                 value={userName ? userName : ""}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Client Name"
+                placeholder="Guest Name"
                 name="name"
               />
               <TextField

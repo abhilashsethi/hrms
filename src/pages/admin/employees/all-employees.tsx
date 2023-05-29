@@ -1,6 +1,6 @@
-import { Add, Upload } from "@mui/icons-material";
+import { Add, Close, FilterListRounded, Upload } from "@mui/icons-material";
 import { useTheme } from "@material-ui/core";
-import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
+import { Button, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
@@ -34,10 +34,8 @@ const AllEmployees = () => {
     isLoading,
     pagination,
   } = useFetch<User[]>(
-    `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
-      empId ? `&employeeID=${empId}` : ""
-    }${isRole ? `&role=${isRole}` : ""}${
-      isDepartment ? `&department=${isDepartment}` : ""
+    `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${empId ? `&employeeID=${empId}` : ""
+    }${isRole ? `&role=${isRole}` : ""}${isDepartment ? `&department=${isDepartment}` : ""
     }`
   );
   return (
@@ -75,24 +73,37 @@ const AllEmployees = () => {
             </div>
           </div>
         </div>
-        <FiltersContainer
-          changes={() => {
-            setEmpId(null);
-            setUsername(null);
-            setIsRole(null);
-            setIsDepartment(null);
-          }}
-        >
+
+        <div className="md:flex gap-4 justify-between w-full py-2">
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+          >
+            <IconButton
+              onClick={() => {
+                setEmpId(null);
+                setUsername(null);
+                setIsRole(null);
+                setIsDepartment(null);
+              }}
+            >
+              <Tooltip title={isDepartment != null || empId != null || isRole != null || userName != null ? `Remove Filters` : `Filter`}>
+                {isDepartment != null || empId != null || isRole != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+              </Tooltip>
+            </IconButton>
+          </div>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 gap-2">
             <TextField
               fullWidth
               size="small"
+              value={empId ? empId : ""}
               placeholder="Employee Id"
               onChange={(e) => setEmpId(e.target.value)}
             />
             <TextField
               fullWidth
               size="small"
+              value={userName ? userName : ""}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Employee Name"
             />
@@ -125,7 +136,7 @@ const AllEmployees = () => {
               ))}
             </TextField>
           </div>
-        </FiltersContainer>
+        </div>
         {isGrid ? (
           <>
             {isLoading && <SkeletonLoader />}
@@ -145,7 +156,7 @@ const AllEmployees = () => {
                 <Pagination
                   count={Math.ceil(
                     Number(pagination?.total || 1) /
-                      Number(pagination?.limit || 1)
+                    Number(pagination?.limit || 1)
                   )}
                   onChange={(e, v: number) => {
                     setPageNumber(v);
