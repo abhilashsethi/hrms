@@ -80,7 +80,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
       Swal.fire(`Success`, `Updated Successfully`, `success`);
       handleClose();
       return;
-    } catch (error) {}
+    } catch (error) { }
   };
   return (
     <>
@@ -255,7 +255,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                         </p>
                         <Autocomplete
                           sx={{ width: "100%" }}
-                          options={roles?.roles}
+                          options={roles || []}
                           autoHighlight
                           getOptionLabel={(option: any) =>
                             option.name ? option.name : ""
@@ -265,9 +265,9 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           }
                           value={
                             values?.roleId
-                              ? roles?.roles?.find(
-                                  (option: any) => option.id === values.roleId
-                                )
+                              ? roles?.find(
+                                (option: any) => option.id === values.roleId
+                              )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
@@ -299,7 +299,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                         </p>
                         <Autocomplete
                           sx={{ width: "100%" }}
-                          options={departmentsData?.departments}
+                          options={departmentsData || []}
                           autoHighlight
                           getOptionLabel={(option: any) =>
                             option.name ? option.name : ""
@@ -309,10 +309,10 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           }
                           value={
                             values?.departmentId
-                              ? departmentsData?.departments?.find(
-                                  (option: any) =>
-                                    option.id === values.departmentId
-                                )
+                              ? departmentsData?.find(
+                                (option: any) =>
+                                  option.id === values.departmentId
+                              )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
