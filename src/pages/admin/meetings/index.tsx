@@ -1,14 +1,12 @@
 import {
 	AssignmentTurnedIn,
 	ContactPhone,
-	DevicesOther,
 	PendingActions,
 } from "@mui/icons-material";
 import {
 	MEETINGICON,
 	MEETINGICON2,
 	MEETINGICON3,
-	MEETINGICON4,
 } from "assets/dashboard_Icons";
 import { MeetingAnalytics, MeetingDonutChart } from "components/analytics";
 import { DashboardCard } from "components/core";
@@ -25,9 +23,7 @@ const Meetings = () => {
 		{
 			id: 1,
 			icon: <ContactPhone className="text-theme" />,
-			count: meetingData?.Meetings?.totalMeetings
-				? meetingData?.Meetings?.totalMeetings
-				: 0,
+			count: meetingData?.totalMeetings ? meetingData?.totalMeetings : 0,
 			title: "Total Meetings",
 			img: MEETINGICON.src,
 			bg: "from-blue-500 to-blue-300",
@@ -35,8 +31,8 @@ const Meetings = () => {
 		{
 			id: 2,
 			icon: <PendingActions className="text-theme" />,
-			count: meetingData?.Meetings?.meetingStatusList
-				? meetingData?.Meetings?.meetingStatusList
+			count: meetingData?.meetingStatusList
+				? meetingData?.meetingStatusList
 						?.filter((item: any) => item?.status === "Ongoing")
 						?.map((item: any) => item?._count)
 				: 0,
@@ -47,8 +43,8 @@ const Meetings = () => {
 		{
 			id: 3,
 			icon: <AssignmentTurnedIn className="text-theme" />,
-			count: meetingData?.Meetings?.meetingStatusList
-				? meetingData?.Meetings?.meetingStatusList
+			count: meetingData?.meetingStatusList
+				? meetingData?.meetingStatusList
 						?.filter((item: any) => item?.status === "Closed")
 						?.map((item: any) => item?._count)
 				: 0,
@@ -72,28 +68,29 @@ const Meetings = () => {
 								{
 									name: "Total Meetings",
 									type: "column",
-									data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+									data: meetingData?.meetingCountsMonthWise
+										? meetingData?.meetingCountsMonthWise?.map(
+												(item: any) => item?.count
+										  )
+										: [],
 								},
 								{
 									name: "Closed Meetings",
 									type: "area",
-									data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+									data: meetingData?.closedMeetingCountsMonthWise
+										? meetingData?.closedMeetingCountsMonthWise?.map(
+												(item: any) => item?.count
+										  )
+										: [],
 								},
 							]}
-							labels={[
-								"Jan",
-								"Feb",
-								"Mar",
-								"Apr",
-								"May",
-								"Jun",
-								"Jul",
-								"Aug",
-								"Sep",
-								"Oct",
-								"Nov",
-								"Dec",
-							]}
+							labels={
+								meetingData?.meetingCountsMonthWise
+									? meetingData?.meetingCountsMonthWise?.map(
+											(item: any) => item?.month
+									  )
+									: []
+							}
 							text=""
 							type="line"
 						/>
