@@ -4,13 +4,17 @@ const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 const MeetingDonutChart = ({
 	type,
 	text = "",
+	labels,
+	series,
 }: {
 	type: "bar" | "area" | "line" | "pie" | "donut";
 	text?: string;
+	labels?: any;
+	series?: any;
 }) => {
 	const options = {
-		labels: ["Scheduled Meeting", "Rescheduled Meeting", "Cancelled Meeting"],
-		series: [166, 115, 31],
+		labels,
+		series,
 		chart: {
 			type: "donut",
 		},
@@ -47,7 +51,7 @@ const MeetingDonutChart = ({
 		<ApexCharts
 			height={"500"}
 			options={{
-				series: [166, 115, 31],
+				series,
 				chart: {
 					type: "donut",
 				},
@@ -65,11 +69,7 @@ const MeetingDonutChart = ({
 					},
 				],
 
-				labels: [
-					"Scheduled Meeting",
-					"Rescheduled Meeting",
-					"Cancelled Meeting",
-				],
+				labels,
 
 				colors: ["#106EAD", "#C33C5E", "#25d366", "#E60023"],
 
