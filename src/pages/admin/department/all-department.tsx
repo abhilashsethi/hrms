@@ -14,7 +14,6 @@ import {
 } from "components/admin/department";
 import {
   AdminBreadcrumbs,
-  FiltersContainer,
   Loader,
   LoaderAnime,
 } from "components/core";
@@ -104,6 +103,7 @@ const AllDepartment = () => {
                 fullWidth
                 size="small"
                 id="name"
+                value={userName ? userName : ""}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Client Name"
                 name="name"
