@@ -1,5 +1,5 @@
-import { Add, MoreHoriz } from "@mui/icons-material";
-import { Button, MenuItem, Pagination, Stack, TextField } from "@mui/material";
+import { Add, Close, FilterListRounded, MoreHoriz } from "@mui/icons-material";
+import { Button, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
 import { Projects } from "components/Profile";
 import {
   AdminBreadcrumbs,
@@ -20,8 +20,8 @@ const AllProjects = () => {
   const [empName, setEmpName] = useState<string[]>([]);
   const [isTech, setIsTech] = useState(false);
   const [pageNumber, setPageNumber] = useState<number | null>(1);
-  const [status, setStatus] = useState("");
-  const [isBug, setIsBug] = useState("");
+  const [status, setStatus] = useState(null);
+  const [isBug, setIsBug] = useState(null);
   const handleChange = (event: any) => {
     setStatus(event.target.value);
   };
@@ -31,20 +31,18 @@ const AllProjects = () => {
     isLoading,
     pagination,
   } = useFetch<any[]>(
-    `projects?page=${pageNumber}&limit=6${
-      projectName ? `&name=${projectName}` : ""
-    }${status ? `&projectStatus=${status}` : ""}${
-      bugStatus ? `&bugs=${bugStatus}` : ""
+    `projects?page=${pageNumber}&limit=6${projectName ? `&name=${projectName}` : ""
+    }${status ? `&projectStatus=${status}` : ""}${bugStatus ? `&bugs=${bugStatus}` : ""
     }` +
-      (Technologies?.length
-        ? Technologies?.map((item) => `&techName=${item}`)?.join("")
-        : "") +
-      (empName?.length
-        ? empName?.map((item) => `&memberName=${item}`)?.join("")
-        : "") +
-      (clientName?.length
-        ? clientName?.map((item) => `&clientName=${item}`)?.join("")
-        : "")
+    (Technologies?.length
+      ? Technologies?.map((item) => `&techName=${item}`)?.join("")
+      : "") +
+    (empName?.length
+      ? empName?.map((item) => `&memberName=${item}`)?.join("")
+      : "") +
+    (clientName?.length
+      ? clientName?.map((item) => `&clientName=${item}`)?.join("")
+      : "")
   );
 
   return (
@@ -71,14 +69,26 @@ const AllProjects = () => {
             </Link>
           </div>
         </div>
-        <FiltersContainer
-          changes={() => {
-            setClientName([]),
-              setTechnologies([]),
-              setEmpName([]),
-              setIsBug("");
-          }}
-        >
+
+        <div className="md:flex gap-4 justify-between w-full py-2">
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+          >
+            <IconButton
+              onClick={() => {
+                setClientName([]);
+                setTechnologies([]);
+                setEmpName([]);
+                setIsBug(null);
+              }}
+            >
+              <Tooltip title={clientName != null || Technologies != null || isBug != null || empName != null ? `Remove Filters` : `Filter`}>
+                {clientName != null || Technologies != null || isBug != null || empName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+              </Tooltip>
+            </IconButton>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <TextField
               fullWidth
@@ -91,7 +101,7 @@ const AllProjects = () => {
               select
               label="Status"
               size="small"
-              value={status}
+              value={status ? status : ""}
               onChange={handleChange}
             >
               {statuses?.map((option: any) => (
@@ -124,7 +134,7 @@ const AllProjects = () => {
               MORE FILTERS
             </Button>
           </div>
-        </FiltersContainer>
+        </div>
         <div className="mt-4">
           <Projects
             mutate={mutate}
@@ -140,7 +150,7 @@ const AllProjects = () => {
                 <Pagination
                   count={Math.ceil(
                     Number(pagination?.total || 1) /
-                      Number(pagination?.limit || 1)
+                    Number(pagination?.limit || 1)
                   )}
                   onChange={(e, v: number) => {
                     setPageNumber(v);
