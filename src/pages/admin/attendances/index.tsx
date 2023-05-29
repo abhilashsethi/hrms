@@ -22,7 +22,7 @@ const Attendance = () => {
 	console.log("dashboard", attendanceData);
 
 	const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
-	console.log(employeeDetails?.lastWeekAttendanceArr);
+	console.log("dashboard", employeeDetails);
 
 	const cards = [
 		{
