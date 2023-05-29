@@ -95,7 +95,7 @@ const AllTechnologies = () => {
             <TechnologyTable data={tech} mutate={mutate} />
           </>
         )}
-        {!tech?.length === 0 ? <LoaderAnime /> : null}
+        {tech?.length === 0 ? <LoaderAnime /> : null}
         {tech?.length ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
