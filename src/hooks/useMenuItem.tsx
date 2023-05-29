@@ -4,6 +4,7 @@ import {
 	Dashboard,
 	Email,
 	FileCopy,
+	Forum,
 	MedicalInformationRounded,
 } from "@mui/icons-material";
 import ICONS from "assets/icons";
@@ -59,12 +60,6 @@ export default () => {
 						title: "Create Employee",
 						icon: <ICONS.Add_Employee />,
 						route: "/admin/employees/create-employee",
-					},
-					{
-						key: "3-4",
-						title: "Upload Employee's Data",
-						icon: <ICONS.Add_Employee />,
-						route: "/admin/employees/upload-employee-data",
 					},
 				],
 			},
@@ -294,6 +289,12 @@ export default () => {
 						route: "/admin/templates/saved-templates",
 					},
 				],
+			},
+			{
+				key: "24",
+				title: "Chats",
+				icon: <Forum />,
+				route: "/admin/chat",
 			},
 			{
 				key: "15",

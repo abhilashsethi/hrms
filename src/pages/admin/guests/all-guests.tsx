@@ -25,13 +25,12 @@ const AllGuests = () => {
     isLoading,
     pagination,
   } = useFetch<any[]>(
-    `guests?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
-      isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    `guests?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }`
   );
   return (
     <PanelLayout title="All Guests - Admin Panel">
-      <section className="px-8 py-4">
+      <section className="lg:px-8 px-4 py-4">
         <div className="md:flex justify-between">
           <AdminBreadcrumbs links={links} />
           <div className="md:flex gap-4 items-center">
@@ -91,7 +90,7 @@ const AllGuests = () => {
             <GuestColumn data={guestData} mutate={mutate} />
           </>
         )}
-        {!guestData?.length && <LoaderAnime />}
+        {guestData?.length === 0 ? <LoaderAnime /> : null}
         <section className="mb-6">
           {guestData?.length ? (
             <div className="flex justify-center md:py-8 py-4">
@@ -99,7 +98,7 @@ const AllGuests = () => {
                 <Pagination
                   count={Math.ceil(
                     Number(pagination?.total || 1) /
-                      Number(pagination?.limit || 1)
+                    Number(pagination?.limit || 1)
                   )}
                   onChange={(e, v: number) => {
                     setPageNumber(v);

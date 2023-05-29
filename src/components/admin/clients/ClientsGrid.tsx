@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { RenderIconRow } from "components/common";
-import { PhotoViewerGuests } from "components/core";
+import { PhotoViewerGuests, ReverseIOSSwitch } from "components/core";
 import { ViewProjectsDrawerClientMain, ViewTicketsDrawer } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
@@ -194,6 +194,7 @@ const MoreOption = ({ item, mutate }: any) => {
           </p>
           <p className="mb-2 text-sm text-slate-400 font-medium">{item.role}</p>
         </div>
+
         <div className="md:flex grid gap-3 justify-center">
           <button
             onClick={() => {

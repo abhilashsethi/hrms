@@ -1,4 +1,5 @@
 import { BLOCK, CUSTOMER, HANDSHAKE, INACTIVE } from "assets/dashboard_Icons";
+import Link from "next/link";
 interface Props {
   cards?: any;
 }
@@ -10,6 +11,7 @@ const ClientDashboardCard = ({ cards }: Props) => {
       count: cards?.clients?.totalClient,
       title: "Total Clients",
       color: "bg-gradient-to-br from-blue-600 to-cyan-400",
+      link: "/admin/clients/all-clients",
     },
     {
       id: 2,
@@ -17,6 +19,7 @@ const ClientDashboardCard = ({ cards }: Props) => {
       count: cards?.clients?.blockedClients,
       title: "Total Blocked Client",
       color: "bg-gradient-to-br from-green-500 to-emerald-400",
+      link: "/admin/clients/all-clients",
     },
     {
       id: 3,
@@ -25,6 +28,7 @@ const ClientDashboardCard = ({ cards }: Props) => {
       count: cards?.clients?.genderWiseClientCount[0]?._count,
       title: "Male",
       color: "bg-gradient-to-br from-orange-500 to-yellow-400",
+      link: "/admin/clients/all-clients",
     },
     {
       id: 4,
@@ -32,20 +36,23 @@ const ClientDashboardCard = ({ cards }: Props) => {
       count: cards?.clients?.genderWiseClientCount[1]?._count,
       title: "Female",
       color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
+      link: "/admin/clients/all-clients",
     },
   ];
   return (
     <>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
         {cardsData?.map((data: any, id: any) => (
-          <div
-            key={id}
-            className={`hover:scale-105 grid justify-center justify-items-center cursor-pointer transition duration-500 ease-in-out w-full tracking-wide ${data?.color} shadow-lg rounded-xl p-4 h-36 `}
-          >
-            <div className="">{data?.icon}</div>
-            <p className="text-lg font-medium text-white">{data?.count}</p>
-            <p className="text-lg font-semibold text-white">{data?.title}</p>
-          </div>
+          <Link href={data?.link} >
+            <div
+              key={id}
+              className={`hover:scale-105 grid justify-center justify-items-center cursor-pointer transition duration-500 ease-in-out w-full tracking-wide ${data?.color} shadow-lg rounded-xl p-4 h-36 `}
+            >
+              <div className="">{data?.icon}</div>
+              <p className="text-lg font-medium text-white">{data?.count}</p>
+              <p className="text-lg font-semibold text-white">{data?.title}</p>
+            </div>
+          </Link>
         ))}
       </div>
     </>

@@ -1,12 +1,14 @@
 import {
   Chat,
   ChatOutlined,
+  DriveFileRenameOutline,
   Group,
   GroupOutlined,
   KeyboardArrowDown,
   Notifications,
   NotificationsOutlined,
   Search,
+  SentimentSatisfiedAlt,
   Videocam,
   VideocamOutlined,
 } from "@mui/icons-material";
@@ -98,21 +100,41 @@ const ChatSection = () => {
               </div>
             </div>
           </div>
-          <div className="px-4">
-            {chats?.map((item) => (
-              <div
-                className={`mt-4 flex ${
-                  item?.sendBy === "sender" ? `justify-start` : `justify-end`
-                }`}
-              >
-                <div className="max-w-[50%] bg-blue-100 py-2 px-4 tracking-wide rounded-md text-sm">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Asperiores animi ratione omnis aliquid magnam ipsa dolore,
-                  laborum illo nostrum! Veniam incidunt animi amet nostrum
-                  dignissimos.
+          <div className="h-[25.5rem] overflow-y-auto">
+            <div className="px-4">
+              {chats?.map((item) => (
+                <div
+                  className={`mt-4 flex ${
+                    item?.sendBy === "sender" ? `justify-start` : `justify-end`
+                  }`}
+                >
+                  <div className="max-w-[50%] bg-blue-100 py-2 px-4 tracking-wide rounded-md text-sm">
+                    <div className="flex justify-end">
+                      <span className="text-xs">
+                        {moment(new Date()).format("ll")}
+                      </span>
+                    </div>
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Asperiores animi ratione omnis aliquid magnam ipsa dolore,
+                    laborum illo nostrum! Veniam incidunt animi amet nostrum
+                    dignissimos.
+                  </div>
                 </div>
+              ))}
+            </div>
+          </div>
+          <div className="h-20 w-full border-2 flex items-center px-8">
+            <div className="h-10 px-3 rounded-full w-3/5 border-2 flex justify-between items-center">
+              <div className="flex gap-2 items-center">
+                <SentimentSatisfiedAlt className="!cursor-pointer" />
+                <input
+                  className="bg-white text-sm"
+                  placeholder="Type a message"
+                  type="text"
+                />
               </div>
-            ))}
+              <DriveFileRenameOutline className="!cursor-pointer" />
+            </div>
           </div>
         </div>
       </div>
