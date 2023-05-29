@@ -9,8 +9,8 @@ import * as Yup from "yup";
 const initialValues = {
 	basicSalary: "",
 	hra: "",
-	employeepf: "",
-	employerpf: "",
+	employeePf: "",
+	employerPf: "",
 	employeeEsi: "",
 	employerEsi: "",
 	extraPay: "",
@@ -20,10 +20,10 @@ const initialValues = {
 const validationSchema = Yup.object().shape({
 	basicSalary: Yup.number().required("% For Basic Salary is required !"),
 	hra: Yup.number().required("% For HRA is required !"),
-	employeepf: Yup.number().required(
+	employeePf: Yup.number().required(
 		"% For PF (Employee contribution) is required !"
 	),
-	employerpf: Yup.number().required(
+	employerPf: Yup.number().required(
 		"% For PF (Employer contribution) is required !"
 	),
 	employerEsi: Yup.number().required(
@@ -109,7 +109,7 @@ const Configure = () => {
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="employeepf">
+												<InputLabel htmlFor="employeePf">
 													PF %(Employee Contribution){" "}
 													<span className="text-red-600">*</span>
 												</InputLabel>
@@ -118,18 +118,18 @@ const Configure = () => {
 												size="small"
 												fullWidth
 												// placeholder="% for PF"
-												id="employeepf"
-												name="employeepf"
-												value={values.employeepf}
+												id="employeePf"
+												name="employeePf"
+												value={values.employeePf}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.employeepf && !!errors.employeepf}
-												helperText={touched.employeepf && errors.employeepf}
+												error={touched.employeePf && !!errors.employeePf}
+												helperText={touched.employeePf && errors.employeePf}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="employerpf">
+												<InputLabel htmlFor="employerPf">
 													PF %(Employer Contribution){" "}
 													<span className="text-red-600">*</span>
 												</InputLabel>
@@ -138,13 +138,13 @@ const Configure = () => {
 												size="small"
 												fullWidth
 												// placeholder="% for PF"
-												id="employerpf"
-												name="employerpf"
-												value={values.employerpf}
+												id="employerPf"
+												name="employerPf"
+												value={values.employerPf}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.employerpf && !!errors.employerpf}
-												helperText={touched.employerpf && errors.employerpf}
+												error={touched.employerPf && !!errors.employerPf}
+												helperText={touched.employerPf && errors.employerPf}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
