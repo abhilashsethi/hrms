@@ -1,12 +1,29 @@
-import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
+import {
+	Autocomplete,
+	Box,
+	Button,
+	CircularProgress,
+	FormControlLabel,
+	InputLabel,
+	MenuItem,
+	Radio,
+	RadioGroup,
+	TextField,
+} from "@mui/material";
 import { Add, Check, Settings } from "@mui/icons-material";
-import { AdminBreadcrumbs } from "components/core";
+import { AdminBreadcrumbs, PhotoViewerSmall } from "components/core";
 import { useTheme } from "@material-ui/core";
 import PanelLayout from "layouts/panel";
 import { Form, Formik } from "formik";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import * as Yup from "yup";
+import { useFetch } from "hooks";
 const initialValues = {
+	userId: "",
+	variant: "",
+	kpi: "",
+	tds: "",
+
 	basicSalary: "",
 	hra: "",
 	employeePf: "",
@@ -14,13 +31,17 @@ const initialValues = {
 	employeeEsi: "",
 	employerEsi: "",
 	extraPay: "",
-	tds: "",
 	conveyance: "",
 	medical: "",
 	professional: "",
+	chooseEmp: "",
 };
 
 const validationSchema = Yup.object().shape({
+	userId: Yup.string().required("Select an employee"),
+	variant: Yup.string().required("Please select a variant!"),
+	// kpi: Yup.string().required("Please enter kpi amount!"),
+
 	basicSalary: Yup.number().required("% For Basic Salary is required !"),
 	hra: Yup.number().required("% For HRA is required !"),
 	employeePf: Yup.number().required(
@@ -38,18 +59,25 @@ const validationSchema = Yup.object().shape({
 	conveyance: Yup.number().required("Conveyance allowances is required !"),
 	medical: Yup.number().required("Medical allowances is required !"),
 	professional: Yup.number().required("Professional tax is required !"),
+	chooseEmp: Yup.string().required("Choose Employee !"),
 });
 
-const Configure = () => {
+const ViewPayrollDetails = () => {
 	const theme = useTheme();
+	const { data: usersData } = useFetch(`users`);
 	const [loading, setLoading] = useState(false);
+	const [value, setValue] = useState("one");
+
+	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setValue((event.target as HTMLInputElement).value);
+	};
 
 	const handleSubmit = async (values: any) => {
 		console.log(values);
 	};
 
 	return (
-		<PanelLayout title="Payroll configure - Admin Panel">
+		<PanelLayout title="Salary Structure - Admin Panel">
 			<section className="md:px-8 px-2 md:py-4 py-2">
 				<div className="px-2 md:px-0">
 					<AdminBreadcrumbs links={links} />
@@ -72,13 +100,118 @@ const Configure = () => {
 							}) => (
 								<Form>
 									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
-										Payroll Configuration
+										Salary Structure
 									</h1>
-									{/* <div className="flex justify-end">
-										<Button variant="outlined" startIcon={<Add />}>
-											Add New Field
-										</Button>
-									</div> */}
+									<div className="md:px-4 px-2 md:py-2 py-1 ">
+										<div className="py-2">
+											<InputLabel htmlFor="chooseEmp">
+												Choose Employee
+											</InputLabel>
+										</div>
+
+										<Autocomplete
+											options={usersData as any}
+											fullWidth
+											autoHighlight
+											getOptionLabel={(option: any) => option.name}
+											onChange={(e, r) => {
+												setFieldValue("userId", r?.id);
+											}}
+											renderOption={(props, option) => (
+												<Box
+													component="li"
+													sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+													{...props}
+												>
+													<div className="mr-2">
+														<PhotoViewerSmall
+															size="2rem"
+															name={option.name}
+															photo={option.photo}
+														/>
+													</div>
+													{option.name}
+												</Box>
+											)}
+											renderInput={(params) => (
+												<TextField
+													{...params}
+													label="Select Employee"
+													onBlur={handleBlur}
+													error={touched.userId && !!errors.userId}
+													helperText={touched.userId && errors.userId}
+													inputProps={{
+														...params.inputProps,
+														autoComplete: "", // disable autocomplete and autofill
+													}}
+												/>
+											)}
+										/>
+									</div>
+
+									<div className="flex justify-center pt-2">
+										<RadioGroup
+											row
+											name="leave"
+											value={value}
+											onChange={(e: any) => {
+												handleRadioChange(e);
+												setFieldValue("variant", e.target.value);
+											}}
+										>
+											<FormControlLabel
+												value="tds"
+												control={<Radio />}
+												label="TDS"
+											/>
+											<FormControlLabel
+												value="kpi"
+												control={<Radio />}
+												label="KPI"
+											/>
+										</RadioGroup>
+									</div>
+									{errors?.variant && (
+										<h1 className="text-red-500 text-sm text-center">
+											{errors?.variant}
+										</h1>
+									)}
+									{value == "kpi" ? (
+										<>
+											<p className="font-medium text-gray-700 my-2">KPI</p>
+											<TextField
+												size="small"
+												fullWidth
+												// placeholder="Date"
+												name="kpi"
+												value={values.kpi}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.kpi && !!errors.kpi}
+												helperText={touched.kpi && errors.kpi}
+											/>
+										</>
+									) : (
+										<>
+											<p className="font-medium text-gray-700 my-2">TDS</p>
+											<div className="w-full">
+												<TextField
+													size="small"
+													fullWidth
+													name="tds"
+													placeholder="Date"
+													value={values.tds}
+													onChange={handleChange}
+													onBlur={handleBlur}
+													error={touched.tds && !!errors.tds}
+													helperText={touched.tds && errors.tds}
+												/>
+											</div>
+										</>
+									)}
+									<div>
+										<p className="font-semibold text-lg text-theme">Addition</p>
+									</div>
 									<div className="grid lg:grid-cols-2">
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="md:py-2 py-1">
@@ -90,7 +223,6 @@ const Configure = () => {
 												fullWidth
 												size="small"
 												id="basicSalary"
-												type="number"
 												// placeholder="% for basic salary"
 												name="basicSalary"
 												value={values.basicSalary}
@@ -109,7 +241,6 @@ const Configure = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for HRA"
 												id="hra"
 												name="hra"
@@ -130,7 +261,6 @@ const Configure = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for PF"
 												id="employeePf"
 												name="employeePf"
@@ -151,7 +281,6 @@ const Configure = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for PF"
 												id="employerPf"
 												name="employerPf"
@@ -172,7 +301,6 @@ const Configure = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for ESI"
 												id="employeeEsi"
 												name="employeeEsi"
@@ -193,7 +321,6 @@ const Configure = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for ESI"
 												id="employerEsi"
 												name="employerEsi"
@@ -211,7 +338,6 @@ const Configure = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for ESI"
 												id="tds"
 												name="tds"
@@ -231,7 +357,6 @@ const Configure = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for ESI"
 												id="conveyance"
 												name="conveyance"
@@ -251,7 +376,6 @@ const Configure = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for ESI"
 												id="medical"
 												name="medical"
@@ -271,7 +395,6 @@ const Configure = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for ESI"
 												id="professional"
 												name="professional"
@@ -310,8 +433,12 @@ const Configure = () => {
 	);
 };
 
-export default Configure;
+export default ViewPayrollDetails;
 
+const variants = [
+	{ id: 1, value: "tds" },
+	{ id: 2, value: "kpi" },
+];
 const links = [
 	{ id: 1, page: "Employees", link: "/admin/employees" },
 	{ id: 2, page: "Create Employee", link: "/admin/employees/create-employee" },

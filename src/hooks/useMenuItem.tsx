@@ -155,6 +155,12 @@ export default () => {
 						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/payroll/configure",
 					},
+					{
+						key: "14-3",
+						title: "Salary Structure",
+						icon: <ICONS.Dashboard_1 />,
+						route: "/admin/payroll/salary-structure",
+					},
 				],
 			},
 			{

@@ -14,3 +14,5 @@ export { default as Attendance } from "./Today'sAttendance.svg";
 export { default as Users } from "./TotalUsers.svg";
 export { default as Video } from "./multimedia.png";
 export { default as CHATICON } from "./chaticon.png";
+export { default as GROUP } from "./group.jpg";
+export { default as CHATDEFAULT } from "./chatdefault.jpg";
