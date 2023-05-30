@@ -8,14 +8,7 @@ const ChatSection = () => {
     name?: string;
     message?: string;
     type?: string;
-  }>({
-    id: 1,
-    photo:
-      "https://www.bollywoodhungama.com/wp-content/uploads/2023/01/Hrithik-Roshan-opens-up-about-620.jpg",
-    name: "Loushik Giri",
-    message: "Talk to you...",
-    type: "person",
-  });
+  }>({});
 
   return (
     <section>

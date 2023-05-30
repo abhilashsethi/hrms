@@ -56,7 +56,7 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
               roleName: _?.role?.name,
             })) as any)
         }
-        options={{ ...MuiTblOptions() }}
+        options={{ ...MuiTblOptions(), paging: false }}
         columns={[
           {
             title: "#",

@@ -28,3 +28,4 @@ export { default as UpdateTaskStatus } from "./UpdateTaskStatus";
 export { default as ViewEmailTemplate } from "./ViewEmailTemplate";
 export { default as TicketAddDocumentDialogue } from "./TicketAddDocumentDialogue";
 export { default as UseTemplate } from "./UseTemplateDialogue";
+export { default as ChatDescription } from "./ChatDescription";

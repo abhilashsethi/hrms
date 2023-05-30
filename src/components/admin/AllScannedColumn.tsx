@@ -138,7 +138,7 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
 								userID: _?.userId ? _?.user?.employeeID : "---",
 							})) as Card[])
 					}
-					options={{ ...MuiTblOptions() }}
+					options={{ ...MuiTblOptions(), paging: false }}
 					columns={[
 						{
 							title: "#",
