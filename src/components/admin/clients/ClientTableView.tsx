@@ -1,10 +1,9 @@
 import MaterialTable from "@material-table/core";
 import { PeopleRounded, PersonRounded } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
-import { CopyClipboard, HeadStyle, IOSSwitch } from "components/core";
+import { CopyClipboard, HeadStyle } from "components/core";
 import { useChange } from "hooks";
 import Link from "next/link";
-import { useState } from "react";
 import Swal from "sweetalert2";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 interface ARRAY {
@@ -16,31 +15,7 @@ interface Props {
 }
 const ClientTableView = ({ data, mutate }: Props) => {
   const { change, isChanging } = useChange();
-  const handleBlock = async (e: any, userId: string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to update status?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, update!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await change(`clients/${userId}`, {
-          method: "PATCH",
-          body: { isBlocked: !e.target?.checked },
-        });
-        mutate();
-        if (res?.status !== 200) {
-          Swal.fire(`Error`, "Something went wrong!", "error");
-          return;
-        }
-        Swal.fire(`Success`, "Status updated successfully!", "success");
-        return;
-      }
-    });
-  };
+
 
   return (
     <section className="mt-8">

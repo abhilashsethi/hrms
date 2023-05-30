@@ -24,6 +24,7 @@ const initialValues = {
   gender: "",
   visitInfo: "",
   designation: "",
+  company: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -210,6 +211,25 @@ const CreateGuest = () => {
                             helperText={touched.gender && errors.gender}
                           />
                         )}
+                      />
+                    </div>
+                    <div className="px-4 py-2">
+                      <div className="py-2">
+                        <InputLabel htmlFor="company">
+                          Company Name
+                        </InputLabel>
+                      </div>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        placeholder="Company Name"
+                        id="company"
+                        name="company"
+                        value={values.company}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.company && !!errors.company}
+                        helperText={touched.company && errors.company}
                       />
                     </div>
 
