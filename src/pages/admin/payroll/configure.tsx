@@ -65,7 +65,7 @@ const Configure = () => {
 								setFieldValue,
 							}) => (
 								<Form>
-									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
+									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
 										Payroll Configuration
 									</h1>
 									<div className="grid lg:grid-cols-2">
