@@ -34,3 +34,4 @@ export { default as FileUpload } from "./FileUpload";
 export { default as ChatSection } from "./ChatSection";
 export { default as EmployeeDataUpload } from "./EmployeeDataUpload";
 export { default as EmployeeProfileCopyLink } from "./EmployeeProfileCopyLink";
+export { default as PhotoUpdateView } from "./PhotoUpdateView";

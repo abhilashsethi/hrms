@@ -5,6 +5,7 @@ import {
   Delete,
   Edit,
   KeyboardArrowRight,
+  PhotoCamera,
   ThumbDown,
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -17,9 +18,9 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DEFAULTPROFILE, GROUP } from "assets/home";
-import { PhotoViewerSmall } from "components/core";
+import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
 import { ChatDescription } from "components/dialogues";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 type Props = {
   open?: boolean | any;
@@ -27,6 +28,7 @@ type Props = {
   profileData?: any;
 };
 const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
+  const PhotoRef = useRef<any>();
   const [isDescription, setIsDescription] = useState(false);
   const [isMedia, setIsMedia] = useState(false);
   const [value, setValue] = React.useState("1");
@@ -56,21 +58,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               </div>
               {/* ------------------Image section----------------- */}
               <div className="flex flex-col items-center gap-3 my-8">
-                <div className="h-40 w-40 rounded-full bg-slate-200 overflow-hidden">
-                  {profileData?.type === "group" ? (
-                    <img
-                      className="h-full object-cover w-full"
-                      src={profileData?.photo || GROUP.src}
-                      alt="image"
-                    />
-                  ) : (
-                    <img
-                      className="h-full object-cover w-full"
-                      src={profileData?.photo || DEFAULTPROFILE.src}
-                      alt="image"
-                    />
-                  )}
-                </div>
+                <PhotoUpdateView />
                 <div className="flex flex-col gap-1 items-center">
                   <h1 className="font-semibold">{profileData?.name}</h1>
                   {profileData?.type === "group" ? (
@@ -109,7 +97,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                     {profiles?.map((item) => (
                       <div
                         key={item?.id}
-                        className="py-2 w-full rounded-md flex gap-2 items-center px-2 border-2"
+                        className="py-2 w-full rounded-md flex gap-1 items-center px-2"
                       >
                         <div className="w-1/5">
                           <PhotoViewerSmall
@@ -126,7 +114,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                             <h1 className="text-sm text-gray-600">demo</h1>
                           </div>
                           <div className="w-2/5">
-                            <span className="border-2 text-xs">
+                            <span className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
                               Group Admin
                             </span>
                           </div>
