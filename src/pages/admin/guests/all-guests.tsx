@@ -18,7 +18,7 @@ const AllGuests = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [userName, setUsername] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const {
     data: guestData,
     mutate,
@@ -28,6 +28,7 @@ const AllGuests = () => {
     `guests?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }`
   );
+  console.log(pagination);
   return (
     <PanelLayout title="All Guests - Admin Panel">
       <section className="lg:px-8 px-4 py-4">
@@ -104,7 +105,10 @@ const AllGuests = () => {
         )}
         {guestData?.length === 0 ? <LoaderAnime /> : null}
         <section className="mb-6">
-          {guestData?.length ? (
+          {Math.ceil(
+            Number(pagination?.total || 1) /
+            Number(pagination?.limit || 1)
+          ) > 1 ? (
             <div className="flex justify-center md:py-8 py-4">
               <Stack spacing={2}>
                 <Pagination
@@ -115,9 +119,11 @@ const AllGuests = () => {
                   onChange={(e, v: number) => {
                     setPageNumber(v);
                   }}
+                  page={pageNumber}
                   variant="outlined"
                 />
               </Stack>
+
             </div>
           ) : null}
         </section>

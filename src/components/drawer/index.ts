@@ -17,3 +17,4 @@ export { default as ViewNotesDrawer } from "./ViewNotesDrawer";
 export { default as ViewProjectsDrawerClient } from "./ViewProjectsDrawerClient";
 export { default as ViewProjectsDrawerClientMain } from "./ViewProjectsDrawerClientMain";
 export { default as ChatProfileDrawer } from "./ChatProfileDrawer";
+export { default as ChatGroupCreate } from "./ChatGroupCreate";

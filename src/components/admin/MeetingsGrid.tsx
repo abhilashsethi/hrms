@@ -58,13 +58,12 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 							</div>
 							<div className="relative mb-3 py-1 group flex items-center gap-x-2 tracking-wide">
 								<div
-									className={`absolute -top-5 right-3 text-xs ${
-										items?.status === "Completed"
+									className={`absolute -top-5 right-3 text-xs ${items?.status === "Completed"
 											? "bg-[#44bd44]"
 											: items?.status === "Ongoing"
-											? "bg-amber-500"
-											: "bg-red-500"
-									} text-white p-1 rounded-md font-semibold px-2 ml-10`}
+												? "bg-amber-500"
+												: "bg-red-500"
+										} text-white p-1 rounded-md font-semibold px-2 ml-10`}
 								>
 									{items?.status}
 								</div>
@@ -174,6 +173,7 @@ const CardComponent = ({ items, mutate }: any) => {
 		}).then(async (result) => {
 			try {
 				if (result.isConfirmed) {
+					Swal.fire(`Info`, "It will take some time", "info");
 					const response = await change(`meetings/${id}`, {
 						method: "DELETE",
 					});

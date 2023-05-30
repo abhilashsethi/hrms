@@ -54,6 +54,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
         confirmButtonText: "Yes, remove!",
       }).then(async (result) => {
         if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
           try {
             const res = await change(
               `projects/remove-manager/${projectData?.id}`,
@@ -156,9 +157,9 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
         <Container
-        className="md:w-[30vw] mt-[3.5vh]"
-        > 
-         <IconButton
+          className="md:w-[30vw] mt-[3.5vh]"
+        >
+          <IconButton
             className="flex justify-end w-full"
             onClick={() => onClose()}
           >
@@ -168,7 +169,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
             <PeopleRounded />
             Project Members
           </p>
-          
+
           <div>
             <h4 className="font-semibold">Project Name : </h4>
             <h4 className="text-theme font-semibold tracking-wide">

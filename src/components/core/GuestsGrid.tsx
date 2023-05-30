@@ -65,6 +65,7 @@ const CardContent = ({ item, mutate }: any) => {
         confirmButtonText: "Yes, delete!",
       }).then(async (result) => {
         if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
           const res = await change(`users/${user?.id}`, {
             method: "DELETE",
           });

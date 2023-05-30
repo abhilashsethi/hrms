@@ -33,7 +33,7 @@ const AllClients = () => {
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [isIssue, setIsIssue] = useState<string | null>(null);
   const [userName, setUsername] = useState<string | null>(null);
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [isUpload, setIsUpload] = useState(false);
 
   const {
@@ -161,7 +161,10 @@ const AllClients = () => {
             </>
           )}
           {clients?.length === 0 ? <LoaderAnime /> : null}
-          {clients?.length ? (
+          {Math.ceil(
+            Number(pagination?.total || 1) /
+            Number(pagination?.limit || 1)
+          ) > 1 ? (
             <div className="flex justify-center py-8">
               <Stack spacing={2}>
                 <Pagination
@@ -172,6 +175,7 @@ const AllClients = () => {
                   onChange={(e, v: number) => {
                     setPageNumber(v);
                   }}
+                  page={pageNumber}
                   variant="outlined"
                 />
               </Stack>

@@ -95,6 +95,7 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 		}).then(async (result) => {
 			try {
 				if (result.isConfirmed) {
+					Swal.fire(`Info`, "It will take some time", "info");
 					const response = await change(`meetings/remove-notes/${meetingId}`, {
 						method: "DELETE",
 						body: {
@@ -132,10 +133,10 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 				<Container
 					style={{ marginTop: "1rem" }}
 					className={classes.container}
-					// style={{
-					// 	width: "30vw",
-					// 	marginTop: "3.5vh",
-					// }}
+				// style={{
+				// 	width: "30vw",
+				// 	marginTop: "3.5vh",
+				// }}
 				>
 					{/* Document Modal  */}
 					{/* <Modal

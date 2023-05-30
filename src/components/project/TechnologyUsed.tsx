@@ -36,6 +36,7 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
         confirmButtonText: "Yes, remove!",
       }).then(async (result) => {
         if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
           try {
             const res = await change(
               `projects/remove-techs/${projectData?.id}`,

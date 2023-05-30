@@ -19,7 +19,7 @@ const AllProjects = () => {
   const [Technologies, setTechnologies] = useState<string[]>([]);
   const [empName, setEmpName] = useState<string[]>([]);
   const [isTech, setIsTech] = useState(false);
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [status, setStatus] = useState(null);
   const [isBug, setIsBug] = useState(null);
   const handleChange = (event: any) => {
@@ -30,7 +30,7 @@ const AllProjects = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any[]>(
+  } = useFetch<any>(
     `projects?page=${pageNumber}&limit=6${projectName ? `&name=${projectName}` : ""
     }${status ? `&projectStatus=${status}` : ""}${bugStatus ? `&bugs=${bugStatus}` : ""
     }` +
@@ -144,7 +144,10 @@ const AllProjects = () => {
         </div>
         {projectData?.length === 0 && <LoaderAnime />}
         <section className="mb-6">
-          {projectData?.length ? (
+          {Math.ceil(
+            Number(pagination?.total || 1) /
+            Number(pagination?.limit || 1)
+          ) > 1 ? (
             <div className="flex justify-center md:py-8 py-4">
               <Stack spacing={2}>
                 <Pagination
@@ -155,6 +158,7 @@ const AllProjects = () => {
                   onChange={(e, v: number) => {
                     setPageNumber(v);
                   }}
+                  page={pageNumber}
                   variant="outlined"
                 />
               </Stack>

@@ -38,6 +38,7 @@ const ProjectTasks = () => {
     }).then(async (result) => {
       try {
         if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
           const response = await change(
             `projects/remove-tasks/${projectData?.id}`,
             {
@@ -83,13 +84,12 @@ const ProjectTasks = () => {
         {projectData?.tasks?.map((item: any) => (
           <div
             key={item?.id}
-            className={`w-full rounded-md shadow-md p-4 shadow-sleek ${
-              item?.status === "COMPLETED"
+            className={`w-full rounded-md shadow-md p-4 shadow-sleek ${item?.status === "COMPLETED"
                 ? "bg-green-100"
                 : item?.status === "ONGOING"
-                ? "bg-blue-100"
-                : "bg-cyan-50"
-            }`}
+                  ? "bg-blue-100"
+                  : "bg-cyan-50"
+              }`}
           >
             <UpdateTaskStatus
               handleClose={() => setIsUpdate(false)}
@@ -103,17 +103,16 @@ const ProjectTasks = () => {
             <div className="flex justify-between">
               <h1 className="font-semibold text-slate-700">{item?.title}</h1>
               <span
-                className={`text-xs font-semibold px-4 py-1 h-6 rounded-full text-white ${
-                  item?.status === "Open"
+                className={`text-xs font-semibold px-4 py-1 h-6 rounded-full text-white ${item?.status === "Open"
                     ? "bg-purple-400"
                     : item?.status === "Pending"
-                    ? "bg-yellow-500"
-                    : item?.status === "Ongoing"
-                    ? "bg-blue-500"
-                    : item?.status === "Completed"
-                    ? "bg-green-500"
-                    : "bg-green-400"
-                }`}
+                      ? "bg-yellow-500"
+                      : item?.status === "Ongoing"
+                        ? "bg-blue-500"
+                        : item?.status === "Completed"
+                          ? "bg-green-500"
+                          : "bg-green-400"
+                  }`}
               >
                 {item?.status}
               </span>

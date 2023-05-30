@@ -4,41 +4,69 @@ import {
   Group,
   GroupOutlined,
   KeyboardArrowDown,
+  MoreVert,
   Notifications,
   NotificationsOutlined,
+  PermContactCalendar,
+  PermContactCalendarOutlined,
   Search,
-  Videocam,
-  VideocamOutlined,
 } from "@mui/icons-material";
+import { IconButton, Menu, MenuItem } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
+import { ChatGroupCreate } from "components/drawer";
 import moment from "moment";
+import React, { useState } from "react";
 
-const ChatLeftbar = () => {
+const ChatLeftbar = ({ setActiveProfile, activeProfile }: any) => {
+  const [currentMenu, setCurrentMenu] = useState("Chats");
+  const ActiveSection = (currentMenu: string) => {
+    switch (currentMenu) {
+      case "Chats":
+        return (
+          <Chats
+            setActiveProfile={setActiveProfile}
+            activeProfile={activeProfile}
+          />
+        );
+      case "Groups":
+        return (
+          <GroupChats
+            setActiveProfile={setActiveProfile}
+            activeProfile={activeProfile}
+          />
+        );
+      case "Contacts":
+        return <Chats />;
+      case "Other":
+        return <Chats />;
+    }
+  };
   return (
     <div className="w-[30%] h-full border-r-2 px-4 rounded-md">
       <div className={`h-20 w-full flex justify-between items-center `}>
         {quickLinks?.map((item) => (
           <div
+            onClick={() => setCurrentMenu(item?.title)}
             key={item?.id}
             className={`flex group flex-col items-center gap-2 cursor-pointer`}
           >
             <span
               className={`${
-                item?.active ? `flex` : `hidden`
+                item?.title === currentMenu ? `flex` : `hidden`
               } group-hover:!flex`}
             >
               {item?.icon}
             </span>
             <span
               className={`${
-                item?.active ? `hidden` : `flex`
+                item?.title === currentMenu ? `hidden` : `flex`
               } group-hover:!hidden`}
             >
               {item?.optional}
             </span>
             <span
-              className={`text-xs ${
-                item?.active ? `text-theme font-semibold` : ``
+              className={`text-xs transition-all ease-in-out duration-200 ${
+                item?.title === currentMenu ? `text-theme ` : ``
               } group-hover:!text-theme`}
             >
               {item?.title}
@@ -46,6 +74,44 @@ const ChatLeftbar = () => {
           </div>
         ))}
       </div>
+      {ActiveSection(currentMenu)}
+    </div>
+  );
+};
+
+export default ChatLeftbar;
+
+const quickLinks = [
+  {
+    id: 1,
+    icon: <Chat fontSize="small" className="!text-theme" />,
+    optional: <ChatOutlined fontSize="small" />,
+    title: "Chats",
+    active: true,
+  },
+  {
+    id: 4,
+    icon: <Group fontSize="small" className="!text-theme" />,
+    optional: <GroupOutlined fontSize="small" className="" />,
+    title: "Groups",
+  },
+  {
+    id: 2,
+    icon: <PermContactCalendar fontSize="small" className="!text-theme" />,
+    optional: <PermContactCalendarOutlined fontSize="small" className="" />,
+    title: "Contacts",
+  },
+  {
+    id: 3,
+    icon: <Notifications fontSize="small" className="!text-theme" />,
+    optional: <NotificationsOutlined fontSize="small" className="" />,
+    title: "Notifications",
+  },
+];
+
+const Chats = ({ setActiveProfile, activeProfile }: any) => {
+  return (
+    <>
       <div className="border-2 flex gap-1 items-center px-2 rounded-md py-1">
         <Search fontSize="small" />
         <input
@@ -62,9 +128,10 @@ const ChatLeftbar = () => {
       <div className="mt-2 flex flex-col gap-1">
         {profiles?.map((item) => (
           <div
+            onClick={() => setActiveProfile(item)}
             key={item?.id}
-            className={`h-16 w-full px-2 flex gap-2 items-center rounded-md ${
-              item?.name === "Srinu Reddy" ? `bg-blue-100` : ``
+            className={`h-16 w-full px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
+              activeProfile?.name === item?.name ? `bg-blue-100` : ``
             }`}
           >
             <PhotoViewerSmall
@@ -84,52 +151,113 @@ const ChatLeftbar = () => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
-export default ChatLeftbar;
+const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
+  const [isCreate, setIsCreate] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <>
+      <ChatGroupCreate open={isCreate} onClose={() => setIsCreate(false)} />
+      <div className="flex justify-between items-center">
+        <div className="border-2 w-[87%] flex gap-1 items-center px-2 rounded-md py-1">
+          <Search fontSize="small" />
+          <input
+            className="w-[85%] bg-white px-2 py-1 rounded-md text-sm"
+            type="text"
+            placeholder="Search chats"
+          />
+        </div>
+        <div className="w-[10%]">
+          <IconButton onClick={handleClick} size="small">
+            <MoreVert />
+          </IconButton>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                setIsCreate(true);
+                handleClose();
+              }}
+            >
+              Create Group
+            </MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
+        </div>
+      </div>
+      <div className="mt-2">
+        <span className="text-sm">
+          Recent Chats <KeyboardArrowDown fontSize="small" />
+        </span>
+      </div>
+      <div className="mt-2 flex flex-col gap-1">
+        {groups?.map((item) => (
+          <div
+            onClick={() => setActiveProfile(item)}
+            key={item?.id}
+            className={`h-16 w-full transition-all ease-in-out duration-300 px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
+              activeProfile?.name === item?.name ? `bg-blue-100` : ``
+            }`}
+          >
+            <PhotoViewerSmall
+              name={item?.name}
+              photo={item?.photo}
+              size="3rem"
+            />
+            <div className="w-[80%] flex justify-between ">
+              <div>
+                <h1 className="text-sm font-semibold">{item?.name}</h1>
+                <span className="text-sm font-light">{item?.message}</span>
+              </div>
+              <span className="text-xs">
+                {moment(new Date().toISOString()).format("ll")}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
 
-const quickLinks = [
-  {
-    id: 1,
-    icon: <Chat fontSize="small" className="!text-theme" />,
-    optional: <ChatOutlined fontSize="small" />,
-    title: "Chats",
-    active: true,
-  },
-  {
-    id: 2,
-    icon: <Videocam fontSize="small" className="!text-theme" />,
-    optional: <VideocamOutlined fontSize="small" className="" />,
-    title: "Video",
-  },
-  {
-    id: 3,
-    icon: <Notifications fontSize="small" className="!text-theme" />,
-    optional: <NotificationsOutlined fontSize="small" className="" />,
-    title: "Notifications",
-  },
-  {
-    id: 4,
-    icon: <Group fontSize="small" className="!text-theme" />,
-    optional: <GroupOutlined fontSize="small" className="" />,
-    title: "Groups",
-  },
-];
-
-const profiles = [
+const profiles: {
+  id?: number;
+  name?: string;
+  message?: string;
+  photo?: string;
+  type?: string;
+}[] = [
   {
     id: 1,
     photo:
       "https://www.bollywoodhungama.com/wp-content/uploads/2023/01/Hrithik-Roshan-opens-up-about-620.jpg",
-    name: "Hirthik Roshan",
+    name: "Loushik Giri",
     message: "Talk to you...",
+    type: "person",
   },
   {
     id: 2,
     name: "Srinu Reddy",
     message: "Okay",
+    type: "person",
   },
   {
     id: 3,
@@ -137,5 +265,32 @@ const profiles = [
       "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
     name: "Abhilash",
     message: "Done 👍",
+    type: "person",
+  },
+];
+const groups: {
+  id?: number;
+  name?: string;
+  message?: string;
+  photo?: string;
+  type?: string;
+}[] = [
+  {
+    id: 1,
+    name: "HRMS",
+    message: "Talk to you...",
+    type: "group",
+  },
+  {
+    id: 2,
+    name: "YardErp",
+    message: "Okay",
+    type: "group",
+  },
+  {
+    id: 3,
+    name: "YardDrone",
+    message: "Done 👍",
+    type: "group",
   },
 ];

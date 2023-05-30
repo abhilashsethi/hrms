@@ -15,7 +15,7 @@ import { useState } from "react";
 import { Card } from "types";
 
 const Cards = () => {
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [empId, setEmpId] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [userName, setUsername] = useState<string | null>(null);
@@ -133,19 +133,25 @@ const Cards = () => {
           )}
         </div>
         {cardData?.length === 0 ? <LoaderAnime /> : null}
-        <div className="flex justify-center py-8">
-          <Stack spacing={2}>
-            <Pagination
-              count={Math.ceil(
-                Number(pagination?.total || 1) / Number(pagination?.limit || 1)
-              )}
-              onChange={(e, v: number) => {
-                setPageNumber(v);
-              }}
-              variant="outlined"
-            />
-          </Stack>
-        </div>
+        {Math.ceil(
+          Number(pagination?.total || 1) /
+          Number(pagination?.limit || 1)
+        ) > 1 ?
+          <div className="flex justify-center py-8">
+            <Stack spacing={2}>
+              <Pagination
+                count={Math.ceil(
+                  Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+                )}
+                onChange={(e, v: number) => {
+                  setPageNumber(v);
+                }}
+                page={pageNumber}
+                variant="outlined"
+              />
+            </Stack>
+          </div>
+          : null}
       </section>
     </PanelLayout>
   );
