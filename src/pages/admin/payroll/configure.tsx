@@ -1,9 +1,9 @@
-import { useTheme } from "@material-ui/core";
-import { Check, Settings } from "@mui/icons-material";
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
+import { Add, Check, Settings } from "@mui/icons-material";
 import { AdminBreadcrumbs } from "components/core";
-import { Form, Formik } from "formik";
+import { useTheme } from "@material-ui/core";
 import PanelLayout from "layouts/panel";
+import { Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 const initialValues = {
@@ -15,6 +15,9 @@ const initialValues = {
 	employerEsi: "",
 	extraPay: "",
 	tds: "",
+	conveyance: "",
+	medical: "",
+	professional: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -32,6 +35,9 @@ const validationSchema = Yup.object().shape({
 	employeeEsi: Yup.number().required(
 		"% For ESI(Employee contribution) is required !"
 	),
+	conveyance: Yup.number().required("Conveyance allowances is required !"),
+	medical: Yup.number().required("Medical allowances is required !"),
+	professional: Yup.number().required("Professional tax is required !"),
 });
 
 const Configure = () => {
@@ -68,6 +74,11 @@ const Configure = () => {
 									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
 										Payroll Configuration
 									</h1>
+									{/* <div className="flex justify-end">
+										<Button variant="outlined" startIcon={<Add />}>
+											Add New Field
+										</Button>
+									</div> */}
 									<div className="grid lg:grid-cols-2">
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="md:py-2 py-1">
@@ -204,6 +215,63 @@ const Configure = () => {
 												helperText={touched.tds && errors.tds}
 											/>
 										</div>
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="conveyance">
+													Conveyance allowances
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												// placeholder="% for ESI"
+												id="conveyance"
+												name="conveyance"
+												value={values.conveyance}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.conveyance && !!errors.conveyance}
+												helperText={touched.conveyance && errors.conveyance}
+											/>
+										</div>
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="medical">
+													Medical allowances
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												// placeholder="% for ESI"
+												id="medical"
+												name="medical"
+												value={values.medical}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.medical && !!errors.medical}
+												helperText={touched.medical && errors.medical}
+											/>
+										</div>
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="professional">
+													Professional Tax
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												// placeholder="% for ESI"
+												id="professional"
+												name="professional"
+												value={values.professional}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.professional && !!errors.professional}
+												helperText={touched.professional && errors.professional}
+											/>
+										</div>
 									</div>
 									<div className="flex justify-center md:py-4 py-2">
 										<Button
@@ -212,7 +280,11 @@ const Configure = () => {
 											className="!bg-theme"
 											disabled={loading}
 											startIcon={
-												loading ? <CircularProgress size={20} /> : <Settings />
+												loading ? (
+													<CircularProgress size={20} color="warning" />
+												) : (
+													<Settings />
+												)
 											}
 										>
 											CONFIGURE
