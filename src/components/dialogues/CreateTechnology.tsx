@@ -59,8 +59,6 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     const uniId = values?.image?.type.split("/")[1].split("+")[0];;
-    console.log(uniId);
-
     try {
       const url = await uploadFile(values?.image, `${Date.now()}.${uniId}`);
       const name = values.name;
