@@ -152,7 +152,7 @@ export default () => {
 					{
 						key: "14-2",
 						title: "Configure",
-						icon: <ICONS.Dashboard_1 />,
+						icon: <ICONS.Configure />,
 						route: "/admin/payroll/configure",
 					},
 					{
