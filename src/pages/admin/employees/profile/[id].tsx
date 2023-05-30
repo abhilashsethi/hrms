@@ -8,15 +8,13 @@ import { AdminBreadcrumbs, HeadText } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { User } from "types";
 
-const EmployeeProfile = ({
-  user,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const EmployeeProfile = () => {
   const [activeMonth, setActiveMonth] = useState();
+  const router = useRouter();
   const [attendances, setAttendances] = useState<any>([]);
   function renderEventContent(eventInfo: any) {
     return (
@@ -52,7 +50,7 @@ const EmployeeProfile = ({
   }
 
   const { data: attendanceData, isLoading } = useFetch<any>(
-    `attendances/${user?.id}`
+    `attendances/${router?.query?.id}`
   );
   useEffect(() => {
     let reqData = attendanceData?.map((item: any) => {
@@ -70,12 +68,12 @@ const EmployeeProfile = ({
     {
       id: 2,
       page: "Employee Profile",
-      link: `/admin/employees/employee-profile?id=${user?.id}`,
+      link: `/admin/employees/employee-profile?id=${router?.query?.id}`,
     },
   ];
 
   return (
-    <PanelLayout title={`${user?.name} - Profile `}>
+    <PanelLayout title={`Employee Profile - SY HR Management System`}>
       <section className="md:px-8 px-2 mx-auto">
         <div className="pb-4">
           <AdminBreadcrumbs links={links} />
@@ -87,7 +85,7 @@ const EmployeeProfile = ({
               <div className="mb-4 flex justify-between">
                 <HeadText title="Month wise attendance" />
                 <Link
-                  href={`/admin/employees/attendance-report?empId=${user?.id}&month=${activeMonth}`}
+                  href={`/admin/employees/attendance-report?empId=${router?.query?.id}&month=${activeMonth}`}
                 >
                   <Button
                     variant="contained"
@@ -117,13 +115,3 @@ const EmployeeProfile = ({
 };
 
 export default EmployeeProfile;
-
-export const getServerSideProps: GetServerSideProps<{ user: User }> = async (
-  context
-) => {
-  const res = await fetch(
-    `https://hrms.yardiot.com/api/v1/users/${context.query?.id}`
-  );
-  const response = await res.json();
-  return { props: { user: response.data } };
-};
