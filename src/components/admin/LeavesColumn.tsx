@@ -193,16 +193,16 @@ const LeavesColumn = ({ data, mutate }: Props) => {
             !data?.length
               ? []
               : data?.map((_: any, i: number) => ({
-                  ..._,
-                  sn: i + 1,
-                  name: _?.user?.name,
-                  photo: _?.user?.photo ? _?.user?.photo : null,
-                  role: _?.user?.role,
-                  thisMonth: getYearLeaves(_?.user?.id),
-                }))
+                ..._,
+                sn: i + 1,
+                name: _?.user?.name,
+                photo: _?.user?.photo ? _?.user?.photo : null,
+                role: _?.user?.role,
+                thisMonth: getYearLeaves(_?.user?.id),
+              }))
           }
           options={{
-            ...MuiTblOptions(),
+            ...MuiTblOptions(), paging: false
           }}
           columns={[
             {

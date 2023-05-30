@@ -51,7 +51,7 @@ const GuestColumn = ({ data, mutate }: Props) => {
         title={<HeadStyle name="All Technology" icon={<PeopleRounded />} />}
         isLoading={!data}
         data={data ? getDataWithSL<any>(data) : []}
-        options={{ ...MuiTblOptions(), selection: false }}
+        options={{ ...MuiTblOptions(), selection: false, paging: false }}
         columns={[
           {
             title: "#",

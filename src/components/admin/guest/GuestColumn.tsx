@@ -55,7 +55,7 @@ const GuestColumn = ({ data, mutate }: Props) => {
         title={<HeadStyle name="All Guests" icon={<PeopleRounded />} />}
         isLoading={!data}
         data={data ? getDataWithSL<any>(data) : []}
-        options={{ ...MuiTblOptions(), selection: false }}
+        options={{ ...MuiTblOptions(), selection: false, paging: false }}
         columns={[
           {
             title: "#",
@@ -85,25 +85,29 @@ const GuestColumn = ({ data, mutate }: Props) => {
           {
             title: "Valid From",
             field: "valid",
-            render: (data) => {return(
-              <div>
-              {data?.card.length
-                ? moment(data?.card[0]?.validFrom).format("lll")
-                : "---"}
+            render: (data) => {
+              return (
+                <div>
+                  {data?.card.length
+                    ? moment(data?.card[0]?.validFrom).format("lll")
+                    : "---"}
                 </div>
-            )},
+              )
+            },
             editable: "never",
           },
           {
             title: "Valid Till",
             field: "valid",
-            render: (data) => {return(
-              <div>
-              {data?.card.length
-                ? moment(data?.card[0]?.validTill).format("lll")
-                : "---"}
+            render: (data) => {
+              return (
+                <div>
+                  {data?.card.length
+                    ? moment(data?.card[0]?.validTill).format("lll")
+                    : "---"}
                 </div>
-            )},
+              )
+            },
             editable: "never",
           },
 
