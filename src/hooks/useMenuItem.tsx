@@ -64,7 +64,7 @@ export default () => {
 					{
 						key: "3-4",
 						title: "Upload Employee's Data",
-						icon: <ICONS.Add_Employee />,
+						icon: <ICONS.Upload_Employee_Data />,
 						route: "/admin/employees/upload-employee-data",
 					},
 				],
@@ -286,18 +286,18 @@ export default () => {
 			{
 				key: "20",
 				title: "Email Templates",
-				icon: <Email />,
+				icon: <ICONS.Email_Template />,
 				submenus: [
 					{
 						key: "20-1",
 						title: "Create Template",
-						icon: <Add />,
+						icon: <ICONS.Create_Template />,
 						route: "/admin/templates/create-template",
 					},
 					{
 						key: "20-2",
 						title: "Saved Templates",
-						icon: <FileCopy />,
+						icon: <ICONS.Saved_Template />,
 						route: "/admin/templates/saved-templates",
 					},
 				],
@@ -305,7 +305,7 @@ export default () => {
 			{
 				key: "24",
 				title: "Chats",
-				icon: <Forum />,
+				icon: <ICONS.Chat />,
 				route: "/admin/chat",
 			},
 			{
