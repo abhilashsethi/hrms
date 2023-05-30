@@ -10,14 +10,13 @@ interface Props {
 }
 
 const AttendanceList = ({ data }: Props) => {
-  console.log(data);
   return (
     <div className="mt-4">
       <MaterialTable
         title={"Today Attendance"}
         isLoading={!data}
         data={data ? getDataWithSL<Attendance>(data) : []}
-        options={{ ...MuiTblOptions(), selection: false }}
+        options={{ ...MuiTblOptions(), selection: false, paging: false }}
         columns={[
           {
             title: "#",
@@ -47,11 +46,10 @@ const AttendanceList = ({ data }: Props) => {
             render: (item: any) => {
               return (
                 <span
-                  className={`px-4 py-1 rounded-lg ${
-                    item?.status === "present"
+                  className={`px-4 py-1 rounded-lg ${item?.status === "present"
                       ? `bg-green-300 border-[1px] text-green-600 border-green-400`
                       : `bg-red-300 border-[1px] border-red-500 text-red-600`
-                  }`}
+                    }`}
                 >
                   {item?.status === "present" ? `PRESENT` : `ABSENT`}
                 </span>
