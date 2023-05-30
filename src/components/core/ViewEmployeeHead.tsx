@@ -53,7 +53,7 @@ const ViewEmployeeHead = () => {
 			id: 3,
 			icon: <Receipt />,
 			title: "Payroll",
-			// onClick: () => router.push(),
+			onClick: () => router.push("/admin/payroll/view-payroll-details"),
 		},
 		{
 			id: 4,
