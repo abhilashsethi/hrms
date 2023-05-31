@@ -44,7 +44,7 @@ const ChatLeftbar = ({ setActiveProfile, activeProfile }: any) => {
     }
   };
   return (
-    <div className="w-[30%] h-full border-r-2 px-4 rounded-md">
+    <div className="lg:w-[30%] h-full border-r-2 px-4 rounded-md">
       <div className={`h-20 w-full flex justify-between items-center `}>
         {quickLinks?.map((item) => (
           <div
@@ -297,6 +297,14 @@ const profiles: {
   },
   {
     id: 3,
+    photo:
+      "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
+    name: "Abhilash",
+    message: "Done 👍",
+    type: "person",
+  },
+  {
+    id: 4,
     photo:
       "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
     name: "Abhilash",
