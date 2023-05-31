@@ -17,7 +17,14 @@ const initialValues = {
 	tds: "",
 	conveyance: "",
 	medical: "",
-	professional: "",
+	startGrossSalary1: "",
+	endGrossSalary1: "",
+	startGrossSalary2: "",
+	endGrossSalary2: "",
+	startGrossSalary3: "",
+	professionalTax1: "",
+	professionalTax2: "",
+	professionalTax3: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -37,7 +44,11 @@ const validationSchema = Yup.object().shape({
 	),
 	conveyance: Yup.number().required("Conveyance allowances is required !"),
 	medical: Yup.number().required("Medical allowances is required !"),
-	professional: Yup.number().required("Professional tax is required !"),
+	startGrossSalary1: Yup.number().required("Fill this field !"),
+	endGrossSalary1: Yup.number().required("Fill this field !"),
+	professionalTax1: Yup.number().required("Fill this field !"),
+	professionalTax2: Yup.number().required("Fill this field !"),
+	professionalTax3: Yup.number().required("Fill this field !"),
 });
 
 const Configure = () => {
@@ -74,11 +85,11 @@ const Configure = () => {
 									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
 										Payroll Configuration
 									</h1>
-									<div className="flex justify-end">
+									{/* <div className="flex justify-end">
 										<Button variant="outlined" startIcon={<Add />}>
 											Add New Field
 										</Button>
-									</div>
+									</div> */}
 									<div className="grid lg:grid-cols-2">
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="md:py-2 py-1">
@@ -204,28 +215,12 @@ const Configure = () => {
 												helperText={touched.employerEsi && errors.employerEsi}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="tds">TDS %</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												type="number"
-												// placeholder="% for ESI"
-												id="tds"
-												name="tds"
-												value={values.tds}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.tds && !!errors.tds}
-												helperText={touched.tds && errors.tds}
-											/>
-										</div>
+
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="conveyance">
 													Conveyance allowances
+													<span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
@@ -246,6 +241,7 @@ const Configure = () => {
 											<div className="py-2">
 												<InputLabel htmlFor="medical">
 													Medical allowances
+													<span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
@@ -262,25 +258,184 @@ const Configure = () => {
 												helperText={touched.medical && errors.medical}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="professional">
-													Professional Tax
-												</InputLabel>
+
+										{/* Profession tax range */}
+
+										<div className="flex md:px-4 px-2 md:py-2 py-1 col-span-2 justify-evenly">
+											<div>
+												<p className="text-center text-gray-500">
+													Gross Salary
+													<span className="text-red-600">*</span>
+												</p>
+												<div className="flex gap-2 mb-2">
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="From"
+														id="startGrossSalary1"
+														name="startGrossSalary1"
+														value={values.startGrossSalary1}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.startGrossSalary1 &&
+															!!errors.startGrossSalary1
+														}
+														helperText={
+															touched.startGrossSalary1 &&
+															errors.startGrossSalary1
+														}
+													/>
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="TO"
+														id="endGrossSalary1"
+														name="endGrossSalary1"
+														value={values.endGrossSalary1}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.endGrossSalary1 &&
+															!!errors.endGrossSalary1
+														}
+														helperText={
+															touched.endGrossSalary1 && errors.endGrossSalary1
+														}
+													/>
+												</div>
+												<div className="flex gap-2 mb-2">
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="From"
+														id="startGrossSalary2"
+														name="startGrossSalary2"
+														value={values.startGrossSalary2}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.startGrossSalary2 &&
+															!!errors.startGrossSalary2
+														}
+														helperText={
+															touched.startGrossSalary2 &&
+															errors.startGrossSalary2
+														}
+													/>
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="TO"
+														id="endGrossSalary2"
+														name="endGrossSalary2"
+														value={values.endGrossSalary2}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.endGrossSalary2 &&
+															!!errors.endGrossSalary2
+														}
+														helperText={
+															touched.endGrossSalary2 && errors.endGrossSalary2
+														}
+													/>
+												</div>
+												<div className="flex gap-2 mb-2">
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="Above last range"
+														id="startGrossSalary3"
+														name="startGrossSalary3"
+														value={values.startGrossSalary3}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.startGrossSalary3 &&
+															!!errors.startGrossSalary3
+														}
+														helperText={
+															touched.startGrossSalary3 &&
+															errors.startGrossSalary3
+														}
+													/>
+												</div>
 											</div>
-											<TextField
-												size="small"
-												fullWidth
-												type="number"
-												// placeholder="% for ESI"
-												id="professional"
-												name="professional"
-												value={values.professional}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.professional && !!errors.professional}
-												helperText={touched.professional && errors.professional}
-											/>
+											<div>
+												<p className="text-center text-gray-500">
+													Professional Tax
+													<span className="text-red-600">*</span>
+												</p>
+												<div className="mb-2">
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="Tax Amount"
+														id="professionalTax1"
+														name="professionalTax1"
+														value={values.professionalTax1}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professionalTax1 &&
+															!!errors.professionalTax1
+														}
+														helperText={
+															touched.professionalTax1 &&
+															errors.professionalTax1
+														}
+													/>
+												</div>
+												<div className="mb-2">
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="Tax Amount"
+														id="professionalTax2"
+														name="professionalTax2"
+														value={values.professionalTax2}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professionalTax2 &&
+															!!errors.professionalTax2
+														}
+														helperText={
+															touched.professionalTax2 &&
+															errors.professionalTax2
+														}
+													/>
+												</div>
+												<div>
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="Tax Amount"
+														id="professionalTax3"
+														name="professionalTax3"
+														value={values.professionalTax3}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professionalTax3 &&
+															!!errors.professionalTax3
+														}
+														helperText={
+															touched.professionalTax3 &&
+															errors.professionalTax3
+														}
+													/>
+												</div>
+											</div>
 										</div>
 									</div>
 									<div className="flex justify-center md:py-4 py-2">
