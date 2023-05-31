@@ -18,6 +18,7 @@ import { Form, Formik } from "formik";
 import { ChangeEvent, useState } from "react";
 import * as Yup from "yup";
 import { useFetch } from "hooks";
+import AddSalaryInfo from "components/dialogues/AddSalaryInfo";
 const initialValues = {
 	userId: "",
 	variant: "",
@@ -34,14 +35,14 @@ const validationSchema = Yup.object().shape({
 });
 
 const AddSalaryInformation = () => {
-	const theme = useTheme();
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const { data: usersData } = useFetch(`users`);
 	const [loading, setLoading] = useState(false);
-	const [value, setValue] = useState("one");
-
-	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue((event.target as HTMLInputElement).value);
+	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
+	const handleClose = () => {
+		setAnchorEl(null);
 	};
+
 
 	const handleSubmit = async (values: any) => {
 		console.log(values);
@@ -49,15 +50,28 @@ const AddSalaryInformation = () => {
 
 	return (
 		<PanelLayout title="Add Salary Info - Admin Panel">
+			<AddSalaryInfo
+				// mutate={mutate}
+				open={salaryInfoModal}
+				handleClose={() => setSalaryInfoModal(false)}
+			/>
 			<section className="md:px-8 px-2 md:py-4 py-2">
 				<div className="px-2 md:px-0">
 					<AdminBreadcrumbs links={links} />
 				</div>
 				<section className="w-full px-0 md:py-4 py-2 flex justify-center items-center">
-					<div className="md:w-[40rem] w-[72vw] md:px-4 px-2 tracking-wide shadow-xl">
+					<div className="md:w-[40rem] w-full bg-white md:px-4 py-4 px-2 tracking-wide rounded-lg shadow-xl">
 						<p className="text-center text-xl font-bold text-theme tracking-wide">
 							ADD SALARY INFO
 						</p>
+						<div className="flex justify-end">
+							<Button onClick={() => {
+								setSalaryInfoModal((prev) => !prev);
+								handleClose;
+							}} variant="outlined" startIcon={<Add />}>
+								Add New Field
+							</Button>
+						</div>
 						<Formik
 							initialValues={initialValues}
 							validationSchema={validationSchema}
@@ -82,6 +96,7 @@ const AddSalaryInformation = () => {
 
 										<Autocomplete
 											options={usersData as any}
+											size="small"
 											fullWidth
 											autoHighlight
 											getOptionLabel={(option: any) => option.name}
@@ -141,68 +156,45 @@ const AddSalaryInformation = () => {
 										/>
 									</div>
 
-									<div className="flex justify-center pt-2">
-										<RadioGroup
-											row
-											name="leave"
-											value={value}
-											onChange={(e: any) => {
-												handleRadioChange(e);
-												setFieldValue("variant", e.target.value);
-											}}
-										>
-											<FormControlLabel
-												value="tds"
-												control={<Radio />}
-												label="TDS"
-											/>
-											<FormControlLabel
-												value="kpi"
-												control={<Radio />}
-												label="KPI"
-											/>
-										</RadioGroup>
+									<div className="md:px-4 px-2 md:py-2 py-1 ">
+										<div className="py-2">
+											<InputLabel htmlFor="chooseEmp">
+												KPI
+											</InputLabel>
+										</div>
+										<TextField
+											size="small"
+											fullWidth
+											// placeholder="Date"
+											name="kpi"
+											value={values.kpi}
+											onChange={handleChange}
+											onBlur={handleBlur}
+											error={touched.kpi && !!errors.kpi}
+											helperText={touched.kpi && errors.kpi}
+										/>
 									</div>
-									{errors?.variant && (
-										<h1 className="text-red-500 text-sm text-center">
-											{errors?.variant}
-										</h1>
-									)}
-									{value == "kpi" ? (
-										<>
-											<p className="font-medium text-gray-700 my-2">KPI</p>
-											<TextField
-												size="small"
-												fullWidth
-												// placeholder="Date"
-												name="kpi"
-												value={values.kpi}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.kpi && !!errors.kpi}
-												helperText={touched.kpi && errors.kpi}
-											/>
-										</>
-									) : value == "tds" ? (
-										<>
-											<p className="font-medium text-gray-700 my-2">TDS</p>
-											<div className="w-full">
-												<TextField
-													size="small"
-													fullWidth
-													name="tds"
-													// placeholder="Date"
-													value={values.tds}
-													onChange={handleChange}
-													onBlur={handleBlur}
-													error={touched.tds && !!errors.tds}
-													helperText={touched.tds && errors.tds}
-												/>
-											</div>
-										</>
-									) : null}
+									<div className="md:px-4 px-2 md:py-2 py-1 ">
+										<div className="py-2">
+											<InputLabel htmlFor="chooseEmp">
+												TDS
+											</InputLabel>
+										</div>
+										<TextField
+											size="small"
+											fullWidth
+											name="tds"
+											// placeholder="Date"
+											value={values.tds}
+											onChange={handleChange}
+											onBlur={handleBlur}
+											error={touched.tds && !!errors.tds}
+											helperText={touched.tds && errors.tds}
+										/>
+									</div>
 
-									<div className="flex justify-center md:py-4 py-2">
+
+									<div className="flex justify-center md:py-4 py-1">
 										<Button
 											type="submit"
 											variant="contained"
