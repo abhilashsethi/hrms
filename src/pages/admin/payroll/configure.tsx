@@ -6,6 +6,8 @@ import PanelLayout from "layouts/panel";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
+import { useChange } from "hooks";
+import Swal from "sweetalert2";
 const initialValues = {
 	basicSalary: "",
 	hra: "",
@@ -13,8 +15,6 @@ const initialValues = {
 	employerPf: "",
 	employeeEsi: "",
 	employerEsi: "",
-	extraPay: "",
-	tds: "",
 	conveyance: "",
 	medical: "",
 	startGrossSalary1: "",
@@ -53,10 +53,68 @@ const validationSchema = Yup.object().shape({
 
 const Configure = () => {
 	const theme = useTheme();
+	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
 
-	const handleSubmit = async (values: any) => {
+	const handleSubmit = async (values: any, { resetForm }: any) => {
 		console.log(values);
+
+		setLoading(true);
+		try {
+			const res = await change(`payrolls/createPayrollConfig`, {
+				body: {
+					basicSalary: values?.basicSalary,
+					hra: values?.hra,
+					pfEmployee: values?.employeePf,
+					pfEmployer: values?.employerPf,
+					esiEmployee: values?.employeeEsi,
+					esiEmployer: values?.employerEsi,
+					conveyanceAllowances: values?.conveyance,
+					medicalAllowances: values?.medical,
+					variant: values?.variant,
+					ptTaxes: [
+						{
+							startGrossSalary: values?.startGrossSalary1,
+							endGrossSalary: values?.endGrossSalary1,
+							tax: values?.professionalTax1,
+						},
+						{
+							startGrossSalary: values?.startGrossSalary2,
+							endGrossSalary: values?.endGrossSalary2,
+							tax: values?.professionalTax2,
+						},
+						{
+							startGrossSalary: values?.startGrossSalary3,
+							tax: values?.professionalTax3,
+						},
+					],
+				},
+			});
+			console.log(res);
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire(
+					"Error",
+					res?.results?.msg || "Something went wrong!",
+					"error"
+				);
+				setLoading(false);
+				return;
+			}
+			Swal.fire(
+				`Success`,
+				`Payroll Configuration Set Successfully !`,
+				`success`
+			);
+			// mutate();
+			// resetForm();
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -345,7 +403,7 @@ const Configure = () => {
 														}
 													/>
 												</div>
-												<div className="flex gap-2 mb-2">
+												<div className="flex gap-2">
 													<TextField
 														size="small"
 														fullWidth

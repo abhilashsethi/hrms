@@ -156,6 +156,12 @@ export default () => {
 						route: "/admin/payroll/configure",
 					},
 					{
+						key: "14-2",
+						title: "View Config",
+						icon: <ICONS.Configure />,
+						route: "/admin/payroll/view-config",
+					},
+					{
 						key: "14-3",
 						title: "Add Salary Info",
 						icon: <ICONS.Dashboard_1 />,
