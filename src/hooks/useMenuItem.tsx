@@ -311,7 +311,7 @@ export default () => {
 			{
 				key: "24",
 				title: "Chats",
-				icon: <ICONS.Chat />,
+				icon: <ICONS.All_Chat />,
 				route: "/admin/chat",
 			},
 			{
