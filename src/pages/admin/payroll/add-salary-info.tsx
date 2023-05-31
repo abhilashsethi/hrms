@@ -3,55 +3,51 @@ import {
 	Box,
 	Button,
 	CircularProgress,
-	FormControlLabel,
 	InputLabel,
-	MenuItem,
-	Radio,
-	RadioGroup,
 	TextField,
 } from "@mui/material";
-import { Add, Check, Done, Settings } from "@mui/icons-material";
+import { Add, Done } from "@mui/icons-material";
 import { AdminBreadcrumbs, PhotoViewerSmall } from "components/core";
-import { useTheme } from "@material-ui/core";
 import PanelLayout from "layouts/panel";
 import { Form, Formik } from "formik";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
 import { useFetch } from "hooks";
-import AddSalaryInfo from "components/dialogues/AddSalaryInfo";
-const initialValues = {
-	userId: "",
-	variant: "",
-	grossSalary: "",
-	kpi: "",
-	tds: "",
-};
+import { AddMoreField } from "components/dialogues";
+
 
 const validationSchema = Yup.object().shape({
 	userId: Yup.string().required("Select an employee"),
 	grossSalary: Yup.number().required("% For Gross Salary is required !"),
-	// variant: Yup.string().required("Please select a variant!"),
-	// kpi: Yup.string().required("Please enter kpi amount!"),
+
 });
 
 const AddSalaryInformation = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const { data: usersData } = useFetch(`users`);
+	const [fields, setFields] = useState<any>([]);
 	const [loading, setLoading] = useState(false);
 	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+	const initialValues = {
+		userId: "",
+		variant: "",
+		grossSalary: "",
+		kpi: "",
+		tds: "",
 
-
+	};
+	console.log("fields", fields);
 	const handleSubmit = async (values: any) => {
 		console.log(values);
 	};
 
 	return (
 		<PanelLayout title="Add Salary Info - Admin Panel">
-			<AddSalaryInfo
-				// mutate={mutate}
+			<AddMoreField
+				setFields={setFields}
 				open={salaryInfoModal}
 				handleClose={() => setSalaryInfoModal(false)}
 			/>
@@ -192,8 +188,26 @@ const AddSalaryInformation = () => {
 											helperText={touched.tds && errors.tds}
 										/>
 									</div>
+									{fields?.length ? (
+										<>
+											{fields?.map((item: any, i: any) => (
+												<div key={i} className="md:px-4 px-2 md:py-2 py-1 ">
 
+													<div className="py-2">
+														<InputLabel htmlFor="chooseEmp">
+															{item?.label}
+														</InputLabel>
+													</div>
+													<TextField
+														size="small"
+														fullWidth
+														name={item?.textBox}
+														placeholder={item?.textBox}
 
+													/>
+												</div>
+											))}
+										</>) : null}
 									<div className="flex justify-center md:py-4 py-1">
 										<Button
 											type="submit"
@@ -211,6 +225,7 @@ const AddSalaryInformation = () => {
 											SAVE
 										</Button>
 									</div>
+
 								</Form>
 							)}
 						</Formik>
