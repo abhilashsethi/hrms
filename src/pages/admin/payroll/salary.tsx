@@ -39,7 +39,7 @@ const AddPrescription = () => {
 				key: "1",
 				name: "userId",
 				size: "small",
-				label: "Select Employee *",
+				label: "Select Employee",
 				placeholder: "",
 				styleContact: "rounded-lg mb-5",
 				type: "autocomplete",
@@ -61,7 +61,7 @@ const AddPrescription = () => {
 				key: "1",
 				// placeholder: 'Enter your email',
 				name: "grossSalary",
-				label: "Enter Gross Salary Per Month *",
+				label: "Enter Gross Salary Per Month",
 				placeholder: "",
 				size: "small",
 				styleContact: "rounded-lg mb-5",
@@ -74,7 +74,7 @@ const AddPrescription = () => {
 				key: "2",
 				// placeholder: 'Enter your email',
 				name: "kpi",
-				label: "KPI *",
+				label: "KPI",
 				size: "small",
 				placeholder: "",
 				styleContact: "rounded-lg mb-5",
@@ -192,9 +192,6 @@ const AddPrescription = () => {
 								enableReinitialize
 								initialValues={{
 									...initialValues,
-									email: usersData?.email,
-									phoneNumber: usersData?.phoneNumber,
-									ownerName: usersData?._id,
 								}}
 								validationSchema={Yup.object(validationSchema)}
 								onSubmit={handleSend}
@@ -207,6 +204,7 @@ const AddPrescription = () => {
 													<div className=" w-full pb-4" >
 														<AdminAutocomplete
 															size={"small"}
+
 															label={inputItem?.label}
 															isOptionEqualToValue={(option, value) =>
 																option?.value === value?.value
@@ -220,12 +218,11 @@ const AddPrescription = () => {
 																formik?.touched[inputItem?.name] &&
 																(formik?.errors[inputItem?.name] as any)
 															}
-															onChange={(e, value) => {
-																console.log(value?.value, inputItem?.name);
-																formik?.setFieldValue(inputItem?.name, value?.value);
-																inputItem?.name === "ownerName";
-																// &&
-																// setUserdata(value?.data);
+															onChange={(e: any, value: any) => {
+																console.log(value?.data?.id, inputItem?.name);
+																formik?.setFieldValue(inputItem?.name, value?.data?.id);
+																inputItem?.name === "userId";
+
 															}}
 															options={inputItem?.options}
 															noOptionText={
@@ -238,7 +235,7 @@ const AddPrescription = () => {
 														/>
 													</div>
 												) : inputItem?.name === "enterPayRollName" ? (
-													<div className=" w-full py-4">
+													<div className=" w-full py-1">
 														{formik.values[inputItem.name]?.length &&
 															formik?.values[inputItem.name]?.map((item: any) => {
 																return (
@@ -271,7 +268,7 @@ const AddPrescription = () => {
 														</button>
 													</div>
 												) : (
-													<div className={"py-4"} >
+													<div className={"py-1"} >
 														<TextInput
 															fullWidth
 															key={index}
@@ -303,7 +300,7 @@ const AddPrescription = () => {
 										))}
 
 										<div>
-											<div className="flex justify-center md:py-4 py-1">
+											<div className="flex justify-center py-1">
 												<Button
 													type="submit"
 													variant="contained"
