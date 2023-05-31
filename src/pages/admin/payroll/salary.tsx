@@ -1,9 +1,5 @@
-import { Container, Typography } from "@mui/material";
-// import { AdminAutocomplete } from 'components/core'
+import { Button, CircularProgress, Container, Typography } from "@mui/material";
 import { Form, Formik, FormikProps } from "formik";
-// import TextInput from 'components/core/TextInput'
-// import DrugInputField from './DrugInputField'
-// import { useGET, useMutation } from 'hooks'
 import { useMemo, useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import Swal from "sweetalert2";
@@ -18,37 +14,43 @@ import {
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import TextInput from "components/core/TextInput";
-import DrugInputField from "./DrugInputField";
 import AdminAutocomplete from "components/core/AdminAutocomplete";
 import { useFetch } from "hooks";
+import PanelLayout from "layouts/panel";
+import { AdminBreadcrumbs } from "components/core";
+import { AddMoreField } from "components/dialogues";
+import PayrollInputField from "./PayrollInputField";
 
 const AddPrescription = () => {
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const router = useRouter();
-
+	const [fields, setFields] = useState<any>([]);
+	const [loading, setLoading] = useState(false);
+	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 	const { data: usersData } = useFetch<any>(`users`);
 
-	// const { data: singleUser, mutate: userGet } = useGET<any[]>(
-	//   `prescription/get-pet-details?userId=${userdata?._id}`
-	// )
-	// console.log(singleUser)
 
-	const AddPrescriptionSchema = useMemo(() => {
+	const payrollSchema = useMemo(() => {
 		return [
 			{
 				key: "1",
-				name: "ownerName",
-				label: "Owner Name *",
+				name: "userId",
+				size: "small",
+				label: "Select Employee *",
 				placeholder: "",
 				styleContact: "rounded-lg mb-5",
 				type: "autocomplete",
-				validationSchema: Yup.string().required("Owner name is required"),
+				validationSchema: Yup.string().required("Employee is required"),
 				initialValue: "",
 				icon: <BorderColor />,
 
 				options: usersData?.map((item: any, i: any) => {
 					return {
 						data: item,
-						label: `${item?.name} (${item?.email})`,
+						label: `${item?.name}`,
 						value: item?._id,
 						key: item?.name,
 					};
@@ -58,63 +60,46 @@ const AddPrescription = () => {
 			{
 				key: "1",
 				// placeholder: 'Enter your email',
-				name: "email",
-				label: "Email *",
+				name: "grossSalary",
+				label: "Enter Gross Salary Per Month *",
 				placeholder: "",
+				size: "small",
 				styleContact: "rounded-lg mb-5",
-				type: "text",
+				type: "number",
 				validationSchema: Yup.string()
-					.required("Email Required.")
-					.email("Enter valid email"),
-				initialValue: "",
-				icon: <Email />,
+					.required("Gross Salary Per Month Required."), initialValue: "",
 				required: true,
 			},
 			{
 				key: "2",
 				// placeholder: 'Enter your email',
-				name: "phoneNumber",
-				label: "Contact Number *",
+				name: "kpi",
+				label: "KPI *",
+				size: "small",
 				placeholder: "",
 				styleContact: "rounded-lg mb-5",
 				type: "number",
-				validationSchema: Yup.string().required("Contact number is required"),
 				initialValue: "",
-				icon: <ContactPhone />,
-				required: true,
 			},
 
 			{
 				key: "4",
-				label: "Pet Name",
-				name: "petName",
-				type: "autocomplete",
-				validationSchema: Yup.string().required("Pet Name is required"),
+				label: "TDS",
+				size: "small",
+				name: "tds",
+				type: "number",
 				initialValue: "",
-				icon: <BorderColor />,
 				styleContact: "rounded-lg mb-5",
-
-				options: usersData?.map((item: any, i: any) => {
-					return {
-						label: `${item?.pet?.petName} (${item?.pet?.petCategory})`,
-						value: item?.pet?._id,
-						key: item?.pet?._id,
-					};
-				}),
-				required: true,
 			},
 			{
-				key: "4",
+				key: "5",
 				// placeholder: 'Enter your email',
-				name: "drugName",
-				label: "Drug Name *",
+				name: "enterPayRollName",
+				label: "Payroll Name *",
 				placeholder: "",
 				styleContact: "rounded-lg mb-5",
 				type: "text",
-				validationSchema: Yup.array().required("Item Name is required"),
 				initialValue: [{ value: "", amount: "", key: "1" }],
-				icon: <MedicationLiquid />,
-				required: true,
 			},
 		];
 	}, []);
@@ -122,60 +107,15 @@ const AddPrescription = () => {
 	// const { isMutating, trigger } = useMutation(`prescription/create`)
 	const handleSend = async (values: any, submitProps: any) => {
 		console.log(values);
-
-		const petDetails = usersData?.find(
-			(petDetail: any) => petDetail?.pet?._id === values?.petName
-		);
-		console.log(petDetails);
-
-		const drugData = values.drugName.map((item: any) => {
-			return {
-				drugName: `${item.value}`,
-				prescriptionNote: `${item.amount}`,
-			};
-		});
-
-		const newObject: any = {
-			wholeData: drugData,
-			userName: usersData?.name,
-			appointmentId: petDetails?._id,
-			petName: petDetails?.pet?.petName,
-			petId: petDetails?.pet?._id,
-			userId: usersData?._id,
-			petCategory: petDetails?.pet?.petCategory,
-			userMail: usersData?.email,
-		};
-		console.log(newObject);
-
-		try {
-			// const { error, success } = await trigger(newObject);
-			// if (error) return Swal.fire("Error", error.message, "error");
-
-			// const addPrescription = {
-			// 	...success?.data,
-			// };
-			// setUserdata('')
-			// submitProps.resetForm();
-			// Swal.fire("Success", success.message, "success");
-			// router.push("/admin/prescription/prescription-history");
-			// console.log(addPrescription);
-			// console.log(values);
-
-			return;
-		} catch (error) {
-			submitProps.setSubmitting(false);
-			Swal.fire("Error", "Something went wrong", "error");
-			console.log(error);
-		}
 	};
-	const initialValues = AddPrescriptionSchema.reduce(
+	const initialValues = payrollSchema.reduce(
 		(accumulator, currentValue) => {
 			accumulator[currentValue.name] = currentValue.initialValue;
 			return accumulator;
 		},
 		{} as any
 	);
-	const validationSchema = AddPrescriptionSchema?.reduce(
+	const validationSchema = payrollSchema?.reduce(
 		(accumulator, currentValue) => {
 			accumulator[currentValue.name] = currentValue.validationSchema;
 			return accumulator;
@@ -190,12 +130,12 @@ const AddPrescription = () => {
 				name,
 				formik?.values[name]?.length > 0
 					? [
-							...formik?.values[name],
-							{ key: Date.now(), value: "", amount: "" },
-					  ]
+						...formik?.values[name],
+						{ key: Date.now(), value: "", amount: "" },
+					]
 					: [{ key: Date.now(), value: "", amount: "" }]
 			);
-		} catch (error) {}
+		} catch (error) { }
 	};
 
 	const handleFormikOnChange = (
@@ -206,8 +146,8 @@ const AddPrescription = () => {
 	) => {
 		try {
 			formik?.setFieldValue(
-				"drugName",
-				formik?.values?.drugName?.map((item: any) => {
+				"enterPayRollName",
+				formik?.values?.enterPayRollName?.map((item: any) => {
 					if (item.key === key) {
 						return {
 							...item,
@@ -218,162 +158,182 @@ const AddPrescription = () => {
 					return item;
 				})
 			);
-		} catch (error) {}
+		} catch (error) { }
 	};
 
 	return (
-		<Container
-			maxWidth="xl"
-			// style={{
-			//   width: '40vw',
-			//   marginTop: '5vh',
-			// }}
-		>
-			<Typography
-				align="center"
-				// color="text.primary"
-				variant="h5"
-				className="!mt-2 font-bold text-theme"
-				sx={{ marginBottom: 3 }}
-			>
-				{/* Create User */}
-			</Typography>
-
-			<div className="m-auto w-[50vw]">
-				<Formik
-					enableReinitialize
-					initialValues={{
-						...initialValues,
-						email: usersData?.email,
-						phoneNumber: usersData?.phoneNumber,
-						ownerName: usersData?._id,
-					}}
-					validationSchema={Yup.object(validationSchema)}
-					onSubmit={handleSend}
-				>
-					{(formik) => (
-						<Form>
-							{AddPrescriptionSchema?.map((inputItem: any, index: any) => (
-								<div key={index}>
-									{inputItem?.type === "autocomplete" ? (
-										<div className=" w-full pb-4">
-											<AdminAutocomplete
-												size={"medium"}
-												label={inputItem?.label}
-												isOptionEqualToValue={(option, value) =>
-													option?.value === value?.value
-												}
-												error={Boolean(
-													formik?.touched[inputItem?.name] &&
-														formik?.errors[inputItem?.name]
-												)}
-												helperText={
-													formik?.touched[inputItem?.name] &&
-													(formik?.errors[inputItem?.name] as any)
-												}
-												onChange={(e, value) => {
-													console.log(value?.value, inputItem?.name);
-													formik?.setFieldValue(inputItem?.name, value?.value);
-													inputItem?.name === "ownerName";
-													// &&
-													// setUserdata(value?.data);
-												}}
-												options={inputItem?.options}
-												noOptionText={
-													<div className="flex w-full flex-col gap-2">
-														<small className="tracking-wide">
-															No options found
-														</small>
-													</div>
-												}
-											/>
-										</div>
-									) : inputItem?.name === "drugName" ? (
-										<div className=" w-full py-4">
-											{formik.values[inputItem.name]?.length &&
-												formik?.values[inputItem.name]?.map((item: any) => {
-													return (
-														<DrugInputField
-															name="item"
-															error={Boolean(
-																formik?.touched?.drugName &&
-																	formik?.errors?.drugName
-															)}
-															helperText={"This field is required."}
-															value={item.value}
-															amount={item?.amount}
-															onChange={(amount: any, value: any) =>
-																handleFormikOnChange(
-																	formik,
-																	amount,
-																	value,
-																	item?.key
-																)
+		<PanelLayout title="Add Salary Info - Admin Panel" >
+			<AddMoreField
+				setFields={setFields}
+				open={salaryInfoModal}
+				handleClose={() => setSalaryInfoModal(false)}
+			/>
+			<section className="md:px-8 px-2 md:py-4 py-2" >
+				<div className="px-2 md:px-0" >
+					<AdminBreadcrumbs links={links} />
+				</div>
+				<section className="w-full px-0 md:py-4 py-2 flex justify-center items-center" >
+					<div className="md:w-[40rem] w-full bg-white md:px-4 py-4 px-2 tracking-wide rounded-lg shadow-xl" >
+						<p className="text-center text-xl font-bold text-theme tracking-wide" >
+							ADD SALARY INFO
+						</p>
+						{/* <div className="flex justify-end" >
+							<Button onClick={
+								() => {
+									setSalaryInfoModal((prev) => !prev);
+									handleClose;
+								}
+							} variant="outlined" startIcon={<Add />}>
+								Add New Field
+							</Button>
+						</div> */}
+						<div className="" >
+							<Formik
+								enableReinitialize
+								initialValues={{
+									...initialValues,
+									email: usersData?.email,
+									phoneNumber: usersData?.phoneNumber,
+									ownerName: usersData?._id,
+								}}
+								validationSchema={Yup.object(validationSchema)}
+								onSubmit={handleSend}
+							>
+								{(formik) => (
+									<Form>
+										{payrollSchema?.map((inputItem: any, index: any) => (
+											<div key={index} >
+												{inputItem?.type === "autocomplete" ? (
+													<div className=" w-full pb-4" >
+														<AdminAutocomplete
+															size={"small"}
+															label={inputItem?.label}
+															isOptionEqualToValue={(option, value) =>
+																option?.value === value?.value
+															}
+															error={
+																Boolean(
+																	formik?.touched[inputItem?.name] &&
+																	formik?.errors[inputItem?.name]
+																)}
+															helperText={
+																formik?.touched[inputItem?.name] &&
+																(formik?.errors[inputItem?.name] as any)
+															}
+															onChange={(e, value) => {
+																console.log(value?.value, inputItem?.name);
+																formik?.setFieldValue(inputItem?.name, value?.value);
+																inputItem?.name === "ownerName";
+																// &&
+																// setUserdata(value?.data);
+															}}
+															options={inputItem?.options}
+															noOptionText={
+																<div className="flex w-full flex-col gap-2" >
+																	<small className="tracking-wide" >
+																		No options found
+																	</small>
+																</div>
 															}
 														/>
-													);
-												})}
+													</div>
+												) : inputItem?.name === "enterPayRollName" ? (
+													<div className=" w-full py-4">
+														{formik.values[inputItem.name]?.length &&
+															formik?.values[inputItem.name]?.map((item: any) => {
+																return (
+																	<PayrollInputField
+																		name="item"
+																		error={Boolean(
+																			formik?.touched?.enterPayRollName &&
+																			formik?.errors?.enterPayRollName
+																		)}
+																		value={item.value}
+																		amount={item?.amount}
+																		onChange={(amount: any, value: any) =>
+																			handleFormikOnChange(
+																				formik,
+																				amount,
+																				value,
+																				item?.key
+																			)
+																		}
+																	/>
+																);
+															})}
 
-											<button
-												onClick={() => handleClick(inputItem?.name, formik)}
-												type="button"
-												className="mt-5 flex items-center gap-1 rounded-md bg-theme px-4 py-2 text-sm text-white transition-all duration-300 ease-in-out hover:scale-105"
-											>
-												<Add className="!text-[1.3rem]" /> Add More
-											</button>
-										</div>
-									) : (
-										<div className={"py-4"}>
-											<TextInput
-												fullWidth
-												key={index}
-												name={inputItem?.name}
-												options={inputItem.options}
-												title={inputItem?.label}
-												multiline={inputItem?.multiline}
-												rows={inputItem?.rows}
-												type={inputItem?.type as any}
-												startIcon={inputItem?.icon}
-												styleContact={inputItem?.styleContact}
-												error={Boolean(
-													formik?.touched[inputItem.name] &&
-														formik?.errors[inputItem.name]
+														<button
+															onClick={() => handleClick(inputItem?.name, formik)}
+															type="button"
+															className="mt-5 flex items-center gap-1 rounded-md bg-theme px-4 py-2 text-sm text-white transition-all duration-300 ease-in-out hover:scale-105"
+														>
+															<Add className="!text-[1.3rem]" /> Add More
+														</button>
+													</div>
+												) : (
+													<div className={"py-4"} >
+														<TextInput
+															fullWidth
+															key={index}
+															name={inputItem?.name}
+															options={inputItem.options}
+															title={inputItem?.label}
+															multiline={inputItem?.multiline}
+															rows={inputItem?.rows}
+															size={inputItem?.size}
+															type={inputItem?.type as any}
+															startIcon={inputItem?.icon}
+															styleContact={inputItem?.styleContact}
+															error={
+																Boolean(
+																	formik?.touched[inputItem.name] &&
+																	formik?.errors[inputItem.name]
+																)}
+															helperText={
+																formik?.touched[inputItem.name] &&
+																(formik?.errors[inputItem.name] as any)
+															}
+															value={formik?.values[inputItem.name]}
+															onChange={formik?.handleChange}
+															onBlur={formik?.handleBlur}
+														/>
+													</div>
 												)}
-												helperText={
-													formik?.touched[inputItem.name] &&
-													(formik?.errors[inputItem.name] as any)
-												}
-												value={formik?.values[inputItem.name]}
-												onChange={formik?.handleChange}
-												onBlur={formik?.handleBlur}
-											/>
-										</div>
-									)}
-								</div>
-							))}
+											</div>
+										))}
 
-							<div>
-								<div className="mt-2 mb-2">
-									<LoadingButton
-										className="btn-background !bg-primary"
-										variant="contained"
-										type="submit"
-										fullWidth
-										disabled={formik.isSubmitting || !formik.isValid}
-										loading={formik.isSubmitting}
-										loadingPosition="start"
-										startIcon={<Done />}
-									>
-										Submit
-									</LoadingButton>
-								</div>
-							</div>
-						</Form>
-					)}
-				</Formik>
-			</div>
-		</Container>
+										<div>
+											<div className="flex justify-center md:py-4 py-1">
+												<Button
+													type="submit"
+													variant="contained"
+													className="!bg-theme"
+													disabled={loading}
+													startIcon={
+														loading ? (
+															<CircularProgress size={20} color="warning" />
+														) : (
+															<Done />
+														)
+													}
+												>
+													SAVE
+												</Button>
+											</div>
+										</div>
+									</Form>
+								)}
+							</Formik>
+						</div>
+					</div>
+				</section>
+			</section>
+		</PanelLayout>
 	);
 };
 
 export default AddPrescription;
+const links = [
+	{ id: 1, page: "Payroll", link: "/admin/payroll" },
+	{ id: 2, page: "Add Salary Info", link: "/admin/payroll/add-salary-info" },
+];
