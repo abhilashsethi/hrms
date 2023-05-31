@@ -50,11 +50,10 @@ const GuestDetails = () => {
     {
       id: 4,
       title: "Date Of Joining",
-      value: `${
-        employData?.joiningDate
+      value: `${employData?.joiningDate
           ? moment(employData?.joiningDate).format("ll")
           : "---"
-      }`,
+        }`,
     },
     {
       id: 5,
@@ -65,9 +64,8 @@ const GuestDetails = () => {
     {
       id: 6,
       title: "Date Of Birth",
-      value: `${
-        employData?.dob ? moment(employData?.dob).format("ll") : "---"
-      }`,
+      value: `${employData?.dob ? moment(employData?.dob).format("ll") : "---"
+        }`,
     },
     {
       id: 7,
@@ -87,9 +85,8 @@ const GuestDetails = () => {
     {
       id: 9,
       title: "Department Id",
-      value: `${
-        employData?.department?.name ? employData?.department?.name : "---"
-      }`,
+      value: `${employData?.department?.name ? employData?.department?.name : "---"
+        }`,
     },
     {
       id: 9,
@@ -97,50 +94,7 @@ const GuestDetails = () => {
       value: `${employData?.wallet ? employData?.wallet : "---"}`,
     },
   ];
-  const personalDetails = [
-    {
-      id: 1,
-      title: "PAN No",
-      value: `${employData?.panNo ? employData?.panNo : "---"}`,
-    },
-    {
-      id: 2,
-      title: "Aadhar No",
-      value: `${employData?.aadharNo ? employData?.aadharNo : "---"}`,
-    },
-    {
-      id: 3,
-      title: "Gmail",
-      value: `${employData?.gmail ? employData?.gmail : "---"}`,
-    },
-    {
-      id: 5,
-      title: "Linkedin",
-      value: `${employData?.linkedin ? employData?.linkedin : "---"}`,
-    },
-    {
-      id: 6,
-      title: "Github",
-      value: `${employData?.github ? employData?.github : "---"}`,
-    },
-  ];
-  const bankDetails = [
-    {
-      id: 1,
-      title: "Bank Name",
-      value: `${employData?.bankName ? employData?.bankName : "---"}`,
-    },
-    {
-      id: 2,
-      title: "Bank Ac/No",
-      value: `${employData?.accountNo ? employData?.accountNo : "---"}`,
-    },
-    {
-      id: 3,
-      title: "IFSC Code",
-      value: `${employData?.IFSCCode ? employData?.IFSCCode : "---"}`,
-    },
-  ];
+
   if (isLoading) {
     return <Loader />;
   }
