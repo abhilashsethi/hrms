@@ -10,6 +10,8 @@ import { ChatProfileDrawer } from "components/drawer";
 import { useAuth } from "hooks";
 import moment from "moment";
 import React, { useState } from "react";
+import TextMessage from "./TextMessage";
+import DefaultChatView from "./DefaultChatView";
 
 interface Props {
   id?: number;
@@ -29,6 +31,7 @@ const ChatRightSection = ({ activeProfile }: any) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  console.log(chats);
   return (
     <>
       <ChatProfileDrawer
@@ -38,7 +41,7 @@ const ChatRightSection = ({ activeProfile }: any) => {
       />
       <div className="md:w-[70%] xl:w-[77%] h-full">
         {!activeProfile?.name ? (
-          <DefaultAnimation />
+          <DefaultChatView />
         ) : (
           <div className="w-full h-full">
             <div className="py-2 px-4 w-full border-b-2 flex justify-between items-center">
@@ -98,54 +101,35 @@ const ChatRightSection = ({ activeProfile }: any) => {
               </div>
             </div>
             <div className="h-[72%] overflow-y-auto">
-              <div className="px-4">
+              <div className="px-4 pb-4">
                 {chats?.map((item) => (
                   <div
                     key={item?.id}
                     className={`mt-4 flex ${
                       item?.sendBy === "sender"
                         ? `justify-start`
-                        : `justify-end`
+                        : item?.sendBy === "you"
+                        ? `justify-end`
+                        : "justify-center"
                     }`}
                   >
-                    <div className="max-w-[50%] flex gap-1">
-                      <div className="w-[10%] h-10 flex justify-center items-start">
-                        <div className="h-8 w-8 bg-slate-200 rounded-full overflow-hidden shadow-md">
-                          {item?.sendBy === "sender" ? (
-                            <PhotoViewerSmall
-                              size="2rem"
-                              photo={activeProfile?.photo}
-                              name={activeProfile?.name}
-                            />
-                          ) : (
-                            <PhotoViewerSmall
-                              size="2rem"
-                              photo={user?.photo}
-                              name={user?.name}
-                            />
-                          )}
-                        </div>
-                      </div>
-                      <div className="w-[85%]">
-                        <div className="flex gap-1 items-center text-slate-600">
-                          <span className="text-xs">
-                            {item?.sendBy === "sender"
-                              ? activeProfile?.name
-                              : `You`}
-                          </span>
-                          ,
-                          <span className="text-xs">
-                            {moment(new Date()).format("ll")}
-                          </span>
-                        </div>
-                        <div className="w-full bg-blue-100 py-2 px-4 tracking-wide rounded-md text-sm">
-                          Lorem ipsum dolor, sit amet consectetur adipisicing
-                          elit. Asperiores animi ratione omnis aliquid magnam
-                          ipsa dolore, laborum illo nostrum! Veniam incidunt
-                          animi amet nostrum dignissimos.
-                        </div>
-                      </div>
-                    </div>
+                    <>
+                      {item?.type === "text" ? (
+                        <TextMessage
+                          data={item}
+                          activeProfile={activeProfile}
+                        />
+                      ) : item?.type === "image" ? (
+                        <ImageMessage
+                          data={item}
+                          activeProfile={activeProfile}
+                        />
+                      ) : item?.type === "event" ? (
+                        <EventTemplate data={item} />
+                      ) : (
+                        "No format specified"
+                      )}
+                    </>
                   </div>
                 ))}
               </div>
@@ -173,23 +157,140 @@ const ChatRightSection = ({ activeProfile }: any) => {
 export default ChatRightSection;
 
 const chats = [
-  { id: 1, text: "Hey! Where are you ri8 now?", sendBy: "sender" },
-  { id: 2, text: "Hey! Where are you ri8 now?", sendBy: "sender" },
-  { id: 3, text: "Hey! Where are you ri8 now?", sendBy: "you" },
-  { id: 4, text: "Hey! Where are you ri8 now?", sendBy: "you" },
-  { id: 5, text: "Hey! Where are you ri8 now?", sendBy: "you" },
-  { id: 6, text: "Hey! Where are you ri8 now?", sendBy: "sender" },
-  { id: 7, text: "Hey! Where are you ri8 now?", sendBy: "sender" },
+  {
+    id: 1,
+    text: "Hey when you woke up?",
+    sendBy: "sender",
+    type: "text",
+    reaction: { text: "👍" },
+    author: {
+      id: 2,
+      name: "Srinu Reddy",
+      message: "Okay",
+      type: "person",
+      photo:
+        "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
+    },
+  },
+  { id: 2, text: "Yeah Early morning. 7:30 AM.", sendBy: "you", type: "text" },
+  {
+    id: 9,
+    text: "Abhilash changed this group's icon",
+    type: "event",
+  },
+  {
+    id: 8,
+    text: "If any case i will be available, i will let you know in the office only.",
+    link: "https://w0.peakpx.com/wallpaper/1008/1001/HD-wallpaper-tiger-black-look-thumbnail.jpg",
+    sendBy: "you",
+    type: "image",
+  },
+  {
+    id: 3,
+    text: "Have you gone through this new document shared by our sales team?",
+    sendBy: "you",
+    type: "text",
+  },
+  {
+    id: 4,
+    text: "Yeah, i had. I found some points confusing. let's meet and discuss about those topics today.",
+    sendBy: "sender",
+    type: "text",
+    author: {
+      id: 2,
+      name: "Srinu Reddy",
+      message: "Okay",
+      type: "person",
+      photo:
+        "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
+    },
+  },
+  {
+    id: 5,
+    text: "By the way when we will meet for this discussion?",
+    sendBy: "you",
+    type: "text",
+  },
+  {
+    id: 6,
+    text: "I am not sure whether i can be available for today or not. Because today i have many works and a hectic busy schedules. So we may discuss later.",
+    sendBy: "sender",
+    type: "text",
+    author: {
+      id: 2,
+      name: "Srinu Reddy",
+      message: "Okay",
+      type: "person",
+      photo:
+        "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
+    },
+  },
+  {
+    id: 7,
+    text: "If any case i will be available, i will let you know in the office only.",
+    sendBy: "sender",
+    type: "text",
+    author: {
+      id: 2,
+      name: "Srinu Reddy",
+      message: "Okay",
+      type: "person",
+      photo:
+        "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
+    },
+  },
 ];
 
-const DefaultAnimation = () => {
+interface imageProps {
+  data?: any;
+  activeProfile?: any;
+}
+const ImageMessage = ({ data, activeProfile }: imageProps) => {
+  const { user } = useAuth();
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-4">
-      <img className="h-60 object-contain" src={CHATDEFAULT.src} alt="" />
-      <p className="text-center max-w-[70%] text-sm text-gray-600">
-        Elevate Your Business Communication. Connect, Collaborate, Succeed.
-        Empower Your Team with Seamless Chat Experience.
-      </p>
+    <div className="w-[35%] flex gap-1">
+      <div className="w-[3rem] h-10 flex justify-center items-start">
+        <div className="h-8 w-8 bg-slate-200 rounded-full overflow-hidden shadow-md">
+          {data?.sendBy === "sender" ? (
+            <PhotoViewerSmall
+              size="2rem"
+              photo={activeProfile?.photo}
+              name={activeProfile?.name}
+            />
+          ) : (
+            <PhotoViewerSmall
+              size="2rem"
+              photo={user?.photo}
+              name={user?.name}
+            />
+          )}
+        </div>
+      </div>
+      <div className="w-[85%]">
+        <div className="flex gap-1 items-center text-slate-600">
+          <span className="text-xs">
+            {data?.sendBy === "sender" ? activeProfile?.name : `You`}
+          </span>
+          ,<span className="text-xs">{moment(new Date()).format("ll")}</span>
+        </div>
+        <div className="w-full bg-blue-100 py-2 px-2 tracking-wide rounded-md text-sm">
+          <img
+            className="h-40 w-full rounded-md object-cover"
+            src={data?.link}
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const EventTemplate = ({ data }: any) => {
+  return (
+    <div className="flex justify-center items-center">
+      <span className="text-xs tracking-wide px-4 py-1 bg-slate-200 rounded-full">
+        {data?.text}
+      </span>
     </div>
   );
 };
