@@ -36,7 +36,7 @@ const ChatRightSection = ({ activeProfile }: any) => {
         open={isDrawer}
         onClose={() => setIsDrawer(false)}
       />
-      <div className="w-[70%] h-full">
+      <div className="md:w-[70%] xl:w-[77%] h-full">
         {!activeProfile?.name ? (
           <DefaultAnimation />
         ) : (
@@ -97,7 +97,7 @@ const ChatRightSection = ({ activeProfile }: any) => {
                 </Menu>
               </div>
             </div>
-            <div className="h-[25.5rem] overflow-y-auto">
+            <div className="h-[72%] overflow-y-auto">
               <div className="px-4">
                 {chats?.map((item) => (
                   <div
