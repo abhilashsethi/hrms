@@ -4,7 +4,12 @@ import { useRef, useState } from "react";
 
 const PhotoUpdateView = () => {
   const [isImage, setIsImage] = useState<any>(null);
-  const PhotoRef = useRef<any>();
+  const PhotoRef = useRef<HTMLInputElement>(null);
+  const handleButtonClick = () => {
+    if (PhotoRef.current) {
+      PhotoRef.current.focus();
+    }
+  };
   return (
     <div className="h-40 group relative w-40 rounded-full bg-slate-200 overflow-hidden border-[1px] shadow-md">
       <img
@@ -13,8 +18,8 @@ const PhotoUpdateView = () => {
         alt="image"
       />
       <div
-        onClick={() => PhotoRef?.current?.click()}
-        className="h-40 w-40 absolute hidden  bg-[#00000080] cursor-pointer rounded-full top-0 left-0 group-hover:flex justify-center items-center"
+        onClick={handleButtonClick}
+        className="h-40 w-40 absolute hidden bg-[#00000080] cursor-pointer rounded-full top-0 left-0 group-hover:flex justify-center items-center"
       >
         <div className="flex flex-col gap-2 justify-center items-center">
           <PhotoCamera className="!text-white" />
