@@ -1,11 +1,15 @@
-import { ClientToServerEvents, ServerToClientEvents } from "types";
+import {
+  ClientToServerEvents,
+  IGroupChatData,
+  ServerToClientEvents,
+} from "types";
 import { create } from "zustand";
 import { BASE_URL, getAccessToken } from "./useAPI";
 
 type ChatState = {
   isChatLoading?: boolean;
-  allPrivateChat: any[];
-  allGroupChat: any[];
+  allPrivateChat: IGroupChatData[];
+  allGroupChat: IGroupChatData[];
   currentChatMessage: any[];
   reValidatePrivateChat: () => void;
   reValidateGroupChat: () => void;
@@ -47,7 +51,7 @@ const useChatData = create<ChatState>((set, get) => ({
       const data = await response.json();
       set({
         isChatLoading: false,
-        allPrivateChat: data?.group,
+        allGroupChat: data?.data?.group,
       });
     } catch (error) {
       set({
@@ -70,7 +74,7 @@ const useChatData = create<ChatState>((set, get) => ({
       const data = await response.json();
       set({
         isChatLoading: false,
-        allPrivateChat: data?.group,
+        allPrivateChat: data?.data?.group,
       });
     } catch (error) {
       set({
