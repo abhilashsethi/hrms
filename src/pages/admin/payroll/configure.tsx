@@ -204,28 +204,12 @@ const Configure = () => {
 												helperText={touched.employerEsi && errors.employerEsi}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="tds">TDS %</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												type="number"
-												// placeholder="% for ESI"
-												id="tds"
-												name="tds"
-												value={values.tds}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.tds && !!errors.tds}
-												helperText={touched.tds && errors.tds}
-											/>
-										</div>
+
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="conveyance">
 													Conveyance allowances
+													<span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
@@ -246,6 +230,7 @@ const Configure = () => {
 											<div className="py-2">
 												<InputLabel htmlFor="medical">
 													Medical allowances
+													<span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
@@ -262,10 +247,11 @@ const Configure = () => {
 												helperText={touched.medical && errors.medical}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										{/* <div className="md:px-4 px-2 md:py-2 py-1 col-span-2">
 											<div className="py-2">
 												<InputLabel htmlFor="professional">
 													Professional Tax
+													<span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
@@ -281,6 +267,175 @@ const Configure = () => {
 												error={touched.professional && !!errors.professional}
 												helperText={touched.professional && errors.professional}
 											/>
+										</div> */}
+
+										<div className="flex md:px-4 px-2 md:py-2 py-1 col-span-2 justify-evenly">
+											<div>
+												<InputLabel
+													className="text-center"
+													htmlFor="professional"
+												>
+													Gross Salary
+													<span className="text-red-600">*</span>
+												</InputLabel>
+												<div className="flex gap-2">
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="From"
+														id="professional"
+														name="professional"
+														value={values.professional}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professional && !!errors.professional
+														}
+														helperText={
+															touched.professional && errors.professional
+														}
+													/>
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="TO"
+														id="professional"
+														name="professional"
+														value={values.professional}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professional && !!errors.professional
+														}
+														helperText={
+															touched.professional && errors.professional
+														}
+													/>
+												</div>
+												<div className="flex gap-2">
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="From"
+														id="professional"
+														name="professional"
+														value={values.professional}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professional && !!errors.professional
+														}
+														helperText={
+															touched.professional && errors.professional
+														}
+													/>
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="TO"
+														id="professional"
+														name="professional"
+														value={values.professional}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professional && !!errors.professional
+														}
+														helperText={
+															touched.professional && errors.professional
+														}
+													/>
+												</div>
+												<div className="flex gap-2">
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="Above last range"
+														id="professional"
+														name="professional"
+														value={values.professional}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professional && !!errors.professional
+														}
+														helperText={
+															touched.professional && errors.professional
+														}
+													/>
+												</div>
+											</div>
+											<div>
+												<InputLabel
+													className="text-center"
+													htmlFor="professional"
+												>
+													Professional Tax
+													<span className="text-red-600">*</span>
+												</InputLabel>
+												<div>
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="Tax Amount"
+														id="professional"
+														name="professional"
+														value={values.professional}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professional && !!errors.professional
+														}
+														helperText={
+															touched.professional && errors.professional
+														}
+													/>
+												</div>
+												<div>
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="Tax Amount"
+														id="professional"
+														name="professional"
+														value={values.professional}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professional && !!errors.professional
+														}
+														helperText={
+															touched.professional && errors.professional
+														}
+													/>
+												</div>
+												<div>
+													<TextField
+														size="small"
+														fullWidth
+														type="number"
+														placeholder="Tax Amount"
+														id="professional"
+														name="professional"
+														value={values.professional}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.professional && !!errors.professional
+														}
+														helperText={
+															touched.professional && errors.professional
+														}
+													/>
+												</div>
+											</div>
 										</div>
 									</div>
 									<div className="flex justify-center md:py-4 py-2">
