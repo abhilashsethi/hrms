@@ -95,7 +95,7 @@ const AddSalaryInfo = ({ open, handleClose, mutate }: Props) => {
 							setFieldValue,
 						}) => (
 							<Form>
-								<div className="md:px-4 px-2 md:py-2 py-1 ">
+								{/* <div className="md:px-4 px-2 md:py-2 py-1 ">
 									<div className="py-2">
 										<InputLabel htmlFor="chooseEmp">Choose Employee</InputLabel>
 									</div>
@@ -138,7 +138,7 @@ const AddSalaryInfo = ({ open, handleClose, mutate }: Props) => {
 											/>
 										)}
 									/>
-								</div>
+								</div> */}
 
 								<div className="md:px-4 px-2 md:py-2 py-1">
 									<div className="md:py-2 py-1">

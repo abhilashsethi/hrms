@@ -74,11 +74,11 @@ const Configure = () => {
 									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
 										Payroll Configuration
 									</h1>
-									{/* <div className="flex justify-end">
+									<div className="flex justify-end">
 										<Button variant="outlined" startIcon={<Add />}>
 											Add New Field
 										</Button>
-									</div> */}
+									</div>
 									<div className="grid lg:grid-cols-2">
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="md:py-2 py-1">
@@ -313,6 +313,6 @@ const Configure = () => {
 export default Configure;
 
 const links = [
-	{ id: 1, page: "Employees", link: "/admin/employees" },
-	{ id: 2, page: "Create Employee", link: "/admin/employees/create-employee" },
+	{ id: 1, page: "Payroll", link: "/admin/payroll" },
+	{ id: 2, page: "Configure", link: "/admin/employees/configure" },
 ];

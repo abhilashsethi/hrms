@@ -7,15 +7,17 @@ import {
   MoreVert,
   Notifications,
   NotificationsOutlined,
-  PermContactCalendar,
-  PermContactCalendarOutlined,
   Search,
+  Sms,
+  SmsOutlined,
 } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatGroupCreate } from "components/drawer";
+import { useFetch } from "hooks";
 import moment from "moment";
 import React, { useState } from "react";
+import { User } from "types";
 
 const ChatLeftbar = ({ setActiveProfile, activeProfile }: any) => {
   const [currentMenu, setCurrentMenu] = useState("Chats");
@@ -35,8 +37,8 @@ const ChatLeftbar = ({ setActiveProfile, activeProfile }: any) => {
             activeProfile={activeProfile}
           />
         );
-      case "Contacts":
-        return <Chats />;
+      case "New Chat":
+        return <Contacts />;
       case "Other":
         return <Chats />;
     }
@@ -97,9 +99,9 @@ const quickLinks = [
   },
   {
     id: 2,
-    icon: <PermContactCalendar fontSize="small" className="!text-theme" />,
-    optional: <PermContactCalendarOutlined fontSize="small" className="" />,
-    title: "Contacts",
+    icon: <Sms fontSize="small" className="!text-theme" />,
+    optional: <SmsOutlined fontSize="small" className="" />,
+    title: "New Chat",
   },
   {
     id: 3,
@@ -230,6 +232,40 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
               <span className="text-xs">
                 {moment(new Date().toISOString()).format("ll")}
               </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
+
+const Contacts = () => {
+  const { data: employeesData } = useFetch<User[]>(`users`);
+  return (
+    <>
+      <div className="border-2 flex gap-1 items-center px-2 rounded-md py-1">
+        <Search fontSize="small" />
+        <input
+          className="w-[85%] bg-white px-2 py-1 rounded-md text-sm"
+          type="text"
+          placeholder="Search People"
+        />
+      </div>
+      <div className="mt-2 flex flex-col gap-1 overflow-y-auto h-[75%]">
+        {employeesData?.map((item) => (
+          <div
+            key={item?.id}
+            className="h-16 w-full hover:bg-slate-100 transition-all ease-in-out duration-200 cursor-pointer flex gap-2 items-center px-2 py-2"
+          >
+            <PhotoViewerSmall
+              name={item?.name}
+              photo={item?.photo}
+              size="2.9rem"
+            />
+            <div>
+              <h1 className="text-sm font-semibold">{item?.name}</h1>
+              <h1 className="text-sm text-gray-600">Developer</h1>
             </div>
           </div>
         ))}
