@@ -15,14 +15,14 @@ import { ChangeEvent, FocusEvent } from 'react'
 
 type Props = {
   type:
-    | 'text'
-    | 'select'
-    | 'date'
-    | 'file'
-    | 'number'
-    | 'email'
-    | 'month'
-    | 'multi-select'
+  | 'text'
+  | 'select'
+  | 'date'
+  | 'file'
+  | 'number'
+  | 'email'
+  | 'month'
+  | 'multi-select'
   value?: any
   onChange?: (
     event:
@@ -89,7 +89,7 @@ const TextInput = ({
     case 'text':
       return (
         <div className={styleArea}>
-          <p className=" text-wider pb-2 font-medium">{title}</p>
+          <p className={`text-wider font-medium text-theme`}>{title}</p>
           <TextField
             disabled={disabled}
             fullWidth={fullWidth}
@@ -117,7 +117,7 @@ const TextInput = ({
     case 'number':
       return (
         <div className={styleArea}>
-          <p className=" text-wider pb-2 font-medium">{title}</p>
+          <p className={`text-wider font-medium text-theme`}>{title}</p>
           <TextField
             disabled={disabled}
             fullWidth={fullWidth}
@@ -146,7 +146,7 @@ const TextInput = ({
     case 'date':
       return (
         <div className={styleArea}>
-          <p className=" text-wider pb-2 font-medium">{title}</p>
+          <p className={`text-wider font-medium text-theme`}>{title}</p>
           <TextField
             disabled={disabled}
             fullWidth={fullWidth}
@@ -173,7 +173,7 @@ const TextInput = ({
     case 'file':
       return (
         <div className={styleField}>
-          <p className=" text-wider pb-2 font-medium">{title}</p>
+          <p className={`text-wider font-medium text-theme`}>{title}</p>
           <div className={styleField}>
             {/* <PhotoUpload value={image} onChange={onFileChange} /> */}
           </div>
@@ -241,8 +241,8 @@ const TextInput = ({
                         label={
                           date
                             ? new Date(value).toLocaleDateString('en-US', {
-                                weekday: 'long',
-                              })
+                              weekday: 'long',
+                            })
                             : value
                         }
                       />
