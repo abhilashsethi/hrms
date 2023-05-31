@@ -7,7 +7,7 @@ import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { CHATDEFAULT } from "assets/home";
 import { PhotoViewerSmall } from "components/core";
 import { ChatProfileDrawer } from "components/drawer";
-import { useAuth } from "hooks";
+import { useAuth, useChatData } from "hooks";
 import moment from "moment";
 import React, { useState } from "react";
 import TextMessage from "./TextMessage";
@@ -31,7 +31,9 @@ const ChatRightSection = ({ activeProfile }: any) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(chats);
+
+  const { currentChatMessage } = useChatData();
+
   return (
     <>
       <ChatProfileDrawer
@@ -40,7 +42,7 @@ const ChatRightSection = ({ activeProfile }: any) => {
         onClose={() => setIsDrawer(false)}
       />
       <div className="md:w-[70%] xl:w-[77%] h-full">
-        {!activeProfile?.name ? (
+        {!activeProfile?.id ? (
           <DefaultChatView />
         ) : (
           <div className="w-full h-full">

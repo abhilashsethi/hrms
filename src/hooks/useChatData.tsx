@@ -8,17 +8,34 @@ import { BASE_URL, getAccessToken } from "./useAPI";
 
 type ChatState = {
   isChatLoading?: boolean;
+  selectedChatId?: string;
   allPrivateChat: IGroupChatData[];
   allGroupChat: IGroupChatData[];
   currentChatMessage: any[];
-  reValidatePrivateChat: () => void;
-  reValidateGroupChat: () => void;
-  revalidateCurrentChat: (chatId: string) => void;
+  setSelectedChatId: (chatId: string) => void;
+  reValidatePrivateChat: () => Promise<void>;
+  reValidateGroupChat: () => Promise<void>;
+  revalidateCurrentChat: (chatId?: string) => Promise<void>;
 };
 const useChatData = create<ChatState>((set, get) => ({
   allGroupChat: [],
   allPrivateChat: [],
   currentChatMessage: [],
+  setSelectedChatId: async (chatId?: string) => {
+    if (chatId) {
+      set({
+        selectedChatId: chatId,
+      });
+
+      await get().revalidateCurrentChat(chatId);
+      return;
+    } else {
+      set({
+        selectedChatId: "",
+        currentChatMessage: [],
+      });
+    }
+  },
   revalidateCurrentChat: async (chatId) => {
     try {
       const token = getAccessToken();
@@ -29,7 +46,9 @@ const useChatData = create<ChatState>((set, get) => ({
         },
       });
       const data = await response.json();
-      console.log({ data });
+      set({
+        currentChatMessage: data?.data?.message,
+      });
     } catch (error) {
       set({
         currentChatMessage: [],
