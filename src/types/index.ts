@@ -232,3 +232,27 @@ export interface MeetingProps {
   lat?: number;
   lng?: number;
 }
+
+export interface ServerToClientEvents {
+  // USER_CONNECTED: ({ userId }: { userId: string }) => void;
+  // USER_DISCONNECT: ({ userId }: { userId: string }) => void;
+  [key: string]: ({ groupId }: { groupId: string }) => void;
+}
+
+export interface ClientToServerEvents {
+  USER_CONNECT: ({ userId }: { userId: string }) => void;
+  REFETCH_DATA: ({
+    userId,
+    groupId,
+  }: {
+    userId: string;
+    groupId: string;
+  }) => void;
+  SENT_MESSAGE: ({
+    userId,
+    groupId,
+  }: {
+    userId: string;
+    groupId: string;
+  }) => void;
+}

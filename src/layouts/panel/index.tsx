@@ -1,6 +1,7 @@
 import { Logout, Settings } from "@mui/icons-material";
 import {
   Avatar,
+  Badge,
   Divider,
   ListItemIcon,
   ListItemText,
@@ -10,7 +11,7 @@ import {
 } from "@mui/material";
 import { CHATICON, NOTIFICATIONBELL } from "assets/home";
 import { PhotoViewerSmall } from "components/core";
-import { useAuth, useMenuItems } from "hooks";
+import { useAuth, useFetch, useMenuItems, useSocket } from "hooks";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -21,12 +22,20 @@ type Props = {
   children: JSX.Element | JSX.Element[];
   title?: string;
 };
+
+type NewMessageCountType = {
+  totalUnread: number;
+};
+
 const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
   const { user, setUser, validateUser, logout } = useAuth();
+  const { connect, socketRef } = useSocket();
   const router = useRouter();
   const MenuItems: any = useMenuItems();
   const [isOpen, setIsOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { data: chatCount, mutate } =
+    useFetch<NewMessageCountType>(`chat/unread`);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -40,6 +49,8 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
       const currentUser = await validateUser();
       if (!currentUser) return router.push(`/`);
       setUser(currentUser);
+      //connect to socket
+      connect();
     })();
   }, []);
 
@@ -151,13 +162,24 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                     }
                   >
                     <Tooltip title="Chats">
-                      <p className="cursor-pointer rounded-lg group bg-[#ffeb6b87] hover:bg-white transition-all ease-in-out duration-200 p-2 shadow-md">
-                        <img
-                          className="h-5 object-contain group-hover:scale-105 transition-all ease-in-out duration-200"
-                          src={CHATICON.src}
-                          alt=""
-                        />
-                      </p>
+                      <Badge
+                        badgeContent={
+                          (chatCount?.totalUnread &&
+                            (chatCount?.totalUnread > 99
+                              ? "99+"
+                              : chatCount?.totalUnread)) ||
+                          undefined
+                        }
+                        color="warning"
+                      >
+                        <p className="cursor-pointer rounded-lg group bg-[#ffeb6b87] hover:bg-white transition-all ease-in-out duration-200 p-2 shadow-md">
+                          <img
+                            className="h-5 object-contain group-hover:scale-105 transition-all ease-in-out duration-200"
+                            src={CHATICON.src}
+                            alt=""
+                          />
+                        </p>
+                      </Badge>
                     </Tooltip>
                   </Link>
                   <Link
