@@ -11,13 +11,16 @@ import {
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatProfileDrawer } from "components/drawer";
-import { useAuth } from "hooks";
-import React, { useState } from "react";
+import { useAuth, useChatData } from "hooks";
+import moment from "moment";
+import { useState, MouseEvent } from "react";
 import DefaultChatView from "./DefaultChatView";
 import ImageMessage from "./ImageMessage";
 import TextMessage from "./TextMessage";
 import { ChatSendCode, ChatSendFiles } from "components/dialogues";
 import CodeMessage from "./CodeMessage";
+import DocMessage from "./DocMessage";
+import ChatMessage from "./ChatMessage";
 
 interface Props {
   id?: number;
@@ -31,14 +34,17 @@ const ChatRightSection = ({ activeProfile }: any) => {
   const [isDrawer, setIsDrawer] = useState(false);
   const [isCode, setIsCode] = useState(false);
   const { user } = useAuth();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { currentChatMessage } = useChatData();
+
   const actions = [
     { icon: <FileCopy />, name: "Copy" },
     { icon: <Save />, name: "Save" },
@@ -53,7 +59,7 @@ const ChatRightSection = ({ activeProfile }: any) => {
         onClose={() => setIsDrawer(false)}
       />
       <div className="md:w-[70%] xl:w-[77%] h-full">
-        {!activeProfile?.name ? (
+        {!activeProfile?.id ? (
           <DefaultChatView />
         ) : (
           <div className="w-full h-full">
@@ -127,7 +133,8 @@ const ChatRightSection = ({ activeProfile }: any) => {
                     }`}
                   >
                     <>
-                      {item?.type === "text" ? (
+                      <ChatMessage data={item} activeProfile={activeProfile} />
+                      {/* {item?.type === "text" ? (
                         <TextMessage
                           data={item}
                           activeProfile={activeProfile}
@@ -141,9 +148,11 @@ const ChatRightSection = ({ activeProfile }: any) => {
                         <EventTemplate data={item} />
                       ) : item?.type === "code" ? (
                         <CodeMessage data={item} />
+                      ) : item?.type === "code" ? (
+                        <DocMessage data={item} />
                       ) : (
                         "No format specified"
-                      )}
+                      )} */}
                     </>
                   </div>
                 ))}
@@ -214,6 +223,12 @@ const chats = [
     link: "https://w0.peakpx.com/wallpaper/1008/1001/HD-wallpaper-tiger-black-look-thumbnail.jpg",
     sendBy: "you",
     type: "image",
+  },
+  {
+    id: 13,
+    text: "By the way when we will meet for this discussion?",
+    sendBy: "sender",
+    type: "doc",
   },
   {
     id: 12,

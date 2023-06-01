@@ -114,7 +114,7 @@ const quickLinks = [
 const Chats = ({ setActiveProfile, activeProfile }: any) => {
   const [afterSearchable, setAfterSearchable] = useState<IGroupChatData[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const { allPrivateChat } = useChatData();
+  const { allPrivateChat, setSelectedChatId, selectedChatId } = useChatData();
 
   //searching and filtering done locally
   useEffect(() => {
@@ -143,18 +143,18 @@ const Chats = ({ setActiveProfile, activeProfile }: any) => {
           onChange={(e) => setSearchTitle(e?.target?.value)}
         />
       </div>
-      <div className="mt-2">
+      {/* <div className="mt-2">
         <span className="text-sm">
           Recent Chats <KeyboardArrowDown fontSize="small" />
         </span>
-      </div>
+      </div> */}
       <div className="mt-2 flex flex-col gap-1">
         {afterSearchable?.map((item) => (
           <div
-            onClick={() => setActiveProfile(item)}
+            onClick={() => setSelectedChatId(item?.id)}
             key={item?.id}
             className={`h-16 w-full px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
-              activeProfile?.id === item?.id ? `bg-blue-100` : ``
+              selectedChatId === item?.id ? `bg-blue-100` : ``
             }`}
           >
             <PhotoViewerSmall
@@ -171,9 +171,11 @@ const Chats = ({ setActiveProfile, activeProfile }: any) => {
                     : item?.lastMessage?.message}
                 </span>
               </div>
-              <span className="text-xs">
-                {moment(item?.lastMessage?.createdAt).format("ll")}
-              </span>
+              <div className="flex flex-col gap-2">
+                <span className="text-xs">
+                  {moment(item?.lastMessage?.createdAt).format("ll")}
+                </span>
+              </div>
             </div>
           </div>
         ))}
@@ -195,7 +197,7 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
 
   const [afterSearchable, setAfterSearchable] = useState<IGroupChatData[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const { allGroupChat } = useChatData();
+  const { allGroupChat, setSelectedChatId, selectedChatId } = useChatData();
 
   //searching and filtering done locally
   useEffect(() => {
@@ -260,10 +262,10 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
       <div className="mt-2 flex flex-col gap-1">
         {groups?.map((item) => (
           <div
-            onClick={() => setActiveProfile(item)}
+            onClick={() => setSelectedChatId(item?.id)}
             key={item?.id}
             className={`h-16 w-full transition-all ease-in-out duration-300 px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
-              activeProfile?.id === item?.id ? `bg-blue-100` : ``
+              selectedChatId === item?.id ? `bg-blue-100` : ``
             }`}
           >
             <PhotoViewerSmall
