@@ -33,6 +33,14 @@ const ViewPayrollDetails = () => {
 	);
 	console.log(Professional_Tax?.tax);
 
+	const Tds: any = employData?.tds;
+	const Tds_Amount =
+		Gross_Salary - (Configs?.conveyanceAllowances + Configs?.medicalAllowances);
+	const Tds_Amount_Yearly = Tds_Amount * 12;
+	const Tds_Yearly = (Tds_Amount_Yearly * Tds) / 100;
+	const Tds_Monthly = Tds_Yearly / 12;
+	// console.log(Tds_Monthly);
+
 	const payroll = [
 		{
 			id: 1,
@@ -99,7 +107,7 @@ const ViewPayrollDetails = () => {
 			name: "Professional Tax",
 			count: `${Gross_Salary ? Professional_Tax?.tax : "---"}`,
 		},
-		{ id: 2, name: "TDS", count: "25.00 Rs." },
+		{ id: 2, name: "TDS", count: `${Gross_Salary ? Tds_Monthly : "---"}` },
 		{ id: 2, name: "Total Deduction", count: "25.00 Rs." },
 		{ id: 2, name: "Net Salary", count: "25.00 Rs." },
 	];

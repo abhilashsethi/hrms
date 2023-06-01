@@ -89,6 +89,7 @@ export type User = {
   gender?: Gender;
   gmail?: string | null;
   grossSalary?: number;
+  tds?: number;
   github?: string | null;
   IFSCCode?: string | null;
   bankName?: string | null;
@@ -107,6 +108,8 @@ export type User = {
     updatedAt?: string;
   };
   wallet?: number;
+  lastActiveTime?: string;
+  isOnline?: boolean;
   ChatMember: {
     chatGroupId: string;
   }[];
@@ -292,7 +295,6 @@ export interface IChatGroup {
   title: string;
   totalMembers: number;
   id: string;
-  _id: string;
 }
 export interface IChatMember {
   isAdmin: boolean;

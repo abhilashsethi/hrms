@@ -264,7 +264,7 @@ const GroupChats = () => {
             }`}
           >
             <PhotoViewerSmall
-              name={item?.lastMessage?.sender}
+              name={item?.title}
               photo={item?.photo || ""}
               size="3rem"
             />
