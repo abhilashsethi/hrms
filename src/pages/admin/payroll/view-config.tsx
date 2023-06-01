@@ -1,18 +1,10 @@
-import MaterialTable from "@material-table/core";
-import { Download, Info, PeopleRounded } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
-import { DEFAULTPROFILE } from "assets/home";
-import {
-	AdminBreadcrumbs,
-	CopyClipboard,
-	HeadStyle,
-	PhotoViewer,
-} from "components/core";
-import { SalaryInfo } from "components/dialogues";
+import ICONS from "assets/icons";
+import { AdminBreadcrumbs, HeadText } from "components/core";
+import { ProfessionalTaxInfo } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
-import { MuiTblOptions, getDataWithSL } from "utils";
 
 const ViewConfig = () => {
 	const [isInfo, setIsInfo] = useState<boolean>(false);
@@ -26,137 +18,70 @@ const ViewConfig = () => {
 		setIsInfo(true);
 		setTaxDetails(data);
 	};
-	console.log(taxDetails);
+	// console.log(taxDetails);
 
 	return (
 		<PanelLayout title="View Config - Admin Panel">
-			<section className="px-8 py-4">
-				<SalaryInfo
-					open={isInfo}
-					handleClose={() => setIsInfo(false)}
-					data={taxDetails}
-				/>
-				<AdminBreadcrumbs links={links} />
-				<div className="mt-4">
-					<MaterialTable
-						title={<HeadStyle name="View Config" icon={<PeopleRounded />} />}
-						data={configData ? getDataWithSL<any>(configData) : []}
-						isLoading={!configData}
-						options={{ ...MuiTblOptions() }}
-						columns={[
-							{
-								title: "#",
-								field: "sl",
-								editable: "never",
-								width: "2%",
-							},
-							{
-								title: "Basic Salary",
-								tooltip: "Basic Salary",
-								field: "basicSalary",
-								// editable: "never",
-								// render: ({ item }) => {
-								// 	return (
-								// 		<PhotoViewer
-								// 			size="2.5rem"
-								// 			photo={DEFAULTPROFILE?.src}
-								// 			name={`${item?.name}`}
-								// 		/>
-								// 	);
-								// },
-							},
-							{
-								title: "HRA",
-								tooltip: "HRA",
-								field: "hra",
-								// editable: "never",
-							},
-							{
-								title: "PF Employee",
-								tooltip: "PF Employee",
-								field: "pfEmployee",
-								// editable: "never",
-								// render: (item) => {
-								// 	return (
-								// 		<div className="font-semibold">
-								// 			<CopyClipboard value={item?.empId} />
-								// 		</div>
-								// 	);
-								// },
-							},
-							{
-								title: "PF Employer",
-								tooltip: "PF Employer",
-								field: "pfEmployer",
-								editable: "never",
-								// render: (item) => {
-								// 	return <CopyClipboard value={item?.email} />;
-								// },
-							},
+			<AdminBreadcrumbs links={links} />
 
-							{
-								title: "ESI Employee",
-								tooltip: "ESI Employee",
-								field: "esiEmployee",
-							},
-							{
-								title: "ESI Employer",
-								tooltip: "ESI Employer",
-								field: "esiEmployer",
-							},
-							{
-								title: "Conveyance Allowances",
-								tooltip: "Conveyance Allowances",
-								field: "conveyanceAllowances",
-							},
-							{
-								title: "Medical Allowances",
-								tooltip: "Medical Allowances",
-								field: "medicalAllowances",
-							},
-							// {
-							// 	title: "Payslip",
-							// 	tooltip: "Payslip",
-							// 	field: "salary",
-							// 	editable: "never",
-							// 	render: ({ item }) => {
-							// 		return (
-							// 			<Tooltip title="Download Payslip">
-							// 				<IconButton>
-							// 					<Download className="!text-emerald-500" />
-							// 				</IconButton>
-							// 			</Tooltip>
-							// 		);
-							// 	},
-							// },
-							// {
-							// 	title: "Status",
-							// 	tooltip: "Status",
-							// 	field: "status",
-							// 	lookup: { paid: "Paid", unpaid: "Unpaid" },
-							// },
-							{
-								title: "Details",
-								tooltip: "Details",
-								editable: "never",
-								// field: "details",
-								render: (row) => {
-									return (
-										<Tooltip title="Details">
-											<IconButton onClick={() => handleInfoOpen(row)}>
-												<Info className="!text-blue-500" />
-											</IconButton>
-										</Tooltip>
-									);
-								},
-							},
-						]}
-						editable={{
-							onRowUpdate: async (oldData, newData) => {
-								console.log(newData);
-							},
-						}}
+			<section className="w-full px-0 md:py-4 py-2 flex justify-center items-center">
+				<div className="md:p-6 p-2 md:w-2/4 w-full rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+					<ProfessionalTaxInfo
+						open={isInfo}
+						handleClose={() => setIsInfo(false)}
+						data={configData}
+						ptTax={configData?.length && configData[0]?.ptTaxes}
 					/>
+					<div className="mt-4">
+						<div className="text-xl pb-2 flex justify-between items-center">
+							<HeadText title="Payroll Config" />
+							<Tooltip title="Edit">
+								<IconButton onClick={() => setIsInfo(true)}>
+									<ICONS.Edit className="h-6 w-6" />
+								</IconButton>
+							</Tooltip>
+						</div>
+						<div className="flex gap-2 items-center font-medium py-1.5">
+							{configData?.length && (
+								<div className="">
+									<p className="text-sm text-gray-600">
+										Basic Salary %: {configData[0]?.basicSalary}
+									</p>
+									<p className="text-sm text-gray-600">
+										HRA % : {configData[0]?.basicSalary}
+									</p>
+									<p className="text-sm text-gray-600">
+										Conveyance Allowances: {configData[0]?.conveyanceAllowances}
+									</p>
+									<p className="text-sm text-gray-600">
+										Medical Allowances: {configData[0]?.medicalAllowances}
+									</p>
+									<p className="text-sm text-gray-600">
+										PF Employee %: {configData[0]?.pfEmployee}
+									</p>
+									<p className="text-sm text-gray-600">
+										PF Employer %: {configData[0]?.pfEmployer}
+									</p>
+									<p className="text-sm text-gray-600">
+										ESI Employee %: {configData[0]?.esiEmployee}
+									</p>
+									<p className="text-sm text-gray-600">
+										ESI Employer %: {configData[0]?.esiEmployer}
+									</p>
+									<p className="text-md font-semibold">Professional Tax Slab</p>
+									{configData[0]?.ptTaxes?.map((item: any) => {
+										return (
+											<div className="flex gap-3 w-full text-sm">
+												<p>Form : {item?.startGrossSalary}</p>
+												<p>To : {item?.endGrossSalary}</p>-
+												<p>Tax : {item?.tax}</p>
+											</div>
+										);
+									})}
+								</div>
+							)}
+						</div>
+					</div>
 				</div>
 			</section>
 		</PanelLayout>
