@@ -296,6 +296,25 @@ export default () => {
 				],
 			},
 			{
+				key: "11",
+				title: "Branch",
+				icon: <ICONS.Departments />,
+				submenus: [
+					{
+						key: "10-1",
+						title: "Dashboard",
+						icon: <ICONS.Dashboard_1 />,
+						route: "/admin/branch",
+					},
+					{
+						key: "10-2",
+						title: "All Branches",
+						icon: <ICONS.All_Departments />,
+						route: "/admin/branch/all-branch",
+					},
+				],
+			},
+			{
 				key: "20",
 				title: "Email Templates",
 				icon: <ICONS.Email_Template />,

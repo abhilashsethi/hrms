@@ -7,8 +7,8 @@ import {
 } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { ChatSendCode, ChatSendFiles } from "components/dialogues";
-import { useRef, useState, MouseEvent } from "react";
 import { useAuth, useChatData } from "hooks";
+import { useRef, useState } from "react";
 import ChatHead from "./ChatHead";
 import ChatMessage from "./ChatMessage";
 import DefaultChatView from "./DefaultChatView";
