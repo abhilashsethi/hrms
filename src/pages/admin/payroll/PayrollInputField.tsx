@@ -7,16 +7,9 @@ import { TextField } from '@mui/material'
 const DrugInputField = ({
   name,
   onChange,
-  onBlur,
   value,
-  amount,
-  key,
-  defaultValue,
-  className,
-  options,
-  error,
+  title,
   helperText,
-  handleClick,
 }: any) => {
   // const [inputs, setInputs] = useState([{ value: '', amount: '' }])
   const [isBlur, setIsBlur] = useState(false)
@@ -29,17 +22,16 @@ const DrugInputField = ({
           <div className="flex flex-col">
             <TextField
               name={name}
-              onChange={(e) => {
-                onChange(amount, e?.target?.value)
-              }}
               size='small'
-              onBlur={() => setIsBlur(true)}
-              value={value}
-              // value={input.value}
-              // onChange={(e) => handleNameChange(index, e)}
+              onChange={(e) => {
+                onChange(e?.target?.value, value)
+              }}
+              onBlur={() => setIsAmountBlur(true)}
+              value={title}
               type="text"
               placeholder="Enter Payroll Name"
             />
+
             {!value && isBlur ? (
               <FormHelperText className="!text-red-600">
                 {helperText}
@@ -49,16 +41,16 @@ const DrugInputField = ({
           <div className="flex flex-col">
             <TextField
               name={name}
-              size='small'
               onChange={(e) => {
-                onChange(e?.target?.value, value)
+                onChange(title, e?.target?.value)
               }}
-              onBlur={() => setIsAmountBlur(true)}
-              value={amount}
-              type="text"
+              size='small'
+              onBlur={() => setIsBlur(true)}
+              value={Number(value)}
+              type="number"
               placeholder="Enter Amount"
             />
-            {isAmountBlur && !amount ? (
+            {isAmountBlur && !title ? (
               <FormHelperText className="!text-red-600">
                 {helperText}
               </FormHelperText>

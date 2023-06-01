@@ -18,7 +18,7 @@ export { default as DocPreview } from "./DocPreview";
 export { default as UpdateClient } from "./UpdateClient";
 export { default as ChangeClientProfile } from "./ChangeClientProfile";
 export { default as ProjectCreateTask } from "./ProjectCreateTask";
-export { default as SalaryInfo } from "./SalaryInfo";
+export { default as ProfessionalTaxInfo } from "./ProfessionalTaxInfo";
 export { default as ChangeGuestProfile } from "./ChangeGuestProfile";
 export { default as AddValidityForm } from "./AddValidityForm";
 export { default as ProjectCreateBug } from "./ProjectCreateBug";

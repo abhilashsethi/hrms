@@ -8,7 +8,7 @@ import {
 	HeadStyle,
 	PhotoViewer,
 } from "components/core";
-import { SalaryInfo } from "components/dialogues";
+// import { SalaryInfo } from "components/dialogues";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import { MuiTblOptions, getDataWithSL } from "utils";
@@ -18,7 +18,7 @@ const EmployeeSalary = () => {
 	return (
 		<PanelLayout title="Employee Salary - Admin Panel">
 			<section className="px-8 py-4">
-				<SalaryInfo open={isInfo} handleClose={() => setIsInfo(false)} />
+				{/* <SalaryInfo open={isInfo} handleClose={() => setIsInfo(false)} /> */}
 				<AdminBreadcrumbs links={links} />
 				<div className="mt-4">
 					<MaterialTable
