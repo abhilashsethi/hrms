@@ -45,6 +45,7 @@ const AdminAutocomplete = ({
         id="asynchronous-autocomplete"
         open={open}
         fullWidth
+        // getOptionLabel={(option: any) => option.name}
         onOpen={() => {
           setOpen(true)
         }}
@@ -53,8 +54,7 @@ const AdminAutocomplete = ({
         }}
         isOptionEqualToValue={isOptionEqualToValue}
         getOptionLabel={(option: any) =>
-          `${option.label} ${
-            option?.optionName ? `(${option?.optionName})` : ''
+          `${option.label} ${option?.optionName ? `(${option?.optionName})` : ''
           }`
         }
         onChange={onChange}

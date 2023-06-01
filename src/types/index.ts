@@ -232,3 +232,62 @@ export interface MeetingProps {
   lat?: number;
   lng?: number;
 }
+
+enum MessageCategory {
+  text,
+  link,
+  image,
+  code,
+  markup,
+  file,
+  event,
+}
+
+export interface IGroupChatData {
+  id: string;
+  isGroupBlocked: boolean;
+  isPrivateGroup: boolean;
+  lastMessage: {
+    category: MessageCategory;
+    createdAt: string;
+    isRead: boolean;
+    isSenderIsUser: boolean;
+    link: string;
+    message: string;
+    sender: string;
+    totalUnreadMessageCount: number;
+  };
+  title: string;
+  photo: string;
+}
+
+export interface ServerToClientEvents {
+  // USER_CONNECTED: ({ userId }: { userId: string }) => void;
+  // USER_DISCONNECT: ({ userId }: { userId: string }) => void;
+  [key: string]: ({ groupId }: { groupId: string }) => void;
+}
+
+export interface ClientToServerEvents {
+  USER_CONNECT: ({ userId }: { userId: string }) => void;
+  REFETCH_DATA: ({
+    userId,
+    groupId,
+  }: {
+    userId: string;
+    groupId: string;
+  }) => void;
+  SENT_MESSAGE: ({
+    userId,
+    groupId,
+  }: {
+    userId: string;
+    groupId: string;
+  }) => void;
+  USER_TYPING: ({
+    userId,
+    groupId,
+  }: {
+    userId: string;
+    groupId: string;
+  }) => void;
+}

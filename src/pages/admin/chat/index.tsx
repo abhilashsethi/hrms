@@ -1,6 +1,8 @@
+import { useChatData } from "hooks";
+
 import { ChatLeftBar, ChatRightSection } from "components/chat";
 import PanelLayout from "layouts/panel";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Chats = () => {
   const [activeProfile, setActiveProfile] = useState<{
@@ -10,6 +12,17 @@ const Chats = () => {
     message?: string;
     type?: string;
   }>({});
+
+  //calling context on index page to get all the data at first
+  const { reValidatePrivateChat, reValidateGroupChat } = useChatData();
+
+  useEffect(() => {
+    (() => {
+      reValidatePrivateChat();
+      reValidateGroupChat();
+    })();
+  }, []);
+
   return (
     <PanelLayout title="Chats - Admin Panel">
       <section className="px-6 py-4">

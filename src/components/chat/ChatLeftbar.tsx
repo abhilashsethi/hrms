@@ -14,10 +14,10 @@ import {
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatGroupCreate } from "components/drawer";
-import { useFetch } from "hooks";
+import { useChatData, useFetch } from "hooks";
 import moment from "moment";
-import React, { useState } from "react";
-import { User } from "types";
+import { useState, MouseEvent, useEffect } from "react";
+import { IGroupChatData, User } from "types";
 
 const ChatLeftbar = ({ setActiveProfile, activeProfile }: any) => {
   const [currentMenu, setCurrentMenu] = useState("Chats");
@@ -112,6 +112,25 @@ const quickLinks = [
 ];
 
 const Chats = ({ setActiveProfile, activeProfile }: any) => {
+  const [afterSearchable, setAfterSearchable] = useState<IGroupChatData[]>([]);
+  const [searchTitle, setSearchTitle] = useState("");
+  const { allPrivateChat } = useChatData();
+
+  //searching and filtering done locally
+  useEffect(() => {
+    (() => {
+      if (!allPrivateChat?.length) return;
+
+      let searchData = allPrivateChat?.filter((item) =>
+        searchTitle?.length
+          ? item?.title?.toLowerCase()?.includes(searchTitle?.toLowerCase())
+          : true
+      );
+
+      setAfterSearchable(searchData);
+    })();
+  }, [searchTitle, allPrivateChat?.length]);
+
   return (
     <>
       <div className="border-2 flex gap-1 items-center px-2 rounded-md py-1">
@@ -120,6 +139,8 @@ const Chats = ({ setActiveProfile, activeProfile }: any) => {
           className="w-[85%] bg-white px-2 py-1 rounded-md text-sm"
           type="text"
           placeholder="Search chats"
+          value={searchTitle}
+          onChange={(e) => setSearchTitle(e?.target?.value)}
         />
       </div>
       <div className="mt-2">
@@ -128,26 +149,30 @@ const Chats = ({ setActiveProfile, activeProfile }: any) => {
         </span>
       </div>
       <div className="mt-2 flex flex-col gap-1">
-        {profiles?.map((item) => (
+        {afterSearchable?.map((item) => (
           <div
             onClick={() => setActiveProfile(item)}
             key={item?.id}
             className={`h-16 w-full px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
-              activeProfile?.name === item?.name ? `bg-blue-100` : ``
+              activeProfile?.id === item?.id ? `bg-blue-100` : ``
             }`}
           >
             <PhotoViewerSmall
-              name={item?.name}
+              name={item?.title}
               photo={item?.photo}
               size="3rem"
             />
             <div className="w-[80%] flex justify-between ">
               <div>
-                <h1 className="text-sm font-semibold">{item?.name}</h1>
-                <span className="text-sm font-light">{item?.message}</span>
+                <h1 className="text-sm font-semibold">{item?.title}</h1>
+                <span className="text-sm font-light">
+                  {item?.lastMessage?.message?.length > 15
+                    ? item?.lastMessage?.message.slice(0, 15) + " ..."
+                    : item?.lastMessage?.message}
+                </span>
               </div>
               <span className="text-xs">
-                {moment(new Date().toISOString()).format("ll")}
+                {moment(item?.lastMessage?.createdAt).format("ll")}
               </span>
             </div>
           </div>
@@ -159,14 +184,34 @@ const Chats = ({ setActiveProfile, activeProfile }: any) => {
 
 const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
   const [isCreate, setIsCreate] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const [afterSearchable, setAfterSearchable] = useState<IGroupChatData[]>([]);
+  const [searchTitle, setSearchTitle] = useState("");
+  const { allGroupChat } = useChatData();
+
+  //searching and filtering done locally
+  useEffect(() => {
+    (() => {
+      if (!allGroupChat?.length) return;
+
+      let searchData = allGroupChat?.filter((item) =>
+        searchTitle?.length
+          ? item?.title?.toLowerCase()?.includes(searchTitle?.toLowerCase())
+          : true
+      );
+
+      setAfterSearchable(searchData);
+    })();
+  }, [searchTitle, allGroupChat?.length]);
+
   return (
     <>
       <ChatGroupCreate open={isCreate} onClose={() => setIsCreate(false)} />
@@ -177,6 +222,8 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
             className="w-[85%] bg-white px-2 py-1 rounded-md text-sm"
             type="text"
             placeholder="Search chats"
+            value={searchTitle}
+            onChange={(e) => setSearchTitle(e?.target?.value)}
           />
         </div>
         <div className="w-[10%]">
@@ -211,26 +258,30 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
         </span>
       </div>
       <div className="mt-2 flex flex-col gap-1">
-        {groups?.map((item) => (
+        {afterSearchable?.map((item) => (
           <div
             onClick={() => setActiveProfile(item)}
             key={item?.id}
             className={`h-16 w-full transition-all ease-in-out duration-300 px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
-              activeProfile?.name === item?.name ? `bg-blue-100` : ``
+              activeProfile?.id === item?.id ? `bg-blue-100` : ``
             }`}
           >
             <PhotoViewerSmall
-              name={item?.name}
-              photo={item?.photo}
+              name={item?.title}
+              photo={item?.photo || ""}
               size="3rem"
             />
             <div className="w-[80%] flex justify-between ">
               <div>
-                <h1 className="text-sm font-semibold">{item?.name}</h1>
-                <span className="text-sm font-light">{item?.message}</span>
+                <h1 className="text-sm font-semibold">{item?.title}</h1>
+                <span className="text-sm font-light">
+                  {item?.lastMessage?.message?.length > 15
+                    ? item?.lastMessage?.message.slice(0, 15) + " ..."
+                    : item?.lastMessage?.message}
+                </span>
               </div>
               <span className="text-xs">
-                {moment(new Date().toISOString()).format("ll")}
+                {moment(item?.lastMessage?.createdAt).format("ll")}
               </span>
             </div>
           </div>
@@ -294,11 +345,11 @@ const profiles: {
     name: "Srinu Reddy",
     message: "Okay",
     type: "person",
+    photo:
+      "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
   },
   {
     id: 3,
-    photo:
-      "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
     name: "Abhilash",
     message: "Done 👍",
     type: "person",
