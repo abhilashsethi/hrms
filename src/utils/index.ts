@@ -21,6 +21,8 @@ const awsCredentials = {
 const s3 = new S3Client(awsCredentials);
 const cloudFront = new CloudFrontClient(awsCredentials);
 
+export { default as sample } from "./codeblocks";
+
 export const MuiTblOptions = () => {
   const options: Options<any> = {
     headerStyle: {
