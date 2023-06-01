@@ -1,7 +1,7 @@
 import { FileDownload, Visibility } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { ChatImagePreview } from "components/dialogues";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface Props {
   data?: any;

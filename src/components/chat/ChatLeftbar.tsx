@@ -3,7 +3,6 @@ import {
   ChatOutlined,
   Group,
   GroupOutlined,
-  KeyboardArrowDown,
   MoreVert,
   Notifications,
   NotificationsOutlined,
@@ -16,7 +15,7 @@ import { PhotoViewerSmall } from "components/core";
 import { ChatGroupCreate } from "components/drawer";
 import { useChatData, useFetch } from "hooks";
 import moment from "moment";
-import { useState, MouseEvent, useEffect } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { IGroupChatData, User } from "types";
 
 const ChatLeftbar = () => {
