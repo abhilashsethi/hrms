@@ -34,8 +34,11 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
   const MenuItems: any = useMenuItems();
   const [isOpen, setIsOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { data: chatCount, mutate } =
-    useFetch<NewMessageCountType>(`chat/unread`);
+  const {
+    data: chatCount,
+    mutate: refetchChatCount,
+    isValidating: chatCountLoading,
+  } = useFetch<NewMessageCountType>(`chat/unread`);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -51,6 +54,19 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
       setUser(currentUser);
       //connect to socket
       connect();
+    })();
+  }, []);
+
+  //listen to all the chat event upon receiving event update the chat count
+  useEffect(() => {
+    (() => {
+      //get all the chat id that user currently present with
+      user?.ChatMember?.map((item) => {
+        return socketRef?.on(`MESSAGE_RECEIVED_${item?.chatGroupId}`, () => {
+          console.log(`listening-to-msg-${item?.chatGroupId}`);
+          !chatCountLoading && refetchChatCount?.();
+        });
+      });
     })();
   }, []);
 
