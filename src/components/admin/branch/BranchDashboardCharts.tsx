@@ -8,34 +8,22 @@ const BranchDashboardCharts = ({ data }: Props) => {
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
         <div className="px-2 py-4 w-full flex bg-white flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
-          <p className="font-bold text-lg text-center">Department Overview</p>
+          <p className="font-bold text-lg text-center">Country Wise Branch Overview</p>
           <DepartmentBarChart
-            labels={
-              data?.departmentWiseUsers?.length
-                ? data?.departmentWiseUsers?.map((item: any) => item.name)
-                : []
-            }
+            labels={["India", "PAKISTAN", "CHAINA", "BANGLADESH"]}
             data={
-              data?.departmentWiseUsers?.length
-                ? data?.departmentWiseUsers?.map((item: any) => item._count)
-                : []
+              ["10", "05", "08", "20"]
             }
             type="bar"
             text=""
           />
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-          <p className="text-lg font-bold text-center">Department Details</p>
+          <p className="text-lg font-bold text-center">Branch Wise Employee Overview</p>
           <DepartmentDonutChart
-            labels={
-              data?.departmentWiseUsers?.length
-                ? data?.departmentWiseUsers?.map((item: any) => item.name)
-                : []
-            }
+            labels={["SY-1", "SY-2", "SY-3" ]}
             series={
-              data?.departmentWiseUsers?.length
-                ? data?.departmentWiseUsers?.map((item: any) => item._count)
-                : []
+               [10, 60, 30]
             }
             text=""
             type="donut"

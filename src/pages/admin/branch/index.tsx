@@ -1,5 +1,4 @@
 import { BranchDashboardCards, BranchDashboardCharts } from "components/admin/branch";
-import { DashboardCards, DashboardCharts } from "components/admin/department";
 import { AdminBreadcrumbs, Loader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -23,4 +22,4 @@ const index = () => {
 };
 
 export default index;
-const links = [{ id: 1, page: "Departments", link: "/admin/department" }];
+const links = [{ id: 1, page: "Branch", link: "/admin/branch" }];
