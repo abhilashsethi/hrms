@@ -19,24 +19,14 @@ import moment from "moment";
 import { useState, MouseEvent, useEffect } from "react";
 import { IGroupChatData, User } from "types";
 
-const ChatLeftbar = ({ setActiveProfile, activeProfile }: any) => {
+const ChatLeftbar = () => {
   const [currentMenu, setCurrentMenu] = useState("Chats");
   const ActiveSection = (currentMenu: string) => {
     switch (currentMenu) {
       case "Chats":
-        return (
-          <Chats
-            setActiveProfile={setActiveProfile}
-            activeProfile={activeProfile}
-          />
-        );
+        return <Chats />;
       case "Groups":
-        return (
-          <GroupChats
-            setActiveProfile={setActiveProfile}
-            activeProfile={activeProfile}
-          />
-        );
+        return <GroupChats />;
       case "New Chat":
         return <Contacts />;
       case "Other":
@@ -111,7 +101,7 @@ const quickLinks = [
   },
 ];
 
-const Chats = ({ setActiveProfile, activeProfile }: any) => {
+const Chats = () => {
   const [afterSearchable, setAfterSearchable] = useState<IGroupChatData[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
   const {
@@ -153,7 +143,6 @@ const Chats = ({ setActiveProfile, activeProfile }: any) => {
           <div
             onClick={() => {
               setSelectedChatId(item?.id);
-              setActiveProfile(item);
               revalidateChatProfileDetails(item?.id);
             }}
             key={item?.id}
@@ -188,7 +177,7 @@ const Chats = ({ setActiveProfile, activeProfile }: any) => {
   );
 };
 
-const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
+const GroupChats = () => {
   const [isCreate, setIsCreate] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -269,7 +258,6 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
           <div
             onClick={() => {
               setSelectedChatId(item?.id);
-              setActiveProfile(item);
               revalidateChatProfileDetails(item?.id);
             }}
             key={item?.id}

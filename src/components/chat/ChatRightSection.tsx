@@ -27,7 +27,7 @@ interface Props {
   message?: string;
 }
 
-const ChatRightSection = ({ activeProfile }: any) => {
+const ChatRightSection = () => {
   const [isUpload, setIsUpload] = useState(false);
   const [isDrawer, setIsDrawer] = useState(false);
   const [isCode, setIsCode] = useState(false);
@@ -41,7 +41,7 @@ const ChatRightSection = ({ activeProfile }: any) => {
     setAnchorEl(null);
   };
 
-  const { currentChatMessage } = useChatData();
+  const { currentChatMessage, currentChatProfileDetails } = useChatData();
 
   const actions = [
     { icon: <FileCopy />, name: "Copy" },
@@ -52,12 +52,12 @@ const ChatRightSection = ({ activeProfile }: any) => {
       <ChatSendFiles open={isUpload} handleClose={() => setIsUpload(false)} />
       <ChatSendCode open={isCode} handleClose={() => setIsCode(false)} />
       <ChatProfileDrawer
-        profileData={activeProfile}
+        profileData={currentChatProfileDetails}
         open={isDrawer}
         onClose={() => setIsDrawer(false)}
       />
       <div className="md:w-[70%] xl:w-[77%] h-full">
-        {!activeProfile?.id ? (
+        {!currentChatProfileDetails?._id ? (
           <DefaultChatView />
         ) : (
           <div className="w-full h-full">
@@ -68,19 +68,17 @@ const ChatRightSection = ({ activeProfile }: any) => {
                   onClick={() => setIsDrawer(true)}
                 >
                   <PhotoViewerSmall
-                    photo={
-                      activeProfile?.type === "person"
-                        ? activeProfile?.photo
-                        : null
-                    }
-                    name={activeProfile?.name}
+                    photo={currentChatProfileDetails?.photo}
+                    name={currentChatProfileDetails?.title}
                     size="3.5rem"
                   />
                 </div>
                 <div>
-                  <h1 className="font-semibold">{activeProfile?.name}</h1>
+                  <h1 className="font-semibold">
+                    {currentChatProfileDetails?.title}
+                  </h1>
                   <h1 className="text-sm font-light">
-                    {activeProfile?.type === "person" ? (
+                    {currentChatProfileDetails?.isPrivateGroup ? (
                       <span className="">Active Now</span>
                     ) : (
                       <span className="">Srinu, Loushik, Abhilash,You</span>
@@ -134,12 +132,12 @@ const ChatRightSection = ({ activeProfile }: any) => {
                       {item?.type === "text" ? (
                         <TextMessage
                           data={item}
-                          activeProfile={activeProfile}
+                          activeProfile={currentChatProfileDetails}
                         />
                       ) : item?.type === "image" ? (
                         <ImageMessage
                           data={item}
-                          activeProfile={activeProfile}
+                          activeProfile={currentChatProfileDetails}
                         />
                       ) : item?.type === "event" ? (
                         <EventTemplate data={item} />

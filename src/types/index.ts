@@ -282,6 +282,23 @@ export interface IChatMessages {
   updatedAt: string;
   link: string;
 }
+export interface IChatGroup {
+  chatMembers: IChatMember[];
+  createdAt: string;
+  description: string;
+  isGroupBlocked: boolean;
+  isPrivateGroup: boolean;
+  photo: string;
+  title: string;
+  totalMembers: number;
+  id: string;
+  _id: string;
+}
+export interface IChatMember {
+  isAdmin: boolean;
+  user: Partial<User>;
+  isPastMember: boolean;
+}
 
 export interface ServerToClientEvents {
   // USER_CONNECTED: ({ userId }: { userId: string }) => void;

@@ -2,17 +2,9 @@ import { useChatData } from "hooks";
 
 import { ChatLeftBar, ChatRightSection } from "components/chat";
 import PanelLayout from "layouts/panel";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const Chats = () => {
-  const [activeProfile, setActiveProfile] = useState<{
-    id?: number;
-    photo?: string | undefined;
-    name?: string;
-    message?: string;
-    type?: string;
-  }>({});
-
   //calling context on index page to get all the data at first
   const { reValidatePrivateChat, reValidateGroupChat } = useChatData();
 
@@ -29,11 +21,8 @@ const Chats = () => {
         {/* <AdminBreadcrumbs links={links} /> */}
         <section>
           <div className="h-[80vh] w-full rounded-md bg-white mt-4 shadow-md flex">
-            <ChatLeftBar
-              activeProfile={activeProfile}
-              setActiveProfile={setActiveProfile}
-            />
-            <ChatRightSection activeProfile={activeProfile} />
+            <ChatLeftBar />
+            <ChatRightSection />
           </div>
         </section>
       </section>
