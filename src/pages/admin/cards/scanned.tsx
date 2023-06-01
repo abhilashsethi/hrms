@@ -68,7 +68,7 @@ const Cards = () => {
               placeholder="Employee Id"
               value={empId ? empId : ""}
               onChange={(e) => {
-                setEmpId(e?.target?.value);
+                setPageNumber(1),setEmpId(e?.target?.value);
               }}
             />
             <TextField
@@ -77,7 +77,7 @@ const Cards = () => {
               placeholder="Employee Name"
               value={userName ? userName : ""}
               onChange={(e) => {
-                setUsername(e?.target?.value);
+                setPageNumber(1),setUsername(e?.target?.value);
               }}
             />
             <TextField
@@ -86,7 +86,7 @@ const Cards = () => {
               placeholder="Card Id"
               value={cardId ? cardId : ""}
               onChange={(e) => {
-                setCardId(e?.target?.value);
+                setPageNumber(1),setCardId(e?.target?.value);
               }}
             />
             <TextField
@@ -95,7 +95,7 @@ const Cards = () => {
               label="Select User Type"
               size="small"
               value={userType ? userType : ""}
-              onChange={(e) => setUserType(e.target.value)}
+              onChange={(e) => {setPageNumber(1),setUserType(e.target.value)}}
             >
               {usertypes?.map((option: any) => (
                 <MenuItem key={option?.id} value={option.value}>
@@ -109,7 +109,7 @@ const Cards = () => {
               label="Order By"
               size="small"
               value={isOrderBy ? isOrderBy : ""}
-              onChange={(e) => setIsOrderBy(e?.target?.value)}
+              onChange={(e) => {setPageNumber(1),setIsOrderBy(e?.target?.value)}}
             >
               {short.map((option) => (
                 <MenuItem key={option.id} value={option.value}>

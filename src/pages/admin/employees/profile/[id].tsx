@@ -68,7 +68,7 @@ const EmployeeProfile = () => {
     {
       id: 2,
       page: "Employee Profile",
-      link: `/admin/employees/employee-profile?id=${router?.query?.id}`,
+      link: `/admin/employees/profile/${router?.query?.id}`,
     },
   ];
 

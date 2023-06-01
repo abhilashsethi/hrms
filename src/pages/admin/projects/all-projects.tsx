@@ -94,7 +94,7 @@ const AllProjects = () => {
               fullWidth
               size="small"
               placeholder="Project Name"
-              onChange={(e: any) => setProjectName(e.target.value)}
+              onChange={(e: any) => {setPageNumber(1), setProjectName(e.target.value)}}
             />
             <TextField
               fullWidth
@@ -116,7 +116,7 @@ const AllProjects = () => {
               label="Bug status"
               size="small"
               value={bugStatus}
-              onChange={(e: any) => setBugStatus(e.target?.value)}
+              onChange={(e: any) => {setPageNumber(1), setBugStatus(e.target?.value)}}
             >
               {bugSelects?.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>

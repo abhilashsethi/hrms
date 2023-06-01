@@ -7,7 +7,8 @@ import {
 } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { ChatSendCode, ChatSendFiles } from "components/dialogues";
-import { useRef, useState } from "react";
+import { useRef, useState, MouseEvent } from "react";
+import { useAuth, useChatData } from "hooks";
 import ChatHead from "./ChatHead";
 import ChatMessage from "./ChatMessage";
 import DefaultChatView from "./DefaultChatView";
@@ -19,7 +20,7 @@ interface Props {
   message?: string;
 }
 
-const ChatRightSection = ({ activeProfile }: any) => {
+const ChatRightSection = () => {
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
   const textRef = useRef<HTMLInputElement | null>(null);
@@ -29,16 +30,26 @@ const ChatRightSection = ({ activeProfile }: any) => {
       textRef.current.focus();
     }
   };
+  const { user } = useAuth();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const { currentChatMessage, currentChatProfileDetails } = useChatData();
+
   return (
     <>
       <ChatSendFiles open={isUpload} handleClose={() => setIsUpload(false)} />
       <ChatSendCode open={isCode} handleClose={() => setIsCode(false)} />
+
       <div className="md:w-[70%] xl:w-[77%] h-full">
-        {!activeProfile?.id ? (
+        {!currentChatProfileDetails?._id ? (
           <DefaultChatView />
         ) : (
           <div className="w-full h-full">
-            <ChatHead activeProfile={activeProfile} />
+            <ChatHead />
             <div className="h-[72%] overflow-y-auto">
               <div className="px-4 pb-4">
                 {chats?.map((item) => (
@@ -58,19 +69,19 @@ const ChatRightSection = ({ activeProfile }: any) => {
                       ) : (
                         <ChatMessage
                           data={item}
-                          activeProfile={activeProfile}
+                          activeProfile={currentChatProfileDetails}
                         />
                       )}
 
                       {/* {item?.type === "text" ? (
                         <TextMessage
                           data={item}
-                          activeProfile={activeProfile}
+                          activeProfile={currentChatProfileDetails}
                         />
                       ) : item?.type === "image" ? (
                         <ImageMessage
                           data={item}
-                          activeProfile={activeProfile}
+                          activeProfile={currentChatProfileDetails}
                         />
                       ) : item?.type === "event" ? (
                         <EventTemplate data={item} />

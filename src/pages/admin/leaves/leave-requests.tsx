@@ -78,13 +78,13 @@ const LeaveRequests = () => {
               size="small"
               value={empId ? empId : ""}
               placeholder="Employee Id"
-              onChange={(e) => setEmpId(e.target.value)}
+              onChange={(e) => {setPageNumber(1), setEmpId(e.target.value)}}
             />
             <TextField
               fullWidth
               size="small"
               value={userName ? userName : ""}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
               placeholder="Employee Name"
             />
             <TextField
@@ -93,7 +93,7 @@ const LeaveRequests = () => {
               label="Leave Type"
               size="small"
               value={leaveType ? leaveType : ""}
-              onChange={(e) => setLeaveType(e?.target?.value)}
+              onChange={(e) => {setPageNumber(1), setLeaveType(e?.target?.value)}}
             >
               {types.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
@@ -107,7 +107,7 @@ const LeaveRequests = () => {
               label="Leave Status"
               size="small"
               value={leaveStatus ? leaveStatus : ""}
-              onChange={(e) => setLeaveStatus(e?.target?.value)}
+              onChange={(e) => {setPageNumber(1), setLeaveStatus(e?.target?.value)}}
             >
               {statuses.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
