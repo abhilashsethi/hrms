@@ -98,13 +98,13 @@ const AllEmployees = () => {
               size="small"
               value={empId ? empId : ""}
               placeholder="Employee Id"
-              onChange={(e) => setEmpId(e.target.value)}
+              onChange={(e) => {setPageNumber(1), setEmpId(e.target.value)}}
             />
             <TextField
               fullWidth
               size="small"
               value={userName ? userName : ""}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
               placeholder="Employee Name"
             />
             <TextField
@@ -113,7 +113,7 @@ const AllEmployees = () => {
               label="Select Role"
               size="small"
               value={isRole ? isRole : ""}
-              onChange={(e) => setIsRole(e?.target?.value)}
+              onChange={(e) => {setPageNumber(1), setIsRole(e?.target?.value)}}
             >
               {roleData?.map((option: any) => (
                 <MenuItem key={option.id} value={option.name}>
@@ -127,7 +127,7 @@ const AllEmployees = () => {
               label="Select Department"
               size="small"
               value={isDepartment ? isDepartment : ""}
-              onChange={(e) => setIsDepartment(e.target.value)}
+              onChange={(e) => {setPageNumber(1), setIsDepartment(e.target.value)}}
             >
               {departmentData?.map((option: any) => (
                 <MenuItem key={option.id} value={option.name}>
