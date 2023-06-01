@@ -11,8 +11,9 @@ import {
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatProfileDrawer } from "components/drawer";
-import { useAuth } from "hooks";
-import React, { useState } from "react";
+import { useAuth, useChatData } from "hooks";
+import moment from "moment";
+import { useState, MouseEvent } from "react";
 import DefaultChatView from "./DefaultChatView";
 import ImageMessage from "./ImageMessage";
 import TextMessage from "./TextMessage";
@@ -33,14 +34,17 @@ const ChatRightSection = ({ activeProfile }: any) => {
   const [isDrawer, setIsDrawer] = useState(false);
   const [isCode, setIsCode] = useState(false);
   const { user } = useAuth();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { currentChatMessage } = useChatData();
+
   const actions = [
     { icon: <FileCopy />, name: "Copy" },
     { icon: <Save />, name: "Save" },
@@ -55,7 +59,7 @@ const ChatRightSection = ({ activeProfile }: any) => {
         onClose={() => setIsDrawer(false)}
       />
       <div className="md:w-[70%] xl:w-[77%] h-full">
-        {!activeProfile?.name ? (
+        {!activeProfile?.id ? (
           <DefaultChatView />
         ) : (
           <div className="w-full h-full">

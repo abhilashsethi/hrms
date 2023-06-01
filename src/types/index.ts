@@ -262,6 +262,24 @@ export interface IGroupChatData {
 	photo: string;
 }
 
+export interface IChatMessages {
+  category: MessageCategory;
+  createdAt: string;
+  deliveredTo: User[];
+  id: string;
+  isEdited: boolean;
+  reactedUsers: User[];
+  readUsers: {
+    user: User;
+    readAt: string;
+  }[];
+  sender: User;
+  taggedMembers: User;
+  text: string;
+  updatedAt: string;
+  link: string;
+}
+
 export interface ServerToClientEvents {
 	// USER_CONNECTED: ({ userId }: { userId: string }) => void;
 	// USER_DISCONNECT: ({ userId }: { userId: string }) => void;
