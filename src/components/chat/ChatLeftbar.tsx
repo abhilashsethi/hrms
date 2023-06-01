@@ -260,7 +260,7 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
         </span>
       </div>
       <div className="mt-2 flex flex-col gap-1">
-        {afterSearchable?.map((item) => (
+        {groups?.map((item) => (
           <div
             onClick={() => setSelectedChatId(item?.id)}
             key={item?.id}
@@ -269,22 +269,16 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
             }`}
           >
             <PhotoViewerSmall
-              name={item?.title}
+              name={item?.name}
               photo={item?.photo || ""}
               size="3rem"
             />
             <div className="w-[80%] flex justify-between ">
               <div>
-                <h1 className="text-sm font-semibold">{item?.title}</h1>
-                <span className="text-sm font-light">
-                  {item?.lastMessage?.message?.length > 15
-                    ? item?.lastMessage?.message.slice(0, 15) + " ..."
-                    : item?.lastMessage?.message}
-                </span>
+                <h1 className="text-sm font-semibold">{item?.name}</h1>
+                <span className="text-sm font-light">{item?.message}</span>
               </div>
-              <span className="text-xs">
-                {moment(item?.lastMessage?.createdAt).format("ll")}
-              </span>
+              <span className="text-xs">{moment(new Date()).format("ll")}</span>
             </div>
           </div>
         ))}

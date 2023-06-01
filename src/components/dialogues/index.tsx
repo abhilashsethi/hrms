@@ -30,3 +30,6 @@ export { default as TicketAddDocumentDialogue } from "./TicketAddDocumentDialogu
 export { default as UseTemplate } from "./UseTemplateDialogue";
 export { default as ChatDescription } from "./ChatDescription";
 export { default as AddMoreField } from "./AddMoreField";
+export { default as ChatReply } from "./ChatReply";
+export { default as ChatSendFiles } from "./ChatSendFiles";
+export { default as ChatSendCode } from "./ChatSendCode";

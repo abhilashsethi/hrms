@@ -19,7 +19,6 @@ const ViewConfig = () => {
 		setTaxDetails(data);
 	};
 	// console.log(taxDetails);
-
 	return (
 		<PanelLayout title="View Config - Admin Panel">
 			<AdminBreadcrumbs links={links} />
@@ -43,32 +42,40 @@ const ViewConfig = () => {
 						</div>
 						<div className="flex gap-2 items-center font-medium py-1.5">
 							{configData?.length && (
-								<div className="">
-									<p className="text-sm text-gray-600">
-										Basic Salary %: {configData[0]?.basicSalary}
-									</p>
-									<p className="text-sm text-gray-600">
-										HRA % : {configData[0]?.basicSalary}
-									</p>
-									<p className="text-sm text-gray-600">
-										Conveyance Allowances: {configData[0]?.conveyanceAllowances}
-									</p>
-									<p className="text-sm text-gray-600">
-										Medical Allowances: {configData[0]?.medicalAllowances}
-									</p>
-									<p className="text-sm text-gray-600">
-										PF Employee %: {configData[0]?.pfEmployee}
-									</p>
-									<p className="text-sm text-gray-600">
-										PF Employer %: {configData[0]?.pfEmployer}
-									</p>
-									<p className="text-sm text-gray-600">
-										ESI Employee %: {configData[0]?.esiEmployee}
-									</p>
-									<p className="text-sm text-gray-600">
-										ESI Employer %: {configData[0]?.esiEmployer}
-									</p>
-									<p className="text-md font-semibold">Professional Tax Slab</p>
+								<div className="grid lg:grid-cols-3 gap-1 text-sm">
+									
+										<p className="text-gray-700 lg:col-span-2">Basic Salary % : </p> 
+										<p>{configData[0]?.basicSalary}</p>
+									
+									
+										<p className="text-gray-700 lg:col-span-2">HRA % :</p> 
+										<p>{configData[0]?.basicSalary}</p>
+									
+									
+										<p className="text-gray-700 lg:col-span-2">Conveyance Allowances:</p> 
+										<p>{configData[0]?.conveyanceAllowances}</p>
+									
+									
+										<p className="text-gray-700 lg:col-span-2">Medical Allowances:</p> 
+										<p>{configData[0]?.medicalAllowances}</p>
+									
+									
+										<p className="text-gray-700 lg:col-span-2">PF Employee %:</p> 
+										<p>{configData[0]?.pfEmployee}</p>
+									
+									
+										<p className="text-gray-700 lg:col-span-2">PF Employer %:</p> 
+										<p>{configData[0]?.pfEmployer}</p>
+									
+									
+										<p className="text-gray-700 lg:col-span-2">ESI Employee %: </p>
+										<p>{configData[0]?.esiEmployee}</p>
+									
+									
+										<p className="text-gray-700 lg:col-span-2">ESI Employer %: </p>
+										<p>{configData[0]?.esiEmployer}</p>
+									
+									<div className="text-md font-semibold">Professional Tax Slab</div>
 									{configData[0]?.ptTaxes?.map((item: any) => {
 										return (
 											<div className="flex gap-3 w-full text-sm">

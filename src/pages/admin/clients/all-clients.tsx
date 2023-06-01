@@ -48,7 +48,7 @@ const AllClients = () => {
   return (
     <>
       <PanelLayout title="All Clients - Admin Panel">
-        <section className="lg:px-8 px-4">
+        <section className="lg:px-8 px-2">
           <UploadEmployData
             open={isUpload}
             handleClose={() => setIsUpload(false)}

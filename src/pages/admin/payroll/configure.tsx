@@ -1,5 +1,5 @@
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
-import { Add, Check, Settings } from "@mui/icons-material";
+import { Settings } from "@mui/icons-material";
 import { AdminBreadcrumbs } from "components/core";
 import { useTheme } from "@material-ui/core";
 import PanelLayout from "layouts/panel";
@@ -52,13 +52,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const Configure = () => {
-	const theme = useTheme();
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
-
 	const handleSubmit = async (values: any, { resetForm }: any) => {
-		console.log(values);
-
 		setLoading(true);
 		try {
 			const res = await change(`payrolls/createPayrollConfig`, {
@@ -90,7 +86,6 @@ const Configure = () => {
 					],
 				},
 			});
-			console.log(res);
 			setLoading(false);
 			if (res?.status !== 200) {
 				Swal.fire(
@@ -106,8 +101,6 @@ const Configure = () => {
 				`Payroll Configuration Set Successfully !`,
 				`success`
 			);
-			// mutate();
-			// resetForm();
 			return;
 		} catch (error) {
 			console.log(error);
@@ -119,12 +112,12 @@ const Configure = () => {
 
 	return (
 		<PanelLayout title="Payroll configure - Admin Panel">
-			<section className="md:px-8 px-2 md:py-4 py-2">
-				<div className="px-2 md:px-0">
+			<section className="lg:px-8 px-2 lg:py-4 py-2">
+				<div className="px-2 lg:px-0">
 					<AdminBreadcrumbs links={links} />
 				</div>
-				<section className="w-full px-0 md:py-4 py-2 flex justify-center items-center">
-					<div className="md:p-6 p-2 md:w-3/4 w-full rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+				<section className="w-full px-0 lg:py-4 py-2 flex justify-center items-center">
+					<div className="lg:p-6 p-2 lg:w-3/4 w-full rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
 						<Formik
 							initialValues={initialValues}
 							validationSchema={validationSchema}
@@ -149,8 +142,8 @@ const Configure = () => {
 										</Button>
 									</div> */}
 									<div className="grid lg:grid-cols-2">
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="md:py-2 py-1">
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
+											<div className="lg:py-2 py-1">
 												<InputLabel htmlFor="basicSalary">
 													Basic Salary % <span className="text-red-600">*</span>
 												</InputLabel>
@@ -169,7 +162,7 @@ const Configure = () => {
 												helperText={touched.basicSalary && errors.basicSalary}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="hra">
 													HRA % <span className="text-red-600">*</span>
@@ -189,7 +182,7 @@ const Configure = () => {
 												helperText={touched.hra && errors.hra}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="employeePf">
 													PF %(Employee Contribution){" "}
@@ -210,7 +203,7 @@ const Configure = () => {
 												helperText={touched.employeePf && errors.employeePf}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="employerPf">
 													PF %(Employer Contribution){" "}
@@ -231,7 +224,7 @@ const Configure = () => {
 												helperText={touched.employerPf && errors.employerPf}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="employeeEsi">
 													ESI %(Employee Contribution){" "}
@@ -252,7 +245,7 @@ const Configure = () => {
 												helperText={touched.employeeEsi && errors.employeeEsi}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="employerEsi">
 													ESI %(Employer Contribution){" "}
@@ -274,7 +267,7 @@ const Configure = () => {
 											/>
 										</div>
 
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="conveyance">
 													Conveyance allowances
@@ -295,7 +288,7 @@ const Configure = () => {
 												helperText={touched.conveyance && errors.conveyance}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="medical">
 													Medical allowances
@@ -319,13 +312,13 @@ const Configure = () => {
 
 										{/* Profession tax range */}
 
-										<div className="flex md:px-4 px-2 md:py-2 py-1 col-span-2 justify-evenly">
+										<div className="lg:flex w-full lg:px-4 px-2 lg:py-2 py-1 lg:col-span-2 justify-evenly">
 											<div>
-												<p className="text-center text-gray-500">
+												<p className="text-center py-2 text-gray-500">
 													Gross Salary
 													<span className="text-red-600">*</span>
 												</p>
-												<div className="flex gap-2 mb-2">
+												<div className="lg:flex grid gap-2 mb-2">
 													<TextField
 														size="small"
 														fullWidth
@@ -364,7 +357,7 @@ const Configure = () => {
 														}
 													/>
 												</div>
-												<div className="flex gap-2 mb-2">
+												<div className="lg:flex grid gap-2 mb-2">
 													<TextField
 														size="small"
 														fullWidth
@@ -403,7 +396,7 @@ const Configure = () => {
 														}
 													/>
 												</div>
-												<div className="flex gap-2">
+												<div className="lg:flex grid gap-2">
 													<TextField
 														size="small"
 														fullWidth
@@ -426,7 +419,7 @@ const Configure = () => {
 												</div>
 											</div>
 											<div>
-												<p className="text-center text-gray-500">
+												<p className="text-center py-2 text-gray-500">
 													Professional Tax
 													<span className="text-red-600">*</span>
 												</p>
@@ -496,7 +489,7 @@ const Configure = () => {
 											</div>
 										</div>
 									</div>
-									<div className="flex justify-center md:py-4 py-2">
+									<div className="flex justify-center lg:py-4 py-2">
 										<Button
 											type="submit"
 											variant="contained"

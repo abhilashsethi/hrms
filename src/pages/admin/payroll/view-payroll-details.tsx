@@ -1,9 +1,22 @@
-
 import { RenderIconRow } from "components/common";
-import { AdminBreadcrumbs, CopyClipboard, HeadText, PhotoViewer, PhotoViewerSmall } from "components/core";
+import {
+	AdminBreadcrumbs,
+	CopyClipboard,
+	HeadText,
+	PhotoViewer,
+	PhotoViewerSmall,
+} from "components/core";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import { useRouter } from "next/router";
+import { User } from "types";
 
 const ViewPayrollDetails = () => {
+	const router = useRouter();
+	const { data: employData, mutate } = useFetch<User>(
+		`users/${router?.query?.id}`
+	);
+	console.log(employData);
 	return (
 		<PanelLayout title="PayRoll Details - Admin Panel">
 			<section className="md:px-8 px-2 md:py-4 py-2">
@@ -19,26 +32,30 @@ const ViewPayrollDetails = () => {
 							<div className="grid lg:grid-cols-2 my-2 gap-x-24 gap-y-1 w-full">
 								<div className=" bg-theme rounded-lg shadow-lg px-4 py-4">
 									<div className="grid text-white text-lg justify-items-center">
-										<PhotoViewer
-											size="7rem"
-											photo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwzTSDO6sbQw9RJmGwMKYaubB1wDwyqOYAfuWM1fg&s"
-										/>
-										<p className="font-semibold tracking-wide">John Doe</p>
+										<PhotoViewer size="7rem" photo={employData?.photo} />
+										<p className="font-semibold tracking-wide">
+											{employData?.name || "---"}
+										</p>
 										<p className="text-sm lg:pl-4 mt-1 font-bold flex gap-2">
 											EMP ID :
 											<span className="">
-												<CopyClipboard value={"SYA001"} />
+												<CopyClipboard
+													value={employData?.employeeID || "---"}
+												/>
 											</span>
 										</p>
 										<p className="text-sm font-medium mt-1 flex items-center gap-3">
 											<RenderIconRow
-												value={"john.doe@sy.com"}
+												value={employData?.email || "---"}
 												isEmail
 												longText={false}
 											/>
 										</p>
 										<p className="text-sm font-medium mt-1 flex items-center gap-3">
-											<RenderIconRow value={"995682235"} isPhone />
+											<RenderIconRow
+												value={employData?.phone || "---"}
+												isPhone
+											/>
 										</p>
 									</div>
 								</div>
@@ -46,7 +63,10 @@ const ViewPayrollDetails = () => {
 									<HeadText title="Gains" />
 									<div className=" my-2 grid gap-y-1 w-full">
 										{payroll.map((item) => (
-											<div key={item?.id} className="md:flex gap-4 justify-between">
+											<div
+												key={item?.id}
+												className="md:flex gap-4 justify-between"
+											>
 												<p className="text-gray-700">{item?.name} :</p>
 												<span className="">{item.count}</span>
 											</div>
@@ -57,7 +77,10 @@ const ViewPayrollDetails = () => {
 									<HeadText title="Deduction" />
 									<div className=" my-2 grid gap-y-1 w-full">
 										{deduction.map((item) => (
-											<div key={item?.id} className="md:flex gap-4 justify-between">
+											<div
+												key={item?.id}
+												className="md:flex gap-4 justify-between"
+											>
 												<p className="text-gray-700">{item?.name} :</p>
 												<span className="">{item.count}</span>
 											</div>
@@ -68,7 +91,10 @@ const ViewPayrollDetails = () => {
 									<HeadText title="CTC" />
 									<div className=" my-2 grid gap-y-1 w-full">
 										{ctc.map((item) => (
-											<div key={item?.id} className="md:flex gap-4 justify-between">
+											<div
+												key={item?.id}
+												className="md:flex gap-4 justify-between"
+											>
 												<p className="text-gray-700">{item?.name} :</p>
 												<span className="">{item.count}</span>
 											</div>
@@ -99,7 +125,7 @@ const payroll = [
 	{ id: 2, name: "Conveyance Allowance", count: "25.00 Rs." },
 	{ id: 2, name: "Medical Allowance", count: "25.00 Rs." },
 	{ id: 2, name: "Special Allowance", count: "25.00 Rs." },
-]
+];
 const deduction = [
 	{ id: 1, name: "PF Contribution by Employee", count: "25.00 Rs." },
 	{ id: 2, name: "ESI Contribution by Employee", count: "25.00 Rs." },
@@ -107,11 +133,11 @@ const deduction = [
 	{ id: 2, name: "TDS", count: "25.00 Rs." },
 	{ id: 2, name: "Total Deduction", count: "25.00 Rs." },
 	{ id: 2, name: "Net Salary", count: "25.00 Rs." },
-]
+];
 const ctc = [
 	{ id: 1, name: "PF Contribution by Employer", count: "25.00 Rs." },
 	{ id: 2, name: "ESI Contribution by Employer", count: "25.00 Rs." },
 	{ id: 2, name: "Professional Tax", count: "25.00 Rs." },
 	{ id: 2, name: "KPI", count: "25.00 Rs." },
 	{ id: 2, name: "CTC", count: "25.00 Rs." },
-]
+];
