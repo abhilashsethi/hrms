@@ -151,7 +151,7 @@ const MenuComponent = ({ id }: Props) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <Link href={`/admin/employees/employee-profile?id=${id}`}>
+        <Link href={`/admin/employees/profile/${id}`}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <RemoveRedEyeOutlined fontSize="small" />

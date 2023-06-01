@@ -18,7 +18,7 @@ const SendEmail = () => {
     {
       id: 2,
       page: "Employee Profile",
-      link: `/admin/employees/employee-profile?id=${router?.query?.empId}`,
+      link: `/admin/employees/profile/${router?.query?.empId}`,
     },
     {
       id: 3,
