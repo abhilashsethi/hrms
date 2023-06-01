@@ -21,7 +21,7 @@ import { DEFAULTPROFILE, GROUP } from "assets/home";
 import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
 import { ChatDescription } from "components/dialogues";
 import { useAuth } from "hooks";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Dispatch } from "react";
 import { IChatGroup } from "types";
 
 type Props = {
@@ -33,10 +33,6 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
   const PhotoRef = useRef<any>();
   const [isDescription, setIsDescription] = useState(false);
   const [isMedia, setIsMedia] = useState(false);
-  const [value, setValue] = React.useState("1");
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
 
   const { user } = useAuth();
 
@@ -175,40 +171,11 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               </div>
             </section>
             {/* --------------------Media and links section------------------------- */}
-            <section
-              className={`w-full h-screen absolute bg-white top-0 left-0 transition-all ease-in-out duration-200 ${
-                !isMedia ? `translate-x-[100%]` : `translate-x-[0%]`
-              }`}
-            >
-              <div className="flex items-center gap-3 py-3 text-red-600">
-                <IconButton
-                  onClick={() => setIsMedia((prev) => !prev)}
-                  size="small"
-                >
-                  <ArrowBack className="!text-red-600" />
-                </IconButton>
-                <h1>Go Back</h1>
-              </div>
-              <div>
-                <Box sx={{ width: "100%", typography: "body1" }}>
-                  <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                      <TabList
-                        onChange={handleChange}
-                        aria-label="lab API tabs example"
-                      >
-                        <Tab label="Media" value="1" />
-                        <Tab label="Docs" value="2" />
-                        <Tab label="Links" value="3" />
-                      </TabList>
-                    </Box>
-                    <TabPanel value="1">No Media Files...</TabPanel>
-                    <TabPanel value="2">Docs</TabPanel>
-                    <TabPanel value="3">Links</TabPanel>
-                  </TabContext>
-                </Box>
-              </div>
-            </section>
+            <ChatDataFile
+              isMedia={isMedia}
+              setIsMedia={setIsMedia}
+              groupId={profileData?.id}
+            />
           </section>
         </Container>
       </Drawer>
@@ -217,6 +184,57 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
 };
 
 export default ChatProfileDrawer;
+
+const ChatDataFile = ({
+  isMedia,
+  setIsMedia,
+  groupId,
+}: {
+  isMedia: boolean;
+  setIsMedia: (arg: any) => void;
+  groupId?: string;
+}) => {
+  const [value, setValue] = React.useState("1");
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+  return (
+    <section
+      className={`w-full h-screen absolute bg-white top-0 left-0 transition-all ease-in-out duration-200 ${
+        !isMedia ? `translate-x-[100%]` : `translate-x-[0%]`
+      }`}
+    >
+      <div className="flex items-center gap-3 py-3 text-red-600">
+        <IconButton
+          onClick={() => setIsMedia((prev: any) => !prev)}
+          size="small"
+        >
+          <ArrowBack className="!text-red-600" />
+        </IconButton>
+        <h1>Go Back</h1>
+      </div>
+      <div>
+        <Box sx={{ width: "100%", typography: "body1" }}>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+              >
+                <Tab label="Media" value="1" />
+                <Tab label="Docs" value="2" />
+                <Tab label="Links" value="3" />
+              </TabList>
+            </Box>
+            <TabPanel value="1">No Media Files...</TabPanel>
+            <TabPanel value="2">Docs</TabPanel>
+            <TabPanel value="3">Links</TabPanel>
+          </TabContext>
+        </Box>
+      </div>
+    </section>
+  );
+};
 
 interface TitleProps {
   title?: string;
