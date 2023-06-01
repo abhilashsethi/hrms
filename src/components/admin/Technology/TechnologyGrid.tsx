@@ -84,7 +84,6 @@ const CardContent = ({ item, mutate }: any) => {
       console.log(error);
     }
   };
-  console.log(item?.logo);
   return (
     <>
       <UpdateTechnology

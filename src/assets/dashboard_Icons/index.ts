@@ -25,3 +25,7 @@ export { default as CHECK } from "./check.png";
 export { default as CANCEL } from "./cancel.png";
 export { default as GROUP } from "./group.png";
 export { default as EMAILTEMP } from "./email-temp.png";
+export { default as TOTAL_BRANCH } from "./branch.png";
+export { default as TOTAL_ASSETS } from "./assets.png";
+export { default as TOTAL_EMPLOYEE } from "./employee.png";
+export { default as TOTAL_CLIENT } from "./client.png";
