@@ -108,6 +108,8 @@ export type User = {
     updatedAt?: string;
   };
   wallet?: number;
+  lastActiveTime?: string;
+  isOnline?: boolean;
   ChatMember: {
     chatGroupId: string;
   }[];
