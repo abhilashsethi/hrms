@@ -18,6 +18,8 @@ const ChatHead = () => {
 
   const { currentChatProfileDetails } = useChatData();
 
+  console.log({ currentChatProfileDetails });
+
   return (
     <>
       <ChatProfileDrawer

@@ -104,39 +104,41 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                 <div>
                   <SectionTitle title="Participants" />
                   <div className="px-4 py-3 flex flex-col gap-1">
-                    {profileData?.chatMembers?.map((item) => (
-                      <div
-                        key={item?.user?.id}
-                        className="py-2 w-full rounded-md flex gap-1 items-center px-2"
-                      >
-                        <div className="w-1/5">
-                          <PhotoViewerSmall
-                            size="2.7rem"
-                            name={item?.user?.name}
-                            photo={item?.user?.photo}
-                          />
-                        </div>
-                        <div className="w-4/5 flex justify-between">
-                          <div className="w-3/5">
-                            <h1 className="text-sm font-semibold">
-                              {item?.user?.id === user?.id
-                                ? "You"
-                                : item?.user?.name}
-                            </h1>
-                            <h1 className="text-sm text-gray-600">
-                              {item?.user?.role?.name}
-                            </h1>
+                    {profileData?.chatMembers
+                      ?.filter((item) => item?.isPastMember)
+                      .map((item) => (
+                        <div
+                          key={item?.user?.id}
+                          className="py-2 w-full rounded-md flex gap-1 items-center px-2"
+                        >
+                          <div className="w-1/5">
+                            <PhotoViewerSmall
+                              size="2.7rem"
+                              name={item?.user?.name}
+                              photo={item?.user?.photo}
+                            />
                           </div>
-                          {item?.isAdmin && (
-                            <div className="w-2/5">
-                              <span className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
-                                Group Admin
-                              </span>
+                          <div className="w-4/5 flex justify-between">
+                            <div className="w-3/5">
+                              <h1 className="text-sm font-semibold">
+                                {item?.user?.id === user?.id
+                                  ? "You"
+                                  : item?.user?.name}
+                              </h1>
+                              <h1 className="text-sm text-gray-600">
+                                {item?.user?.role?.name}
+                              </h1>
                             </div>
-                          )}
+                            {item?.isAdmin && (
+                              <div className="w-2/5">
+                                <span className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
+                                  Group Admin
+                                </span>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </div>
               ) : (
