@@ -10,17 +10,12 @@ import {
 } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
+import { ChatSendCode, ChatSendFiles } from "components/dialogues";
 import { ChatProfileDrawer } from "components/drawer";
 import { useAuth, useChatData } from "hooks";
-import moment from "moment";
-import { useState, MouseEvent } from "react";
-import DefaultChatView from "./DefaultChatView";
-import ImageMessage from "./ImageMessage";
-import TextMessage from "./TextMessage";
-import { ChatSendCode, ChatSendFiles } from "components/dialogues";
-import CodeMessage from "./CodeMessage";
-import DocMessage from "./DocMessage";
+import { MouseEvent, useState } from "react";
 import ChatMessage from "./ChatMessage";
+import DefaultChatView from "./DefaultChatView";
 
 interface Props {
   id?: number;
