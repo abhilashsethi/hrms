@@ -109,6 +109,8 @@ export type User = {
 		updatedAt?: string;
 	};
 	wallet?: number;
+	lastActiveTime?: string;
+	isOnline?: boolean;
 	ChatMember: {
 		chatGroupId: string;
 	}[];
@@ -294,7 +296,6 @@ export interface IChatGroup {
 	title: string;
 	totalMembers: number;
 	id: string;
-	_id: string;
 }
 export interface IChatMember {
 	isAdmin: boolean;

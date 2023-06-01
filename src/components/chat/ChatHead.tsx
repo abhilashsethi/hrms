@@ -2,7 +2,7 @@ import { MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatProfileDrawer } from "components/drawer";
-import { useChatData } from "hooks";
+import { useAuth, useChatData } from "hooks";
 import { MouseEvent, useState } from "react";
 
 const ChatHead = () => {
@@ -17,6 +17,9 @@ const ChatHead = () => {
   };
 
   const { currentChatProfileDetails } = useChatData();
+  const { user } = useAuth();
+
+  console.log({ currentChatProfileDetails });
 
   return (
     <>
@@ -40,7 +43,25 @@ const ChatHead = () => {
             </h1>
             <h1 className="text-sm font-light">
               {currentChatProfileDetails?.isPrivateGroup ? (
-                <span className="">Active Now</span>
+                <span
+                  className={`${
+                    currentChatProfileDetails?.chatMembers?.find(
+                      (item) => item?.user?.id !== user?.id
+                    )?.user?.isOnline
+                      ? "text-green-500"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {currentChatProfileDetails?.chatMembers?.find(
+                    (item) => item?.user?.id !== user?.id
+                  )?.user?.isOnline
+                    ? "Active Now"
+                    : `Last seen at ${
+                        currentChatProfileDetails?.chatMembers?.find(
+                          (item) => item?.user?.id !== user?.id
+                        )?.user?.lastActiveTime
+                      }`}
+                </span>
               ) : (
                 <span className="">Srinu, Loushik, Abhilash,You</span>
               )}

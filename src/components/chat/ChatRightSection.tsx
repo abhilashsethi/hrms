@@ -7,8 +7,8 @@ import {
 } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { ChatSendCode, ChatSendFiles } from "components/dialogues";
-import { useRef, useState, MouseEvent } from "react";
 import { useAuth, useChatData } from "hooks";
+import { useRef, useState } from "react";
 import ChatHead from "./ChatHead";
 import ChatMessage from "./ChatMessage";
 import DefaultChatView from "./DefaultChatView";
@@ -45,7 +45,7 @@ const ChatRightSection = () => {
       <ChatSendCode open={isCode} handleClose={() => setIsCode(false)} />
 
       <div className="md:w-[70%] xl:w-[77%] h-full">
-        {!currentChatProfileDetails?._id ? (
+        {!currentChatProfileDetails?.id ? (
           <DefaultChatView />
         ) : (
           <div className="w-full h-full">
