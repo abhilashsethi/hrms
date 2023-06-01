@@ -1,8 +1,4 @@
-import {
-  ClientToServerEvents,
-  IGroupChatData,
-  ServerToClientEvents,
-} from "types";
+import { IChatMessages, IGroupChatData } from "types";
 import { create } from "zustand";
 import { BASE_URL, getAccessToken } from "./useAPI";
 
@@ -11,7 +7,7 @@ type ChatState = {
   selectedChatId?: string;
   allPrivateChat: IGroupChatData[];
   allGroupChat: IGroupChatData[];
-  currentChatMessage: any[];
+  currentChatMessage: IChatMessages[];
   setSelectedChatId: (chatId: string) => void;
   reValidatePrivateChat: () => Promise<void>;
   reValidateGroupChat: () => Promise<void>;

@@ -261,7 +261,7 @@ export interface IGroupChatData {
   photo: string;
 }
 
-export interface ChatMessages {
+export interface IChatMessages {
   category: MessageCategory;
   createdAt: string;
   deliveredTo: User[];

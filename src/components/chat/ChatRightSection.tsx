@@ -22,7 +22,6 @@ interface Props {
 
 const ChatRightSection = ({ activeProfile }: any) => {
   const [isDrawer, setIsDrawer] = useState(false);
-  const { user } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
