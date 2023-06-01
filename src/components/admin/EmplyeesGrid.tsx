@@ -58,6 +58,7 @@ const EmplyeesGrid = ({ data, mutate }: Props) => {
 export default EmplyeesGrid;
 
 const CardContent = ({ item, mutate }: any) => {
+	const [userId, setUserId] = useState("")
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
@@ -154,6 +155,7 @@ const CardContent = ({ item, mutate }: any) => {
 	return (
 		<div className="h-full relative bg-white w-full rounded-xl flex flex-col gap-1.5 py-6 tracking-wide items-center justify-center shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
 			<AddSalaryInfo
+				userId={userId}
 				mutate={mutate}
 				open={salaryInfoModal}
 				handleClose={() => setSalaryInfoModal(false)}
@@ -209,6 +211,7 @@ const CardContent = ({ item, mutate }: any) => {
 					</Link>
 					<MenuItem
 						onClick={() => {
+							setUserId(item?.id)
 							setSalaryInfoModal((prev) => !prev);
 							handleClose;
 						}}
