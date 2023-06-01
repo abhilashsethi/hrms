@@ -2,15 +2,13 @@ import {
   AttachFile,
   Code,
   DriveFileRenameOutline,
-  FileCopy,
   ImageOutlined,
-  Save,
   SentimentSatisfiedAlt,
 } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { ChatSendCode, ChatSendFiles } from "components/dialogues";
+import { useRef, useState, MouseEvent } from "react";
 import { useAuth, useChatData } from "hooks";
-import { useState, MouseEvent } from "react";
 import ChatHead from "./ChatHead";
 import ChatMessage from "./ChatMessage";
 import DefaultChatView from "./DefaultChatView";
@@ -25,22 +23,22 @@ interface Props {
 const ChatRightSection = () => {
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
+  const textRef = useRef<HTMLInputElement | null>(null);
+  const handleClick = () => {
+    if (textRef.current) {
+      const inputValue = textRef.current.value;
+      textRef.current.focus();
+    }
+  };
   const { user } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const { currentChatMessage, currentChatProfileDetails } = useChatData();
 
-  const actions = [
-    { icon: <FileCopy />, name: "Copy" },
-    { icon: <Save />, name: "Save" },
-  ];
   return (
     <>
       <ChatSendFiles open={isUpload} handleClose={() => setIsUpload(false)} />
@@ -101,15 +99,18 @@ const ChatRightSection = () => {
             </div>
             <div className="h-20 w-full border-2 flex items-center px-8 justify-between">
               <div className="h-10 px-3 rounded-full w-4/5 border-2 flex justify-between items-center">
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center w-full">
                   <SentimentSatisfiedAlt className="!cursor-pointer" />
                   <input
-                    className="bg-white text-sm"
+                    ref={textRef}
+                    className="bg-white text-sm w-4/5"
                     placeholder="Type a message"
                     type="text"
                   />
                 </div>
-                <DriveFileRenameOutline className="!cursor-pointer" />
+                <IconButton onClick={handleClick} size="small">
+                  <DriveFileRenameOutline />
+                </IconButton>
               </div>
               <Tooltip title="Image">
                 <IconButton onClick={() => setIsUpload(true)} size="small">
