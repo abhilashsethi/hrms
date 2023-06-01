@@ -18,12 +18,8 @@ interface Props {
 	mutate?: any;
 }
 const EmployeesColumn = ({ data, mutate }: Props) => {
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const [userId, setUserId] = useState("")
 	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
-
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
 	const { change, isChanging } = useChange();
 	const handleBlock = async (e: any, userId: string) => {
 		Swal.fire({
@@ -50,10 +46,11 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
 			}
 		});
 	};
-	console.log(data);
+	
 	return (
 		<section className="mt-8">
 			<AddSalaryInfo
+			userId={userId}
 				mutate={mutate}
 				open={salaryInfoModal}
 				handleClose={() => setSalaryInfoModal(false)}
@@ -137,6 +134,7 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
 								<Tooltip title="Add Salary Info">
 									<div
 										onClick={() => {
+											setUserId(item?.id)
 											setSalaryInfoModal((prev) => !prev);
 										}}
 										className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer"
