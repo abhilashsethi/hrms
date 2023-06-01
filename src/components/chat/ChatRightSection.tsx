@@ -18,6 +18,8 @@ import ImageMessage from "./ImageMessage";
 import TextMessage from "./TextMessage";
 import { ChatSendCode, ChatSendFiles } from "components/dialogues";
 import CodeMessage from "./CodeMessage";
+import DocMessage from "./DocMessage";
+import ChatMessage from "./ChatMessage";
 
 interface Props {
   id?: number;
@@ -127,7 +129,8 @@ const ChatRightSection = ({ activeProfile }: any) => {
                     }`}
                   >
                     <>
-                      {item?.type === "text" ? (
+                      <ChatMessage data={item} activeProfile={activeProfile} />
+                      {/* {item?.type === "text" ? (
                         <TextMessage
                           data={item}
                           activeProfile={activeProfile}
@@ -141,9 +144,11 @@ const ChatRightSection = ({ activeProfile }: any) => {
                         <EventTemplate data={item} />
                       ) : item?.type === "code" ? (
                         <CodeMessage data={item} />
+                      ) : item?.type === "code" ? (
+                        <DocMessage data={item} />
                       ) : (
                         "No format specified"
-                      )}
+                      )} */}
                     </>
                   </div>
                 ))}
@@ -214,6 +219,12 @@ const chats = [
     link: "https://w0.peakpx.com/wallpaper/1008/1001/HD-wallpaper-tiger-black-look-thumbnail.jpg",
     sendBy: "you",
     type: "image",
+  },
+  {
+    id: 13,
+    text: "By the way when we will meet for this discussion?",
+    sendBy: "sender",
+    type: "doc",
   },
   {
     id: 12,

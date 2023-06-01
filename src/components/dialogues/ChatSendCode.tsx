@@ -1,3 +1,4 @@
+import { Close, Send } from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
@@ -8,9 +9,8 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { Check, Close, CloudUpload, Send, Upload } from "@mui/icons-material";
-import { useRef, useState } from "react";
 import { useFormik } from "formik";
+import { useRef, useState } from "react";
 import * as yup from "yup";
 
 interface Props {
