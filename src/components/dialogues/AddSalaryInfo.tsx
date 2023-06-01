@@ -71,7 +71,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 				label: "Payroll Name",
 				placeholder: "",
 				styleContact: "rounded-lg mb-5",
-				initialValue: null,
+				initialValue: [{ title: null, value: null }],
 			},
 		];
 	}, []);
