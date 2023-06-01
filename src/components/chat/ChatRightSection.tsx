@@ -45,7 +45,7 @@ const ChatRightSection = () => {
       <ChatSendCode open={isCode} handleClose={() => setIsCode(false)} />
 
       <div className="md:w-[70%] xl:w-[77%] h-full">
-        {!currentChatProfileDetails?._id ? (
+        {!currentChatProfileDetails?.id ? (
           <DefaultChatView />
         ) : (
           <div className="w-full h-full">
