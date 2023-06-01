@@ -29,6 +29,11 @@ const useChatData = create<ChatState>((set, get) => ({
 
       await get().revalidateCurrentChat(chatId);
       return;
+    } else if (chatId === get().selectedChatId) {
+      set({
+        selectedChatId: "",
+        currentChatMessage: [],
+      });
     } else {
       set({
         selectedChatId: "",
