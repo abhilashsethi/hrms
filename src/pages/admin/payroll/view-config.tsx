@@ -40,52 +40,55 @@ const ViewConfig = () => {
 								</IconButton>
 							</Tooltip>
 						</div>
-						<div className="flex gap-2 items-center font-medium py-1.5">
+						<div className="font-medium py-1.5">
 							{configData?.length && (
-								<div className="grid lg:grid-cols-3 gap-1 text-sm">
+								<>
+								<div className="grid lg:grid-cols-3 pb-4 gap-1 text-lg">
 									
-										<p className="text-gray-700 lg:col-span-2">Basic Salary % : </p> 
-										<p>{configData[0]?.basicSalary}</p>
+										<p className="text-gray-700 lg:col-span-2">Basic Salary : </p> 
+										<p>{configData[0]?.basicSalary}  %</p>
 									
+										<p className="text-gray-700 lg:col-span-2">HRA :</p> 
+										<p>{configData[0]?.basicSalary}  %</p>
+								
 									
-										<p className="text-gray-700 lg:col-span-2">HRA % :</p> 
-										<p>{configData[0]?.basicSalary}</p>
-									
-									
-										<p className="text-gray-700 lg:col-span-2">Conveyance Allowances:</p> 
-										<p>{configData[0]?.conveyanceAllowances}</p>
-									
-									
-										<p className="text-gray-700 lg:col-span-2">Medical Allowances:</p> 
-										<p>{configData[0]?.medicalAllowances}</p>
+										<p className="text-gray-700 lg:col-span-2">Conveyance Allowances :</p> 
+										<p>{configData[0]?.conveyanceAllowances} Rs.</p>
 									
 									
-										<p className="text-gray-700 lg:col-span-2">PF Employee %:</p> 
-										<p>{configData[0]?.pfEmployee}</p>
+										<p className="text-gray-700 lg:col-span-2">Medical Allowances :</p> 
+										<p>{configData[0]?.medicalAllowances} Rs.</p>
 									
 									
-										<p className="text-gray-700 lg:col-span-2">PF Employer %:</p> 
-										<p>{configData[0]?.pfEmployer}</p>
+										<p className="text-gray-700 lg:col-span-2">PF Employee :</p> 
+										<p>{configData[0]?.pfEmployee} %</p>
 									
 									
-										<p className="text-gray-700 lg:col-span-2">ESI Employee %: </p>
-										<p>{configData[0]?.esiEmployee}</p>
+										<p className="text-gray-700 lg:col-span-2">PF Employer :</p> 
+										<p>{configData[0]?.pfEmployer} %</p>
 									
 									
-										<p className="text-gray-700 lg:col-span-2">ESI Employer %: </p>
-										<p>{configData[0]?.esiEmployer}</p>
+										<p className="text-gray-700 lg:col-span-2">ESI Employee :</p>
+										<p>{configData[0]?.esiEmployee} %</p>
 									
-									<div className="text-md font-semibold">Professional Tax Slab</div>
+									
+										<p className="text-gray-700 lg:col-span-2">ESI Employer :</p>
+										<p>{configData[0]?.esiEmployer} %</p>
+								</div>
+									
+								<HeadText title="Professional Tax Slab"/>
+								<div className="pt-3">
 									{configData[0]?.ptTaxes?.map((item: any) => {
 										return (
-											<div className="flex gap-3 w-full text-sm">
-												<p>Form : {item?.startGrossSalary}</p>
-												<p>To : {item?.endGrossSalary}</p>-
-												<p>Tax : {item?.tax}</p>
+											<div className="flex py-1 gap-3 w-full text-lg">
+												<p><span className="text-gray-700">Form : </span>{item?.startGrossSalary}</p>
+												<p><span className="text-gray-700">To : </span>{item?.endGrossSalary}</p>-
+												<p><span className="text-gray-700">Tax : </span>{item?.tax}</p>
 											</div>
 										);
 									})}
-								</div>
+									</div>
+									</>
 							)}
 						</div>
 					</div>
