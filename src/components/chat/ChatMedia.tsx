@@ -2,6 +2,7 @@ import {
   ArrowBack,
   Delete,
   FileDownload,
+  LinkOutlined,
   Visibility,
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -9,6 +10,7 @@ import { Box, IconButton, Tab, Tooltip } from "@mui/material";
 import { CHATDOC, DOC } from "assets/home";
 import { ChatImagePreview } from "components/dialogues";
 import moment from "moment";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const ChatMedia = ({
@@ -58,7 +60,9 @@ const ChatMedia = ({
             <TabPanel value="2">
               <DocFiles />
             </TabPanel>
-            <TabPanel value="3">Links</TabPanel>
+            <TabPanel value="3">
+              <ChatLinks />
+            </TabPanel>
           </TabContext>
         </Box>
       </div>
@@ -136,7 +140,7 @@ const DocFiles = () => {
   return (
     <>
       {data?.length <= 0 ? (
-        <h1>No Media files.</h1>
+        <h1>No files.</h1>
       ) : (
         <section className="flex flex-col gap-2 pb-12">
           {data?.map((item) => (
@@ -163,6 +167,51 @@ const DocFiles = () => {
                       <FileDownload />
                     </IconButton>
                   </Tooltip>
+                </div>
+              </div>
+              <div>
+                <h1 className="text-xs text-end">
+                  {moment(new Date()).format("lll")}
+                </h1>
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
+    </>
+  );
+};
+
+const ChatLinks = () => {
+  return (
+    <>
+      {data?.length <= 0 ? (
+        <h1>No files.</h1>
+      ) : (
+        <section className="flex flex-col gap-2 pb-12">
+          {data?.map((item) => (
+            <div
+              key={item?.id}
+              className="w-full relative bg-white border-[1px] rounded-md shadow-md p-4"
+            >
+              <div className="flex justify-between items-center">
+                <h1 className="tracking-wide text-sm font-semibold">
+                  Srinu Reddy
+                </h1>
+                <Tooltip title="Delete">
+                  <IconButton size="small">
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div className="h-16 rounded-md w-full mt-2 flex gap-3 items-center hover:bg-slate-300 transition-all ease-in-out duration-300 cursor-pointer">
+                <div className="h-16 w-16 border-2 rounded-md bg-slate-200 flex justify-center items-center">
+                  <LinkOutlined />
+                </div>
+                <div className="flex justify-between w-3/4 items-center overflow-hidden ">
+                  <h1 className="text-xs">
+                    https://www.awesomescreenshot.com/video/17848039?key=563ca0f14ae4cf75b644cc669385b752
+                  </h1>
                 </div>
               </div>
               <div>
