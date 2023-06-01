@@ -90,6 +90,7 @@ export type User = {
 	gmail?: string | null;
 	grossSalary?: number;
 	tds?: number;
+	kpi?: number;
 	github?: string | null;
 	IFSCCode?: string | null;
 	bankName?: string | null;
