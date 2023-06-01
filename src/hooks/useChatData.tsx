@@ -1,4 +1,4 @@
-import { IChatMessages, IGroupChatData } from "types";
+import { IChatGroup, IChatMessages, IGroupChatData } from "types";
 import { create } from "zustand";
 import { BASE_URL, getAccessToken } from "./useAPI";
 
@@ -8,6 +8,8 @@ type ChatState = {
   allPrivateChat: IGroupChatData[];
   allGroupChat: IGroupChatData[];
   currentChatMessage: IChatMessages[];
+  currentChatProfileDetails?: Partial<IChatGroup>;
+  revalidateChatProfileDetails: (chatId: string) => Promise<void>;
   setSelectedChatId: (chatId: string) => void;
   reValidatePrivateChat: () => Promise<void>;
   reValidateGroupChat: () => Promise<void>;
@@ -34,6 +36,26 @@ const useChatData = create<ChatState>((set, get) => ({
       set({
         selectedChatId: "",
         currentChatMessage: [],
+      });
+    }
+  },
+  revalidateChatProfileDetails: async (chatId) => {
+    try {
+      const token = getAccessToken();
+      const response = await fetch(BASE_URL + `/chat/${chatId}`, {
+        method: "GET",
+        headers: {
+          "x-access-token": token,
+        },
+      });
+      const data = await response.json();
+
+      set({
+        currentChatProfileDetails: data?.data,
+      });
+    } catch (error) {
+      set({
+        currentChatProfileDetails: {},
       });
     }
   },

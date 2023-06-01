@@ -19,24 +19,14 @@ import moment from "moment";
 import { useState, MouseEvent, useEffect } from "react";
 import { IGroupChatData, User } from "types";
 
-const ChatLeftbar = ({ setActiveProfile, activeProfile }: any) => {
+const ChatLeftbar = () => {
   const [currentMenu, setCurrentMenu] = useState("Chats");
   const ActiveSection = (currentMenu: string) => {
     switch (currentMenu) {
       case "Chats":
-        return (
-          <Chats
-            setActiveProfile={setActiveProfile}
-            activeProfile={activeProfile}
-          />
-        );
+        return <Chats />;
       case "Groups":
-        return (
-          <GroupChats
-            setActiveProfile={setActiveProfile}
-            activeProfile={activeProfile}
-          />
-        );
+        return <GroupChats />;
       case "New Chat":
         return <Contacts />;
       case "Other":
@@ -111,10 +101,15 @@ const quickLinks = [
   },
 ];
 
-const Chats = ({ setActiveProfile, activeProfile }: any) => {
+const Chats = () => {
   const [afterSearchable, setAfterSearchable] = useState<IGroupChatData[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const { allPrivateChat, setSelectedChatId, selectedChatId } = useChatData();
+  const {
+    allPrivateChat,
+    setSelectedChatId,
+    selectedChatId,
+    revalidateChatProfileDetails,
+  } = useChatData();
 
   //searching and filtering done locally
   useEffect(() => {
@@ -143,15 +138,13 @@ const Chats = ({ setActiveProfile, activeProfile }: any) => {
           onChange={(e) => setSearchTitle(e?.target?.value)}
         />
       </div>
-      {/* <div className="mt-2">
-        <span className="text-sm">
-          Recent Chats <KeyboardArrowDown fontSize="small" />
-        </span>
-      </div> */}
       <div className="mt-2 flex flex-col gap-1">
         {afterSearchable?.map((item) => (
           <div
-            onClick={() => setSelectedChatId(item?.id)}
+            onClick={() => {
+              setSelectedChatId(item?.id);
+              revalidateChatProfileDetails(item?.id);
+            }}
             key={item?.id}
             className={`h-16 w-full px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
               selectedChatId === item?.id ? `bg-blue-100` : ``
@@ -184,7 +177,7 @@ const Chats = ({ setActiveProfile, activeProfile }: any) => {
   );
 };
 
-const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
+const GroupChats = () => {
   const [isCreate, setIsCreate] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -197,7 +190,12 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
 
   const [afterSearchable, setAfterSearchable] = useState<IGroupChatData[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const { allGroupChat, setSelectedChatId, selectedChatId } = useChatData();
+  const {
+    allGroupChat,
+    setSelectedChatId,
+    selectedChatId,
+    revalidateChatProfileDetails,
+  } = useChatData();
 
   //searching and filtering done locally
   useEffect(() => {
@@ -249,34 +247,34 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
             >
               Create Group
             </MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleClose}>Settings</MenuItem>
           </Menu>
         </div>
       </div>
-      <div className="mt-2">
-        <span className="text-sm">
-          Recent Chats <KeyboardArrowDown fontSize="small" />
-        </span>
-      </div>
+
       <div className="mt-2 flex flex-col gap-1">
-        {groups?.map((item) => (
+        {afterSearchable?.map((item) => (
           <div
-            onClick={() => setActiveProfile(item)}
+            onClick={() => {
+              setSelectedChatId(item?.id);
+              revalidateChatProfileDetails(item?.id);
+            }}
             key={item?.id}
             className={`h-16 w-full transition-all ease-in-out duration-300 px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
               selectedChatId === item?.id ? `bg-blue-100` : ``
             }`}
           >
             <PhotoViewerSmall
-              name={item?.name}
+              name={item?.lastMessage?.sender}
               photo={item?.photo || ""}
               size="3rem"
             />
             <div className="w-[80%] flex justify-between ">
               <div>
-                <h1 className="text-sm font-semibold">{item?.name}</h1>
-                <span className="text-sm font-light">{item?.message}</span>
+                <h1 className="text-sm font-semibold">{item?.title}</h1>
+                <span className="text-sm font-light">
+                  {item?.lastMessage?.message}
+                </span>
               </div>
               <span className="text-xs">{moment(new Date()).format("ll")}</span>
             </div>
