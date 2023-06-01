@@ -2,15 +2,12 @@ import {
   AttachFile,
   Code,
   DriveFileRenameOutline,
-  FileCopy,
   ImageOutlined,
-  Save,
   SentimentSatisfiedAlt,
 } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { ChatSendCode, ChatSendFiles } from "components/dialogues";
-import { useAuth } from "hooks";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ChatHead from "./ChatHead";
 import ChatMessage from "./ChatMessage";
 import DefaultChatView from "./DefaultChatView";
@@ -25,11 +22,13 @@ interface Props {
 const ChatRightSection = ({ activeProfile }: any) => {
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
-  const { user } = useAuth();
-  const actions = [
-    { icon: <FileCopy />, name: "Copy" },
-    { icon: <Save />, name: "Save" },
-  ];
+  const textRef = useRef<HTMLInputElement | null>(null);
+  const handleClick = () => {
+    if (textRef.current) {
+      const inputValue = textRef.current.value;
+      textRef.current.focus();
+    }
+  };
   return (
     <>
       <ChatSendFiles open={isUpload} handleClose={() => setIsUpload(false)} />
@@ -89,15 +88,18 @@ const ChatRightSection = ({ activeProfile }: any) => {
             </div>
             <div className="h-20 w-full border-2 flex items-center px-8 justify-between">
               <div className="h-10 px-3 rounded-full w-4/5 border-2 flex justify-between items-center">
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center w-full">
                   <SentimentSatisfiedAlt className="!cursor-pointer" />
                   <input
-                    className="bg-white text-sm"
+                    ref={textRef}
+                    className="bg-white text-sm w-4/5"
                     placeholder="Type a message"
                     type="text"
                   />
                 </div>
-                <DriveFileRenameOutline className="!cursor-pointer" />
+                <IconButton onClick={handleClick} size="small">
+                  <DriveFileRenameOutline />
+                </IconButton>
               </div>
               <Tooltip title="Image">
                 <IconButton onClick={() => setIsUpload(true)} size="small">
