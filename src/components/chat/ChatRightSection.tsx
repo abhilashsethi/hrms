@@ -4,21 +4,16 @@ import {
   DriveFileRenameOutline,
   FileCopy,
   ImageOutlined,
-  MoreVert,
   Save,
   SentimentSatisfiedAlt,
 } from "@mui/icons-material";
-import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
-import { PhotoViewerSmall } from "components/core";
-import { ChatProfileDrawer } from "components/drawer";
-import { useAuth, useChatData } from "hooks";
-import moment from "moment";
-import { useState, MouseEvent } from "react";
-import DefaultChatView from "./DefaultChatView";
-import ImageMessage from "./ImageMessage";
-import TextMessage from "./TextMessage";
+import { IconButton, Tooltip } from "@mui/material";
 import { ChatSendCode, ChatSendFiles } from "components/dialogues";
-import CodeMessage from "./CodeMessage";
+import { useAuth, useChatData } from "hooks";
+import { useState, MouseEvent } from "react";
+import ChatHead from "./ChatHead";
+import ChatMessage from "./ChatMessage";
+import DefaultChatView from "./DefaultChatView";
 
 interface Props {
   id?: number;
@@ -29,7 +24,6 @@ interface Props {
 
 const ChatRightSection = () => {
   const [isUpload, setIsUpload] = useState(false);
-  const [isDrawer, setIsDrawer] = useState(false);
   const [isCode, setIsCode] = useState(false);
   const { user } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -51,70 +45,13 @@ const ChatRightSection = () => {
     <>
       <ChatSendFiles open={isUpload} handleClose={() => setIsUpload(false)} />
       <ChatSendCode open={isCode} handleClose={() => setIsCode(false)} />
-      <ChatProfileDrawer
-        profileData={currentChatProfileDetails}
-        open={isDrawer}
-        onClose={() => setIsDrawer(false)}
-      />
+
       <div className="md:w-[70%] xl:w-[77%] h-full">
         {!currentChatProfileDetails?._id ? (
           <DefaultChatView />
         ) : (
           <div className="w-full h-full">
-            <div className="py-2 px-4 w-full border-b-2 flex justify-between items-center">
-              <div className="flex gap-3 items-center">
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setIsDrawer(true)}
-                >
-                  <PhotoViewerSmall
-                    photo={currentChatProfileDetails?.photo}
-                    name={currentChatProfileDetails?.title}
-                    size="3.5rem"
-                  />
-                </div>
-                <div>
-                  <h1 className="font-semibold">
-                    {currentChatProfileDetails?.title}
-                  </h1>
-                  <h1 className="text-sm font-light">
-                    {currentChatProfileDetails?.isPrivateGroup ? (
-                      <span className="">Active Now</span>
-                    ) : (
-                      <span className="">Srinu, Loushik, Abhilash,You</span>
-                    )}
-                  </h1>
-                </div>
-              </div>
-              <div>
-                <Tooltip title="Menu">
-                  <IconButton onClick={handleClick} size="small">
-                    <MoreVert />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    "aria-labelledby": "basic-button",
-                  }}
-                >
-                  <MenuItem
-                    onClick={() => {
-                      setIsDrawer(true);
-                      handleClose();
-                    }}
-                  >
-                    Details
-                  </MenuItem>
-                  <MenuItem onClick={handleClose}>Clear Messages</MenuItem>
-                  <MenuItem onClick={handleClose}>Delete Chat</MenuItem>
-                  <MenuItem onClick={handleClose}>Block</MenuItem>
-                </Menu>
-              </div>
-            </div>
+            <ChatHead activeProfile={currentChatProfileDetails} />
             <div className="h-[72%] overflow-y-auto">
               <div className="px-4 pb-4">
                 {chats?.map((item) => (
@@ -129,7 +66,16 @@ const ChatRightSection = () => {
                     }`}
                   >
                     <>
-                      {item?.type === "text" ? (
+                      {item?.type === "event" ? (
+                        <EventTemplate data={item} />
+                      ) : (
+                        <ChatMessage
+                          data={item}
+                          activeProfile={currentChatProfileDetails}
+                        />
+                      )}
+
+                      {/* {item?.type === "text" ? (
                         <TextMessage
                           data={item}
                           activeProfile={currentChatProfileDetails}
@@ -143,9 +89,11 @@ const ChatRightSection = () => {
                         <EventTemplate data={item} />
                       ) : item?.type === "code" ? (
                         <CodeMessage data={item} />
+                      ) : item?.type === "code" ? (
+                        <DocMessage data={item} />
                       ) : (
                         "No format specified"
-                      )}
+                      )} */}
                     </>
                   </div>
                 ))}
@@ -216,6 +164,12 @@ const chats = [
     link: "https://w0.peakpx.com/wallpaper/1008/1001/HD-wallpaper-tiger-black-look-thumbnail.jpg",
     sendBy: "you",
     type: "image",
+  },
+  {
+    id: 13,
+    text: "By the way when we will meet for this discussion?",
+    sendBy: "sender",
+    type: "doc",
   },
   {
     id: 12,
