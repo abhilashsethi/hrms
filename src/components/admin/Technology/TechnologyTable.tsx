@@ -13,9 +13,11 @@ interface ARRAY {
   visitInfo?: string;
   company?: string;
   designation?: string;
+  updatedAt?:string;
+  createdAt?:string;
 }
 interface Props {
-  data?: ARRAY[];
+  data?: any;
   mutate?: any;
 }
 const GuestColumn = ({ data, mutate }: Props) => {
@@ -50,7 +52,15 @@ const GuestColumn = ({ data, mutate }: Props) => {
       <MaterialTable
         title={<HeadStyle name="All Technology" icon={<PeopleRounded />} />}
         isLoading={!data}
-        data={data ? getDataWithSL<any>(data) : []}
+        data={!data ? [] : data?.map((_: any, i: number) => ({
+          ..._,
+          sl: i + 1,
+          
+          name: _?.data?.name,
+          TotalProject: _?.(data?.usedProjectIds?.length),
+          updatedAt: _?.(new Date(data?.updatedAt).toDateString()),
+          createdAt: _?.(new Date(data?.createdAt).toDateString()),
+        }))}
         options={{ ...MuiTblOptions(), selection: false, paging: false }}
         columns={[
           {
@@ -68,6 +78,8 @@ const GuestColumn = ({ data, mutate }: Props) => {
           {
             title: "Total Project",
             tooltip: "Total Project",
+            field: "TotalProject",
+            export: true,
             render: (data) => {
               return <p>{data.usedProjectIds.length}</p>;
             },
