@@ -15,6 +15,7 @@ import moment from "moment";
 import { useState } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { sample } from "utils";
+import ImageMessage from "./ImageMessage";
 
 interface textProps {
   data?: any;
@@ -91,11 +92,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
               {data?.type === "text" ? (
                 <p className="tracking-wide">{data?.text}</p>
               ) : data?.type === "image" ? (
-                <img
-                  className="h-40 w-full rounded-md object-cover"
-                  src={data?.link}
-                  alt=""
-                />
+                <ImageMessage data={data} />
               ) : data?.type === "code" ? (
                 <div>
                   <CopyBlock
@@ -177,17 +174,6 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
 };
 
 export default ChatMessage;
-
-const EventTemplate = ({ data }: any) => {
-  return (
-    <div className="flex justify-center items-center">
-      <span className="text-xs tracking-wide px-4 py-1 bg-slate-200 rounded-full">
-        {data?.text}
-      </span>
-    </div>
-  );
-};
-
 const DocFormat = () => {
   return (
     <div className="flex gap-2 items-center">
