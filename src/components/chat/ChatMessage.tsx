@@ -87,25 +87,6 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
             ,<span className="text-xs">{moment(new Date()).format("ll")}</span>
           </div>
           <div className="w-full bg-blue-100 py-2 px-4 tracking-wide rounded-md text-sm">
-            {/* {item?.type === "text" ? (
-                        <TextMessage
-                          data={item}
-                          activeProfile={activeProfile}
-                        />
-                      ) : item?.type === "image" ? (
-                        <ImageMessage
-                          data={item}
-                          activeProfile={activeProfile}
-                        />
-                      ) : item?.type === "event" ? (
-                        <EventTemplate data={item} />
-                      ) : item?.type === "code" ? (
-                        <CodeMessage data={item} />
-                      ) : item?.type === "code" ? (
-                        <DocMessage data={item} />
-                      ) : (
-                        "No format specified"
-                      )} */}
             <div>
               {data?.type === "text" ? (
                 <p className="tracking-wide">{data?.text}</p>
@@ -163,7 +144,11 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
                 </IconButton>
               </div>
               {isOptions && (
-                <div className=" bg-white border-[1px] absolute right-[-20%] rounded-md top-[30px] p-2">
+                <div
+                  className={`bg-white border-[1px] absolute rounded-md top-[30px] p-2 ${
+                    data?.sendBy === "you" ? "right-0" : "right-[-20%]"
+                  }`}
+                >
                   {buttons?.map((item) => (
                     <div
                       onClick={item?.onClick}
