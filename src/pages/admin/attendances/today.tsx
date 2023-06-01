@@ -164,14 +164,14 @@ const TodayAttendance = () => {
                 value={empId ? empId : ""}
                 placeholder="Employee Id"
                 name="employeeId"
-                onChange={(e) => setEmpId(e.target.value)}
+                onChange={(e) => {setPageNumber(1),setEmpId(e.target.value)}}
               />
               <TextField
                 fullWidth
                 size="small"
                 value={userName ? userName : ""}
                 placeholder="Employee Name"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {setPageNumber(1),setUsername(e.target.value)}}
                 name="employeeName"
               />
               <TextField
@@ -181,7 +181,7 @@ const TodayAttendance = () => {
                 value={status != "null" ? status : "null"}
                 label="Status"
                 defaultValue="all"
-                onChange={(e: any) => setStatus(e.target.value)}
+                onChange={(e: any) => {setPageNumber(1),setStatus(e.target.value)}}
               >
                 {selects.map((option: any) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -196,7 +196,7 @@ const TodayAttendance = () => {
                 value={order ? order : ""}
                 label="Order By"
                 // defaultValue="all"
-                onChange={(e: any) => setOrder(e.target.value)}
+                onChange={(e: any) => {setPageNumber(1),setOrder(e.target.value)}}
               >
                 {orderBy.map((option: any) => (
                   <MenuItem key={option.id} value={option.value}>

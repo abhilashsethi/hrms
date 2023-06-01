@@ -91,7 +91,7 @@ const AllTechnologies = () => {
                 size="small"
                 id="name"
                 value={userName ? userName : ""}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
                 placeholder="Technology Name"
                 name="name"
               />
@@ -101,7 +101,7 @@ const AllTechnologies = () => {
                 label="Ascending/Descending"
                 size="small"
                 value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => setIsOrderBy(e?.target?.value)}
+                onChange={(e) => {setPageNumber(1), setIsOrderBy(e?.target?.value)}}
               >
                 {short.map((option) => (
                   <MenuItem key={option.id} value={option.value}>

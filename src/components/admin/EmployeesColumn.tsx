@@ -115,7 +115,7 @@ const EmployeesColumn = ({ data, mutate }: Props) => {
 						field: "name",
 						render: (item) => {
 							return (
-								<Link href={`/admin/employees/employee-profile?id=${item?.id}`}>
+								<Link href={`/admin/employees/profile/${item?.id}`}>
 									<Tooltip title="Details">
 										<div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
 											<PersonRounded className="!text-white" />

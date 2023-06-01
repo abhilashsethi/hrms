@@ -113,7 +113,7 @@ const AllClients = () => {
                 size="small"
                 id="name"
                 value={userName ? userName : ""}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
                 placeholder="Client Name"
                 name="name"
               />
@@ -123,7 +123,7 @@ const AllClients = () => {
                 label="Ascending/Descending"
                 size="small"
                 value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => setIsOrderBy(e?.target?.value)}
+                onChange={(e) => {setPageNumber(1), setIsOrderBy(e?.target?.value)}}
               >
                 {short.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -137,7 +137,7 @@ const AllClients = () => {
                 label="Issue Resolved"
                 size="small"
                 value={isIssue ? isIssue : ""}
-                onChange={(e) => setIsIssue(e?.target?.value)}
+                onChange={(e) => {setPageNumber(1), setIsIssue(e?.target?.value)}}
               >
                 {ticket.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
