@@ -51,7 +51,7 @@ const ChatRightSection = () => {
           <DefaultChatView />
         ) : (
           <div className="w-full h-full">
-            <ChatHead activeProfile={currentChatProfileDetails} />
+            <ChatHead />
             <div className="h-[72%] overflow-y-auto">
               <div className="px-4 pb-4">
                 {chats?.map((item) => (
