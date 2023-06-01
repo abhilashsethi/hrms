@@ -1,18 +1,13 @@
-import { Button, CircularProgress, Container, Typography } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { Form, Formik, FormikProps } from "formik";
 import { useMemo, useState } from "react";
-import { LoadingButton } from "@mui/lab";
 import Swal from "sweetalert2";
 import {
 	Add,
 	BorderColor,
-	ContactPhone,
 	Done,
-	Email,
-	MedicationLiquid,
 } from "@mui/icons-material";
 import * as Yup from "yup";
-import { useRouter } from "next/router";
 import TextInput from "components/core/TextInput";
 import AdminAutocomplete from "components/core/AdminAutocomplete";
 import { useChange, useFetch } from "hooks";
@@ -22,14 +17,11 @@ import { AddMoreField } from "components/dialogues";
 import PayrollInputField from "./PayrollInputField";
 
 const AddPrescription = () => {
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [fields, setFields] = useState<any>([]);
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
 	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
+
 	const { data: usersData, isLoading } = useFetch<any>(`users`);
 	const payrollSchema = useMemo(() => {
 		return [
