@@ -70,7 +70,7 @@ const ChatHead = () => {
               ) : (
                 <span className="">
                   {currentChatProfileDetails?.chatMembers
-                    ?.filter((item) => item?.isPastMember)
+                    ?.filter((item) => !item?.isPastMember)
                     ?.slice(0, 5)
                     ?.map((item) => item?.user?.name)
                     .join(", ")}{" "}

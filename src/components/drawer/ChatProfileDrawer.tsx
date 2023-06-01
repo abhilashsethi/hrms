@@ -30,13 +30,9 @@ type Props = {
   profileData?: Partial<IChatGroup>;
 };
 const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
-  const PhotoRef = useRef<any>();
   const [isDescription, setIsDescription] = useState(false);
   const [isMedia, setIsMedia] = useState(false);
-
   const { user } = useAuth();
-
-  console.log({ profileData });
 
   return (
     <>
@@ -60,14 +56,28 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               </div>
               {/* ------------------Image section----------------- */}
               <div className="flex flex-col items-center gap-3 my-8">
-                <PhotoUpdateView photo={profileData?.photo} />
+                <PhotoUpdateView
+                  photo={profileData?.photo}
+                  chatId={profileData?.id}
+                  editable={
+                    !profileData?.isPrivateGroup &&
+                    profileData?.chatMembers?.find(
+                      (item) => item?.user?.id === user?.id
+                    )?.isAdmin
+                  }
+                />
                 <div className="flex flex-col gap-1 items-center">
                   <h1 className="font-semibold">{profileData?.title}</h1>
                   {!profileData?.isPrivateGroup ? (
                     <h1 className="flex">
                       Group{" "}
                       <span className="ml-2">
-                        {profileData?.totalMembers} Participants
+                        {
+                          profileData?.chatMembers?.filter(
+                            (item) => !item?.isPastMember
+                          )?.length
+                        }{" "}
+                        Participants
                       </span>
                     </h1>
                   ) : (
@@ -82,30 +92,33 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                 </div>
               </div>
               {/* ------------------About Section-------------------- */}
-              {!profileData?.isPrivateGroup && (
-                <div className="my-4">
-                  <div className="flex justify-between items-center">
-                    <SectionTitle title="Group Description" />
-                    <Tooltip title="Edit">
-                      <IconButton
-                        onClick={() => setIsDescription(true)}
-                        size="small"
-                      >
-                        <Edit />
-                      </IconButton>
-                    </Tooltip>
+              {!profileData?.isPrivateGroup &&
+                profileData?.chatMembers?.find(
+                  (item) => item?.user?.id === user?.id
+                )?.isAdmin && (
+                  <div className="my-4">
+                    <div className="flex justify-between items-center">
+                      <SectionTitle title="Group Description" />
+                      <Tooltip title="Edit">
+                        <IconButton
+                          onClick={() => setIsDescription(true)}
+                          size="small"
+                        >
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                    <p className="mt-2 pl-4 text-gray-600">
+                      {profileData?.description}
+                    </p>
                   </div>
-                  <p className="mt-2 pl-4 text-gray-600">
-                    {profileData?.description}
-                  </p>
-                </div>
-              )}
+                )}
               {!profileData?.isPrivateGroup ? (
                 <div>
                   <SectionTitle title="Participants" />
                   <div className="px-4 py-3 flex flex-col gap-1">
                     {profileData?.chatMembers
-                      ?.filter((item) => item?.isPastMember)
+                      ?.filter((item) => !item?.isPastMember)
                       .map((item) => (
                         <div
                           key={item?.user?.id}
