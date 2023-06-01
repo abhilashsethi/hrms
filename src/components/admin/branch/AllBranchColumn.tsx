@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { Role } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 interface Props {
-  data?: Role[];
+  data?: any;
   mutate?: any;
 }
 const AllBranchColumn = ({ data, mutate }: Props) => {
