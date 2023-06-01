@@ -7,7 +7,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { Role } from "types";
 interface Props {
-  data?: Role[];
+  data?: any;
   mutate?: any;
 }
 const AllBranchGrid = ({ data, mutate }: Props) => {
@@ -76,55 +76,27 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
       />
       <div className="my-4">
         <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
-          {data?.map((item: any) => (
-            <div key={item?.id}>
-              <div className="px-4 h-48 w-full hover:scale-105 ease-in-out transition-all duration-200 bg-white border-b-4 border-cyan-600 shadow-lg rounded-xl flex justify-center items-center">
-                <div className="grid justify-items-center items-center gap-4">
-                  <p className="text-lg font-semibold tracking-wide text-center capitalize">
-                    {item?.name}
-                  </p>
-                  <div className="w-full px-8 flex gap-2 justify-center">
-                    <div className=" py-1 rounded-lg text-gray-600 flex items-center gap-2 px-4">
-                      <p className="font-semibold tracking-wide text-sm">
-                        Total Member :
-                      </p>
-                      {item?._count?.users}
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="h-10 w-10 cursor-pointer hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-xl rounded-full bg-gradient-to-r from-red-600 to-red-400 flex justify-center items-center text-lg font-semibold hover:from-red-400 hover:to-red-600">
-                      <Tooltip title="Delete">
-                        <IconButton onClick={() => handleDelete(item?.id)}>
-                          <Delete className="!text-white" />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                    <div
-                      onClick={() => {
-                        setIsUpdate({ dialogue: true, departmentData: item });
-                      }}
-                      className="h-10 w-10 cursor-pointer hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-xl rounded-full bg-gradient-to-r from-blue-600 to-blue-400 flex justify-center items-center text-lg font-semibold hover:from-blue-400 hover:to-blue-600"
-                    >
-                      <Tooltip title="Edit">
-                        <Edit className="!text-white" />
-                      </Tooltip>
-                    </div>
-                    <div className="h-10 w-10 cursor-pointer hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-xl rounded-full bg-gradient-to-r from-yellow-600 to-yellow-400 flex justify-center items-center text-lg font-semibold hover:from-yellow-400 hover:to-yellow-600">
-                      <Tooltip title="Information">
-                        <IconButton
-                          onClick={() =>
-                            setIsInfo({ dialogue: true, role: item })
-                          }
-                        >
-                          <Info className="!text-white" />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+          {data?.map((item:any)=>(<>
+        <div key={item?.id} className="mb-4 p-0 sm:p-4 w-full"> {/* Card container */}
+      <div className="group h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
+
+        <img className="lg:h-48 md:h-36 w-full object-cover object-center transition duration-500 ease-in-out transform group-hover:scale-105" 
+        src={item?.photo} alt="blog"/>
+        <h2 className="pt-4 pb-1 px-6 inline-block text-xs title-font font-semibold text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold">{item?.location}, {item?.country}</h2>
+        <div className="py-1 px-6">
+          <h1 className="mb-3 inline-block title-font text-xl font-extrabold text-gray-800 tracking-wide cursor-pointer">{item?.name}</h1>
+          <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.manager}</p>
+        </div>
+        <div className="pt-1 pb-4 px-6 flex justify-between items-center flex-wrap">
+          <div className="flex flex-wrap text-sm text-gray-500">
+            <span className="mr-1">27th Oct 2022</span>
+          </div>
+          <span className="mr-1">27th Oct 2022</span>
+        </div>
+        
+      </div>
+    </div>
+    </>))}
         </div>
       </div>
     </>
