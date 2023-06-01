@@ -1,11 +1,20 @@
-import { Delete, DoneAll, MoreHoriz, Reply } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import {
+  Delete,
+  DoneAll,
+  FileDownloadOutlined,
+  MoreHoriz,
+  Reply,
+} from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
+import { CHATDOC } from "assets/home";
 import { PhotoViewerSmall } from "components/core";
 import { ChatReply } from "components/dialogues";
 import { ChatReactions, ChatSeen } from "components/drawer";
 import { useAuth } from "hooks";
 import moment from "moment";
 import { useState } from "react";
+import { CopyBlock, dracula } from "react-code-blocks";
+import { sample } from "utils";
 
 interface textProps {
   data?: any;
@@ -15,6 +24,9 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
   const [isReactions, setIsReactions] = useState(false);
   const [isReply, setIsReply] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
+  const [language, changeLanguage] = useState("jsx");
+  const [languageDemo, changeDemo] = useState(sample["jsx"]);
+  const [lineNumbers, toggleLineNumbers] = useState(true);
   const [isOptions, setIsOptions] = useState<boolean>(false);
   const { user } = useAuth();
   const buttons = [
@@ -97,6 +109,25 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
             <div>
               {data?.type === "text" ? (
                 <p className="tracking-wide">{data?.text}</p>
+              ) : data?.type === "image" ? (
+                <img
+                  className="h-40 w-full rounded-md object-cover"
+                  src={data?.link}
+                  alt=""
+                />
+              ) : data?.type === "code" ? (
+                <div>
+                  <CopyBlock
+                    language={language}
+                    text={languageDemo}
+                    showLineNumbers={lineNumbers}
+                    theme={dracula}
+                    wrapLines={true}
+                    codeBlock
+                  />
+                </div>
+              ) : data?.type === "doc" ? (
+                <DocFormat />
               ) : (
                 ""
               )}
@@ -161,3 +192,29 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
 };
 
 export default ChatMessage;
+
+const EventTemplate = ({ data }: any) => {
+  return (
+    <div className="flex justify-center items-center">
+      <span className="text-xs tracking-wide px-4 py-1 bg-slate-200 rounded-full">
+        {data?.text}
+      </span>
+    </div>
+  );
+};
+
+const DocFormat = () => {
+  return (
+    <div className="flex gap-2 items-center">
+      <img className="h-12 object-contain" src={CHATDOC.src} alt="" />
+      <div className="flex w-4/5 justify-between items-center">
+        <h1>AllData.csv</h1>
+        <Tooltip title="Download">
+          <IconButton size="small">
+            <FileDownloadOutlined />
+          </IconButton>
+        </Tooltip>
+      </div>
+    </div>
+  );
+};

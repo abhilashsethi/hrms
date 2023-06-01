@@ -262,7 +262,7 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
       <div className="mt-2 flex flex-col gap-1">
         {groups?.map((item) => (
           <div
-            onClick={() => setSelectedChatId(item?.id)}
+            onClick={() => setActiveProfile(item)}
             key={item?.id}
             className={`h-16 w-full transition-all ease-in-out duration-300 px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
               selectedChatId === item?.id ? `bg-blue-100` : ``

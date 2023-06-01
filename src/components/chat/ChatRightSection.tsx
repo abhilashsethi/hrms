@@ -133,7 +133,15 @@ const ChatRightSection = ({ activeProfile }: any) => {
                     }`}
                   >
                     <>
-                      <ChatMessage data={item} activeProfile={activeProfile} />
+                      {item?.type === "event" ? (
+                        <EventTemplate data={item} />
+                      ) : (
+                        <ChatMessage
+                          data={item}
+                          activeProfile={activeProfile}
+                        />
+                      )}
+
                       {/* {item?.type === "text" ? (
                         <TextMessage
                           data={item}
