@@ -8,6 +8,7 @@ import {
 import {
   Autocomplete,
   Box,
+  Button,
   Container,
   Drawer,
   IconButton,
@@ -37,6 +38,13 @@ const ChatGroupCreate = ({ open, onClose }: Props) => {
             </IconButton>
             <span>Create Group</span>
           </div>
+          <h1 className="py-4 font-semibold">Group Title</h1>
+          <TextField
+            variant="standard"
+            size="small"
+            fullWidth
+            placeholder="Group title here"
+          />
           <h1 className="mt-4 font-semibold flex gap-2 items-center">
             <People /> Add Group Participants
           </h1>
@@ -71,10 +79,17 @@ const ChatGroupCreate = ({ open, onClose }: Props) => {
               )}
             />
           </div>
+          <h1 className="py-4 font-semibold">Group Description</h1>
+          <TextField
+            variant="standard"
+            size="small"
+            fullWidth
+            placeholder="Group description"
+          />
           <div className="flex justify-center mt-8">
-            <div className="h-16 w-16 bg-emerald-500 rounded-full flex justify-center items-center shadow-md">
-              <ArrowForward />
-            </div>
+            <Button variant="contained" className="!bg-theme">
+              CREATE
+            </Button>
           </div>
         </section>
       </Container>

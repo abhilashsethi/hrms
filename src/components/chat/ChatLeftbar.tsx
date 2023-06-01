@@ -249,8 +249,7 @@ const GroupChats = ({ setActiveProfile, activeProfile }: any) => {
             >
               Create Group
             </MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleClose}>Settings</MenuItem>
           </Menu>
         </div>
       </div>
