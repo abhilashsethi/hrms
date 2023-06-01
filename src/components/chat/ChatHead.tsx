@@ -4,6 +4,7 @@ import { PhotoViewerSmall } from "components/core";
 import { ChatProfileDrawer } from "components/drawer";
 import { useAuth, useChatData } from "hooks";
 import { MouseEvent, useState } from "react";
+import { formatChatTime } from "utils";
 
 const ChatHead = () => {
   const [isDrawer, setIsDrawer] = useState(false);
@@ -18,8 +19,6 @@ const ChatHead = () => {
 
   const { currentChatProfileDetails } = useChatData();
   const { user } = useAuth();
-
-  console.log({ currentChatProfileDetails });
 
   return (
     <>
@@ -57,13 +56,26 @@ const ChatHead = () => {
                   )?.user?.isOnline
                     ? "Active Now"
                     : `Last seen at ${
-                        currentChatProfileDetails?.chatMembers?.find(
+                        (currentChatProfileDetails?.chatMembers?.find(
                           (item) => item?.user?.id !== user?.id
-                        )?.user?.lastActiveTime
+                        )?.user?.lastActiveTime &&
+                          formatChatTime(
+                            currentChatProfileDetails?.chatMembers?.find(
+                              (item) => item?.user?.id !== user?.id
+                            )?.user?.lastActiveTime
+                          )) ||
+                        "unknown"
                       }`}
                 </span>
               ) : (
-                <span className="">Srinu, Loushik, Abhilash,You</span>
+                <span className="">
+                  {currentChatProfileDetails?.chatMembers
+                    ?.filter((item) => item?.isPastMember)
+                    ?.slice(0, 5)
+                    ?.map((item) => item?.user?.name)
+                    .join(", ")}{" "}
+                  and others.
+                </span>
               )}
             </h1>
           </div>
