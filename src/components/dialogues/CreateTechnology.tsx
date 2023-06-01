@@ -65,7 +65,6 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
       const res = await change(`technologies`, {
         body: { logo: url, name: name },
       });
-      mutate();
       setLoading(false);
       if (res?.status !== 201) {
         Swal.fire(

@@ -56,10 +56,10 @@ const GuestColumn = ({ data, mutate }: Props) => {
           ..._,
           sl: i + 1,
           
-          name: _?.data?.name,
-          TotalProject: _?.(data?.usedProjectIds?.length),
-          updatedAt: _?.(new Date(data?.updatedAt).toDateString()),
-          createdAt: _?.(new Date(data?.createdAt).toDateString()),
+          name: _?.name,
+          TotalProject: _?.usedProjectIds?.length,
+          updatedAt: (new Date(_?.updatedAt).toDateString()),
+          createdAt: (new Date(_?.createdAt).toDateString()),
         }))}
         options={{ ...MuiTblOptions(), selection: false, paging: false }}
         columns={[
