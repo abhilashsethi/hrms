@@ -2,11 +2,7 @@ import { Button, CircularProgress } from "@mui/material";
 import { Form, Formik, FormikProps } from "formik";
 import { useMemo, useState } from "react";
 import Swal from "sweetalert2";
-import {
-	Add,
-	BorderColor,
-	Done,
-} from "@mui/icons-material";
+import { Add, BorderColor, Done } from "@mui/icons-material";
 import * as Yup from "yup";
 import TextInput from "components/core/TextInput";
 import AdminAutocomplete from "components/core/AdminAutocomplete";

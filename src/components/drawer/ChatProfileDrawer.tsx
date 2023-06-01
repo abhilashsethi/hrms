@@ -20,21 +20,23 @@ import {
 import { DEFAULTPROFILE, GROUP } from "assets/home";
 import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
 import { ChatDescription } from "components/dialogues";
-import React, { useState, useRef } from "react";
+import { useAuth } from "hooks";
+import React, { useState, useRef, Dispatch } from "react";
+import { IChatGroup } from "types";
 
 type Props = {
   open?: boolean | any;
   onClose: () => void;
-  profileData?: any;
+  profileData?: Partial<IChatGroup>;
 };
 const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
   const PhotoRef = useRef<any>();
   const [isDescription, setIsDescription] = useState(false);
   const [isMedia, setIsMedia] = useState(false);
-  const [value, setValue] = React.useState("1");
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
+
+  const { user } = useAuth();
+
+  console.log({ profileData });
 
   return (
     <>
@@ -58,20 +60,29 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               </div>
               {/* ------------------Image section----------------- */}
               <div className="flex flex-col items-center gap-3 my-8">
-                <PhotoUpdateView />
+                <PhotoUpdateView photo={profileData?.photo} />
                 <div className="flex flex-col gap-1 items-center">
-                  <h1 className="font-semibold">{profileData?.name}</h1>
-                  {profileData?.type === "group" ? (
+                  <h1 className="font-semibold">{profileData?.title}</h1>
+                  {!profileData?.isPrivateGroup ? (
                     <h1 className="flex">
-                      Group <span className="ml-2">4 Participants</span>
+                      Group{" "}
+                      <span className="ml-2">
+                        {profileData?.totalMembers} Participants
+                      </span>
                     </h1>
                   ) : (
-                    <h1 className="">demo@sy.com</h1>
+                    <h1 className="">
+                      {
+                        profileData?.chatMembers?.find(
+                          (item) => item?.user?.id !== user?.id
+                        )?.user?.email
+                      }
+                    </h1>
                   )}
                 </div>
               </div>
               {/* ------------------About Section-------------------- */}
-              {profileData?.type === "group" && (
+              {!profileData?.isPrivateGroup && (
                 <div className="my-4">
                   <div className="flex justify-between items-center">
                     <SectionTitle title="Group Description" />
@@ -85,31 +96,30 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                     </Tooltip>
                   </div>
                   <p className="mt-2 pl-4 text-gray-600">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Nobis, dolorum?
+                    {profileData?.description}
                   </p>
                 </div>
               )}
-              {profileData?.type === "group" ? (
+              {!profileData?.isPrivateGroup ? (
                 <div>
                   <SectionTitle title="Participants" />
                   <div className="px-4 py-3 flex flex-col gap-1">
-                    {profiles?.map((item) => (
+                    {profileData?.chatMembers?.map((item) => (
                       <div
-                        key={item?.id}
+                        key={item?.user?.id}
                         className="py-2 w-full rounded-md flex gap-1 items-center px-2"
                       >
                         <div className="w-1/5">
                           <PhotoViewerSmall
                             size="2.7rem"
-                            name={item?.name}
-                            photo={item?.photo}
+                            name={item?.user?.name}
+                            photo={item?.user?.photo}
                           />
                         </div>
                         <div className="w-4/5 flex justify-between">
                           <div className="w-3/5">
                             <h1 className="text-sm font-semibold">
-                              {item?.name}
+                              {item?.user?.name}
                             </h1>
                             <h1 className="text-sm text-gray-600">demo</h1>
                           </div>
@@ -125,8 +135,14 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                 </div>
               ) : (
                 <div>
-                  <SectionTitle title="Department" />
-                  <h1 className="px-4 mt-2">Web Development</h1>
+                  <SectionTitle title="Role" />
+                  <h1 className="px-4 mt-2">
+                    {
+                      profileData?.chatMembers?.find(
+                        (item) => item?.user?.id !== user?.id
+                      )?.user?.role?.name
+                    }
+                  </h1>
                 </div>
               )}
               <div
@@ -155,40 +171,11 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               </div>
             </section>
             {/* --------------------Media and links section------------------------- */}
-            <section
-              className={`w-full h-screen absolute bg-white top-0 left-0 transition-all ease-in-out duration-200 ${
-                !isMedia ? `translate-x-[100%]` : `translate-x-[0%]`
-              }`}
-            >
-              <div className="flex items-center gap-3 py-3 text-red-600">
-                <IconButton
-                  onClick={() => setIsMedia((prev) => !prev)}
-                  size="small"
-                >
-                  <ArrowBack className="!text-red-600" />
-                </IconButton>
-                <h1>Go Back</h1>
-              </div>
-              <div>
-                <Box sx={{ width: "100%", typography: "body1" }}>
-                  <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                      <TabList
-                        onChange={handleChange}
-                        aria-label="lab API tabs example"
-                      >
-                        <Tab label="Media" value="1" />
-                        <Tab label="Docs" value="2" />
-                        <Tab label="Links" value="3" />
-                      </TabList>
-                    </Box>
-                    <TabPanel value="1">No Media Files...</TabPanel>
-                    <TabPanel value="2">Docs</TabPanel>
-                    <TabPanel value="3">Links</TabPanel>
-                  </TabContext>
-                </Box>
-              </div>
-            </section>
+            <ChatDataFile
+              isMedia={isMedia}
+              setIsMedia={setIsMedia}
+              groupId={profileData?.id}
+            />
           </section>
         </Container>
       </Drawer>
@@ -197,6 +184,57 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
 };
 
 export default ChatProfileDrawer;
+
+const ChatDataFile = ({
+  isMedia,
+  setIsMedia,
+  groupId,
+}: {
+  isMedia: boolean;
+  setIsMedia: (arg: any) => void;
+  groupId?: string;
+}) => {
+  const [value, setValue] = React.useState("1");
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+  return (
+    <section
+      className={`w-full h-screen absolute bg-white top-0 left-0 transition-all ease-in-out duration-200 ${
+        !isMedia ? `translate-x-[100%]` : `translate-x-[0%]`
+      }`}
+    >
+      <div className="flex items-center gap-3 py-3 text-red-600">
+        <IconButton
+          onClick={() => setIsMedia((prev: any) => !prev)}
+          size="small"
+        >
+          <ArrowBack className="!text-red-600" />
+        </IconButton>
+        <h1>Go Back</h1>
+      </div>
+      <div>
+        <Box sx={{ width: "100%", typography: "body1" }}>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+              >
+                <Tab label="Media" value="1" />
+                <Tab label="Docs" value="2" />
+                <Tab label="Links" value="3" />
+              </TabList>
+            </Box>
+            <TabPanel value="1">No Media Files...</TabPanel>
+            <TabPanel value="2">Docs</TabPanel>
+            <TabPanel value="3">Links</TabPanel>
+          </TabContext>
+        </Box>
+      </div>
+    </section>
+  );
+};
 
 interface TitleProps {
   title?: string;

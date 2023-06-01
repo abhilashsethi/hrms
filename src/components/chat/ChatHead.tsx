@@ -2,13 +2,10 @@ import { MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatProfileDrawer } from "components/drawer";
+import { useChatData } from "hooks";
 import { MouseEvent, useState } from "react";
 
-interface Props {
-  activeProfile?: any;
-}
-
-const ChatHead = ({ activeProfile }: Props) => {
+const ChatHead = () => {
   const [isDrawer, setIsDrawer] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -18,10 +15,13 @@ const ChatHead = ({ activeProfile }: Props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { currentChatProfileDetails } = useChatData();
+
   return (
     <>
       <ChatProfileDrawer
-        profileData={activeProfile}
+        profileData={currentChatProfileDetails}
         open={isDrawer}
         onClose={() => setIsDrawer(false)}
       />
@@ -29,17 +29,17 @@ const ChatHead = ({ activeProfile }: Props) => {
         <div className="flex gap-3 items-center">
           <div className="cursor-pointer" onClick={() => setIsDrawer(true)}>
             <PhotoViewerSmall
-              photo={
-                activeProfile?.type === "person" ? activeProfile?.photo : null
-              }
-              name={activeProfile?.name}
+              photo={currentChatProfileDetails?.photo}
+              name={currentChatProfileDetails?.title}
               size="3.5rem"
             />
           </div>
           <div>
-            <h1 className="font-semibold">{activeProfile?.name}</h1>
+            <h1 className="font-semibold">
+              {currentChatProfileDetails?.title}
+            </h1>
             <h1 className="text-sm font-light">
-              {activeProfile?.type === "person" ? (
+              {currentChatProfileDetails?.isPrivateGroup ? (
                 <span className="">Active Now</span>
               ) : (
                 <span className="">Srinu, Loushik, Abhilash,You</span>

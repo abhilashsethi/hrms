@@ -2,7 +2,7 @@ import { PhotoCamera } from "@mui/icons-material";
 import { GROUP } from "assets/home";
 import { useRef, useState } from "react";
 
-const PhotoUpdateView = () => {
+const PhotoUpdateView = ({ photo }: { photo?: string }) => {
   const [isImage, setIsImage] = useState<any>(null);
   const PhotoRef = useRef<HTMLInputElement>(null);
   const handleButtonClick = () => {
@@ -14,7 +14,7 @@ const PhotoUpdateView = () => {
     <div className="h-40 group relative w-40 rounded-full bg-slate-200 overflow-hidden border-[1px] shadow-md">
       <img
         className="h-full object-cover w-full"
-        src={isImage ? URL.createObjectURL(isImage) : GROUP.src}
+        src={isImage ? URL.createObjectURL(isImage) : photo || GROUP.src}
         alt="image"
       />
       <div
