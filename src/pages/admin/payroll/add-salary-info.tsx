@@ -64,8 +64,10 @@ const AddPrescription = () => {
 				size: "small",
 				styleContact: "rounded-lg mb-5",
 				type: "number",
-				validationSchema: Yup.string()
-					.required("Gross Salary Per Month Required."), initialValue: "",
+				validationSchema: Yup.string().required(
+					"Gross Salary Per Month Required."
+				),
+				initialValue: "",
 				required: true,
 			},
 			{
@@ -77,7 +79,7 @@ const AddPrescription = () => {
 				placeholder: "",
 				styleContact: "rounded-lg mb-5",
 				type: "number",
-				initialValue: null,
+				initialValue: 0,
 			},
 
 			{
@@ -86,7 +88,7 @@ const AddPrescription = () => {
 				size: "small",
 				name: "tds",
 				type: "number",
-				initialValue: null,
+				initialValue: 0,
 				styleContact: "rounded-lg mb-5",
 			},
 			{
@@ -96,7 +98,7 @@ const AddPrescription = () => {
 				label: "Payroll Name",
 				placeholder: "",
 				styleContact: "rounded-lg mb-5",
-				initialValue: [{}],
+				initialValue: null,
 			},
 		];
 	}, []);
@@ -106,14 +108,19 @@ const AddPrescription = () => {
 		setLoading(true);
 		try {
 			const ticketText = {
-				grossSalary: values?.grossSalary, kpi: values?.kpi, tds: values?.tds,
-				salaryInfoNewFields: values?.salaryInfoNewFields?.map((item: any) => { return { title: item?.title, value: Number(item.value) } }),
-			}
+				grossSalary: values?.grossSalary,
+				kpi: values?.kpi,
+				tds: values?.tds,
+				salaryInfoNewFields: values?.salaryInfoNewFields?.map((item: any) => {
+					return { title: item?.title, value: Number(item.value) };
+				}),
+			};
 			console.log(ticketText);
 			const res = await change(`users/addSalaryInfo/${values?.userId}`, {
 				method: "PATCH",
 				body: ticketText,
 			});
+			console.log(res);
 			setLoading(false);
 			if (res?.status !== 200) {
 				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
@@ -130,13 +137,10 @@ const AddPrescription = () => {
 			setLoading(false);
 		}
 	};
-	const initialValues = payrollSchema.reduce(
-		(accumulator, currentValue) => {
-			accumulator[currentValue.name] = currentValue.initialValue;
-			return accumulator;
-		},
-		{} as any
-	);
+	const initialValues = payrollSchema.reduce((accumulator, currentValue) => {
+		accumulator[currentValue.name] = currentValue.initialValue;
+		return accumulator;
+	}, {} as any);
 	const validationSchema = payrollSchema?.reduce(
 		(accumulator, currentValue) => {
 			accumulator[currentValue.name] = currentValue.validationSchema;
@@ -150,13 +154,10 @@ const AddPrescription = () => {
 			formik?.setFieldValue(
 				name,
 				formik?.values[name]?.length > 0
-					? [
-						...formik?.values[name],
-						{ title: "", value: "" },
-					]
+					? [...formik?.values[name], { title: "", value: "" }]
 					: [{ title: "", value: "" }]
 			);
-		} catch (error) { }
+		} catch (error) {}
 	};
 
 	const handleFormikOnChange = (
@@ -179,25 +180,25 @@ const AddPrescription = () => {
 					return item;
 				})
 			);
-		} catch (error) { }
+		} catch (error) {}
 	};
 	return (
-		<PanelLayout title="Add Salary Info - Admin Panel" >
+		<PanelLayout title="Add Salary Info - Admin Panel">
 			<AddMoreField
 				setFields={setFields}
 				open={salaryInfoModal}
 				handleClose={() => setSalaryInfoModal(false)}
 			/>
-			<section className="md:px-8 px-2 md:py-4 py-2" >
-				<div className="px-2 md:px-0" >
+			<section className="md:px-8 px-2 md:py-4 py-2">
+				<div className="px-2 md:px-0">
 					<AdminBreadcrumbs links={links} />
 				</div>
-				<section className="w-full px-0 md:py-4 py-2 flex justify-center items-center" >
-					<div className="md:w-[40rem] w-full bg-white md:px-4 py-4 px-2 tracking-wide rounded-lg shadow-xl" >
-						<p className="text-center text-xl font-bold text-theme tracking-wide" >
+				<section className="w-full px-0 md:py-4 py-2 flex justify-center items-center">
+					<div className="md:w-[40rem] w-full bg-white md:px-4 py-4 px-2 tracking-wide rounded-lg shadow-xl">
+						<p className="text-center text-xl font-bold text-theme tracking-wide">
 							ADD SALARY INFO
 						</p>
-						<div className="" >
+						<div className="">
 							<Formik
 								enableReinitialize
 								initialValues={{
@@ -209,34 +210,35 @@ const AddPrescription = () => {
 								{(formik) => (
 									<Form>
 										{payrollSchema?.map((inputItem: any, index: any) => (
-											<div key={index} >
+											<div key={index}>
 												{inputItem?.type === "autocomplete" ? (
-													<div className=" w-full pb-4" >
+													<div className=" w-full pb-4">
 														<AdminAutocomplete
 															size={"small"}
-
 															label={inputItem?.label}
 															isOptionEqualToValue={(option, value) =>
 																option?.value === value?.value
 															}
-															error={
-																Boolean(
-																	formik?.touched[inputItem?.name] &&
+															error={Boolean(
+																formik?.touched[inputItem?.name] &&
 																	formik?.errors[inputItem?.name]
-																)}
+															)}
 															helperText={
 																formik?.touched[inputItem?.name] &&
 																(formik?.errors[inputItem?.name] as any)
 															}
 															onChange={(e: any, value: any) => {
 																console.log(value?.data?.id, inputItem?.name);
-																formik?.setFieldValue(inputItem?.name, value?.data?.id);
+																formik?.setFieldValue(
+																	inputItem?.name,
+																	value?.data?.id
+																);
 																inputItem?.name === "userId";
 															}}
 															options={inputItem?.options}
 															noOptionText={
-																<div className="flex w-full flex-col gap-2" >
-																	<small className="tracking-wide" >
+																<div className="flex w-full flex-col gap-2">
+																	<small className="tracking-wide">
 																		No options found
 																	</small>
 																</div>
@@ -246,30 +248,34 @@ const AddPrescription = () => {
 												) : inputItem?.name === "salaryInfoNewFields" ? (
 													<div className=" w-full py-1">
 														{formik.values[inputItem.name]?.length &&
-															formik?.values[inputItem.name]?.map((item: any) => {
-																return (
-																	<PayrollInputField
-																		name="item"
-																		error={Boolean(
-																			formik?.touched?.salaryInfoNewFields &&
-																			formik?.errors?.salaryInfoNewFields
-																		)}
-																		value={item.value}
-																		title={item?.title}
-																		onChange={(title: any, value: any) =>
-																			handleFormikOnChange(
-																				formik,
-																				title,
-																				value,
-																				item?.key
-																			)
-																		}
-																	/>
-																);
-															})}
+															formik?.values[inputItem.name]?.map(
+																(item: any) => {
+																	return (
+																		<PayrollInputField
+																			name="item"
+																			error={Boolean(
+																				formik?.touched?.salaryInfoNewFields &&
+																					formik?.errors?.salaryInfoNewFields
+																			)}
+																			value={item.value}
+																			title={item?.title}
+																			onChange={(title: any, value: any) =>
+																				handleFormikOnChange(
+																					formik,
+																					title,
+																					value,
+																					item?.key
+																				)
+																			}
+																		/>
+																	);
+																}
+															)}
 
 														<button
-															onClick={() => handleClick(inputItem?.name, formik)}
+															onClick={() =>
+																handleClick(inputItem?.name, formik)
+															}
 															type="button"
 															className="mt-5 flex items-center gap-1 rounded-md bg-theme px-4 py-2 text-sm text-white transition-all duration-300 ease-in-out hover:scale-105"
 														>
@@ -277,7 +283,7 @@ const AddPrescription = () => {
 														</button>
 													</div>
 												) : (
-													<div className={"py-1"} >
+													<div className={"py-1"}>
 														<TextInput
 															fullWidth
 															key={index}
@@ -290,11 +296,10 @@ const AddPrescription = () => {
 															type={inputItem?.type as any}
 															startIcon={inputItem?.icon}
 															styleContact={inputItem?.styleContact}
-															error={
-																Boolean(
-																	formik?.touched[inputItem.name] &&
+															error={Boolean(
+																formik?.touched[inputItem.name] &&
 																	formik?.errors[inputItem.name]
-																)}
+															)}
 															helperText={
 																formik?.touched[inputItem.name] &&
 																(formik?.errors[inputItem.name] as any)
