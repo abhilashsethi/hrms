@@ -119,15 +119,21 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                         <div className="w-4/5 flex justify-between">
                           <div className="w-3/5">
                             <h1 className="text-sm font-semibold">
-                              {item?.user?.name}
+                              {item?.user?.id === user?.id
+                                ? "You"
+                                : item?.user?.name}
                             </h1>
-                            <h1 className="text-sm text-gray-600">demo</h1>
+                            <h1 className="text-sm text-gray-600">
+                              {item?.user?.role?.name}
+                            </h1>
                           </div>
-                          <div className="w-2/5">
-                            <span className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
-                              Group Admin
-                            </span>
-                          </div>
+                          {item?.isAdmin && (
+                            <div className="w-2/5">
+                              <span className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
+                                Group Admin
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -200,7 +206,7 @@ const ChatDataFile = ({
   };
   return (
     <section
-      className={`w-full h-screen absolute bg-white top-0 left-0 transition-all ease-in-out duration-200 ${
+      className={`w-full h-full min-h-screen absolute bg-white top-0 left-0 transition-all ease-in-out duration-200 ${
         !isMedia ? `translate-x-[100%]` : `translate-x-[0%]`
       }`}
     >

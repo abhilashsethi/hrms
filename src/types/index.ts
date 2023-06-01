@@ -292,7 +292,6 @@ export interface IChatGroup {
   title: string;
   totalMembers: number;
   id: string;
-  _id: string;
 }
 export interface IChatMember {
   isAdmin: boolean;
