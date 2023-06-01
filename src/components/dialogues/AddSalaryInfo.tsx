@@ -1,13 +1,11 @@
 import { Add, BorderColor, Close, Done } from "@mui/icons-material";
 import {
-	
 	Button,
 	CircularProgress,
 	Dialog,
 	DialogContent,
 	DialogTitle,
 	IconButton,
-	
 	Tooltip,
 } from "@mui/material";
 import PayrollInputField from "components/admin/PayrollInputField";
@@ -21,17 +19,15 @@ interface Props {
 	open: boolean;
 	handleClose: any;
 	userId?: any;
-	mutate?:any;
+	mutate?: any;
 }
 
 const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
-	
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
 
 	const payrollSchema = useMemo(() => {
 		return [
-			
 			{
 				key: "1",
 				// placeholder: 'Enter your email',
@@ -41,9 +37,9 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 				size: "small",
 				styleContact: "rounded-lg mb-5",
 				type: "number",
-				validationSchema: Yup.string().required(
-					"Gross Salary Per Month Required."
-				),
+				validationSchema: Yup.number()
+					.min(0, "enter positive value")
+					.required("Gross Salary Per Month Required."),
 				initialValue: "",
 				required: true,
 			},
@@ -75,7 +71,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 				label: "Payroll Name",
 				placeholder: "",
 				styleContact: "rounded-lg mb-5",
-				initialValue: null,
+				initialValue: [{ title: null, value: null }],
 			},
 		];
 	}, []);
@@ -96,15 +92,20 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 				method: "PATCH",
 				body: ticketText,
 			});
+			console.log(res);
 			setLoading(false);
 			if (res?.status !== 200) {
 				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
 				setLoading(false);
 				return;
 			}
-			Swal.fire(`Success`, `You have successfully added!`, `success`);
-			mutate()
-			handleClose()
+			Swal.fire(
+				`Success`,
+				`Gross Salary added successfully for ${res?.results?.data?.name}`,
+				`success`
+			);
+			mutate();
+			handleClose();
 			return;
 		} catch (error) {
 			console.log(error);
@@ -190,108 +191,104 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 			</DialogTitle>
 			<DialogContent className="app-scrollbar" sx={{ p: 2 }}>
 				<div className="md:w-[40rem] w-[72vw] md:px-4 px-2 tracking-wide">
-				<Formik
-								enableReinitialize
-								initialValues={{
-									...initialValues,
-								}}
-								validationSchema={Yup.object(validationSchema)}
-								onSubmit={handleSend}
-							>
-								{(formik) => (
-									<Form>
-										{payrollSchema?.map((inputItem: any, index: any) => (
-											<div key={index}>
-												{inputItem?.name === "salaryInfoNewFields" ? (
-													<div className=" w-full py-1">
-														{formik.values[inputItem.name]?.length &&
-															formik?.values[inputItem.name]?.map(
-																(item: any) => {
-																	return (
-																		<PayrollInputField
-																			name="item"
-																			error={Boolean(
-																				formik?.touched?.salaryInfoNewFields &&
-																					formik?.errors?.salaryInfoNewFields
-																			)}
-																			value={item.value}
-																			title={item?.title}
-																			onChange={(title: any, value: any) =>
-																				handleFormikOnChange(
-																					formik,
-																					title,
-																					value,
-																					item?.key
-																				)
-																			}
-																		/>
-																	);
+					<Formik
+						enableReinitialize
+						initialValues={{
+							...initialValues,
+						}}
+						validationSchema={Yup.object(validationSchema)}
+						onSubmit={handleSend}
+					>
+						{(formik) => (
+							<Form>
+								{payrollSchema?.map((inputItem: any, index: any) => (
+									<div key={index}>
+										{inputItem?.name === "salaryInfoNewFields" ? (
+											<div className=" w-full py-1">
+												{formik.values[inputItem.name]?.length &&
+													formik?.values[inputItem.name]?.map((item: any) => {
+														return (
+															<PayrollInputField
+																name="item"
+																error={Boolean(
+																	formik?.touched?.salaryInfoNewFields &&
+																		formik?.errors?.salaryInfoNewFields
+																)}
+																value={item.value}
+																title={item?.title}
+																onChange={(title: any, value: any) =>
+																	handleFormikOnChange(
+																		formik,
+																		title,
+																		value,
+																		item?.key
+																	)
 																}
-															)}
+															/>
+														);
+													})}
 
-														<button
-															onClick={() =>
-																handleClick(inputItem?.name, formik)
-															}
-															type="button"
-															className="mt-5 flex items-center gap-1 rounded-md bg-theme px-4 py-2 text-sm text-white transition-all duration-300 ease-in-out hover:scale-105"
-														>
-															<Add className="!text-[1.3rem]" /> Add More
-														</button>
-													</div>
-												) : (
-													<div className={"py-1"}>
-														<TextInput
-															fullWidth
-															key={index}
-															name={inputItem?.name}
-															options={inputItem.options}
-															title={inputItem?.label}
-															multiline={inputItem?.multiline}
-															rows={inputItem?.rows}
-															size={inputItem?.size}
-															type={inputItem?.type as any}
-															startIcon={inputItem?.icon}
-															styleContact={inputItem?.styleContact}
-															error={Boolean(
-																formik?.touched[inputItem.name] &&
-																	formik?.errors[inputItem.name]
-															)}
-															helperText={
-																formik?.touched[inputItem.name] &&
-																(formik?.errors[inputItem.name] as any)
-															}
-															value={formik?.values[inputItem.name]}
-															onChange={formik?.handleChange}
-															onBlur={formik?.handleBlur}
-														/>
-													</div>
-												)}
-											</div>
-										))}
-
-										<div>
-											<div className="flex justify-center py-1">
-												<Button
-													type="submit"
-													variant="contained"
-													className="!bg-theme"
-													disabled={loading}
-													startIcon={
-														loading ? (
-															<CircularProgress size={20} color="warning" />
-														) : (
-															<Done />
-														)
-													}
+												<button
+													onClick={() => handleClick(inputItem?.name, formik)}
+													type="button"
+													className="mt-5 flex items-center gap-1 rounded-md bg-theme px-4 py-2 text-sm text-white transition-all duration-300 ease-in-out hover:scale-105"
 												>
-													SAVE
-												</Button>
+													<Add className="!text-[1.3rem]" /> Add More
+												</button>
 											</div>
-										</div>
-									</Form>
-								)}
-							</Formik>
+										) : (
+											<div className={"py-1"}>
+												<TextInput
+													fullWidth
+													key={index}
+													name={inputItem?.name}
+													options={inputItem.options}
+													title={inputItem?.label}
+													multiline={inputItem?.multiline}
+													rows={inputItem?.rows}
+													size={inputItem?.size}
+													type={inputItem?.type as any}
+													startIcon={inputItem?.icon}
+													styleContact={inputItem?.styleContact}
+													error={Boolean(
+														formik?.touched[inputItem.name] &&
+															formik?.errors[inputItem.name]
+													)}
+													helperText={
+														formik?.touched[inputItem.name] &&
+														(formik?.errors[inputItem.name] as any)
+													}
+													value={formik?.values[inputItem.name]}
+													onChange={formik?.handleChange}
+													onBlur={formik?.handleBlur}
+												/>
+											</div>
+										)}
+									</div>
+								))}
+
+								<div>
+									<div className="flex justify-center py-1">
+										<Button
+											type="submit"
+											variant="contained"
+											className="!bg-theme"
+											disabled={loading}
+											startIcon={
+												loading ? (
+													<CircularProgress size={20} color="warning" />
+												) : (
+													<Done />
+												)
+											}
+										>
+											SAVE
+										</Button>
+									</div>
+								</div>
+							</Form>
+						)}
+					</Formik>
 				</div>
 			</DialogContent>
 		</Dialog>

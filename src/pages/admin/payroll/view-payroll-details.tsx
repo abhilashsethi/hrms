@@ -31,7 +31,7 @@ const ViewPayrollDetails = () => {
 			Gross_Salary > item?.startGrossSalary &&
 			Gross_Salary < item?.endGrossSalary
 	);
-	console.log(Professional_Tax?.tax);
+	// console.log(Professional_Tax?.tax);
 
 	const Tds: any = employData?.tds;
 	const Tds_Amount =
@@ -39,7 +39,15 @@ const ViewPayrollDetails = () => {
 	const Tds_Amount_Yearly = Tds_Amount * 12;
 	const Tds_Yearly = (Tds_Amount_Yearly * Tds) / 100;
 	const Tds_Monthly = Tds_Yearly / 12;
-	// console.log(Tds_Monthly);
+
+	const pf =
+		(Configs?.pfEmployee * ((Configs?.basicSalary * Gross_Salary) / 100)) / 100;
+	const esi = (Configs?.esiEmployee * Gross_Salary) / 100;
+	const Total_Deduction = pf + esi + Professional_Tax?.tax + Tds_Monthly;
+
+	const Employer_Pf =
+		(Configs?.pfEmployer * ((Configs?.basicSalary * Gross_Salary) / 100)) / 100;
+	const Employer_Esi = (Configs?.esiEmployer * Gross_Salary) / 100;
 
 	const payroll = [
 		{
@@ -108,8 +116,16 @@ const ViewPayrollDetails = () => {
 			count: `${Gross_Salary ? Professional_Tax?.tax : "---"}`,
 		},
 		{ id: 2, name: "TDS", count: `${Gross_Salary ? Tds_Monthly : "---"}` },
-		{ id: 2, name: "Total Deduction", count: "25.00 Rs." },
-		{ id: 2, name: "Net Salary", count: "25.00 Rs." },
+		{
+			id: 2,
+			name: "Total Deduction",
+			count: `${Gross_Salary ? Total_Deduction : "---"}`,
+		},
+		{
+			id: 2,
+			name: "Net Salary",
+			count: `${Gross_Salary ? Gross_Salary - Total_Deduction : "---"}`,
+		},
 	];
 	const ctc = [
 		{
@@ -123,10 +139,35 @@ const ViewPayrollDetails = () => {
 					: "---"
 			}`,
 		},
-		{ id: 2, name: "ESI Contribution by Employer", count: "25.00 Rs." },
-		{ id: 2, name: "Professional Tax", count: "25.00 Rs." },
-		{ id: 2, name: "KPI", count: "25.00 Rs." },
-		{ id: 2, name: "CTC", count: "25.00 Rs." },
+		{
+			id: 2,
+			name: "ESI Contribution by Employer",
+			count: `${
+				Gross_Salary ? (Configs?.esiEmployer * Gross_Salary) / 100 : "---"
+			}`,
+		},
+		{ id: 2, name: "KPI", count: `${Gross_Salary ? employData?.kpi : "---"}` },
+		{
+			id: 2,
+			name: "CTC",
+			count: `${
+				Gross_Salary ? Gross_Salary + Employer_Pf + Employer_Esi : "---"
+			}`,
+		},
+	];
+
+	const links = [
+		{ id: 1, page: "Employees", link: "/admin/employees" },
+		{
+			id: 2,
+			page: "Payroll Detail",
+			link: `/admin/payroll/view-payroll-details?id=${employData?.id}`,
+		},
+		// {
+		// 	id: 3,
+		// 	page: "employee-employees",
+		// 	link: `/admin/employees/all-employee`,
+		// },
 	];
 
 	return (
@@ -172,7 +213,7 @@ const ViewPayrollDetails = () => {
 									</div>
 								</div>
 								<div>
-									<HeadText title="Gains" />
+									<HeadText className={"bg-green-600"} title="Gains" />
 									<div className=" my-2 grid gap-y-1 w-full">
 										{payroll.map((item) => (
 											<div
@@ -180,7 +221,7 @@ const ViewPayrollDetails = () => {
 												className="md:flex gap-4 justify-between"
 											>
 												<p className="text-gray-700">{item?.name} :</p>
-												<span className="">
+												<span className="text-blue-700">
 													<CurrencyRupee fontSize="small" />
 													{item.count}
 												</span>
@@ -189,7 +230,7 @@ const ViewPayrollDetails = () => {
 									</div>
 								</div>
 								<div className="pt-4">
-									<HeadText title="Deduction" />
+									<HeadText className="bg-red-500" title="Deduction" />
 									<div className=" my-2 grid gap-y-1 w-full">
 										{deduction.map((item) => (
 											<div
@@ -197,7 +238,7 @@ const ViewPayrollDetails = () => {
 												className="md:flex gap-4 justify-between"
 											>
 												<p className="text-gray-700">{item?.name} :</p>
-												<span className="">
+												<span className="text-blue-700">
 													<CurrencyRupee fontSize="small" />
 													{item.count}
 												</span>
@@ -206,7 +247,7 @@ const ViewPayrollDetails = () => {
 									</div>
 								</div>
 								<div className="pt-4">
-									<HeadText title="CTC" />
+									<HeadText className={"bg-yellow-500"} title="CTC" />
 									<div className=" my-2 grid gap-y-1 w-full">
 										{ctc.map((item) => (
 											<div
@@ -214,7 +255,7 @@ const ViewPayrollDetails = () => {
 												className="md:flex gap-4 justify-between"
 											>
 												<p className="text-gray-700">{item?.name} :</p>
-												<span className="">
+												<span className="text-blue-700">
 													<CurrencyRupee fontSize="small" />
 													{item.count}
 												</span>
@@ -232,9 +273,3 @@ const ViewPayrollDetails = () => {
 };
 
 export default ViewPayrollDetails;
-
-const links = [
-	{ id: 1, page: "Employees", link: "/admin/employees" },
-	{ id: 2, page: "All Employees", link: "/admin/employees/all-employee" },
-	// { id: 3, page: "employee-employees", link: "/admin/employees/all-employee" },
-];
