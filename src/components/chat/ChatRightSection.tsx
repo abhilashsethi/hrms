@@ -1,17 +1,23 @@
 import {
+  AttachFile,
+  Code,
   DriveFileRenameOutline,
+  FileCopy,
+  ImageOutlined,
   MoreVert,
+  Save,
   SentimentSatisfiedAlt,
 } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
-import { CHATDEFAULT } from "assets/home";
 import { PhotoViewerSmall } from "components/core";
 import { ChatProfileDrawer } from "components/drawer";
 import { useAuth } from "hooks";
-import moment from "moment";
 import React, { useState } from "react";
-import TextMessage from "./TextMessage";
 import DefaultChatView from "./DefaultChatView";
+import ImageMessage from "./ImageMessage";
+import TextMessage from "./TextMessage";
+import { ChatSendCode, ChatSendFiles } from "components/dialogues";
+import CodeMessage from "./CodeMessage";
 
 interface Props {
   id?: number;
@@ -21,7 +27,9 @@ interface Props {
 }
 
 const ChatRightSection = ({ activeProfile }: any) => {
+  const [isUpload, setIsUpload] = useState(false);
   const [isDrawer, setIsDrawer] = useState(false);
+  const [isCode, setIsCode] = useState(false);
   const { user } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -31,9 +39,14 @@ const ChatRightSection = ({ activeProfile }: any) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(chats);
+  const actions = [
+    { icon: <FileCopy />, name: "Copy" },
+    { icon: <Save />, name: "Save" },
+  ];
   return (
     <>
+      <ChatSendFiles open={isUpload} handleClose={() => setIsUpload(false)} />
+      <ChatSendCode open={isCode} handleClose={() => setIsCode(false)} />
       <ChatProfileDrawer
         profileData={activeProfile}
         open={isDrawer}
@@ -126,6 +139,8 @@ const ChatRightSection = ({ activeProfile }: any) => {
                         />
                       ) : item?.type === "event" ? (
                         <EventTemplate data={item} />
+                      ) : item?.type === "code" ? (
+                        <CodeMessage data={item} />
                       ) : (
                         "No format specified"
                       )}
@@ -134,7 +149,7 @@ const ChatRightSection = ({ activeProfile }: any) => {
                 ))}
               </div>
             </div>
-            <div className="h-20 w-full border-2 flex items-center px-8">
+            <div className="h-20 w-full border-2 flex items-center px-8 justify-between">
               <div className="h-10 px-3 rounded-full w-4/5 border-2 flex justify-between items-center">
                 <div className="flex gap-2 items-center">
                   <SentimentSatisfiedAlt className="!cursor-pointer" />
@@ -146,6 +161,21 @@ const ChatRightSection = ({ activeProfile }: any) => {
                 </div>
                 <DriveFileRenameOutline className="!cursor-pointer" />
               </div>
+              <Tooltip title="Image">
+                <IconButton onClick={() => setIsUpload(true)} size="small">
+                  <ImageOutlined />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Attach">
+                <IconButton onClick={() => setIsUpload(true)} size="small">
+                  <AttachFile className="!rotate-45" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Code">
+                <IconButton onClick={() => setIsCode(true)} size="small">
+                  <Code />
+                </IconButton>
+              </Tooltip>
             </div>
           </div>
         )}
@@ -184,6 +214,12 @@ const chats = [
     link: "https://w0.peakpx.com/wallpaper/1008/1001/HD-wallpaper-tiger-black-look-thumbnail.jpg",
     sendBy: "you",
     type: "image",
+  },
+  {
+    id: 12,
+    text: "By the way when we will meet for this discussion?",
+    sendBy: "you",
+    type: "code",
   },
   {
     id: 3,
@@ -240,50 +276,6 @@ const chats = [
     },
   },
 ];
-
-interface imageProps {
-  data?: any;
-  activeProfile?: any;
-}
-const ImageMessage = ({ data, activeProfile }: imageProps) => {
-  const { user } = useAuth();
-  return (
-    <div className="w-[35%] flex gap-1">
-      <div className="w-[3rem] h-10 flex justify-center items-start">
-        <div className="h-8 w-8 bg-slate-200 rounded-full overflow-hidden shadow-md">
-          {data?.sendBy === "sender" ? (
-            <PhotoViewerSmall
-              size="2rem"
-              photo={activeProfile?.photo}
-              name={activeProfile?.name}
-            />
-          ) : (
-            <PhotoViewerSmall
-              size="2rem"
-              photo={user?.photo}
-              name={user?.name}
-            />
-          )}
-        </div>
-      </div>
-      <div className="w-[85%]">
-        <div className="flex gap-1 items-center text-slate-600">
-          <span className="text-xs">
-            {data?.sendBy === "sender" ? activeProfile?.name : `You`}
-          </span>
-          ,<span className="text-xs">{moment(new Date()).format("ll")}</span>
-        </div>
-        <div className="w-full bg-blue-100 py-2 px-2 tracking-wide rounded-md text-sm">
-          <img
-            className="h-40 w-full rounded-md object-cover"
-            src={data?.link}
-            alt=""
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const EventTemplate = ({ data }: any) => {
   return (

@@ -6,17 +6,22 @@ import { ChatReactions, ChatSeen } from "components/drawer";
 import { useAuth } from "hooks";
 import moment from "moment";
 import { useState } from "react";
+import { CopyBlock, dracula } from "react-code-blocks";
+import { sample } from "utils";
 
 interface textProps {
   data?: any;
   activeProfile?: any;
 }
-const TextMessage = ({ data, activeProfile }: textProps) => {
+const CodeMessage = ({ data, activeProfile }: textProps) => {
   const [isReactions, setIsReactions] = useState(false);
   const [isReply, setIsReply] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
   const [isOptions, setIsOptions] = useState<boolean>(false);
   const { user } = useAuth();
+  const [language, changeLanguage] = useState("jsx");
+  const [languageDemo, changeDemo] = useState(sample["jsx"]);
+  const [lineNumbers, toggleLineNumbers] = useState(true);
   const buttons = [
     {
       id: 1,
@@ -26,19 +31,6 @@ const TextMessage = ({ data, activeProfile }: textProps) => {
     },
     { id: 2, title: "Delete", icon: <Delete fontSize="small" /> },
   ];
-
-  //   const MessageSender = (ActiveChat: any, individualMsg: any) => {
-  //     switch (ActiveChat) {
-  //       case ActiveChat?.type === "group" && individualMsg?.sendBy === "sender":
-  //         return individualMsg?.author?.name;
-  //       case ActiveChat?.type === "group" && individualMsg?.sendBy === "you":
-  //         return user?.name;
-  //       case ActiveChat?.type === "person" && individualMsg?.sendBy === "sender":
-  //         return individualMsg?.name;
-  //       case ActiveChat?.type === "person" && individualMsg?.sendBy === "you":
-  //         return user?.name;
-  //     }
-  //   };
 
   return (
     <>
@@ -75,7 +67,16 @@ const TextMessage = ({ data, activeProfile }: textProps) => {
             ,<span className="text-xs">{moment(new Date()).format("ll")}</span>
           </div>
           <div className="w-full bg-blue-100 py-2 px-4 tracking-wide rounded-md text-sm">
-            {data?.text}
+            <div>
+              <CopyBlock
+                language={language}
+                text={languageDemo}
+                showLineNumbers={lineNumbers}
+                theme={dracula}
+                wrapLines={true}
+                codeBlock
+              />
+            </div>
             {data?.sendBy === "you" && (
               <div className="flex justify-end">
                 <IconButton onClick={() => setIsSeen(true)} size="small">
@@ -135,4 +136,4 @@ const TextMessage = ({ data, activeProfile }: textProps) => {
   );
 };
 
-export default TextMessage;
+export default CodeMessage;
