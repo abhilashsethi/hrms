@@ -32,7 +32,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 				key: "1",
 				// placeholder: 'Enter your email',
 				name: "grossSalary",
-				label: "Enter Gross Salary Per Month",
+				label: "Enter Gross Salary Per Month *",
 				placeholder: "",
 				size: "small",
 				styleContact: "rounded-lg mb-5",
@@ -71,7 +71,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 				label: "Payroll Name",
 				placeholder: "",
 				styleContact: "rounded-lg mb-5",
-				initialValue: [{ title: null, value: null }],
+				initialValue: null,
 			},
 		];
 	}, []);

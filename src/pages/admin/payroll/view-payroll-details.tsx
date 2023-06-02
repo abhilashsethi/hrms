@@ -17,13 +17,16 @@ const ViewPayrollDetails = () => {
 	const { data: employData, mutate } = useFetch<User>(
 		`users/${router?.query?.id}`
 	);
-	console.log(employData);
+	console.log(employData?.salaryInfoNewFields);
+
 	const Gross_Salary: any = employData?.grossSalary;
+	const New_Fields: any = employData?.salaryInfoNewFields;
+	// console.log(New_Fields);
 
 	const { data: configData, mutate: payRollMutate } = useFetch<any>(
 		`payrolls/getAllPayrollConfigs`
 	);
-	console.log(configData);
+	// console.log(configData);
 	const Configs = configData?.length ? configData[0] : null;
 
 	const Professional_Tax = Configs?.ptTaxes?.find(
@@ -125,6 +128,15 @@ const ViewPayrollDetails = () => {
 			id: 2,
 			name: "Net Salary",
 			count: `${Gross_Salary ? Gross_Salary - Total_Deduction : "---"}`,
+		},
+		{
+			id: 2,
+			name: `${
+				New_Fields ? New_Fields?.map((item: any) => item?.title) : null
+			}`,
+			count: `${
+				New_Fields ? New_Fields?.map((item: any) => item?.value) : null
+			}`,
 		},
 	];
 	const ctc = [
