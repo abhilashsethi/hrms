@@ -138,64 +138,65 @@ const MoreOption = ({ item, mutate }: any) => {
       />
 
       <div key={item?.id} className="mb-4 w-full">
+        <div className="absolute right-[10px] top-[10px]">
+          <Tooltip title="More">
+            <IconButton onClick={handleClick}>
+              <MoreVertRounded />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            anchorEl={anchorEl}
+            id="account-menu"
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: "15th June 2021",
+                },
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
+            <MenuItem>
+              <ListItemIcon>
+                <Edit fontSize="small" />
+              </ListItemIcon>
+              Edit Branch
+            </MenuItem>
+
+            <MenuItem onClick={() => handleDelete(item)}>
+              <ListItemIcon>
+                <DeleteRounded fontSize="small" />
+              </ListItemIcon>
+              Delete
+            </MenuItem>
+          </Menu>
+        </div>
         <div className="group h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
-          <div className="absolute right-[10px] top-[10px]">
-            <Tooltip title="More">
-              <IconButton onClick={handleClick}>
-                <MoreVertRounded />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              anchorEl={anchorEl}
-              id="account-menu"
-              open={open}
-              onClose={handleClose}
-              onClick={handleClose}
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  overflow: "visible",
-                  filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
-                  mt: 1.5,
-                  "& .MuiAvatar-root": {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: "15th June 2021",
-                  },
-                  "&:before": {
-                    content: '""',
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
-                  },
-                },
-              }}
-              transformOrigin={{ horizontal: "right", vertical: "top" }}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            >
-              <MenuItem>
-                <ListItemIcon>
-                  <Edit fontSize="small" />
-                </ListItemIcon>
-                Edit Branch
-              </MenuItem>
 
-              <MenuItem onClick={() => handleDelete(item)}>
-                <ListItemIcon>
-                  <DeleteRounded fontSize="small" />
-                </ListItemIcon>
-                Delete
-              </MenuItem>
-            </Menu>
-          </div>
           {item?.photos?.length > 1 ? (
             <>
               <Slider {...settings} className="">
