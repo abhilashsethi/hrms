@@ -1,12 +1,13 @@
 import { LOCATION, MANAGER } from "assets/dashboard_Icons";
 import { RenderIconRow } from "components/common";
-import { CountryNameFlag, PhotoViewer } from "components/core";
+import { CountryNameFlag, PhotoViewer, ReverseIOSSwitch } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
 import Slider from "react-slick";
+import { DeleteRounded, Edit } from "@mui/icons-material";
 interface Props {
   data?: any;
   mutate?: any;
@@ -112,7 +113,31 @@ const MoreOption = ({ item, mutate }: any) => {
       }
     });
   };
-
+  const handleBlock = async (e: any, userId: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to update status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await change(`users/${userId}`, {
+          method: "PATCH",
+          body: { isBlocked: !e.target?.checked },
+        });
+        mutate();
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "User Blocked successfully!!", "success");
+        return;
+      }
+    });
+  };
 
   return (
     <>
@@ -194,10 +219,18 @@ const MoreOption = ({ item, mutate }: any) => {
                 {item?.location}
               </span>
             </h2>
-            <div className="grid grid-cols-3 bottom-0 gap-2 border-2">
-              <span>delete</span>
-              <span>edit</span>
-              <span>block</span>
+            <div className="grid grid-cols-3 bottom-0 gap-2 ">
+              <span className="group flex border-2 px-2 py-2 items-center justify-center gap-2"><DeleteRounded fontSize="small" /> Delete</span>
+              <span className="group flex border-2 px-2 py-2 items-center justify-center gap-2"><Edit fontSize="small" /> Edit</span>
+              <div className="w-full px-8 flex gap-2 mt-2 justify-center">
+                <div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
+                  <p className="font-semibold tracking-wide text-sm">STATUS</p>
+                  <ReverseIOSSwitch
+                    checked={item?.isBlocked}
+                    onChange={(e) => handleBlock(e, item?.id)}
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
