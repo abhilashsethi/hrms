@@ -73,7 +73,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
         roleId={isInfo?.role?.id}
       />
       <div className="my-4">
-        <div className="grid xl:grid-cols-4 gap-2 lg:grid-cols-2">
+        <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
           {data?.map((item: any) => (
             <>
               <div key={item?.id} className="mb-4 w-full">
@@ -86,12 +86,13 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                     <p className="text-gray-500 cursor-pointer">{item?.manager}</p>
                     <p className="text-gray-500 cursor-pointer">{item?.phone}</p>
                     <p className="text-gray-500 cursor-pointer">{item?.email}</p>
-                  <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold">{item?.location}</h2>
-                  <p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
+                    <p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
                       <CountryNameFlag
                         countryName={item?.country || "---"}
                       />
                     </p>
+                  <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold">{item?.location}</h2>
+                 
                   </div>
                   
 

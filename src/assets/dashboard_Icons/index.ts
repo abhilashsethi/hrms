@@ -29,3 +29,6 @@ export { default as TOTAL_BRANCH } from "./branch.png";
 export { default as TOTAL_ASSETS } from "./assets.png";
 export { default as TOTAL_EMPLOYEE } from "./employee.png";
 export { default as TOTAL_CLIENT } from "./client.png";
+export { default as TOTAL_EMAIL } from "./email.png";
+export { default as TOTAL_LOCATION } from "./location.png";
+export { default as TOTAL_PHONE } from "./phone-call.png";

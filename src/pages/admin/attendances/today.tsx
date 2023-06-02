@@ -57,7 +57,6 @@ const TodayAttendance = () => {
       .slice(0, 10)}/${status}?page=${pageNumber}&limit=8${userName ? `&employeeName=${userName}` : ""
     }${empId ? `&employeeId=${empId}` : ""}${order ? `&orderBy=${order}` : ""}`
   );
-  console.log(selectedDate.toISOString().slice(0, 10));
 
   const { data: absentData } = useFetch<any>(
     `attendances/${selectedDate.toISOString().slice(0, 10)}/absent`
