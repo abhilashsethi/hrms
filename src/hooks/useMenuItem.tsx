@@ -143,12 +143,12 @@ export default () => {
 				title: "Payroll",
 				icon: <ICONS.Payroll_1 />,
 				submenus: [
-					{
-						key: "14-1",
-						title: "Employee Salary",
-						icon: <ICONS.Dashboard_1 />,
-						route: "/admin/payroll/employee-salary",
-					},
+					// {
+					// 	key: "14-1",
+					// 	title: "Employee Salary",
+					// 	icon: <ICONS.Dashboard_1 />,
+					// 	route: "/admin/payroll/employee-salary",
+					// },
 					{
 						key: "14-2",
 						title: "Configure",
