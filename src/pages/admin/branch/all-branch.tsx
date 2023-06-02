@@ -137,7 +137,7 @@ const AllBranch = () => {
             <AllBranchColumn data={branchData} mutate={mutate} />
           </>
         )}
-        {branchData?.length === 0 ? <LoaderAnime /> : null}
+        {/* {branchData?.length === 0 ? <LoaderAnime /> : null}
         {Math.ceil(
           Number(pagination?.total || 1) /
           Number(pagination?.limit || 1)
@@ -159,7 +159,7 @@ const AllBranch = () => {
           </div>
         ) : (
           ""
-        )}
+        )} */}
       </section>
     </PanelLayout>
   );

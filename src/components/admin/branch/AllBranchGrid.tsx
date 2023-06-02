@@ -76,12 +76,12 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
         <div className="grid xl:grid-cols-4 gap-2 lg:grid-cols-2">
           {data?.map((item: any) => (
             <>
-              <div key={item?.id} className="mb-4 p-0 sm:p-4 w-full">
+              <div key={item?.id} className="mb-4 w-full">
                 <div className="group h-full w-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
 
                   <img className="lg:h-48 md:h-36 w-full object-cover object-center transition duration-500 ease-in-out transform group-hover:scale-105"
                     src={item?.photo} alt="blog" />
-                  <div className="py-1 pt-2 px-6">
+                  <div className="py-1 pt-2 px-4">
                     <h1 className="inline-block py-1 title-font text-xl font-extrabold text-gray-800 tracking-wide cursor-pointer">{item?.name}</h1>
                     <p className="text-gray-500 cursor-pointer">{item?.manager}</p>
                     <p className="text-gray-500 cursor-pointer">{item?.phone}</p>
