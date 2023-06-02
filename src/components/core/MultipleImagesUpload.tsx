@@ -62,7 +62,6 @@ const MultipleImagesUpload = ({
                          ))}
                     </div>
                     <p>Upload Images (200 * 300)</p>
-                    <p>Maximum size each : 2MB</p>
                     <CloudUpload fontSize="large" color="primary" />
                </div>
           </div>

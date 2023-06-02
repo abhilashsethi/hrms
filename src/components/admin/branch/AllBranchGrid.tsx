@@ -141,6 +141,8 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                     </h1>
                     <p className="text-gray-500 flex items-start">
                       <span className="group flex items-center justify-center gap-2">
+                        <img src={MANAGER.src} className="w-6 pr-2" alt="" />
+                        {item?.manager}
                       </span>
                     </p>
                     <p className="text-gray-500 flex items-start">
@@ -167,8 +169,11 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                     <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
                     text-red-400 uppercase tracking-widest hover:font-bold"
                     >
-                      <img src={LOCATION.src} className="w-6 pr-2" alt="" />
-                      {item?.location}
+                      <span className="group flex items-center justify-center gap-2">
+
+                        <img src={LOCATION.src} className="w-6 pr-2" alt="" />
+                        {item?.location}
+                      </span>
                     </h2>
                   </div>
 
