@@ -1,6 +1,7 @@
 import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
      Autocomplete,
+     Box,
      Button,
      CircularProgress,
      IconButton,
@@ -17,15 +18,14 @@ import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
+import { countries } from "schemas/Countries";
 const initialValues = {
      name: "",
      phone: "",
      email: "",
-     password: "",
-     confirmPassword: "",
-     employeeID: "",
-     roleId: "",
-     departmentId: "",
+     country: "",
+     location: "",
+     userId: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -54,15 +54,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const CreateBranch = () => {
-     const theme = useTheme();
-     const [showPassword, setShowPassword] = useState(false);
-     const [showConPassword, setShowConPassword] = useState(false);
      const [loading, setLoading] = useState(false);
-     const { data: departmentsData } = useFetch<any>(`departments`);
-     const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
+     const { data: userData } = useFetch<any>(`users`);
      const { change, isChanging } = useChange();
      const handleSubmit = async (values: any) => {
-
           try {
                setLoading(true);
                const res: any = await change(`branches`, {
@@ -74,7 +69,6 @@ const CreateBranch = () => {
                     setLoading(false);
                     return;
                }
-               // router?.push("/admin/employees/all-employees");
                Swal.fire(`Success`, `You have successfully Created!`, `success`);
                return;
           } catch (error) {
@@ -132,6 +126,73 @@ const CreateBranch = () => {
                                                        />
                                                   </div>
                                                   <div className="md:px-4 px-2 md:py-2 py-1">
+                                                       <div className="md:py-2 py-1">
+                                                            <InputLabel htmlFor="location">
+                                                                 Branch Location <span className="text-red-600">*</span>
+                                                            </InputLabel>
+                                                       </div>
+                                                       <TextField
+                                                            fullWidth
+                                                            size="small"
+                                                            id="location"
+                                                            placeholder="Branch Location"
+                                                            name="location"
+                                                            value={values.location}
+                                                            onChange={handleChange}
+                                                            onBlur={handleBlur}
+                                                            error={touched.location && !!errors.location}
+                                                            helperText={touched.location && errors.location}
+                                                       />
+                                                  </div>
+                                                  <div className="w-full">
+                                                       <p className="text-theme font-semibold my-2">
+                                                            Country <span className="text-red-600">*</span>
+                                                       </p>
+                                                       <Autocomplete
+                                                            options={countries}
+                                                            autoHighlight
+                                                            // getOptionLabel={(option: any) =>
+                                                            // 	option.label ? option.label : ""
+                                                            // }
+                                                            value={values?.country as any}
+                                                            fullWidth
+                                                            onChange={(e, r: any) =>
+                                                                 setFieldValue("country", r?.label)
+                                                            }
+                                                            renderOption={(props, option: any) => (
+                                                                 <Box
+                                                                      component="li"
+                                                                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                                                                      {...props}
+                                                                 >
+                                                                      <img
+                                                                           loading="lazy"
+                                                                           width="20"
+                                                                           src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                                                                           srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                                                                           alt=""
+                                                                      />
+                                                                      {option?.label}
+                                                                 </Box>
+                                                            )}
+                                                            renderInput={(params) => (
+                                                                 <TextField
+                                                                      {...params}
+                                                                      label="Choose a country"
+                                                                      name="country"
+                                                                      error={
+                                                                           touched?.country && Boolean(errors?.country)
+                                                                      }
+                                                                      onBlur={handleBlur}
+                                                                      helperText={touched?.country && errors?.country}
+                                                                      inputProps={{
+                                                                           ...params.inputProps,
+                                                                      }}
+                                                                 />
+                                                            )}
+                                                       />
+                                                  </div>
+                                                  <div className="md:px-4 px-2 md:py-2 py-1">
                                                        <div className="py-2">
                                                             <InputLabel htmlFor="email">
                                                                  Email
@@ -153,25 +214,6 @@ const CreateBranch = () => {
 
                                                   <div className="md:px-4 px-2 md:py-2 py-1">
                                                        <div className="py-2">
-                                                            <InputLabel htmlFor="employeeID">
-                                                                 Employee ID <span className="text-red-600">*</span>
-                                                            </InputLabel>
-                                                       </div>
-                                                       <TextField
-                                                            size="small"
-                                                            fullWidth
-                                                            placeholder="Employee ID"
-                                                            id="employeeID"
-                                                            name="employeeID"
-                                                            value={values.employeeID}
-                                                            onChange={handleChange}
-                                                            onBlur={handleBlur}
-                                                            error={touched.employeeID && !!errors.employeeID}
-                                                            helperText={touched.employeeID && errors.employeeID}
-                                                       />
-                                                  </div>
-                                                  <div className="md:px-4 px-2 md:py-2 py-1">
-                                                       <div className="py-2">
                                                             <InputLabel htmlFor="phone">Phone</InputLabel>
                                                        </div>
                                                        <TextField
@@ -190,30 +232,29 @@ const CreateBranch = () => {
 
                                                   <div className="md:px-4 px-2 md:py-2 py-1">
                                                        <div className="py-2">
-                                                            <InputLabel htmlFor="departmentId">
-                                                                 Department Name
+                                                            <InputLabel htmlFor="manager">
+                                                                 Assign Manager
                                                             </InputLabel>
                                                        </div>
                                                        <Autocomplete
                                                             fullWidth
                                                             size="small"
-                                                            id="departmentId"
-                                                            options={departmentsData || []}
+                                                            id="userId"
+                                                            options={userData || []}
                                                             onChange={(e: any, r: any) => {
-                                                                 setFieldValue("departmentId", r?.id);
+                                                                 setFieldValue("userId", r?.id);
                                                             }}
                                                             getOptionLabel={(option: any) => option.name}
                                                             renderInput={(params) => (
                                                                  <TextField
                                                                       {...params}
-                                                                      // label="Department Name"
-                                                                      placeholder="Department Name"
+                                                                      placeholder="Manager Name"
                                                                       onBlur={handleBlur}
                                                                       error={
-                                                                           touched.departmentId && !!errors.departmentId
+                                                                           touched.userId && !!errors.userId
                                                                       }
                                                                       helperText={
-                                                                           touched.departmentId && errors.departmentId
+                                                                           touched.userId && errors.userId
                                                                       }
                                                                  />
                                                             )}

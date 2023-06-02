@@ -71,14 +71,15 @@ const AllBranch = () => {
                 </div>
               </IconButton>
             </div>
-            <Button
-              onClick={() => setIsCreate(true)}
-              variant="contained"
-              className="!bg-theme"
-              startIcon={<Add />}
-            >
-              CREATE BRANCH
-            </Button>
+            <Link href="/admin/branch/create-branch">
+              <Button
+                variant="contained"
+                className="!bg-theme"
+                startIcon={<Add />}
+              >
+                CREATE BRANCH
+              </Button>
+            </Link>
           </div>
         </div>
         <div>
