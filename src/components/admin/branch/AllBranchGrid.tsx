@@ -79,12 +79,17 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
           {data?.map((item: any) => (
             <>
               <div key={item?.id} className="mb-4 w-full">
-                <div className="group h-full w-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
+                <div className="group h-full w-full border-2 border-gray-200 
+                border-opacity-60 rounded-lg overflow-hidden shadow-lg">
 
-                  <img className="lg:h-48 md:h-36 w-full object-cover object-center transition duration-500 ease-in-out transform group-hover:scale-105"
+                  <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+                  transition duration-500 ease-in-out transform group-hover:scale-105"
                     src={item?.photo} alt="blog" />
                   <div className="py-1 pt-2 px-4">
-                    <h1 className="inline-block py-1 title-font text-xl font-extrabold text-gray-800 tracking-wide cursor-pointer">{item?.name}</h1>
+                    <h1 className="inline-block py-1 title-font text-xl font-extrabold 
+                    text-gray-800 tracking-wide cursor-pointer">
+                      {item?.name}
+                    </h1>
                     <p className="text-gray-500 cursor-pointer">{item?.manager}</p>
                     <p className="text-gray-500 cursor-pointer">
                       <RenderIconRow
@@ -106,16 +111,14 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                         countryName={item?.country || "---"}
                       />
                     </p>
-                    <span className="flex gap-2"> 
-                    <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
+                    <span className="flex gap-2">
+                      <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
                     text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold"
-                    > 
-                   
-                      <img src={LOCATION.src} className="w-8" alt="" />
-                   
-                      {item?.location}
+                      >
+                        <img src={LOCATION.src} className="w-8" alt="" />
+                        {item?.location}
                       </h2>
-                      </span>
+                    </span>
                   </div>
 
 
