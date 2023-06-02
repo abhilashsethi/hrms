@@ -241,7 +241,7 @@ export default () => {
 			{
 				key: "8",
 				title: "Assets",
-				icon: <ICONS.Projects />,
+				icon: <ICONS.Assets />,
 				submenus: [
 					// {
 					// 	key: "7-1",
@@ -252,13 +252,13 @@ export default () => {
 					{
 						key: "7-2",
 						title: "Create Asset",
-						icon: <ICONS.All_Projects />,
+						icon: <ICONS.Create_Assets />,
 						route: "/admin/assets/create-assets ",
 					},
 					{
 						key: "7-3",
 						title: "View All Asset",
-						icon: <ICONS.Add_Project />,
+						icon: <ICONS.All_Assets />,
 						route: "/admin/projects/create-projects",
 					},
 				],
@@ -323,7 +323,7 @@ export default () => {
 			{
 				key: "11",
 				title: "Branch",
-				icon: <ICONS.Departments />,
+				icon: <ICONS.Branch />,
 				submenus: [
 					{
 						key: "11-1",
@@ -334,13 +334,13 @@ export default () => {
 					{
 						key: "11-2",
 						title: "All Branches",
-						icon: <ICONS.All_Departments />,
+						icon: <ICONS.All_Branch />,
 						route: "/admin/branch/all-branch",
 					},
 					{
 						key: "11-3",
 						title: "Create Branch",
-						icon: <ICONS.All_Departments />,
+						icon: <ICONS.Create_Branch />,
 						route: "/admin/branch/create-branch",
 					},
 				],
