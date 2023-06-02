@@ -4,7 +4,7 @@ import { CountryNameFlag, PhotoViewer } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
 import Slider from "react-slick";
 interface Props {
@@ -44,6 +44,24 @@ const settings = {
   ],
 };
 const AllBranchGrid = ({ data, mutate }: Props) => {
+
+  return (
+    <>
+      <section className="py-6 ">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6 items-center justify-center">
+          {data?.map((item: any, index: any) => (
+            <div key={index}>
+              <MoreOption item={item} mutate={mutate} />
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default AllBranchGrid;
+const MoreOption = ({ item, mutate }: any) => {
 
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
@@ -95,6 +113,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
     });
   };
 
+
   return (
     <>
       <UpdateDepartment
@@ -108,78 +127,84 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
         onClose={() => setIsInfo({ dialogue: false })}
         roleId={isInfo?.role?.id}
       />
-      <div className="my-4">
-        <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
-          {data?.map((item: any) => (
-            <>
-              <div key={item?.id} className="mb-4 w-full">
-                <div className="group h-full w-full border-2 border-gray-200 
+
+      <div key={item?.id} className="mb-4 w-full">
+        <div className="group h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
-                  {item?.photos?.length > 1 ? (
-                    <>
-                      <Slider {...settings} className="">
-                        {item?.photos?.map((data: any, k: any) => (
-                          <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+          {item?.photos?.length > 1 ? (
+            <>
+              <Slider {...settings} className="">
+                {item?.photos?.map((data: any, k: any) => (
+                  <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                            src={data?.photo} alt="blog" />
-                        ))}
-                      </Slider>
-                    </>
-                  ) : (
-                    <>
-                      {item?.photos?.map((data: any, k: any) => (
-                        <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+                    src={data?.photo} alt="blog" />
+                ))}
+              </Slider>
+            </>
+          ) : (
+            <>
+              {item?.photos?.map((data: any, k: any) => (
+                <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                          src={data?.photo} alt="blog" />
-                      ))}
-                    </>
-                  )}
-                  <div className="py-1 pt-2 px-4">
-                    <h1 className="inline-block py-1 title-font text-xl font-extrabold 
+                  src={data?.photo} alt="blog" />
+              ))}
+            </>
+          )}
+          <div className="py-1 pt-2 px-4">
+            <h1 className="inline-block py-1 title-font text-xl font-extrabold 
                     text-gray-800 tracking-wide cursor-pointer">
-                      {item?.name}
-                    </h1>
-                    <p className="text-gray-500 flex items-start">
-                      <span className="group flex items-center justify-center gap-2">
-                      </span>
-                    </p>
-                    <p className="text-gray-500 flex items-start">
-                      <RenderIconRow
-                        value={item?.phone || "---"}
-                        isPhone
-                        longText={false}
-                      />
-                    </p>
+              {item?.name}
+            </h1>
+            <p className="text-gray-500 flex items-start">
+              <span className="group flex text-sm items-center justify-center gap-2">
+                <span className="group flex items-center justify-center gap-2">
+                  <img src={MANAGER.src} className="w-8 pr-2" alt="" />
+                  <span>Manager : </span>
+                </span>
+                {item?.manager}
+              </span>
+            </p>
+            <p className="text-gray-500 flex items-start">
+              <RenderIconRow
+                value={item?.phone || "---"}
+                isPhone
+                longText={false}
+              />
+            </p>
 
-                    <p className="text-gray-500 flex items-start">
-                      <RenderIconRow
-                        value={item?.email || "---"}
-                        isEmail
-                        longText={false}
-                      />
-                    </p>
-                    <p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
-                      <CountryNameFlag
-                        countryName={item?.country || "---"}
-                      />
-                    </p>
+            <p className="text-gray-500 flex items-start">
+              <RenderIconRow
+                value={item?.email || "---"}
+                isEmail
+                longText={false}
+              />
+            </p>
+            <p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
+              <CountryNameFlag
+                countryName={item?.country || "---"}
+              />
+            </p>
 
-                    <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
+            <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
                     text-red-400 uppercase tracking-widest hover:font-bold"
-                    >
-                      <img src={LOCATION.src} className="w-6 pr-2" alt="" />
-                      {item?.location}
-                    </h2>
-                  </div>
+            >
+              <span className="group flex text-sm items-center justify-center gap-2">
+
+                <img src={LOCATION.src} className="w-6 pr-2" alt="" />
+                {item?.location}
+              </span>
+            </h2>
+            <div className="grid grid-cols-3 bottom-0 gap-2 border-2">
+              <span>delete</span>
+              <span>edit</span>
+              <span>block</span>
+            </div>
+          </div>
 
 
-                </div>
-              </div>
-            </>))}
         </div>
       </div>
+
     </>
   );
 };
-
-export default AllBranchGrid;
