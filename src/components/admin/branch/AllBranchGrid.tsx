@@ -77,16 +77,16 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
           {data?.map((item: any) => (
             <>
               <div key={item?.id} className="mb-4 p-0 sm:p-4 w-full">
-                <div className="group h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
+                <div className="group h-full w-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
 
                   <img className="lg:h-48 md:h-36 w-full object-cover object-center transition duration-500 ease-in-out transform group-hover:scale-105"
                     src={item?.photo} alt="blog" />
-                  <div className="py-1 px-6">
+                  <div className="py-1 pt-2 px-6">
                     <h1 className="mb-3 inline-block title-font text-xl font-extrabold text-gray-800 tracking-wide cursor-pointer">{item?.name}</h1>
                     <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.manager}</p>
                     <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.phone}</p>
                     <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.email}</p>
-                  <h2 className="pt-4 pb-1 px-6 inline-block text-xs title-font font-semibold text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold">{item?.location}</h2>
+                  <h2 className="pt-4 pb-1 inline-block text-xs title-font font-semibold text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold">{item?.location}</h2>
                   <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
                       <CountryNameFlag
                         countryName={item?.country || "---"}
