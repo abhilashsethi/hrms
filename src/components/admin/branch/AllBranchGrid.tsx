@@ -1,3 +1,4 @@
+import { LOCATION } from "assets/dashboard_Icons";
 import { RenderIconRow } from "components/common";
 import { CountryNameFlag } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
@@ -105,8 +106,16 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                         countryName={item?.country || "---"}
                       />
                     </p>
-                    <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold">{item?.location}</h2>
-
+                    <span className="flex gap-2"> 
+                    <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
+                    text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold"
+                    > 
+                   
+                      <img src={LOCATION.src} className="w-8" alt="" />
+                   
+                      {item?.location}
+                      </h2>
+                      </span>
                   </div>
 
 
