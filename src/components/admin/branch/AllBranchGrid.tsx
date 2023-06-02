@@ -141,7 +141,10 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                     </h1>
                     <p className="text-gray-500 flex items-start">
                       <span className="group flex items-center justify-center gap-2">
-                        <img src={MANAGER.src} className="w-6 pr-2" alt="" />
+                        <span className="group flex items-center justify-center gap-2">
+                          <img src={MANAGER.src} className="w-8 pr-2" alt="" />
+                          Manager :
+                        </span>
                         {item?.manager}
                       </span>
                     </p>

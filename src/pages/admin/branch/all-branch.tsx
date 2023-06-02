@@ -234,7 +234,7 @@ const branchData = [{
 {
   id: "03",
   name: "Searching Yard 2",
-  location: "Electronic City, Bengaluru 1255663, Karnatak,",
+  location: "Electronic City, Karnatak,",
   photos: [
     {
       i: 1,
@@ -273,7 +273,7 @@ const branchData = [{
       photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
     },
   ],
-  location: "BTM Layout, Bengaluru, 1255663, Karnatak,",
+  location: "BTM Layout, Karnatak,",
   phone: "2131335465",
   email: "workspace3@yard.com",
   country: "India",
