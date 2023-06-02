@@ -138,131 +138,133 @@ const MoreOption = ({ item, mutate }: any) => {
       />
 
       <div key={item?.id} className="mb-4 w-full">
-        <div className="absolute right-[10px] top-[10px]">
-          <Tooltip title="More">
-            <IconButton onClick={handleClick}>
-              <MoreVertRounded />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            anchorEl={anchorEl}
-            id="account-menu"
-            open={open}
-            onClose={handleClose}
-            onClick={handleClose}
-            PaperProps={{
-              elevation: 0,
-              sx: {
-                overflow: "visible",
-                filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
-                mt: 1.5,
-                "& .MuiAvatar-root": {
-                  width: 32,
-                  height: 32,
-                  ml: -0.5,
-                  mr: "15th June 2021",
+        <div className="h-full w-full bg-white">
+          <div className="absolute right-[10px] top-[10px]">
+            <Tooltip title="More">
+              <IconButton onClick={handleClick}>
+                <MoreVertRounded />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
+                  mt: 1.5,
+                  "& .MuiAvatar-root": {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: "15th June 2021",
+                  },
+                  "&:before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
+                    zIndex: 0,
+                  },
                 },
-                "&:before": {
-                  content: '""',
-                  display: "block",
-                  position: "absolute",
-                  top: 0,
-                  right: 14,
-                  width: 10,
-                  height: 10,
-                  bgcolor: "background.paper",
-                  transform: "translateY(-50%) rotate(45deg)",
-                  zIndex: 0,
-                },
-              },
-            }}
-            transformOrigin={{ horizontal: "right", vertical: "top" }}
-            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-          >
-            <MenuItem>
-              <ListItemIcon>
-                <Edit fontSize="small" />
-              </ListItemIcon>
-              Edit Branch
-            </MenuItem>
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
+              <MenuItem>
+                <ListItemIcon>
+                  <Edit fontSize="small" />
+                </ListItemIcon>
+                Edit Branch
+              </MenuItem>
 
-            <MenuItem onClick={() => handleDelete(item)}>
-              <ListItemIcon>
-                <DeleteRounded fontSize="small" />
-              </ListItemIcon>
-              Delete
-            </MenuItem>
-          </Menu>
-        </div>
-        <div className="group h-full w-full border-2 border-gray-200 
+              <MenuItem onClick={() => handleDelete(item)}>
+                <ListItemIcon>
+                  <DeleteRounded fontSize="small" />
+                </ListItemIcon>
+                Delete
+              </MenuItem>
+            </Menu>
+          </div>
+          <div className="group border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
 
-          {item?.photos?.length > 1 ? (
-            <>
-              <Slider {...settings} className="">
+            {item?.photos?.length > 1 ? (
+              <>
+                <Slider {...settings} className="">
+                  {item?.photos?.map((data: any, k: any) => (
+                    <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                      src={data?.photo} alt="blog" />
+                  ))}
+                </Slider>
+              </>
+            ) : (
+              <>
                 {item?.photos?.map((data: any, k: any) => (
                   <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
                     src={data?.photo} alt="blog" />
                 ))}
-              </Slider>
-            </>
-          ) : (
-            <>
-              {item?.photos?.map((data: any, k: any) => (
-                <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
-                  src={data?.photo} alt="blog" />
-              ))}
-            </>
-          )}
-          <div className="py-1 pt-2 px-4">
-            <h1 className="inline-block py-1 title-font text-xl font-extrabold 
+              </>
+            )}
+            <div className="py-1 pt-2 px-4">
+              <h1 className="inline-block py-1 title-font text-xl font-extrabold 
                     text-gray-800 tracking-wide cursor-pointer">
-              {item?.name}
-            </h1>
-            <p className="text-gray-500 flex items-start">
-              <span className="group flex text-sm items-center justify-center gap-2">
-                <span className="group flex items-center justify-center gap-2">
-                  <img src={MANAGER.src} className="w-8 pr-2" alt="" />
-                  <span>Manager : </span>
+                {item?.name}
+              </h1>
+              <p className="text-gray-500 flex items-start">
+                <span className="group flex text-sm items-center justify-center gap-2">
+                  <span className="group flex items-center justify-center gap-2">
+                    <img src={MANAGER.src} className="w-8 pr-2" alt="" />
+                    <span>Manager : </span>
+                  </span>
+                  {item?.manager}
                 </span>
-                {item?.manager}
-              </span>
-            </p>
-            <p className="text-gray-500 flex items-start">
-              <RenderIconRow
-                value={item?.phone || "---"}
-                isPhone
-                longText={false}
-              />
-            </p>
+              </p>
+              <p className="text-gray-500 flex items-start">
+                <RenderIconRow
+                  value={item?.phone || "---"}
+                  isPhone
+                  longText={false}
+                />
+              </p>
 
-            <p className="text-gray-500 flex items-start">
-              <RenderIconRow
-                value={item?.email || "---"}
-                isEmail
-                longText={false}
-              />
-            </p>
-            <p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
-              <CountryNameFlag
-                countryName={item?.country || "---"}
-              />
-            </p>
+              <p className="text-gray-500 flex items-start">
+                <RenderIconRow
+                  value={item?.email || "---"}
+                  isEmail
+                  longText={false}
+                />
+              </p>
+              <p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
+                <CountryNameFlag
+                  countryName={item?.country || "---"}
+                />
+              </p>
 
-            <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
+              <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
                     text-red-400 uppercase tracking-widest hover:font-bold"
-            >
-              <span className="group flex text-sm items-center justify-center gap-2">
+              >
+                <span className="group flex text-sm items-center justify-center gap-2">
 
-                <img src={LOCATION.src} className="w-6 pr-2" alt="" />
-                {item?.location}
-              </span>
-            </h2>
+                  <img src={LOCATION.src} className="w-6 pr-2" alt="" />
+                  {item?.location}
+                </span>
+              </h2>
+            </div>
+
+
           </div>
-
-
         </div>
       </div>
 
