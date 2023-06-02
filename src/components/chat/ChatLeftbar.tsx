@@ -211,6 +211,8 @@ const GroupChats = () => {
     })();
   }, [searchTitle, allGroupChat?.length]);
 
+  console.log({ afterSearchable });
+
   return (
     <>
       <ChatGroupCreate open={isCreate} onClose={() => setIsCreate(false)} />
@@ -275,7 +277,10 @@ const GroupChats = () => {
                   {item?.lastMessage?.message}
                 </span>
               </div>
-              <span className="text-xs">{moment(new Date()).format("ll")}</span>
+
+              <span className="text-xs">
+                {moment(item?.lastMessage?.createdAt).format("ll")}
+              </span>
             </div>
           </div>
         ))}
