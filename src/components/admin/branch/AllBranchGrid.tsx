@@ -111,14 +111,15 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                         countryName={item?.country || "---"}
                       />
                     </p>
-                    <span className="flex gap-2">
+                   
                       <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
                     text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold"
                       >
+                         <span className="flex gap-2">
                         <img src={LOCATION.src} className="w-4" alt="" />
                         {item?.location}
-                      </h2>
                     </span>
+                      </h2>
                   </div>
 
 
