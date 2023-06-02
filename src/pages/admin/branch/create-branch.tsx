@@ -149,6 +149,7 @@ const CreateBranch = () => {
                         </InputLabel>
                       </div>
                       <Autocomplete
+                        size="small"
                         options={countries}
                         autoHighlight
                         value={values?.country as any}
