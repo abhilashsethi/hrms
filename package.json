@@ -38,6 +38,8 @@
 		"react-email-editor": "^1.6.3",
 		"react-lottie": "^1.2.3",
 		"react-quill": "^2.0.0",
+		"react-slick": "^0.29.0",
+		"slick-carousel": "^1.8.1",
 		"socket.io-client": "^4.6.1",
 		"styled-components": "^5.3.9",
 		"sweetalert2": "^11.4.8",

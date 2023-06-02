@@ -91,6 +91,7 @@ export type User = {
   grossSalary?: number;
   tds?: number;
   kpi?: number;
+  salaryInfoNewFields?: any;
   github?: string | null;
   IFSCCode?: string | null;
   bankName?: string | null;
