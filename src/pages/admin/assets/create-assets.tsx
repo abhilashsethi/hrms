@@ -329,6 +329,5 @@ const CreateAssets = () => {
 export default CreateAssets;
 
 const links = [
-	{ id: 1, page: "Employees", link: "/admin/employees" },
-	{ id: 2, page: "Create Employee", link: "/admin/employees/create-employee" },
+	{ id: 1, page: "Create Assets", link: "/admin/assets/create-assets" },
 ];
