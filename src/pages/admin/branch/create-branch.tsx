@@ -149,6 +149,7 @@ const CreateBranch = () => {
                         </InputLabel>
                       </div>
                       <Autocomplete
+                        size="small"
                         options={countries}
                         autoHighlight
                         value={values?.country as any}
@@ -249,50 +250,51 @@ const CreateBranch = () => {
                         )}
                       />
                     </div>
-                    {/* ----------------------------multiple image component------------------ */}
-                    <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="image">
-                          Upload Images
-                        </InputLabel>
+
+                  </div>
+                  {/* ----------------------------multiple image component------------------ */}
+                  <div className="md:px-4 px-2 md:py-2 py-1">
+                    <div className="py-2">
+                      <InputLabel htmlFor="image">
+                        Upload Images
+                      </InputLabel>
+                    </div>
+                    <div
+                      onClick={() => imageRef?.current?.click()}
+                      className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
+                    >
+                      <input
+                        className="hidden"
+                        ref={imageRef}
+                        type="file"
+                        multiple
+                        onChange={(event: any) => {
+                          const files = Array.from(event.target.files);
+                          const fileObjects = files.map((file: any) => ({
+                            file,
+                            previewURL: URL.createObjectURL(file),
+                          }));
+                          setFieldValue("images", fileObjects);
+                        }}
+                      />
+                      <div className="flex justify-center items-center gap-2 flex-wrap">
+                        {values.images.map((image: any, index) => (
+                          <div className="" key={index}>
+                            <img
+                              className="w-40 object-contain"
+                              src={image.previewURL}
+                              alt={`Image ${index + 1}`}
+                            />
+                          </div>
+                        ))}
                       </div>
-                      <div
-                        onClick={() => imageRef?.current?.click()}
-                        className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
-                      >
-                        <input
-                          className="hidden"
-                          ref={imageRef}
-                          type="file"
-                          multiple
-                          onChange={(event: any) => {
-                            const files = Array.from(event.target.files);
-                            const fileObjects = files.map((file: any) => ({
-                              file,
-                              previewURL: URL.createObjectURL(file),
-                            }));
-                            setFieldValue("images", fileObjects);
-                          }}
-                        />
-                        <div className="flex justify-center items-center gap-2 flex-wrap">
-                          {values.images.map((image: any, index) => (
-                            <div className="" key={index}>
-                              <img
-                                className="w-40 object-contain"
-                                src={image.previewURL}
-                                alt={`Image ${index + 1}`}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                        <p>Upload Images</p>
-                        <CloudUpload fontSize="large" color="primary" />
-                        <ErrorMessage
-                          name="images"
-                          component="div"
-                          className="error"
-                        />
-                      </div>
+                      <p>Upload Images</p>
+                      <CloudUpload fontSize="large" color="primary" />
+                      <ErrorMessage
+                        name="images"
+                        component="div"
+                        className="error"
+                      />
                     </div>
                   </div>
                   <div className="flex justify-center md:py-4 py-2">

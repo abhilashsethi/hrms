@@ -302,6 +302,7 @@ export interface IChatMember {
   isAdmin: boolean;
   user: Partial<User>;
   isPastMember: boolean;
+  id: string;
 }
 
 export interface ServerToClientEvents {

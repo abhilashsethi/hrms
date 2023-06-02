@@ -33,7 +33,7 @@ const ChatLeftbar = () => {
     }
   };
   return (
-    <div className="lg:w-[30%] h-full border-r-2 px-4 rounded-md">
+    <div className="w-[32%] h-full border-r-2 px-4 rounded-md">
       <div className={`h-20 w-full flex justify-between items-center `}>
         {quickLinks?.map((item) => (
           <div

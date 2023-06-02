@@ -1,3 +1,4 @@
+import { Close, CloudUpload, Send } from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
@@ -5,29 +6,68 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  TextField,
   Tooltip,
 } from "@mui/material";
-import { Check, Close, CloudUpload, Send, Upload } from "@mui/icons-material";
-import { useRef, useState } from "react";
 import { useFormik } from "formik";
+import { useChange } from "hooks";
+import { useRef, useState } from "react";
+import Swal from "sweetalert2";
+import { uploadFile } from "utils";
 import * as yup from "yup";
 
 interface Props {
   open?: any;
   handleClose?: any;
+  sendId?: string;
 }
 
-const ChatSendFiles = ({ open, handleClose }: Props) => {
+const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
   const [loading, setLoading] = useState(false);
   const fileRef = useRef<any>();
   const [isFile, setIsFile] = useState<any>(null);
+  const { change } = useChange();
   const formik = useFormik({
-    initialValues: { file: null },
+    initialValues: { image: null, message: "" },
     validationSchema: yup.object().shape({
-      file: yup.mixed().required("A file is required!"),
+      image: yup
+        .mixed()
+        .required("Please select an image")
+        .test(
+          "fileType",
+          "Only image files are allowed",
+          (value: any) => value && value.type.startsWith("image/")
+        ),
     }),
-    onSubmit: async (values) => {
-      console.log(values);
+    onSubmit: async (values: any) => {
+      if (values?.image) {
+        try {
+          setLoading(true);
+          const dtype = values?.image?.type.split("/")[1];
+          const url = await uploadFile(values?.image, `${Date.now()}.${dtype}`);
+          const res = await change(`chat/message/${sendId}`, {
+            body: {
+              link: url,
+              category: "image",
+              message: values?.message,
+            },
+          });
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          Swal.fire(`Success`, "Sent Sccessfully!", "success");
+          handleClose();
+          setLoading(false);
+          formik.resetForm();
+          return;
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        } finally {
+          setLoading(false);
+        }
+      }
     },
   });
   return (
@@ -63,25 +103,49 @@ const ChatSendFiles = ({ open, handleClose }: Props) => {
         </IconButton>
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 3 }}>
-        <div className="md:w-[27rem] w-[72vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-2">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="md:w-[27rem] w-[72vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-2"
+        >
           <input
             type="file"
             className="hidden"
             ref={fileRef}
             onChange={(e: any) => {
-              formik.setFieldValue("file", e?.target?.files[0]);
+              formik.setFieldValue("image", e?.target?.files[0]);
               setIsFile(e?.target?.files[0]);
             }}
           />
           <div
             onClick={() => fileRef?.current?.click()}
-            className="h-40 w-full cursor-pointer border-2 rounded-lg border-dashed border-theme-200 flex flex-col gap-2 items-center justify-center"
+            className="min-h-[10rem] py-4 w-full cursor-pointer border-2 rounded-lg border-dashed border-theme-200 flex flex-col gap-2 items-center justify-center"
           >
-            <CloudUpload fontSize="large" />
+            {formik?.values?.image ? (
+              <img
+                className="h-32 object-contain"
+                src={URL.createObjectURL(formik?.values?.image)}
+                alt=""
+              />
+            ) : (
+              <CloudUpload fontSize="large" />
+            )}
+
             {!isFile && <p>Upload file.</p>}
             {isFile && isFile?.name}
+            {formik.errors?.image && formik?.errors?.image}
           </div>
+          <TextField
+            fullWidth
+            placeholder="Type message here"
+            name="message"
+            value={formik.values.message}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.message && !!formik.errors.message}
+            helperText={formik.touched.message && formik.errors.message}
+          />
           <Button
+            type="submit"
             variant="contained"
             className="!bg-theme"
             disabled={loading}
@@ -89,7 +153,7 @@ const ChatSendFiles = ({ open, handleClose }: Props) => {
           >
             SEND FILE
           </Button>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

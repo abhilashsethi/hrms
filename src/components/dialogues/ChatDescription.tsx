@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useChange } from "hooks";
+import { useChange, useChatData } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as yup from "yup";
@@ -18,26 +18,30 @@ import * as yup from "yup";
 interface Props {
   open: any;
   handleClose: any;
-  mutate?: any;
 }
 
-const ChatDescription = ({ open, handleClose, mutate }: Props) => {
+const ChatDescription = ({ open, handleClose }: Props) => {
+  const { currentChatProfileDetails, revalidateChatProfileDetails } =
+    useChatData();
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const formik = useFormik({
-    initialValues: { description: "" },
+    initialValues: {
+      description: currentChatProfileDetails?.description || "",
+    },
     enableReinitialize: true,
-    validationSchema: yup.object({ name: yup.string().required("Required!") }),
+    validationSchema: yup.object({
+      description: yup.string().required("Required!"),
+    }),
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const res = await change(`roles`, {
+        const res = await change(`chat/${currentChatProfileDetails?.id}`, {
           method: "PATCH",
           body: values,
         });
-        console.log(res);
         setLoading(false);
-        if (res?.status !== 200) {
+        if (res?.status !== 201) {
           Swal.fire(
             "Error",
             res?.results?.msg || "Something went wrong!",
@@ -46,12 +50,12 @@ const ChatDescription = ({ open, handleClose, mutate }: Props) => {
           setLoading(false);
           return;
         }
-        mutate();
+        currentChatProfileDetails?.id &&
+          revalidateChatProfileDetails(currentChatProfileDetails?.id);
         handleClose();
         Swal.fire(`Success`, `Updated Successfully!`, `success`);
         return;
       } catch (error) {
-        console.log(error);
         setLoading(false);
       } finally {
         setLoading(false);
@@ -93,7 +97,7 @@ const ChatDescription = ({ open, handleClose, mutate }: Props) => {
             <TextField
               fullWidth
               multiline
-              rows={2}
+              rows={4}
               placeholder="Group Decsription"
               name="description"
               value={formik.values.description}

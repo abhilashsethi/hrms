@@ -56,16 +56,10 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
       <ChatReactions open={isReactions} onClose={() => setIsReactions(false)} />
       <ChatSeen open={isSeen} onClose={() => setIsSeen(false)} />
       <ChatReply open={isReply} handleClose={() => setIsReply(false)} />
-      <div className="w-[50%] flex gap-1">
-        <div className="w-[10%] h-10 flex justify-center items-start">
-          <div className="h-8 w-8 bg-slate-200 rounded-full overflow-hidden shadow-md">
-            {data?.sender?.id === user?.id ? (
-              <PhotoViewerSmall
-                size="2rem"
-                photo={user?.photo}
-                name={user?.name}
-              />
-            ) : (
+      <div className="max-w-[70%] min-w-[30%] flex gap-1">
+        <div className="w-[15%] h-10 flex justify-center items-start">
+          <div className="h-8 w-8 rounded-full overflow-hidden">
+            {data?.sender?.id === user?.id ? null : (
               <PhotoViewerSmall
                 size="2rem"
                 photo={data?.sender?.photo}
@@ -75,11 +69,15 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
           </div>
         </div>
         <div className="w-[85%] relative group">
-          <div className="flex gap-1 items-center text-slate-600">
+          <div
+            className={`flex gap-1 items-center text-slate-600 ${
+              data?.sender?.id === user?.id ? `justify-end` : ``
+            }`}
+          >
             <span className="text-xs">
-              {data?.sender?.id === user?.id ? "You" : data?.sender?.name}
+              {data?.sender?.id === user?.id ? "" : data?.sender?.name + ","}
             </span>
-            ,
+
             <span className="text-xs">
               {moment(data?.createdAt).format("MMM DD, hh : mm A")}
             </span>
@@ -88,7 +86,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
             <div>
               {data?.category === "text" ? (
                 <p className="tracking-wide">{data?.text}</p>
-              ) : data?.type === "image" ? (
+              ) : data?.category === "image" ? (
                 <ImageMessage data={data} />
               ) : data?.category === "code" ? (
                 <CodeFormat data={data} />

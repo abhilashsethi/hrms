@@ -14,6 +14,7 @@ const ImageMessage = ({ data }: Props) => {
       <ChatImagePreview
         open={isPreview}
         handleClose={() => setIsPreview(false)}
+        activePreview={data?.link}
       />
       <div className="h-52 w-full relative group">
         <img
