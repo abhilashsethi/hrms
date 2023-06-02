@@ -45,6 +45,7 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
           setLoading(true);
           const dtype = values?.image?.type.split("/")[1];
           const url = await uploadFile(values?.image, `${Date.now()}.${dtype}`);
+          console.log(url);
           const res = await change(`chat/message/${sendId}`, {
             body: {
               link: url,

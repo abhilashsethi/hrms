@@ -213,15 +213,3 @@ export const formatChatTime = (time?: string) => {
   }
   return moment(time).format("ll");
 };
-
-export const downloadFile = (url: string, name: string) => {
-  fetch(url)
-    .then((response) => response.blob())
-    .then((blob) => {
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = name;
-      link.click();
-    })
-    .catch(console.error);
-};
