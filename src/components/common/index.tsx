@@ -22,11 +22,11 @@ export function RenderIconRow({
       <div className="group flex items-center justify-center gap-2">
         {isEmail ? (
           <a href={`mailto:${value}`} className="hover:text-blue-500">
-            <img src={EMAIL.src} className="w-8" alt="" />
+            <img src={EMAIL.src} className="w-4" alt="" />
           </a>
         ) : isPhone ? (
           <a href={`tel:${value}`} className="hover:text-blue-500">
-            <img src={PHONE.src} className="w-8" alt="" />
+            <img src={PHONE.src} className="w-4" alt="" />
           </a>
         ) : isId ? (
           <>

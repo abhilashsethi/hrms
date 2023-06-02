@@ -115,7 +115,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                       <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
                     text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold"
                       >
-                        <img src={LOCATION.src} className="w-8" alt="" />
+                        <img src={LOCATION.src} className="w-4" alt="" />
                         {item?.location}
                       </h2>
                     </span>
