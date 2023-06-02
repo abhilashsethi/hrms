@@ -1,3 +1,4 @@
+import { CountryNameFlag } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
@@ -72,10 +73,10 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
         roleId={isInfo?.role?.id}
       />
       <div className="my-4">
-        <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
+        <div className="grid xl:grid-cols-4 gap-3 lg:grid-cols-2">
           {data?.map((item: any) => (
             <>
-              <div key={item?.id} className="mb-4 p-0 sm:p-4 w-full"> {/* Card container */}
+              <div key={item?.id} className="mb-4 p-0 sm:p-4 w-full">
                 <div className="group h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
 
                   <img className="lg:h-48 md:h-36 w-full object-cover object-center transition duration-500 ease-in-out transform group-hover:scale-105"
@@ -85,7 +86,12 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                     <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.manager}</p>
                     <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.phone}</p>
                     <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.email}</p>
-                  <h2 className="pt-4 pb-1 px-6 inline-block text-xs title-font font-semibold text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold">{item?.location}, {item?.country}</h2>
+                  <h2 className="pt-4 pb-1 px-6 inline-block text-xs title-font font-semibold text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold">{item?.location}</h2>
+                  <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
+                      <CountryNameFlag
+                        countryName={item?.country || "---"}
+                      />
+                    </p>
                   </div>
                   
 
