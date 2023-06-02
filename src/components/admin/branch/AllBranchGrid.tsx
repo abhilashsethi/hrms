@@ -1,4 +1,4 @@
-import { LOCATION } from "assets/dashboard_Icons";
+import { LOCATION, TOTAL_CLIENT } from "assets/dashboard_Icons";
 import { RenderIconRow } from "components/common";
 import { CountryNameFlag } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
@@ -90,7 +90,12 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                     text-gray-800 tracking-wide cursor-pointer">
                       {item?.name}
                     </h1>
-                    <p className="text-gray-500">{item?.manager}</p>
+                    <p className="text-gray-500">
+                    <span className="pr-2">
+                        <img src={TOTAL_CLIENT.src} className="w-4" alt="" />
+                        </span>
+                        {item?.manager}
+                        </p>
                     <p className="text-gray-500 flex items-start">
                       <RenderIconRow
                         value={item?.phone || "---"}
@@ -117,7 +122,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                     >
                       <span className="pr-2">
                         <img src={LOCATION.src} className="w-4" alt="" />
-                      </span>
+                        </span>
                       {item?.location}
                     </h2>
                   </div>
