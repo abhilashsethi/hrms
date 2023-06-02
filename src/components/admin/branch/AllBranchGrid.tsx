@@ -1,10 +1,10 @@
 import { LOCATION, MANAGER } from "assets/dashboard_Icons";
 import { RenderIconRow } from "components/common";
-import { CountryNameFlag, PhotoViewer, ReverseIOSSwitch } from "components/core";
+import { CountryNameFlag, ReverseIOSSwitch } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
-import { useState, MouseEvent } from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import Slider from "react-slick";
 import { DeleteRounded, Edit } from "@mui/icons-material";
@@ -226,7 +226,7 @@ const MoreOption = ({ item, mutate }: any) => {
               <span className="group w-full flex border-2 px-2 py-1 items-center justify-center ">
                 <Edit fontSize="small" />
               </span>
-              <div className="group w-full flex border-2 px-2 py-1 items-center justify-center ">
+              <div className="group w-full gap-2 flex border-2 px-2 py-1 items-center justify-center ">
                 <p className="font-semibold tracking-wide text-sm">STATUS</p>
                 <ReverseIOSSwitch
                   checked={item?.isBlocked}
@@ -235,11 +235,8 @@ const MoreOption = ({ item, mutate }: any) => {
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
-
     </>
   );
 };
