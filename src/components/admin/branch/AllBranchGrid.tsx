@@ -219,17 +219,19 @@ const MoreOption = ({ item, mutate }: any) => {
                 {item?.location}
               </span>
             </h2>
-            <div className="grid grid-cols-3 bottom-0 gap-2 ">
-              <span className="group flex border-2 px-2 py-2 items-center justify-center gap-2"><DeleteRounded fontSize="small" /> Delete</span>
-              <span className="group flex border-2 px-2 py-2 items-center justify-center gap-2"><Edit fontSize="small" /> Edit</span>
-              <div className="w-full px-8 flex gap-2 mt-2 justify-center">
-                <div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
-                  <p className="font-semibold tracking-wide text-sm">STATUS</p>
-                  <ReverseIOSSwitch
-                    checked={item?.isBlocked}
-                    onChange={(e) => handleBlock(e, item?.id)}
-                  />
-                </div>
+            <div className="flex bottom-0 gap-2 ">
+              <span className="group w-full flex border-2 px-2 py-1 items-center justify-center gap-2">
+                <DeleteRounded fontSize="small" />
+              </span>
+              <span className="group w-full flex border-2 px-2 py-1 items-center justify-center gap-2">
+                <Edit fontSize="small" />
+              </span>
+              <div className="group w-full flex border-2 px-2 py-1 items-center justify-center gap-2">
+                <p className="font-semibold tracking-wide text-sm">STATUS</p>
+                <ReverseIOSSwitch
+                  checked={item?.isBlocked}
+                  onChange={(e) => handleBlock(e, item?.id)}
+                />
               </div>
             </div>
           </div>
