@@ -1,31 +1,21 @@
-import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-	Autocomplete,
-	Button,
-	CircularProgress,
-	IconButton,
-	InputAdornment,
-	InputLabel,
-	TextField,
-} from "@mui/material";
-import { AdminBreadcrumbs, Loader } from "components/core";
-import { useTheme, useMediaQuery } from "@material-ui/core";
-import { Form, Formik } from "formik";
+import { useTheme } from "@material-ui/core";
+import { Check } from "@mui/icons-material";
+import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
+import { AdminBreadcrumbs, FileUpload } from "components/core";
+import { ErrorMessage, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import router from "next/router";
 import { useState } from "react";
-import Swal from "sweetalert2";
 import * as Yup from "yup";
 const initialValues = {
 	assetName: "",
 	modelNo: "",
-	phone: "",
-	password: "",
-	confirmPassword: "",
-	employeeID: "",
-	roleId: "",
-	departmentId: "",
+	purchaseDate: "",
+	billAmount: "",
+	brandName: "",
+	marketPrice: "",
+	serialNo: "",
+	uploadDoc: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -39,19 +29,11 @@ const validationSchema = Yup.object().shape({
 		.max(50, "Asset Name must be less than 50 characters")
 		.required("Asset Name is required!"),
 	modelNo: Yup.string().required("Model No is required!"),
-	phone: Yup.string()
-		.matches(
-			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-			"Phone number is not valid"
-		)
-		.min(6)
-		.max(15),
-	password: Yup.string()
-		.min(6, "Password should minimum 6 characters!")
-		.required("Password is required!"),
-	confirmPassword: Yup.string()
-		.oneOf([Yup.ref("password")], "Password Must Match!")
-		.required("Confirm password is required!"),
+	purchaseDate: Yup.string().required("Purchase date is required!"),
+	billAmount: Yup.number().required("Bill amount is required!"),
+	// brandName: Yup.string().required("Brand Name is required!"),
+	// marketPrice: Yup.number().required("Current Market Price is required!"),
+	serialNo: Yup.string().required("Serial No. is required!"),
 });
 
 const CreateAssets = () => {
@@ -134,7 +116,7 @@ const CreateAssets = () => {
 
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="employeeID">
+												<InputLabel htmlFor="purchaseDate">
 													Date Of Purchase{" "}
 													<span className="text-red-600">*</span>
 												</InputLabel>
@@ -142,85 +124,120 @@ const CreateAssets = () => {
 											<TextField
 												size="small"
 												fullWidth
-												placeholder="Employee ID"
-												id="employeeID"
-												name="employeeID"
-												value={values.employeeID}
+												type="date"
+												// placeholder="Employee ID"
+												id="purchaseDate"
+												name="purchaseDate"
+												value={values.purchaseDate}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.employeeID && !!errors.employeeID}
-												helperText={touched.employeeID && errors.employeeID}
+												error={touched.purchaseDate && !!errors.purchaseDate}
+												helperText={touched.purchaseDate && errors.purchaseDate}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="phone">Bill Amount</InputLabel>
+												<InputLabel htmlFor="billAmount">
+													Bill Amount
+												</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												placeholder="Phone"
-												id="phone"
-												name="phone"
-												value={values.phone}
+												type="number"
+												// placeholder="Phone"
+												id="billAmount"
+												name="billAmount"
+												value={values.billAmount}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.phone && !!errors.phone}
-												helperText={touched.phone && errors.phone}
+												error={touched.billAmount && !!errors.billAmount}
+												helperText={touched.billAmount && errors.billAmount}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="phone">Brand Name</InputLabel>
+												<InputLabel htmlFor="brandName">Brand Name</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												placeholder="Phone"
-												id="phone"
-												name="phone"
-												value={values.phone}
+												// placeholder="Phone"
+												id="brandName"
+												name="brandName"
+												value={values.brandName}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.phone && !!errors.phone}
-												helperText={touched.phone && errors.phone}
+												error={touched.brandName && !!errors.brandName}
+												helperText={touched.brandName && errors.brandName}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="phone">
+												<InputLabel htmlFor="marketPrice">
 													Current Market Price
 												</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												placeholder="Phone"
-												id="phone"
-												name="phone"
-												value={values.phone}
+												// placeholder="Phone"
+												id="marketPrice"
+												name="marketPrice"
+												value={values.marketPrice}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.phone && !!errors.phone}
-												helperText={touched.phone && errors.phone}
+												error={touched.marketPrice && !!errors.marketPrice}
+												helperText={touched.marketPrice && errors.marketPrice}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="phone">Serial No</InputLabel>
+												<InputLabel htmlFor="serialNo">Serial No</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												placeholder="Phone"
-												id="phone"
-												name="phone"
-												value={values.phone}
+												// placeholder="Phone"
+												id="serialNo"
+												name="serialNo"
+												value={values.serialNo}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.phone && !!errors.phone}
-												helperText={touched.phone && errors.phone}
+												error={touched.serialNo && !!errors.serialNo}
+												helperText={touched.serialNo && errors.serialNo}
 											/>
+										</div>
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="uploadDoc">
+													Upload Document
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												type="file"
+												// placeholder="Phone"
+												id="uploadDoc"
+												name="uploadDoc"
+												value={values.uploadDoc}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.uploadDoc && !!errors.uploadDoc}
+												helperText={touched.uploadDoc && errors.uploadDoc}
+											/>
+										</div>
+										<div className="col-span-2">
+											<FileUpload
+												title="Upload Image"
+												values={values}
+												setImageValue={(event: any) => {
+													setFieldValue("image", event.currentTarget.files[0]);
+												}}
+											>
+												<ErrorMessage name="image" />
+											</FileUpload>
 										</div>
 									</div>
 									<div className="flex justify-center md:py-4 py-2">
