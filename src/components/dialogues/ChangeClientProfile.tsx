@@ -140,7 +140,7 @@ const ChangeClientProfile = ({ open, handleClose, mutate }: Props) => {
             </div>
             {/* <ErrorMessage name="photo" /> */}
             {formik.errors.photo && (
-              <p className="text-red-600">{formik.errors.photo}</p>
+              <p className="text-red-600">{formik.errors.photo as any}</p>
             )}
             <div className="">
               <Button

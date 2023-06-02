@@ -8,6 +8,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import { AllBranchColumn, AllBranchGrid } from "components/admin/branch";
 import {
   AllDepartmentColumn,
   AllDepartmentGrid,
@@ -76,7 +77,7 @@ const AllBranch = () => {
               className="!bg-theme"
               startIcon={<Add />}
             >
-              CREATE DEPARTMENT
+              CREATE BRANCH
             </Button>
           </div>
         </div>
@@ -105,7 +106,7 @@ const AllBranch = () => {
                 id="name"
                 value={userName ? userName : ""}
                 onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
-                placeholder="Department Name"
+                placeholder="Branch Name"
                 name="name"
               />
               <TextField
@@ -128,15 +129,15 @@ const AllBranch = () => {
         {isGrid ? (
           <>
             {isLoading && <Loader />}
-            <AllDepartmentGrid data={departmentData} mutate={mutate} />
+            <AllBranchGrid data={branchData} mutate={mutate} />
           </>
         ) : (
           <>
             {isLoading && <Loader />}
-            <AllDepartmentColumn data={departmentData} mutate={mutate} />
+            <AllBranchColumn data={branchData} mutate={mutate} />
           </>
         )}
-        {departmentData?.length === 0 ? <LoaderAnime /> : null}
+        {branchData?.length === 0 ? <LoaderAnime /> : null}
         {Math.ceil(
           Number(pagination?.total || 1) /
           Number(pagination?.limit || 1)
@@ -167,11 +168,11 @@ const AllBranch = () => {
 export default AllBranch;
 
 const links = [
-  { id: 1, page: "Department", link: "/admin/department" },
+  { id: 1, page: "Branch", link: "/admin/branch" },
   {
     id: 2,
-    page: "All Department",
-    link: "/admin/department/all-department",
+    page: "All Branch",
+    link: "/admin/branch/all-branch",
   },
 ];
 const short = [
@@ -180,3 +181,43 @@ const short = [
   { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
   { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
+
+const branchData =[{
+  id: "01",
+  name: "Searching Yard 1",
+  photo: "https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80",
+  location: "Cuttack, 754008, Odisha,",
+  country: "India",
+  manager: "Abhilash",
+  managerPhoto: "photo",
+},
+{
+  id: "02",
+  name: "Searching Yard 2",
+  photo: "https://images.unsplash.com/photo-1550136513-548af4445338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80",
+  location: "Bhubaneswar, 751024, Odisha,",
+  country: "India",
+  manager: "Ashutosh",
+  managerPhoto: "photo",
+
+},
+{
+  id: "03",
+  name: "Searching Yard 2",
+  photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+  location: "Electronic City, Bengaluru 1255663, Karnatak,",
+  country: "India",
+  manager: "Prasad",
+  managerPhoto: "photo",
+
+},
+{
+  id: "04",
+  name: "Searching Yard 2",
+  photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+  location: "BTM Layout, Bengaluru, 1255663, Karnatak,",
+  country: "India",
+  manager: "Srinu",
+  managerPhoto: "photo",
+},
+]

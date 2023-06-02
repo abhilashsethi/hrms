@@ -9,6 +9,7 @@ import {
   CloudFrontClient,
   CreateInvalidationCommand,
 } from "@aws-sdk/client-cloudfront";
+import moment from "moment";
 
 const awsCredentials = {
   region: "ap-south-1",
@@ -202,4 +203,13 @@ export async function deleteFile(path: string) {
 export const DocTypeGenerate = (file: any) => {
   const datestring = Date.now();
   return `${datestring}.` + `${file?.split("/")[1]}`;
+};
+
+export const formatChatTime = (time?: string) => {
+  if (
+    new Date().toDateString() === new Date(time || new Date()).toDateString()
+  ) {
+    return moment(time).fromNow();
+  }
+  return moment(time).format("ll");
 };
