@@ -1,17 +1,18 @@
 import {
   AttachFile,
   Code,
-  DriveFileRenameOutline,
   ImageOutlined,
+  Send,
   SentimentSatisfiedAlt,
 } from "@mui/icons-material";
-import { IconButton, Tooltip } from "@mui/material";
+import { CircularProgress, IconButton, Tooltip } from "@mui/material";
 import { ChatSendCode, ChatSendFiles } from "components/dialogues";
-import { useAuth, useChatData } from "hooks";
+import { useAuth, useChange, useChatData } from "hooks";
 import { useRef, useState } from "react";
 import ChatHead from "./ChatHead";
 import ChatMessage from "./ChatMessage";
 import DefaultChatView from "./DefaultChatView";
+import { MessageCategory } from "types";
 
 interface Props {
   id?: number;
@@ -23,7 +24,10 @@ interface Props {
 const ChatRightSection = () => {
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isMessage, setIsMessage] = useState<string | null>(null);
   const textRef = useRef<HTMLInputElement | null>(null);
+  const { change } = useChange();
   const handleClick = () => {
     if (textRef.current) {
       const inputValue = textRef.current.value;
@@ -38,12 +42,41 @@ const ChatRightSection = () => {
   };
 
   const { currentChatMessage, currentChatProfileDetails } = useChatData();
+  console.log(currentChatMessage);
+
+  const handleSend = async () => {
+    if (isMessage) {
+      try {
+        setIsLoading(true);
+        const res = await change(
+          `chat/message/${currentChatProfileDetails?.id}`,
+          {
+            body: {
+              message: isMessage,
+              category: "text",
+            },
+          }
+        );
+        setIsLoading(false);
+        setIsMessage(null);
+        return;
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
 
   return (
     <>
       <ChatSendFiles open={isUpload} handleClose={() => setIsUpload(false)} />
-      <ChatSendCode open={isCode} handleClose={() => setIsCode(false)} />
-
+      <ChatSendCode
+        open={isCode}
+        handleClose={() => setIsCode(false)}
+        sendId={currentChatProfileDetails?.id}
+      />
       <div className="md:w-[70%] xl:w-[77%] h-full">
         {!currentChatProfileDetails?.id ? (
           <DefaultChatView />
@@ -52,19 +85,19 @@ const ChatRightSection = () => {
             <ChatHead />
             <div className="h-[72%] overflow-y-auto">
               <div className="px-4 pb-4">
-                {chats?.map((item) => (
+                {currentChatMessage?.map((item) => (
                   <div
                     key={item?.id}
                     className={`mt-4 flex ${
-                      item?.sendBy === "sender"
-                        ? `justify-start`
-                        : item?.sendBy === "you"
+                      item?.category === "event"
+                        ? `justify-center`
+                        : item?.sender?.id === user?.id
                         ? `justify-end`
-                        : "justify-center"
+                        : "justify-start"
                     }`}
                   >
                     <>
-                      {item?.type === "event" ? (
+                      {item?.category === "event" ? (
                         <EventTemplate data={item} />
                       ) : (
                         <ChatMessage
@@ -102,15 +135,23 @@ const ChatRightSection = () => {
                 <div className="flex gap-2 items-center w-full">
                   <SentimentSatisfiedAlt className="!cursor-pointer" />
                   <input
+                    onChange={(e) => setIsMessage(e.target.value)}
                     ref={textRef}
+                    value={isMessage ? isMessage : ""}
                     className="bg-white text-sm w-4/5"
                     placeholder="Type a message"
                     type="text"
                   />
                 </div>
-                <IconButton onClick={handleClick} size="small">
-                  <DriveFileRenameOutline />
-                </IconButton>
+                <Tooltip title="Send">
+                  <IconButton
+                    onClick={() => handleSend()}
+                    disabled={isLoading}
+                    size="small"
+                  >
+                    {isLoading ? <CircularProgress size={20} /> : <Send />}
+                  </IconButton>
+                </Tooltip>
               </div>
               <Tooltip title="Image">
                 <IconButton onClick={() => setIsUpload(true)} size="small">
