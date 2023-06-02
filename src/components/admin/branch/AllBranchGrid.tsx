@@ -196,7 +196,7 @@ const MoreOption = ({ item, mutate }: any) => {
             </Menu>
           </div>
           <div className="group border-2 border-gray-200 
-                border-opacity-60 rounded-lg overflow-hidden shadow-lg">
+                border-opacity-60 rounded-lg shadow-lg">
 
             {item?.photos?.length > 1 ? (
               <>
