@@ -105,7 +105,7 @@ const AllBranch = () => {
                 size="small"
                 id="name"
                 value={userName ? userName : ""}
-                onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
+                onChange={(e) => { setPageNumber(1), setUsername(e.target.value) }}
                 placeholder="Branch Name"
                 name="name"
               />
@@ -115,7 +115,7 @@ const AllBranch = () => {
                 label="Ascending/Descending"
                 size="small"
                 value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => {setPageNumber(1), setIsOrderBy(e?.target?.value)}}
+                onChange={(e) => { setPageNumber(1), setIsOrderBy(e?.target?.value) }}
               >
                 {short.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -182,20 +182,20 @@ const short = [
   { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
 
-const branchData =[{
+const branchData = [{
   id: "01",
   name: "Searching Yard 1",
   photos: [
     {
-      i: 1, 
-      photo:"https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+      i: 1,
+      photo: "https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
     },
     {
-      i: 2, 
+      i: 2,
       photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
     },
     {
-      i: 3, 
+      i: 3,
       photo: "https://images.unsplash.com/photo-1550136513-548af4445338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80",
     },
   ],
@@ -211,15 +211,15 @@ const branchData =[{
   name: "Searching Yard 2",
   photos: [
     {
-      i: 1, 
+      i: 1,
       photo: "https://images.unsplash.com/photo-1550136513-548af4445338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80",
     },
     {
-      i: 2, 
-      photo:"https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+      i: 2,
+      photo: "https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
     },
     {
-      i: 3, 
+      i: 3,
       photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
     },
   ],
@@ -237,15 +237,15 @@ const branchData =[{
   location: "Electronic City, Bengaluru 1255663, Karnatak,",
   photos: [
     {
-      i: 1, 
+      i: 1,
       photo: "https://images.unsplash.com/photo-1550136513-548af4445338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80",
     },
     {
-      i: 2, 
+      i: 2,
       photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
     },
     {
-      i: 3, 
+      i: 3,
       photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
     },
   ],
@@ -261,15 +261,15 @@ const branchData =[{
   name: "Searching Yard 2",
   photos: [
     {
-      i: 1, 
+      i: 1,
       photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
     },
     {
-      i: 2, 
+      i: 2,
       photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
     },
     {
-      i: 3, 
+      i: 3,
       photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
     },
   ],
