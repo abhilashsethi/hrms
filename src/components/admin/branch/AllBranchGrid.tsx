@@ -138,7 +138,7 @@ const MoreOption = ({ item, mutate }: any) => {
       />
 
       <div key={item?.id} className="mb-4 w-full">
-        <div className="h-full w-full bg-white">
+        <div className="flex flex-col px-4 w-full py-4 h-full justify-center justify-items-center text-center rounded-md shadow-xl drop-shadow-lg bg-white">
           <div className="absolute right-[10px] top-[10px]">
             <Tooltip title="More">
               <IconButton onClick={handleClick}>
@@ -195,8 +195,7 @@ const MoreOption = ({ item, mutate }: any) => {
               </MenuItem>
             </Menu>
           </div>
-          <div className="group border-2 border-gray-200 
-                border-opacity-60 rounded-lg shadow-lg">
+          <div className="group border-2 border-gray-200 border-opacity-60 rounded-lg shadow-lg">
 
             {item?.photos?.length > 1 ? (
               <>
