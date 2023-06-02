@@ -1,4 +1,4 @@
-import { LOCATION, TOTAL_CLIENT } from "assets/dashboard_Icons";
+import { LOCATION, MANAGER } from "assets/dashboard_Icons";
 import { RenderIconRow } from "components/common";
 import { CountryNameFlag } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
@@ -92,7 +92,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                     </h1>
                     <p className="text-gray-500">
                     <span className="pr-2">
-                        <img src={TOTAL_CLIENT.src} className="w-4" alt="" />
+                        <img src={MANAGER.src} className="w-4" alt="" />
                         </span>
                         {item?.manager}
                         </p>

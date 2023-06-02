@@ -32,3 +32,4 @@ export { default as TOTAL_CLIENT } from "./client.png";
 export { default as EMAIL } from "./email.png";
 export { default as LOCATION } from "./location.png";
 export { default as PHONE } from "./phone-call.png";
+export { default as MANAGER } from "./business-man.png";
