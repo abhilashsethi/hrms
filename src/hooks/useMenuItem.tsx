@@ -143,12 +143,12 @@ export default () => {
 				title: "Payroll",
 				icon: <ICONS.Payroll_1 />,
 				submenus: [
-					{
-						key: "14-1",
-						title: "Employee Salary",
-						icon: <ICONS.Dashboard_1 />,
-						route: "/admin/payroll/employee-salary",
-					},
+					// {
+					// 	key: "14-1",
+					// 	title: "Employee Salary",
+					// 	icon: <ICONS.Dashboard_1 />,
+					// 	route: "/admin/payroll/employee-salary",
+					// },
 					{
 						key: "14-2",
 						title: "Configure",
@@ -326,16 +326,22 @@ export default () => {
 				icon: <ICONS.Departments />,
 				submenus: [
 					{
-						key: "10-1",
+						key: "11-1",
 						title: "Dashboard",
 						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/branch",
 					},
 					{
-						key: "10-2",
+						key: "11-2",
 						title: "All Branches",
 						icon: <ICONS.All_Departments />,
 						route: "/admin/branch/all-branch",
+					},
+					{
+						key: "11-3",
+						title: "Create Branch",
+						icon: <ICONS.All_Departments />,
+						route: "/admin/branch/create-branch",
 					},
 				],
 			},

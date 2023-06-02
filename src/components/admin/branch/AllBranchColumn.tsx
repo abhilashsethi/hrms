@@ -28,7 +28,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
         roleId={isInfo?.role?.id}
       />
       <MaterialTable
-        title={<HeadStyle name="All Department" icon={<PeopleRounded />} />}
+        title={<HeadStyle name="All Branch" icon={<PeopleRounded />} />}
         isLoading={!data}
         data={data ? getDataWithSL<any>(data) : []}
         options={{ ...MuiTblOptions(), selection: false, paging: false }}

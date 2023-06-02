@@ -1,35 +1,32 @@
-import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
+import { useTheme } from "@material-ui/core";
+import { Add, Check, CloudUpload } from "@mui/icons-material";
+import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import {
-	Autocomplete,
-	Button,
-	CircularProgress,
-	IconButton,
-	InputAdornment,
-	InputLabel,
-	TextField,
-} from "@mui/material";
-import { AdminBreadcrumbs, Loader } from "components/core";
-import { useTheme, useMediaQuery } from "@material-ui/core";
-import { Form, Formik } from "formik";
+	AdminBreadcrumbs,
+	FileUpload,
+	MultipleImagesUpload,
+	SingleImageUpdate,
+} from "components/core";
+import SingleImage from "components/core/SingleImage";
+import { error } from "console";
+import { ErrorMessage, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import router from "next/router";
-import { useState } from "react";
-import Swal from "sweetalert2";
+import { useRef, useState } from "react";
 import * as Yup from "yup";
 const initialValues = {
 	assetName: "",
 	modelNo: "",
-	phone: "",
-	password: "",
-	confirmPassword: "",
-	employeeID: "",
-	roleId: "",
-	departmentId: "",
+	purchaseDate: "",
+	billAmount: "",
+	brandName: "",
+	marketPrice: "",
+	serialNo: "",
+	uploadDoc: "",
+	images: [],
 };
 
 const validationSchema = Yup.object().shape({
-	employeeID: Yup.string().required("Employee Id is required!"),
 	assetName: Yup.string()
 		.matches(
 			/^[A-Za-z ]+$/,
@@ -39,22 +36,33 @@ const validationSchema = Yup.object().shape({
 		.max(50, "Asset Name must be less than 50 characters")
 		.required("Asset Name is required!"),
 	modelNo: Yup.string().required("Model No is required!"),
-	phone: Yup.string()
-		.matches(
-			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-			"Phone number is not valid"
-		)
-		.min(6)
-		.max(15),
-	password: Yup.string()
-		.min(6, "Password should minimum 6 characters!")
-		.required("Password is required!"),
-	confirmPassword: Yup.string()
-		.oneOf([Yup.ref("password")], "Password Must Match!")
-		.required("Confirm password is required!"),
+	purchaseDate: Yup.string().required("Purchase date is required!"),
+	billAmount: Yup.number().required("Bill amount is required!"),
+
+	serialNo: Yup.string().required("Serial No. is required!"),
+	images: Yup.array().min(1, "Please upload at least one image"),
+	// .of(
+	// 	Yup.mixed().test(
+	// 		"fileFormat",
+	// 		"Unsupported file format",
+	// 		(value: any) => {
+	// 			if (value) {
+	// 				const supportedFormats = [
+	// 					"image/jpeg",
+	// 					"image/png",
+	// 					"image/jpg",
+	// 					"image/gif",
+	// 				];
+	// 				return supportedFormats.includes(value.type);
+	// 			}
+	// 			return true;
+	// 		}
+	// 	)
+	// ),
 });
 
 const CreateAssets = () => {
+	const imageRef = useRef<HTMLInputElement | null>(null);
 	const theme = useTheme();
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConPassword, setShowConPassword] = useState(false);
@@ -62,6 +70,7 @@ const CreateAssets = () => {
 	const { data: departmentsData } = useFetch<any>(`departments`);
 	const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
 	const { change, isChanging } = useChange();
+
 	const handleSubmit = async (values: any) => {
 		console.log(values);
 	};
@@ -134,7 +143,7 @@ const CreateAssets = () => {
 
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="employeeID">
+												<InputLabel htmlFor="purchaseDate">
 													Date Of Purchase{" "}
 													<span className="text-red-600">*</span>
 												</InputLabel>
@@ -142,85 +151,156 @@ const CreateAssets = () => {
 											<TextField
 												size="small"
 												fullWidth
-												placeholder="Employee ID"
-												id="employeeID"
-												name="employeeID"
-												value={values.employeeID}
+												type="date"
+												// placeholder="Employee ID"
+												id="purchaseDate"
+												name="purchaseDate"
+												value={values.purchaseDate}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.employeeID && !!errors.employeeID}
-												helperText={touched.employeeID && errors.employeeID}
+												error={touched.purchaseDate && !!errors.purchaseDate}
+												helperText={touched.purchaseDate && errors.purchaseDate}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="phone">Bill Amount</InputLabel>
+												<InputLabel htmlFor="billAmount">
+													Bill Amount<span className="text-red-600">*</span>
+												</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												placeholder="Phone"
-												id="phone"
-												name="phone"
-												value={values.phone}
+												type="number"
+												// placeholder="Phone"
+												id="billAmount"
+												name="billAmount"
+												value={values.billAmount}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.phone && !!errors.phone}
-												helperText={touched.phone && errors.phone}
+												error={touched.billAmount && !!errors.billAmount}
+												helperText={touched.billAmount && errors.billAmount}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="phone">Brand Name</InputLabel>
+												<InputLabel htmlFor="brandName">Brand Name</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												placeholder="Phone"
-												id="phone"
-												name="phone"
-												value={values.phone}
+												// placeholder="Phone"
+												id="brandName"
+												name="brandName"
+												value={values.brandName}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.phone && !!errors.phone}
-												helperText={touched.phone && errors.phone}
+												error={touched.brandName && !!errors.brandName}
+												helperText={touched.brandName && errors.brandName}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="phone">
+												<InputLabel htmlFor="marketPrice">
 													Current Market Price
 												</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												placeholder="Phone"
-												id="phone"
-												name="phone"
-												value={values.phone}
+												// placeholder="Phone"
+												id="marketPrice"
+												name="marketPrice"
+												value={values.marketPrice}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.phone && !!errors.phone}
-												helperText={touched.phone && errors.phone}
+												error={touched.marketPrice && !!errors.marketPrice}
+												helperText={touched.marketPrice && errors.marketPrice}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="phone">Serial No</InputLabel>
+												<InputLabel htmlFor="serialNo">
+													Serial No<span className="text-red-600">*</span>
+												</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												placeholder="Phone"
-												id="phone"
-												name="phone"
-												value={values.phone}
+												// placeholder="Phone"
+												id="serialNo"
+												name="serialNo"
+												value={values.serialNo}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.phone && !!errors.phone}
-												helperText={touched.phone && errors.phone}
+												error={touched.serialNo && !!errors.serialNo}
+												helperText={touched.serialNo && errors.serialNo}
 											/>
+										</div>
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="uploadDoc">
+													Upload Document
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												type="file"
+												// placeholder="Phone"
+												id="uploadDoc"
+												name="uploadDoc"
+												value={values.uploadDoc}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.uploadDoc && !!errors.uploadDoc}
+												helperText={touched.uploadDoc && errors.uploadDoc}
+											/>
+										</div>
+
+										<div className="col-span-2">
+											<p className="text-gray-500 mb-2">
+												Upload Multiple Images
+												<span className="text-red-600">*</span>
+											</p>
+											{/* ----------------------------multiple image component------------------ */}
+											<div
+												onClick={() => imageRef?.current?.click()}
+												className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
+											>
+												<input
+													className="hidden"
+													ref={imageRef}
+													type="file"
+													multiple
+													onChange={(event: any) => {
+														const files = Array.from(event.target.files);
+														const fileObjects = files.map((file: any) => ({
+															file,
+															previewURL: URL.createObjectURL(file),
+														}));
+														setFieldValue("images", fileObjects);
+													}}
+												/>
+												<div className="flex justify-center items-center gap-2 flex-wrap">
+													{values.images.map((image: any, index) => (
+														<div className="" key={index}>
+															<img
+																className="w-40 object-contain"
+																src={image.previewURL}
+																alt={`Image ${index + 1}`}
+															/>
+														</div>
+													))}
+												</div>
+												<p>Upload Images</p>
+												<CloudUpload fontSize="large" color="primary" />
+												<ErrorMessage
+													name="images"
+													component="div"
+													className="error"
+												/>
+											</div>
 										</div>
 									</div>
 									<div className="flex justify-center md:py-4 py-2">
@@ -249,6 +329,5 @@ const CreateAssets = () => {
 export default CreateAssets;
 
 const links = [
-	{ id: 1, page: "Employees", link: "/admin/employees" },
-	{ id: 2, page: "Create Employee", link: "/admin/employees/create-employee" },
+	{ id: 1, page: "Create Assets", link: "/admin/assets/create-assets" },
 ];
