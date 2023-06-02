@@ -1,4 +1,5 @@
 import { Flag, HomeRepairServiceRounded } from "@mui/icons-material";
+import { EMAIL, PHONE } from "assets/dashboard_Icons";
 import ICONS from "assets/icons";
 
 export function RenderIconRow({
@@ -21,11 +22,11 @@ export function RenderIconRow({
       <div className="group flex items-center justify-center gap-2">
         {isEmail ? (
           <a href={`mailto:${value}`} className="hover:text-blue-500">
-            <ICONS.Email />
+            <img src={EMAIL.src} className="w-4" alt="" />
           </a>
         ) : isPhone ? (
           <a href={`tel:${value}`} className="hover:text-blue-500">
-            <ICONS.Call />
+            <img src={PHONE.src} className="w-4" alt="" />
           </a>
         ) : isId ? (
           <>

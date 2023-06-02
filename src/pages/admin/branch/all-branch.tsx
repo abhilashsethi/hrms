@@ -21,6 +21,7 @@ import {
 import { CreateDepartment } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
 import { useState } from "react";
 import { Role } from "types";
 
@@ -71,14 +72,15 @@ const AllBranch = () => {
                 </div>
               </IconButton>
             </div>
-            <Button
-              onClick={() => setIsCreate(true)}
-              variant="contained"
-              className="!bg-theme"
-              startIcon={<Add />}
-            >
-              CREATE BRANCH
-            </Button>
+            <Link href="/admin/branch/create-branch">
+              <Button
+                variant="contained"
+                className="!bg-theme"
+                startIcon={<Add />}
+              >
+                CREATE BRANCH
+              </Button>
+            </Link>
           </div>
         </div>
         <div>
@@ -105,7 +107,7 @@ const AllBranch = () => {
                 size="small"
                 id="name"
                 value={userName ? userName : ""}
-                onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
+                onChange={(e) => { setPageNumber(1), setUsername(e.target.value) }}
                 placeholder="Branch Name"
                 name="name"
               />
@@ -115,7 +117,7 @@ const AllBranch = () => {
                 label="Ascending/Descending"
                 size="small"
                 value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => {setPageNumber(1), setIsOrderBy(e?.target?.value)}}
+                onChange={(e) => { setPageNumber(1), setIsOrderBy(e?.target?.value) }}
               >
                 {short.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -137,7 +139,7 @@ const AllBranch = () => {
             <AllBranchColumn data={branchData} mutate={mutate} />
           </>
         )}
-        {branchData?.length === 0 ? <LoaderAnime /> : null}
+        {/* {branchData?.length === 0 ? <LoaderAnime /> : null}
         {Math.ceil(
           Number(pagination?.total || 1) /
           Number(pagination?.limit || 1)
@@ -159,7 +161,7 @@ const AllBranch = () => {
           </div>
         ) : (
           ""
-        )}
+        )} */}
       </section>
     </PanelLayout>
   );
@@ -182,11 +184,26 @@ const short = [
   { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
 
-const branchData =[{
+const branchData = [{
   id: "01",
   name: "Searching Yard 1",
-  photo: "https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80",
+  photos: [
+    {
+      i: 1,
+      photo: "https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+    },
+    {
+      i: 2,
+      photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+    },
+    {
+      i: 3,
+      photo: "https://images.unsplash.com/photo-1550136513-548af4445338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80",
+    },
+  ],
   location: "Cuttack, 754008, Odisha,",
+  phone: "2131335465",
+  email: "workspace1@yard.com",
   country: "India",
   manager: "Abhilash",
   managerPhoto: "photo",
@@ -194,9 +211,24 @@ const branchData =[{
 {
   id: "02",
   name: "Searching Yard 2",
-  photo: "https://images.unsplash.com/photo-1550136513-548af4445338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80",
+  photos: [
+    {
+      i: 1,
+      photo: "https://images.unsplash.com/photo-1550136513-548af4445338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80",
+    },
+    {
+      i: 2,
+      photo: "https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+    },
+    {
+      i: 3,
+      photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+    },
+  ],
   location: "Bhubaneswar, 751024, Odisha,",
+  email: "workspace2@yard.com",
   country: "India",
+  phone: "2131335465",
   manager: "Ashutosh",
   managerPhoto: "photo",
 
@@ -204,8 +236,23 @@ const branchData =[{
 {
   id: "03",
   name: "Searching Yard 2",
-  photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-  location: "Electronic City, Bengaluru 1255663, Karnatak,",
+  location: "Electronic City, Karnatak,",
+  photos: [
+    {
+      i: 1,
+      photo: "https://images.unsplash.com/photo-1550136513-548af4445338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80",
+    },
+    {
+      i: 2,
+      photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+    },
+    {
+      i: 3,
+      photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+    },
+  ],
+  email: "workspace3@yard.com",
+  phone: "2131335465",
   country: "India",
   manager: "Prasad",
   managerPhoto: "photo",
@@ -214,8 +261,23 @@ const branchData =[{
 {
   id: "04",
   name: "Searching Yard 2",
-  photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-  location: "BTM Layout, Bengaluru, 1255663, Karnatak,",
+  photos: [
+    {
+      i: 1,
+      photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+    },
+    {
+      i: 2,
+      photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+    },
+    {
+      i: 3,
+      photo: "https://images.unsplash.com/photo-1576731753569-3e93a228048c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+    },
+  ],
+  location: "BTM Layout, Karnatak,",
+  phone: "2131335465",
+  email: "workspace3@yard.com",
   country: "India",
   manager: "Srinu",
   managerPhoto: "photo",

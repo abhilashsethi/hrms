@@ -10,32 +10,58 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { useChange } from "hooks";
 import { useRef, useState } from "react";
+import Swal from "sweetalert2";
 import * as yup from "yup";
 
 interface Props {
   open?: any;
   handleClose?: any;
+  sendId?: string;
 }
 
-const ChatSendCode = ({ open, handleClose }: Props) => {
+const ChatSendCode = ({ open, handleClose, sendId }: Props) => {
   const [loading, setLoading] = useState(false);
-  const fileRef = useRef<any>();
-  const [isFile, setIsFile] = useState<any>(null);
-  const formik = useFormik({
-    initialValues: { file: null },
-    validationSchema: yup.object().shape({
-      file: yup.mixed().required("A file is required!"),
-    }),
-    onSubmit: async (values) => {
-      console.log(values);
-    },
-  });
+  const [isCode, setIsCode] = useState<string | null>(null);
+  const { change } = useChange();
+
+  const handleSend = async () => {
+    if (isCode) {
+      try {
+        setLoading(true);
+        const res = await change(`chat/message/${sendId}`, {
+          body: {
+            message: isCode,
+            category: "code",
+          },
+        });
+        if (res?.status !== 200) {
+          Swal.fire(
+            "Error",
+            res?.results?.msg || "Something went wrong!",
+            "error"
+          );
+          setLoading(false);
+          return;
+        }
+        Swal.fire(`Success`, `Code sent successfully!`, `success`);
+        setLoading(false);
+        handleClose();
+        setIsCode(null);
+        return;
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
   return (
     <Dialog
       onClose={() => {
         handleClose();
-        setIsFile(null);
       }}
       maxWidth="lg"
       aria-labelledby="customized-dialog-title"
@@ -65,8 +91,15 @@ const ChatSendCode = ({ open, handleClose }: Props) => {
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 3 }}>
         <div className="md:w-[27rem] w-[72vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-2">
-          <TextField placeholder="Write code" multiline rows={10} />
+          <TextField
+            placeholder="Write code"
+            multiline
+            rows={10}
+            value={isCode ? isCode : ""}
+            onChange={(e: any) => setIsCode(e.target.value)}
+          />
           <Button
+            onClick={() => handleSend()}
             variant="contained"
             className="!bg-theme"
             disabled={loading}

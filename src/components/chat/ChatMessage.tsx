@@ -16,6 +16,7 @@ import { useState } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { sample } from "utils";
 import ImageMessage from "./ImageMessage";
+import { IChatMessages } from "types";
 
 interface textProps {
   data?: any;
@@ -25,9 +26,6 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
   const [isReactions, setIsReactions] = useState(false);
   const [isReply, setIsReply] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
-  const [language, changeLanguage] = useState("jsx");
-  const [languageDemo, changeDemo] = useState(sample["jsx"]);
-  const [lineNumbers, toggleLineNumbers] = useState(true);
   const [isOptions, setIsOptions] = useState<boolean>(false);
   const { user } = useAuth();
   const buttons = [
@@ -61,21 +59,17 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
       <div className="w-[50%] flex gap-1">
         <div className="w-[10%] h-10 flex justify-center items-start">
           <div className="h-8 w-8 bg-slate-200 rounded-full overflow-hidden shadow-md">
-            {data?.sendBy === "sender" ? (
-              <PhotoViewerSmall
-                size="2rem"
-                photo={data?.author ? data?.author?.photo : data?.photo}
-                name={
-                  activeProfile?.type === "group"
-                    ? data?.author?.name
-                    : activeProfile?.name
-                }
-              />
-            ) : (
+            {data?.sender?.id === user?.id ? (
               <PhotoViewerSmall
                 size="2rem"
                 photo={user?.photo}
                 name={user?.name}
+              />
+            ) : (
+              <PhotoViewerSmall
+                size="2rem"
+                photo={data?.sender?.photo}
+                name={data?.sender?.name}
               />
             )}
           </div>
@@ -83,27 +77,21 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
         <div className="w-[85%] relative group">
           <div className="flex gap-1 items-center text-slate-600">
             <span className="text-xs">
-              {data?.author ? data?.author?.name : "You"}
+              {data?.sender?.id === user?.id ? "You" : data?.sender?.name}
             </span>
-            ,<span className="text-xs">{moment(new Date()).format("ll")}</span>
+            ,
+            <span className="text-xs">
+              {moment(data?.createdAt).format("MMM DD, hh : mm A")}
+            </span>
           </div>
           <div className="w-full bg-blue-100 py-2 px-4 tracking-wide rounded-md text-sm">
             <div>
-              {data?.type === "text" ? (
+              {data?.category === "text" ? (
                 <p className="tracking-wide">{data?.text}</p>
               ) : data?.type === "image" ? (
                 <ImageMessage data={data} />
-              ) : data?.type === "code" ? (
-                <div>
-                  <CopyBlock
-                    language={language}
-                    text={languageDemo}
-                    showLineNumbers={lineNumbers}
-                    theme={dracula}
-                    wrapLines={true}
-                    codeBlock
-                  />
-                </div>
+              ) : data?.category === "code" ? (
+                <CodeFormat data={data} />
               ) : data?.type === "doc" ? (
                 <DocFormat />
               ) : (
@@ -186,6 +174,28 @@ const DocFormat = () => {
           </IconButton>
         </Tooltip>
       </div>
+    </div>
+  );
+};
+
+interface CodeMsgProps {
+  data?: IChatMessages;
+}
+
+const CodeFormat = ({ data }: CodeMsgProps) => {
+  const [language, changeLanguage] = useState("jsx");
+  const [languageDemo, changeDemo] = useState(sample["jsx"]);
+  const [lineNumbers, toggleLineNumbers] = useState(true);
+  return (
+    <div>
+      <CopyBlock
+        language={language}
+        text={data?.text}
+        showLineNumbers={lineNumbers}
+        theme={dracula}
+        wrapLines={true}
+        codeBlock
+      />
     </div>
   );
 };

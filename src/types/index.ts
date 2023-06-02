@@ -91,6 +91,7 @@ export type User = {
   grossSalary?: number;
   tds?: number;
   kpi?: number;
+  salaryInfoNewFields?: any;
   github?: string | null;
   IFSCCode?: string | null;
   bankName?: string | null;
@@ -241,7 +242,7 @@ export interface MeetingProps {
   lng?: number;
 }
 
-enum MessageCategory {
+export const enum MessageCategory {
   text,
   link,
   image,
@@ -256,7 +257,7 @@ export interface IGroupChatData {
   isGroupBlocked: boolean;
   isPrivateGroup: boolean;
   lastMessage: {
-    category: MessageCategory;
+    category: "text" | "link" | "image" | "code" | "markup" | "file" | "event";
     createdAt: string;
     isRead: boolean;
     isSenderIsUser: boolean;
@@ -270,7 +271,7 @@ export interface IGroupChatData {
 }
 
 export interface IChatMessages {
-  category: MessageCategory;
+  category: "text" | "link" | "image" | "code" | "markup" | "file" | "event";
   createdAt: string;
   deliveredTo: User[];
   id: string;
