@@ -326,16 +326,22 @@ export default () => {
 				icon: <ICONS.Departments />,
 				submenus: [
 					{
-						key: "10-1",
+						key: "11-1",
 						title: "Dashboard",
 						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/branch",
 					},
 					{
-						key: "10-2",
+						key: "11-2",
 						title: "All Branches",
 						icon: <ICONS.All_Departments />,
 						route: "/admin/branch/all-branch",
+					},
+					{
+						key: "11-3",
+						title: "Create Branch",
+						icon: <ICONS.All_Departments />,
+						route: "/admin/branch/create-branch",
 					},
 				],
 			},
