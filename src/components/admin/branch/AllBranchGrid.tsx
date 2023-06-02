@@ -90,8 +90,8 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                     text-gray-800 tracking-wide cursor-pointer">
                       {item?.name}
                     </h1>
-                    <p className="text-gray-500 cursor-pointer">{item?.manager}</p>
-                    <p className="text-gray-500 cursor-pointer">
+                    <p className="text-gray-500">{item?.manager}</p>
+                    <p className="text-gray-500 flex items-start">
                       <RenderIconRow
                         value={item?.phone || "---"}
                         isPhone
@@ -99,7 +99,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                       />
                     </p>
 
-                    <p className="text-gray-500 cursor-pointer">
+                    <p className="text-gray-500 flex items-start">
                       <RenderIconRow
                         value={item?.email || "---"}
                         isEmail
@@ -111,15 +111,15 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                         countryName={item?.country || "---"}
                       />
                     </p>
-                   
-                      <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
-                    text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold"
-                      >
-                         <span className="flex gap-2">
+
+                    <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
+                    text-red-400 uppercase tracking-widest hover:font-bold"
+                    >
+                      <span className="pr-2">
                         <img src={LOCATION.src} className="w-4" alt="" />
-                        {item?.location}
-                    </span>
-                      </h2>
+                      </span>
+                      {item?.location}
+                    </h2>
                   </div>
 
 
