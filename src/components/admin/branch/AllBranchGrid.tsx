@@ -1,11 +1,8 @@
-import { Delete, Edit, Info } from "@mui/icons-material";
-import { IconButton, Tooltip } from "@mui/material";
 import { UpdateDepartment } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { Role } from "types";
 interface Props {
   data?: any;
   mutate?: any;
@@ -76,27 +73,25 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
       />
       <div className="my-4">
         <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
-          {data?.map((item:any)=>(<>
-        <div key={item?.id} className="mb-4 p-0 sm:p-4 w-full"> {/* Card container */}
-      <div className="group h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
+          {data?.map((item: any) => (
+            <>
+              <div key={item?.id} className="mb-4 p-0 sm:p-4 w-full"> {/* Card container */}
+                <div className="group h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
 
-        <img className="lg:h-48 md:h-36 w-full object-cover object-center transition duration-500 ease-in-out transform group-hover:scale-105" 
-        src={item?.photo} alt="blog"/>
-        <h2 className="pt-4 pb-1 px-6 inline-block text-xs title-font font-semibold text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold">{item?.location}, {item?.country}</h2>
-        <div className="py-1 px-6">
-          <h1 className="mb-3 inline-block title-font text-xl font-extrabold text-gray-800 tracking-wide cursor-pointer">{item?.name}</h1>
-          <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.manager}</p>
-        </div>
-        <div className="pt-1 pb-4 px-6 flex justify-between items-center flex-wrap">
-          <div className="flex flex-wrap text-sm text-gray-500">
-            <span className="mr-1">27th Oct 2022</span>
-          </div>
-          <span className="mr-1">27th Oct 2022</span>
-        </div>
-        
-      </div>
-    </div>
-    </>))}
+                  <img className="lg:h-48 md:h-36 w-full object-cover object-center transition duration-500 ease-in-out transform group-hover:scale-105"
+                    src={item?.photo} alt="blog" />
+                  <div className="py-1 px-6">
+                    <h1 className="mb-3 inline-block title-font text-xl font-extrabold text-gray-800 tracking-wide cursor-pointer">{item?.name}</h1>
+                    <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.manager}</p>
+                    <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.phone}</p>
+                    <p className="line-clamp-6 mb-3 overflow-hidden leading-relaxed text-gray-500 cursor-pointer">{item?.email}</p>
+                  <h2 className="pt-4 pb-1 px-6 inline-block text-xs title-font font-semibold text-red-400 uppercase tracking-widest cursor-pointer hover:font-bold">{item?.location}, {item?.country}</h2>
+                  </div>
+                  
+
+                </div>
+              </div>
+            </>))}
         </div>
       </div>
     </>
