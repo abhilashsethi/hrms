@@ -71,13 +71,17 @@ const ChatRightSection = () => {
 
   return (
     <>
-      <ChatSendFiles open={isUpload} handleClose={() => setIsUpload(false)} />
+      <ChatSendFiles
+        open={isUpload}
+        handleClose={() => setIsUpload(false)}
+        sendId={currentChatProfileDetails?.id}
+      />
       <ChatSendCode
         open={isCode}
         handleClose={() => setIsCode(false)}
         sendId={currentChatProfileDetails?.id}
       />
-      <div className="md:w-[70%] xl:w-[77%] h-full">
+      <div className="w-[68%] h-full">
         {!currentChatProfileDetails?.id ? (
           <DefaultChatView />
         ) : (
@@ -88,7 +92,7 @@ const ChatRightSection = () => {
                 {currentChatMessage?.map((item) => (
                   <div
                     key={item?.id}
-                    className={`mt-4 flex ${
+                    className={`mt-4 flex w-full ${
                       item?.category === "event"
                         ? `justify-center`
                         : item?.sender?.id === user?.id
