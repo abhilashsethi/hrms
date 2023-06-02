@@ -194,7 +194,7 @@ const MoreOption = ({ item, mutate }: any) => {
                 {item?.location}
               </span>
             </h2>
-            <div className="grid grid-cols-3 gap-2 border-2">
+            <div className="grid grid-cols-3 bottom-0 gap-2 border-2">
               <span>delete</span>
               <span>edit</span>
               <span>block</span>
