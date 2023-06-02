@@ -7,10 +7,9 @@ import {
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, IconButton, Tab, Tooltip } from "@mui/material";
-import { CHATDOC, DOC } from "assets/home";
+import { CHATDOC } from "assets/home";
 import { ChatImagePreview } from "components/dialogues";
 import moment from "moment";
-import Link from "next/link";
 import React, { useState } from "react";
 
 const ChatMedia = ({
