@@ -1,16 +1,50 @@
 import { LOCATION, MANAGER } from "assets/dashboard_Icons";
 import { RenderIconRow } from "components/common";
-import { CountryNameFlag } from "components/core";
+import { CountryNameFlag, PhotoViewer } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import Slider from "react-slick";
 interface Props {
   data?: any;
   mutate?: any;
 }
+const settings = {
+  dots: true,
+  infinite: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  speed: 400,
+  cssEase: "linear",
+  autoplaySpeed: 3000,
+  pauseOnHover: false,
+  arrows: false,
+  responsive: [
+    {
+      breakpoint: 940,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        arrows: false,
+      },
+    },
+    {
+      breakpoint: 760,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        arrows: false,
+      },
+    },
+  ],
+};
 const AllBranchGrid = ({ data, mutate }: Props) => {
+
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
     dialogue: false,
@@ -81,21 +115,25 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
               <div key={item?.id} className="mb-4 w-full">
                 <div className="group h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
-
-                  <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+                  <Slider {...settings} className="">
+                    {item?.photos?.map((data: any, k: any) => (
+                      <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
                   transition duration-500 ease-in-out transform group-hover:scale-105"
-                    src={item?.photo} alt="blog" />
+                        src={data?.photo} alt="blog" />
+                    ))}
+                  </Slider>
                   <div className="py-1 pt-2 px-4">
                     <h1 className="inline-block py-1 title-font text-xl font-extrabold 
                     text-gray-800 tracking-wide cursor-pointer">
                       {item?.name}
                     </h1>
                     <p className="text-gray-500">
-                    <span className="pr-2">
+                      <span className="group flex items-center justify-center gap-2">
                         <img src={MANAGER.src} className="w-4" alt="" />
-                        </span>
+                        <PhotoViewer size="3rem" photo={item?.photo} name={item?.name} />
                         {item?.manager}
-                        </p>
+                      </span>
+                    </p>
                     <p className="text-gray-500 flex items-start">
                       <RenderIconRow
                         value={item?.phone || "---"}
@@ -120,10 +158,11 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
                     <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
                     text-red-400 uppercase tracking-widest hover:font-bold"
                     >
-                      <span className="pr-2">
-                        <img src={LOCATION.src} className="w-4" alt="" />
-                        </span>
-                      {item?.location}
+                      <span className="">
+                        <img src={LOCATION.src} className="w-4 pr-2" alt="" />
+
+                        {item?.location}
+                      </span>
                     </h2>
                   </div>
 
