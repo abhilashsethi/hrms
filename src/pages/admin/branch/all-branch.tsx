@@ -137,7 +137,7 @@ const AllBranch = () => {
             <AllBranchColumn data={branchData} mutate={mutate} />
           </>
         )}
-        {branchData?.length === 0 ? <LoaderAnime /> : null}
+        {/* {branchData?.length === 0 ? <LoaderAnime /> : null}
         {Math.ceil(
           Number(pagination?.total || 1) /
           Number(pagination?.limit || 1)
@@ -159,7 +159,7 @@ const AllBranch = () => {
           </div>
         ) : (
           ""
-        )}
+        )} */}
       </section>
     </PanelLayout>
   );
@@ -185,7 +185,20 @@ const short = [
 const branchData =[{
   id: "01",
   name: "Searching Yard 1",
-  photo: "https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80",
+  photos: [
+    {
+      i: 1, 
+      photo:"https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+    },
+    {
+      i: 2, 
+      photo:"https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+    },
+    {
+      i: 3, 
+      photo:"https://images.unsplash.com/photo-1428366890462-dd4baecf492b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+    },
+  ],
   location: "Cuttack, 754008, Odisha,",
   phone: "2131335465",
   email: "workspace1@yard.com",
