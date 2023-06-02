@@ -4,9 +4,11 @@ import { CountryNameFlag, PhotoViewer } from "components/core";
 import { UpdateDepartment } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import Swal from "sweetalert2";
 import Slider from "react-slick";
+import { IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
+import { DeleteRounded, Edit, MoreVertRounded } from "@mui/icons-material";
 interface Props {
   data?: any;
   mutate?: any;
@@ -44,7 +46,14 @@ const settings = {
   ],
 };
 const AllBranchGrid = ({ data, mutate }: Props) => {
-
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
     dialogue: false,
@@ -115,6 +124,62 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
               <div key={item?.id} className="mb-4 w-full">
                 <div className="group h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
+                  <div className="absolute right-[10px] top-[10px]">
+                    <Tooltip title="More">
+                      <IconButton onClick={handleClick}>
+                        <MoreVertRounded />
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      anchorEl={anchorEl}
+                      id="account-menu"
+                      open={open}
+                      onClose={handleClose}
+                      onClick={handleClose}
+                      PaperProps={{
+                        elevation: 0,
+                        sx: {
+                          overflow: "visible",
+                          filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
+                          mt: 1.5,
+                          "& .MuiAvatar-root": {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: "15th June 2021",
+                          },
+                          "&:before": {
+                            content: '""',
+                            display: "block",
+                            position: "absolute",
+                            top: 0,
+                            right: 14,
+                            width: 10,
+                            height: 10,
+                            bgcolor: "background.paper",
+                            transform: "translateY(-50%) rotate(45deg)",
+                            zIndex: 0,
+                          },
+                        },
+                      }}
+                      transformOrigin={{ horizontal: "right", vertical: "top" }}
+                      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                    >
+                      <MenuItem>
+                        <ListItemIcon>
+                          <Edit fontSize="small" />
+                        </ListItemIcon>
+                        Edit Branch
+                      </MenuItem>
+
+                      <MenuItem onClick={() => handleDelete(item)}>
+                        <ListItemIcon>
+                          <DeleteRounded fontSize="small" />
+                        </ListItemIcon>
+                        Delete
+                      </MenuItem>
+                    </Menu>
+                  </div>
                   {item?.photos?.length > 1 ? (
                     <>
                       <Slider {...settings} className="">
