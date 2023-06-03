@@ -220,13 +220,13 @@ const MoreOption = ({ item, mutate }: any) => {
               </span>
             </h2>
             <div className="flex bottom-0 ">
-              <span className="group w-full flex border-2 px-2 py-1 items-center justify-center ">
+              <span className="group w-full hover:bg-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
                 <DeleteRounded fontSize="small" />
               </span>
-              <span className="group w-full flex border-2 px-2 py-1 items-center justify-center ">
+              <span className="group w-full hover:bg-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
                 <Edit fontSize="small" />
               </span>
-              <div className="group w-full gap-2 flex border-2 px-2 py-1 items-center justify-center ">
+              <div className="group w-full hover:bg-theme hover:text-white gap-2 flex border-2 px-2 py-1 items-center justify-center ">
                 <p className="font-semibold tracking-wide text-sm">STATUS</p>
                 <ReverseIOSSwitch size="small"
                   checked={item?.isBlocked}
