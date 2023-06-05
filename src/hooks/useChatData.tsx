@@ -16,6 +16,7 @@ type ChatState = {
   reValidateGroupChat: () => Promise<void>;
   revalidateCurrentChat: (chatId?: string) => Promise<void>;
   handleSendNewMessage: (body: object) => Promise<void>;
+  handleNextChatPage: (page: number) => Promise<void>;
 };
 const useChatData = create<ChatState>((set, get) => ({
   allGroupChat: [],
@@ -71,12 +72,15 @@ const useChatData = create<ChatState>((set, get) => ({
   revalidateCurrentChat: async (chatId) => {
     try {
       const token = getAccessToken();
-      const response = await fetch(BASE_URL + `/chat/message-group/${chatId}`, {
-        method: "GET",
-        headers: {
-          "x-access-token": token,
-        },
-      });
+      const response = await fetch(
+        BASE_URL + `/chat/message-group/${chatId}?page=1&limit=5`,
+        {
+          method: "GET",
+          headers: {
+            "x-access-token": token,
+          },
+        }
+      );
       const data = await response.json();
       set({
         currentChatMessage: data?.data?.message,
@@ -159,6 +163,29 @@ const useChatData = create<ChatState>((set, get) => ({
         await get().revalidateCurrentChat(data?.data?.id);
         await get().revalidateChatProfileDetails(data?.data?.id);
       }
+    } catch (error) {}
+  },
+  handleNextChatPage: async (pageNo: number) => {
+    try {
+      const token = getAccessToken();
+      const response = await fetch(
+        BASE_URL +
+          `/chat/message-group/${get().selectedChatId}?limit=5&page=${pageNo}`,
+        {
+          method: "GET",
+          headers: {
+            "x-access-token": token,
+          },
+        }
+      );
+      const data = await response.json();
+
+      set({
+        currentChatMessage: [
+          ...get().currentChatMessage,
+          ...data?.data?.message,
+        ],
+      });
     } catch (error) {}
   },
 }));
