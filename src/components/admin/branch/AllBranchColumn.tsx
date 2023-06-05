@@ -1,7 +1,7 @@
 import MaterialTable from "@material-table/core";
 import { Info, PeopleRounded } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
-import { HeadStyle } from "components/core";
+import { HeadStyle, ReverseIOSSwitch } from "components/core";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
@@ -40,32 +40,44 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             width: "2%",
           },
           {
-            title: "Department",
-            tooltip: "Department",
+            title: "Branch Name",
+            tooltip: "Branch Name",
             field: "name",
           },
           {
-            title: "Total Members",
-            tooltip: "Total Members",
-            // field: "data._count?.users",
-            render: (data) => {
-              return <div className="">{data?._count?.users}</div>;
-            },
+            title: "Manager",
+            tooltip: "Manager",
+            field: "manager",
           },
           {
-            title: "Details",
-            field: "name",
-            render: (data) => {
+            title: "Email",
+            tooltip: "Email",
+            field: "email",
+          },
+          {
+            title: "Phone",
+            tooltip: "Phone",
+            field: "phone",
+          },
+          {
+            title: "Country",
+            tooltip: "Country",
+            field: "country",
+          },
+          {
+            title: "Location",
+            tooltip: "Location",
+            field: "location",
+          },
+          {
+            title: "Status",
+            tooltip: "Status",
+            render: (item) => {
               return (
-                <Tooltip title="Details">
-                  <div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-                    <IconButton
-                      onClick={() => setIsInfo({ dialogue: true, role: data })}
-                    >
-                      <Info className="!text-white" />
-                    </IconButton>
-                  </div>
-                </Tooltip>
+                <ReverseIOSSwitch size="small"
+                  checked={item?.isBlocked}
+                // onChange={(e) => handleBlock(e, item?.id)}
+                />
               );
             },
             editable: "never",
