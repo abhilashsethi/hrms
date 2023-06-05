@@ -19,6 +19,7 @@ import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { countries } from "schemas/Countries";
 import { uploadFile } from "utils";
+import router from "next/router";
 const initialValues = {
   name: "",
   phone: "",
@@ -83,6 +84,7 @@ const CreateBranch = () => {
         setLoading(false);
         return;
       }
+      router?.push("/admin/branch/all-branch");
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
