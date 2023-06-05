@@ -15,7 +15,7 @@ import { useAuth, useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
-import { sample } from "utils";
+import { downloadFile, sample } from "utils";
 import ImageMessage from "./ImageMessage";
 import { IChatMessages } from "types";
 import Swal from "sweetalert2";
@@ -146,9 +146,14 @@ const DocFormat = ({ data }: any) => {
     <div className="flex gap-2 items-center">
       <img className="h-12 object-contain" src={CHATDOC.src} alt="" />
       <div className="flex w-4/5 justify-between items-center">
-        <h1>AllData.csv</h1>
+        <h1>Document</h1>
         <Tooltip title="Download">
-          <IconButton size="small">
+          <IconButton
+            onClick={() =>
+              downloadFile(data?.link, data?.link?.split("/")?.at(-1) as any)
+            }
+            size="small"
+          >
             <FileDownloadOutlined />
           </IconButton>
         </Tooltip>

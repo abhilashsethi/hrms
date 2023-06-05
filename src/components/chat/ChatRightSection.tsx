@@ -89,6 +89,7 @@ const ChatRightSection = () => {
       }
     }
   };
+  console.log(currentChatMessage);
 
   return (
     <>
