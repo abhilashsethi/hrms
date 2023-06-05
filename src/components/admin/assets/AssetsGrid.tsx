@@ -1,13 +1,12 @@
-import { LOCATION, MANAGER } from "assets/dashboard_Icons";
-import { RenderIconRow } from "components/common";
-import { CountryNameFlag, ReverseIOSSwitch } from "components/core";
+import { DeleteRounded, Edit } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
 import { UpdateDepartment } from "components/dialogues";
+import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
-import Swal from "sweetalert2";
 import Slider from "react-slick";
-import { DeleteRounded, Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
 interface Props {
 	data?: any;
 	mutate?: any;
@@ -68,10 +67,10 @@ const MoreOption = ({ item, mutate }: any) => {
 		role: null,
 	});
 	const { change } = useChange();
-	const [isUpdate, setIsUpdate] = useState<{
-		dialogue?: boolean;
-		departmentData?: string | null;
-	}>({ dialogue: false, departmentData: null });
+	const [isUpdate, setIsUpdate] = useState<any>({
+		dialogue: false,
+		departmentData: null,
+	});
 
 	const handleDelete = async (id: string) => {
 		Swal.fire({
@@ -139,8 +138,8 @@ const MoreOption = ({ item, mutate }: any) => {
 
 	return (
 		<>
-			<UpdateDepartment
-				departmentData={isUpdate?.departmentData}
+			<UpdateAssets
+				assetData={isUpdate?.assetData}
 				open={isUpdate?.dialogue}
 				handleClose={() => setIsUpdate({ dialogue: false })}
 				mutate={mutate}
@@ -191,68 +190,88 @@ const MoreOption = ({ item, mutate }: any) => {
 							{item?.name}
 						</h1>
 						<p className="text-gray-500 flex items-start">
-							<span className="group flex text-sm items-center justify-center gap-2">
+							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
-									<span>Model No : </span>
+									<span className="font-semibold">Model No : </span>
 								</span>
-								{item?.manager}
+								<span className="text-gray-500">{item?.modelNo}</span>
 							</span>
 						</p>
 						<p className="text-gray-500 flex items-start">
-							<span className="group flex text-sm items-center justify-center gap-2">
+							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
-									<span>Brand Name : </span>
+									<span className="font-semibold">Brand Name : </span>
 								</span>
-								{item?.manager}
+								<span className="text-gray-500">
+									{item?.brand ? item?.brand : "---"}
+								</span>
 							</span>
 						</p>
 
 						<p className="text-gray-500 flex items-start">
-							<span className="group flex text-sm items-center justify-center gap-2">
+							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
-									<span>Date Of Purchase : </span>
+									<span className="font-semibold">Date Of Purchase : </span>
 								</span>
-								{item?.manager}
+								<span className="text-gray-500">{item?.dateOfPurchase}</span>
 							</span>
 						</p>
 						<p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
-							<span className="group flex text-sm items-center justify-center gap-2">
+							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
-									<span>Bill amount : </span>
+									<span className="font-semibold">Bill amount : </span>
 								</span>
-								{item?.manager}
+								<span className="text-gray-500">{item?.billAmount}</span>
 							</span>
 						</p>
 						<p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
-							<span className="group flex text-sm items-center justify-center gap-2">
+							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
-									<span>Current Market Price : </span>
+									<span className="font-semibold">Current Market Price : </span>
 								</span>
-								{item?.manager}
+								<span className="text-gray-500">{item?.currentMp}</span>
 							</span>
 						</p>
 						<p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
-							<span className="group flex text-sm items-center justify-center gap-2">
+							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
-									<span>Docs : </span>
+									<span className="font-semibold">Sl.No : </span>
 								</span>
-								{item?.manager}
+								<span className="text-gray-500">{item?.slNo}</span>
+							</span>
+						</p>
+						<p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
+							<span className="group flex text-sm text-theme items-center justify-center gap-2">
+								<span className="group flex items-center justify-center gap-2">
+									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
+									<span className="font-semibold">Docs : </span>
+								</span>
+								{item?.docs}
 							</span>
 						</p>
 
 						<div className="flex bottom-0 ">
-							<span className="group w-full flex border-2 px-2 py-1 items-center justify-center ">
-								<DeleteRounded fontSize="small" color="error" />
-							</span>
-							<span className="group w-full flex border-2 px-2 py-1 items-center justify-center ">
-								<Edit color="primary" fontSize="small" />
-							</span>
+							<Tooltip title="Delete Asset">
+								<span className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center">
+									<DeleteRounded fontSize="small" color="error" />
+								</span>
+							</Tooltip>
+							<Tooltip title="Edit Asset">
+								<span
+									onClick={() => {
+										setIsUpdate({ dialogue: true, assetData: item });
+									}}
+									className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
+								>
+									<Edit color="primary" fontSize="small" />
+								</span>
+							</Tooltip>
 							{/* <div className="group w-full gap-2 flex border-2 px-2 py-1 items-center justify-center ">
 								<p className="font-semibold tracking-wide text-sm">STATUS</p>
 								<ReverseIOSSwitch

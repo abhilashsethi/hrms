@@ -1,10 +1,11 @@
 import MaterialTable from "@material-table/core";
-import { Info, PeopleRounded } from "@mui/icons-material";
-import { IconButton, Tooltip } from "@mui/material";
+import { Edit, PeopleRounded } from "@mui/icons-material";
 import { HeadStyle, ReverseIOSSwitch } from "components/core";
+import { UpdateBranch } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
+import Slider from "react-slick";
 import Swal from "sweetalert2";
 import { Role } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
@@ -12,6 +13,38 @@ interface Props {
   data?: any;
   mutate?: any;
 }
+const settings = {
+  dots: false,
+  infinite: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  speed: 400,
+  cssEase: "linear",
+  autoplaySpeed: 3000,
+  pauseOnHover: false,
+  arrows: false,
+  responsive: [
+    {
+      breakpoint: 940,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        arrows: false,
+      },
+    },
+    {
+      breakpoint: 760,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        arrows: false,
+      },
+    },
+  ],
+};
 const AllBranchColumn = ({ data, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
@@ -19,13 +52,18 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
     dialogue: false,
     role: null,
   });
+  const [isUpdate, setIsUpdate] = useState<{
+    dialogue?: boolean;
+    branchData?: string | null;
+  }>({ dialogue: false, branchData: null });
 
   return (
     <section className="mt-8">
-      <DepartmentInformation
-        open={isInfo?.dialogue}
-        onClose={() => setIsInfo({ dialogue: false })}
-        roleId={isInfo?.role?.id}
+      <UpdateBranch
+        branchData={isUpdate?.branchData}
+        open={isUpdate?.dialogue}
+        handleClose={() => setIsUpdate({ dialogue: false })}
+        mutate={mutate}
       />
       <MaterialTable
         title={<HeadStyle name="All Branch" icon={<PeopleRounded />} />}
@@ -39,6 +77,38 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             editable: "never",
             width: "2%",
           },
+          // {
+          //   title: "Photos",
+          //   tooltip: "Photos",
+          //   render: (data) => {
+          //     return (
+          //       <>
+          //         {data?.photos?.length ?
+          //           data?.photos?.length > 1 ? (
+          //             <>
+          //               <Slider {...settings} className="">
+          //                 {data?.photos?.map((data: any, k: any) => (
+          //                   <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+          //               transition duration-500 ease-in-out transform group-hover:scale-105"
+          //                     src={data?.photo} alt="Branch" />
+          //                 ))}
+          //               </Slider>
+          //             </>
+          //           ) : (
+          //             <>
+          //               {data?.photos?.map((data: any, k: any) => (
+          //                 <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+          //               transition duration-500 ease-in-out transform group-hover:scale-105"
+          //                   src={data?.photo} alt="Branch" />
+          //               ))}
+          //             </>
+          //           ) : <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+          //               transition duration-500 ease-in-out transform group-hover:scale-105"
+          //             src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />}
+          //       </>
+          //     );
+          //   },
+          // },
           {
             title: "Branch Name",
             tooltip: "Branch Name",
@@ -47,7 +117,11 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
           {
             title: "Manager",
             tooltip: "Manager",
-            field: "manager",
+            render: (data) => {
+              return (
+                <span>{data?.manager?.name}</span>
+              );
+            },
           },
           {
             title: "Email",
@@ -72,16 +146,17 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
           {
             title: "Status",
             tooltip: "Status",
-            render: (item) => {
+            render: (data) => {
               return (
                 <ReverseIOSSwitch size="small"
-                  checked={item?.isBlocked}
-                // onChange={(e) => handleBlock(e, item?.id)}
+                  checked={data?.isBlocked}
+                // onChange={(e) => handleBlock(e, data?.id)}
                 />
               );
             },
             editable: "never",
           },
+
           {
             title: "Last Updated",
             field: "updatedAt",
@@ -92,6 +167,20 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             title: "Created",
             field: "createdAt",
             render: (data) => new Date(data.createdAt).toDateString(),
+            editable: "never",
+          },
+          {
+            title: "Update",
+            tooltip: "update",
+            render: (data) => {
+              return (
+                <span onClick={() => {
+                  setIsUpdate({ dialogue: true, branchData: data });
+                }} className="group w-full hover:bg-theme text-theme hover:text-white flex border-2 px-2 py-1 datas-center justify-center ">
+                  <Edit fontSize="small" />
+                </span>
+              );
+            },
             editable: "never",
           },
         ]}
@@ -122,19 +211,6 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             } finally {
               setLoading(false);
             }
-          },
-          onRowUpdate: async (newData) => {
-            const res = await change(`branches/${newData?.id}`, {
-              method: "PATCH",
-              body: { name: newData?.name },
-            });
-            mutate();
-            if (res?.status !== 200) {
-              Swal.fire(`Error`, "Something went wrong!", "error");
-              return;
-            }
-            Swal.fire(`Success`, "Updated Successfully!", "success");
-            return;
           },
         }}
       />

@@ -144,12 +144,12 @@ const AllAssets = () => {
 				{isGrid ? (
 					<>
 						{isLoading && <Loader />}
-						<AssetsGrid data={branchData} mutate={mutate} />
+						<AssetsGrid data={assetData} mutate={mutate} />
 					</>
 				) : (
 					<>
 						{isLoading && <Loader />}
-						<AssetsColumn data={branchData} mutate={mutate} />
+						<AssetsColumn data={assetData} mutate={mutate} />
 					</>
 				)}
 				{/* {branchData?.length === 0 ? <LoaderAnime /> : null}
@@ -197,7 +197,7 @@ const short = [
 	{ id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
 
-const branchData = [
+const assetData = [
 	{
 		id: "01",
 		name: "Laptop",
@@ -223,12 +223,13 @@ const branchData = [
 					"https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
 			},
 		],
-		ModelNo: "Cuttack, 754008, Odisha,",
-		phone: "2131335465",
-		email: "workspace1@yard.com",
-		country: "India",
-		manager: "Abhilash",
-		managerPhoto: "photo",
+		modelNo: "82K201Y8IN",
+		brand: "Lenovo",
+		dateOfPurchase: "05/06/2023",
+		billAmount: "50,000",
+		currentMp: "40,000",
+		slNo: "2131335465",
+		docs: "",
 	},
 	{
 		id: "02",
@@ -255,12 +256,13 @@ const branchData = [
 					"https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
 			},
 		],
-		location: "Bhubaneswar, 751024, Odisha,",
-		email: "workspace2@yard.com",
-		country: "India",
-		phone: "2131335465",
-		manager: "Ashutosh",
-		managerPhoto: "photo",
+		modelNo: "82K201Y8IN",
+		brand: "Lenovo",
+		dateOfPurchase: "05/06/2023",
+		billAmount: "50,000",
+		currentMp: "40,000",
+		slNo: "2131335465",
+		docs: "",
 	},
 	{
 		id: "03",
@@ -288,11 +290,13 @@ const branchData = [
 					"https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
 			},
 		],
-		email: "workspace3@yard.com",
-		phone: "2131335465",
-		country: "India",
-		manager: "Prasad",
-		managerPhoto: "photo",
+		modelNo: "Movable Chair",
+		brand: "",
+		dateOfPurchase: "05/06/2023",
+		billAmount: "50,000",
+		currentMp: "40,000",
+		slNo: "2131335465",
+		docs: "",
 	},
 	{
 		id: "04",
@@ -319,11 +323,12 @@ const branchData = [
 					"https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
 			},
 		],
-		location: "BTM Layout, Karnatak,",
-		phone: "2131335465",
-		email: "workspace3@yard.com",
-		country: "India",
-		manager: "Srinu",
-		managerPhoto: "photo",
+		modelNo: "82K201Y8IN",
+		brand: "Lenovo",
+		dateOfPurchase: "05/06/2023",
+		billAmount: "50,000",
+		currentMp: "40,000",
+		slNo: "2131335465",
+		docs: "",
 	},
 ];

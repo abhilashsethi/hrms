@@ -28,7 +28,7 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 				roleId={isInfo?.role?.id}
 			/>
 			<MaterialTable
-				title={<HeadStyle name="All Branch" icon={<PeopleRounded />} />}
+				title={<HeadStyle name="All Assets" icon={<PeopleRounded />} />}
 				isLoading={!data}
 				data={data ? getDataWithSL<any>(data) : []}
 				options={{ ...MuiTblOptions(), selection: false, paging: false }}
@@ -40,17 +40,39 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						width: "2%",
 					},
 					{
-						title: "Department",
-						tooltip: "Department",
+						title: "Asset Name",
+						tooltip: "Asset Name",
 						field: "name",
 					},
 					{
-						title: "Total Members",
-						tooltip: "Total Members",
-						// field: "data._count?.users",
+						title: "Brand Name",
+						tooltip: "Brand Name",
+						field: "brand",
 						render: (data) => {
-							return <div className="">{data?._count?.users}</div>;
+							return (
+								<div className="">{data?.brand ? data?.brand : "---"}</div>
+							);
 						},
+					},
+					{
+						title: "Date Of Purchase",
+						tooltip: "Date Of Purchase",
+						field: "dateOfPurchase",
+					},
+					{
+						title: "Bill Amount",
+						tooltip: "Bill Amount",
+						field: "billAmount",
+					},
+					{
+						title: "Current Market Price",
+						tooltip: "Current Market Price",
+						field: "currentMp",
+					},
+					{
+						title: "Serial Number",
+						tooltip: "Serial Number",
+						field: "slNo",
 					},
 					{
 						title: "Details",
@@ -71,15 +93,9 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						editable: "never",
 					},
 					{
-						title: "Last Updated",
-						field: "updatedAt",
-						render: (data) => clock(data.updatedAt).fromNow(),
-						editable: "never",
-					},
-					{
 						title: "Created",
 						field: "createdAt",
-						render: (data) => new Date(data.createdAt).toDateString(),
+						render: (data) => new Date().toDateString(),
 						editable: "never",
 					},
 				]}
