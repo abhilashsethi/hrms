@@ -1,11 +1,14 @@
 import { Check, Close } from "@mui/icons-material";
 import {
+  Autocomplete,
+  Box,
   Button,
   CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
+  InputLabel,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -31,6 +34,7 @@ const UpdateBranch = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const { data: userData } = useFetch<any>(`users`);
   const formik = useFormik({
     initialValues: {
       name: `${branchData?.name ? branchData?.name : ""}`,
@@ -113,7 +117,53 @@ const UpdateBranch = ({
               error={formik.touched.name && !!formik.errors.name}
               helperText={formik.touched.name && formik.errors.name}
             />
-
+            <div className="md:px-4 px-2 md:py-2 py-1">
+              <div className="py-2">
+                <InputLabel htmlFor="manager">
+                  Assign Manager
+                </InputLabel>
+              </div>
+              <Autocomplete
+                fullWidth
+                size="small"
+                id="managerId"
+                options={userData || []}
+                getOptionLabel={(option: any) =>
+                  option.name ? option.name : ""
+                }
+                isOptionEqualToValue={(option, value) =>
+                  option.id === value.userId
+                }
+                value={
+                  formik.values?.managerId
+                    ? userData?.find(
+                      (option: any) => option.id === formik.values.managerId
+                    )
+                    : {}
+                }
+                onChange={(e: any, r: any) => {
+                  formik.setFieldValue("managerId", r?.id);
+                }}
+                renderOption={(props, option) => (
+                  <Box
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    {...props}
+                  >
+                    {option.name}
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder="Manager Name"
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.managerId && !!formik.errors.managerId}
+                    helperText={formik.touched.managerId && formik.errors.managerId}
+                  />
+                )}
+              />
+            </div>
             <TextField
               fullWidth
               placeholder="Phone"
@@ -154,6 +204,7 @@ const UpdateBranch = ({
               error={formik.touched.country && !!formik.errors.country}
               helperText={formik.touched.country && formik.errors.country}
             />
+
 
             <Button
               type="submit"
