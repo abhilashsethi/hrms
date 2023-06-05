@@ -3,15 +3,24 @@ import {
   Close,
   Delete,
   Edit,
+  KeyboardArrowDown,
   KeyboardArrowRight,
   Logout,
 } from "@mui/icons-material";
-import { Button, Container, Drawer, IconButton, Tooltip } from "@mui/material";
+import {
+  Button,
+  Container,
+  Drawer,
+  IconButton,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from "@mui/material";
 import { ChatMedia } from "components/chat";
 import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
 import { AddParticipants, ChatDescription } from "components/dialogues";
 import { BASE_URL, useAuth, useChange } from "hooks";
-import { useState } from "react";
+import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { IChatGroup } from "types";
 
@@ -215,7 +224,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                       .map((item) => (
                         <div
                           key={item?.user?.id}
-                          className="py-2 w-full rounded-md flex gap-1 items-center px-2 hover:bg-slate-100"
+                          className="py-4 w-full rounded-md flex gap-1 items-center px-2 hover:bg-slate-100"
                         >
                           <div className="w-1/5">
                             <PhotoViewerSmall
@@ -224,7 +233,8 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                               photo={item?.user?.photo}
                             />
                           </div>
-                          <div className="w-4/5 flex justify-between">
+                          <div className="w-4/5 relative flex justify-between">
+                            <MoreMenu />
                             <div className="w-3/5">
                               <h1 className="text-sm font-semibold">
                                 {item?.user?.id === user?.id
@@ -237,9 +247,9 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                             </div>
                             {item?.isAdmin && (
                               <div className="w-2/5">
-                                <span className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
+                                <button className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
                                   Group Admin
-                                </span>
+                                </button>
                               </div>
                             )}
                           </div>
@@ -342,3 +352,33 @@ const configs = [
     privateOnly: true,
   },
 ];
+
+const MoreMenu = () => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <div className="absolute right-0 top-1/2">
+      <IconButton onClick={handleClick} size="small">
+        <KeyboardArrowDown />
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleClose}>Create Admin</MenuItem>
+        <MenuItem onClick={handleClose}>Remove Member</MenuItem>
+      </Menu>
+    </div>
+  );
+};
