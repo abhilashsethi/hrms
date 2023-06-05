@@ -93,7 +93,6 @@ const MoreOption = ({ item, mutate }: any) => {
               await deleteFile(String(path));
             });
           }
-
           setLoading(false);
           if (res?.status !== 200) {
             Swal.fire(
@@ -114,7 +113,7 @@ const MoreOption = ({ item, mutate }: any) => {
       }
     });
   };
-  const handleBlock = async (e: any, userId: string) => {
+  const handleBlock = async (e: any, id: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to update status?",
@@ -125,7 +124,7 @@ const MoreOption = ({ item, mutate }: any) => {
       confirmButtonText: "Yes, update!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await change(`users/${userId}`, {
+        const res = await change(`branches/${id}`, {
           method: "PATCH",
           body: { isBlocked: !e.target?.checked },
         });
@@ -134,7 +133,7 @@ const MoreOption = ({ item, mutate }: any) => {
           Swal.fire(`Error`, "Something went wrong!", "error");
           return;
         }
-        Swal.fire(`Success`, "User Blocked successfully!!", "success");
+        Swal.fire(`Success`, "Branch status update successfully!!", "success");
         return;
       }
     });
@@ -149,7 +148,7 @@ const MoreOption = ({ item, mutate }: any) => {
         mutate={mutate}
       />
       <div key={item?.id} className="mb-4 w-full">
-        <div className="group h-full w-full border-2 border-gray-200 
+        <div className="group h-full w-full border-2 bg-white border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
           {item?.photos?.length ?
             item?.photos?.length > 1 ? (
@@ -158,7 +157,7 @@ const MoreOption = ({ item, mutate }: any) => {
                   {item?.photos?.map((data: any, k: any) => (
                     <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                      src={data?.photo} alt="Branch" />
+                      src={data} alt="Branch" />
                   ))}
                 </Slider>
               </>

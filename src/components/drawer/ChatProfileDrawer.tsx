@@ -19,7 +19,7 @@ import {
 import { ChatMedia } from "components/chat";
 import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
 import { AddParticipants, ChatDescription } from "components/dialogues";
-import { BASE_URL, useAuth, useChange } from "hooks";
+import { BASE_URL, useAuth, useChange, useChatData } from "hooks";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { IChatGroup } from "types";
@@ -233,7 +233,6 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                             />
                           </div>
                           <div className="w-4/5 relative flex justify-between">
-                            <MoreMenu />
                             <div className="w-3/5">
                               <h1 className="text-sm font-semibold">
                                 {item?.user?.id === user?.id
@@ -244,12 +243,14 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                                 {item?.user?.role?.name}
                               </h1>
                             </div>
-                            {item?.isAdmin && (
+                            {item?.isAdmin ? (
                               <div className="w-2/5">
                                 <button className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
                                   Group Admin
                                 </button>
                               </div>
+                            ) : (
+                              <MoreMenu data={item} profileData={profileData} />
                             )}
                           </div>
                         </div>
@@ -352,7 +353,14 @@ const configs = [
   },
 ];
 
-const MoreMenu = () => {
+interface MenuProps {
+  data?: any;
+  profileData?: any;
+}
+
+const MoreMenu = ({ data, profileData }: MenuProps) => {
+  const { revalidateChatProfileDetails } = useChatData();
+  const { change } = useChange();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -361,8 +369,38 @@ const MoreMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleRemove = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to remove this member!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await change(`chat/member/${data?.id}`, {
+            method: "DELETE",
+          });
+          if (res?.status !== 201) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          revalidateChatProfileDetails(profileData?.id);
+          Swal.fire(`Success`, "Member removed!", "success");
+          return;
+        } catch (error) {
+          console.log(error);
+        } finally {
+        }
+      }
+    });
+  };
   return (
-    <div className="absolute right-0 top-1/2">
+    <div className="">
       <IconButton onClick={handleClick} size="small">
         <KeyboardArrowDown />
       </IconButton>
@@ -376,7 +414,7 @@ const MoreMenu = () => {
         }}
       >
         <MenuItem onClick={handleClose}>Create Admin</MenuItem>
-        <MenuItem onClick={handleClose}>Remove Member</MenuItem>
+        <MenuItem onClick={() => handleRemove()}>Remove Member</MenuItem>
       </Menu>
     </div>
   );

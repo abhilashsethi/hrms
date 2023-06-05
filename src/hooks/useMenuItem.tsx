@@ -249,12 +249,12 @@ export default () => {
 					// 	icon: <ICONS.Dashboard_1 />,
 					// 	route: "/admin/projects",
 					// },
-					{
-						key: "7-2",
-						title: "Create Asset",
-						icon: <ICONS.Create_Assets />,
-						route: "/admin/assets/create-assets",
-					},
+					// {
+					// 	key: "7-2",
+					// 	title: "Create Asset",
+					// 	icon: <ICONS.Create_Assets />,
+					// 	route: "/admin/assets/create-assets",
+					// },
 					{
 						key: "7-3",
 						title: "View All Asset",
@@ -262,10 +262,10 @@ export default () => {
 						route: "/admin/assets/all-assets",
 					},
 					{
-						key: "7-3",
+						key: "7-4",
 						title: "Assign Asset",
 						icon: <ICONS.All_Assets />,
-						route: "/admin/assets/all-assets",
+						route: "/admin/assets/assign-assets",
 					},
 				],
 			},
