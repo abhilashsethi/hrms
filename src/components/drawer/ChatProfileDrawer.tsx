@@ -1,26 +1,18 @@
 import {
-  ArrowBack,
   Block,
   Close,
   Delete,
   Edit,
   KeyboardArrowRight,
-  ThumbDown,
+  Logout,
 } from "@mui/icons-material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import {
-  Box,
-  Container,
-  Drawer,
-  IconButton,
-  Tab,
-  Tooltip,
-} from "@mui/material";
+import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
 import { ChatMedia } from "components/chat";
 import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
 import { ChatDescription } from "components/dialogues";
-import { useAuth } from "hooks";
-import React, { useRef, useState } from "react";
+import { BASE_URL, useAuth, useChange } from "hooks";
+import { useState } from "react";
+import Swal from "sweetalert2";
 import { IChatGroup } from "types";
 
 type Props = {
@@ -33,20 +25,107 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
   const [isMedia, setIsMedia] = useState(false);
   const { user } = useAuth();
 
+  const { change } = useChange();
+
+  const handleGroupAction = async (configId: number) => {
+    try {
+      switch (configId) {
+        case 2:
+          const res = await change(
+            `chat/member/${
+              profileData?.chatMembers?.find(
+                (item) => item?.user?.id === user?.id
+              )?.id
+            }`,
+            {
+              method: "DELETE",
+              BASE_URL,
+            }
+          );
+
+          if (res?.status !== 201) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+          }
+          break;
+        case 1:
+          const blockUser = await change(
+            `chat/member/${
+              profileData?.chatMembers?.find(
+                (item) => item?.user?.id === user?.id
+              )?.id
+            }`,
+            {
+              method: "PATCH",
+              body: {
+                isBlocked: true,
+                BASE_URL,
+              },
+            }
+          );
+
+          if (blockUser?.status !== 201) {
+            Swal.fire(
+              "Error",
+              blockUser?.results?.msg || "Something went wrong!",
+              "error"
+            );
+          }
+
+        case 4 || 3:
+          const clearChat = await change(
+            `message-clear/:chatId/${
+              profileData?.chatMembers?.find(
+                (item) => item?.user?.id === user?.id
+              )?.id
+            }`,
+            {
+              method: "POST",
+              BASE_URL,
+            }
+          );
+
+          if (clearChat?.status !== 201) {
+            Swal.fire(
+              "Error",
+              clearChat?.results?.msg || "Something went wrong!",
+              "error"
+            );
+          }
+          break;
+        default:
+          break;
+      }
+    } catch (error) {}
+  };
+
   return (
     <>
       <ChatDescription
         open={isDescription}
         handleClose={() => setIsDescription(false)}
       />
-      <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={() => onClose && onClose()}
+        className="!h-full"
+        PaperProps={{
+          style: {
+            height: "100%",
+          },
+        }}
+      >
         <Container
           style={{
             width: "30vw",
           }}
         >
-          <section className="relative w-full overflow-hidden">
-            <section className="py-4 w-full">
+          <section className="relative w-full overflow-hidden overflow-y-auto">
+            <section className="py-4 h-full w-full">
               <div className="flex gap-2 items-center">
                 <span className="cursor-pointer" onClick={() => onClose()}>
                   <Close fontSize="small" className="!text-red-600" />
@@ -177,17 +256,22 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                 </IconButton>
               </div>
               <div className="mt-4">
-                {configs?.map((item) => (
-                  <div
-                    key={item?.id}
-                    className="py-3 px-2 cursor-pointer hover:bg-slate-200"
-                  >
-                    <h1 className="flex gap-4 items-center text-red-600 font-medium">
-                      {item?.icon}
-                      {item?.title}
-                    </h1>
-                  </div>
-                ))}
+                {configs
+                  ?.filter(
+                    (item) => item?.privateOnly === profileData?.isPrivateGroup
+                  )
+                  ?.map((item) => (
+                    <div
+                      key={item?.id}
+                      className="py-3 px-2 cursor-pointer hover:bg-slate-200"
+                      onClick={() => handleGroupAction(item?.id)}
+                    >
+                      <h1 className="flex gap-4 items-center text-red-600 font-medium">
+                        {item?.icon}
+                        {item?.title}
+                      </h1>
+                    </div>
+                  ))}
               </div>
             </section>
             {/* --------------------Media and links section------------------------- */}
@@ -217,39 +301,29 @@ const SectionTitle = ({ title }: TitleProps) => {
   );
 };
 
-const profiles: {
-  id?: number;
-  name?: string;
-  message?: string;
-  photo?: string;
-  type?: string;
-}[] = [
+const configs = [
   {
     id: 1,
-    photo:
-      "https://www.bollywoodhungama.com/wp-content/uploads/2023/01/Hrithik-Roshan-opens-up-about-620.jpg",
-    name: "Loushik Giri",
-    message: "Talk to you...",
-    type: "person",
+    title: "Block User",
+    icon: <Block fontSize="small" />,
+    privateOnly: true,
   },
   {
     id: 2,
-    name: "Srinu Reddy",
-    message: "Okay",
-    type: "person",
+    title: "Leave Group",
+    icon: <Logout fontSize="small" />,
+    privateOnly: false,
   },
   {
     id: 3,
-    photo:
-      "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
-    name: "Abhilash",
-    message: "Done 👍",
-    type: "person",
+    title: "Clear Chat",
+    icon: <Delete fontSize="small" />,
+    privateOnly: false,
   },
-];
-
-const configs = [
-  { id: 1, title: "Block John Doe", icon: <Block fontSize="small" /> },
-  { id: 2, title: "Report John Doe", icon: <ThumbDown fontSize="small" /> },
-  { id: 3, title: "Delete Chat", icon: <Delete fontSize="small" /> },
+  {
+    id: 4,
+    title: "Clear Chat",
+    icon: <Delete fontSize="small" />,
+    privateOnly: true,
+  },
 ];

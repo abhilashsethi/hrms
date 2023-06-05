@@ -13,7 +13,7 @@ import {
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatGroupCreate } from "components/drawer";
-import { useChatData, useFetch } from "hooks";
+import { useChatData, useFetch, useSocket } from "hooks";
 import moment from "moment";
 import { MouseEvent, useEffect, useState } from "react";
 import { IGroupChatData, User } from "types";
@@ -33,7 +33,7 @@ const ChatLeftbar = () => {
     }
   };
   return (
-    <div className="lg:w-[30%] h-full border-r-2 px-4 rounded-md">
+    <div className="w-[32%] h-full border-r-2 px-4 rounded-md">
       <div className={`h-20 w-full flex justify-between items-center `}>
         {quickLinks?.map((item) => (
           <div
@@ -139,40 +139,83 @@ const Chats = () => {
       </div>
       <div className="mt-2 flex flex-col gap-1">
         {afterSearchable?.map((item) => (
-          <div
-            onClick={() => {
-              setSelectedChatId(item?.id);
-              revalidateChatProfileDetails(item?.id);
-            }}
+          <PrivateChatCard
+            item={item}
             key={item?.id}
-            className={`h-16 w-full px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
-              selectedChatId === item?.id ? `bg-blue-100` : ``
-            }`}
-          >
-            <PhotoViewerSmall
-              name={item?.title}
-              photo={item?.photo}
-              size="3rem"
-            />
-            <div className="w-[80%] flex justify-between ">
-              <div>
-                <h1 className="text-sm font-semibold">{item?.title}</h1>
-                <span className="text-sm font-light">
-                  {item?.lastMessage?.message?.length > 15
-                    ? item?.lastMessage?.message.slice(0, 15) + " ..."
-                    : item?.lastMessage?.message}
-                </span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <span className="text-xs">
-                  {moment(item?.lastMessage?.createdAt).format("ll")}
-                </span>
-              </div>
-            </div>
-          </div>
+            revalidateChatProfileDetails={revalidateChatProfileDetails}
+            selectedChatId={selectedChatId}
+            setSelectedChatId={setSelectedChatId}
+          />
         ))}
       </div>
     </>
+  );
+};
+
+const PrivateChatCard = ({
+  item,
+  revalidateChatProfileDetails,
+  selectedChatId,
+  setSelectedChatId,
+}: {
+  setSelectedChatId: (arg: any) => void;
+  revalidateChatProfileDetails: (arg: any) => void;
+  selectedChatId?: string;
+  item: any;
+}) => {
+  const [isTyping, setIsTyping] = useState(false);
+
+  const { socketRef } = useSocket();
+  const { currentChatProfileDetails } = useChatData();
+
+  useEffect(() => {
+    (() => {
+      if (!socketRef) return;
+
+      socketRef.on(
+        `USER_IS_TYPING_${currentChatProfileDetails?.id}`,
+        (data) => {
+          setIsTyping(true);
+        }
+      );
+      socketRef.on(
+        `USER_IS_TYPING_${currentChatProfileDetails?.id}`,
+        (data) => {
+          setIsTyping(false);
+        }
+      );
+    })();
+  }, [socketRef]);
+
+  return (
+    <div
+      onClick={() => {
+        setSelectedChatId(item?.id);
+        revalidateChatProfileDetails(item?.id);
+      }}
+      className={`h-16 w-full px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
+        selectedChatId === item?.id ? `bg-blue-100` : ``
+      }`}
+    >
+      <PhotoViewerSmall name={item?.title} photo={item?.photo} size="3rem" />
+      <div className="w-[80%] flex justify-between ">
+        <div>
+          <h1 className="text-sm font-semibold">{item?.title}</h1>
+          <span className="text-sm font-light">
+            {isTyping
+              ? "Typing..."
+              : item?.lastMessage?.message?.length > 15
+              ? item?.lastMessage?.message.slice(0, 15) + " ..."
+              : item?.lastMessage?.message}
+          </span>
+        </div>
+        <div className="flex flex-col gap-2">
+          <span className="text-xs">
+            {moment(item?.lastMessage?.createdAt).format("ll")}
+          </span>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -210,8 +253,6 @@ const GroupChats = () => {
       setAfterSearchable(searchData);
     })();
   }, [searchTitle, allGroupChat?.length]);
-
-  console.log({ afterSearchable });
 
   return (
     <>
@@ -274,7 +315,9 @@ const GroupChats = () => {
               <div>
                 <h1 className="text-sm font-semibold">{item?.title}</h1>
                 <span className="text-sm font-light">
-                  {item?.lastMessage?.message}
+                  {item?.lastMessage?.message?.length > 15
+                    ? item?.lastMessage?.message.slice(0, 15) + " ..."
+                    : item?.lastMessage?.message}
                 </span>
               </div>
 
@@ -322,68 +365,3 @@ const Contacts = () => {
     </>
   );
 };
-
-const profiles: {
-  id?: number;
-  name?: string;
-  message?: string;
-  photo?: string;
-  type?: string;
-}[] = [
-  {
-    id: 1,
-    photo:
-      "https://www.bollywoodhungama.com/wp-content/uploads/2023/01/Hrithik-Roshan-opens-up-about-620.jpg",
-    name: "Loushik Giri",
-    message: "Talk to you...",
-    type: "person",
-  },
-  {
-    id: 2,
-    name: "Srinu Reddy",
-    message: "Okay",
-    type: "person",
-    photo:
-      "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
-  },
-  {
-    id: 3,
-    name: "Abhilash",
-    message: "Done 👍",
-    type: "person",
-  },
-  {
-    id: 4,
-    photo:
-      "https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg",
-    name: "Abhilash",
-    message: "Done 👍",
-    type: "person",
-  },
-];
-const groups: {
-  id?: number;
-  name?: string;
-  message?: string;
-  photo?: string;
-  type?: string;
-}[] = [
-  {
-    id: 1,
-    name: "HRMS",
-    message: "Talk to you...",
-    type: "group",
-  },
-  {
-    id: 2,
-    name: "YardErp",
-    message: "Okay",
-    type: "group",
-  },
-  {
-    id: 3,
-    name: "YardDrone",
-    message: "Done 👍",
-    type: "group",
-  },
-];

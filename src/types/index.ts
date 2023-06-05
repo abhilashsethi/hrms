@@ -302,12 +302,13 @@ export interface IChatMember {
   isAdmin: boolean;
   user: Partial<User>;
   isPastMember: boolean;
+  id: string;
 }
 
 export interface ServerToClientEvents {
   // USER_CONNECTED: ({ userId }: { userId: string }) => void;
   // USER_DISCONNECT: ({ userId }: { userId: string }) => void;
-  [key: string]: ({ groupId }: { groupId: string }) => void;
+  [key: string]: (arg: any) => void;
 }
 
 export interface ClientToServerEvents {
@@ -327,6 +328,13 @@ export interface ClientToServerEvents {
     groupId: string;
   }) => void;
   USER_TYPING: ({
+    userId,
+    groupId,
+  }: {
+    userId: string;
+    groupId: string;
+  }) => void;
+  USER_TYPING_STOP: ({
     userId,
     groupId,
   }: {

@@ -11,7 +11,14 @@ import {
 } from "@mui/material";
 import { CHATICON, NOTIFICATIONBELL } from "assets/home";
 import { PhotoViewerSmall } from "components/core";
-import { useAuth, useFetch, useMenuItems, useSocket } from "hooks";
+import {
+  BASE_URL,
+  useAuth,
+  useChange,
+  useFetch,
+  useMenuItems,
+  useSocket,
+} from "hooks";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -39,6 +46,9 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
     mutate: refetchChatCount,
     isValidating: chatCountLoading,
   } = useFetch<NewMessageCountType>(`chat/unread`);
+
+  const { change } = useChange();
+
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -57,18 +67,40 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
     })();
   }, []);
 
+  const handleUpdateMessageDelivered = async (chatId: string) => {
+    try {
+      await change(`chat/message-ack`, {
+        BASE_URL,
+        method: "POST",
+        body: {
+          chatId: chatId,
+        },
+      });
+    } catch (error) {}
+  };
+
   //listen to all the chat event upon receiving event update the chat count
   useEffect(() => {
     (() => {
+      if (!user?.id || !socketRef) return;
+
+      //after that emit the event user is connected
+      socketRef?.emit("USER_CONNECT", { userId: user?.id });
+
       //get all the chat id that user currently present with
       user?.ChatMember?.map((item) => {
-        return socketRef?.on(`MESSAGE_RECEIVED_${item?.chatGroupId}`, () => {
-          console.log(`listening-to-msg-${item?.chatGroupId}`);
-          !chatCountLoading && refetchChatCount?.();
-        });
+        return socketRef?.on(
+          `MESSAGE_RECEIVED_${item?.chatGroupId}`,
+          async () => {
+            //call message delivered
+            item?.chatGroupId &&
+              (await handleUpdateMessageDelivered(item?.chatGroupId));
+            !chatCountLoading && refetchChatCount?.();
+          }
+        );
       });
     })();
-  }, []);
+  }, [user, socketRef]);
 
   const handleLogout = () => {
     Swal.fire({
