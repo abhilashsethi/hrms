@@ -35,7 +35,7 @@ const AllBranch = () => {
     isLoading,
     pagination,
   } = useFetch<any>(
-    `branches?page=${pageNumber}&limit=1${userName ? `&name=${userName}` : ""
+    `branches?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""
     }${location ? `&location=${location}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
