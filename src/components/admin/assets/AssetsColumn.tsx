@@ -1,7 +1,8 @@
 import MaterialTable from "@material-table/core";
-import { Info, PeopleRounded } from "@mui/icons-material";
+import { BorderColor, Delete, Info, PeopleRounded } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { HeadStyle } from "components/core";
+import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
@@ -19,13 +20,23 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 		dialogue: false,
 		role: null,
 	});
+	const [isUpdate, setIsUpdate] = useState<any>({
+		dialogue: false,
+		departmentData: null,
+	});
 
 	return (
 		<section className="mt-8">
-			<DepartmentInformation
+			{/* <DepartmentInformation
 				open={isInfo?.dialogue}
 				onClose={() => setIsInfo({ dialogue: false })}
 				roleId={isInfo?.role?.id}
+			/> */}
+			<UpdateAssets
+				assetData={isUpdate?.assetData}
+				open={isUpdate?.dialogue}
+				handleClose={() => setIsUpdate({ dialogue: false })}
+				mutate={mutate}
 			/>
 			<MaterialTable
 				title={<HeadStyle name="All Assets" icon={<PeopleRounded />} />}
@@ -43,6 +54,16 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						title: "Asset Name",
 						tooltip: "Asset Name",
 						field: "name",
+					},
+					{
+						title: "Asset Images",
+						tooltip: "Asset Images",
+						field: "images",
+					},
+					{
+						title: "Asset Docs",
+						tooltip: "Asset Docs",
+						field: "docs",
 					},
 					{
 						title: "Brand Name",
@@ -74,73 +95,89 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						tooltip: "Serial Number",
 						field: "slNo",
 					},
-					{
-						title: "Details",
-						field: "name",
-						render: (data) => {
-							return (
-								<Tooltip title="Details">
-									<div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-										<IconButton
-											onClick={() => setIsInfo({ dialogue: true, role: data })}
-										>
-											<Info className="!text-white" />
-										</IconButton>
-									</div>
-								</Tooltip>
-							);
-						},
-						editable: "never",
-					},
+
 					{
 						title: "Created",
 						field: "createdAt",
 						render: (data) => new Date().toDateString(),
 						editable: "never",
 					},
+					{
+						title: "Actions",
+						// field: "name",
+						render: (data) => {
+							return (
+								<div className="flex gap-1">
+									<Tooltip title="Details">
+										<div className="text-sm bg-blue-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+											<IconButton
+												onClick={() =>
+													setIsUpdate({ dialogue: true, role: data })
+												}
+											>
+												<BorderColor className="!text-white" />
+											</IconButton>
+										</div>
+									</Tooltip>
+									<Tooltip title="Delete">
+										<div className="text-sm bg-red-500 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+											<IconButton
+												onClick={() =>
+													setIsUpdate({ dialogue: true, role: data })
+												}
+											>
+												<Delete className="!text-white" />
+											</IconButton>
+										</div>
+									</Tooltip>
+								</div>
+							);
+						},
+						editable: "never",
+					},
 				]}
-				editable={{
-					onRowDelete: async (oldData) => {
-						setLoading(true);
-						Swal.fire("", "Please Wait...", "info");
-						try {
-							const res = await change(`departments/${oldData.id}`, {
-								method: "DELETE",
-							});
-							setLoading(false);
-							if (res?.status !== 200) {
-								Swal.fire(
-									"Error",
-									res?.results?.msg || "Something went wrong!",
-									"error"
-								);
-								setLoading(false);
-								return;
-							}
-							mutate();
-							Swal.fire(`Success`, `Deleted Successfully!`, `success`);
-							return;
-						} catch (error) {
-							console.log(error);
-							setLoading(false);
-						} finally {
-							setLoading(false);
-						}
-					},
-					onRowUpdate: async (newData) => {
-						const res = await change(`departments/${newData?.id}`, {
-							method: "PATCH",
-							body: { name: newData?.name },
-						});
-						mutate();
-						if (res?.status !== 200) {
-							Swal.fire(`Error`, "Something went wrong!", "error");
-							return;
-						}
-						Swal.fire(`Success`, "Updated Successfully!", "success");
-						return;
-					},
-				}}
+				// editable={{
+				// 	onRowDelete: async (oldData) => {
+				// 		setLoading(true);
+				// 		Swal.fire("", "Please Wait...", "info");
+				// 		try {
+				// 			const res = await change(`departments/${oldData.id}`, {
+				// 				method: "DELETE",
+				// 			});
+				// 			setLoading(false);
+				// 			if (res?.status !== 200) {
+				// 				Swal.fire(
+				// 					"Error",
+				// 					res?.results?.msg || "Something went wrong!",
+				// 					"error"
+				// 				);
+				// 				setLoading(false);
+				// 				return;
+				// 			}
+				// 			mutate();
+				// 			Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+				// 			return;
+				// 		} catch (error) {
+				// 			console.log(error);
+				// 			setLoading(false);
+				// 		} finally {
+				// 			setLoading(false);
+				// 		}
+				// 	},
+				// 	onRowUpdate: async (newData) => {
+				// 		const res = await change(`departments/${newData?.id}`, {
+				// 			method: "PATCH",
+				// 			body: { name: newData?.name },
+				// 		});
+				// 		mutate();
+				// 		if (res?.status !== 200) {
+				// 			Swal.fire(`Error`, "Something went wrong!", "error");
+				// 			return;
+				// 		}
+				// 		Swal.fire(`Success`, "Updated Successfully!", "success");
+				// 		return;
+				// 	},
+				// }}
 			/>
 		</section>
 	);
