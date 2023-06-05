@@ -49,7 +49,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
   return (
     <>
       <section className="py-6 ">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6 items-center justify-center">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 items-center justify-center">
           {data?.map((item: any, index: any) => (
             <div key={index}>
               <MoreOption item={item} mutate={mutate} />
@@ -204,10 +204,10 @@ const MoreOption = ({ item, mutate }: any) => {
               />
             </p>
 
-            <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
-                    text-red-400 uppercase tracking-widest hover:font-bold"
+            <h2 className="py-1 pb-1 inline-block text-xs 
+                    text-red-400"
             >
-              <span className="group flex text-sm items-center justify-center gap-2">
+              <span className="group flex text-xs items-center justify-center gap-2">
 
                 <img src={LOCATION.src} className="w-6 pr-2" alt="" />
                 {item?.location}
