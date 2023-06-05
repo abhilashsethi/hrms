@@ -288,14 +288,10 @@ const UpdateBranch = ({
                       return {
                         file,
                         previewURL: imageURL,
-                        uniId, // Add unique ID to the file object
-                        imageURL, // Add the image URL to the file object
+                        uniId,
+                        imageURL,
                       };
                     });
-                    // const fileObjects = files.map((file: any) => ({
-                    //   file,
-                    //   previewURL: URL.createObjectURL(file),
-                    // }));
                     formik.setFieldValue("photos", fileObjects);
                   }}
                 />

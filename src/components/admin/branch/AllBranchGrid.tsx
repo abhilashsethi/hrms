@@ -149,7 +149,7 @@ const MoreOption = ({ item, mutate }: any) => {
         mutate={mutate}
       />
       <div key={item?.id} className="mb-4 w-full">
-        <div className="group h-full w-full border-2 border-gray-200 
+        <div className="group h-full w-full border-2 bg-white border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
           {item?.photos?.length ?
             item?.photos?.length > 1 ? (
