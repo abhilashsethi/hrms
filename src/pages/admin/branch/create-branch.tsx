@@ -24,8 +24,8 @@ const initialValues = {
   email: "",
   country: "",
   location: "",
-  userId: "",
-  images: [],
+  managerId: "",
+  photos: [],
 };
 
 const validationSchema = Yup.object().shape({
@@ -49,10 +49,15 @@ const CreateBranch = () => {
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { data: userData } = useFetch<any>(`users`);
-  const { change, isChanging } = useChange();
+  const { change } = useChange();
   const handleSubmit = async (values: any) => {
     try {
       console.log(values);
+      const imagesWithUniIds = values?.photos?.map((img: any) => ({
+        ...img,
+        uniId: img.type.split("/")[1].split("+")[0]
+      }));
+      console.log(imagesWithUniIds);
       return
       setLoading(true);
       const res: any = await change(`branches`, {
@@ -232,10 +237,10 @@ const CreateBranch = () => {
                       <Autocomplete
                         fullWidth
                         size="small"
-                        id="userId"
+                        id="managerId"
                         options={userData || []}
                         onChange={(e: any, r: any) => {
-                          setFieldValue("userId", r?.id);
+                          setFieldValue("managerId", r?.id);
                         }}
                         getOptionLabel={(option: any) => option.name}
                         renderInput={(params) => (
@@ -243,8 +248,8 @@ const CreateBranch = () => {
                             {...params}
                             placeholder="Manager Name"
                             onBlur={handleBlur}
-                            error={touched.userId && !!errors.userId}
-                            helperText={touched.userId && errors.userId}
+                            error={touched.managerId && !!errors.managerId}
+                            helperText={touched.managerId && errors.managerId}
                           />
                         )}
                       />
@@ -273,11 +278,11 @@ const CreateBranch = () => {
                             file,
                             previewURL: URL.createObjectURL(file),
                           }));
-                          setFieldValue("images", fileObjects);
+                          setFieldValue("photos", fileObjects);
                         }}
                       />
                       <div className="flex justify-center items-center gap-2 flex-wrap">
-                        {values.images.map((image: any, index) => (
+                        {values.photos.map((image: any, index) => (
                           <div className="" key={index}>
                             <img
                               className="w-40 object-contain"
@@ -290,7 +295,7 @@ const CreateBranch = () => {
                       <p>Upload Images</p>
                       <CloudUpload fontSize="large" color="primary" />
                       <ErrorMessage
-                        name="images"
+                        name="photos"
                         component="div"
                         className="error"
                       />
