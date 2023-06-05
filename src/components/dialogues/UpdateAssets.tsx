@@ -72,7 +72,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
 				sx={{ p: 2, minWidth: "18rem !important" }}
 			>
 				<p className="text-center text-xl font-bold text-theme tracking-wide">
-					UPDATE BRANCH
+					UPDATE ASSET
 				</p>
 				<IconButton
 					aria-label="close"

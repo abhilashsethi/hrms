@@ -16,6 +16,7 @@ import { AssetsColumn, AssetsGrid } from "components/admin/assets";
 import { AllBranchColumn, AllBranchGrid } from "components/admin/branch";
 import { AdminBreadcrumbs, Loader } from "components/core";
 import { CreateDepartment } from "components/dialogues";
+import ChooseBranch from "components/dialogues/ChooseBranch";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
@@ -23,7 +24,7 @@ import { useState } from "react";
 
 const AllAssets = () => {
 	const [isGrid, setIsGrid] = useState(true);
-	const [isCreate, setIsCreate] = useState(false);
+	const [isChoose, setIsChoose] = useState(false);
 	const [pageNumber, setPageNumber] = useState<number>(1);
 	const [userName, setUsername] = useState<string | null>(null);
 	const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
@@ -42,9 +43,9 @@ const AllAssets = () => {
 	return (
 		<PanelLayout title="All Assets - Admin Panel">
 			<section className="px-8 py-4">
-				<CreateDepartment
-					open={isCreate}
-					handleClose={() => setIsCreate(false)}
+				<ChooseBranch
+					open={isChoose}
+					handleClose={() => setIsChoose(false)}
 					mutate={mutate}
 				/>
 
@@ -71,15 +72,16 @@ const AllAssets = () => {
 								</div>
 							</IconButton>
 						</div>
-						<Link href="/admin/assets/create-assets">
-							<Button
-								variant="contained"
-								className="!bg-theme"
-								startIcon={<Add />}
-							>
-								CREATE ASSETS
-							</Button>
-						</Link>
+						{/* <Link href="/admin/assets/create-assets"> */}
+						<Button
+							onClick={() => setIsChoose(true)}
+							variant="contained"
+							className="!bg-theme"
+							startIcon={<Add />}
+						>
+							CREATE ASSETS
+						</Button>
+						{/* </Link> */}
 					</div>
 				</div>
 				<div>
