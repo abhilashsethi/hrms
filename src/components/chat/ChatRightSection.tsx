@@ -46,25 +46,40 @@ const ChatRightSection = () => {
     setAnchorEl(null);
   };
 
-  const { currentChatMessage, currentChatProfileDetails } = useChatData();
-  console.log(currentChatMessage);
+  const {
+    currentChatMessage,
+    currentChatProfileDetails,
+    handleSendNewMessage,
+  } = useChatData();
 
   const handleSend = async () => {
     if (isMessage) {
       try {
         setIsLoading(true);
-        const res = await change(
-          `chat/message/${currentChatProfileDetails?.id}`,
-          {
-            body: {
-              message: isMessage,
-              category: "text",
-            },
-          }
-        );
-        setIsLoading(false);
-        setIsMessage(null);
-        return;
+
+        if (currentChatProfileDetails?.isNewChat) {
+          handleSendNewMessage({
+            messageTo: currentChatProfileDetails?.id,
+            message: isMessage,
+            category: "text",
+          });
+          setIsLoading(false);
+          setIsMessage(null);
+          return;
+        } else {
+          const res = await change(
+            `chat/message/${currentChatProfileDetails?.id}`,
+            {
+              body: {
+                message: isMessage,
+                category: "text",
+              },
+            }
+          );
+          setIsLoading(false);
+          setIsMessage(null);
+          return;
+        }
       } catch (error) {
         console.log(error);
         setIsLoading(false);
@@ -147,7 +162,7 @@ const ChatRightSection = () => {
             <div className="h-20 w-full border-2 flex items-center px-8 justify-between">
               <div className="h-10 px-3 rounded-full w-4/5 border-2 flex justify-between items-center">
                 <div className="flex gap-2 items-center w-full">
-                  <SentimentSatisfiedAlt className="!cursor-pointer" />
+                  {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
                   <input
                     onChange={(e) => setIsMessage(e.target.value)}
                     ref={textRef}

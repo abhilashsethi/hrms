@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useChange } from "hooks";
+import { useChange, useChatData } from "hooks";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 import * as yup from "yup";
@@ -26,30 +26,45 @@ const ChatSendCode = ({ open, handleClose, sendId }: Props) => {
   const [isCode, setIsCode] = useState<string | null>(null);
   const { change } = useChange();
 
+  const { handleSendNewMessage, currentChatProfileDetails } = useChatData();
+
   const handleSend = async () => {
     if (isCode) {
       try {
         setLoading(true);
-        const res = await change(`chat/message/${sendId}`, {
-          body: {
+
+        if (currentChatProfileDetails?.isNewChat) {
+          handleSendNewMessage({
+            messageTo: currentChatProfileDetails?.id,
             message: isCode,
             category: "code",
-          },
-        });
-        if (res?.status !== 200) {
-          Swal.fire(
-            "Error",
-            res?.results?.msg || "Something went wrong!",
-            "error"
-          );
+          });
+          handleClose();
           setLoading(false);
+          setIsCode(null);
+          return;
+        } else {
+          const res = await change(`chat/message/${sendId}`, {
+            body: {
+              message: isCode,
+              category: "code",
+            },
+          });
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            setLoading(false);
+            return;
+          }
+          Swal.fire(`Success`, `Code sent successfully!`, `success`);
+          setLoading(false);
+          handleClose();
+          setIsCode(null);
           return;
         }
-        Swal.fire(`Success`, `Code sent successfully!`, `success`);
-        setLoading(false);
-        handleClose();
-        setIsCode(null);
-        return;
       } catch (error) {
         console.log(error);
         setLoading(false);

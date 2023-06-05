@@ -7,7 +7,7 @@ import { MouseEvent, useState } from "react";
 import { formatChatTime } from "utils";
 import { useEffect } from "react";
 
-const ChatHead = () => {
+const ChatHead = ({ isNew }: { isNew?: boolean }) => {
   const [typingUser, setTypingUser] = useState("");
   const [isDrawer, setIsDrawer] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

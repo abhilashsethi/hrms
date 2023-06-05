@@ -18,6 +18,7 @@ import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { countries } from "schemas/Countries";
+import { uploadFile } from "utils";
 const initialValues = {
   name: "",
   phone: "",
@@ -53,15 +54,15 @@ const CreateBranch = () => {
   const handleSubmit = async (values: any) => {
     try {
       console.log(values);
-      const imagesWithUniIds = values?.photos?.map((img: any) => ({
-        ...img,
-        uniId: img.type.split("/")[1].split("+")[0]
-      }));
-      console.log(imagesWithUniIds);
-      return
-      setLoading(true);
+      const photoUrls = [];
+      for (const photo of values?.photos) {
+        const url = await uploadFile(photo, `${Date.now()}.png`);
+        photoUrls.push(url);
+      }
+      console.log(photoUrls);
+      const ticketText = { name: values?.name, managerId: values?.managerId, phone: values?.phone, email: values?.email, country: values?.country, location: values?.location, photos: photoUrls, }
       const res: any = await change(`branches`, {
-        body: values,
+        body: ticketText,
       });
       setLoading(false);
       if (res?.status !== 201) {

@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { CHATDOC } from "assets/home";
 import { useFormik } from "formik";
-import { useChange } from "hooks";
+import { useChange, useChatData } from "hooks";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { uploadFile } from "utils";
@@ -28,6 +28,9 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
   const fileRef = useRef<any>();
   const [isFile, setIsFile] = useState<any>(null);
   const { change } = useChange();
+
+  const { handleSendNewMessage, currentChatProfileDetails } = useChatData();
+
   const formik = useFormik({
     initialValues: { image: null, message: "" },
     validationSchema: yup.object().shape({
@@ -39,25 +42,37 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
           setLoading(true);
           const dtype = values?.image?.type.split("/")[1];
           const url = await uploadFile(values?.image, `${Date.now()}.${dtype}`);
-          console.log(url);
-          const res = await change(`chat/message/${sendId}`, {
-            body: {
-              link: url,
-              category: "file",
+
+          if (currentChatProfileDetails?.isNewChat) {
+            handleSendNewMessage({
+              messageTo: currentChatProfileDetails?.id,
               message: values?.message,
-            },
-          });
-          if (res?.status !== 200) {
-            Swal.fire(`Error`, "Something went wrong!", "error");
+              category: "file",
+              link: url,
+            });
+            handleClose();
+            setLoading(false);
             return;
+          } else {
+            const res = await change(`chat/message/${sendId}`, {
+              body: {
+                link: url,
+                category: "file",
+                message: values?.message,
+              },
+            });
+            if (res?.status !== 200) {
+              Swal.fire(`Error`, "Something went wrong!", "error");
+              return;
+            }
+            Swal.fire(`Success`, "Sent Sccessfully!", "success");
+            handleClose();
+            setLoading(false);
+            formik.resetForm();
           }
-          Swal.fire(`Success`, "Sent Sccessfully!", "success");
-          handleClose();
-          setLoading(false);
-          formik.resetForm();
+
           return;
         } catch (error) {
-          console.log(error);
           setLoading(false);
         } finally {
           setLoading(false);
@@ -133,7 +148,9 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.message && !!formik.errors.message}
-            helperText={formik.touched.message && formik.errors.message}
+            helperText={
+              formik.touched.message && (formik.errors.message as any)
+            }
           />
           <Button
             type="submit"
