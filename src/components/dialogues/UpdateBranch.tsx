@@ -45,7 +45,7 @@ const UpdateBranch = ({
       country: `${branchData?.country ? branchData?.country : ""}`,
       location: `${branchData?.location ? branchData?.location : ""}`,
       managerId: `${branchData?.managerId ? branchData?.managerId : ""}`,
-      photos: Array.isArray(branchData?.photos) ? branchData?.photos : [],
+      photos: branchData?.photos ? branchData?.photos : [],
     },
     enableReinitialize: true,
     validationSchema: yup.object({ name: yup.string().required("Required!") }),
@@ -288,10 +288,14 @@ const UpdateBranch = ({
                       return {
                         file,
                         previewURL: imageURL,
-                        uniId,
-                        imageURL,
+                        uniId, // Add unique ID to the file object
+                        imageURL, // Add the image URL to the file object
                       };
                     });
+                    // const fileObjects = files.map((file: any) => ({
+                    //   file,
+                    //   previewURL: URL.createObjectURL(file),
+                    // }));
                     formik.setFieldValue("photos", fileObjects);
                   }}
                 />
