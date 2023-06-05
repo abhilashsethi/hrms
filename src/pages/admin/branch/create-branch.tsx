@@ -30,6 +30,9 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
+  country: Yup.string().required("Country Name is required!"),
+  location: Yup.string().required("Location is required!"),
+  managerId: Yup.string().required("Manager is required!"),
   name: Yup.string()
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name must be less than 50 characters")
@@ -43,6 +46,16 @@ const validationSchema = Yup.object().shape({
     .max(15),
   email: Yup.string()
     .email("Invalid email address"),
+  photo: Yup.mixed().required('Photo is required').test(
+    'fileType',
+    'Invalid file format',
+    (value: any) => {
+      if (value) {
+        return ['image/jpeg', 'image/jpg', 'image/png'].includes(value?.type);
+      }
+      return true;
+    }
+  ),
 
 });
 

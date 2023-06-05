@@ -26,6 +26,7 @@
 		"apexcharts": "^3.39.0",
 		"autoprefixer": "10.4.14",
 		"formik": "^2.2.9",
+		"js-file-download": "^0.4.12",
 		"materialui-daterange-picker": "^1.1.92",
 		"moment": "^2.29.4",
 		"next": "13.3.0",
