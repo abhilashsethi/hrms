@@ -136,13 +136,23 @@ const UpdateBranch = ({
             />
             <TextField
               fullWidth
-              placeholder="Enter Branch Name"
-              name="name"
-              value={formik.values.name}
+              placeholder="Enter Location"
+              name="location"
+              value={formik.values.location}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.name && !!formik.errors.name}
-              helperText={formik.touched.name && formik.errors.name}
+              error={formik.touched.location && !!formik.errors.location}
+              helperText={formik.touched.location && formik.errors.location}
+            />
+            <TextField
+              fullWidth
+              placeholder="Enter Country"
+              name="country"
+              value={formik.values.country}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.country && !!formik.errors.country}
+              helperText={formik.touched.country && formik.errors.country}
             />
 
             <Button
