@@ -34,3 +34,4 @@ export { default as ChatReply } from "./ChatReply";
 export { default as ChatSendFiles } from "./ChatSendFiles";
 export { default as ChatSendCode } from "./ChatSendCode";
 export { default as ChatImagePreview } from "./ChatImagePreview";
+export { default as ChatSendImage } from "./ChatSendImage";

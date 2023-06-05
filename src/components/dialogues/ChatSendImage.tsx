@@ -9,7 +9,6 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { CHATDOC } from "assets/home";
 import { useFormik } from "formik";
 import { useChange } from "hooks";
 import { useRef, useState } from "react";
@@ -23,7 +22,7 @@ interface Props {
   sendId?: string;
 }
 
-const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
+const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
   const [loading, setLoading] = useState(false);
   const fileRef = useRef<any>();
   const [isFile, setIsFile] = useState<any>(null);
@@ -31,7 +30,14 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
   const formik = useFormik({
     initialValues: { image: null, message: "" },
     validationSchema: yup.object().shape({
-      image: yup.mixed().required("Please select file"),
+      image: yup
+        .mixed()
+        .required("Please select an image")
+        .test(
+          "fileType",
+          "Only image files are allowed",
+          (value: any) => value && value.type.startsWith("image/")
+        ),
     }),
     onSubmit: async (values: any) => {
       if (values?.image) {
@@ -43,7 +49,7 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
           const res = await change(`chat/message/${sendId}`, {
             body: {
               link: url,
-              category: "file",
+              category: "image",
               message: values?.message,
             },
           });
@@ -116,7 +122,11 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
             className="min-h-[10rem] py-4 w-full cursor-pointer border-2 rounded-lg border-dashed border-theme-200 flex flex-col gap-2 items-center justify-center"
           >
             {formik?.values?.image ? (
-              <img className="h-24 object-contain" src={CHATDOC.src} alt="" />
+              <img
+                className="h-32 object-contain"
+                src={URL.createObjectURL(formik?.values?.image)}
+                alt=""
+              />
             ) : (
               <CloudUpload fontSize="large" />
             )}
@@ -150,4 +160,4 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
   );
 };
 
-export default ChatSendFiles;
+export default ChatSendImage;
