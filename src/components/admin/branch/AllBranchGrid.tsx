@@ -93,7 +93,6 @@ const MoreOption = ({ item, mutate }: any) => {
               await deleteFile(String(path));
             });
           }
-
           setLoading(false);
           if (res?.status !== 200) {
             Swal.fire(
@@ -114,7 +113,7 @@ const MoreOption = ({ item, mutate }: any) => {
       }
     });
   };
-  const handleBlock = async (e: any, userId: string) => {
+  const handleBlock = async (e: any, id: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to update status?",
@@ -125,7 +124,7 @@ const MoreOption = ({ item, mutate }: any) => {
       confirmButtonText: "Yes, update!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await change(`users/${userId}`, {
+        const res = await change(`branches/${id}`, {
           method: "PATCH",
           body: { isBlocked: !e.target?.checked },
         });
@@ -134,7 +133,7 @@ const MoreOption = ({ item, mutate }: any) => {
           Swal.fire(`Error`, "Something went wrong!", "error");
           return;
         }
-        Swal.fire(`Success`, "User Blocked successfully!!", "success");
+        Swal.fire(`Success`, "Branch status update successfully!!", "success");
         return;
       }
     });
