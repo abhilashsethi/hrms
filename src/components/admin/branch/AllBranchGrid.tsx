@@ -87,11 +87,11 @@ const MoreOption = ({ item, mutate }: any) => {
         try {
           Swal.fire("", "Please Wait...", "info");
           const res = await change(`branches/${item?.id}`, { method: "DELETE" });
-          const photoPaths = item?.photos?.split("/").reverse();
+          const photoPaths = item?.photos;
           if (photoPaths && photoPaths.length > 0) {
-            for (const path of photoPaths) {
+            photoPaths.forEach(async (path: any) => {
               await deleteFile(String(path));
-            }
+            });
           }
 
           setLoading(false);
@@ -104,13 +104,11 @@ const MoreOption = ({ item, mutate }: any) => {
             setLoading(false);
             return;
           }
-          mutate();
           Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+          mutate();
           return;
         } catch (error) {
           console.log(error);
-          setLoading(false);
-        } finally {
           setLoading(false);
         }
       }

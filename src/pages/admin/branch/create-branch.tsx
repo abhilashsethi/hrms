@@ -19,6 +19,7 @@ import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { countries } from "schemas/Countries";
 import { uploadFile } from "utils";
+import router from "next/router";
 const initialValues = {
   name: "",
   phone: "",
@@ -30,6 +31,9 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
+  country: Yup.string().required("Country Name is required!"),
+  location: Yup.string().required("Location is required!"),
+  managerId: Yup.string().required("Manager is required!"),
   name: Yup.string()
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name must be less than 50 characters")
@@ -52,10 +56,12 @@ const CreateBranch = () => {
   const { data: userData } = useFetch<any>(`users`);
   const { change } = useChange();
   const handleSubmit = async (values: any) => {
+    setLoading(true);
     try {
       console.log(values);
       const photoUrls = [];
       for (const photo of values?.photos) {
+        console.log(photo);
         const url = await uploadFile(photo, `${Date.now()}.png`);
         photoUrls.push(url);
       }
@@ -70,6 +76,7 @@ const CreateBranch = () => {
         setLoading(false);
         return;
       }
+      router?.push("/admin/branch/all-branch");
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
@@ -275,10 +282,18 @@ const CreateBranch = () => {
                         multiple
                         onChange={(event: any) => {
                           const files = Array.from(event.target.files);
-                          const fileObjects = files.map((file: any) => ({
-                            file,
-                            previewURL: URL.createObjectURL(file),
-                          }));
+                          const fileObjects = files.map((file: any) => {
+                            const uniId = file.type.split("/")[1].split("+")[0]; // Get unique ID of the image
+                            return {
+                              file,
+                              previewURL: URL.createObjectURL(file),
+                              uniId, // Add unique ID to the file object
+                            };
+                          });
+                          // const fileObjects = files.map((file: any) => ({
+                          //   file,
+                          //   previewURL: URL.createObjectURL(file),
+                          // }));
                           setFieldValue("photos", fileObjects);
                         }}
                       />

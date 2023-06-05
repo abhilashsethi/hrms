@@ -2,6 +2,7 @@ import { FileDownload, Visibility } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { ChatImagePreview } from "components/dialogues";
 import { useState } from "react";
+import { downloadFile } from "utils";
 
 interface Props {
   data?: any;
@@ -20,7 +21,7 @@ const ImageMessage = ({ data }: Props) => {
         <img
           className="h-full w-full rounded-md object-cover"
           src={data?.link}
-          alt=""
+          alt="image"
         />
         <div
           onClick={() => setIsPreview(true)}
@@ -31,7 +32,12 @@ const ImageMessage = ({ data }: Props) => {
       </div>
       <div className="flex justify-end mt-2">
         <Tooltip title="Download">
-          <IconButton size="small">
+          <IconButton
+            onClick={() =>
+              downloadFile(data?.link, data?.link?.split("/")?.at(-1) as any)
+            }
+            size="small"
+          >
             <FileDownload />
           </IconButton>
         </Tooltip>
