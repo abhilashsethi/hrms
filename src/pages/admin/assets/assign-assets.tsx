@@ -1,6 +1,13 @@
 import { useTheme } from "@material-ui/core";
 import { Add, Check, CloudUpload } from "@mui/icons-material";
-import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
+import {
+	Autocomplete,
+	Box,
+	Button,
+	CircularProgress,
+	InputLabel,
+	TextField,
+} from "@mui/material";
 import {
 	AdminBreadcrumbs,
 	FileUpload,
@@ -12,20 +19,24 @@ import { error } from "console";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import Swal from "sweetalert2";
 import * as Yup from "yup";
 const initialValues = {
 	assetName: "",
 	modelNo: "",
-	purchaseDate: "",
+
 	billAmount: "",
 	brandName: "",
 	marketPrice: "",
 	serialNo: "",
-	uploadDoc: [],
+	uploadDoc: "",
 	images: [],
+
+	assignedUser: "",
+	assignDate: "",
+	assignTime: "",
+	reason: "",
+	remarks: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -38,69 +49,29 @@ const validationSchema = Yup.object().shape({
 		.max(50, "Asset Name must be less than 50 characters")
 		.required("Asset Name is required!"),
 	modelNo: Yup.string().required("Model No is required!"),
-	purchaseDate: Yup.string().required("Purchase date is required!"),
+
 	billAmount: Yup.number().required("Bill amount is required!"),
 
 	serialNo: Yup.string().required("Serial No. is required!"),
-	// images: Yup.array().min(1, "Please upload at least one image"),
-	// .of(
-	// 	Yup.mixed().test(
-	// 		"fileFormat",
-	// 		"Unsupported file format",
-	// 		(value: any) => {
-	// 			if (value) {
-	// 				const supportedFormats = [
-	// 					"image/jpeg",
-	// 					"image/png",
-	// 					"image/jpg",
-	// 					"image/gif",
-	// 				];
-	// 				return supportedFormats.includes(value.type);
-	// 			}
-	// 			return true;
-	// 		}
-	// 	)
-	// ),
+	images: Yup.array().min(1, "Please upload at least one image"),
+	assignedUser: Yup.string().required("Assigned user is required!"),
+	assignDate: Yup.string().required("Assigned Date is required!"),
+	assignTime: Yup.string().required("Assigned Date is required!"),
+	reason: Yup.string().required("Reason is required!"),
+	remarks: Yup.string().required("Remarks is required!"),
 });
 
-const CreateAssets = () => {
-	const router = useRouter();
+const AssignAssets = () => {
 	const imageRef = useRef<HTMLInputElement | null>(null);
 	const theme = useTheme();
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConPassword, setShowConPassword] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const { data: userData } = useFetch<any>(`users`);
 	const { change, isChanging } = useChange();
+
 	const handleSubmit = async (values: any) => {
 		console.log(values);
-		// return;
-
-		try {
-			const res: any = await change(`assets`, {
-				body: {
-					name: values?.assetName,
-					purchasePrice: values?.billAmount,
-					brandName: values?.brandName,
-					marketPrice: values?.marketPrice,
-					modelName: values?.modelNo,
-					branchId: router?.query?.id,
-					dateOfPurchase: new Date(values?.dateOfPurchase).toISOString(),
-				},
-			});
-			setLoading(false);
-			if (res?.status !== 200) {
-				Swal.fire("Error", res?.results?.message || "Unable to Submit", "info");
-				setLoading(false);
-				return;
-			}
-			Swal.fire(`Success`, `You have successfully Created!`, `success`);
-			return;
-		} catch (error) {
-			console.log(error);
-			setLoading(false);
-		} finally {
-			setLoading(false);
-		}
 	};
 
 	return (
@@ -127,73 +98,127 @@ const CreateAssets = () => {
 							}) => (
 								<Form>
 									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
-										Create Assets
+										Assign Assets
 									</h1>
 									<div className="grid lg:grid-cols-2">
 										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="md:py-2 py-1">
-												<InputLabel htmlFor="assetName">
-													Asset Name <span className="text-red-600">*</span>
+											<div className="py-2">
+												<InputLabel htmlFor="name">
+													Assign User<span className="text-red-500">*</span>
 												</InputLabel>
 											</div>
-											<TextField
+											<Autocomplete
 												fullWidth
 												size="small"
-												id="assetName"
-												// placeholder="Name"
-												name="assetName"
-												value={values.assetName}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.assetName && !!errors.assetName}
-												helperText={touched.assetName && errors.assetName}
+												id="assignedUser"
+												options={userData || []}
+												getOptionLabel={(option: any) =>
+													option.name ? option.name : ""
+												}
+												isOptionEqualToValue={(option, value) =>
+													option.id === value.userId
+												}
+												value={
+													values?.assignedUser
+														? userData?.find(
+																(option: any) =>
+																	option.id === values.assignedUser
+														  )
+														: {}
+												}
+												onChange={(e: any, r: any) => {
+													setFieldValue("assignedUser", r?.id);
+												}}
+												renderOption={(props, option) => (
+													<Box
+														component="li"
+														sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+														{...props}
+													>
+														{option.name}
+													</Box>
+												)}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														placeholder="User Name"
+														onBlur={handleBlur}
+														error={
+															touched.assignedUser && !!errors.assignedUser
+														}
+														helperText={
+															touched.assignedUser && errors.assignedUser
+														}
+													/>
+												)}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="modelNo">
-													Model No. <span className="text-red-600">*</span>
+												<InputLabel htmlFor="assignDate">
+													Date Of Assign <span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
 												// placeholder="Email"
-												id="modelNo"
-												name="modelNo"
-												value={values.modelNo}
+												type="date"
+												id="assignDate"
+												name="assignDate"
+												value={values.assignDate}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.modelNo && !!errors.modelNo}
-												helperText={touched.modelNo && errors.modelNo}
+												error={touched.assignDate && !!errors.assignDate}
+												helperText={touched.assignDate && errors.assignDate}
 											/>
 										</div>
 
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="purchaseDate">
-													Date Of Purchase{" "}
+												<InputLabel htmlFor="assignTime">
+													Time Of Assign <span className="text-red-600">*</span>
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												// placeholder="Email"
+												type="time"
+												id="assignTime"
+												name="assignTime"
+												value={values.assignTime}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.assignTime && !!errors.assignTime}
+												helperText={touched.assignTime && errors.assignTime}
+											/>
+										</div>
+
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="reason">
+													Reason
 													<span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												type="date"
 												// placeholder="Employee ID"
-												id="purchaseDate"
-												name="purchaseDate"
-												value={values.purchaseDate}
+												id="reason"
+												name="reason"
+												value={values.reason}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.purchaseDate && !!errors.purchaseDate}
-												helperText={touched.purchaseDate && errors.purchaseDate}
+												error={touched.reason && !!errors.reason}
+												helperText={touched.reason && errors.reason}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										<div className="md:px-4 px-2 md:py-2 py-1 col-span-2">
 											<div className="py-2">
-												<InputLabel htmlFor="billAmount">
-													Bill Amount<span className="text-red-600">*</span>
+												<InputLabel htmlFor="remarks">
+													Remarks<span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
@@ -201,94 +226,22 @@ const CreateAssets = () => {
 												fullWidth
 												type="number"
 												// placeholder="Phone"
-												id="billAmount"
-												name="billAmount"
-												value={values.billAmount}
+												multiline
+												maxRows={3}
+												rows="4"
+												id="remarks"
+												name="remarks"
+												value={values.remarks}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.billAmount && !!errors.billAmount}
-												helperText={touched.billAmount && errors.billAmount}
-											/>
-										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="brandName">Brand Name</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												// placeholder="Phone"
-												id="brandName"
-												name="brandName"
-												value={values.brandName}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.brandName && !!errors.brandName}
-												helperText={touched.brandName && errors.brandName}
-											/>
-										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="marketPrice">
-													Current Market Price
-												</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												// placeholder="Phone"
-												id="marketPrice"
-												name="marketPrice"
-												value={values.marketPrice}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.marketPrice && !!errors.marketPrice}
-												helperText={touched.marketPrice && errors.marketPrice}
-											/>
-										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="serialNo">
-													Serial No<span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												// placeholder="Phone"
-												id="serialNo"
-												name="serialNo"
-												value={values.serialNo}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.serialNo && !!errors.serialNo}
-												helperText={touched.serialNo && errors.serialNo}
-											/>
-										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="uploadDoc">
-													Upload Document
-												</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												type="file"
-												// placeholder="Phone"
-												id="uploadDoc"
-												name="uploadDoc"
-												value={values.uploadDoc}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.uploadDoc && !!errors.uploadDoc}
-												helperText={touched.uploadDoc && errors.uploadDoc}
+												error={touched.remarks && !!errors.remarks}
+												helperText={touched.remarks && errors.remarks}
 											/>
 										</div>
 
 										<div className="col-span-2">
 											<p className="text-gray-500 mb-2">
-												Upload Multiple Images
+												Assigned Time Photos
 												<span className="text-red-600">*</span>
 											</p>
 											{/* ----------------------------multiple image component------------------ */}
@@ -354,8 +307,8 @@ const CreateAssets = () => {
 	);
 };
 
-export default CreateAssets;
+export default AssignAssets;
 
 const links = [
-	{ id: 1, page: "Create Assets", link: "/admin/assets/create-assets" },
+	{ id: 1, page: "Assign Assets", link: "/admin/assets/assign-assets" },
 ];
