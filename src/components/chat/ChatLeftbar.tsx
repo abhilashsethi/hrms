@@ -4,8 +4,6 @@ import {
   Group,
   GroupOutlined,
   MoreVert,
-  Notifications,
-  NotificationsOutlined,
   PermContactCalendar,
   PermContactCalendarOutlined,
   Search,
