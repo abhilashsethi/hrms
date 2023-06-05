@@ -47,16 +47,6 @@ const validationSchema = Yup.object().shape({
     .max(15),
   email: Yup.string()
     .email("Invalid email address"),
-  photo: Yup.mixed().required('Photo is required').test(
-    'fileType',
-    'Invalid file format',
-    (value: any) => {
-      if (value) {
-        return ['image/jpeg', 'image/jpg', 'image/png'].includes(value?.type);
-      }
-      return true;
-    }
-  ),
 
 });
 
@@ -71,6 +61,7 @@ const CreateBranch = () => {
       console.log(values);
       const photoUrls = [];
       for (const photo of values?.photos) {
+        console.log(photo);
         const url = await uploadFile(photo, `${Date.now()}.png`);
         photoUrls.push(url);
       }
@@ -291,10 +282,18 @@ const CreateBranch = () => {
                         multiple
                         onChange={(event: any) => {
                           const files = Array.from(event.target.files);
-                          const fileObjects = files.map((file: any) => ({
-                            file,
-                            previewURL: URL.createObjectURL(file),
-                          }));
+                          const fileObjects = files.map((file: any) => {
+                            const uniId = file.type.split("/")[1].split("+")[0]; // Get unique ID of the image
+                            return {
+                              file,
+                              previewURL: URL.createObjectURL(file),
+                              uniId, // Add unique ID to the file object
+                            };
+                          });
+                          // const fileObjects = files.map((file: any) => ({
+                          //   file,
+                          //   previewURL: URL.createObjectURL(file),
+                          // }));
                           setFieldValue("photos", fileObjects);
                         }}
                       />
