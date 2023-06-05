@@ -157,7 +157,7 @@ const MoreOption = ({ item, mutate }: any) => {
                   {item?.photos?.map((data: any, k: any) => (
                     <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                      src={data?.photo} alt="Branch" />
+                      src={data} alt="Branch" />
                   ))}
                 </Slider>
               </>
