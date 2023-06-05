@@ -24,28 +24,30 @@ interface Props {
 }
 
 const AddParticipants = ({ open, handleClose, profileData }: Props) => {
+  const [memberId, setMemberId] = useState<any>(null);
   const [activeMembers, setActiveMembers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [isCode, setIsCode] = useState<string | null>(null);
   const { change } = useChange();
   const { data: employeesData } = useFetch<User[]>(`users`);
-  console.log(profileData);
 
   useEffect(() => {
     const reqData: any = employeesData?.filter((obj) => {
-      return !profileData?.chatMembers?.find((item: any) => item.id === obj.id);
+      return !profileData?.chatMembers?.find(
+        (item: any) => item?.user?.id === obj.id
+      );
     });
     setActiveMembers(reqData);
   }, [profileData]);
 
   const handleAdd = async () => {
-    if (isCode) {
+    if (memberId) {
       try {
         setLoading(true);
-        const res = await change(`chat/message`, {
+        const res = await change(`chat/member/${profileData?.id}`, {
           body: {
-            message: isCode,
-            category: "code",
+            memberId: memberId,
+            role: "user",
           },
         });
         if (res?.status !== 200) {
@@ -57,7 +59,7 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
           setLoading(false);
           return;
         }
-        Swal.fire(`Success`, `Code sent successfully!`, `success`);
+        Swal.fire(`Success`, `Added successfully!`, `success`);
         setLoading(false);
         handleClose();
         setIsCode(null);
@@ -104,10 +106,10 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
       <DialogContent className="app-scrollbar" sx={{ p: 3 }}>
         <div className="md:w-[27rem] w-[72vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-2">
           <Autocomplete
-            multiple
             fullWidth
             options={activeMembers ? activeMembers : []}
             getOptionLabel={(option) => option.name}
+            onChange={(e, r) => setMemberId(r?.id)}
             renderOption={(props, option) => (
               <Box
                 component="li"
