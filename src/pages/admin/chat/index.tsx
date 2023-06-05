@@ -6,7 +6,11 @@ import { useEffect } from "react";
 
 const Chats = () => {
   //calling context on index page to get all the data at first
-  const { reValidatePrivateChat, reValidateGroupChat } = useChatData();
+  const {
+    reValidatePrivateChat,
+    reValidateGroupChat,
+    currentChatProfileDetails,
+  } = useChatData();
 
   useEffect(() => {
     (() => {
@@ -22,6 +26,7 @@ const Chats = () => {
         <section>
           <div className="h-[80vh] w-full rounded-md bg-white mt-4 shadow-md flex">
             <ChatLeftBar />
+
             <ChatRightSection />
           </div>
         </section>

@@ -343,8 +343,19 @@ const Contacts = () => {
       (searchText ? `&searchTitle=${searchText}` : "")
   );
 
-  const handleClickNewUser = (userId: string) => {
+  const { selectedChatId, setSelectedChatProfileDetails } = useChatData();
+
+  const handleClickNewUser = (user: User) => {
     try {
+      setSelectedChatProfileDetails?.({
+        chatMembers: [user],
+        isPrivateGroup: true,
+        photo: user?.photo,
+        title: user?.name,
+        totalMembers: 2,
+        isNewChat: true,
+        id: user?.id,
+      });
     } catch (error) {}
   };
 
@@ -363,8 +374,10 @@ const Contacts = () => {
         {employeesData?.users?.map((item) => (
           <div
             key={item?.id}
-            className="h-16 w-full hover:bg-slate-100 transition-all ease-in-out duration-200 cursor-pointer flex gap-2 items-center px-2 py-2"
-            onClick={() => handleClickNewUser(item?.id)}
+            className={` ${
+              selectedChatId === item?.id ? "bg-slate-100" : ""
+            } h-16 w-full hover:bg-slate-100 transition-all ease-in-out duration-200 cursor-pointer flex gap-2 items-center px-2 py-2`}
+            onClick={() => handleClickNewUser(item)}
           >
             <PhotoViewerSmall
               name={item?.name}

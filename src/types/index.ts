@@ -297,6 +297,7 @@ export interface IChatGroup {
   title: string;
   totalMembers: number;
   id: string;
+  isNewChat: boolean;
 }
 export interface IChatMember {
   isAdmin: boolean;
