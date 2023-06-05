@@ -34,7 +34,7 @@ const ChatLeftbar = () => {
   };
   return (
     <div className="w-[32%] h-full border-r-2 px-4 rounded-md">
-      <div className={`h-20 w-full flex justify-between items-center `}>
+      <div className={`h-20 w-full flex justify-between items-center px-8`}>
         {quickLinks?.map((item) => (
           <div
             onClick={() => setCurrentMenu(item?.title)}
@@ -92,12 +92,12 @@ const quickLinks = [
     optional: <SmsOutlined fontSize="small" className="" />,
     title: "New Chat",
   },
-  {
-    id: 3,
-    icon: <PermContactCalendar fontSize="small" className="!text-theme" />,
-    optional: <PermContactCalendarOutlined fontSize="small" className="" />,
-    title: "Contacts",
-  },
+  // {
+  //   id: 3,
+  //   icon: <PermContactCalendar fontSize="small" className="!text-theme" />,
+  //   optional: <PermContactCalendarOutlined fontSize="small" className="" />,
+  //   title: "Contacts",
+  // },
 ];
 
 const Chats = () => {
