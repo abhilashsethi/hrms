@@ -49,7 +49,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
   return (
     <>
       <section className="py-6 ">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6 items-center justify-center">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 items-center justify-center">
           {data?.map((item: any, index: any) => (
             <div key={index}>
               <MoreOption item={item} mutate={mutate} />
@@ -150,25 +150,28 @@ const MoreOption = ({ item, mutate }: any) => {
       <div key={item?.id} className="mb-4 w-full">
         <div className="group h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
-          {item?.photos?.length > 1 ? (
-            <>
-              <Slider {...settings} className="">
+          {item?.photos?.length ?
+            item?.photos?.length > 1 ? (
+              <>
+                <Slider {...settings} className="">
+                  {item?.photos?.map((data: any, k: any) => (
+                    <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                      src={data?.photo} alt="Branch" />
+                  ))}
+                </Slider>
+              </>
+            ) : (
+              <>
                 {item?.photos?.map((data: any, k: any) => (
                   <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                    src={data?.photo} alt="blog" />
+                    src={data?.photo} alt="Branch" />
                 ))}
-              </Slider>
-            </>
-          ) : (
-            <>
-              {item?.photos?.map((data: any, k: any) => (
-                <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+              </>
+            ) : <img className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                  src={data?.photo} alt="blog" />
-              ))}
-            </>
-          )}
+              src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />}
           <div className="py-1 pt-2 px-4">
             <h1 className="inline-block py-1 title-font text-xl font-extrabold 
                     text-gray-800 tracking-wide cursor-pointer">
@@ -180,7 +183,7 @@ const MoreOption = ({ item, mutate }: any) => {
                   <img src={MANAGER.src} className="w-8 pr-2" alt="" />
                   <span>Manager : </span>
                 </span>
-                {item?.manager}
+                {item?.manager?.name}
               </span>
             </p>
             <p className="text-gray-500 flex items-start">
@@ -204,22 +207,22 @@ const MoreOption = ({ item, mutate }: any) => {
               />
             </p>
 
-            <h2 className="py-1 pb-1 inline-block text-xs title-font font-semibold 
-                    text-red-400 uppercase tracking-widest hover:font-bold"
+            <h2 className="py-1 pb-1 inline-block text-xs 
+                    text-red-400"
             >
-              <span className="group flex text-sm items-center justify-center gap-2">
+              <span className="group flex text-xs items-center justify-center gap-2">
 
                 <img src={LOCATION.src} className="w-6 pr-2" alt="" />
-                {item?.location}
+                {item?.location || "---"}
               </span>
             </h2>
             <div className="flex bottom-0 ">
-              <span className="group w-full hover:bg-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
+              <span className="group w-full hover:bg-theme text-red-600 hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
                 <DeleteRounded fontSize="small" />
               </span>
               <span onClick={() => {
                 setIsUpdate({ dialogue: true, branchData: item });
-              }} className="group w-full hover:bg-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
+              }} className="group w-full hover:bg-theme text-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
                 <Edit fontSize="small" />
               </span>
               <div className="group w-full hover:bg-theme hover:text-white gap-2 flex border-2 px-2 py-1 items-center justify-center ">
