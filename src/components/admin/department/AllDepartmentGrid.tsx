@@ -36,7 +36,6 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
         setLoading(true);
         Swal.fire("", "Please Wait...", "info");
         try {
-          Swal.fire(`Info`, "It will take some time", "info");
           const res = await change(`departments/${id}`, { method: "DELETE" });
           setLoading(false);
           if (res?.status !== 200) {
