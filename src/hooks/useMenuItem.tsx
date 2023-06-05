@@ -261,6 +261,12 @@ export default () => {
 						icon: <ICONS.All_Assets />,
 						route: "/admin/assets/all-assets",
 					},
+					{
+						key: "7-3",
+						title: "Assign Asset",
+						icon: <ICONS.All_Assets />,
+						route: "/admin/assets/all-assets",
+					},
 				],
 			},
 			{

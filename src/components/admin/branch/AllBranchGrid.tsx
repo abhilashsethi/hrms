@@ -8,6 +8,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import Slider from "react-slick";
 import { DeleteRounded, Edit } from "@mui/icons-material";
+import { deleteFile } from "utils";
 interface Props {
   data?: any;
   mutate?: any;
@@ -65,17 +66,13 @@ export default AllBranchGrid;
 const MoreOption = ({ item, mutate }: any) => {
 
   const [loading, setLoading] = useState(false);
-  const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
-    dialogue: false,
-    role: null,
-  });
   const { change } = useChange();
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
     branchData?: string | null;
   }>({ dialogue: false, branchData: null });
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (item: any) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete?",
@@ -87,10 +84,16 @@ const MoreOption = ({ item, mutate }: any) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         setLoading(true);
-        Swal.fire("", "Please Wait...", "info");
         try {
-          Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`departments/${id}`, { method: "DELETE" });
+          Swal.fire("", "Please Wait...", "info");
+          const res = await change(`branches/${item?.id}`, { method: "DELETE" });
+          const photoPaths = item?.photos?.split("/").reverse();
+          if (photoPaths && photoPaths.length > 0) {
+            for (const path of photoPaths) {
+              await deleteFile(String(path));
+            }
+          }
+
           setLoading(false);
           if (res?.status !== 200) {
             Swal.fire(
@@ -217,7 +220,8 @@ const MoreOption = ({ item, mutate }: any) => {
               </span>
             </h2>
             <div className="flex bottom-0 ">
-              <span className="group w-full hover:bg-theme text-red-600 hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
+              <span onClick={() => handleDelete(item)}
+                className="group w-full hover:bg-theme text-red-600 hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
                 <DeleteRounded fontSize="small" />
               </span>
               <span onClick={() => {

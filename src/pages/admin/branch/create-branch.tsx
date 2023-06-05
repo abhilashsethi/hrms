@@ -54,29 +54,18 @@ const CreateBranch = () => {
   const handleSubmit = async (values: any) => {
     try {
       console.log(values);
-      // const imagesWithUniIds = values?.photos?.map((img: any) => ({
-      //   ...img,
-      //   uniId: img.type.split("/")[1].split("+")[0]
-      // }));
-      // console.log(imagesWithUniIds);
-      // return
-      // setLoading(true);
       const photoUrls = [];
-
       for (const photo of values?.photos) {
         const url = await uploadFile(photo, `${Date.now()}.png`);
         photoUrls.push(url);
       }
-
       console.log(photoUrls);
-      // const url = await uploadFile(values?.photos, `${Date.now()}.png`);
-
-      return
+      const ticketText = { name: values?.name, managerId: values?.managerId, phone: values?.phone, email: values?.email, country: values?.country, location: values?.location, photos: photoUrls, }
       const res: any = await change(`branches`, {
-        body: values,
+        body: ticketText,
       });
       setLoading(false);
-      if (res?.status !== 201) {
+      if (res?.status !== 200) {
         Swal.fire("Error", res?.results?.message || "Unable to Submit", "info");
         setLoading(false);
         return;

@@ -2,6 +2,7 @@ import {
   AttachFile,
   Code,
   ImageOutlined,
+  InsertLink,
   Send,
   SentimentSatisfiedAlt,
 } from "@mui/icons-material";
@@ -17,6 +18,7 @@ import ChatHead from "./ChatHead";
 import ChatMessage from "./ChatMessage";
 import DefaultChatView from "./DefaultChatView";
 import { MessageCategory } from "types";
+import ChatSendLink from "components/dialogues/ChatSendLink";
 
 interface Props {
   id?: number;
@@ -28,6 +30,7 @@ interface Props {
 const ChatRightSection = () => {
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
+  const [isLink, setIsLink] = useState(false);
   const [isImage, setIsImage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMessage, setIsMessage] = useState<string | null>(null);
@@ -104,6 +107,11 @@ const ChatRightSection = () => {
         handleClose={() => setIsCode(false)}
         sendId={currentChatProfileDetails?.id}
       />
+      <ChatSendLink
+        open={isLink}
+        handleClose={() => setIsLink(false)}
+        sendId={currentChatProfileDetails?.id}
+      />
       <div className="w-[68%] h-full">
         {!currentChatProfileDetails?.id ? (
           <DefaultChatView />
@@ -158,7 +166,7 @@ const ChatRightSection = () => {
               </div>
             </div>
             <div className="h-20 w-full border-2 flex items-center px-8 justify-between">
-              <div className="h-10 px-3 rounded-full w-4/5 border-2 flex justify-between items-center">
+              <div className="h-10 px-3 rounded-full w-[70%] border-2 flex justify-between items-center">
                 <div className="flex gap-2 items-center w-full">
                   {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
                   <input
@@ -193,6 +201,11 @@ const ChatRightSection = () => {
               <Tooltip title="Code">
                 <IconButton onClick={() => setIsCode(true)} size="small">
                   <Code />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Insert link">
+                <IconButton onClick={() => setIsLink(true)} size="small">
+                  <InsertLink />
                 </IconButton>
               </Tooltip>
             </div>

@@ -2,6 +2,7 @@ import {
   Delete,
   DoneAll,
   FileDownloadOutlined,
+  InsertLink,
   MoreHoriz,
   Reply,
 } from "@mui/icons-material";
@@ -18,6 +19,7 @@ import { sample } from "utils";
 import ImageMessage from "./ImageMessage";
 import { IChatMessages } from "types";
 import Swal from "sweetalert2";
+import Link from "next/link";
 
 interface textProps {
   data?: any;
@@ -48,7 +50,11 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
         onClose={() => setIsReactions(false)}
         chatData={data}
       />
-      <ChatSeen open={isSeen} onClose={() => setIsSeen(false)} />
+      <ChatSeen
+        chatData={data}
+        open={isSeen}
+        onClose={() => setIsSeen(false)}
+      />
 
       <div className="max-w-[70%] min-w-[30%] flex gap-1">
         <div className="w-[15%] h-10 flex justify-center items-start">
@@ -102,7 +108,9 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
               ) : data?.category === "code" ? (
                 <CodeFormat data={data} />
               ) : data?.category === "file" ? (
-                <DocFormat />
+                <DocFormat data={data} />
+              ) : data?.category === "link" ? (
+                <LinkFormat data={data} />
               ) : (
                 ""
               )}
@@ -133,7 +141,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
 };
 
 export default ChatMessage;
-const DocFormat = () => {
+const DocFormat = ({ data }: any) => {
   return (
     <div className="flex gap-2 items-center">
       <img className="h-12 object-contain" src={CHATDOC.src} alt="" />
@@ -267,5 +275,16 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
         </div>
       </div>
     </>
+  );
+};
+
+const LinkFormat = ({ data }: any) => {
+  return (
+    <div className="flex gap-2 items-start">
+      <InsertLink />{" "}
+      <Link target="_blank" href={data?.text}>
+        <h1 className="cursor-pointer">{data?.text}</h1>
+      </Link>
+    </div>
   );
 };
