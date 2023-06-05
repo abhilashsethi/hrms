@@ -169,7 +169,9 @@ const MoreOption = ({ item, mutate }: any) => {
                     src={data?.photo} alt="blog" />
                 ))}
               </>
-            ) : <>no image</>}
+            ) : <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+              src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="blog" />}
           <div className="py-1 pt-2 px-4">
             <h1 className="inline-block py-1 title-font text-xl font-extrabold 
                     text-gray-800 tracking-wide cursor-pointer">
