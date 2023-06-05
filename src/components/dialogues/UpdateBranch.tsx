@@ -18,6 +18,7 @@ import { useState } from "react";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { Role } from "types";
+import { countries } from "schemas/Countries";
 
 interface Props {
   open: any;
@@ -194,18 +195,51 @@ const UpdateBranch = ({
               error={formik.touched.location && !!formik.errors.location}
               helperText={formik.touched.location && formik.errors.location}
             />
-            <TextField
-              fullWidth
-              placeholder="Enter Country"
-              name="country"
-              value={formik.values.country}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.country && !!formik.errors.country}
-              helperText={formik.touched.country && formik.errors.country}
-            />
-
-
+            <div className="w-full">
+              <p className="text-theme font-semibold my-2">
+                Country <span className="text-red-600">*</span>
+              </p>
+              <Autocomplete
+                options={countries}
+                autoHighlight
+                value={formik.values?.country as any}
+                fullWidth
+                onChange={(e, r: any) =>
+                  formik.setFieldValue("country", r?.label)
+                }
+                renderOption={(props, option: any) => (
+                  <Box
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    {...props}
+                  >
+                    <img
+                      loading="lazy"
+                      width="20"
+                      src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                      srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                      alt=""
+                    />
+                    {option?.label}
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Choose a country"
+                    name="country"
+                    error={
+                      formik.touched?.country && Boolean(formik.errors?.country)
+                    }
+                    onBlur={formik.handleBlur}
+                    helperText={formik.touched?.country && formik.errors?.country}
+                    inputProps={{
+                      ...params.inputProps,
+                    }}
+                  />
+                )}
+              />
+            </div>
             <Button
               type="submit"
               fullWidth
