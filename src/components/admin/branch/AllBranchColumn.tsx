@@ -55,7 +55,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             tooltip: "Manager",
             render: (data) => {
               return (
-                <span>{data?.manger?.name}</span>
+                <span>{data?.manager?.name}</span>
               );
             },
           },
