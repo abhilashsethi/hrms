@@ -53,7 +53,7 @@ const CreateBranch = () => {
   const handleSubmit = async (values: any) => {
     try {
       console.log(values);
-      const imagesWithUniIds = values?.image?.map((img: any) => ({
+      const imagesWithUniIds = values?.photos?.map((img: any) => ({
         ...img,
         uniId: img.type.split("/")[1].split("+")[0]
       }));
