@@ -1,4 +1,4 @@
-import { Check, Close } from "@mui/icons-material";
+import { Check, Close, CloudUpload } from "@mui/icons-material";
 import {
   Autocomplete,
   Box,
@@ -12,9 +12,9 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useFormik } from "formik";
+import { ErrorMessage, useFormik } from "formik";
 import * as yup from "yup";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { Role } from "types";
@@ -34,6 +34,7 @@ const UpdateBranch = ({
   branchData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
+  const imageRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
   const { data: userData } = useFetch<any>(`users`);
   const formik = useFormik({
@@ -44,7 +45,7 @@ const UpdateBranch = ({
       country: `${branchData?.country ? branchData?.country : ""}`,
       location: `${branchData?.location ? branchData?.location : ""}`,
       managerId: `${branchData?.managerId ? branchData?.managerId : ""}`,
-      photos: `${branchData?.photos ? branchData?.photos : []}`,
+      photos: branchData?.photos ? branchData?.photos : [],
     },
     enableReinitialize: true,
     validationSchema: yup.object({ name: yup.string().required("Required!") }),
@@ -262,6 +263,61 @@ const UpdateBranch = ({
                   />
                 )}
               />
+            </div>
+            {/* ----------------------------multiple image component------------------ */}
+            <div className="md:px-4 px-2 md:py-2 py-1">
+              <div className="py-2">
+                <InputLabel htmlFor="image">
+                  Update Images
+                </InputLabel>
+              </div>
+              <div
+                onClick={() => imageRef?.current?.click()}
+                className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
+              >
+                <input
+                  className="hidden"
+                  ref={imageRef}
+                  type="file"
+                  multiple
+                  onChange={(event: any) => {
+                    const files = Array.from(event.target.files);
+                    const fileObjects = files.map((file: any) => {
+                      const uniId = file.type.split("/")[1].split("+")[0]; // Get unique ID of the image
+                      const imageURL = URL.createObjectURL(file); // Get the image URL
+                      return {
+                        file,
+                        previewURL: imageURL,
+                        uniId, // Add unique ID to the file object
+                        imageURL, // Add the image URL to the file object
+                      };
+                    });
+                    // const fileObjects = files.map((file: any) => ({
+                    //   file,
+                    //   previewURL: URL.createObjectURL(file),
+                    // }));
+                    formik.setFieldValue("photos", fileObjects);
+                  }}
+                />
+                <div className="flex justify-center items-center gap-2 flex-wrap">
+                  {formik.values.photos.map((image: any, index: any) => (
+                    <div className="" key={index}>
+                      <img
+                        className="w-40 object-contain"
+                        src={image.previewURL}
+                        alt={`Image ${index + 1}`}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <p>Upload Images</p>
+                <CloudUpload fontSize="large" color="primary" />
+                <ErrorMessage
+                  name="photos"
+                  component="div"
+                  className="error"
+                />
+              </div>
             </div>
             <Button
               type="submit"

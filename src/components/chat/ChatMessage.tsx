@@ -2,6 +2,7 @@ import {
   Delete,
   DoneAll,
   FileDownloadOutlined,
+  InsertLink,
   MoreHoriz,
   Reply,
 } from "@mui/icons-material";
@@ -14,10 +15,11 @@ import { useAuth, useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
-import { sample } from "utils";
+import { downloadFile, sample } from "utils";
 import ImageMessage from "./ImageMessage";
 import { IChatMessages } from "types";
 import Swal from "sweetalert2";
+import Link from "next/link";
 
 interface textProps {
   data?: any;
@@ -106,7 +108,9 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
               ) : data?.category === "code" ? (
                 <CodeFormat data={data} />
               ) : data?.category === "file" ? (
-                <DocFormat />
+                <DocFormat data={data} />
+              ) : data?.category === "link" ? (
+                <LinkFormat data={data} />
               ) : (
                 ""
               )}
@@ -137,14 +141,19 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
 };
 
 export default ChatMessage;
-const DocFormat = () => {
+const DocFormat = ({ data }: any) => {
   return (
     <div className="flex gap-2 items-center">
       <img className="h-12 object-contain" src={CHATDOC.src} alt="" />
       <div className="flex w-4/5 justify-between items-center">
-        <h1>AllData.csv</h1>
+        <h1>Document</h1>
         <Tooltip title="Download">
-          <IconButton size="small">
+          <IconButton
+            onClick={() =>
+              downloadFile(data?.link, data?.link?.split("/")?.at(-1) as any)
+            }
+            size="small"
+          >
             <FileDownloadOutlined />
           </IconButton>
         </Tooltip>
@@ -271,5 +280,16 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
         </div>
       </div>
     </>
+  );
+};
+
+const LinkFormat = ({ data }: any) => {
+  return (
+    <div className="flex gap-2 items-start">
+      <InsertLink />
+      <Link target="_blank" href={data?.text}>
+        <h1 className="cursor-pointer">{data?.text}</h1>
+      </Link>
+    </div>
   );
 };

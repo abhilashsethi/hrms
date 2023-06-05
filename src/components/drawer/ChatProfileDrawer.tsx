@@ -62,7 +62,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
           break;
         case 1:
           const blockUser = await change(
-            `chat/member/${
+            `chat/block/${
               profileData?.chatMembers?.find(
                 (item) => item?.user?.id === user?.id
               )?.id
@@ -71,7 +71,6 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               method: "PATCH",
               body: {
                 isBlocked: true,
-                BASE_URL,
               },
             }
           );

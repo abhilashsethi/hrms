@@ -10,6 +10,7 @@ import {
   CreateInvalidationCommand,
 } from "@aws-sdk/client-cloudfront";
 import moment from "moment";
+import fileDownload from "js-file-download";
 
 const awsCredentials = {
   region: "ap-south-1",
@@ -218,10 +219,7 @@ export const downloadFile = (url: string, name: string) => {
   fetch(url)
     .then((response) => response.blob())
     .then((blob) => {
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = name;
-      link.click();
+      return fileDownload(blob, name);
     })
     .catch(console.error);
 };
