@@ -108,22 +108,25 @@ const UpdateBranch = ({
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
         <div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
           <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-            <TextField
-              fullWidth
-              placeholder="Enter Branch Name"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.name && !!formik.errors.name}
-              helperText={formik.touched.name && formik.errors.name}
-            />
-            <div className="md:px-4 px-2 md:py-2 py-1">
-              <div className="py-2">
-                <InputLabel htmlFor="manager">
-                  Assign Manager
-                </InputLabel>
-              </div>
+            <div className="w-full">
+              <p className="text-theme font-semibold">
+                Branch Name <span className="text-red-600">*</span>
+              </p>
+              <TextField
+                fullWidth
+                placeholder="Enter Branch Name"
+                name="name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.name && !!formik.errors.name}
+                helperText={formik.touched.name && formik.errors.name}
+              />
+            </div>
+            <div className="w-full">
+              <p className="text-theme font-semibold">
+                Assign Manager <span className="text-red-600">*</span>
+              </p>
               <Autocomplete
                 fullWidth
                 size="small"
@@ -165,38 +168,53 @@ const UpdateBranch = ({
                 )}
               />
             </div>
-            <TextField
-              fullWidth
-              placeholder="Phone"
-              name="phone"
-              value={formik.values.phone}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.phone && !!formik.errors.phone}
-              helperText={formik.touched.phone && formik.errors.phone}
-            />
-            <TextField
-              fullWidth
-              placeholder="Email"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && !!formik.errors.email}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-            <TextField
-              fullWidth
-              placeholder="Enter Location"
-              name="location"
-              value={formik.values.location}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.location && !!formik.errors.location}
-              helperText={formik.touched.location && formik.errors.location}
-            />
             <div className="w-full">
-              <p className="text-theme font-semibold my-2">
+              <p className="text-theme font-semibold">
+                Phone
+              </p>
+              <TextField
+                fullWidth
+                placeholder="Phone"
+                name="phone"
+                value={formik.values.phone}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.phone && !!formik.errors.phone}
+                helperText={formik.touched.phone && formik.errors.phone}
+              />
+            </div>
+            <div className="w-full">
+              <p className="text-theme font-semibold">
+                Email
+              </p>
+              <TextField
+                fullWidth
+                placeholder="Email"
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.email && !!formik.errors.email}
+                helperText={formik.touched.email && formik.errors.email}
+              />
+            </div>
+            <div className="w-full">
+              <p className="text-theme font-semibold">
+                Location
+              </p>
+              <TextField
+                fullWidth
+                placeholder="Enter Location"
+                name="location"
+                value={formik.values.location}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.location && !!formik.errors.location}
+                helperText={formik.touched.location && formik.errors.location}
+              />
+            </div>
+            <div className="w-full">
+              <p className="text-theme font-semibold">
                 Country <span className="text-red-600">*</span>
               </p>
               <Autocomplete
