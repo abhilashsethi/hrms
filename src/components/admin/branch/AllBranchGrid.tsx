@@ -150,25 +150,26 @@ const MoreOption = ({ item, mutate }: any) => {
       <div key={item?.id} className="mb-4 w-full">
         <div className="group h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
-          {item?.photos?.length > 1 ? (
-            <>
-              <Slider {...settings} className="">
+          {item?.photos?.length ?
+            item?.photos?.length > 1 ? (
+              <>
+                <Slider {...settings} className="">
+                  {item?.photos?.map((data: any, k: any) => (
+                    <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                      src={data?.photo} alt="blog" />
+                  ))}
+                </Slider>
+              </>
+            ) : (
+              <>
                 {item?.photos?.map((data: any, k: any) => (
                   <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
                     src={data?.photo} alt="blog" />
                 ))}
-              </Slider>
-            </>
-          ) : (
-            <>
-              {item?.photos?.map((data: any, k: any) => (
-                <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
-                  src={data?.photo} alt="blog" />
-              ))}
-            </>
-          )}
+              </>
+            ) : <>no image</>}
           <div className="py-1 pt-2 px-4">
             <h1 className="inline-block py-1 title-font text-xl font-extrabold 
                     text-gray-800 tracking-wide cursor-pointer">
