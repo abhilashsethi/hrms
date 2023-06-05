@@ -100,7 +100,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             setLoading(true);
             Swal.fire("", "Please Wait...", "info");
             try {
-              const res = await change(`departments/${oldData.id}`, {
+              const res = await change(`branches/${oldData.id}`, {
                 method: "DELETE",
               });
               setLoading(false);
@@ -124,7 +124,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             }
           },
           onRowUpdate: async (newData) => {
-            const res = await change(`departments/${newData?.id}`, {
+            const res = await change(`branches/${newData?.id}`, {
               method: "PATCH",
               body: { name: newData?.name },
             });
@@ -143,29 +143,4 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
 };
 
 export default AllBranchColumn;
-const department = [
-  {
-    id: 0,
-    name: "Web Development",
-    updatedAt: "25th Aug",
-    createdAt: "25th Aug",
-  },
-  {
-    id: 1,
-    name: "Application Development",
-    updatedAt: "25th Aug",
-    createdAt: "25th Aug",
-  },
-  {
-    id: 2,
-    name: "IT Management",
-    updatedAt: "25th Aug",
-    createdAt: "25th Aug",
-  },
-  {
-    id: 3,
-    name: "Accounts Management",
-    updatedAt: "25th Aug",
-    createdAt: "25th Aug",
-  },
-];
+
