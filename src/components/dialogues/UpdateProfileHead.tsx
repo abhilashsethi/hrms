@@ -273,15 +273,6 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           onChange={(e: any, r: any) => {
                             setFieldValue("roleId", r?.id);
                           }}
-                          renderOption={(props, option) => (
-                            <Box
-                              component="li"
-                              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                              {...props}
-                            >
-                              {option.name}
-                            </Box>
-                          )}
                           renderInput={(params) => (
                             <TextField
                               {...params}

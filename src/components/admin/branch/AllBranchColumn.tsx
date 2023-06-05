@@ -1,7 +1,7 @@
 import MaterialTable from "@material-table/core";
 import { Info, PeopleRounded } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
-import { HeadStyle } from "components/core";
+import { HeadStyle, ReverseIOSSwitch } from "components/core";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
@@ -40,32 +40,44 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             width: "2%",
           },
           {
-            title: "Department",
-            tooltip: "Department",
+            title: "Branch Name",
+            tooltip: "Branch Name",
             field: "name",
           },
           {
-            title: "Total Members",
-            tooltip: "Total Members",
-            // field: "data._count?.users",
-            render: (data) => {
-              return <div className="">{data?._count?.users}</div>;
-            },
+            title: "Manager",
+            tooltip: "Manager",
+            field: "manager",
           },
           {
-            title: "Details",
-            field: "name",
-            render: (data) => {
+            title: "Email",
+            tooltip: "Email",
+            field: "email",
+          },
+          {
+            title: "Phone",
+            tooltip: "Phone",
+            field: "phone",
+          },
+          {
+            title: "Country",
+            tooltip: "Country",
+            field: "country",
+          },
+          {
+            title: "Location",
+            tooltip: "Location",
+            field: "location",
+          },
+          {
+            title: "Status",
+            tooltip: "Status",
+            render: (item) => {
               return (
-                <Tooltip title="Details">
-                  <div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-                    <IconButton
-                      onClick={() => setIsInfo({ dialogue: true, role: data })}
-                    >
-                      <Info className="!text-white" />
-                    </IconButton>
-                  </div>
-                </Tooltip>
+                <ReverseIOSSwitch size="small"
+                  checked={item?.isBlocked}
+                // onChange={(e) => handleBlock(e, item?.id)}
+                />
               );
             },
             editable: "never",
@@ -88,7 +100,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             setLoading(true);
             Swal.fire("", "Please Wait...", "info");
             try {
-              const res = await change(`departments/${oldData.id}`, {
+              const res = await change(`branches/${oldData.id}`, {
                 method: "DELETE",
               });
               setLoading(false);
@@ -112,7 +124,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             }
           },
           onRowUpdate: async (newData) => {
-            const res = await change(`departments/${newData?.id}`, {
+            const res = await change(`branches/${newData?.id}`, {
               method: "PATCH",
               body: { name: newData?.name },
             });
@@ -131,29 +143,4 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
 };
 
 export default AllBranchColumn;
-const department = [
-  {
-    id: 0,
-    name: "Web Development",
-    updatedAt: "25th Aug",
-    createdAt: "25th Aug",
-  },
-  {
-    id: 1,
-    name: "Application Development",
-    updatedAt: "25th Aug",
-    createdAt: "25th Aug",
-  },
-  {
-    id: 2,
-    name: "IT Management",
-    updatedAt: "25th Aug",
-    createdAt: "25th Aug",
-  },
-  {
-    id: 3,
-    name: "Accounts Management",
-    updatedAt: "25th Aug",
-    createdAt: "25th Aug",
-  },
-];
+
