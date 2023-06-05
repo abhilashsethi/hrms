@@ -77,38 +77,38 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             editable: "never",
             width: "2%",
           },
-          {
-            title: "Photos",
-            tooltip: "Photos",
-            render: (data) => {
-              return (
-                <>
-                  {data?.photos?.length ?
-                    data?.photos?.length > 1 ? (
-                      <>
-                        <Slider {...settings} className="">
-                          {data?.photos?.map((data: any, k: any) => (
-                            <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
-                              src={data?.photo} alt="Branch" />
-                          ))}
-                        </Slider>
-                      </>
-                    ) : (
-                      <>
-                        {data?.photos?.map((data: any, k: any) => (
-                          <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
-                            src={data?.photo} alt="Branch" />
-                        ))}
-                      </>
-                    ) : <img className="lg:h-48 md:h-36 w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
-                      src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />}
-                </>
-              );
-            },
-          },
+          // {
+          //   title: "Photos",
+          //   tooltip: "Photos",
+          //   render: (data) => {
+          //     return (
+          //       <>
+          //         {data?.photos?.length ?
+          //           data?.photos?.length > 1 ? (
+          //             <>
+          //               <Slider {...settings} className="">
+          //                 {data?.photos?.map((data: any, k: any) => (
+          //                   <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+          //               transition duration-500 ease-in-out transform group-hover:scale-105"
+          //                     src={data?.photo} alt="Branch" />
+          //                 ))}
+          //               </Slider>
+          //             </>
+          //           ) : (
+          //             <>
+          //               {data?.photos?.map((data: any, k: any) => (
+          //                 <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+          //               transition duration-500 ease-in-out transform group-hover:scale-105"
+          //                   src={data?.photo} alt="Branch" />
+          //               ))}
+          //             </>
+          //           ) : <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+          //               transition duration-500 ease-in-out transform group-hover:scale-105"
+          //             src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />}
+          //       </>
+          //     );
+          //   },
+          // },
           {
             title: "Branch Name",
             tooltip: "Branch Name",
