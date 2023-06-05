@@ -26,6 +26,7 @@ const AllBranch = () => {
   const [isCreate, setIsCreate] = useState(false);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [userName, setUsername] = useState<string | null>(null);
+  const [location, setLocation] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
 
   const {
@@ -34,7 +35,8 @@ const AllBranch = () => {
     isLoading,
     pagination,
   } = useFetch<any>(
-    `departments?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
+    `branches?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""
+    }${location ? `&location=${location}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
 
@@ -91,8 +93,8 @@ const AllBranch = () => {
                   setUsername(null);
                 }}
               >
-                <Tooltip title={isOrderBy != null || userName != null ? `Remove Filters` : `Filter`}>
-                  {isOrderBy != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                <Tooltip title={isOrderBy != null || userName != null || location != null ? `Remove Filters` : `Filter`}>
+                  {isOrderBy != null || userName != null || location != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
                 </Tooltip>
               </IconButton>
             </div>
@@ -105,6 +107,15 @@ const AllBranch = () => {
                 value={userName ? userName : ""}
                 onChange={(e) => { setPageNumber(1), setUsername(e.target.value) }}
                 placeholder="Branch Name"
+                name="name"
+              />
+              <TextField
+                fullWidth
+                size="small"
+                id="name"
+                value={location ? location : ""}
+                onChange={(e) => { setPageNumber(1), setLocation(e.target.value) }}
+                placeholder="Branch Location"
                 name="name"
               />
               <TextField

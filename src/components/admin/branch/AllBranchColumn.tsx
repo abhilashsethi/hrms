@@ -1,7 +1,8 @@
 import MaterialTable from "@material-table/core";
-import { Info, PeopleRounded } from "@mui/icons-material";
+import { Edit, Info, PeopleRounded } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { HeadStyle, ReverseIOSSwitch } from "components/core";
+import { UpdateBranch } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
@@ -19,13 +20,18 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
     dialogue: false,
     role: null,
   });
+  const [isUpdate, setIsUpdate] = useState<{
+    dialogue?: boolean;
+    branchData?: string | null;
+  }>({ dialogue: false, branchData: null });
 
   return (
     <section className="mt-8">
-      <DepartmentInformation
-        open={isInfo?.dialogue}
-        onClose={() => setIsInfo({ dialogue: false })}
-        roleId={isInfo?.role?.id}
+      <UpdateBranch
+        branchData={isUpdate?.branchData}
+        open={isUpdate?.dialogue}
+        handleClose={() => setIsUpdate({ dialogue: false })}
+        mutate={mutate}
       />
       <MaterialTable
         title={<HeadStyle name="All Branch" icon={<PeopleRounded />} />}
@@ -47,7 +53,11 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
           {
             title: "Manager",
             tooltip: "Manager",
-            field: "manager",
+            render: (data) => {
+              return (
+                <span>{data?.manager?.name}</span>
+              );
+            },
           },
           {
             title: "Email",
@@ -72,16 +82,17 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
           {
             title: "Status",
             tooltip: "Status",
-            render: (item) => {
+            render: (data) => {
               return (
                 <ReverseIOSSwitch size="small"
-                  checked={item?.isBlocked}
+                  checked={data?.isBlocked}
                 // onChange={(e) => handleBlock(e, item?.id)}
                 />
               );
             },
             editable: "never",
           },
+
           {
             title: "Last Updated",
             field: "updatedAt",
@@ -92,6 +103,20 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             title: "Created",
             field: "createdAt",
             render: (data) => new Date(data.createdAt).toDateString(),
+            editable: "never",
+          },
+          {
+            title: "Update",
+            tooltip: "update",
+            render: (item) => {
+              return (
+                <span onClick={() => {
+                  setIsUpdate({ dialogue: true, branchData: item });
+                }} className="group w-full hover:bg-theme text-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
+                  <Edit fontSize="small" />
+                </span>
+              );
+            },
             editable: "never",
           },
         ]}
@@ -122,19 +147,6 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             } finally {
               setLoading(false);
             }
-          },
-          onRowUpdate: async (newData) => {
-            const res = await change(`branches/${newData?.id}`, {
-              method: "PATCH",
-              body: { name: newData?.name },
-            });
-            mutate();
-            if (res?.status !== 200) {
-              Swal.fire(`Error`, "Something went wrong!", "error");
-              return;
-            }
-            Swal.fire(`Success`, "Updated Successfully!", "success");
-            return;
           },
         }}
       />

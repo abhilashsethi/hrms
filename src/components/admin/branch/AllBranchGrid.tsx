@@ -157,7 +157,7 @@ const MoreOption = ({ item, mutate }: any) => {
                   {item?.photos?.map((data: any, k: any) => (
                     <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                      src={data?.photo} alt="blog" />
+                      src={data?.photo} alt="Branch" />
                   ))}
                 </Slider>
               </>
@@ -166,10 +166,12 @@ const MoreOption = ({ item, mutate }: any) => {
                 {item?.photos?.map((data: any, k: any) => (
                   <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                    src={data?.photo} alt="blog" />
+                    src={data?.photo} alt="Branch" />
                 ))}
               </>
-            ) : <>no image</>}
+            ) : <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+              src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />}
           <div className="py-1 pt-2 px-4">
             <h1 className="inline-block py-1 title-font text-xl font-extrabold 
                     text-gray-800 tracking-wide cursor-pointer">
@@ -181,7 +183,7 @@ const MoreOption = ({ item, mutate }: any) => {
                   <img src={MANAGER.src} className="w-8 pr-2" alt="" />
                   <span>Manager : </span>
                 </span>
-                {item?.manager}
+                {item?.manager?.name}
               </span>
             </p>
             <p className="text-gray-500 flex items-start">
@@ -211,7 +213,7 @@ const MoreOption = ({ item, mutate }: any) => {
               <span className="group flex text-xs items-center justify-center gap-2">
 
                 <img src={LOCATION.src} className="w-6 pr-2" alt="" />
-                {item?.location}
+                {item?.location || "---"}
               </span>
             </h2>
             <div className="flex bottom-0 ">
