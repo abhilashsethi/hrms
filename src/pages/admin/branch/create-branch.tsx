@@ -1,8 +1,6 @@
 import {
   Check,
   CloudUpload,
-  Visibility,
-  VisibilityOff,
 } from "@mui/icons-material";
 import {
   Autocomplete,
@@ -32,7 +30,6 @@ const initialValues = {
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
-    .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
     .min(2, "Name must be at least 2 characters")
     .max(50, "Name must be less than 50 characters")
     .required("Name is required!"),
@@ -55,6 +52,8 @@ const CreateBranch = () => {
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
     try {
+      console.log(values);
+      return
       setLoading(true);
       const res: any = await change(`branches`, {
         body: values,
