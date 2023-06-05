@@ -6,10 +6,10 @@ import {
   KeyboardArrowRight,
   Logout,
 } from "@mui/icons-material";
-import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
+import { Button, Container, Drawer, IconButton, Tooltip } from "@mui/material";
 import { ChatMedia } from "components/chat";
 import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
-import { ChatDescription } from "components/dialogues";
+import { AddParticipants, ChatDescription } from "components/dialogues";
 import { BASE_URL, useAuth, useChange } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -21,10 +21,10 @@ type Props = {
   profileData?: Partial<IChatGroup>;
 };
 const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
+  const [isAdd, setIsAdd] = useState(false);
   const [isDescription, setIsDescription] = useState(false);
   const [isMedia, setIsMedia] = useState(false);
   const { user } = useAuth();
-
   const { change } = useChange();
 
   const handleGroupAction = async (configId: number) => {
@@ -108,6 +108,11 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
         open={isDescription}
         handleClose={() => setIsDescription(false)}
       />
+      <AddParticipants
+        profileData={profileData}
+        open={isAdd}
+        handleClose={() => setIsAdd(false)}
+      />
       <Drawer
         anchor="right"
         open={open}
@@ -148,13 +153,13 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                   <h1 className="font-semibold">{profileData?.title}</h1>
                   {!profileData?.isPrivateGroup ? (
                     <h1 className="flex">
-                      Group{" "}
+                      Group
                       <span className="ml-2">
                         {
                           profileData?.chatMembers?.filter(
                             (item) => !item?.isPastMember
                           )?.length
-                        }{" "}
+                        }
                         Participants
                       </span>
                     </h1>
@@ -193,7 +198,17 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                 )}
               {!profileData?.isPrivateGroup ? (
                 <div>
-                  <SectionTitle title="Participants" />
+                  <div className="flex items-center justify-between pr-4">
+                    <SectionTitle title="Participants" />
+                    <Button
+                      onClick={() => setIsAdd(true)}
+                      variant="contained"
+                      className="!bg-theme"
+                      size="small"
+                    >
+                      Add Participants
+                    </Button>
+                  </div>
                   <div className="px-4 py-3 flex flex-col gap-1">
                     {profileData?.chatMembers
                       ?.filter((item) => !item?.isPastMember)
