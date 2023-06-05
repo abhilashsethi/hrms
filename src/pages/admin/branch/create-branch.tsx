@@ -47,16 +47,6 @@ const validationSchema = Yup.object().shape({
     .max(15),
   email: Yup.string()
     .email("Invalid email address"),
-  photo: Yup.mixed().required('Photo is required').test(
-    'fileType',
-    'Invalid file format',
-    (value: any) => {
-      if (value) {
-        return ['image/jpeg', 'image/jpg', 'image/png'].includes(value?.type);
-      }
-      return true;
-    }
-  ),
 
 });
 
