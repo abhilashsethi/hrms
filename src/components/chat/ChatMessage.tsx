@@ -281,7 +281,7 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
 const LinkFormat = ({ data }: any) => {
   return (
     <div className="flex gap-2 items-start">
-      <InsertLink />{" "}
+      <InsertLink />
       <Link target="_blank" href={data?.text}>
         <h1 className="cursor-pointer">{data?.text}</h1>
       </Link>

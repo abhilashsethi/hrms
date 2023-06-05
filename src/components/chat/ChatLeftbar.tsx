@@ -67,7 +67,7 @@ const ChatLeftbar = () => {
           </div>
         ))}
       </div>
-      {ActiveSection(currentMenu)}
+      <div>{ActiveSection(currentMenu)}</div>
     </div>
   );
 };
@@ -128,7 +128,7 @@ const Chats = () => {
   }, [searchTitle, allPrivateChat?.length]);
 
   return (
-    <>
+    <div className="h-[65vh] overflow-y-auto">
       <div className="border-2 flex gap-1 items-center px-2 rounded-md py-1">
         <Search fontSize="small" />
         <input
@@ -150,7 +150,7 @@ const Chats = () => {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -257,7 +257,7 @@ const GroupChats = () => {
   }, [searchTitle, allGroupChat?.length]);
 
   return (
-    <>
+    <div className="h-[65vh] overflow-y-auto">
       <ChatGroupCreate open={isCreate} onClose={() => setIsCreate(false)} />
       <div className="flex justify-between items-center">
         <div className="border-2 w-[87%] flex gap-1 items-center px-2 rounded-md py-1">
@@ -330,7 +330,7 @@ const GroupChats = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -362,7 +362,7 @@ const Contacts = () => {
   };
 
   return (
-    <>
+    <div className="h-[65vh] overflow-y-auto">
       <div className="border-2 flex gap-1 items-center px-2 rounded-md py-1">
         <Search fontSize="small" />
         <input
@@ -393,6 +393,6 @@ const Contacts = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
