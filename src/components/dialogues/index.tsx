@@ -36,3 +36,4 @@ export { default as ChatSendCode } from "./ChatSendCode";
 export { default as ChatImagePreview } from "./ChatImagePreview";
 export { default as ChatSendImage } from "./ChatSendImage";
 export { default as UpdateBranch } from "./UpdateBranch";
+export { default as AddParticipants } from "./AddParticipants";
