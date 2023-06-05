@@ -283,12 +283,10 @@ const CreateBranch = () => {
                           const files = Array.from(event.target.files);
                           const fileObjects = files.map((file: any) => {
                             const uniId = file.type.split("/")[1].split("+")[0]; // Get unique ID of the image
-                            const imageURL = URL.createObjectURL(file); // Get the image URL
                             return {
                               file,
-                              previewURL: imageURL,
+                              previewURL: URL.createObjectURL(file),
                               uniId, // Add unique ID to the file object
-                              imageURL, // Add the image URL to the file object
                             };
                           });
                           // const fileObjects = files.map((file: any) => ({
