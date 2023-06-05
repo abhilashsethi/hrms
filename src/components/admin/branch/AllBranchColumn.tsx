@@ -1,11 +1,11 @@
 import MaterialTable from "@material-table/core";
-import { Edit, Info, PeopleRounded } from "@mui/icons-material";
-import { IconButton, Tooltip } from "@mui/material";
+import { Edit, PeopleRounded } from "@mui/icons-material";
 import { HeadStyle, ReverseIOSSwitch } from "components/core";
 import { UpdateBranch } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
+import Slider from "react-slick";
 import Swal from "sweetalert2";
 import { Role } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
@@ -13,6 +13,38 @@ interface Props {
   data?: any;
   mutate?: any;
 }
+const settings = {
+  dots: false,
+  infinite: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  speed: 400,
+  cssEase: "linear",
+  autoplaySpeed: 3000,
+  pauseOnHover: false,
+  arrows: false,
+  responsive: [
+    {
+      breakpoint: 940,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        arrows: false,
+      },
+    },
+    {
+      breakpoint: 760,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        infinite: true,
+        arrows: false,
+      },
+    },
+  ],
+};
 const AllBranchColumn = ({ data, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
@@ -44,6 +76,38 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             field: "sl",
             editable: "never",
             width: "2%",
+          },
+          {
+            title: "Photos",
+            tooltip: "Photos",
+            render: (data) => {
+              return (
+                <>
+                  {data?.photos?.length ?
+                    data?.photos?.length > 1 ? (
+                      <>
+                        <Slider {...settings} className="">
+                          {data?.photos?.map((data: any, k: any) => (
+                            <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                              src={data?.photo} alt="Branch" />
+                          ))}
+                        </Slider>
+                      </>
+                    ) : (
+                      <>
+                        {data?.photos?.map((data: any, k: any) => (
+                          <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                            src={data?.photo} alt="Branch" />
+                        ))}
+                      </>
+                    ) : <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                      src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />}
+                </>
+              );
+            },
           },
           {
             title: "Branch Name",
@@ -86,7 +150,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
               return (
                 <ReverseIOSSwitch size="small"
                   checked={data?.isBlocked}
-                // onChange={(e) => handleBlock(e, item?.id)}
+                // onChange={(e) => handleBlock(e, data?.id)}
                 />
               );
             },
@@ -108,11 +172,11 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
           {
             title: "Update",
             tooltip: "update",
-            render: (item) => {
+            render: (data) => {
               return (
                 <span onClick={() => {
-                  setIsUpdate({ dialogue: true, branchData: item });
-                }} className="group w-full hover:bg-theme text-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
+                  setIsUpdate({ dialogue: true, branchData: data });
+                }} className="group w-full hover:bg-theme text-theme hover:text-white flex border-2 px-2 py-1 datas-center justify-center ">
                   <Edit fontSize="small" />
                 </span>
               );
