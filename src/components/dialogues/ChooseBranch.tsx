@@ -1,19 +1,24 @@
 import { Check, Close } from "@mui/icons-material";
 import {
+	Autocomplete,
+	Box,
 	Button,
 	CircularProgress,
 	Dialog,
 	DialogContent,
 	DialogTitle,
 	IconButton,
+	InputLabel,
+	MenuItem,
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { useFormik } from "formik";
-import * as yup from "yup";
+import { Form, Formik, useFormik } from "formik";
+import * as Yup from "yup";
 import { useState } from "react";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 
 interface Props {
 	open: boolean;
@@ -23,39 +28,31 @@ interface Props {
 
 const ChooseBranch = ({ open, handleClose, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
+	const [isBranch, setIsBranch] = useState<any>(null);
+	const [pageNumber, setPageNumber] = useState<number>(1);
 	const { change } = useChange();
 	const { data: branchData } = useFetch<any>(`branches`);
-	console.log(branchData);
-	const formik = useFormik({
-		initialValues: { name: "" },
-		validationSchema: yup.object({ name: yup.string().required("Required!") }),
-		onSubmit: async (values) => {
-			setLoading(true);
-			try {
-				const res = await change(`departments`, { body: values });
-				setLoading(false);
-				if (res?.status !== 201) {
-					Swal.fire(
-						"Error",
-						res?.results?.msg || "Something went wrong!",
-						"error"
-					);
-					setLoading(false);
-					return;
-				}
-				mutate();
-				handleClose();
-				Swal.fire(`Success`, `Created Successfully!`, `success`);
-				formik.resetForm();
-				return;
-			} catch (error) {
-				console.log(error);
-				setLoading(false);
-			} finally {
-				setLoading(false);
-			}
-		},
+	// console.log(branchData);
+	const router = useRouter();
+	const validationSchema = Yup.object().shape({
+		branchId: Yup.string().required("Branch is required!"),
 	});
+	const initialValues = {
+		branchId: "",
+	};
+
+	const handleSubmit = async (values: any) => {
+		console.log(values);
+
+		try {
+			setLoading(true);
+			Swal.fire("Success", "Successfully submitted", "success");
+			router?.push(`/admin/assets/create-assets?id=${values.branchId}`);
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<Dialog
@@ -87,28 +84,86 @@ const ChooseBranch = ({ open, handleClose, mutate }: Props) => {
 			</DialogTitle>
 			<DialogContent className="app-scrollbar" sx={{ p: 2 }}>
 				<div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
-					<form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-						<TextField
-							fullWidth
-							placeholder="Choose Branch"
-							name="name"
-							value={formik.values.name}
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							error={formik.touched.name && !!formik.errors.name}
-							helperText={formik.touched.name && formik.errors.name}
-						/>
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							className="!bg-theme"
-							disabled={loading}
-							startIcon={loading ? <CircularProgress size={20} /> : <Check />}
-						>
-							SUBMIT
-						</Button>
-					</form>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						enableReinitialize={true}
+						onSubmit={handleSubmit}
+					>
+						{({
+							values,
+							errors,
+							touched,
+							handleChange,
+							handleBlur,
+							setFieldValue,
+						}) => (
+							<Form>
+								<div className="px-4 py-2">
+									<div className="px-4 py-2">
+										<div className="py-2">
+											<InputLabel htmlFor="name">
+												Choose Branch<span className="text-red-500">*</span>
+											</InputLabel>
+										</div>
+										<Autocomplete
+											fullWidth
+											size="small"
+											id="branchId"
+											options={branchData || []}
+											getOptionLabel={(option: any) =>
+												option.name ? option.name : ""
+											}
+											isOptionEqualToValue={(option, value) =>
+												option.id === value.userId
+											}
+											value={
+												values?.branchId
+													? branchData?.find(
+															(option: any) => option.id === values.branchId
+													  )
+													: {}
+											}
+											onChange={(e: any, r: any) => {
+												setFieldValue("branchId", r?.id);
+											}}
+											renderOption={(props, option) => (
+												<Box
+													component="li"
+													sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+													{...props}
+												>
+													{option.name}
+												</Box>
+											)}
+											renderInput={(params) => (
+												<TextField
+													{...params}
+													placeholder="Branch Name"
+													onBlur={handleBlur}
+													error={touched.branchId && !!errors.branchId}
+													helperText={touched.branchId && errors.branchId}
+												/>
+											)}
+										/>
+									</div>
+								</div>
+								<div className="flex justify-center py-4">
+									<Button
+										type="submit"
+										variant="contained"
+										className="!bg-theme"
+										disabled={loading}
+										startIcon={
+											loading ? <CircularProgress size={20} /> : <Check />
+										}
+									>
+										Submit
+									</Button>
+								</div>
+							</Form>
+						)}
+					</Formik>
 				</div>
 			</DialogContent>
 		</Dialog>

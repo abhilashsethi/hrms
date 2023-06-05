@@ -17,6 +17,7 @@ const ChatReaction = ({ open, onClose, chatData }: Props) => {
             Reactions
           </h1>
           <div>
+            {!chatData?.reactedUsers?.length && <h1>No reactions.</h1>}
             {chatData?.reactedUsers?.map((item: any) => (
               <div
                 key={item?.id}
