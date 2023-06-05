@@ -61,7 +61,6 @@ const CreateBranch = () => {
       console.log(values);
       const photoUrls = [];
       for (const photo of values?.photos) {
-        console.log(photo);
         const url = await uploadFile(photo?.imageURL, `${Date.now()}.png`);
         photoUrls.push(url);
       }
