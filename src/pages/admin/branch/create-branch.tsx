@@ -66,6 +66,7 @@ const CreateBranch = () => {
   const { data: userData } = useFetch<any>(`users`);
   const { change } = useChange();
   const handleSubmit = async (values: any) => {
+    setLoading(true);
     try {
       console.log(values);
       const photoUrls = [];
