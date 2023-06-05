@@ -19,6 +19,7 @@ import Swal from "sweetalert2";
 import * as Yup from "yup";
 import { countries } from "schemas/Countries";
 import { uploadFile } from "utils";
+import router from "next/router";
 const initialValues = {
   name: "",
   phone: "",
@@ -65,6 +66,7 @@ const CreateBranch = () => {
   const { data: userData } = useFetch<any>(`users`);
   const { change } = useChange();
   const handleSubmit = async (values: any) => {
+    setLoading(true);
     try {
       console.log(values);
       const photoUrls = [];
@@ -83,6 +85,7 @@ const CreateBranch = () => {
         setLoading(false);
         return;
       }
+      router?.push("/admin/branch/all-branch");
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
