@@ -289,10 +289,6 @@ const CreateBranch = () => {
                               uniId, // Add unique ID to the file object
                             };
                           });
-                          // const fileObjects = files.map((file: any) => ({
-                          //   file,
-                          //   previewURL: URL.createObjectURL(file),
-                          // }));
                           setFieldValue("photos", fileObjects);
                         }}
                       />
