@@ -65,7 +65,7 @@ const CreateBranch = () => {
         body: ticketText,
       });
       setLoading(false);
-      if (res?.status !== 201) {
+      if (res?.status !== 200) {
         Swal.fire("Error", res?.results?.message || "Unable to Submit", "info");
         setLoading(false);
         return;
