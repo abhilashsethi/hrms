@@ -1,6 +1,7 @@
 import { Close, Send } from "@mui/icons-material";
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -18,41 +19,52 @@ interface Props {
   open: boolean;
   handleClose: any;
   mutate?: any;
+  chatData?: any;
+  activeProfile?: any;
 }
 
-const ChatReply = ({ open, handleClose, mutate }: Props) => {
+const ChatReply = ({
+  open,
+  handleClose,
+  mutate,
+  chatData,
+  activeProfile,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const formik = useFormik({
     initialValues: { reply: "" },
-    validationSchema: yup.object({ name: yup.string().required("Required!") }),
+    validationSchema: yup.object({ reply: yup.string().required("Required!") }),
     onSubmit: async (values) => {
       setLoading(true);
-      try {
-        const res = await change(`roles`, { body: values });
-        setLoading(false);
-        if (res?.status !== 201) {
-          Swal.fire(
-            "Error",
-            res?.results?.msg || "Something went wrong!",
-            "error"
-          );
+      if (values?.reply) {
+        try {
+          setLoading(true);
+          const res = await change(`chat/message/${activeProfile?.id}`, {
+            body: {
+              message: values?.reply,
+              category: "text",
+              replyTo: chatData?.id,
+            },
+          });
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          Swal.fire(`Success`, "Reply sent!", "success");
           setLoading(false);
+          handleClose();
           return;
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        } finally {
+          setLoading(false);
         }
-        mutate();
-        handleClose();
-        Swal.fire(`Success`, `Created Successfully!`, `success`);
-        formik.resetForm();
-        return;
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      } finally {
-        setLoading(false);
       }
     },
   });
+
   return (
     <Dialog
       onClose={handleClose}
@@ -83,13 +95,11 @@ const ChatReply = ({ open, handleClose, mutate }: Props) => {
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
         <div className="md:w-[30rem] w-[72vw] md:px-4 px-2 tracking-wide">
-          <div className="w-full bg-blue-100 p-2 tracking-wide text-sm rounded-md">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero,
-              cupiditate eum! Ex laboriosam rerum amet dignissimos? Repellat
-              earum perspiciatis magnam!
-            </p>
-          </div>
+          {chatData?.category === "text" ? (
+            <div className="w-full bg-blue-100 p-2 tracking-wide text-sm rounded-md">
+              <p>{chatData?.text}</p>
+            </div>
+          ) : null}
           <form
             onSubmit={formik.handleSubmit}
             className="flex flex-col gap-4 mt-4"
@@ -109,8 +119,12 @@ const ChatReply = ({ open, handleClose, mutate }: Props) => {
                 />
               </div>
               <div className="w-[10%]">
-                <button className="w-full px-4 py-[0.5rem] flex justify-center rounded-md text-white items-center bg-theme">
-                  <Send />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full px-4 py-[0.5rem] flex justify-center rounded-md text-white items-center bg-theme"
+                >
+                  {loading ? <CircularProgress size={20} /> : <Send />}
                 </button>
               </div>
             </div>

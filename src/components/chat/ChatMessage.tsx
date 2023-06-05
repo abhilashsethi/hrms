@@ -24,55 +24,10 @@ interface textProps {
   activeProfile?: any;
 }
 const ChatMessage = ({ data, activeProfile }: textProps) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { change } = useChange();
   const [isReactions, setIsReactions] = useState(false);
-  const [isReply, setIsReply] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
-  const [isOptions, setIsOptions] = useState<boolean>(false);
+
   const { user } = useAuth();
-  const buttons = [
-    {
-      id: 1,
-      title: "Reply",
-      icon: <Reply fontSize="small" />,
-      onClick: () => setIsReply(true),
-    },
-    { id: 2, title: "Delete", icon: <Delete fontSize="small" /> },
-  ];
-
-  const emojis = [
-    { id: 1, text: "👍" },
-    { id: 2, text: "❤️" },
-    { id: 3, text: "😂" },
-    { id: 4, text: "😮" },
-  ];
-
-  const handleReact = async (message: string | null) => {
-    if (message) {
-      try {
-        setIsLoading(true);
-        const res = await change(`chat/message-react/${data?.id}`, {
-          body: {
-            reaction: message,
-          },
-        });
-        if (res?.status !== 200) {
-          Swal.fire(`Error`, "Something went wrong!", "error");
-          return;
-        }
-        Swal.fire(`Success`, "Reacted to message", "success");
-        setIsLoading(false);
-        return;
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  };
-
   //   const MessageSender = (ActiveChat: any, individualMsg: any) => {
   //     switch (ActiveChat) {
   //       case ActiveChat?.type === "group" && individualMsg?.sendBy === "sender":
@@ -88,9 +43,13 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
 
   return (
     <>
-      <ChatReactions open={isReactions} onClose={() => setIsReactions(false)} />
+      <ChatReactions
+        open={isReactions}
+        onClose={() => setIsReactions(false)}
+        chatData={data}
+      />
       <ChatSeen open={isSeen} onClose={() => setIsSeen(false)} />
-      <ChatReply open={isReply} handleClose={() => setIsReply(false)} />
+
       <div className="max-w-[70%] min-w-[30%] flex gap-1">
         <div className="w-[15%] h-10 flex justify-center items-start">
           <div className="h-8 w-8 rounded-full overflow-hidden">
@@ -117,6 +76,23 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
               {moment(data?.createdAt).format("MMM DD, hh : mm A")}
             </span>
           </div>
+          {data?.replyTo ? (
+            <div className="w-full rounded-t-md bg-green-200">
+              <h1 className="p-2 flex items-center gap-2 text-sm tracking-wide">
+                <Reply /> Replied
+              </h1>
+              <div className="px-2 pb-2">
+                {data?.replyTo?.category === "text" ? (
+                  <p className="text-sm">
+                    {data?.replyTo?.text
+                      ? data?.replyTo?.text?.slice(0, 20)
+                      : null}
+                    {data?.replyTo?.text?.length > 20 ? "..." : ""}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
           <div className="w-full bg-blue-100 py-2 px-4 tracking-wide rounded-md text-sm">
             <div>
               {data?.category === "text" ? (
@@ -139,50 +115,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
               </div>
             )}
           </div>
-          <div className="rounded-md hidden shadow-md absolute top-[-8px] right-0 group-hover:flex border-[1px] bg-white">
-            <div className="relative">
-              <div className="flex gap-2 items-center py-1 px-2">
-                {emojis?.map((item) => (
-                  <span
-                    onClick={() => {
-                      handleReact(item?.text);
-                    }}
-                    className="cursor-pointer hover:scale-125 transition ease-in-out duration-200"
-                  >
-                    {item?.text}
-                  </span>
-                ))}
-                <IconButton
-                  onClick={() => setIsOptions((prev) => !prev)}
-                  size="small"
-                >
-                  <MoreHoriz fontSize="small" />
-                </IconButton>
-              </div>
-              {isOptions && (
-                <div
-                  className={`bg-white border-[1px] absolute rounded-md top-[30px] p-2 ${
-                    data?.sender?.id === user?.id ? "right-0" : "right-[-20%]"
-                  }`}
-                >
-                  <div
-                    onClick={() => setIsReply(true)}
-                    className="flex gap-2 items-center hover:bg-slate-200 px-2 py-1 cursor-pointer text-sm tracking-wide"
-                  >
-                    <Reply fontSize="small" /> <span>Reply</span>
-                  </div>
-                  {data?.sender?.id === user?.id && (
-                    <div
-                      onClick={() => setIsReply(true)}
-                      className="flex gap-2 items-center hover:bg-slate-200 px-2 py-1 cursor-pointer text-sm tracking-wide"
-                    >
-                      <Delete fontSize="small" /> <span>Delete</span>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
+          <ReactEmoji data={data} activeProfile={activeProfile} />
           {data?.reactedUsers?.length ? (
             <div
               onClick={() => setIsReactions(true)}
@@ -235,5 +168,104 @@ const CodeFormat = ({ data }: CodeMsgProps) => {
         codeBlock
       />
     </div>
+  );
+};
+
+interface EmojiProps {
+  data?: any;
+  activeProfile?: any;
+}
+
+const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isReply, setIsReply] = useState(false);
+  const { change } = useChange();
+  const [isOptions, setIsOptions] = useState<boolean>(false);
+  const { user } = useAuth();
+  const emojis = [
+    { id: 1, text: "👍" },
+    { id: 2, text: "❤️" },
+    { id: 3, text: "😂" },
+    { id: 4, text: "😮" },
+  ];
+
+  const handleReact = async (message: string | null) => {
+    if (message) {
+      try {
+        setIsLoading(true);
+        const res = await change(`chat/message-react/${data?.id}`, {
+          body: {
+            reaction: message,
+          },
+        });
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "Reacted to message", "success");
+        setIsLoading(false);
+        return;
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  return (
+    <>
+      <ChatReply
+        chatData={data}
+        open={isReply}
+        activeProfile={activeProfile}
+        handleClose={() => setIsReply(false)}
+      />
+      <div className="rounded-md hidden shadow-md absolute top-[-8px] right-0 group-hover:flex border-[1px] bg-white">
+        <div className="relative">
+          <div className="flex gap-2 items-center py-1 px-2">
+            {emojis?.map((item) => (
+              <span
+                onClick={() => {
+                  handleReact(item?.text);
+                }}
+                className="cursor-pointer hover:scale-125 transition ease-in-out duration-200"
+              >
+                {item?.text}
+              </span>
+            ))}
+            <IconButton
+              onClick={() => setIsOptions((prev) => !prev)}
+              size="small"
+            >
+              <MoreHoriz fontSize="small" />
+            </IconButton>
+          </div>
+          {isOptions && (
+            <div
+              className={`bg-white border-[1px] absolute rounded-md top-[30px] p-2 ${
+                data?.sender?.id === user?.id ? "right-0" : "right-[-20%]"
+              }`}
+            >
+              <div
+                onClick={() => setIsReply(true)}
+                className="flex gap-2 items-center hover:bg-slate-200 px-2 py-1 cursor-pointer text-sm tracking-wide"
+              >
+                <Reply fontSize="small" /> <span>Reply</span>
+              </div>
+              {data?.sender?.id === user?.id && (
+                <div
+                  onClick={() => setIsReply(true)}
+                  className="flex gap-2 items-center hover:bg-slate-200 px-2 py-1 cursor-pointer text-sm tracking-wide"
+                >
+                  <Delete fontSize="small" /> <span>Delete</span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
