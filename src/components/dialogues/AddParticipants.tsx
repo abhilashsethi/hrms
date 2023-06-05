@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { useChange, useChatData, useFetch } from "hooks";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
@@ -24,21 +24,26 @@ interface Props {
 }
 
 const AddParticipants = ({ open, handleClose, profileData }: Props) => {
+  const [searchText, setSearchText] = useState("");
   const [memberId, setMemberId] = useState<any>(null);
   const [activeMembers, setActiveMembers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isCode, setIsCode] = useState<string | null>(null);
   const { change } = useChange();
-  const { data: employeesData } = useFetch<User[]>(`users`);
+  const { data: employeesData } = useFetch<{ users: User[] }>(
+    `chat/user/not-connected?chatId=${profileData?.id}&page=1&limit=20` +
+      (searchText ? `&searchTitle=${searchText}` : "")
+  );
+
+  const { revalidateChatProfileDetails } = useChatData();
 
   useEffect(() => {
-    const reqData: any = employeesData?.filter((obj) => {
+    const reqData: any = employeesData?.users?.filter((obj) => {
       return !profileData?.chatMembers?.find(
         (item: any) => item?.user?.id === obj.id
       );
     });
     setActiveMembers(reqData);
-  }, [profileData]);
+  }, [profileData, employeesData]);
 
   const handleAdd = async () => {
     if (memberId) {
@@ -50,7 +55,7 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
             role: "user",
           },
         });
-        if (res?.status !== 200) {
+        if (res?.status !== 201) {
           Swal.fire(
             "Error",
             res?.results?.msg || "Something went wrong!",
@@ -61,11 +66,11 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
         }
         Swal.fire(`Success`, `Added successfully!`, `success`);
         setLoading(false);
+        revalidateChatProfileDetails(profileData?.id);
         handleClose();
-        setIsCode(null);
+
         return;
       } catch (error) {
-        console.log(error);
         setLoading(false);
       } finally {
         setLoading(false);
@@ -127,7 +132,13 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
               </Box>
             )}
             renderInput={(params) => (
-              <TextField {...params} variant="standard" placeholder="Select" />
+              <TextField
+                {...params}
+                onChange={(e) => setSearchText(e?.target?.value)}
+                value={searchText}
+                variant="standard"
+                placeholder="Select"
+              />
             )}
           />
           <Button
