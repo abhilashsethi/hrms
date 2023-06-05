@@ -24,8 +24,8 @@ const initialValues = {
   email: "",
   country: "",
   location: "",
-  userId: "",
-  images: [],
+  managerId: "",
+  photos: [],
 };
 
 const validationSchema = Yup.object().shape({
@@ -232,10 +232,10 @@ const CreateBranch = () => {
                       <Autocomplete
                         fullWidth
                         size="small"
-                        id="userId"
+                        id="managerId"
                         options={userData || []}
                         onChange={(e: any, r: any) => {
-                          setFieldValue("userId", r?.id);
+                          setFieldValue("managerId", r?.id);
                         }}
                         getOptionLabel={(option: any) => option.name}
                         renderInput={(params) => (
@@ -243,8 +243,8 @@ const CreateBranch = () => {
                             {...params}
                             placeholder="Manager Name"
                             onBlur={handleBlur}
-                            error={touched.userId && !!errors.userId}
-                            helperText={touched.userId && errors.userId}
+                            error={touched.managerId && !!errors.managerId}
+                            helperText={touched.managerId && errors.managerId}
                           />
                         )}
                       />
@@ -277,7 +277,7 @@ const CreateBranch = () => {
                         }}
                       />
                       <div className="flex justify-center items-center gap-2 flex-wrap">
-                        {values.images.map((image: any, index) => (
+                        {values.photos.map((image: any, index) => (
                           <div className="" key={index}>
                             <img
                               className="w-40 object-contain"
