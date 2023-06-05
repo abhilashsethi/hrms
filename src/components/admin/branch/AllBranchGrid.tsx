@@ -215,12 +215,12 @@ const MoreOption = ({ item, mutate }: any) => {
             </h2>
             <div className="flex bottom-0 ">
               <span className="group w-full hover:bg-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
-                <DeleteRounded fontSize="small" />
+                <DeleteRounded fontSize="small" color="error" />
               </span>
               <span onClick={() => {
                 setIsUpdate({ dialogue: true, branchData: item });
               }} className="group w-full hover:bg-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
-                <Edit fontSize="small" />
+                <Edit fontSize="small" color="primary" />
               </span>
               <div className="group w-full hover:bg-theme hover:text-white gap-2 flex border-2 px-2 py-1 items-center justify-center ">
                 <p className="font-semibold tracking-wide text-sm">STATUS</p>
