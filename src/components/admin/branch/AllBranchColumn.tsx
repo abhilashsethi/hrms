@@ -53,9 +53,9 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
           {
             title: "Manager",
             tooltip: "Manager",
-            render: (item) => {
+            render: (data) => {
               return (
-                <span>{item?.manger?.name}</span>
+                <span>{data?.manger?.name}</span>
               );
             },
           },
@@ -82,10 +82,10 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
           {
             title: "Status",
             tooltip: "Status",
-            render: (item) => {
+            render: (data) => {
               return (
                 <ReverseIOSSwitch size="small"
-                  checked={item?.isBlocked}
+                  checked={data?.isBlocked}
                 // onChange={(e) => handleBlock(e, item?.id)}
                 />
               );
