@@ -183,7 +183,7 @@ const MoreOption = ({ item, mutate }: any) => {
                   <img src={MANAGER.src} className="w-8 pr-2" alt="" />
                   <span>Manager : </span>
                 </span>
-                {item?.manager || "---"}
+                {item?.manager?.name}
               </span>
             </p>
             <p className="text-gray-500 flex items-start">
