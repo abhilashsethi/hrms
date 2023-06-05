@@ -213,7 +213,7 @@ const MoreOption = ({ item, mutate }: any) => {
               <span className="group flex text-xs items-center justify-center gap-2">
 
                 <img src={LOCATION.src} className="w-6 pr-2" alt="" />
-                {item?.location}
+                {item?.location || "---"}
               </span>
             </h2>
             <div className="flex bottom-0 ">
