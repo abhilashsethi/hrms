@@ -84,8 +84,8 @@ const MoreOption = ({ item, mutate }: any) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         setLoading(true);
-        Swal.fire("", "Please Wait...", "info");
         try {
+          Swal.fire("", "Please Wait...", "info");
           const res = await change(`branches/${item?.id}`, { method: "DELETE" });
           const photoPaths = item?.photos?.split("/").reverse();
           if (photoPaths && photoPaths.length > 0) {
