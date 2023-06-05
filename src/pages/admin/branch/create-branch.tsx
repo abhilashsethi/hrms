@@ -61,8 +61,7 @@ const CreateBranch = () => {
       console.log(values);
       const photoUrls = [];
       for (const photo of values?.photos) {
-        console.log(photo);
-        const url = await uploadFile(photo, `${Date.now()}.png`);
+        const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
         photoUrls.push(url);
       }
       console.log(photoUrls);
@@ -286,25 +285,30 @@ const CreateBranch = () => {
                             const uniId = file.type.split("/")[1].split("+")[0]; // Get unique ID of the image
                             return {
                               file,
-                              previewURL: URL.createObjectURL(file),
+                              createPreviewURL: URL.createObjectURL(file),
                               uniId, // Add unique ID to the file object
                             };
                           });
-                          // const fileObjects = files.map((file: any) => ({
-                          //   file,
-                          //   previewURL: URL.createObjectURL(file),
-                          // }));
                           setFieldValue("photos", fileObjects);
                         }}
                       />
                       <div className="flex justify-center items-center gap-2 flex-wrap">
                         {values.photos.map((image: any, index) => (
                           <div className="" key={index}>
-                            <img
-                              className="w-40 object-contain"
-                              src={image.previewURL}
-                              alt={`Image ${index + 1}`}
-                            />
+                            {typeof image.previewURL === "string" ? (
+                              <img
+                                className="w-40 object-contain"
+                                src={image.previewURL}
+                                alt={`Image ${index + 1}`}
+                              />
+                            ) : (
+                              <img
+                                className="w-40 object-contain"
+                                src={image.createPreviewURL}
+                                alt={`Image ${index + 1}`}
+                              />
+                            )}
+
                           </div>
                         ))}
                       </div>
