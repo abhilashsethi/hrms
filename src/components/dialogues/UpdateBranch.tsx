@@ -114,6 +114,7 @@ const UpdateBranch = ({
               </p>
               <TextField
                 fullWidth
+                size="small"
                 placeholder="Enter Branch Name"
                 name="name"
                 value={formik.values.name}
@@ -173,6 +174,7 @@ const UpdateBranch = ({
                 Phone
               </p>
               <TextField
+                size="small"
                 fullWidth
                 placeholder="Phone"
                 name="phone"
@@ -188,6 +190,7 @@ const UpdateBranch = ({
                 Email
               </p>
               <TextField
+                size="small"
                 fullWidth
                 placeholder="Email"
                 name="email"
@@ -203,6 +206,7 @@ const UpdateBranch = ({
                 Location
               </p>
               <TextField
+                size="small"
                 fullWidth
                 placeholder="Enter Location"
                 name="location"
@@ -218,6 +222,7 @@ const UpdateBranch = ({
                 Country <span className="text-red-600">*</span>
               </p>
               <Autocomplete
+                size="small"
                 options={countries}
                 autoHighlight
                 value={formik.values?.country as any}
