@@ -215,7 +215,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                       .map((item) => (
                         <div
                           key={item?.user?.id}
-                          className="py-2 w-full rounded-md flex gap-1 items-center px-2"
+                          className="py-2 w-full rounded-md flex gap-1 items-center px-2 hover:bg-slate-100"
                         >
                           <div className="w-1/5">
                             <PhotoViewerSmall
