@@ -1,7 +1,7 @@
 import { LOCATION, MANAGER } from "assets/dashboard_Icons";
 import { RenderIconRow } from "components/common";
 import { CountryNameFlag, ReverseIOSSwitch } from "components/core";
-import { UpdateDepartment } from "components/dialogues";
+import { UpdateBranch } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
@@ -72,8 +72,8 @@ const MoreOption = ({ item, mutate }: any) => {
   const { change } = useChange();
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
-    departmentData?: string | null;
-  }>({ dialogue: false, departmentData: null });
+    branchData?: string | null;
+  }>({ dialogue: false, branchData: null });
 
   const handleDelete = async (id: string) => {
     Swal.fire({
@@ -141,18 +141,12 @@ const MoreOption = ({ item, mutate }: any) => {
 
   return (
     <>
-      <UpdateDepartment
-        departmentData={isUpdate?.departmentData}
+      <UpdateBranch
+        branchData={isUpdate?.branchData}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
       />
-      <DepartmentInformation
-        open={isInfo?.dialogue}
-        onClose={() => setIsInfo({ dialogue: false })}
-        roleId={isInfo?.role?.id}
-      />
-
       <div key={item?.id} className="mb-4 w-full">
         <div className="group h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
@@ -220,13 +214,15 @@ const MoreOption = ({ item, mutate }: any) => {
               </span>
             </h2>
             <div className="flex bottom-0 ">
-              <span className="group w-full flex border-2 px-2 py-1 items-center justify-center ">
+              <span className="group w-full hover:bg-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
                 <DeleteRounded fontSize="small" />
               </span>
-              <span className="group w-full flex border-2 px-2 py-1 items-center justify-center ">
+              <span onClick={() => {
+                setIsUpdate({ dialogue: true, branchData: item });
+              }} className="group w-full hover:bg-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
                 <Edit fontSize="small" />
               </span>
-              <div className="group w-full gap-2 flex border-2 px-2 py-1 items-center justify-center ">
+              <div className="group w-full hover:bg-theme hover:text-white gap-2 flex border-2 px-2 py-1 items-center justify-center ">
                 <p className="font-semibold tracking-wide text-sm">STATUS</p>
                 <ReverseIOSSwitch size="small"
                   checked={item?.isBlocked}

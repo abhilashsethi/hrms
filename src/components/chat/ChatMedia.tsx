@@ -35,8 +35,6 @@ const ChatMedia = ({
     `chat/message-group/${selectedChatId}?category=${value}`
   );
 
-  console.log({ data });
-
   return (
     <section
       className={`w-full h-full min-h-screen absolute bg-white top-0 left-0 transition-all ease-in-out duration-200 ${

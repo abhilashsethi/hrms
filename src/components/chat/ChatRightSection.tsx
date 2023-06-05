@@ -6,7 +6,11 @@ import {
   SentimentSatisfiedAlt,
 } from "@mui/icons-material";
 import { CircularProgress, IconButton, Tooltip } from "@mui/material";
-import { ChatSendCode, ChatSendFiles } from "components/dialogues";
+import {
+  ChatSendCode,
+  ChatSendFiles,
+  ChatSendImage,
+} from "components/dialogues";
 import { useAuth, useChange, useChatData } from "hooks";
 import { useRef, useState } from "react";
 import ChatHead from "./ChatHead";
@@ -24,6 +28,7 @@ interface Props {
 const ChatRightSection = () => {
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
+  const [isImage, setIsImage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMessage, setIsMessage] = useState<string | null>(null);
   const textRef = useRef<HTMLInputElement | null>(null);
@@ -74,6 +79,11 @@ const ChatRightSection = () => {
       <ChatSendFiles
         open={isUpload}
         handleClose={() => setIsUpload(false)}
+        sendId={currentChatProfileDetails?.id}
+      />
+      <ChatSendImage
+        open={isImage}
+        handleClose={() => setIsImage(false)}
         sendId={currentChatProfileDetails?.id}
       />
       <ChatSendCode
@@ -158,7 +168,7 @@ const ChatRightSection = () => {
                 </Tooltip>
               </div>
               <Tooltip title="Image">
-                <IconButton onClick={() => setIsUpload(true)} size="small">
+                <IconButton onClick={() => setIsImage(true)} size="small">
                   <ImageOutlined />
                 </IconButton>
               </Tooltip>

@@ -2,11 +2,13 @@ import { MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatProfileDrawer } from "components/drawer";
-import { useAuth, useChatData } from "hooks";
+import { useAuth, useChatData, useSocket } from "hooks";
 import { MouseEvent, useState } from "react";
 import { formatChatTime } from "utils";
+import { useEffect } from "react";
 
 const ChatHead = () => {
+  const [typingUser, setTypingUser] = useState("");
   const [isDrawer, setIsDrawer] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -17,8 +19,63 @@ const ChatHead = () => {
     setAnchorEl(null);
   };
 
-  const { currentChatProfileDetails } = useChatData();
+  const { socketRef } = useSocket();
+
+  const { currentChatProfileDetails, revalidateChatProfileDetails } =
+    useChatData();
   const { user } = useAuth();
+
+  useEffect(() => {
+    (() => {
+      if (!socketRef || !currentChatProfileDetails?.id) return;
+      currentChatProfileDetails?.isPrivateGroup &&
+        socketRef.on(
+          `USER_DISCONNECT_${
+            currentChatProfileDetails?.chatMembers?.find(
+              (item) => item?.user?.id !== user?.id
+            )?.user?.id
+          }`,
+          (data) => {
+            currentChatProfileDetails?.id &&
+              revalidateChatProfileDetails(currentChatProfileDetails?.id);
+          }
+        );
+      currentChatProfileDetails?.isPrivateGroup &&
+        socketRef.on(
+          `USER_CONNECTED_${
+            currentChatProfileDetails?.chatMembers?.find(
+              (item) => item?.user?.id !== user?.id
+            )?.user?.id
+          }`,
+          (data) => {
+            currentChatProfileDetails?.id &&
+              revalidateChatProfileDetails(currentChatProfileDetails?.id);
+          }
+        );
+      socketRef.on(
+        `USER_IS_TYPING_${currentChatProfileDetails?.id}`,
+        (data) => {
+          setTypingUser(
+            currentChatProfileDetails?.chatMembers?.find(
+              (item) => item?.user?.id === data?.userId
+            )?.user?.name as any
+          );
+        }
+      );
+      socketRef.on(
+        `USER_IS_TYPING_${currentChatProfileDetails?.id}`,
+        (data) => {
+          setTypingUser(
+            (currentChatProfileDetails?.chatMembers?.find(
+              (item) => item?.user?.id === data?.userId
+            )?.user?.name as any) === typingUser
+              ? ""
+              : typingUser
+          );
+        }
+      );
+    })();
+  }, [socketRef, currentChatProfileDetails, user?.id]);
 
   return (
     <>
@@ -40,6 +97,7 @@ const ChatHead = () => {
             <h1 className="font-semibold">
               {currentChatProfileDetails?.title}
             </h1>
+
             <h1 className="text-sm font-light">
               {currentChatProfileDetails?.isPrivateGroup ? (
                 <span
@@ -51,9 +109,11 @@ const ChatHead = () => {
                       : "text-gray-500"
                   }`}
                 >
-                  {currentChatProfileDetails?.chatMembers?.find(
-                    (item) => item?.user?.id !== user?.id
-                  )?.user?.isOnline
+                  {typingUser?.length
+                    ? "Typing..."
+                    : currentChatProfileDetails?.chatMembers?.find(
+                        (item) => item?.user?.id !== user?.id
+                      )?.user?.isOnline
                     ? "Active Now"
                     : `Last seen at ${
                         (currentChatProfileDetails?.chatMembers?.find(
@@ -69,11 +129,13 @@ const ChatHead = () => {
                 </span>
               ) : (
                 <span className="">
-                  {currentChatProfileDetails?.chatMembers
-                    ?.filter((item) => !item?.isPastMember)
-                    ?.slice(0, 5)
-                    ?.map((item) => item?.user?.name)
-                    .join(", ")}{" "}
+                  {typingUser?.length
+                    ? `${typingUser} is typing`
+                    : currentChatProfileDetails?.chatMembers
+                        ?.filter((item) => !item?.isPastMember)
+                        ?.slice(0, 5)
+                        ?.map((item) => item?.user?.name)
+                        .join(", ")}{" "}
                   and others.
                 </span>
               )}
