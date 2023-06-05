@@ -48,7 +48,11 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
         onClose={() => setIsReactions(false)}
         chatData={data}
       />
-      <ChatSeen open={isSeen} onClose={() => setIsSeen(false)} />
+      <ChatSeen
+        chatData={data}
+        open={isSeen}
+        onClose={() => setIsSeen(false)}
+      />
 
       <div className="max-w-[70%] min-w-[30%] flex gap-1">
         <div className="w-[15%] h-10 flex justify-center items-start">

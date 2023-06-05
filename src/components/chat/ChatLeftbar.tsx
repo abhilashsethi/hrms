@@ -6,6 +6,8 @@ import {
   MoreVert,
   Notifications,
   NotificationsOutlined,
+  PermContactCalendar,
+  PermContactCalendarOutlined,
   Search,
   Sms,
   SmsOutlined,
@@ -94,9 +96,9 @@ const quickLinks = [
   },
   {
     id: 3,
-    icon: <Notifications fontSize="small" className="!text-theme" />,
-    optional: <NotificationsOutlined fontSize="small" className="" />,
-    title: "Notifications",
+    icon: <PermContactCalendar fontSize="small" className="!text-theme" />,
+    optional: <PermContactCalendarOutlined fontSize="small" className="" />,
+    title: "Contacts",
   },
 ];
 
@@ -289,7 +291,7 @@ const GroupChats = () => {
             >
               Create Group
             </MenuItem>
-            <MenuItem onClick={handleClose}>Settings</MenuItem>
+            {/* <MenuItem onClick={handleClose}>Settings</MenuItem> */}
           </Menu>
         </div>
       </div>

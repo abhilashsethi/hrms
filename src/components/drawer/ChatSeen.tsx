@@ -11,14 +11,16 @@ import * as React from "react";
 type Props = {
   open?: boolean | any;
   onClose: () => void;
+  chatData?: any;
 };
 
-const ChatSeen = ({ open, onClose }: Props) => {
+const ChatSeen = ({ open, onClose, chatData }: Props) => {
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+  console.log(chatData);
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
@@ -35,10 +37,10 @@ const ChatSeen = ({ open, onClose }: Props) => {
                 </TabList>
               </Box>
               <TabPanel value="1">
-                <ReadBy />
+                <ReadBy chatData={chatData} />
               </TabPanel>
               <TabPanel value="2">
-                <DeliveredTo />
+                <DeliveredTo chatData={chatData} />
               </TabPanel>
             </TabContext>
           </Box>
@@ -50,10 +52,15 @@ const ChatSeen = ({ open, onClose }: Props) => {
 
 export default ChatSeen;
 
-const ReadBy = () => {
+interface ReadProps {
+  chatData?: any;
+}
+
+const ReadBy = ({ chatData }: ReadProps) => {
   return (
     <div>
-      {profiles?.map((item) => (
+      {!chatData?.readUsers?.length && <h1>No members seen.</h1>}
+      {chatData?.readUsers?.map((item: any) => (
         <div key={item?.id} className="flex justify-between items-center">
           <div className="w-full hover:bg-slate-100 transition-all ease-in-out duration-200 cursor-pointer flex gap-3 items-center px-2 py-2">
             <PhotoViewerSmall
@@ -74,10 +81,11 @@ const ReadBy = () => {
   );
 };
 
-const DeliveredTo = () => {
+const DeliveredTo = ({ chatData }: ReadProps) => {
   return (
     <div>
-      {profiles?.map((item) => (
+      {!chatData?.deliveredTo?.length && <h1>Not delivered to any member.</h1>}
+      {chatData?.deliveredTo?.map((item: any) => (
         <div key={item?.id} className="flex justify-between items-center">
           <div className="w-full hover:bg-slate-100 transition-all ease-in-out duration-200 cursor-pointer flex gap-3 items-center px-2 py-2">
             <PhotoViewerSmall
@@ -87,9 +95,9 @@ const DeliveredTo = () => {
             />
             <div>
               <h1 className="text-sm font-semibold">{item?.name}</h1>
-              <h1 className="text-xs text-gray-500">
+              {/* <h1 className="text-xs text-gray-500">
                 {moment(new Date()).format("lll")}
-              </h1>
+              </h1> */}
             </div>
           </div>
         </div>
