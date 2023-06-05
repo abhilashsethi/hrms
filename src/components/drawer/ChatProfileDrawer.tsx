@@ -399,6 +399,40 @@ const MoreMenu = ({ data, profileData }: MenuProps) => {
       }
     });
   };
+
+  const createAdmin = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to make admin!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, make!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await change(`chat/member/${profileData?.id}`, {
+            body: {
+              memberId: data?.user?.id,
+              role: "admin",
+            },
+          });
+          if (res?.status !== 201) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          revalidateChatProfileDetails(profileData?.id);
+          Swal.fire(`Success`, "Created as admin", "success");
+          return;
+        } catch (error) {
+          console.log(error);
+        } finally {
+        }
+      }
+    });
+  };
+
   return (
     <div className="">
       <IconButton onClick={handleClick} size="small">
@@ -413,7 +447,7 @@ const MoreMenu = ({ data, profileData }: MenuProps) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Create Admin</MenuItem>
+        <MenuItem onClick={() => createAdmin()}>Create Admin</MenuItem>
         <MenuItem onClick={() => handleRemove()}>Remove Member</MenuItem>
       </Menu>
     </div>
