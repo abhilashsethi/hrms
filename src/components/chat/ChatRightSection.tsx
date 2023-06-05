@@ -50,6 +50,7 @@ const ChatRightSection = () => {
     currentChatMessage,
     currentChatProfileDetails,
     handleSendNewMessage,
+    revalidateCurrentChat,
   } = useChatData();
 
   const handleSend = async () => {
@@ -67,21 +68,18 @@ const ChatRightSection = () => {
           setIsMessage(null);
           return;
         } else {
-          const res = await change(
-            `chat/message/${currentChatProfileDetails?.id}`,
-            {
-              body: {
-                message: isMessage,
-                category: "text",
-              },
-            }
-          );
+          await change(`chat/message/${currentChatProfileDetails?.id}`, {
+            body: {
+              message: isMessage,
+              category: "text",
+            },
+          });
           setIsLoading(false);
           setIsMessage(null);
+          revalidateCurrentChat(currentChatProfileDetails?.id);
           return;
         }
       } catch (error) {
-        console.log(error);
         setIsLoading(false);
       } finally {
         setIsLoading(false);

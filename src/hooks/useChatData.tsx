@@ -45,6 +45,7 @@ const useChatData = create<ChatState>((set, get) => ({
     set({
       currentChatProfileDetails: arg,
       selectedChatId: arg?.id,
+      currentChatMessage: [],
     });
   },
   revalidateChatProfileDetails: async (chatId) => {
@@ -139,11 +140,25 @@ const useChatData = create<ChatState>((set, get) => ({
         method: "POST",
         headers: {
           "x-access-token": token,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(body),
       });
       const data = await response.json();
-      console.log({ data });
+
+      if (response.status === 200) {
+        set({
+          currentChatProfileDetails: {
+            ...get().currentChatProfileDetails,
+            id: data?.data?.id,
+            isNewChat: false,
+          },
+          selectedChatId: data?.data?.id,
+        });
+        await get().reValidatePrivateChat();
+        await get().revalidateCurrentChat(data?.data?.id);
+        await get().revalidateChatProfileDetails(data?.data?.id);
+      }
     } catch (error) {}
   },
 }));
