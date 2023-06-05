@@ -49,7 +49,7 @@ const CreateBranch = () => {
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { data: userData } = useFetch<any>(`users`);
-  const { change, isChanging } = useChange();
+  const { change } = useChange();
   const handleSubmit = async (values: any) => {
     try {
       console.log(values);
@@ -60,7 +60,6 @@ const CreateBranch = () => {
       console.log(imagesWithUniIds);
       return
       setLoading(true);
-      const uniId = values?.image?.type.split("/")[1].split("+")[0];
       const res: any = await change(`branches`, {
         body: values,
       });
@@ -279,7 +278,7 @@ const CreateBranch = () => {
                             file,
                             previewURL: URL.createObjectURL(file),
                           }));
-                          setFieldValue("images", fileObjects);
+                          setFieldValue("photos", fileObjects);
                         }}
                       />
                       <div className="flex justify-center items-center gap-2 flex-wrap">
@@ -296,7 +295,7 @@ const CreateBranch = () => {
                       <p>Upload Images</p>
                       <CloudUpload fontSize="large" color="primary" />
                       <ErrorMessage
-                        name="images"
+                        name="photos"
                         component="div"
                         className="error"
                       />
