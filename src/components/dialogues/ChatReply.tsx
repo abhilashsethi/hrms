@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useChange } from "hooks";
+import { useAuth, useChange, useChatData, useSocket } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as yup from "yup";
@@ -32,6 +32,9 @@ const ChatReply = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const { socketRef } = useSocket();
+  const { revalidateCurrentChat } = useChatData();
+  const { user } = useAuth();
   const formik = useFormik({
     initialValues: { reply: "" },
     validationSchema: yup.object({ reply: yup.string().required("Required!") }),
@@ -51,7 +54,12 @@ const ChatReply = ({
             Swal.fire(`Error`, "Something went wrong!", "error");
             return;
           }
-          Swal.fire(`Success`, "Reply sent!", "success");
+          socketRef?.emit("REFETCH_DATA", {
+            groupId: activeProfile?.id,
+            userId: user?.id,
+          });
+          revalidateCurrentChat(activeProfile?.id);
+
           setLoading(false);
           handleClose();
           return;
