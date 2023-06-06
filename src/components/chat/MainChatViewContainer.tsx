@@ -10,6 +10,8 @@ const MainChatViewContainer = () => {
     currentChatProfileDetails,
     handleNextChatPage,
     revalidateCurrentChat,
+    handleReadMessage,
+    revalidateChatProfileDetails,
   } = useChatData();
 
   const { user } = useAuth();
@@ -30,8 +32,29 @@ const MainChatViewContainer = () => {
     socketRef.on(`MESSAGE_RECEIVED_${currentChatProfileDetails?.id}`, () => {
       setIsChanging((prev) => !prev);
       revalidateCurrentChat(currentChatProfileDetails?.id);
+
+      //after message received send a message read
+      currentChatProfileDetails?.id &&
+        handleReadMessage(currentChatProfileDetails?.id);
+
+      //emit an re fetch event
+      socketRef.emit("REFETCH_DATA", {
+        groupId: currentChatProfileDetails?.id,
+        userId: user?.id,
+      });
     });
-  }, [socketRef, currentChatProfileDetails]);
+
+    socketRef.on(
+      `MESSAGE_RECEIVED_${currentChatProfileDetails?.id}`,
+      async () => {
+        //when receive to refetch data we will refetch
+        await revalidateCurrentChat(currentChatProfileDetails?.id);
+        await revalidateCurrentChat(currentChatProfileDetails?.id);
+        currentChatProfileDetails?.id &&
+          (await revalidateChatProfileDetails(currentChatProfileDetails?.id));
+      }
+    );
+  }, [socketRef, currentChatProfileDetails, user?.id]);
 
   useEffect(() => {
     mainElem?.current?.scrollIntoView({
@@ -68,26 +91,6 @@ const MainChatViewContainer = () => {
                 activeProfile={currentChatProfileDetails}
               />
             )}
-
-            {/* {item?.type === "text" ? (
-                        <TextMessage
-                          data={item}
-                          activeProfile={currentChatProfileDetails}
-                        />
-                      ) : item?.type === "image" ? (
-                        <ImageMessage
-                          data={item}
-                          activeProfile={currentChatProfileDetails}
-                        />
-                      ) : item?.type === "event" ? (
-                        <EventTemplate data={item} />
-                      ) : item?.type === "code" ? (
-                        <CodeMessage data={item} />
-                      ) : item?.type === "code" ? (
-                        <DocMessage data={item} />
-                      ) : (
-                        "No format specified"
-                      )} */}
           </>
         </div>
       ))}

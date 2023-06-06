@@ -45,7 +45,6 @@ const useAuth = create<AuthState>((set) => ({
       const { data: currentUser } = (await res.json()) as { data: User };
       return currentUser;
     } catch (error) {
-      console.log(error);
       set({ user: undefined });
     }
   },
@@ -58,18 +57,16 @@ const useAuth = create<AuthState>((set) => ({
       if (!token) {
         throw new Error("No Access Token Found");
       }
-      const res = await fetch(`${BASE_URL}/users/${userId}`, {
+      await fetch(`${BASE_URL}/users/${userId}`, {
         method: "PATCH",
-        headers: { "x-access-token": JSON.parse(token) },
+        headers: {
+          "x-access-token": JSON.parse(token),
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           isOnline: state === "ONLINE",
         }),
       });
-      if (res.status !== 200) {
-        throw new Error("Server Side Error");
-      }
-      const { data: currentUser } = (await res.json()) as { data: User };
-      return currentUser;
     } catch (error) {
       set({ user: undefined });
     }

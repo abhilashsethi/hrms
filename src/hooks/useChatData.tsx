@@ -17,6 +17,7 @@ type ChatState = {
   revalidateCurrentChat: (chatId?: string) => Promise<void>;
   handleSendNewMessage: (body: object) => Promise<void>;
   handleNextChatPage: (page: number) => Promise<void>;
+  handleReadMessage: (chatId: string) => Promise<void>;
 };
 const useChatData = create<ChatState>((set, get) => ({
   allGroupChat: [],
@@ -29,6 +30,7 @@ const useChatData = create<ChatState>((set, get) => ({
       });
 
       await get().revalidateCurrentChat(chatId);
+      await get().handleReadMessage(chatId);
       return;
     } else if (chatId === get().selectedChatId) {
       set({
@@ -185,6 +187,22 @@ const useChatData = create<ChatState>((set, get) => ({
           ...get().currentChatMessage,
           ...data?.data?.message,
         ],
+      });
+    } catch (error) {}
+  },
+  handleReadMessage: async (chatId) => {
+    try {
+      const token = getAccessToken();
+      await fetch(BASE_URL + `/chat/message-ack`, {
+        method: "POST",
+        headers: {
+          "x-access-token": token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          isRead: true,
+          chatId: chatId,
+        }),
       });
     } catch (error) {}
   },
