@@ -9,16 +9,14 @@ import {
 	DialogTitle,
 	IconButton,
 	InputLabel,
-	MenuItem,
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { Form, Formik, useFormik } from "formik";
-import * as Yup from "yup";
-import { useState } from "react";
+import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
-import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import * as Yup from "yup";
 
 interface Props {
 	open: boolean;
@@ -46,7 +44,7 @@ const ChooseBranch = ({ open, handleClose, mutate }: Props) => {
 
 		try {
 			setLoading(true);
-			Swal.fire("Success", "Successfully submitted", "success");
+			// Swal.fire("Success", "Successfully submitted", "success");
 			router?.push(`/admin/assets/create-assets?id=${values.branchId}`);
 			setLoading(false);
 		} catch (error) {

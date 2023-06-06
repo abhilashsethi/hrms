@@ -9,6 +9,7 @@ type AuthState = {
   token: string | null;
   validateUser: () => Promise<User | undefined>;
   logout: () => void;
+  syncUserState: (state: "ONLINE" | "OFFLINE", userId: string) => void;
 };
 const useAuth = create<AuthState>((set) => ({
   setUser: async (user: Partial<User>) => {
@@ -45,6 +46,31 @@ const useAuth = create<AuthState>((set) => ({
       return currentUser;
     } catch (error) {
       console.log(error);
+      set({ user: undefined });
+    }
+  },
+  async syncUserState(state: "ONLINE" | "OFFLINE", userId: string) {
+    try {
+      if (typeof window === "undefined") {
+        throw new Error("Window is undefined");
+      }
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        throw new Error("No Access Token Found");
+      }
+      const res = await fetch(`${BASE_URL}/users/${userId}`, {
+        method: "PATCH",
+        headers: { "x-access-token": JSON.parse(token) },
+        body: JSON.stringify({
+          isOnline: state === "ONLINE",
+        }),
+      });
+      if (res.status !== 200) {
+        throw new Error("Server Side Error");
+      }
+      const { data: currentUser } = (await res.json()) as { data: User };
+      return currentUser;
+    } catch (error) {
       set({ user: undefined });
     }
   },

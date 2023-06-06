@@ -20,9 +20,9 @@ const initialValues = {
 	assetName: "",
 	modelNo: "",
 	purchaseDate: "",
-	billAmount: "",
+	billAmount: 0,
 	brandName: "",
-	marketPrice: "",
+	marketPrice: 0,
 	serialNo: "",
 	uploadDoc: [],
 	images: [],
@@ -41,7 +41,7 @@ const validationSchema = Yup.object().shape({
 	purchaseDate: Yup.string().required("Purchase date is required!"),
 	billAmount: Yup.number().required("Bill amount is required!"),
 
-	serialNo: Yup.string().required("Serial No. is required!"),
+	// serialNo: Yup.string().required("Serial No. is required!"),
 	// images: Yup.array().min(1, "Please upload at least one image"),
 	// .of(
 	// 	Yup.mixed().test(
@@ -67,33 +67,35 @@ const CreateAssets = () => {
 	const router = useRouter();
 	const imageRef = useRef<HTMLInputElement | null>(null);
 	const theme = useTheme();
-	const [showPassword, setShowPassword] = useState(false);
-	const [showConPassword, setShowConPassword] = useState(false);
+
 	const [loading, setLoading] = useState(false);
 	const { change, isChanging } = useChange();
 	const handleSubmit = async (values: any) => {
-		console.log(values);
 		// return;
 
 		try {
 			const res: any = await change(`assets`, {
 				body: {
 					name: values?.assetName,
-					purchasePrice: values?.billAmount,
+					purchasePrice: Number(values?.billAmount),
 					brandName: values?.brandName,
-					marketPrice: values?.marketPrice,
+					marketPrice: Number(values?.marketPrice),
 					modelName: values?.modelNo,
 					branchId: router?.query?.id,
-					dateOfPurchase: new Date(values?.dateOfPurchase).toISOString(),
+					serialNumber: values?.serialNo,
+					isAssign: true,
+					dateOfPurchase: new Date(values?.purchaseDate).toISOString(),
 				},
 			});
 			setLoading(false);
 			if (res?.status !== 200) {
 				Swal.fire("Error", res?.results?.message || "Unable to Submit", "info");
 				setLoading(false);
+				console.log(res);
 				return;
 			}
 			Swal.fire(`Success`, `You have successfully Created!`, `success`);
+			console.log(res);
 			return;
 		} catch (error) {
 			console.log(error);
@@ -101,6 +103,7 @@ const CreateAssets = () => {
 		} finally {
 			setLoading(false);
 		}
+		console.log(values);
 	};
 
 	return (

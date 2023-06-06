@@ -227,6 +227,37 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
     }
   };
 
+  const handleDelete = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to remove this member!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await change(`chat/message/${data?.id}`, {
+            method: "PATCH",
+            body: {
+              isDeleted: true,
+            },
+          });
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          Swal.fire(`Success`, "Message deleted successfully!", "success");
+          return;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
+
   return (
     <>
       <ChatReply
@@ -269,7 +300,7 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
               </div>
               {data?.sender?.id === user?.id && (
                 <div
-                  onClick={() => setIsReply(true)}
+                  onClick={() => handleDelete()}
                   className="flex gap-2 items-center hover:bg-slate-200 px-2 py-1 cursor-pointer text-sm tracking-wide"
                 >
                   <Delete fontSize="small" /> <span>Delete</span>
