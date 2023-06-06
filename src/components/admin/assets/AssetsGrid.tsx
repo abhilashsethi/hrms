@@ -1,9 +1,15 @@
-import { DeleteRounded, Edit } from "@mui/icons-material";
+import {
+	AssignmentInd,
+	DeleteRounded,
+	Download,
+	Edit,
+} from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { UpdateDepartment } from "components/dialogues";
 import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
+import moment from "moment";
 import { useState } from "react";
 import Slider from "react-slick";
 import Swal from "sweetalert2";
@@ -44,6 +50,7 @@ const settings = {
 	],
 };
 const AssetsGrid = ({ data, mutate }: Props) => {
+	console.log(data);
 	return (
 		<>
 			<section className="py-6 ">
@@ -67,10 +74,10 @@ const MoreOption = ({ item, mutate }: any) => {
 		role: null,
 	});
 	const { change } = useChange();
-	const [isUpdate, setIsUpdate] = useState<any>({
-		dialogue: false,
-		departmentData: null,
-	});
+	const [isUpdate, setIsUpdate] = useState<{
+		dialogue?: boolean;
+		assetData?: string | null;
+	}>({ dialogue: false, assetData: null });
 
 	const handleDelete = async (id: string) => {
 		Swal.fire({
@@ -155,32 +162,41 @@ const MoreOption = ({ item, mutate }: any) => {
 					className="group h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg"
 				>
-					{item?.photos?.length > 1 ? (
-						<>
-							<Slider {...settings} className="">
+					{item?.photos?.length ? (
+						item?.photos?.length > 1 ? (
+							<>
+								<Slider {...settings} className="">
+									{item?.photos?.map((data: any, k: any) => (
+										<img
+											key={k}
+											className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+											src={data}
+											alt="Branch"
+										/>
+									))}
+								</Slider>
+							</>
+						) : (
+							<>
 								{item?.photos?.map((data: any, k: any) => (
 									<img
 										key={k}
 										className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-										src={data?.photo}
-										alt="blog"
+										src={data}
+										alt="Branch"
 									/>
 								))}
-							</Slider>
-						</>
+							</>
+						)
 					) : (
-						<>
-							{item?.photos?.map((data: any, k: any) => (
-								<img
-									key={k}
-									className="lg:h-48 md:h-36 w-full object-cover object-center 
+						<img
+							className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-									src={data?.photo}
-									alt="blog"
-								/>
-							))}
-						</>
+							src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg"
+							alt="Branch"
+						/>
 					)}
 					<div className="py-1 pt-2 px-4">
 						<h1
@@ -193,9 +209,20 @@ const MoreOption = ({ item, mutate }: any) => {
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
-									<span className="font-semibold">Model No : </span>
+									<span className="font-semibold">Branch Name : </span>
 								</span>
-								<span className="text-gray-500">{item?.modelNo}</span>
+								<span className="text-gray-500">
+									{item?.assetOfBranch?.name || "___"}
+								</span>
+							</span>
+						</p>
+						<p className="text-gray-500 flex items-start">
+							<span className="group flex text-sm text-theme items-center justify-center gap-2">
+								<span className="group flex items-center justify-center gap-2">
+									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
+									<span className="font-semibold">Model Number : </span>
+								</span>
+								<span className="text-gray-500">{item?.modelName}</span>
 							</span>
 						</p>
 						<p className="text-gray-500 flex items-start">
@@ -205,54 +232,67 @@ const MoreOption = ({ item, mutate }: any) => {
 									<span className="font-semibold">Brand Name : </span>
 								</span>
 								<span className="text-gray-500">
-									{item?.brand ? item?.brand : "---"}
+									{item?.brandName || "---"}
 								</span>
 							</span>
 						</p>
-
+						<p className="text-sm text-slate-600 font-medium flex items-center gap-3">
+							<span className="group flex text-sm text-theme items-center justify-center gap-2">
+								<span className="group flex items-center justify-center gap-2">
+									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
+									<span className="font-semibold">Sl.No : </span>
+								</span>
+								<span className="text-gray-500">
+									{item?.serialNumber || "---"}
+								</span>
+							</span>
+						</p>
 						<p className="text-gray-500 flex items-start">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
 									<span className="font-semibold">Date Of Purchase : </span>
 								</span>
-								<span className="text-gray-500">{item?.dateOfPurchase}</span>
+								<span className="text-gray-500">
+									{moment(item?.dateOfPurchase).format("DD/MM/YYYY")}
+								</span>
 							</span>
 						</p>
-						<p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
+						<p className="text-sm text-slate-600 font-medium flex items-center gap-3">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
 									<span className="font-semibold">Bill amount : </span>
 								</span>
-								<span className="text-gray-500">{item?.billAmount}</span>
+								<span className="text-gray-500">{item?.purchasePrice}</span>
 							</span>
 						</p>
-						<p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
+						<p className="text-sm text-slate-600 font-medium flex items-center gap-3">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
 									<span className="font-semibold">Current Market Price : </span>
 								</span>
-								<span className="text-gray-500">{item?.currentMp}</span>
+								<span className="text-gray-500">{item?.marketPrice}</span>
 							</span>
 						</p>
-						<p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
-							<span className="group flex text-sm text-theme items-center justify-center gap-2">
-								<span className="group flex items-center justify-center gap-2">
-									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
-									<span className="font-semibold">Sl.No : </span>
-								</span>
-								<span className="text-gray-500">{item?.slNo}</span>
-							</span>
-						</p>
-						<p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
+						<p className="text-sm text-slate-600 font-medium py-2 flex items-center gap-3">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
 									{/* <img src={MANAGER.src} className="w-8 pr-2" alt="" /> */}
 									<span className="font-semibold">Docs : </span>
 								</span>
-								{item?.docs}
+								{/* {item?.docs } */}
+								{item?.docs?.map((item: any, i: any) => {
+									return (
+										<a
+											className="border border-theme rounded-md text-xs p-[2px]"
+											href={item?.link}
+										>
+											Docs <Download fontSize="small" />
+										</a>
+									);
+								})}
 							</span>
 						</p>
 
@@ -260,6 +300,11 @@ const MoreOption = ({ item, mutate }: any) => {
 							<Tooltip title="Delete Asset">
 								<span className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center">
 									<DeleteRounded fontSize="small" color="error" />
+								</span>
+							</Tooltip>
+							<Tooltip title="Assign Asset">
+								<span className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center">
+									<AssignmentInd fontSize="small" color="secondary" />
 								</span>
 							</Tooltip>
 							<Tooltip title="Edit Asset">
@@ -272,14 +317,6 @@ const MoreOption = ({ item, mutate }: any) => {
 									<Edit color="primary" fontSize="small" />
 								</span>
 							</Tooltip>
-							{/* <div className="group w-full gap-2 flex border-2 px-2 py-1 items-center justify-center ">
-								<p className="font-semibold tracking-wide text-sm">STATUS</p>
-								<ReverseIOSSwitch
-									size="small"
-									checked={item?.isBlocked}
-									onChange={(e) => handleBlock(e, item?.id)}
-								/>
-							</div> */}
 						</div>
 					</div>
 				</div>

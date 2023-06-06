@@ -9,12 +9,14 @@ import {
 	Button,
 	IconButton,
 	MenuItem,
+	Pagination,
+	Stack,
 	TextField,
 	Tooltip,
 } from "@mui/material";
 import { AssetsColumn, AssetsGrid } from "components/admin/assets";
 import { AllBranchColumn, AllBranchGrid } from "components/admin/branch";
-import { AdminBreadcrumbs, Loader } from "components/core";
+import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
 import { CreateDepartment } from "components/dialogues";
 import ChooseBranch from "components/dialogues/ChooseBranch";
 import { useFetch } from "hooks";
@@ -39,6 +41,11 @@ const AllAssets = () => {
 			userName ? `&contains=${userName}` : ""
 		}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
 	);
+
+	const { data: assetsData } = useFetch<any>(
+		`assets?page=${pageNumber}&limit=8`
+	);
+	// console.log(assetsData);
 
 	return (
 		<PanelLayout title="All Assets - Admin Panel">
@@ -146,7 +153,7 @@ const AllAssets = () => {
 				{isGrid ? (
 					<>
 						{isLoading && <Loader />}
-						<AssetsGrid data={assetData} mutate={mutate} />
+						<AssetsGrid data={assetsData} mutate={mutate} />
 					</>
 				) : (
 					<>
@@ -154,29 +161,28 @@ const AllAssets = () => {
 						<AssetsColumn data={assetData} mutate={mutate} />
 					</>
 				)}
-				{/* {branchData?.length === 0 ? <LoaderAnime /> : null}
-        {Math.ceil(
-          Number(pagination?.total || 1) /
-          Number(pagination?.limit || 1)
-        ) > 1 ? (
-          <div className="flex justify-center py-8">
-            <Stack spacing={2}>
-              <Pagination
-                count={Math.ceil(
-                  Number(pagination?.total || 1) /
-                  Number(pagination?.limit || 1)
-                )}
-                onChange={(e, v: number) => {
-                  setPageNumber(v);
-                }}
-                variant="outlined"
-                page={pageNumber}
-              />
-            </Stack>
-          </div>
-        ) : (
-          ""
-        )} */}
+				{assetsData?.length === 0 ? <LoaderAnime /> : null}
+				{Math.ceil(
+					Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+				) > 1 ? (
+					<div className="flex justify-center py-8">
+						<Stack spacing={2}>
+							<Pagination
+								count={Math.ceil(
+									Number(pagination?.total || 1) /
+										Number(pagination?.limit || 1)
+								)}
+								onChange={(e, v: number) => {
+									setPageNumber(v);
+								}}
+								variant="outlined"
+								page={pageNumber}
+							/>
+						</Stack>
+					</div>
+				) : (
+					""
+				)}
 			</section>
 		</PanelLayout>
 	);
