@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { SingleImageUpdateBranch } from "components/core";
-import { uploadFile } from "utils";
+import { deleteFile, uploadFile } from "utils";
 
 interface Props {
   open: any;
@@ -35,33 +35,20 @@ const UpdateBranchImage = ({
   const initialValues = {
     image: `${imageData ? imageData : ""}`,
   };
-  console.log("imageData", imageData);
   const handleSubmit = async (values: any) => {
-    console.log(values);
-    return
     setLoading(true);
-    const uniId = values?.image?.type.split("/")[1].split("+")[0];
+    const uniId = initialValues?.image?.substring(
+      initialValues?.image?.lastIndexOf("/") + 1
+    );
     try {
-      const url = await uploadFile(values?.image, `${Date.now()}.${uniId}`);
-      console.log(values?.image);
-      const name = values.name;
-      const res = await change(`technologies`, {
-        body: { logo: url, name: name },
-      });
-      setLoading(false);
-      if (res?.status !== 201) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Something went wrong!",
-          "error"
-        );
+      if (imageData !== values?.image) {
+        const url = await uploadFile(values?.image, `${uniId}`);
         setLoading(false);
+        mutate();
+        handleClose();
+        Swal.fire(`Success`, `Updated Successfully!`, `success`);
         return;
       }
-      mutate();
-      handleClose();
-      Swal.fire(`Success`, `Created Successfully!`, `success`);
-      return;
     } catch (error) {
       console.log(error);
       setLoading(false);
