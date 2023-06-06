@@ -1,5 +1,4 @@
-import { useTheme } from "@material-ui/core";
-import { Add, Check, CloudUpload } from "@mui/icons-material";
+import { Check, CloudUpload } from "@mui/icons-material";
 import {
 	Autocomplete,
 	Box,
@@ -9,13 +8,8 @@ import {
 	TextField,
 } from "@mui/material";
 import {
-	AdminBreadcrumbs,
-	FileUpload,
-	MultipleImagesUpload,
-	SingleImageUpdate,
+	AdminBreadcrumbs
 } from "components/core";
-import SingleImage from "components/core/SingleImage";
-import { error } from "console";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -24,14 +18,12 @@ import * as Yup from "yup";
 const initialValues = {
 	assetName: "",
 	modelNo: "",
-
 	billAmount: "",
 	brandName: "",
 	marketPrice: "",
 	serialNo: "",
 	uploadDoc: "",
 	images: [],
-
 	assignedUser: "",
 	assignDate: "",
 	assignTime: "",
@@ -63,9 +55,6 @@ const validationSchema = Yup.object().shape({
 
 const AssignAssets = () => {
 	const imageRef = useRef<HTMLInputElement | null>(null);
-	const theme = useTheme();
-	const [showPassword, setShowPassword] = useState(false);
-	const [showConPassword, setShowConPassword] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const { data: userData } = useFetch<any>(`users`);
 	const { change, isChanging } = useChange();
@@ -121,9 +110,9 @@ const AssignAssets = () => {
 												value={
 													values?.assignedUser
 														? userData?.find(
-																(option: any) =>
-																	option.id === values.assignedUser
-														  )
+															(option: any) =>
+																option.id === values.assignedUser
+														)
 														: {}
 												}
 												onChange={(e: any, r: any) => {
@@ -239,7 +228,7 @@ const AssignAssets = () => {
 											/>
 										</div>
 
-										<div className="col-span-2">
+										<div className="col-span-2 md:px-4 px-2 md:py-2 py-1">
 											<p className="text-gray-500 mb-2">
 												Assigned Time Photos
 												<span className="text-red-600">*</span>
