@@ -61,17 +61,16 @@ const ChatRightSection = () => {
           setIsMessage(null);
           return;
         } else {
-          //send message to other users
-          socketRef?.emit("SENT_MESSAGE", {
-            groupId: currentChatProfileDetails?.id,
-            userId: user?.id,
-          });
-
           await change(`chat/message/${currentChatProfileDetails?.id}`, {
             body: {
               message: isMessage,
               category: "text",
             },
+          });
+          //send message to other users
+          socketRef?.emit("SENT_MESSAGE", {
+            groupId: currentChatProfileDetails?.id,
+            userId: user?.id,
           });
           setIsLoading(false);
           setIsMessage(null);

@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
-import { useChange, useChatData, useFetch } from "hooks";
+import { useAuth, useChange, useChatData, useFetch, useSocket } from "hooks";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
@@ -35,6 +35,8 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
   );
 
   const { revalidateChatProfileDetails } = useChatData();
+  const { socketRef } = useSocket();
+  const { user } = useAuth();
 
   useEffect(() => {
     const reqData: any = employeesData?.users?.filter((obj) => {
@@ -68,7 +70,10 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
         setLoading(false);
         revalidateChatProfileDetails(profileData?.id);
         handleClose();
-
+        socketRef?.emit("REFETCH_DATA", {
+          groupId: profileData?.id,
+          userId: user?.id,
+        });
         return;
       } catch (error) {
         setLoading(false);

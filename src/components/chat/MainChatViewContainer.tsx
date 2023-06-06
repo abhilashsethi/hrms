@@ -1,9 +1,12 @@
-import { useAuth, useChatData, useIsVisible, useSocket } from "hooks";
+import { useAuth, useChatData, useSocket } from "hooks";
 import ChatMessage from "./ChatMessage";
 import { useEffect, useRef, useState } from "react";
+import { Chip } from "@mui/material";
+import { Replay } from "@mui/icons-material";
+import ICONS from "assets/icons";
 
 const MainChatViewContainer = () => {
-  const [isChanging, setIsChanging] = useState(false);
+  const [changing, setChanging] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const {
     currentChatMessage,
@@ -12,68 +15,59 @@ const MainChatViewContainer = () => {
     revalidateCurrentChat,
     handleReadMessage,
     revalidateChatProfileDetails,
+    selectedChatId,
+    isChatLoading,
   } = useChatData();
 
   const { user } = useAuth();
 
   const mainElem = useRef<HTMLDivElement>(null);
-
-  const [isVisible, lastMessageRef] = useIsVisible();
   const { socketRef } = useSocket();
 
-  // useEffect(() => {
-  //   if (!isVisible) return;
-  //   setPageNo((prev) => prev + 1);
-  //   handleNextChatPage(pageNo + 1);
-  // }, [isVisible]);
-
   useEffect(() => {
-    if (!socketRef || !currentChatProfileDetails?.id) return;
-    socketRef.on(`MESSAGE_RECEIVED_${currentChatProfileDetails?.id}`, () => {
-      setIsChanging((prev) => !prev);
-      revalidateCurrentChat(currentChatProfileDetails?.id);
-
+    if (!socketRef || !selectedChatId) return;
+    socketRef.on(`MESSAGE_RECEIVED_${selectedChatId}`, () => {
+      revalidateCurrentChat(selectedChatId);
       //after message received send a message read
-      currentChatProfileDetails?.id &&
-        handleReadMessage(currentChatProfileDetails?.id);
+      selectedChatId && handleReadMessage(selectedChatId);
 
       //emit an re fetch event
       socketRef.emit("REFETCH_DATA", {
-        groupId: currentChatProfileDetails?.id,
+        groupId: selectedChatId,
         userId: user?.id,
       });
     });
 
-    socketRef.on(
-      `MESSAGE_RECEIVED_${currentChatProfileDetails?.id}`,
-      async () => {
-        //when receive to refetch data we will refetch
-        await revalidateCurrentChat(currentChatProfileDetails?.id);
-        await revalidateCurrentChat(currentChatProfileDetails?.id);
-        currentChatProfileDetails?.id &&
-          (await revalidateChatProfileDetails(currentChatProfileDetails?.id));
-      }
-    );
-  }, [socketRef, currentChatProfileDetails, user?.id]);
+    socketRef.on(`MESSAGE_RECEIVED_${selectedChatId}`, async () => {
+      //when receive to refetch data we will refetch
+      await revalidateCurrentChat(selectedChatId);
+      selectedChatId && (await revalidateChatProfileDetails(selectedChatId));
+      setChanging((prev) => !prev);
+    });
+    socketRef.on(`REVALIDATE_${selectedChatId}`, async () => {
+      //when receive to refetch data we will refetch
+      await revalidateCurrentChat(selectedChatId);
+      selectedChatId && (await revalidateChatProfileDetails(selectedChatId));
+    });
+  }, [socketRef, selectedChatId, user?.id]);
 
   useEffect(() => {
     mainElem?.current?.scrollIntoView({
       behavior: "smooth",
     });
-  }, [isChanging]);
+  }, [changing]);
+
+  const handleFetchNext = () => {
+    setPageNo((prev) => prev + 1);
+    handleNextChatPage(pageNo + 1);
+  };
 
   return (
-    <div className="px-4 pb-4 flex flex-col-reverse ">
+    <div className="px-4 pb-4  !flex !flex-col-reverse" id="scrollableTarget">
       {currentChatMessage?.map((item, index) => (
         <div
           key={item?.id}
-          ref={
-            index === Math.ceil(currentChatMessage.length / 2)
-              ? lastMessageRef
-              : index === currentChatMessage?.length - 1
-              ? mainElem
-              : undefined
-          }
+          ref={index === 0 ? mainElem : undefined}
           className={`mt-4 flex w-full ${
             item?.category === "event"
               ? `justify-center`
@@ -94,6 +88,21 @@ const MainChatViewContainer = () => {
           </>
         </div>
       ))}
+      <div className="w-full flex items-centre pt-2 justify-center">
+        <Chip
+          avatar={
+            isChatLoading ? (
+              <ICONS.Reload className="animate-spin  " />
+            ) : (
+              <Replay />
+            )
+          }
+          label="Load more.."
+          variant="outlined"
+          className="hover:!cursor-pointer"
+          onClick={handleFetchNext}
+        />
+      </div>
     </div>
   );
 };

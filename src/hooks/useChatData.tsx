@@ -73,9 +73,12 @@ const useChatData = create<ChatState>((set, get) => ({
   },
   revalidateCurrentChat: async (chatId) => {
     try {
+      set({
+        isChatLoading: true,
+      });
       const token = getAccessToken();
       const response = await fetch(
-        BASE_URL + `/chat/message-group/${chatId}?page=1&limit=5`,
+        BASE_URL + `/chat/message-group/${chatId}?page=1&limit=10`,
         {
           method: "GET",
           headers: {
@@ -86,6 +89,7 @@ const useChatData = create<ChatState>((set, get) => ({
       const data = await response.json();
       set({
         currentChatMessage: data?.data?.message,
+        isChatLoading: false,
       });
     } catch (error) {
       set({
@@ -169,10 +173,13 @@ const useChatData = create<ChatState>((set, get) => ({
   },
   handleNextChatPage: async (pageNo: number) => {
     try {
+      set({
+        isChatLoading: true,
+      });
       const token = getAccessToken();
       const response = await fetch(
         BASE_URL +
-          `/chat/message-group/${get().selectedChatId}?limit=5&page=${pageNo}`,
+          `/chat/message-group/${get().selectedChatId}?limit=10&page=${pageNo}`,
         {
           method: "GET",
           headers: {
@@ -187,6 +194,7 @@ const useChatData = create<ChatState>((set, get) => ({
           ...get().currentChatMessage,
           ...data?.data?.message,
         ],
+        isChatLoading: false,
       });
     } catch (error) {}
   },

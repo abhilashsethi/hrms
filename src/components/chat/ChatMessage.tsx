@@ -11,7 +11,7 @@ import { CHATDOC } from "assets/home";
 import { PhotoViewerSmall } from "components/core";
 import { ChatReply } from "components/dialogues";
 import { ChatReactions, ChatSeen } from "components/drawer";
-import { useAuth, useChange } from "hooks";
+import { useAuth, useChange, useChatData, useSocket } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
@@ -30,18 +30,6 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
   const [isSeen, setIsSeen] = useState(false);
 
   const { user } = useAuth();
-  //   const MessageSender = (ActiveChat: any, individualMsg: any) => {
-  //     switch (ActiveChat) {
-  //       case ActiveChat?.type === "group" && individualMsg?.sendBy === "sender":
-  //         return individualMsg?.author?.name;
-  //       case ActiveChat?.type === "group" && individualMsg?.sendBy === "you":
-  //         return user?.name;
-  //       case ActiveChat?.type === "person" && individualMsg?.sendBy === "sender":
-  //         return individualMsg?.name;
-  //       case ActiveChat?.type === "person" && individualMsg?.sendBy === "you":
-  //         return user?.name;
-  //     }
-  //   };
 
   return (
     <>
@@ -202,6 +190,9 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
     { id: 4, text: "😮" },
   ];
 
+  const { socketRef } = useSocket();
+  const { revalidateCurrentChat } = useChatData();
+
   const handleReact = async (message: string | null) => {
     if (message) {
       try {
@@ -215,11 +206,17 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
           Swal.fire(`Error`, "Something went wrong!", "error");
           return;
         }
-        Swal.fire(`Success`, "Reacted to message", "success");
+
         setIsLoading(false);
+        socketRef?.emit("REFETCH_DATA", {
+          groupId: activeProfile?.id,
+          userId: user?.id,
+        });
+
+        revalidateCurrentChat(activeProfile?.id);
+
         return;
       } catch (error) {
-        console.log(error);
         setIsLoading(false);
       } finally {
         setIsLoading(false);
