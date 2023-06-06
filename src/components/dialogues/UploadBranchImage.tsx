@@ -23,12 +23,14 @@ interface Props {
   handleClose: any;
   mutate?: any;
   branchData?: any;
+  MainMutate?: any;
 }
 
 const UploadBranchImage = ({
   open,
   handleClose,
   mutate,
+  MainMutate,
   branchData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
@@ -62,6 +64,7 @@ const UploadBranchImage = ({
         return;
       }
       mutate();
+      MainMutate();
       handleClose();
       router?.push("/admin/branch/all-branch");
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
