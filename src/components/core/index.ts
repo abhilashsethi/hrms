@@ -36,3 +36,4 @@ export { default as EmployeeDataUpload } from "./EmployeeDataUpload";
 export { default as EmployeeProfileCopyLink } from "./EmployeeProfileCopyLink";
 export { default as PhotoUpdateView } from "./PhotoUpdateView";
 export { default as MultipleImagesUpload } from "./MultipleImagesUpload";
+export { default as SingleImageUpdateBranch } from "./SingleImageUpdateBranch";
