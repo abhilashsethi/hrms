@@ -100,14 +100,13 @@ const UpdateBranch = ({
           Swal.fire("", "Please Wait...", "info");
           await deleteFile(String(data?.split("/").reverse()[0]));
           const updatedPhotos = branchData?.photos.filter((photo: any) => photo !== data);
-          const updatedWorkspace = {
+          const updatedBranchData = {
             ...branchData,
             photos: updatedPhotos
           };
-          console.log(updatedWorkspace);
           const res = await change(`branches/${branchData?.id}`, {
             method: "PATCH",
-            body: { photos: updatedWorkspace?.photos },
+            body: { photos: updatedPhotos },
           });
           if (res?.status !== 200) {
             Swal.fire(
@@ -119,6 +118,7 @@ const UpdateBranch = ({
           }
           Swal.fire(`Success`, `Deleted Successfully!`, `success`);
           mutate();
+          handleClose()
           return;
         } catch (error) {
           console.log(error);

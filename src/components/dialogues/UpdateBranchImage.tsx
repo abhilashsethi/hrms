@@ -56,7 +56,6 @@ const UpdateBranchImage = ({
       setLoading(false);
     }
   };
-
   return (
     <Dialog
       onClose={handleClose}
