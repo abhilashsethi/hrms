@@ -10,6 +10,7 @@ import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import moment from "moment";
+import Link from "next/link";
 import { useState } from "react";
 import Slider from "react-slick";
 import Swal from "sweetalert2";
@@ -307,11 +308,13 @@ const MoreOption = ({ item, mutate }: any) => {
 									<DeleteRounded fontSize="small" color="error" />
 								</span>
 							</Tooltip>
-							<Tooltip title="Assign Employee">
-								<span className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center">
-									<AssignmentInd fontSize="small" color="secondary" />
-								</span>
-							</Tooltip>
+							<Link href={`/admin/assets/assign-assets?id=${item?.id}`}>
+								<Tooltip title="Assign Employee">
+									<span className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center">
+										<AssignmentInd fontSize="small" color="secondary" />
+									</span>
+								</Tooltip>
+							</Link>
 							<Tooltip title="Edit Asset">
 								<span
 									onClick={() => {

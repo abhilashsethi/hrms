@@ -133,11 +133,13 @@ const UpdateBranch = ({
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
+        MainMutate={MainMutate}
       />
       <UploadBranchImage
         branchData={isUpload?.branchData}
         open={isUpload?.dialogue}
         handleClose={() => setIsUpload({ dialogue: false })}
+        MainMutate={MainMutate}
         mutate={mutate}
       />
       <Dialog

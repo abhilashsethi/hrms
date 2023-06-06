@@ -22,12 +22,14 @@ interface Props {
   handleClose: any;
   mutate?: any;
   imageData?: any;
+  MainMutate?: any;
 }
 
 const UpdateBranchImage = ({
   open,
   handleClose,
   mutate,
+  MainMutate,
   imageData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
@@ -45,6 +47,7 @@ const UpdateBranchImage = ({
         const url = await uploadFile(values?.image, `${uniId}`);
         setLoading(false);
         mutate();
+        MainMutate();
         handleClose();
         Swal.fire(`Success`, `Updated Successfully!`, `success`);
         return;
