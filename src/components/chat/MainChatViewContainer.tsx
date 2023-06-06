@@ -21,11 +21,11 @@ const MainChatViewContainer = () => {
   const [isVisible, lastMessageRef] = useIsVisible();
   const { socketRef } = useSocket();
 
-  useEffect(() => {
-    if (!isVisible) return;
-    setPageNo((prev) => prev + 1);
-    handleNextChatPage(pageNo + 1);
-  }, [isVisible]);
+  // useEffect(() => {
+  //   if (!isVisible) return;
+  //   setPageNo((prev) => prev + 1);
+  //   handleNextChatPage(pageNo + 1);
+  // }, [isVisible]);
 
   useEffect(() => {
     if (!socketRef || !currentChatProfileDetails?.id) return;

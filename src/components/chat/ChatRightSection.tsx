@@ -12,7 +12,7 @@ import {
   ChatSendImage,
 } from "components/dialogues";
 import { useAuth, useChange, useChatData, useSocket } from "hooks";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatHead from "./ChatHead";
 
 import DefaultChatView from "./DefaultChatView";
@@ -28,6 +28,7 @@ interface Props {
 }
 
 const ChatRightSection = () => {
+  const [isTyping, setIsTyping] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
   const [isLink, setIsLink] = useState(false);
@@ -40,11 +41,9 @@ const ChatRightSection = () => {
   const { user } = useAuth();
 
   const {
-    currentChatMessage,
     currentChatProfileDetails,
     handleSendNewMessage,
     revalidateCurrentChat,
-    handleNextChatPage,
   } = useChatData();
 
   const handleSend = async () => {
@@ -87,6 +86,35 @@ const ChatRightSection = () => {
     }
   };
 
+  const handleTyping = (e: any) => {
+    setIsTyping(true);
+    setIsMessage(e.target.value);
+    socketRef?.emit("USER_TYPING", {
+      groupId: currentChatProfileDetails?.id,
+      userId: user?.id,
+    });
+  };
+
+  const handleTypingEnd = () => {
+    socketRef?.emit("USER_TYPING_STOP", {
+      groupId: currentChatProfileDetails?.id,
+      userId: user?.id,
+    });
+  };
+  useEffect(() => {
+    if (!isTyping) return;
+
+    const typingTimeout = setTimeout(handleTypingEnd, 5000);
+    return () => {
+      clearTimeout(typingTimeout);
+    };
+  }, [isTyping]);
+
+  const handleTypingBlur = () => {
+    setIsTyping(false);
+    handleTypingEnd();
+  };
+
   return (
     <>
       <ChatSendFiles
@@ -123,12 +151,13 @@ const ChatRightSection = () => {
                 <div className="flex gap-2 items-center w-full">
                   {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
                   <input
-                    onChange={(e) => setIsMessage(e.target.value)}
+                    onChange={handleTyping}
                     ref={textRef}
                     value={isMessage ? isMessage : ""}
                     className="bg-white text-sm w-4/5"
                     placeholder="Type a message"
                     type="text"
+                    onBlur={handleTypingBlur}
                   />
                 </div>
                 <Tooltip title="Send">

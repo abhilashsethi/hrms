@@ -106,6 +106,10 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
     (() => {
       if (!user?.id || !socketRef) return;
 
+      socketRef.onAny((event, data) => {
+        console.log(event, data);
+      });
+
       syncUserState("ONLINE", user?.id);
 
       socketRef?.emit("USER_CONNECT", {
