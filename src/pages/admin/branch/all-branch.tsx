@@ -91,6 +91,7 @@ const AllBranch = () => {
                 onClick={() => {
                   setIsOrderBy(null);
                   setUsername(null);
+                  setLocation(null);
                 }}
               >
                 <Tooltip title={isOrderBy != null || userName != null || location != null ? `Remove Filters` : `Filter`}>
