@@ -19,6 +19,7 @@ import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { countries } from "schemas/Countries";
 import UpdateBranchImage from "./UpdateBranchImage";
+import { deleteFile } from "utils";
 
 interface Props {
   open: any;
@@ -83,6 +84,49 @@ const UpdateBranch = ({
       }
     },
   });
+  const handleDelete = async (data: any, branchData: any) => {
+    console.log(data);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          Swal.fire("", "Please Wait...", "info");
+          await deleteFile(String(data?.split("/").reverse()[0]));
+          const updatedPhotos = branchData?.photos.filter((photo: any) => photo !== data);
+          const updatedWorkspace = {
+            ...branchData,
+            photos: updatedPhotos
+          };
+          console.log(updatedWorkspace);
+          const res = await change(`branches/${branchData?.id}`, {
+            method: "PATCH",
+            body: { photos: updatedWorkspace?.photos },
+          });
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            return;
+          }
+          Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+          mutate();
+          return;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
+  console.log(branchData);
   return (
     <>
       <UpdateBranchImage
@@ -296,10 +340,9 @@ const UpdateBranch = ({
                       src={data} alt="Branch" />
                     <div className="flex justify-between gap-1 pt-4 pb-2">
                       <button onClick={() => {
-                        console.log(data);
                         setIsUpdate({ dialogue: true, imageData: data });
                       }} className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Edit</button>
-                      <button className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">Delete</button>
+                      <button onClick={() => handleDelete(data, branchData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">Delete</button>
                     </div>
                   </div>
                 ))}
