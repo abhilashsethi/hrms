@@ -1,5 +1,7 @@
 import MaterialTable from "@material-table/core";
-import { Edit, PeopleRounded } from "@mui/icons-material";
+import { BorderColor, Delete, Edit, PeopleRounded } from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
+import { RenderIconRow } from "components/common";
 import { HeadStyle, ReverseIOSSwitch } from "components/core";
 import { UpdateBranch } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
@@ -8,7 +10,7 @@ import { useState } from "react";
 import Slider from "react-slick";
 import Swal from "sweetalert2";
 import { Role } from "types";
-import { MuiTblOptions, clock, getDataWithSL } from "utils";
+import { MuiTblOptions, clock, deleteFile, getDataWithSL } from "utils";
 interface Props {
   data?: any;
   mutate?: any;
@@ -54,16 +56,81 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
   });
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
-    branchData?: string | null;
-  }>({ dialogue: false, branchData: null });
-
+    branchId?: string | null;
+  }>({ dialogue: false, branchId: null });
+  const handleDelete = async (item: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        try {
+          Swal.fire("", "Please Wait...", "info");
+          const res = await change(`branches/${item?.id}`, { method: "DELETE" });
+          const photoPaths = item?.photos;
+          if (photoPaths && photoPaths.length > 0) {
+            photoPaths.forEach(async (path: any) => {
+              await deleteFile(String(path));
+            });
+          }
+          setLoading(false);
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            setLoading(false);
+            return;
+          }
+          Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+          mutate();
+          return;
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        }
+      }
+    });
+  };
+  const handleBlock = async (e: any, id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to update status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await change(`branches/${id}`, {
+          method: "PATCH",
+          body: { isBlocked: !e.target?.checked },
+        });
+        mutate();
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "Branch status update successfully!!", "success");
+        return;
+      }
+    });
+  };
   return (
     <section className="mt-8">
       <UpdateBranch
-        branchData={isUpdate?.branchData}
+        branchId={isUpdate?.branchId}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
-        mutate={mutate}
+        MainMutate={mutate}
       />
       <MaterialTable
         title={<HeadStyle name="All Branch" icon={<PeopleRounded />} />}
@@ -77,38 +144,6 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             editable: "never",
             width: "2%",
           },
-          // {
-          //   title: "Photos",
-          //   tooltip: "Photos",
-          //   render: (data) => {
-          //     return (
-          //       <>
-          //         {data?.photos?.length ?
-          //           data?.photos?.length > 1 ? (
-          //             <>
-          //               <Slider {...settings} className="">
-          //                 {data?.photos?.map((data: any, k: any) => (
-          //                   <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
-          //               transition duration-500 ease-in-out transform group-hover:scale-105"
-          //                     src={data?.photo} alt="Branch" />
-          //                 ))}
-          //               </Slider>
-          //             </>
-          //           ) : (
-          //             <>
-          //               {data?.photos?.map((data: any, k: any) => (
-          //                 <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
-          //               transition duration-500 ease-in-out transform group-hover:scale-105"
-          //                   src={data?.photo} alt="Branch" />
-          //               ))}
-          //             </>
-          //           ) : <img className="lg:h-48 md:h-36 w-full object-cover object-center 
-          //               transition duration-500 ease-in-out transform group-hover:scale-105"
-          //             src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />}
-          //       </>
-          //     );
-          //   },
-          // },
           {
             title: "Branch Name",
             tooltip: "Branch Name",
@@ -127,11 +162,27 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             title: "Email",
             tooltip: "Email",
             field: "email",
+            render: (data) => {
+              return (
+                <RenderIconRow
+                  value={data?.email || "---"}
+                  isEmail
+                />
+              );
+            },
           },
           {
             title: "Phone",
             tooltip: "Phone",
             field: "phone",
+            render: (data) => {
+              return (
+                <RenderIconRow
+                  value={data?.phone || "---"}
+                  isPhone
+                />
+              );
+            },
           },
           {
             title: "Country",
@@ -150,7 +201,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
               return (
                 <ReverseIOSSwitch size="small"
                   checked={data?.isBlocked}
-                // onChange={(e) => handleBlock(e, data?.id)}
+                  onChange={(e) => handleBlock(e, data?.id)}
                 />
               );
             },
@@ -170,49 +221,74 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             editable: "never",
           },
           {
-            title: "Update",
-            tooltip: "update",
+            title: "Actions",
+            tooltip: "Actions",
             render: (data) => {
               return (
-                <span onClick={() => {
-                  setIsUpdate({ dialogue: true, branchData: data });
-                }} className="group w-full hover:bg-theme text-theme hover:text-white flex border-2 px-2 py-1 datas-center justify-center ">
-                  <Edit fontSize="small" />
-                </span>
+                <div className="flex gap-1">
+                  <Tooltip title="Details">
+                    <div className="text-sm bg-blue-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+                      <IconButton
+                        onClick={() =>
+                          setIsUpdate({ dialogue: true, branchId: data?.id })
+                        }
+                      >
+                        <BorderColor className="!text-white" />
+                      </IconButton>
+                    </div>
+                  </Tooltip>
+                  <Tooltip title="Delete">
+                    <div className="text-sm bg-red-500 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+                      <IconButton
+                        onClick={() =>
+                          handleDelete(data)
+                        }
+                      >
+                        <Delete className="!text-white" />
+                      </IconButton>
+                    </div>
+                  </Tooltip>
+                </div>
+
               );
             },
             editable: "never",
           },
         ]}
-        editable={{
-          onRowDelete: async (oldData) => {
-            setLoading(true);
-            Swal.fire("", "Please Wait...", "info");
-            try {
-              const res = await change(`branches/${oldData.id}`, {
-                method: "DELETE",
-              });
-              setLoading(false);
-              if (res?.status !== 200) {
-                Swal.fire(
-                  "Error",
-                  res?.results?.msg || "Something went wrong!",
-                  "error"
-                );
-                setLoading(false);
-                return;
-              }
-              mutate();
-              Swal.fire(`Success`, `Deleted Successfully!`, `success`);
-              return;
-            } catch (error) {
-              console.log(error);
-              setLoading(false);
-            } finally {
-              setLoading(false);
-            }
+        detailPanel={[
+          {
+            tooltip: "info",
+            render: ({ rowData }) => (
+              <>
+                <div className="w-full">
+                  {rowData?.photos?.length ?
+                    <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 px-8 py-4">
+                      {rowData?.photos?.map((pic: any, i: any) => (
+                        <div key={i} className="bg-white rounded-lg shadow-lg px-2 py-2">
+                          <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                            src={pic} alt="Branch" />
+                        </div>
+                      )
+                      )}
+                    </div>
+                    :
+                    <>
+                      <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 px-8 py-4">
+                        <div className="bg-white rounded-lg shadow-lg px-2 py-2">
+                          <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                            src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />
+                        </div>
+                      </div>
+                    </>
+                  }
+                </div>
+              </>
+            ),
           },
-        }}
+        ]}
+
       />
     </section>
   );

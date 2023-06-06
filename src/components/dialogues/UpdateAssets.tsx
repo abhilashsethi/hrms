@@ -16,6 +16,8 @@ import { useRef, useState } from "react";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 import { Role } from "types";
+import moment from "moment";
+import { PDF } from "assets/home";
 
 interface Props {
 	open: any;
@@ -29,15 +31,20 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
 	const imageRef = useRef<HTMLInputElement | null>(null);
 	const { change } = useChange();
 	const initialValues = {
-		assetName: "",
-		modelNo: "",
-		purchaseDate: "",
-		billAmount: "",
-		brandName: "",
-		marketPrice: "",
-		serialNo: "",
-		uploadDoc: "",
-		images: [],
+		assetName: `${assetData?.name ? assetData?.name : ""}`,
+		modelNo: `${assetData?.modelName ? assetData?.modelName : ""}`,
+		purchaseDate: `${
+			assetData?.dateOfPurchase
+				? moment(assetData?.dateOfPurchase).format("YYYY-MM-DD")
+				: ""
+		}`,
+		billAmount: `${assetData?.purchasePrice ? assetData?.purchasePrice : ""}`,
+		brandName: `${assetData?.brandName ? assetData?.brandName : ""}`,
+		marketPrice: `${assetData?.marketPrice ? assetData?.marketPrice : ""}`,
+		serialNo: `${assetData?.serialNumber ? assetData?.serialNumber : ""}`,
+		uploadDoc: [],
+		// images: [],
+		images: assetData?.photos ? assetData?.photos : [],
 	};
 
 	const validationSchema = Yup.object().shape({
@@ -90,7 +97,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
 				</IconButton>
 			</DialogTitle>
 			<DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-				<div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
+				<div className="md:px-4 px-2 tracking-wide">
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}
@@ -244,77 +251,13 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
 											helperText={touched.serialNo && errors.serialNo}
 										/>
 									</div>
-									<div className="md:px-4 px-2 md:py-2 py-1">
-										<div className="py-2">
-											<InputLabel htmlFor="uploadDoc">
-												Upload Document
-											</InputLabel>
-										</div>
-										<TextField
-											size="small"
-											fullWidth
-											type="file"
-											// placeholder="Phone"
-											id="uploadDoc"
-											name="uploadDoc"
-											value={values.uploadDoc}
-											onChange={handleChange}
-											onBlur={handleBlur}
-											error={touched.uploadDoc && !!errors.uploadDoc}
-											helperText={touched.uploadDoc && errors.uploadDoc}
-										/>
-									</div>
-
-									<div className="col-span-2">
-										<p className="text-gray-500 mb-2">
-											Upload Multiple Images
-											<span className="text-red-600">*</span>
-										</p>
-										{/* ----------------------------multiple image component------------------ */}
-										<div
-											onClick={() => imageRef?.current?.click()}
-											className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
-										>
-											<input
-												className="hidden"
-												ref={imageRef}
-												type="file"
-												multiple
-												onChange={(event: any) => {
-													const files = Array.from(event.target.files);
-													const fileObjects = files.map((file: any) => ({
-														file,
-														previewURL: URL.createObjectURL(file),
-													}));
-													setFieldValue("images", fileObjects);
-												}}
-											/>
-											<div className="flex justify-center items-center gap-2 flex-wrap">
-												{values.images.map((image: any, index) => (
-													<div className="" key={index}>
-														<img
-															className="w-40 object-contain"
-															src={image.previewURL}
-															alt={`Image ${index + 1}`}
-														/>
-													</div>
-												))}
-											</div>
-											<p>Upload Images</p>
-											<CloudUpload fontSize="large" color="primary" />
-											<ErrorMessage
-												name="images"
-												component="div"
-												className="error"
-											/>
-										</div>
-									</div>
 								</div>
 								<div className="flex justify-center md:py-4 py-2">
 									<Button
+										fullWidth
 										type="submit"
 										variant="contained"
-										className="!bg-theme"
+										className="!bg-green-500"
 										disabled={loading}
 										startIcon={
 											loading ? <CircularProgress size={20} /> : <Check />
@@ -326,6 +269,62 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
 							</Form>
 						)}
 					</Formik>
+				</div>
+				<div className="grid lg:grid-cols-2 gap-4 py-4">
+					{assetData?.docs?.map((data: any, k: any) => (
+						<div
+							key={k}
+							className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
+						>
+							<a href={data?.link}>
+								<img src={PDF.src} alt="" />
+							</a>
+							<div className="flex justify-between gap-1 pt-4 pb-2">
+								<button
+									onClick={() => {
+										console.log(data);
+										// setIsUpdate({ dialogue: true, imageData: data });
+									}}
+									className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+								>
+									Edit
+								</button>
+								<button className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
+									Delete
+								</button>
+							</div>
+						</div>
+					))}
+				</div>
+
+				<div className="grid lg:grid-cols-2 gap-4 py-4">
+					{assetData?.photos?.map((data: any, k: any) => (
+						<div
+							key={k}
+							className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
+						>
+							<img
+								className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+								src={data}
+								alt="Branch"
+							/>
+							<div className="flex justify-between gap-1 pt-4 pb-2">
+								<button
+									onClick={() => {
+										console.log(data);
+										// setIsUpdate({ dialogue: true, imageData: data });
+									}}
+									className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+								>
+									Edit
+								</button>
+								<button className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
+									Delete
+								</button>
+							</div>
+						</div>
+					))}
 				</div>
 			</DialogContent>
 		</Dialog>

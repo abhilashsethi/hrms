@@ -20,7 +20,6 @@ const ChatSeen = ({ open, onClose, chatData }: Props) => {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-  console.log(chatData);
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>

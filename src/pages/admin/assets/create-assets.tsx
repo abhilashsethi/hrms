@@ -1,6 +1,7 @@
 import { useTheme } from "@material-ui/core";
 import { Add, Check, CloudUpload } from "@mui/icons-material";
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
+import { PDF } from "assets/home";
 import {
 	AdminBreadcrumbs,
 	FileUpload,
@@ -15,6 +16,7 @@ import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
+import { uploadFile } from "utils";
 import * as Yup from "yup";
 const initialValues = {
 	assetName: "",
@@ -66,14 +68,36 @@ const validationSchema = Yup.object().shape({
 const CreateAssets = () => {
 	const router = useRouter();
 	const imageRef = useRef<HTMLInputElement | null>(null);
+	const docsRef = useRef<HTMLInputElement | null>(null);
 	const theme = useTheme();
 
 	const [loading, setLoading] = useState(false);
 	const { change, isChanging } = useChange();
-	const handleSubmit = async (values: any) => {
-		// return;
+	const handleSubmit = async (values: any, { resetForm }: any) => {
+		// console.log(values);
+		setLoading(true);
 
 		try {
+			const photoUrls = [];
+			for (const photo of values?.images) {
+				const url = await uploadFile(
+					photo?.file,
+					`${Date.now()}.${photo?.uniId}`
+				);
+				photoUrls.push(url);
+			}
+			const docsUrls = [];
+			for (const docs of values?.uploadDoc) {
+				// console.log(docs?.uniId);
+
+				const url = await uploadFile(
+					docs?.file,
+					`${Date.now()}.${docs?.uniId}`
+				);
+				docsUrls.push({ link: url, docType: docs?.uniId });
+			}
+			// console.log(docsUrls);
+			// return;
 			const res: any = await change(`assets`, {
 				body: {
 					name: values?.assetName,
@@ -85,16 +109,23 @@ const CreateAssets = () => {
 					serialNumber: values?.serialNo,
 					isAssign: true,
 					dateOfPurchase: new Date(values?.purchaseDate).toISOString(),
+					photos: photoUrls,
+					docs: docsUrls,
 				},
 			});
 			setLoading(false);
 			if (res?.status !== 200) {
-				Swal.fire("Error", res?.results?.message || "Unable to Submit", "info");
+				Swal.fire(
+					"Error",
+					res?.results?.message || "Unable to Submit",
+					"error"
+				);
 				setLoading(false);
 				console.log(res);
 				return;
 			}
 			Swal.fire(`Success`, `You have successfully Created!`, `success`);
+			resetForm();
 			console.log(res);
 			return;
 		} catch (error) {
@@ -268,7 +299,7 @@ const CreateAssets = () => {
 												helperText={touched.serialNo && errors.serialNo}
 											/>
 										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										{/* <div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="uploadDoc">
 													Upload Document
@@ -287,14 +318,14 @@ const CreateAssets = () => {
 												error={touched.uploadDoc && !!errors.uploadDoc}
 												helperText={touched.uploadDoc && errors.uploadDoc}
 											/>
-										</div>
+										</div> */}
 
-										<div className="col-span-2">
+										<div className="col-span-2 py-3">
 											<p className="text-gray-500 mb-2">
-												Upload Multiple Images
+												Upload Images
 												<span className="text-red-600">*</span>
 											</p>
-											{/* ----------------------------multiple image component------------------ */}
+											{/* ----------------------------multiple Images component------------------ */}
 											<div
 												onClick={() => imageRef?.current?.click()}
 												className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
@@ -306,10 +337,16 @@ const CreateAssets = () => {
 													multiple
 													onChange={(event: any) => {
 														const files = Array.from(event.target.files);
-														const fileObjects = files.map((file: any) => ({
-															file,
-															previewURL: URL.createObjectURL(file),
-														}));
+														const fileObjects = files.map((file: any) => {
+															const uniId = file.type
+																.split("/")[1]
+																.split("+")[0]; // Get unique ID of the image
+															return {
+																file,
+																previewURL: URL.createObjectURL(file),
+																uniId, // Add unique ID to the file object
+															};
+														});
 														setFieldValue("images", fileObjects);
 													}}
 												/>
@@ -328,6 +365,56 @@ const CreateAssets = () => {
 												<CloudUpload fontSize="large" color="primary" />
 												<ErrorMessage
 													name="images"
+													component="div"
+													className="error"
+												/>
+											</div>
+										</div>
+										<div className="col-span-2 py-3">
+											<p className="text-gray-500 mb-2">
+												UploaI Docs
+												<span className="text-red-600">*</span>
+											</p>
+											{/* ----------------------------multiple Docs component------------------ */}
+											<div
+												onClick={() => docsRef?.current?.click()}
+												className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
+											>
+												<input
+													className="hidden"
+													ref={docsRef}
+													type="file"
+													multiple
+													onChange={(event: any) => {
+														const files = Array.from(event.target.files);
+														const fileObjects = files.map((file: any) => {
+															const uniId = file.type
+																.split("/")[1]
+																.split("+")[0]; // Get unique ID of the image
+															return {
+																file,
+																previewURL: URL.createObjectURL(file),
+																uniId, // Add unique ID to the file object
+															};
+														});
+														setFieldValue("uploadDoc", fileObjects);
+													}}
+												/>
+												<div className="flex justify-center items-center gap-2 flex-wrap">
+													{values.uploadDoc.map((image: any, index) => (
+														<div className="" key={index}>
+															<img
+																className="w-20 object-contain"
+																src={PDF.src}
+																alt={`Image ${index + 1}`}
+															/>
+														</div>
+													))}
+												</div>
+												<p>Upload Docs</p>
+												<CloudUpload fontSize="large" color="primary" />
+												<ErrorMessage
+													name="uploadDoc"
 													component="div"
 													className="error"
 												/>

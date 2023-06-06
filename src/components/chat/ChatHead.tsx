@@ -63,7 +63,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
         }
       );
       socketRef.on(
-        `USER_IS_TYPING_${currentChatProfileDetails?.id}`,
+        `USER_STOP_TYPING_${currentChatProfileDetails?.id}`,
         (data) => {
           setTypingUser(
             (currentChatProfileDetails?.chatMembers?.find(
