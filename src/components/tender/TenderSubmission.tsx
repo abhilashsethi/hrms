@@ -5,12 +5,13 @@ import {
   Button,
   Checkbox,
   IconButton,
+  MenuItem,
   TextField,
   Tooltip,
 } from "@mui/material";
 import { Add, Check, Delete, Download } from "@mui/icons-material";
 
-const TenderDocumentation = () => {
+const TenderSubmission = () => {
   return (
     <section>
       <h1 className="text-theme font-semibold">Assigned Member</h1>
@@ -91,26 +92,21 @@ const TenderDocumentation = () => {
           </div>
         </TenderLayout>
       </div>
-      <div className="mt-4">
-        <h1 className="font-semibold">All documents created ? </h1>
-        <div className="flex gap-2 items-center">
-          <div className="flex gap-2 items-center">
-            <Checkbox /> <span>Yes</span>
-          </div>
-          <div className="flex gap-2 items-center">
-            <Checkbox /> <span>No</span>
-          </div>
-        </div>
-      </div>
-      <div className="w-1/2">
-        <h1 className="font-semibold">Reason </h1>
+
+      <div className="w-1/2 mt-4">
+        <h1 className="font-semibold">Update Status </h1>
         <TextField
-          multiline
+          className="!mt-4"
+          select
           fullWidth
-          rows={3}
-          placeholder="Reason"
-          className="mt-2"
-        />
+          defaultValue="Disqualified"
+        >
+          {statuses.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
         <div className="flex mt-2 mb-2">
           <Button
             startIcon={<Check />}
@@ -125,9 +121,52 @@ const TenderDocumentation = () => {
   );
 };
 
-export default TenderDocumentation;
+export default TenderSubmission;
 
 const documents = [
   { id: 1, name: "Financial Document", doc: "alldata.csv" },
   { id: 2, name: "Tender Agreement", doc: "agreements.csv" },
+];
+
+const statuses = [
+  {
+    value: "Submitted",
+    label: "Submitted",
+  },
+  {
+    value: "Cancelled",
+    label: "Cancelled",
+  },
+  {
+    value: "Open",
+    label: "Open",
+  },
+  {
+    value: "Closed",
+    label: "Closed",
+  },
+  {
+    value: "Technical Evaluation",
+    label: "Technical Evaluation",
+  },
+  {
+    value: "Financial Evaluation",
+    label: "Financial Evaluation",
+  },
+  {
+    value: "Bid Awarded",
+    label: "Bid Awarded",
+  },
+  {
+    value: "Closed",
+    label: "Closed",
+  },
+  {
+    value: "L1",
+    label: "L1",
+  },
+  {
+    value: "Disqualified",
+    label: "Disqualified",
+  },
 ];
