@@ -209,7 +209,7 @@ const AllAssets = () => {
 				) : (
 					<>
 						{isLoading && <Loader />}
-						<AssetsColumn data={assetsData} mutate={mutate} />
+						<AssetsColumn data={assetsData} mutate={assetMutate} />
 					</>
 				)}
 				{assetsData?.length === 0 ? <LoaderAnime /> : null}
