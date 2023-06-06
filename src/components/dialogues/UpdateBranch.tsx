@@ -20,19 +20,20 @@ import Swal from "sweetalert2";
 import { countries } from "schemas/Countries";
 import UpdateBranchImage from "./UpdateBranchImage";
 import { deleteFile } from "utils";
+import UploadBranchImage from "./UploadBranchImage";
 
 interface Props {
   open: any;
   handleClose: any;
-  mutate?: any;
-  branchData?: any;
+  MainMutate?: any;
+  branchId?: any;
 }
 
 const UpdateBranch = ({
   open,
   handleClose,
-  mutate,
-  branchData,
+  MainMutate,
+  branchId,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const imageRef = useRef<HTMLInputElement | null>(null);
@@ -41,7 +42,11 @@ const UpdateBranch = ({
     dialogue?: boolean;
     imageData?: string | null;
   }>({ dialogue: false, imageData: null });
-
+  const [isUpload, setIsUpload] = useState<{
+    dialogue?: boolean;
+    branchData?: any;
+  }>({ dialogue: false, branchData: null });
+  const { data: branchData, mutate } = useFetch<any>(`branches/${branchId}`);
   const { data: userData } = useFetch<any>(`users`);
   const formik = useFormik({
     initialValues: {
@@ -72,7 +77,7 @@ const UpdateBranch = ({
           setLoading(false);
           return;
         }
-        mutate();
+        MainMutate();
         handleClose();
         Swal.fire(`Success`, `Updated Successfully!`, `success`);
         return;
@@ -99,10 +104,7 @@ const UpdateBranch = ({
           Swal.fire("", "Please Wait...", "info");
           await deleteFile(String(data?.split("/").reverse()[0]));
           const updatedPhotos = branchData?.photos.filter((photo: any) => photo !== data);
-          const updatedBranchData = {
-            ...branchData,
-            photos: updatedPhotos
-          };
+
           const res = await change(`branches/${branchData?.id}`, {
             method: "PATCH",
             body: { photos: updatedPhotos },
@@ -117,7 +119,6 @@ const UpdateBranch = ({
           }
           Swal.fire(`Success`, `Deleted Successfully!`, `success`);
           mutate();
-          handleClose()
           return;
         } catch (error) {
           console.log(error);
@@ -131,6 +132,12 @@ const UpdateBranch = ({
         imageData={isUpdate?.imageData}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
+        mutate={mutate}
+      />
+      <UploadBranchImage
+        branchData={isUpload?.branchData}
+        open={isUpload?.dialogue}
+        handleClose={() => setIsUpload({ dialogue: false })}
         mutate={mutate}
       />
       <Dialog
@@ -327,34 +334,48 @@ const UpdateBranch = ({
                   disabled={loading}
                   startIcon={loading ? <CircularProgress size={20} /> : <Check />}
                 >
-                  UPDATE BRANCH
+                  UPDATE DETAILS
                 </Button>
               </form>
-              <div className="grid lg:grid-cols-2 gap-4 py-4">
-                {branchData?.photos ?
-                  branchData?.photos?.map((data: any, k: any) => (
-                    <div key={k} className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg">
-                      <img className="lg:h-48 md:h-36 w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
-                        src={data} alt="Branch" />
-                      <div className="flex justify-between gap-1 pt-4 pb-2">
-                        <button onClick={() => {
-                          setIsUpdate({ dialogue: true, imageData: data });
-                        }} className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Edit</button>
-                        <button onClick={() => handleDelete(data, branchData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">Delete</button>
+              {branchData?.photos?.length ?
+                (
+                  <>
+                    <div className="w-full">
+                      <div className="flex justify-end pt-4 gap-2">
+                        <button onClick={() =>
+                          setIsUpload({ dialogue: true, branchData: branchData })}
+                          className=
+                          "bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">
+                          Add More Images
+                        </button>
                       </div>
                     </div>
-                  )) :
-                  (
-                    <>
-                      <div className="flex flex-col justify-center">
-                        <p>No Image Available</p>
-                        <button onClick={() => setIsUpdate({ dialogue: true, imageData: "" })} className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Delete</button>
-
-                      </div>
-                    </>
-                  )}
-              </div>
+                    <div className="grid lg:grid-cols-2 gap-4 py-4">
+                      {branchData?.photos?.map((data: any, k: any) => (
+                        <div key={k} className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg">
+                          <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                            src={data} alt="Branch" />
+                          <div className="flex justify-between gap-1 pt-4 pb-2">
+                            <button onClick={() => {
+                              setIsUpdate({ dialogue: true, imageData: data });
+                            }} className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Edit</button>
+                            <button onClick={() => handleDelete(data, branchData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">Delete</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )
+                :
+                (
+                  <>
+                    <div className="flex flex-col justify-center justify-items-center pt-4 gap-2">
+                      <p>No Image Available</p>
+                      <button onClick={() => setIsUpload({ dialogue: true, branchData: branchData })} className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Add Images</button>
+                    </div>
+                  </>
+                )}
             </div>
           </div>
         </DialogContent>

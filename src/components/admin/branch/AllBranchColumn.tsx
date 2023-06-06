@@ -54,16 +54,16 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
   });
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
-    branchData?: string | null;
-  }>({ dialogue: false, branchData: null });
+    branchId?: string | null;
+  }>({ dialogue: false, branchId: null });
 
   return (
     <section className="mt-8">
       <UpdateBranch
-        branchData={isUpdate?.branchData}
+        branchId={isUpdate?.branchId}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
-        mutate={mutate}
+        MainMutate={mutate}
       />
       <MaterialTable
         title={<HeadStyle name="All Branch" icon={<PeopleRounded />} />}
@@ -175,7 +175,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             render: (data) => {
               return (
                 <span onClick={() => {
-                  setIsUpdate({ dialogue: true, branchData: data });
+                  setIsUpdate({ dialogue: true, branchId: data?.id });
                 }} className="group w-full hover:bg-theme text-theme hover:text-white flex border-2 px-2 py-1 datas-center justify-center ">
                   <Edit fontSize="small" />
                 </span>
