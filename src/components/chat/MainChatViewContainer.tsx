@@ -51,23 +51,40 @@ const MainChatViewContainer = () => {
     });
   }, [socketRef, selectedChatId, user?.id]);
 
-  useEffect(() => {
-    mainElem?.current?.scrollIntoView({
-      behavior: "smooth",
-    });
-  }, [changing]);
+  // useEffect(() => {
+  //   if (!mainElem?.current || !selectedChatId) return;
+  //   mainElem?.current?.scrollIntoView({
+  //     behavior: "smooth",
+  //   });
+  // }, [changing, mainElem?.current, selectedChatId]);
 
   const handleFetchNext = () => {
     setPageNo((prev) => prev + 1);
     handleNextChatPage(pageNo + 1);
   };
 
+  const divRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    (() => {
+      divRef.current?.scrollHeight &&
+        divRef.current?.scrollTo({
+          top: divRef.current?.scrollHeight,
+          behavior: "smooth",
+        });
+    })();
+  }, [changing, selectedChatId]);
+
   return (
-    <div className="px-4 pb-4  !flex !flex-col-reverse" id="scrollableTarget">
+    <div
+      className="px-4 pb-4  !flex !flex-col-reverse"
+      id="scrollableTarget"
+      ref={divRef}
+    >
       {currentChatMessage?.map((item, index) => (
         <div
           key={item?.id}
-          ref={index === 0 ? mainElem : undefined}
+          ref={index === 0 ? mainElem : null}
           className={`mt-4 flex w-full ${
             item?.category === "event"
               ? `justify-center`

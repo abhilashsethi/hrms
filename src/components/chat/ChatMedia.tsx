@@ -3,15 +3,17 @@ import {
   Delete,
   FileDownload,
   LinkOutlined,
+  Replay,
   Visibility,
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, IconButton, Tab, Tooltip } from "@mui/material";
+import { Box, Chip, IconButton, Tab, Tooltip } from "@mui/material";
 import { CHATDOC } from "assets/home";
+import ICONS from "assets/icons";
 import { ChatImagePreview } from "components/dialogues";
 import { BASE_URL, useChange, useChatData, useFetch } from "hooks";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { deleteFile, downloadFile } from "utils";
 
@@ -24,16 +26,30 @@ const ChatMedia = ({
   setIsMedia: (arg: any) => void;
   groupId?: string;
 }) => {
+  const [fileData, setFileData] = useState<any[]>([]);
+
   const [value, setValue] = React.useState("image");
+  const [pageNo, setPageNo] = useState(1);
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    setPageNo(1);
   };
 
   const { selectedChatId } = useChatData();
 
   const { data, isValidating, mutate } = useFetch<any>(
-    `chat/message-group/${selectedChatId}?category=${value}`
+    `chat/message-group/${selectedChatId}?category=${value}&limit=20&page=${pageNo}`
   );
+
+  useEffect(() => {
+    if (!data?.message?.length) return;
+    setFileData((prev) => [...prev, ...data?.message]);
+  }, [data?.message]);
+
+  const handleNextFetch = () => {
+    setPageNo((prev) => prev + 1);
+  };
 
   return (
     <section
@@ -65,23 +81,26 @@ const ChatMedia = ({
             </Box>
             <TabPanel value="image">
               <MediaFiles
-                chatFile={data?.message}
+                chatFile={fileData}
                 isLoading={isValidating}
                 revalidate={mutate}
+                handleNextFetch={handleNextFetch}
               />
             </TabPanel>
             <TabPanel value="file">
               <DocFiles
-                chatFile={data?.message}
+                chatFile={fileData}
                 isLoading={isValidating}
                 revalidate={mutate}
+                handleNextFetch={handleNextFetch}
               />
             </TabPanel>
             <TabPanel value="link">
               <ChatLinks
-                chatLinks={data?.message}
+                chatLinks={fileData}
                 isLoading={isValidating}
                 revalidate={mutate}
+                handleNextFetch={handleNextFetch}
               />
             </TabPanel>
           </TabContext>
@@ -97,6 +116,7 @@ const MediaFiles = ({
   chatFile,
   isLoading,
   revalidate,
+  handleNextFetch,
 }: {
   chatFile: {
     text: string;
@@ -110,6 +130,7 @@ const MediaFiles = ({
   }[];
   isLoading?: boolean;
   revalidate?: () => void;
+  handleNextFetch: () => void;
 }) => {
   const [isPreview, setIsPreview] = useState(false);
   const [activePreview, setActivePreview] = useState("");
@@ -208,6 +229,21 @@ const MediaFiles = ({
               </div>
             </div>
           ))}
+          <div className="w-full flex items-centre pt-2 justify-center">
+            <Chip
+              avatar={
+                isLoading ? (
+                  <ICONS.Reload className="animate-spin  " />
+                ) : (
+                  <Replay />
+                )
+              }
+              label="Load more.."
+              variant="outlined"
+              className="hover:!cursor-pointer"
+              onClick={handleNextFetch}
+            />
+          </div>
         </section>
       )}
     </>
@@ -218,6 +254,7 @@ const DocFiles = ({
   chatFile,
   isLoading,
   revalidate,
+  handleNextFetch,
 }: {
   chatFile: {
     text: string;
@@ -231,6 +268,7 @@ const DocFiles = ({
   }[];
   isLoading?: boolean;
   revalidate?: () => void;
+  handleNextFetch?: () => void;
 }) => {
   const { selectedChatId } = useChatData();
   const { change } = useChange();
@@ -304,6 +342,21 @@ const DocFiles = ({
               </div>
             </div>
           ))}
+          <div className="w-full flex items-centre pt-2 justify-center">
+            <Chip
+              avatar={
+                isLoading ? (
+                  <ICONS.Reload className="animate-spin  " />
+                ) : (
+                  <Replay />
+                )
+              }
+              label="Load more.."
+              variant="outlined"
+              className="hover:!cursor-pointer"
+              onClick={handleNextFetch}
+            />
+          </div>
         </section>
       )}
     </>
@@ -314,6 +367,7 @@ const ChatLinks = ({
   chatLinks,
   isLoading,
   revalidate,
+  handleNextFetch,
 }: {
   chatLinks: {
     text: string;
@@ -326,6 +380,7 @@ const ChatLinks = ({
   }[];
   isLoading?: boolean;
   revalidate?: () => void;
+  handleNextFetch: () => void;
 }) => {
   const { selectedChatId } = useChatData();
 
@@ -393,6 +448,21 @@ const ChatLinks = ({
               </div>
             </div>
           ))}
+          <div className="w-full flex items-centre pt-2 justify-center">
+            <Chip
+              avatar={
+                isLoading ? (
+                  <ICONS.Reload className="animate-spin  " />
+                ) : (
+                  <Replay />
+                )
+              }
+              label="Load more.."
+              variant="outlined"
+              className="hover:!cursor-pointer"
+              onClick={handleNextFetch}
+            />
+          </div>
         </section>
       )}
     </>

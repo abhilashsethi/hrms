@@ -1,11 +1,39 @@
-import { MoreVert } from "@mui/icons-material";
+import { Block, Delete, Logout, MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatProfileDrawer } from "components/drawer";
-import { useAuth, useChatData, useSocket } from "hooks";
+import { BASE_URL, useAuth, useChange, useChatData, useSocket } from "hooks";
 import { MouseEvent, useState } from "react";
 import { formatChatTime } from "utils";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
+
+const configs = [
+  {
+    id: 1,
+    title: "Block User",
+    icon: <Block fontSize="small" />,
+    privateOnly: true,
+  },
+  {
+    id: 2,
+    title: "Leave Group",
+    icon: <Logout fontSize="small" />,
+    privateOnly: false,
+  },
+  {
+    id: 3,
+    title: "Clear Chat",
+    icon: <Delete fontSize="small" />,
+    privateOnly: false,
+  },
+  {
+    id: 4,
+    title: "Clear Chat",
+    icon: <Delete fontSize="small" />,
+    privateOnly: true,
+  },
+];
 
 const ChatHead = ({ isNew }: { isNew?: boolean }) => {
   const [typingUser, setTypingUser] = useState("");
@@ -20,6 +48,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
   };
 
   const { socketRef } = useSocket();
+  const { change } = useChange();
 
   const { currentChatProfileDetails, revalidateChatProfileDetails } =
     useChatData();
@@ -77,6 +106,80 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
     })();
   }, [socketRef, currentChatProfileDetails, user?.id]);
 
+  const handleGroupAction = async (configId: number) => {
+    try {
+      switch (configId) {
+        case 2:
+          const res = await change(
+            `chat/member/${
+              currentChatProfileDetails?.chatMembers?.find(
+                (item) => item?.user?.id === user?.id
+              )?.id
+            }`,
+            {
+              method: "DELETE",
+              BASE_URL,
+            }
+          );
+
+          if (res?.status !== 201) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+          }
+          break;
+        case 1:
+          const blockUser = await change(
+            `chat/block/${
+              currentChatProfileDetails?.chatMembers?.find(
+                (item) => item?.user?.id === user?.id
+              )?.id
+            }`,
+            {
+              method: "PATCH",
+              body: {
+                isBlocked: true,
+              },
+            }
+          );
+
+          if (blockUser?.status !== 201) {
+            Swal.fire(
+              "Error",
+              blockUser?.results?.msg || "Something went wrong!",
+              "error"
+            );
+          }
+
+        case 4 || 3:
+          const clearChat = await change(
+            `message-clear/:chatId/${
+              currentChatProfileDetails?.chatMembers?.find(
+                (item) => item?.user?.id === user?.id
+              )?.id
+            }`,
+            {
+              method: "POST",
+              BASE_URL,
+            }
+          );
+
+          if (clearChat?.status !== 201) {
+            Swal.fire(
+              "Error",
+              clearChat?.results?.msg || "Something went wrong!",
+              "error"
+            );
+          }
+          break;
+        default:
+          break;
+      }
+    } catch (error) {}
+  };
+
   return (
     <>
       <ChatProfileDrawer
@@ -84,7 +187,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
         open={isDrawer}
         onClose={() => setIsDrawer(false)}
       />
-      <div className="py-2 px-4 w-full border-b-2 flex justify-between items-center">
+      <div className="py-2 px-4 w-full border-b-2 flex justify-between items-center sticky top-0 z-[999] bg-white ">
         <div className="flex gap-3 items-center">
           <div className="cursor-pointer" onClick={() => setIsDrawer(true)}>
             <PhotoViewerSmall
@@ -165,9 +268,18 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
             >
               Details
             </MenuItem>
-            <MenuItem onClick={handleClose}>Clear Messages</MenuItem>
-            <MenuItem onClick={handleClose}>Delete Chat</MenuItem>
-            <MenuItem onClick={handleClose}>Block</MenuItem>
+
+            {configs
+              ?.filter(
+                (item) =>
+                  item?.privateOnly ===
+                  currentChatProfileDetails?.isPrivateGroup
+              )
+              ?.map((item) => (
+                <MenuItem onClick={() => handleGroupAction(item?.id)}>
+                  {item?.title}
+                </MenuItem>
+              ))}
           </Menu>
         </div>
       </div>

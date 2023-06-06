@@ -140,9 +140,9 @@ const ChatRightSection = () => {
         {!currentChatProfileDetails?.id ? (
           <DefaultChatView />
         ) : (
-          <div className="w-full h-full">
+          <div className="w-full h-full relative">
             <ChatHead />
-            <div className="h-[72%] overflow-y-auto">
+            <div className="h-[calc(100%-153px)] overflow-y-auto">
               <MainChatViewContainer />
             </div>
             <div className="h-20 w-full border-2 flex items-center px-8 justify-between">

@@ -31,7 +31,7 @@ const ChatLeftbar = () => {
     }
   };
   return (
-    <div className="w-[32%] h-full border-r-2 px-4 rounded-md">
+    <div className="w-[32%]  h-full border-r-2 px-4 rounded-md">
       <div className={`h-20 w-full flex justify-between items-center px-8`}>
         {quickLinks?.map((item) => (
           <div
@@ -63,7 +63,7 @@ const ChatLeftbar = () => {
           </div>
         ))}
       </div>
-      <div>{ActiveSection(currentMenu)}</div>
+      <div className="h-[calc(100%-80px)]  ">{ActiveSection(currentMenu)}</div>
     </div>
   );
 };
@@ -136,7 +136,7 @@ const Chats = () => {
   }, [socketRef, allPrivateChat?.length]);
 
   return (
-    <div className="h-[65vh] overflow-y-auto">
+    <div className="h-full overflow-y-auto">
       <div className="border-2 flex gap-1 items-center px-2 rounded-md py-1">
         <Search fontSize="small" />
         <input
