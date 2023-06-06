@@ -320,9 +320,9 @@ const CreateAssets = () => {
 											/>
 										</div> */}
 
-										<div className="col-span-2">
+										<div className="col-span-2 py-3">
 											<p className="text-gray-500 mb-2">
-												Upload Multiple Images
+												Upload Images
 												<span className="text-red-600">*</span>
 											</p>
 											{/* ----------------------------multiple Images component------------------ */}
@@ -370,9 +370,9 @@ const CreateAssets = () => {
 												/>
 											</div>
 										</div>
-										<div className="col-span-2">
+										<div className="col-span-2 py-3">
 											<p className="text-gray-500 mb-2">
-												Upload Multiple Docs
+												UploaI Docs
 												<span className="text-red-600">*</span>
 											</p>
 											{/* ----------------------------multiple Docs component------------------ */}
@@ -404,7 +404,7 @@ const CreateAssets = () => {
 													{values.uploadDoc.map((image: any, index) => (
 														<div className="" key={index}>
 															<img
-																className="w-40 object-contain"
+																className="w-20 object-contain"
 																src={PDF.src}
 																alt={`Image ${index + 1}`}
 															/>

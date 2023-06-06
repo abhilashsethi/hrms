@@ -42,7 +42,7 @@ const AllAssets = () => {
 		}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
 	);
 
-	const { data: assetsData } = useFetch<any>(
+	const { data: assetsData, mutate: assetMutate } = useFetch<any>(
 		`assets?page=${pageNumber}&limit=8`
 	);
 	// console.log(assetsData);
@@ -153,7 +153,7 @@ const AllAssets = () => {
 				{isGrid ? (
 					<>
 						{isLoading && <Loader />}
-						<AssetsGrid data={assetsData} mutate={mutate} />
+						<AssetsGrid data={assetsData} mutate={assetMutate} />
 					</>
 				) : (
 					<>

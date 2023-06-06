@@ -94,7 +94,7 @@ const MoreOption = ({ item, mutate }: any) => {
 				Swal.fire("", "Please Wait...", "info");
 				try {
 					Swal.fire(`Info`, "It will take some time", "info");
-					const res = await change(`departments/${id}`, { method: "DELETE" });
+					const res = await change(`assets/${id}`, { method: "DELETE" });
 					setLoading(false);
 					if (res?.status !== 200) {
 						Swal.fire(
@@ -105,8 +105,8 @@ const MoreOption = ({ item, mutate }: any) => {
 						setLoading(false);
 						return;
 					}
-					mutate();
 					Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+					mutate();
 					return;
 				} catch (error) {
 					console.log(error);
@@ -283,26 +283,31 @@ const MoreOption = ({ item, mutate }: any) => {
 									<span className="font-semibold">Docs : </span>
 								</span>
 								{/* {item?.docs } */}
-								{item?.docs?.map((item: any, i: any) => {
-									return (
-										<a
-											className="border border-theme rounded-md text-xs p-[2px]"
-											href={item?.link}
-										>
-											Docs <Download fontSize="small" />
-										</a>
-									);
-								})}
+								<div className="grid grid-cols-3 gap-1">
+									{item?.docs?.map((item: any, i: any) => {
+										return (
+											<a
+												className="border border-theme rounded-md text-xs p-[2px]"
+												href={item?.link}
+											>
+												Docs <Download fontSize="small" />
+											</a>
+										);
+									})}
+								</div>
 							</span>
 						</p>
 
 						<div className="flex bottom-0 ">
 							<Tooltip title="Delete Asset">
-								<span className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center">
+								<span
+									onClick={() => handleDelete(item?.id)}
+									className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
+								>
 									<DeleteRounded fontSize="small" color="error" />
 								</span>
 							</Tooltip>
-							<Tooltip title="Assign Asset">
+							<Tooltip title="Assign Employee">
 								<span className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center">
 									<AssignmentInd fontSize="small" color="secondary" />
 								</span>
