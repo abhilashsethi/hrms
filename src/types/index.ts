@@ -313,33 +313,33 @@ export interface ServerToClientEvents {
 }
 
 export interface ClientToServerEvents {
-  USER_CONNECT: ({ userId }: { userId: string }) => void;
+  USER_CONNECT: ({ userId }: { userId?: string }) => void;
   REFETCH_DATA: ({
     userId,
     groupId,
   }: {
-    userId: string;
-    groupId: string;
+    userId?: string;
+    groupId?: string;
   }) => void;
   SENT_MESSAGE: ({
     userId,
     groupId,
   }: {
-    userId: string;
-    groupId: string;
+    userId?: string;
+    groupId?: string;
   }) => void;
   USER_TYPING: ({
     userId,
     groupId,
   }: {
-    userId: string;
-    groupId: string;
+    userId?: string;
+    groupId?: string;
   }) => void;
   USER_TYPING_STOP: ({
     userId,
     groupId,
   }: {
-    userId: string;
-    groupId: string;
+    userId?: string;
+    groupId?: string;
   }) => void;
 }

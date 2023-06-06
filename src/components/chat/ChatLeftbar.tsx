@@ -108,7 +108,10 @@ const Chats = () => {
     setSelectedChatId,
     selectedChatId,
     revalidateChatProfileDetails,
+    reValidatePrivateChat,
   } = useChatData();
+
+  const { socketRef } = useSocket();
 
   //searching and filtering done locally
   useEffect(() => {
@@ -124,6 +127,15 @@ const Chats = () => {
       setAfterSearchable(searchData);
     })();
   }, [searchTitle, allPrivateChat?.length]);
+
+  useEffect(() => {
+    if (!socketRef) return;
+    allPrivateChat?.map((item) => {
+      return socketRef?.on(`MESSAGE_RECEIVED_${item?.id}`, async () => {
+        await reValidatePrivateChat();
+      });
+    });
+  }, [socketRef, allPrivateChat?.length]);
 
   return (
     <div className="h-[65vh] overflow-y-auto">
@@ -237,7 +249,10 @@ const GroupChats = () => {
     setSelectedChatId,
     selectedChatId,
     revalidateChatProfileDetails,
+    reValidateGroupChat,
   } = useChatData();
+
+  const { socketRef } = useSocket();
 
   //searching and filtering done locally
   useEffect(() => {
@@ -253,6 +268,15 @@ const GroupChats = () => {
       setAfterSearchable(searchData);
     })();
   }, [searchTitle, allGroupChat?.length]);
+
+  useEffect(() => {
+    if (!socketRef) return;
+    allGroupChat?.map((item) => {
+      return socketRef?.on(`MESSAGE_RECEIVED_${item?.id}`, async () => {
+        await reValidateGroupChat();
+      });
+    });
+  }, [socketRef, allGroupChat?.length]);
 
   return (
     <div className="h-[65vh] overflow-y-auto">

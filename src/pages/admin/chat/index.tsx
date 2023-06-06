@@ -1,4 +1,4 @@
-import { useChatData } from "hooks";
+import { useAuth, useChatData, useSocket } from "hooks";
 
 import { ChatLeftBar, ChatRightSection } from "components/chat";
 import PanelLayout from "layouts/panel";
@@ -6,11 +6,7 @@ import { useEffect } from "react";
 
 const Chats = () => {
   //calling context on index page to get all the data at first
-  const {
-    reValidatePrivateChat,
-    reValidateGroupChat,
-    currentChatProfileDetails,
-  } = useChatData();
+  const { reValidatePrivateChat, reValidateGroupChat } = useChatData();
 
   useEffect(() => {
     (() => {
