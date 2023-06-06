@@ -46,7 +46,7 @@ const ChooseBranch = ({ open, handleClose, mutate }: Props) => {
 
 		try {
 			setLoading(true);
-			Swal.fire("Success", "Successfully submitted", "success");
+			// Swal.fire("Success", "Successfully submitted", "success");
 			router?.push(`/admin/assets/create-assets?id=${values.branchId}`);
 			setLoading(false);
 		} catch (error) {
