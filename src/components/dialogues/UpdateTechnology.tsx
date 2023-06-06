@@ -41,8 +41,6 @@ const UpdateDepartment = ({ open, handleClose, mutate, techData }: Props) => {
     const uniId = initialValues?.logo?.substring(
       initialValues?.logo?.lastIndexOf("/") + 1
     );
-    console.log(uniId);
-    // const filename = uniId.replace(".png", "");
     try {
       if (techData?.logo !== values?.logo) {
         const url = await uploadFile(values?.logo, `${uniId}`);

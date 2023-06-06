@@ -35,7 +35,7 @@ type NewMessageCountType = {
 };
 
 const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
-  const { user, setUser, validateUser, logout,syncUserState } = useAuth();
+  const { user, setUser, validateUser, logout, syncUserState } = useAuth();
   const { connect, socketRef } = useSocket();
   const router = useRouter();
   const MenuItems: any = useMenuItems();
@@ -102,12 +102,21 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
     })();
   }, [user, socketRef]);
 
-  useEffect(()=>{
-    if(!user?.id) return
+  useEffect(() => {
+    (() => {
+      if (!user?.id || !socketRef) return;
 
-    // syncUserState("")
+      syncUserState("ONLINE", user?.id);
 
-  },[user, socketRef])
+      socketRef?.emit("USER_CONNECT", {
+        userId: user?.id,
+      });
+
+      window.addEventListener("beforeunload", () => {
+        syncUserState("OFFLINE", user?.id as any);
+      });
+    })();
+  }, [user?.id, socketRef]);
 
   const handleLogout = () => {
     Swal.fire({

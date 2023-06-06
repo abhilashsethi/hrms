@@ -4,8 +4,6 @@ import {
   Group,
   GroupOutlined,
   MoreVert,
-  PermContactCalendar,
-  PermContactCalendarOutlined,
   Search,
   Sms,
   SmsOutlined,
@@ -126,7 +124,7 @@ const Chats = () => {
 
       setAfterSearchable(searchData);
     })();
-  }, [searchTitle, allPrivateChat?.length]);
+  }, [searchTitle, allPrivateChat]);
 
   useEffect(() => {
     if (!socketRef) return;
@@ -176,7 +174,6 @@ const PrivateChatCard = ({
   item: any;
 }) => {
   const [isTyping, setIsTyping] = useState(false);
-
   const { socketRef } = useSocket();
   const { currentChatProfileDetails } = useChatData();
 
@@ -267,7 +264,7 @@ const GroupChats = () => {
 
       setAfterSearchable(searchData);
     })();
-  }, [searchTitle, allGroupChat?.length]);
+  }, [searchTitle, allGroupChat]);
 
   useEffect(() => {
     if (!socketRef) return;

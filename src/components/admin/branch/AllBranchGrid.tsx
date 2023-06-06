@@ -69,8 +69,8 @@ const MoreOption = ({ item, mutate }: any) => {
   const { change } = useChange();
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
-    branchData?: string | null;
-  }>({ dialogue: false, branchData: null });
+    branchId?: string | null;
+  }>({ dialogue: false, branchId: null });
 
   const handleDelete = async (item: any) => {
     Swal.fire({
@@ -142,10 +142,10 @@ const MoreOption = ({ item, mutate }: any) => {
   return (
     <>
       <UpdateBranch
-        branchData={isUpdate?.branchData}
+        branchId={isUpdate?.branchId}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
-        mutate={mutate}
+        MainMutate={mutate}
       />
       <div key={item?.id} className="mb-4 w-full">
         <div className="group h-full w-full border-2 bg-white border-gray-200 
@@ -155,7 +155,7 @@ const MoreOption = ({ item, mutate }: any) => {
               <>
                 <Slider {...settings} className="">
                   {item?.photos?.map((data: any, k: any) => (
-                    <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+                    <img key={k} className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
                       src={data} alt="Branch" />
                   ))}
@@ -164,7 +164,7 @@ const MoreOption = ({ item, mutate }: any) => {
             ) : (
               <>
                 {item?.photos?.map((data: any, k: any) => (
-                  <img key={k} className="lg:h-48 md:h-36 w-full object-cover object-center 
+                  <img key={k} className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
                     src={data} alt="Branch" />
                 ))}
@@ -198,7 +198,6 @@ const MoreOption = ({ item, mutate }: any) => {
               <RenderIconRow
                 value={item?.email || "---"}
                 isEmail
-                longText={false}
               />
             </p>
             <p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
@@ -222,7 +221,7 @@ const MoreOption = ({ item, mutate }: any) => {
                 <DeleteRounded fontSize="small" />
               </span>
               <span onClick={() => {
-                setIsUpdate({ dialogue: true, branchData: item });
+                setIsUpdate({ dialogue: true, branchId: item?.id });
               }} className="group w-full hover:bg-theme text-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
                 <Edit fontSize="small" />
               </span>
