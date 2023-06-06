@@ -29,3 +29,5 @@ export { default as TechnologyDonutChart } from "./TechnologyDonutChart";
 export { default as TechnologyBarChart } from "./TechnologyBarChart";
 export { default as GuestDonutChart } from "./GuestDonutChart";
 export { default as GuestBarChart } from "./GuestBarChart";
+export { default as BranchBarChart } from "./BranchBarChart";
+export { default as BranchBarChartDetails } from "./BranchBarChartDetails";

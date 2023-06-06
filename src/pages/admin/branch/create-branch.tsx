@@ -285,7 +285,7 @@ const CreateBranch = () => {
                             const uniId = file.type.split("/")[1].split("+")[0]; // Get unique ID of the image
                             return {
                               file,
-                              createPreviewURL: URL.createObjectURL(file),
+                              previewURL: URL.createObjectURL(file),
                               uniId, // Add unique ID to the file object
                             };
                           });
@@ -295,20 +295,11 @@ const CreateBranch = () => {
                       <div className="flex justify-center items-center gap-2 flex-wrap">
                         {values.photos.map((image: any, index) => (
                           <div className="" key={index}>
-                            {typeof image.previewURL === "string" ? (
-                              <img
-                                className="w-40 object-contain"
-                                src={image.previewURL}
-                                alt={`Image ${index + 1}`}
-                              />
-                            ) : (
-                              <img
-                                className="w-40 object-contain"
-                                src={image.createPreviewURL}
-                                alt={`Image ${index + 1}`}
-                              />
-                            )}
-
+                            <img
+                              className="w-40 object-contain"
+                              src={image.previewURL}
+                              alt={`Image ${index + 1}`}
+                            />
                           </div>
                         ))}
                       </div>

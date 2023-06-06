@@ -42,7 +42,7 @@ const AllBranch = () => {
 
   return (
     <PanelLayout title="All Branches - Admin Panel">
-      <section className="px-8 py-4">
+      <section className="lg:px-8 px-2 py-4">
         <CreateDepartment
           open={isCreate}
           handleClose={() => setIsCreate(false)}
@@ -84,7 +84,7 @@ const AllBranch = () => {
         <div>
           <div className="md:flex gap-4 justify-between w-full py-2">
             <div
-              className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+              className={`w-10 mb-2 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}
             >
               <IconButton

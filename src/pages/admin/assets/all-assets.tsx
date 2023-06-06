@@ -9,12 +9,14 @@ import {
 	Button,
 	IconButton,
 	MenuItem,
+	Pagination,
+	Stack,
 	TextField,
 	Tooltip,
 } from "@mui/material";
 import { AssetsColumn, AssetsGrid } from "components/admin/assets";
 import { AllBranchColumn, AllBranchGrid } from "components/admin/branch";
-import { AdminBreadcrumbs, Loader } from "components/core";
+import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
 import { CreateDepartment } from "components/dialogues";
 import ChooseBranch from "components/dialogues/ChooseBranch";
 import { useFetch } from "hooks";
@@ -28,6 +30,9 @@ const AllAssets = () => {
 	const [pageNumber, setPageNumber] = useState<number>(1);
 	const [userName, setUsername] = useState<string | null>(null);
 	const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
+	const [isBrand, setIsBrand] = useState<string | null>(null);
+	const [isBranch, setIsBranch] = useState<string | null>(null);
+	const [isModel, setIsModel] = useState<string | null>(null);
 
 	const {
 		data: departmentData,
@@ -39,6 +44,15 @@ const AllAssets = () => {
 			userName ? `&contains=${userName}` : ""
 		}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
 	);
+
+	const { data: assetsData, mutate: assetMutate } = useFetch<any>(
+		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+			isOrderBy ? `&orderBy=${isOrderBy}` : ""
+		}${isBrand ? `&brandName=${isBrand}` : ""}${
+			isBranch ? `&branchName=${isBranch}` : ""
+		}${isModel ? `&modelName=${isModel}` : ""}`
+	);
+	// console.log(assetsData);
 
 	return (
 		<PanelLayout title="All Assets - Admin Panel">
@@ -94,16 +108,27 @@ const AllAssets = () => {
 								onClick={() => {
 									setIsOrderBy(null);
 									setUsername(null);
+									setIsBrand(null);
+									setIsBranch(null);
+									setIsModel(null);
 								}}
 							>
 								<Tooltip
 									title={
-										isOrderBy != null || userName != null
+										isOrderBy != null ||
+										userName != null ||
+										isBrand != null ||
+										isBranch != null ||
+										isModel != null
 											? `Remove Filters`
 											: `Filter`
 									}
 								>
-									{isOrderBy != null || userName != null ? (
+									{isOrderBy != null ||
+									userName != null ||
+									isBrand != null ||
+									isBranch != null ||
+									isModel != null ? (
 										<Close className={"!text-white"} />
 									) : (
 										<FilterListRounded className={"!text-white"} />
@@ -112,17 +137,17 @@ const AllAssets = () => {
 							</IconButton>
 						</div>
 
-						<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+						<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
 							<TextField
 								fullWidth
 								size="small"
-								id="name"
+								id="assetName"
 								value={userName ? userName : ""}
 								onChange={(e) => {
 									setPageNumber(1), setUsername(e.target.value);
 								}}
 								placeholder="Asset Name"
-								name="name"
+								name="assetName"
 							/>
 							<TextField
 								fullWidth
@@ -140,43 +165,75 @@ const AllAssets = () => {
 									</MenuItem>
 								))}
 							</TextField>
+							<TextField
+								fullWidth
+								size="small"
+								id="brandName"
+								value={isBrand ? isBrand : ""}
+								onChange={(e) => {
+									setPageNumber(1), setIsBrand(e.target.value);
+								}}
+								placeholder="Brand Name"
+								name="brandName"
+							/>
+							<TextField
+								fullWidth
+								size="small"
+								id="branchName"
+								value={isBranch ? isBranch : ""}
+								onChange={(e) => {
+									setPageNumber(1), setIsBranch(e.target.value);
+								}}
+								placeholder="Branch Name"
+								name="branchName"
+							/>
+							<TextField
+								fullWidth
+								size="small"
+								id="modelName"
+								value={isModel ? isModel : ""}
+								onChange={(e) => {
+									setPageNumber(1), setIsModel(e.target.value);
+								}}
+								placeholder="Model Number"
+								name="modelName"
+							/>
 						</div>
 					</div>
 				</div>
 				{isGrid ? (
 					<>
 						{isLoading && <Loader />}
-						<AssetsGrid data={assetData} mutate={mutate} />
+						<AssetsGrid data={assetsData} mutate={assetMutate} />
 					</>
 				) : (
 					<>
 						{isLoading && <Loader />}
-						<AssetsColumn data={assetData} mutate={mutate} />
+						<AssetsColumn data={assetsData} mutate={mutate} />
 					</>
 				)}
-				{/* {branchData?.length === 0 ? <LoaderAnime /> : null}
-        {Math.ceil(
-          Number(pagination?.total || 1) /
-          Number(pagination?.limit || 1)
-        ) > 1 ? (
-          <div className="flex justify-center py-8">
-            <Stack spacing={2}>
-              <Pagination
-                count={Math.ceil(
-                  Number(pagination?.total || 1) /
-                  Number(pagination?.limit || 1)
-                )}
-                onChange={(e, v: number) => {
-                  setPageNumber(v);
-                }}
-                variant="outlined"
-                page={pageNumber}
-              />
-            </Stack>
-          </div>
-        ) : (
-          ""
-        )} */}
+				{assetsData?.length === 0 ? <LoaderAnime /> : null}
+				{Math.ceil(
+					Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+				) > 1 ? (
+					<div className="flex justify-center py-8">
+						<Stack spacing={2}>
+							<Pagination
+								count={Math.ceil(
+									Number(pagination?.total || 1) /
+										Number(pagination?.limit || 1)
+								)}
+								onChange={(e, v: number) => {
+									setPageNumber(v);
+								}}
+								variant="outlined"
+								page={pageNumber}
+							/>
+						</Stack>
+					</div>
+				) : (
+					""
+				)}
 			</section>
 		</PanelLayout>
 	);
