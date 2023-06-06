@@ -11,7 +11,7 @@ import {
   ChatSendFiles,
   ChatSendImage,
 } from "components/dialogues";
-import { useChange, useChatData } from "hooks";
+import { useAuth, useChange, useChatData, useSocket } from "hooks";
 import { useRef, useState } from "react";
 import ChatHead from "./ChatHead";
 
@@ -28,28 +28,16 @@ interface Props {
 }
 
 const ChatRightSection = () => {
-  const [pageNo, setPageNo] = useState(1);
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isImage, setIsImage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMessage, setIsMessage] = useState<string | null>(null);
-  const [allChatData, setAllChatData] = useState<IChatMessages[]>([]);
   const textRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
-  const handleClick = () => {
-    if (textRef.current) {
-      const inputValue = textRef.current.value;
-      textRef.current.focus();
-    }
-  };
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const { socketRef } = useSocket();
+  const { user } = useAuth();
 
   const {
     currentChatMessage,
@@ -74,6 +62,12 @@ const ChatRightSection = () => {
           setIsMessage(null);
           return;
         } else {
+          //send message to other users
+          socketRef?.emit("SENT_MESSAGE", {
+            groupId: currentChatProfileDetails?.id,
+            userId: user?.id,
+          });
+
           await change(`chat/message/${currentChatProfileDetails?.id}`, {
             body: {
               message: isMessage,
