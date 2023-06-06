@@ -4,17 +4,18 @@ import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
 const index = () => {
-  const { data: departmentDashboard, isLoading } = useFetch<any>(
-    `branch/dashboard/details`
+  const { data: branchDashboard, isLoading } = useFetch<any>(
+    `branches/dashboardInfo/data`
   );
+  console.log(branchDashboard);
   return (
     <PanelLayout title="All Branches - Admin Panel">
       <>
         <section className="lg:px-8 px-4 py-4">
           <AdminBreadcrumbs links={links} />
           {isLoading && <Loader />}
-          <BranchDashboardCards data={departmentDashboard} />
-          <BranchDashboardCharts data={departmentDashboard} />
+          <BranchDashboardCards data={branchDashboard} />
+          <BranchDashboardCharts data={branchDashboard} />
         </section>
       </>
     </PanelLayout>
