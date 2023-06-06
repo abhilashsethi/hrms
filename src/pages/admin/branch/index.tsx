@@ -7,7 +7,6 @@ const index = () => {
   const { data: branchDashboard, isLoading } = useFetch<any>(
     `branches/dashboardInfo/data`
   );
-  console.log(branchDashboard);
   return (
     <PanelLayout title="All Branches - Admin Panel">
       <>
