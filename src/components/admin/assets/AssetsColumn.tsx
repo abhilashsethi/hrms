@@ -1,10 +1,28 @@
 import MaterialTable from "@material-table/core";
-import { BorderColor, Delete, Info, PeopleRounded } from "@mui/icons-material";
-import { IconButton, Tooltip } from "@mui/material";
+import {
+	AssignmentInd,
+	BorderColor,
+	CurrencyRupee,
+	Delete,
+	Info,
+	PeopleRounded,
+	Spa,
+	Visibility,
+} from "@mui/icons-material";
+import {
+	Card,
+	CardContent,
+	IconButton,
+	Tooltip,
+	Typography,
+} from "@mui/material";
+import { PDF } from "assets/home";
 import { HeadStyle } from "components/core";
 import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
+import moment from "moment";
+import Link from "next/link";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Role } from "types";
@@ -24,6 +42,45 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 		dialogue: false,
 		departmentData: null,
 	});
+
+	const handleDelete = async (id: string) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to delete?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete!",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				setLoading(true);
+				Swal.fire("", "Please Wait...", "info");
+				try {
+					Swal.fire(`Info`, "It will take some time", "info");
+					const res = await change(`assets/${id}`, { method: "DELETE" });
+					setLoading(false);
+					if (res?.status !== 200) {
+						Swal.fire(
+							"Error",
+							res?.results?.msg || "Something went wrong!",
+							"error"
+						);
+						setLoading(false);
+						return;
+					}
+					Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+					mutate();
+					return;
+				} catch (error) {
+					console.log(error);
+					setLoading(false);
+				} finally {
+					setLoading(false);
+				}
+			}
+		});
+	};
 
 	return (
 		<section className="mt-8">
@@ -60,18 +117,20 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						tooltip: "Asset Images",
 						field: "images",
 					},
-					{
-						title: "Asset Docs",
-						tooltip: "Asset Docs",
-						field: "docs",
-					},
+					// {
+					// 	title: "Asset Docs",
+					// 	tooltip: "Asset Docs",
+					// 	field: "docs",
+					// },
 					{
 						title: "Brand Name",
 						tooltip: "Brand Name",
-						field: "brand",
+						field: "brandName",
 						render: (data) => {
 							return (
-								<div className="">{data?.brand ? data?.brand : "---"}</div>
+								<div className="">
+									{data?.brandName ? data?.brandName : "---"}
+								</div>
 							);
 						},
 					},
@@ -79,27 +138,59 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						title: "Date Of Purchase",
 						tooltip: "Date Of Purchase",
 						field: "dateOfPurchase",
+						render: (data) => {
+							return (
+								<div className="">
+									{data?.dateOfPurchase
+										? moment(data?.dateOfPurchase).format("DD/MM/YYYY")
+										: "---"}
+								</div>
+							);
+						},
 					},
 					{
 						title: "Bill Amount",
 						tooltip: "Bill Amount",
-						field: "billAmount",
+						field: "purchasePrice",
+						render: (data) => {
+							return (
+								<div className="">
+									<CurrencyRupee />{" "}
+									{data?.purchasePrice ? data?.purchasePrice : "---"}
+								</div>
+							);
+						},
 					},
 					{
 						title: "Current Market Price",
 						tooltip: "Current Market Price",
-						field: "currentMp",
+						field: "marketPrice",
+						render: (data) => {
+							return (
+								<div className="">
+									<CurrencyRupee />{" "}
+									{data?.marketPrice ? data?.marketPrice : "---"}
+								</div>
+							);
+						},
 					},
 					{
 						title: "Serial Number",
 						tooltip: "Serial Number",
-						field: "slNo",
+						field: "serialNumber",
+						render: (data) => {
+							return (
+								<div className="">
+									{data?.serialNumber ? data?.serialNumber : "---"}
+								</div>
+							);
+						},
 					},
 
 					{
 						title: "Created",
 						field: "createdAt",
-						render: (data) => new Date().toDateString(),
+						render: (data) => moment(data?.createdAt).format("MM/DD/YYYY"),
 						editable: "never",
 					},
 					{
@@ -108,7 +199,7 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						render: (data) => {
 							return (
 								<div className="flex gap-1">
-									<Tooltip title="Details">
+									<Tooltip title="Edit">
 										<div className="text-sm bg-blue-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
 											<IconButton
 												onClick={() =>
@@ -121,63 +212,90 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 									</Tooltip>
 									<Tooltip title="Delete">
 										<div className="text-sm bg-red-500 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-											<IconButton
-												onClick={() =>
-													setIsUpdate({ dialogue: true, role: data })
-												}
-											>
+											<IconButton onClick={() => handleDelete(data?.id)}>
 												<Delete className="!text-white" />
 											</IconButton>
 										</div>
 									</Tooltip>
+									<Link href={`/admin/assets/assign-assets?id=${data?.id}`}>
+										<Tooltip title="Assign Employee">
+											<div className="text-sm bg-purple-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+												<IconButton>
+													<AssignmentInd className="!text-white" />
+												</IconButton>
+											</div>
+										</Tooltip>
+									</Link>
 								</div>
 							);
 						},
 						editable: "never",
 					},
 				]}
-				// editable={{
-				// 	onRowDelete: async (oldData) => {
-				// 		setLoading(true);
-				// 		Swal.fire("", "Please Wait...", "info");
-				// 		try {
-				// 			const res = await change(`departments/${oldData.id}`, {
-				// 				method: "DELETE",
-				// 			});
-				// 			setLoading(false);
-				// 			if (res?.status !== 200) {
-				// 				Swal.fire(
-				// 					"Error",
-				// 					res?.results?.msg || "Something went wrong!",
-				// 					"error"
-				// 				);
-				// 				setLoading(false);
-				// 				return;
-				// 			}
-				// 			mutate();
-				// 			Swal.fire(`Success`, `Deleted Successfully!`, `success`);
-				// 			return;
-				// 		} catch (error) {
-				// 			console.log(error);
-				// 			setLoading(false);
-				// 		} finally {
-				// 			setLoading(false);
-				// 		}
-				// 	},
-				// 	onRowUpdate: async (newData) => {
-				// 		const res = await change(`departments/${newData?.id}`, {
-				// 			method: "PATCH",
-				// 			body: { name: newData?.name },
-				// 		});
-				// 		mutate();
-				// 		if (res?.status !== 200) {
-				// 			Swal.fire(`Error`, "Something went wrong!", "error");
-				// 			return;
-				// 		}
-				// 		Swal.fire(`Success`, "Updated Successfully!", "success");
-				// 		return;
-				// 	},
-				// }}
+				detailPanel={[
+					{
+						tooltip: "info",
+						icon: () => <Info />,
+						openIcon: () => <Visibility />,
+						render: ({ rowData }) => (
+							<>
+								{console.log(rowData)}
+								<div
+									style={{
+										padding: "12px",
+										margin: "auto",
+										backgroundColor: "#eef5f9",
+									}}
+								>
+									<Card
+										sx={{
+											minWidth: 450,
+											maxWidth: 500,
+											transition: "0.3s",
+											margin: "auto",
+											borderRadius: "10px",
+											boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+											"&:hover": {
+												boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)",
+											},
+										}}
+									>
+										<CardContent>
+											<Typography className="flex" gutterBottom align="left">
+												<p>Images :</p>
+												<div className="flex gap-2">
+													{rowData?.photos?.length ? (
+														rowData?.photos?.map((item: any, i: any) => {
+															return <img className="w-36" src={item} alt="" />;
+														})
+													) : (
+														<span> No Images Found</span>
+													)}
+												</div>
+											</Typography>
+											<Typography gutterBottom align="left">
+												Docs :
+												<div className="flex gap-2">
+													{rowData?.docs?.length ? (
+														rowData?.docs?.map((item: any, i: any) => {
+															return (
+																<a href={item?.link}>
+																	<img className="w-10" src={PDF.src} alt="" />
+																</a>
+															);
+														})
+													) : (
+														<span>No Docs Found</span>
+													)}
+												</div>
+											</Typography>
+										</CardContent>
+									</Card>
+								</div>
+							</>
+						),
+					},
+				]}
 			/>
 		</section>
 	);
