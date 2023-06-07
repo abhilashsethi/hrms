@@ -272,18 +272,24 @@ export default () => {
         ],
       },
       {
-        key: "28",
+        key: "28dcededed",
         title: "Assets",
         icon: <ICONS.Assets />,
         submenus: [
           {
             key: "28-1",
+            title: "Dashboard",
+            icon: <ICONS.Dashboard_1 />,
+            route: "/admin/assets",
+          },
+          {
+            key: "28-2",
             title: "View All Asset",
             icon: <ICONS.All_Assets />,
             route: "/admin/assets/all-assets",
           },
           {
-            key: "28-2",
+            key: "28-4",
             title: "Assigned Assets List",
             icon: <ICONS.All_Assets />,
             route: "/admin/assets/assigned-assets-list",
@@ -348,7 +354,7 @@ export default () => {
         ],
       },
       {
-        key: "11",
+        key: "11re32r23e23e32",
         title: "Branch",
         icon: <ICONS.Branch />,
         submenus: [
@@ -404,7 +410,7 @@ export default () => {
         route: "/admin/support",
       },
       {
-        key: "11",
+        key: "11wfewfwfwe",
         title: "Settings",
         icon: <ICONS.Setting />,
         submenus: [

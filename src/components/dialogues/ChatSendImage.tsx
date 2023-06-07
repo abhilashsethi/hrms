@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useChange, useChatData } from "hooks";
+import { useAuth, useChange, useChatData, useSocket } from "hooks";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { uploadFile } from "utils";
@@ -28,7 +28,14 @@ const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
   const [isFile, setIsFile] = useState<any>(null);
   const { change } = useChange();
 
-  const { handleSendNewMessage, currentChatProfileDetails } = useChatData();
+  const {
+    handleSendNewMessage,
+    currentChatProfileDetails,
+    revalidateCurrentChat,
+  } = useChatData();
+
+  const { socketRef } = useSocket();
+  const { user } = useAuth();
 
   const formik = useFormik({
     initialValues: { image: null, message: "" },
@@ -57,6 +64,11 @@ const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
             });
             handleClose();
             setLoading(false);
+            socketRef?.emit("SENT_MESSAGE", {
+              groupId: currentChatProfileDetails?.id,
+              userId: user?.id,
+            });
+            revalidateCurrentChat(currentChatProfileDetails?.id);
             return;
           } else {
             const res = await change(`chat/message/${sendId}`, {
@@ -70,7 +82,11 @@ const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
               Swal.fire(`Error`, "Something went wrong!", "error");
               return;
             }
-            Swal.fire(`Success`, "Sent Sccessfully!", "success");
+            socketRef?.emit("SENT_MESSAGE", {
+              groupId: currentChatProfileDetails?.id,
+              userId: user?.id,
+            });
+            revalidateCurrentChat(currentChatProfileDetails?.id);
             handleClose();
             setLoading(false);
             formik.resetForm();

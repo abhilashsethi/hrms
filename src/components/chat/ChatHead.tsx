@@ -50,13 +50,16 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
   const { socketRef } = useSocket();
   const { change } = useChange();
 
-  const { currentChatProfileDetails, revalidateChatProfileDetails } =
-    useChatData();
+  const {
+    currentChatProfileDetails,
+    selectedChatId,
+    revalidateChatProfileDetails,
+  } = useChatData();
   const { user } = useAuth();
 
   useEffect(() => {
     (() => {
-      if (!socketRef || !currentChatProfileDetails?.id) return;
+      if (!socketRef || !user?.id || !selectedChatId) return;
       currentChatProfileDetails?.isPrivateGroup &&
         socketRef.on(
           `USER_DISCONNECT_${
@@ -65,8 +68,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
             )?.user?.id
           }`,
           (data) => {
-            currentChatProfileDetails?.id &&
-              revalidateChatProfileDetails(currentChatProfileDetails?.id);
+            selectedChatId && revalidateChatProfileDetails(selectedChatId);
           }
         );
       currentChatProfileDetails?.isPrivateGroup &&
@@ -77,34 +79,33 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
             )?.user?.id
           }`,
           (data) => {
-            currentChatProfileDetails?.id &&
-              revalidateChatProfileDetails(currentChatProfileDetails?.id);
+            selectedChatId && revalidateChatProfileDetails(selectedChatId);
           }
         );
-      socketRef.on(
-        `USER_IS_TYPING_${currentChatProfileDetails?.id}`,
-        (data) => {
-          setTypingUser(
-            currentChatProfileDetails?.chatMembers?.find(
-              (item) => item?.user?.id === data?.userId
-            )?.user?.name as any
-          );
-        }
-      );
-      socketRef.on(
-        `USER_STOP_TYPING_${currentChatProfileDetails?.id}`,
-        (data) => {
-          setTypingUser(
-            (currentChatProfileDetails?.chatMembers?.find(
-              (item) => item?.user?.id === data?.userId
-            )?.user?.name as any) === typingUser
-              ? ""
-              : typingUser
-          );
-        }
-      );
+      socketRef.on(`USER_IS_TYPING_${selectedChatId}`, (data) => {
+        setTypingUser(
+          currentChatProfileDetails?.chatMembers?.find(
+            (item) => item?.user?.id === data?.userId
+          )?.user?.name as any
+        );
+      });
+      socketRef.on(`USER_STOP_TYPING_${selectedChatId}`, (data) => {
+        setTypingUser(
+          (currentChatProfileDetails?.chatMembers?.find(
+            (item) => item?.user?.id === data?.userId
+          )?.user?.name as any) === typingUser
+            ? ""
+            : typingUser
+        );
+      });
     })();
-  }, [socketRef, currentChatProfileDetails, user?.id]);
+  }, [
+    socketRef,
+    selectedChatId,
+    user?.id,
+    currentChatProfileDetails?.isPrivateGroup,
+    currentChatProfileDetails?.chatMembers?.length,
+  ]);
 
   const handleGroupAction = async (configId: number) => {
     try {

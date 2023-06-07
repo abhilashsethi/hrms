@@ -15,15 +15,12 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { AssetsColumn, AssetsGrid } from "components/admin/assets";
-import { AllBranchColumn, AllBranchGrid } from "components/admin/branch";
 import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
-import { CreateDepartment } from "components/dialogues";
 import ChooseBranch from "components/dialogues/ChooseBranch";
 import ChooseBranchToViewAssets from "components/dialogues/ChooseBranchToViewAssets";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const AllAssets = () => {
 	const [isGrid, setIsGrid] = useState(true);
@@ -42,14 +39,17 @@ const AllAssets = () => {
 		data: departmentData,
 		mutate,
 		isLoading,
-		pagination,
 	} = useFetch<any>(
 		`departments?page=${pageNumber}&limit=8${
 			userName ? `&contains=${userName}` : ""
 		}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
 	);
 
-	const { data: assetsData, mutate: assetMutate } = useFetch<any>(
+	const {
+		data: assetsData,
+		mutate: assetMutate,
+		pagination,
+	} = useFetch<any>(
 		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
 			isOrderBy ? `&orderBy=${isOrderBy}` : ""
 		}${isBrand ? `&brandName=${isBrand}` : ""}${
@@ -226,15 +226,15 @@ const AllAssets = () => {
 							{isGrid ? (
 								<>
 									{isLoading && <Loader />}
-									<AssetsGrid data={assetsData} mutate={assetMutate} />
+									<AssetsGrid data={assetData} mutate={assetMutate} />
 								</>
 							) : (
 								<>
 									{isLoading && <Loader />}
-									<AssetsColumn data={assetsData} mutate={assetMutate} />
+									<AssetsColumn data={assetData} mutate={assetMutate} />
 								</>
 							)}
-							{assetsData?.length === 0 ? <LoaderAnime /> : null}
+							{assetData?.length === 0 ? <LoaderAnime /> : null}
 							{Math.ceil(
 								Number(pagination?.total || 1) / Number(pagination?.limit || 1)
 							) > 1 ? (
@@ -320,13 +320,16 @@ const assetData = [
 					"https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
 			},
 		],
-		modelNo: "82K201Y8IN",
-		brand: "Lenovo",
+		modelName: "82K201Y8IN",
+		brandName: "Lenovo",
 		dateOfPurchase: "05/06/2023",
-		billAmount: "50,000",
-		currentMp: "40,000",
-		slNo: "2131335465",
+		purchasePrice: "50,000",
+		marketPrice: "40,000",
+		serialNumber: "2131335465",
 		docs: "",
+		assetOfBranch: {
+			name: "Searching Yard",
+		},
 	},
 	{
 		id: "02",
