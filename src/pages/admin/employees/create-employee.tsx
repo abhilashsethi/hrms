@@ -21,6 +21,7 @@ const initialValues = {
   email: "",
   roleId: "",
   departmentId: "",
+  employeeOfBranchId: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -65,6 +66,7 @@ const CreateEmployee = () => {
   const [loading, setLoading] = useState(false);
   const { data: departmentsData } = useFetch<any>(`departments`);
   const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
+  const { data: branchData } = useFetch<any>(`branches`);
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
     const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
@@ -79,6 +81,7 @@ const CreateEmployee = () => {
         body: reqValue,
       });
       setLoading(false);
+      console.log(res);
       if (res?.status !== 201) {
         Swal.fire("Error", res?.results?.message || "Unable to Submit", "info");
         setLoading(false);
@@ -177,6 +180,40 @@ const CreateEmployee = () => {
                         onBlur={handleBlur}
                         error={touched.email && !!errors.email}
                         helperText={touched.email && errors.email}
+                      />
+                    </div>
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="py-2">
+                        <InputLabel htmlFor="employeeOfBranchId">
+                          Branch
+                        </InputLabel>
+                      </div>
+
+                      <Autocomplete
+                        fullWidth
+                        size="small"
+                        id="employeeOfBranchId"
+                        options={branchData || []}
+                        onChange={(e: any, r: any) => {
+                          setFieldValue("employeeOfBranchId", r?.id);
+                        }}
+                        getOptionLabel={(option: any) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            // label="Role"
+                            placeholder="Branch"
+                            onBlur={handleBlur}
+                            error={
+                              touched.employeeOfBranchId &&
+                              !!errors.employeeOfBranchId
+                            }
+                            helperText={
+                              touched.employeeOfBranchId &&
+                              errors.employeeOfBranchId
+                            }
+                          />
+                        )}
                       />
                     </div>
                     {/* <div className="md:px-4 px-2 md:py-2 py-1">

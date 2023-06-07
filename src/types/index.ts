@@ -95,7 +95,7 @@ export type User = {
   kpi?: number;
   salaryInfoNewFields?: any;
   github?: string | null;
-  IFSCCode?: string | null;
+  ifscCode?: string | null;
   bankName?: string | null;
   bloodGroup?: BloodGroup;
   accountNo?: string | null;
