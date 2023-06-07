@@ -241,21 +241,48 @@ const ViewAssetHistoryDrawer = ({ open, onClose, setViewProject }: Props) => {
 
 					<div className="mt-4 flex flex-col gap-4">
 						<div className="">
-							<div className="w-full relative rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3">
-								<div className="w-1/2">
+							<div className="flex justify-between items-center w-full relative rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3 gap-5">
+								<div className="w-1/3">
 									<Slider {...settings} className="">
 										{photos?.map((data: any, k: any) => (
 											<img
 												key={k}
-												className="lg:h-48 md:h-36 w-full object-cover object-center 
+												className="w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
 												src={data?.photo}
-												alt="Branch"
+												alt="assets"
 											/>
 										))}
 									</Slider>
 								</div>
-								<div></div>
+								<div className="w-2/3">
+									<div>
+										<div>
+											<span className="font-semibold">Assigned User :</span>{" "}
+											<span className="font-semibold text-gray-500">
+												Gaurav Kumar
+											</span>
+										</div>
+										<div>
+											<span>Branch :</span> <span>SearchingYard</span>
+										</div>
+										<div>
+											<span>Model No :</span> <span>82ldsvbne12</span>
+										</div>
+										<div>
+											<span>Brand Name :</span> <span>Lenovo</span>
+										</div>
+										<div>
+											<span>Dt Of Purchase :</span> <span>10/06/2023</span>
+										</div>
+										<div>
+											<span>Bill Amount :</span> <span>40000</span>
+										</div>
+										<div>
+											<span>Current Market Price :</span> <span>50000</span>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
