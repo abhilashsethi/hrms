@@ -135,8 +135,6 @@ const Chats = () => {
     });
   }, [socketRef, allPrivateChat?.length]);
 
-  console.log({ allPrivateChat });
-
   return (
     <div className="h-full overflow-y-auto">
       <div className="border-2 flex gap-1 items-center px-2 rounded-md py-1">
@@ -381,11 +379,17 @@ const GroupChatCard = ({
         selectedChatId === item?.id ? `bg-blue-100` : ``
       }`}
     >
-      <PhotoViewerSmall
-        name={item?.title}
-        photo={item?.photo || ""}
-        size="3rem"
-      />
+      <Badge
+        color="secondary"
+        overlap="circular"
+        badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
+      >
+        <PhotoViewerSmall
+          name={item?.title}
+          photo={item?.photo || ""}
+          size="3rem"
+        />
+      </Badge>
       <div className="w-[80%] flex justify-between ">
         <div>
           <h1 className="text-sm font-semibold">{item?.title}</h1>

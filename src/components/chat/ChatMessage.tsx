@@ -28,7 +28,6 @@ interface textProps {
 const ChatMessage = ({ data, activeProfile }: textProps) => {
   const [isReactions, setIsReactions] = useState(false);
   const [isSeen, setIsSeen] = useState(false);
-
   const { user } = useAuth();
 
   return (
@@ -90,7 +89,9 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
           <div className="w-full bg-blue-100 py-2 px-4 tracking-wide rounded-md text-sm">
             <div>
               {data?.category === "text" ? (
-                <p className="tracking-wide">{data?.text}</p>
+                <p className="tracking-wide whitespace-pre-line break-words ">
+                  {data?.text}
+                </p>
               ) : data?.category === "image" ? (
                 <ImageMessage data={data} />
               ) : data?.category === "code" ? (

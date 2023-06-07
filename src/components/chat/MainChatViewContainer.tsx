@@ -18,45 +18,41 @@ const MainChatViewContainer = () => {
     selectedChatId,
     isChatLoading,
   } = useChatData();
-
   const { user } = useAuth();
-
-  const mainElem = useRef<HTMLDivElement>(null);
   const { socketRef } = useSocket();
 
   useEffect(() => {
     if (!socketRef || !selectedChatId) return;
-    socketRef.on(`MESSAGE_RECEIVED_${selectedChatId}`, () => {
-      revalidateCurrentChat(selectedChatId);
-      //after message received send a message read
-      selectedChatId && handleReadMessage(selectedChatId);
+    socketRef.on(`MESSAGE_RECEIVED_${selectedChatId}`, async () => {
+      //when receive to refetch data we will refetch
+      await Promise.all([
+        revalidateCurrentChat(selectedChatId),
+        selectedChatId && (await revalidateChatProfileDetails(selectedChatId)),
+        //after message received send a message read
+        selectedChatId && handleReadMessage(selectedChatId),
+      ]);
+
+      divRef.current?.scrollTo({
+        top: -divRef?.current?.clientHeight,
+        behavior: "smooth",
+      });
 
       //emit an re fetch event
       socketRef.emit("REFETCH_DATA", {
         groupId: selectedChatId,
         userId: user?.id,
       });
-    });
-
-    socketRef.on(`MESSAGE_RECEIVED_${selectedChatId}`, async () => {
-      //when receive to refetch data we will refetch
-      await revalidateCurrentChat(selectedChatId);
-      selectedChatId && (await revalidateChatProfileDetails(selectedChatId));
       setChanging((prev) => !prev);
     });
+
     socketRef.on(`REVALIDATE_${selectedChatId}`, async () => {
       //when receive to refetch data we will refetch
-      await revalidateCurrentChat(selectedChatId);
-      selectedChatId && (await revalidateChatProfileDetails(selectedChatId));
+      await Promise.all([
+        revalidateCurrentChat(selectedChatId),
+        selectedChatId && (await revalidateChatProfileDetails(selectedChatId)),
+      ]);
     });
   }, [socketRef, selectedChatId, user?.id]);
-
-  // useEffect(() => {
-  //   if (!mainElem?.current || !selectedChatId) return;
-  //   mainElem?.current?.scrollIntoView({
-  //     behavior: "smooth",
-  //   });
-  // }, [changing, mainElem?.current, selectedChatId]);
 
   const handleFetchNext = () => {
     setPageNo((prev) => prev + 1);
@@ -66,47 +62,64 @@ const MainChatViewContainer = () => {
   const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log({ changing });
-    console.log(divRef.current?.scrollHeight);
-
     (() => {
-      divRef.current?.scrollHeight &&
-        divRef.current?.scrollTo({
-          top: divRef.current?.scrollHeight,
-          behavior: "smooth",
-        });
+      divRef.current?.scrollIntoView({
+        behavior: "smooth",
+      });
     })();
   }, [changing, selectedChatId]);
 
   return (
-    <div
-      className="px-4 pb-4  !flex !flex-col-reverse"
-      id="scrollableTarget"
-      ref={divRef}
-    >
+    <div className="px-4 pb-4  !flex !flex-col-reverse">
       {currentChatMessage?.map((item, index) => (
-        <div
-          key={item?.id}
-          ref={index === 0 ? mainElem : null}
-          className={`mt-4 flex w-full ${
-            item?.category === "event"
-              ? `justify-center`
-              : item?.sender?.id === user?.id
-              ? `justify-end`
-              : "justify-start"
-          }`}
-        >
-          <>
-            {item?.category === "event" ? (
-              <EventTemplate data={item} />
-            ) : (
-              <ChatMessage
-                data={item}
-                activeProfile={currentChatProfileDetails}
-              />
-            )}
-          </>
-        </div>
+        <>
+          {index === 0 ? (
+            <div
+              ref={divRef}
+              key={item?.id}
+              className={`mt-4 flex w-full ${
+                item?.category === "event"
+                  ? `justify-center`
+                  : item?.sender?.id === user?.id
+                  ? `justify-end`
+                  : "justify-start"
+              }`}
+            >
+              <>
+                {item?.category === "event" ? (
+                  <EventTemplate data={item} />
+                ) : (
+                  <ChatMessage
+                    data={item}
+                    activeProfile={currentChatProfileDetails}
+                  />
+                )}
+              </>
+            </div>
+          ) : (
+            <div
+              key={item?.id}
+              className={`mt-4 flex w-full ${
+                item?.category === "event"
+                  ? `justify-center`
+                  : item?.sender?.id === user?.id
+                  ? `justify-end`
+                  : "justify-start"
+              }`}
+            >
+              <>
+                {item?.category === "event" ? (
+                  <EventTemplate data={item} />
+                ) : (
+                  <ChatMessage
+                    data={item}
+                    activeProfile={currentChatProfileDetails}
+                  />
+                )}
+              </>
+            </div>
+          )}
+        </>
       ))}
       <div className="w-full flex items-centre pt-2 justify-center">
         <Chip

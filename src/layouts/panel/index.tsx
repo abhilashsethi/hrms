@@ -15,6 +15,7 @@ import {
   BASE_URL,
   useAuth,
   useChange,
+  useChatData,
   useFCMToken,
   useFetch,
   useMenuItems,
@@ -50,6 +51,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
   } = useFetch<NewMessageCountType>(`chat/unread`);
 
   const { change } = useChange();
+  const { selectedChatId } = useChatData();
 
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -84,7 +86,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
   //listen to all the chat event upon receiving event update the chat count
   useEffect(() => {
     (() => {
-      if (!user?.id || !socketRef) return;
+      if (!user?.id || !socketRef || !selectedChatId) return;
 
       //after that emit the event user is connected
       socketRef?.emit("USER_CONNECT", { userId: user?.id });
@@ -102,7 +104,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
         );
       });
     })();
-  }, [user, socketRef]);
+  }, [user, socketRef, selectedChatId]);
 
   useEffect(() => {
     (() => {
