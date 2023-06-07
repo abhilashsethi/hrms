@@ -11,10 +11,10 @@ const AssetsDashboardCharts = ({ data }: Props) => {
           <p className="font-bold text-lg text-center">Branch Wise Asset Overview</p>
           <BranchBarChart
             labels={
-              ["India", "Pakistan", "Bangladesh",]
+              ["India", "Pakistan", "Bangladesh", "Chaina", "Austrelia", "England"]
             }
             data={
-              [20, 30, 15]
+              [20, 30, 15, 10, 50, 80]
             }
             type="bar"
             text=""
