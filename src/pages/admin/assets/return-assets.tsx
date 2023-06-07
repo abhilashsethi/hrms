@@ -3,46 +3,41 @@ import {
   Autocomplete,
   Box,
   Button,
+  Checkbox,
   CircularProgress,
+  FormControlLabel,
+  FormGroup,
   InputLabel,
   TextField,
 } from "@mui/material";
 import {
   AdminBreadcrumbs
 } from "components/core";
-import { ErrorMessage, Form, Formik } from "formik";
+import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRef, useState } from "react";
 import * as Yup from "yup";
 const initialValues = {
-  assetName: "",
   images: [],
   returnDate: "",
   returnTime: "",
   remark: "",
+  checklist: [],
 };
 
 const validationSchema = Yup.object().shape({
-  assetName: Yup.string()
-    .matches(
-      /^[A-Za-z ]+$/,
-      "Asset Name must only contain alphabetic characters"
-    )
-    .min(2, "Asset Name must be at least 2 characters")
-    .max(50, "Asset Name must be less than 50 characters")
-    .required("Asset Name is required!"),
+
   images: Yup.array().min(1, "Please upload at least one image"),
   returnDate: Yup.string().required("Assigned Date is required!"),
   returnTime: Yup.string().required("Assigned Date is required!"),
   remark: Yup.string().required("remark is required!"),
+  checklist: Yup.array().min(1, 'Select at least one item from the checklist'),
 });
 
 const ReturnAssets = () => {
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
-  const { data: userData } = useFetch<any>(`users`);
-  const { change, isChanging } = useChange();
 
   const handleSubmit = async (values: any) => {
     console.log(values);
@@ -75,7 +70,6 @@ const ReturnAssets = () => {
                     Return Assets
                   </h1>
                   <div className="grid lg:grid-cols-2">
-
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="returnDate">
@@ -134,6 +128,38 @@ const ReturnAssets = () => {
                         error={touched.remark && !!errors.remark}
                         helperText={touched.remark && errors.remark}
                       />
+                    </div>
+                    <div className="col-span-2 md:px-4 px-2 md:py-2 py-1">
+                      <div className="py-2">
+                        <InputLabel htmlFor="remark">
+                          Check List
+                          <span className="text-red-600">*</span>
+                        </InputLabel>
+
+                      </div>
+                      <FieldArray name="checklist">
+                        {({ push, remove }: any) => (
+                          <FormGroup>
+                            <div className="grid lg:grid-cols-2 gap-x-4">
+                              {checkList?.map((check, i) => (
+                                <div key={i}>
+                                  <FormControlLabel
+                                    control={
+                                      <Field
+                                        type="checkbox"
+                                        component={Checkbox}
+                                        name={`checklist[${i}]`}
+                                        value={check?.label}
+                                      />
+                                    }
+                                    label={check?.label}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </FormGroup>
+                        )}
+                      </FieldArray>
                     </div>
                     <div className="col-span-2 md:px-4 px-2 md:py-2 py-1">
                       <p className="text-gray-500 mb-2">
@@ -215,3 +241,12 @@ export default ReturnAssets;
 const links = [
   { id: 1, page: "Assign Assets", link: "/admin/assets/assign-assets" },
 ];
+const checkList = [
+  { id: 1, label: "Powers on/Off" },
+  { id: 2, label: "All keyboard button work" },
+  { id: 3, label: "Trackpad works" },
+  { id: 4, label: "Camera works" },
+  { id: 5, label: "Speakers works" },
+  { id: 6, label: "Connects to internet" },
+  { id: 7, label: "Brightness is fully adjustable to min and max brightness" },
+]
