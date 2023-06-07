@@ -13,14 +13,12 @@ import * as Yup from "yup";
 const LoginSchema = [
 	{
 		key: "1",
-		label: "Email",
-		placeHolder: "Type Your Email",
+		label: "Username",
+		placeHolder: "Type Your Username",
 		icon: "",
-		name: "email",
+		name: "username",
 		type: "text",
-		validationSchema: Yup.string()
-			.required("Email is required")
-			.email("Invalid Email Address"),
+		validationSchema: Yup.string().required("Username is required"),
 		initialValue: "",
 	},
 	{
