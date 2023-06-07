@@ -33,3 +33,6 @@ export { default as EMAIL } from "./email.png";
 export { default as LOCATION } from "./location.png";
 export { default as PHONE } from "./phone-call.png";
 export { default as MANAGER } from "./business-man.png";
+export { default as ASSIGNMENT } from "./assignment.png";
+export { default as PROHIBITION } from "./prohibition.png";
+export { default as BLOCKED } from "./blocked.png";

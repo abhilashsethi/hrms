@@ -276,12 +276,18 @@ export default () => {
         submenus: [
           {
             key: "28-1",
+            title: "Dashboard",
+            icon: <ICONS.Dashboard_1 />,
+            route: "/admin/assets",
+          },
+          {
+            key: "28-2",
             title: "View All Asset",
             icon: <ICONS.All_Assets />,
             route: "/admin/assets/all-assets",
           },
           {
-            key: "28-2",
+            key: "28-4",
             title: "Assigned Assets List",
             icon: <ICONS.All_Assets />,
             route: "/admin/assets/assigned-assets-list",
