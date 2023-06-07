@@ -1,10 +1,6 @@
 import {
   AccountCircle,
-  Add,
   Dashboard,
-  Email,
-  FileCopy,
-  Forum,
   MedicalInformationRounded,
 } from "@mui/icons-material";
 import ICONS from "assets/icons";
@@ -270,33 +266,21 @@ export default () => {
         ],
       },
       {
-        key: "83e32e23e23",
+        key: "28dcededed",
         title: "Assets",
         icon: <ICONS.Assets />,
         submenus: [
-          // {
-          // 	key: "7-1",
-          // 	title: "Dashboard",
-          // 	icon: <ICONS.Dashboard_1 />,
-          // 	route: "/admin/projects",
-          // },
           {
-            key: "7-2",
-            title: "Return Asset",
-            icon: <ICONS.Create_Assets />,
-            route: "/admin/assets/return-assets",
-          },
-          {
-            key: "7-3",
+            key: "28-1",
             title: "View All Asset",
             icon: <ICONS.All_Assets />,
             route: "/admin/assets/all-assets",
           },
           {
-            key: "7-4",
-            title: "Assign Asset",
+            key: "28-2",
+            title: "Assigned Assets List",
             icon: <ICONS.All_Assets />,
-            route: "/admin/assets/assign-assets",
+            route: "/admin/assets/assigned-assets-list",
           },
         ],
       },
