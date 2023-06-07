@@ -1,15 +1,12 @@
-import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Check } from "@mui/icons-material";
 import {
   Autocomplete,
   Button,
   CircularProgress,
-  IconButton,
-  InputAdornment,
   InputLabel,
   TextField,
 } from "@mui/material";
-import { AdminBreadcrumbs, Loader } from "components/core";
-import { useTheme, useMediaQuery } from "@material-ui/core";
+import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -18,23 +15,31 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 const initialValues = {
-  name: "",
+  firstName: "",
+  lastName: "",
   phone: "",
   email: "",
-  password: "",
-  confirmPassword: "",
-  employeeID: "",
   roleId: "",
   departmentId: "",
 };
 
 const validationSchema = Yup.object().shape({
-  employeeID: Yup.string().required("Employee Id is required!"),
-  name: Yup.string()
-    .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
-    .min(2, "Name must be at least 2 characters")
-    .max(50, "Name must be less than 50 characters")
-    .required("Name is required!"),
+  firstName: Yup.string()
+    .matches(
+      /^[A-Za-z ]+$/,
+      "First name must only contain alphabetic characters"
+    )
+    .min(2, "First name must be at least 2 characters")
+    .max(50, "First name must be less than 50 characters")
+    .required("First name is required!"),
+  lastName: Yup.string()
+    .matches(
+      /^[A-Za-z ]+$/,
+      "Last name must only contain alphabetic characters"
+    )
+    .min(2, "Last name must be at least 2 characters")
+    .max(50, "Last name must be less than 50 characters")
+    .required("Last name is required!"),
   phone: Yup.string()
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
@@ -45,30 +50,29 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required!"),
-  password: Yup.string()
-    .min(6, "Password should minimum 6 characters!")
-    .required("Password is required!"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Password Must Match!")
-    .required("Confirm password is required!"),
+  // password: Yup.string()
+  //   .min(6, "Password should minimum 6 characters!")
+  //   .required("Password is required!"),
+  // confirmPassword: Yup.string()
+  //   .oneOf([Yup.ref("password")], "Password Must Match!")
+  //   .required("Confirm password is required!"),
 });
 
 const CreateEmployee = () => {
-  const theme = useTheme();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConPassword, setShowConPassword] = useState(false);
+  // const theme = useTheme();
+  // const [showPassword, setShowPassword] = useState(false);
+  // const [showConPassword, setShowConPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { data: departmentsData } = useFetch<any>(`departments`);
   const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
     const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
-      if (!key.includes("confirmPassword") && value) {
+      if (value) {
         acc[key] = value;
       }
       return acc;
     }, {});
-
     try {
       setLoading(true);
       const res: any = await change(`users`, {
@@ -120,21 +124,40 @@ const CreateEmployee = () => {
                   <div className="grid lg:grid-cols-2">
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="md:py-2 py-1">
-                        <InputLabel htmlFor="name">
-                          Name <span className="text-red-600">*</span>
+                        <InputLabel htmlFor="firstName">
+                          First Name <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         fullWidth
                         size="small"
-                        id="name"
-                        placeholder="Name"
-                        name="name"
-                        value={values.name}
+                        id="firstName"
+                        placeholder="First Name"
+                        name="firstName"
+                        value={values.firstName}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.name && !!errors.name}
-                        helperText={touched.name && errors.name}
+                        error={touched.firstName && !!errors.firstName}
+                        helperText={touched.firstName && errors.firstName}
+                      />
+                    </div>
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="md:py-2 py-1">
+                        <InputLabel htmlFor="lastName">
+                          Last Name <span className="text-red-600">*</span>
+                        </InputLabel>
+                      </div>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        id="lastName"
+                        placeholder="LastName"
+                        name="lastName"
+                        value={values.lastName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.lastName && !!errors.lastName}
+                        helperText={touched.lastName && errors.lastName}
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
@@ -156,7 +179,7 @@ const CreateEmployee = () => {
                         helperText={touched.email && errors.email}
                       />
                     </div>
-                    <div className="md:px-4 px-2 md:py-2 py-1">
+                    {/* <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="password">
                           Password <span className="text-red-600">*</span>
@@ -192,70 +215,7 @@ const CreateEmployee = () => {
                           ),
                         }}
                       />
-                    </div>
-                    <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="con-password">
-                          Confirm Password
-                          <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        placeholder="Confirm Password"
-                        id="con-password"
-                        type={showConPassword ? "text" : "password"}
-                        name="confirmPassword"
-                        value={values.confirmPassword}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={
-                          touched.confirmPassword && !!errors.confirmPassword
-                        }
-                        helperText={
-                          touched.confirmPassword && errors.confirmPassword
-                        }
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              {"password" === "password" && (
-                                <IconButton
-                                  onClick={() =>
-                                    setShowConPassword(!showConPassword)
-                                  }
-                                >
-                                  {showConPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              )}
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div>
-                    <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="employeeID">
-                          Employee ID <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        placeholder="Employee ID"
-                        id="employeeID"
-                        name="employeeID"
-                        value={values.employeeID}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.employeeID && !!errors.employeeID}
-                        helperText={touched.employeeID && errors.employeeID}
-                      />
-                    </div>
+                    </div> */}
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="phone">Phone</InputLabel>
