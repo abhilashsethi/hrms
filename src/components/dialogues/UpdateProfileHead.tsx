@@ -26,11 +26,22 @@ interface Props {
   mutate?: any;
 }
 const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
-    .min(2, "Name must be at least 2 characters")
-    .max(50, "Name must be less than 50 characters")
-    .required("Name is required!"),
+  firstName: Yup.string()
+    .matches(
+      /^[A-Za-z ]+$/,
+      "First name must only contain alphabetic characters"
+    )
+    .min(2, "First name must be at least 2 characters")
+    .max(50, "First name must be less than 50 characters")
+    .required("First name is required!"),
+  lastName: Yup.string()
+    .matches(
+      /^[A-Za-z ]+$/,
+      "Last name must only contain alphabetic characters"
+    )
+    .min(2, "Last name must be at least 2 characters")
+    .max(50, "Last name must be less than 50 characters")
+    .required("Last name is required!"),
   email: Yup.string().email("Invalid gmail address"),
   employeeID: Yup.string().required("Employee ID is required!"),
   phone: Yup.string().required("Phone No is required!"),
@@ -51,17 +62,18 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
   const router = useRouter();
   const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
   const initialValues = {
-    name: `${employData?.name ? employData?.name : ""}`,
-    employeeID: `${employData?.employeeID ? employData?.employeeID : ""}`,
-    phone: `${employData?.phone ? employData?.phone : ""}`,
-    email: `${employData?.email ? employData?.email : ""}`,
-    dob: `${employData?.dob ? employData?.dob : ""}`,
-    address: `${employData?.address ? employData?.address : ""}`,
-    gender: `${employData?.gender ? employData?.gender : ""}`,
-    roleId: `${employData?.roleId ? employData?.roleId : ""}`,
-    departmentId: `${employData?.departmentId ? employData?.departmentId : ""}`,
-    joiningDate: `${employData?.joiningDate ? employData?.joiningDate : ""}`,
-    bloodGroup: `${employData?.bloodGroup ? employData?.bloodGroup : ""}`,
+    firstName: employData?.firstName || "",
+    lastName: employData?.lastName || "",
+    employeeID: employData?.employeeID || "",
+    phone: employData?.phone || "",
+    email: employData?.email || "",
+    dob: employData?.dob || "",
+    address: employData?.address || "",
+    gender: employData?.gender || "",
+    roleId: employData?.roleId || "",
+    departmentId: employData?.departmentId || "",
+    joiningDate: employData?.joiningDate || "",
+    bloodGroup: employData?.bloodGroup || "",
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
@@ -80,7 +92,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
       Swal.fire(`Success`, `Updated Successfully`, `success`);
       handleClose();
       return;
-    } catch (error) { }
+    } catch (error) {}
   };
   return (
     <>
@@ -130,17 +142,38 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                     <div className="grid lg:grid-cols-2 gap-4">
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Name <span className="text-red-600">*</span>
+                          First Name <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth
-                          name="name"
-                          placeholder="Enter Name"
-                          value={values.name}
+                          name="firstName"
+                          placeholder="First Name"
+                          value={values.firstName}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.name && !!errors.name}
-                          helperText={touched.name && errors.name}
+                          error={touched.firstName && !!errors.firstName}
+                          helperText={
+                            Boolean(touched.firstName) &&
+                            (errors.firstName as any)
+                          }
+                        />
+                      </div>
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
+                          Last Name <span className="text-red-600">*</span>
+                        </p>
+                        <TextField
+                          fullWidth
+                          name="lastName"
+                          placeholder="Last Name"
+                          value={values.lastName}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.lastName && !!errors.lastName}
+                          helperText={
+                            Boolean(touched.lastName) &&
+                            (errors.lastName as any)
+                          }
                         />
                       </div>
                       <div className="w-full">
@@ -155,7 +188,9 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.email && !!errors.email}
-                          helperText={touched.email && errors.email}
+                          helperText={
+                            Boolean(touched.email) && (errors.email as any)
+                          }
                         />
                       </div>
                       <div className="w-full">
@@ -170,7 +205,10 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.employeeID && !!errors.employeeID}
-                          helperText={touched.employeeID && errors.employeeID}
+                          helperText={
+                            Boolean(touched.employeeID) &&
+                            (errors.employeeID as any)
+                          }
                         />
                       </div>
                       <div className="w-full">
@@ -185,7 +223,9 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.phone && !!errors.phone}
-                          helperText={touched.phone && errors.phone}
+                          helperText={
+                            Boolean(touched.phone) && (errors.phone as any)
+                          }
                         />
                       </div>
                       <div className="w-full">
@@ -204,7 +244,9 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           onBlur={handleBlur}
                           error={touched.dob && !!errors.dob}
                           type={"date"}
-                          helperText={touched.dob && errors.dob}
+                          helperText={
+                            Boolean(touched.dob) && (errors.dob as any)
+                          }
                         />
                       </div>
                       <div className="w-full">
@@ -218,7 +260,9 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.gender && !!errors.gender}
-                          helperText={touched.gender && errors.gender}
+                          helperText={
+                            Boolean(touched.gender) && (errors.gender as any)
+                          }
                         >
                           {genders.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
@@ -240,11 +284,14 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.bloodGroup && !!errors.bloodGroup}
-                          helperText={touched.bloodGroup && errors.bloodGroup}
+                          helperText={
+                            Boolean(touched.bloodGroup) &&
+                            (errors.bloodGroup as any)
+                          }
                         >
                           {bloodGroup.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
-                              {option.name}
+                              {option.label}
                             </MenuItem>
                           ))}
                         </TextField>
@@ -266,8 +313,8 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           value={
                             values?.roleId
                               ? roles?.find(
-                                (option: any) => option.id === values.roleId
-                              )
+                                  (option: any) => option.id === values.roleId
+                                )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
@@ -301,9 +348,9 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           value={
                             values?.departmentId
                               ? departmentsData?.find(
-                                (option: any) =>
-                                  option.id === values.departmentId
-                              )
+                                  (option: any) =>
+                                    option.id === values.departmentId
+                                )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
@@ -350,7 +397,10 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           onBlur={handleBlur}
                           error={touched.joiningDate && !!errors.joiningDate}
                           type={"date"}
-                          helperText={touched.joiningDate && errors.joiningDate}
+                          helperText={
+                            Boolean(touched.joiningDate) &&
+                            (errors.joiningDate as any)
+                          }
                         />
                       </div>
                       <div className="w-full">
@@ -365,7 +415,9 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.address && !!errors.address}
-                          helperText={touched.address && errors.address}
+                          helperText={
+                            Boolean(touched.address) && (errors.address as any)
+                          }
                         />
                       </div>
                     </div>
@@ -395,14 +447,14 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
 
 export default UpdateProfileHead;
 const bloodGroup = [
-  { id: 1, value: "A_Positive", name: "A_Positive" },
-  { id: 1, value: "A_Negative", name: "A_Negative" },
-  { id: 1, value: "B_Positive", name: "B_Positive" },
-  { id: 1, value: "B_Negative", name: "B_Negative" },
-  { id: 1, value: "AB_Positive", name: "AB_Positive" },
-  { id: 1, value: "AB_Negative", name: "AB_Negative" },
-  { id: 1, value: "O_Positive", name: "O_Positive" },
-  { id: 1, value: "O_Negative", name: "O_Negative" },
+  { id: 1, value: "A_Positive", label: "A+" },
+  { id: 1, value: "A_Negative", label: "A-" },
+  { id: 1, value: "B_Positive", label: "B+" },
+  { id: 1, value: "B_Negative", label: "B-" },
+  { id: 1, value: "AB_Positive", label: "AB+" },
+  { id: 1, value: "AB_Negative", label: "AB-" },
+  { id: 1, value: "O_Positive", label: "O+" },
+  { id: 1, value: "O_Negative", label: "O-" },
 ];
 const genders = [
   { id: 1, value: "Male" },

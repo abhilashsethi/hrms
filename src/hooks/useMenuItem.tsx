@@ -257,12 +257,18 @@ export default () => {
           },
           {
             key: "27-3",
+            title: "Members",
+            icon: <ICONS.Add_Project />,
+            route: "/admin/tenders/members",
+          },
+          {
+            key: "27-4",
             title: "Create Tender",
             icon: <ICONS.Add_Project />,
             route: "/admin/tenders/create-tender",
           },
           {
-            key: "27-4",
+            key: "27-5",
             title: "Tender Details",
             icon: <ICONS.Add_Project />,
             route: "/admin/tenders/tender-details",

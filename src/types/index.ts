@@ -69,6 +69,8 @@ export interface Guest {
 }
 
 export type User = {
+  firstName?: string;
+  lastName?: string;
   id: string;
   email: string;
   password: string;
