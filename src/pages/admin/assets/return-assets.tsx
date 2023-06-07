@@ -85,7 +85,6 @@ const ReturnAssets = () => {
 											<TextField
 												size="small"
 												fullWidth
-												// placeholder="Email"
 												type="date"
 												id="returnDate"
 												name="returnDate"
