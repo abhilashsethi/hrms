@@ -6,8 +6,6 @@ import { VAPID_KEY, messaging } from "config";
 const useFCMToken = (uid: string | undefined) => {
   const { change } = useChange();
 
-  console.log({ uid });
-
   useEffect(() => {
     const isSupported = () =>
       "Notification" in window &&
@@ -27,8 +25,6 @@ const useFCMToken = (uid: string | undefined) => {
               vapidKey: VAPID_KEY,
             })
               .then(async (fcmToken) => {
-                console.log({ fcmToken });
-
                 if (fcmToken) {
                   try {
                     await change(`user/${uid}`, {

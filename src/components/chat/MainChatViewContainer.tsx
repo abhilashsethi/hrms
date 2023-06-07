@@ -66,6 +66,9 @@ const MainChatViewContainer = () => {
   const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    console.log({ changing });
+    console.log(divRef.current?.scrollHeight);
+
     (() => {
       divRef.current?.scrollHeight &&
         divRef.current?.scrollTo({

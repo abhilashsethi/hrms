@@ -8,7 +8,7 @@ import {
   Sms,
   SmsOutlined,
 } from "@mui/icons-material";
-import { IconButton, Menu, MenuItem } from "@mui/material";
+import { Badge, IconButton, Menu, MenuItem } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatGroupCreate } from "components/drawer";
 import { useChatData, useFetch, useSocket } from "hooks";
@@ -135,6 +135,8 @@ const Chats = () => {
     });
   }, [socketRef, allPrivateChat?.length]);
 
+  console.log({ allPrivateChat });
+
   return (
     <div className="h-full overflow-y-auto">
       <div className="border-2 flex gap-1 items-center px-2 rounded-md py-1">
@@ -171,30 +173,23 @@ const PrivateChatCard = ({
   setSelectedChatId: (arg: any) => void;
   revalidateChatProfileDetails: (arg: any) => void;
   selectedChatId?: string;
-  item: any;
+  item: IGroupChatData;
 }) => {
   const [isTyping, setIsTyping] = useState(false);
   const { socketRef } = useSocket();
-  const { currentChatProfileDetails } = useChatData();
 
   useEffect(() => {
     (() => {
-      if (!socketRef) return;
+      if (!socketRef || !item?.id) return;
 
-      socketRef.on(
-        `USER_IS_TYPING_${currentChatProfileDetails?.id}`,
-        (data) => {
-          setIsTyping(true);
-        }
-      );
-      socketRef.on(
-        `USER_IS_TYPING_${currentChatProfileDetails?.id}`,
-        (data) => {
-          setIsTyping(false);
-        }
-      );
+      socketRef.on(`USER_IS_TYPING_${item?.id}`, (data) => {
+        setIsTyping(true);
+      });
+      socketRef.on(`USER_STOP_TYPING_${item?.id}`, (data) => {
+        setIsTyping(false);
+      });
     })();
-  }, [socketRef]);
+  }, [socketRef, item?.id]);
 
   return (
     <div
@@ -206,15 +201,30 @@ const PrivateChatCard = ({
         selectedChatId === item?.id ? `bg-blue-100` : ``
       }`}
     >
-      <PhotoViewerSmall name={item?.title} photo={item?.photo} size="3rem" />
+      <Badge
+        color="secondary"
+        overlap="circular"
+        badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
+      >
+        <PhotoViewerSmall name={item?.title} photo={item?.photo} size="3rem" />
+      </Badge>
       <div className="w-[80%] flex justify-between ">
         <div>
           <h1 className="text-sm font-semibold">{item?.title}</h1>
-          <span className="text-sm font-light">
+
+          <span
+            className={`text-sm font-light ${
+              item?.lastMessage?.isRead ? "font-light" : "font-bold"
+            } `}
+          >
             {isTyping
               ? "Typing..."
               : item?.lastMessage?.message?.length > 15
               ? item?.lastMessage?.message.slice(0, 15) + " ..."
+              : item?.lastMessage?.category === "file"
+              ? item?.lastMessage?.link?.split("/").at(-1)
+              : item?.lastMessage?.category === "link"
+              ? "Link"
               : item?.lastMessage?.message}
           </span>
         </div>
@@ -317,37 +327,88 @@ const GroupChats = () => {
 
       <div className="mt-2 flex flex-col gap-1">
         {afterSearchable?.map((item) => (
-          <div
-            onClick={() => {
-              setSelectedChatId(item?.id);
-              revalidateChatProfileDetails(item?.id);
-            }}
-            key={item?.id}
-            className={`h-16 w-full transition-all ease-in-out duration-300 px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
-              selectedChatId === item?.id ? `bg-blue-100` : ``
-            }`}
-          >
-            <PhotoViewerSmall
-              name={item?.title}
-              photo={item?.photo || ""}
-              size="3rem"
-            />
-            <div className="w-[80%] flex justify-between ">
-              <div>
-                <h1 className="text-sm font-semibold">{item?.title}</h1>
-                <span className="text-sm font-light">
-                  {item?.lastMessage?.message?.length > 15
-                    ? item?.lastMessage?.message.slice(0, 15) + " ..."
-                    : item?.lastMessage?.message}
-                </span>
-              </div>
-
-              <span className="text-xs">
-                {moment(item?.lastMessage?.createdAt).format("ll")}
-              </span>
-            </div>
-          </div>
+          <GroupChatCard
+            item={item}
+            revalidateChatProfileDetails={revalidateChatProfileDetails}
+            selectedChatId={selectedChatId}
+            setSelectedChatId={setSelectedChatId}
+          />
         ))}
+      </div>
+    </div>
+  );
+};
+
+const GroupChatCard = ({
+  item,
+  revalidateChatProfileDetails,
+  selectedChatId,
+  setSelectedChatId,
+}: {
+  setSelectedChatId: (arg: any) => void;
+  revalidateChatProfileDetails: (arg: any) => void;
+  selectedChatId?: string;
+  item: IGroupChatData;
+}) => {
+  const [isTyping, setIsTyping] = useState(false);
+  const { socketRef } = useSocket();
+  const { reValidateGroupChat } = useChatData();
+
+  useEffect(() => {
+    (() => {
+      if (!socketRef || !item?.id) return;
+
+      socketRef.on(`USER_IS_TYPING_${item?.id}`, (data) => {
+        setIsTyping(true);
+      });
+      socketRef.on(`USER_STOP_TYPING_${item?.id}`, (data) => {
+        setIsTyping(false);
+      });
+      socketRef?.on(`MESSAGE_RECEIVED_${item?.id}`, async () => {
+        await reValidateGroupChat();
+      });
+    })();
+  }, [socketRef, item?.id]);
+
+  return (
+    <div
+      onClick={() => {
+        setSelectedChatId(item?.id);
+        revalidateChatProfileDetails(item?.id);
+      }}
+      key={item?.id}
+      className={`h-16 w-full transition-all ease-in-out duration-300 px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
+        selectedChatId === item?.id ? `bg-blue-100` : ``
+      }`}
+    >
+      <PhotoViewerSmall
+        name={item?.title}
+        photo={item?.photo || ""}
+        size="3rem"
+      />
+      <div className="w-[80%] flex justify-between ">
+        <div>
+          <h1 className="text-sm font-semibold">{item?.title}</h1>
+          <span
+            className={`text-sm font-light ${
+              item?.lastMessage?.isRead ? "font-light" : "font-bold"
+            } `}
+          >
+            {isTyping
+              ? "Typing..."
+              : item?.lastMessage?.message?.length > 15
+              ? item?.lastMessage?.message.slice(0, 15) + " ..."
+              : item?.lastMessage?.category === "file"
+              ? item?.lastMessage?.link?.split("/").at(-1)
+              : item?.lastMessage?.category === "link"
+              ? "Link"
+              : item?.lastMessage?.message}
+          </span>
+        </div>
+
+        <span className="text-xs">
+          {moment(item?.lastMessage?.createdAt).format("ll")}
+        </span>
       </div>
     </div>
   );
