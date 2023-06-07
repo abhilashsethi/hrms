@@ -270,7 +270,7 @@ export default () => {
         ],
       },
       {
-        key: "8",
+        key: "83e32e23e23",
         title: "Assets",
         icon: <ICONS.Assets />,
         submenus: [
@@ -358,7 +358,7 @@ export default () => {
         ],
       },
       {
-        key: "11",
+        key: "11re32r23e23e32",
         title: "Branch",
         icon: <ICONS.Branch />,
         submenus: [
@@ -414,7 +414,7 @@ export default () => {
         route: "/admin/support",
       },
       {
-        key: "11",
+        key: "11wfewfwfwe",
         title: "Settings",
         icon: <ICONS.Setting />,
         submenus: [

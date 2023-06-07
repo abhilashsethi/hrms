@@ -15,6 +15,7 @@ import {
   BASE_URL,
   useAuth,
   useChange,
+  useFCMToken,
   useFetch,
   useMenuItems,
   useSocket,
@@ -25,6 +26,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Drawer from "./drawer";
+
 type Props = {
   children: JSX.Element | JSX.Element[];
   title?: string;
@@ -135,6 +137,8 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
       }
     });
   };
+
+  useFCMToken(user?.id);
 
   return (
     <>
