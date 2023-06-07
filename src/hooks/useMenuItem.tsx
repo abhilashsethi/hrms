@@ -270,36 +270,19 @@ export default () => {
 				],
 			},
 			{
-				key: "8",
+				key: "28",
 				title: "Assets",
 				icon: <ICONS.Assets />,
 				submenus: [
-					// {
-					// 	key: "7-1",
-					// 	title: "Dashboard",
-					// 	icon: <ICONS.Dashboard_1 />,
-					// 	route: "/admin/projects",
-					// },
-					// {
-					// 	key: "7-2",
-					// 	title: "Return Asset",
-					// 	icon: <ICONS.Create_Assets />,
-					// 	route: "/admin/assets/return-assets",
-					// },
+
 					{
-						key: "7-3",
+						key: "28-1",
 						title: "View All Asset",
 						icon: <ICONS.All_Assets />,
 						route: "/admin/assets/all-assets",
 					},
 					{
-						key: "7-4",
-						title: "Assign Asset",
-						icon: <ICONS.All_Assets />,
-						route: "/admin/assets/assign-assets",
-					},
-					{
-						key: "7-4",
+						key: "28-2",
 						title: "Assigned Assets List",
 						icon: <ICONS.All_Assets />,
 						route: "/admin/assets/assigned-assets-list",
