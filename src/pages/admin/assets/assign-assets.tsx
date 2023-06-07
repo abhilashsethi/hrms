@@ -298,5 +298,6 @@ const AssignAssets = () => {
 export default AssignAssets;
 
 const links = [
-	{ id: 1, page: "Assign Assets", link: "/admin/assets/assign-assets" },
+	{ id: 1, page: "Assets", link: "/admin/assets" },
+	{ id: 2, page: "Assign Assets", link: "/admin/assets/assign-assets" },
 ];
