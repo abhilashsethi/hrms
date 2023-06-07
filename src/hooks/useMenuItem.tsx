@@ -257,18 +257,12 @@ export default () => {
           },
           {
             key: "27-3",
-            title: "Members",
-            icon: <ICONS.Add_Project />,
-            route: "/admin/tenders/members",
-          },
-          {
-            key: "27-4",
             title: "Create Tender",
             icon: <ICONS.Add_Project />,
             route: "/admin/tenders/create-tender",
           },
           {
-            key: "27-5",
+            key: "27-4",
             title: "Tender Details",
             icon: <ICONS.Add_Project />,
             route: "/admin/tenders/tender-details",
@@ -276,33 +270,21 @@ export default () => {
         ],
       },
       {
-        key: "8",
+        key: "28",
         title: "Assets",
         icon: <ICONS.Assets />,
         submenus: [
-          // {
-          // 	key: "7-1",
-          // 	title: "Dashboard",
-          // 	icon: <ICONS.Dashboard_1 />,
-          // 	route: "/admin/projects",
-          // },
           {
-            key: "7-2",
-            title: "Return Asset",
-            icon: <ICONS.Create_Assets />,
-            route: "/admin/assets/return-assets",
-          },
-          {
-            key: "7-3",
+            key: "28-1",
             title: "View All Asset",
             icon: <ICONS.All_Assets />,
             route: "/admin/assets/all-assets",
           },
           {
-            key: "7-4",
-            title: "Assign Asset",
+            key: "28-2",
+            title: "Assigned Assets List",
             icon: <ICONS.All_Assets />,
-            route: "/admin/assets/assign-assets",
+            route: "/admin/assets/assigned-assets-list",
           },
         ],
       },
