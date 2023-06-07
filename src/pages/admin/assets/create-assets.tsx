@@ -28,6 +28,7 @@ const initialValues = {
 	serialNo: "",
 	uploadDoc: [],
 	images: [],
+	notes: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -101,7 +102,7 @@ const CreateAssets = () => {
 			const res: any = await change(`assets`, {
 				body: {
 					name: values?.assetName,
-					purchasePrice: Number(values?.billAmount),
+					billAmount: Number(values?.billAmount),
 					brandName: values?.brandName,
 					marketPrice: Number(values?.marketPrice),
 					modelName: values?.modelNo,
@@ -111,6 +112,7 @@ const CreateAssets = () => {
 					dateOfPurchase: new Date(values?.purchaseDate).toISOString(),
 					photos: photoUrls,
 					docs: docsUrls,
+					notes: values?.notes,
 				},
 			});
 			setLoading(false);
@@ -246,7 +248,9 @@ const CreateAssets = () => {
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="brandName">Brand Name</InputLabel>
+												<InputLabel htmlFor="brandName">
+													Brand Name <span className="text-red-600">*</span>
+												</InputLabel>
 											</div>
 											<TextField
 												size="small"
@@ -265,6 +269,7 @@ const CreateAssets = () => {
 											<div className="py-2">
 												<InputLabel htmlFor="marketPrice">
 													Current Market Price
+													<span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
@@ -282,9 +287,7 @@ const CreateAssets = () => {
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="serialNo">
-													Serial No<span className="text-red-600">*</span>
-												</InputLabel>
+												<InputLabel htmlFor="serialNo">Serial No</InputLabel>
 											</div>
 											<TextField
 												size="small"
@@ -297,6 +300,25 @@ const CreateAssets = () => {
 												onBlur={handleBlur}
 												error={touched.serialNo && !!errors.serialNo}
 												helperText={touched.serialNo && errors.serialNo}
+											/>
+										</div>
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="notes">Notes</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												// placeholder="Phone"
+												multiline
+												rows={3}
+												id="notes"
+												name="notes"
+												value={values.notes}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.notes && !!errors.notes}
+												helperText={touched.notes && errors.notes}
 											/>
 										</div>
 										{/* <div className="md:px-4 px-2 md:py-2 py-1">
@@ -321,10 +343,7 @@ const CreateAssets = () => {
 										</div> */}
 
 										<div className="col-span-2 py-3">
-											<p className="text-gray-500 mb-2">
-												Upload Images
-												<span className="text-red-600">*</span>
-											</p>
+											<p className="text-gray-500 mb-2">Upload Images</p>
 											{/* ----------------------------multiple Images component------------------ */}
 											<div
 												onClick={() => imageRef?.current?.click()}
@@ -371,10 +390,7 @@ const CreateAssets = () => {
 											</div>
 										</div>
 										<div className="col-span-2 py-3">
-											<p className="text-gray-500 mb-2">
-												UploaI Docs
-												<span className="text-red-600">*</span>
-											</p>
+											<p className="text-gray-500 mb-2">UploaI Docs</p>
 											{/* ----------------------------multiple Docs component------------------ */}
 											<div
 												onClick={() => docsRef?.current?.click()}
