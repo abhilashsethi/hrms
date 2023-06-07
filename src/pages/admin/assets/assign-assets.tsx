@@ -183,7 +183,6 @@ const AssignAssets = () => {
 												helperText={touched.assignTime && errors.assignTime}
 											/>
 										</div>
-
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="reason">

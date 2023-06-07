@@ -161,7 +161,7 @@ const MoreOption = ({ item, mutate }: any) => {
 			<div key={item?.id} className="mb-4 w-full">
 				<div
 					className="group h-full w-full border-2 border-gray-200 
-                border-opacity-60 rounded-lg overflow-hidden shadow-lg"
+                		border-opacity-60 rounded-lg overflow-hidden shadow-lg"
 				>
 					{item?.photos?.length ? (
 						item?.photos?.length > 1 ? (
@@ -171,7 +171,7 @@ const MoreOption = ({ item, mutate }: any) => {
 										<img
 											key={k}
 											className="lg:h-48 md:h-36 w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                        								transition duration-500 ease-in-out transform group-hover:scale-105"
 											src={data}
 											alt="Branch"
 										/>
@@ -184,7 +184,7 @@ const MoreOption = ({ item, mutate }: any) => {
 									<img
 										key={k}
 										className="lg:h-48 md:h-36 w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                        							transition duration-500 ease-in-out transform group-hover:scale-105"
 										src={data}
 										alt="Branch"
 									/>
