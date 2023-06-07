@@ -20,7 +20,7 @@ const AssetsDashboardCharts = ({ data }: Props) => {
             text=""
           />
         </div>
-        <div className="col-span-12 px-2 py-4 pt-9 bg-white w-full gap-5 md:col-span-12 lg:col-span-4 !border-grey-500 rounded-xl !shadow-xl">
+        <div className="px-2 py-4 pt-9 bg-white w-full gap-5 lg:col-span-4 !border-grey-500 rounded-xl !shadow-xl">
           <p className="text-center text-lg font-bold">Assets Strength</p>
           <ClientLineCharts
             labels={
