@@ -159,7 +159,7 @@ const LoginAuth = () => {
 															name={item.name}
 															placeholder={item.placeHolder}
 															type={showPassword ? "text" : item.type}
-															className="w-full h-10  px-4 bg-white"
+															className="w-full h-10  px-4"
 															onChange={(e) => {
 																props.field.onChange(e);
 																formik.handleChange(e);

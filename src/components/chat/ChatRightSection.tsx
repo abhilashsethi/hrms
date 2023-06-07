@@ -72,9 +72,9 @@ const ChatRightSection = () => {
             groupId: currentChatProfileDetails?.id,
             userId: user?.id,
           });
+          revalidateCurrentChat(currentChatProfileDetails?.id);
           setIsLoading(false);
           setIsMessage(null);
-          revalidateCurrentChat(currentChatProfileDetails?.id);
           return;
         }
       } catch (error) {
