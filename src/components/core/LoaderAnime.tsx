@@ -7,12 +7,7 @@ interface Props {
 	animeWidth?: number;
 	text?: string;
 }
-const LoaderAnimeLarge = ({
-	image,
-	animeHight,
-	animeWidth,
-	text,
-}: Props) => {
+const LoaderAnimeLarge = ({ image, animeHight, animeWidth, text }: Props) => {
 	const defaultOptions = {
 		loop: true,
 		autoplay: true,
