@@ -75,6 +75,33 @@ const TenderDetail = () => {
         </TenderLayout>
       </div>
       <div className="mt-14">
+        <TenderLayout title="EMD Fee Details">
+          <div className="flex justify-end absolute right-[10px] top-[10px]">
+            <Tooltip title="Edit">
+              <IconButton size="small">
+                <Edit />
+              </IconButton>
+            </Tooltip>
+          </div>
+          <table className="w-full">
+            <tbody>
+              {emdFees?.map((item) => (
+                <tr>
+                  <td className="w-1/5 text-sm font-semibold py-2">
+                    {item?.title}
+                  </td>
+                  <td className="w-3/5">
+                    <span className="text-sm text-gray-600 py-2">
+                      {item?.value}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </TenderLayout>
+      </div>
+      <div className="mt-14">
         <TenderLayout title="Tender Documents">
           <div>
             <div className="flex justify-end mb-2">
@@ -182,6 +209,9 @@ const tenderFees = [
     title: "Payment Mode",
     value: "Online",
   },
+];
+
+const emdFees = [
   {
     id: 3,
     title: "EMD Exemption",
@@ -191,6 +221,11 @@ const tenderFees = [
     id: 4,
     title: "EMD Amount in ₹",
     value: "20, 000/-",
+  },
+  {
+    id: 2,
+    title: "Payment Mode",
+    value: "Online",
   },
 ];
 

@@ -5,12 +5,14 @@ import {
   Button,
   Checkbox,
   IconButton,
+  MenuItem,
   TextField,
   Tooltip,
 } from "@mui/material";
-import { Add, Check, Delete, Download } from "@mui/icons-material";
+import { Add, Check, Create, Delete, Download } from "@mui/icons-material";
+import moment from "moment";
 
-const TenderDocumentation = () => {
+const TenderTrack = () => {
   return (
     <section>
       <h1 className="text-theme font-semibold">Assigned Member</h1>
@@ -91,26 +93,21 @@ const TenderDocumentation = () => {
           </div>
         </TenderLayout>
       </div>
-      <div className="mt-4">
-        <h1 className="font-semibold">All documents created ? </h1>
-        <div className="flex gap-2 items-center">
-          <div className="flex gap-2 items-center">
-            <Checkbox /> <span>Yes</span>
-          </div>
-          <div className="flex gap-2 items-center">
-            <Checkbox /> <span>No</span>
-          </div>
-        </div>
-      </div>
-      <div className="w-1/2">
-        <h1 className="font-semibold">Reason </h1>
+
+      <div className="w-1/2 mt-4">
+        <h1 className="font-semibold">Update Status </h1>
         <TextField
-          multiline
+          className="!mt-4"
+          select
           fullWidth
-          rows={3}
-          placeholder="Reason"
-          className="mt-2"
-        />
+          defaultValue="Disqualified"
+        >
+          {statuses.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
         <div className="flex mt-2 mb-2">
           <Button
             startIcon={<Check />}
@@ -121,13 +118,95 @@ const TenderDocumentation = () => {
           </Button>
         </div>
       </div>
+      <div className="w-1/2 mt-4">
+        <div className="flex justify-between items-center mb-2">
+          <h1 className="font-semibold">Notes</h1>
+          <Button
+            startIcon={<Create />}
+            variant="contained"
+            className="!bg-theme"
+          >
+            Create Note
+          </Button>
+        </div>
+        <div className="border-2 w-full rounded-md p-2">
+          <div className="w-full p-4 border-[1px] border-theme rounded-md">
+            <p className="text-sm tracking-wide">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Consequatur magni, quos libero necessitatibus saepe quidem totam
+              obcaecati sint nemo nam in doloribus voluptate adipisci
+              accusantium?
+            </p>
+            <div className="flex justify-between items-end">
+              <div className="flex gap-1 justify-start">
+                <Tooltip title="Edit">
+                  <IconButton size="small">
+                    <Download />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete">
+                  <IconButton size="small">
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <span className="text-xs">
+                {moment(new Date()).format("lll")}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
 
-export default TenderDocumentation;
+export default TenderTrack;
 
 const documents = [
   { id: 1, name: "Financial Document", doc: "alldata.csv" },
   { id: 2, name: "Tender Agreement", doc: "agreements.csv" },
+];
+
+const statuses = [
+  {
+    value: "Submitted",
+    label: "Submitted",
+  },
+  {
+    value: "Cancelled",
+    label: "Cancelled",
+  },
+  {
+    value: "Open",
+    label: "Open",
+  },
+  {
+    value: "Closed",
+    label: "Closed",
+  },
+  {
+    value: "Technical Evaluation",
+    label: "Technical Evaluation",
+  },
+  {
+    value: "Financial Evaluation",
+    label: "Financial Evaluation",
+  },
+  {
+    value: "Bid Awarded",
+    label: "Bid Awarded",
+  },
+  {
+    value: "Closed",
+    label: "Closed",
+  },
+  {
+    value: "L1",
+    label: "L1",
+  },
+  {
+    value: "Disqualified",
+    label: "Disqualified",
+  },
 ];

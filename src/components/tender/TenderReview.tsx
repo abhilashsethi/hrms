@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Add, Check, Delete, Download } from "@mui/icons-material";
 
-const TenderDocumentation = () => {
+const TenderReview = () => {
   return (
     <section>
       <h1 className="text-theme font-semibold">Assigned Member</h1>
@@ -92,7 +92,7 @@ const TenderDocumentation = () => {
         </TenderLayout>
       </div>
       <div className="mt-4">
-        <h1 className="font-semibold">All documents created ? </h1>
+        <h1 className="font-semibold">All Documents correct ? </h1>
         <div className="flex gap-2 items-center">
           <div className="flex gap-2 items-center">
             <Checkbox /> <span>Yes</span>
@@ -125,7 +125,7 @@ const TenderDocumentation = () => {
   );
 };
 
-export default TenderDocumentation;
+export default TenderReview;
 
 const documents = [
   { id: 1, name: "Financial Document", doc: "alldata.csv" },

@@ -17,15 +17,12 @@ const Chats = () => {
 
   return (
     <PanelLayout title="Chats - Admin Panel">
-      <section className="px-6 py-4">
-        {/* <AdminBreadcrumbs links={links} /> */}
-        <section>
-          <div className="h-[80vh] w-full rounded-md bg-white mt-4 shadow-md flex">
-            <ChatLeftBar />
+      <section className="p-2">
+        <div className="h-[calc(100vh-80px)] overflow-hidden  w-full rounded-md bg-white  shadow-md flex">
+          <ChatLeftBar />
 
-            <ChatRightSection />
-          </div>
-        </section>
+          <ChatRightSection />
+        </div>
       </section>
     </PanelLayout>
   );

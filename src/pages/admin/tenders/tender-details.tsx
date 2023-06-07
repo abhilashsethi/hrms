@@ -13,6 +13,9 @@ import {
   TenderDetail,
   TenderDocumentation,
   TenderLayout,
+  TenderReview,
+  TenderSubmission,
+  TenderTrack,
 } from "components/tender";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
@@ -41,19 +44,19 @@ const TenderDetails = () => {
       id: "3",
       title: "Review",
       icon: <FindInPage />,
-      component: <TenderDetail />,
+      component: <TenderReview />,
     },
     {
       id: "4",
       title: "Submission",
       icon: <Task />,
-      component: <TenderDetail />,
+      component: <TenderSubmission />,
     },
     {
       id: "5",
       title: "Track",
       icon: <Timeline />,
-      component: <TenderDetail />,
+      component: <TenderTrack />,
     },
   ];
   return (

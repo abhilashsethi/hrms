@@ -53,7 +53,7 @@ const validationSchema = Yup.object().shape({
 	remarks: Yup.string().required("Remarks is required!"),
 });
 
-const AssignAssets = () => {
+const ReturnAssets = () => {
 	const imageRef = useRef<HTMLInputElement | null>(null);
 	const [loading, setLoading] = useState(false);
 	const { data: userData } = useFetch<any>(`users`);
@@ -64,7 +64,7 @@ const AssignAssets = () => {
 	};
 
 	return (
-		<PanelLayout title="Create Assets - Admin Panel">
+		<PanelLayout title="Return Assets - Admin Panel">
 			<section className="md:px-8 px-2 md:py-4 py-2">
 				<div className="px-2 md:px-0">
 					<AdminBreadcrumbs links={links} />
@@ -296,7 +296,7 @@ const AssignAssets = () => {
 	);
 };
 
-export default AssignAssets;
+export default ReturnAssets;
 
 const links = [
 	{ id: 1, page: "Assign Assets", link: "/admin/assets/assign-assets" },
