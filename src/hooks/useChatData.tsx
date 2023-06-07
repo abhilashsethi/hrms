@@ -8,6 +8,7 @@ type ChatState = {
   allPrivateChat: IGroupChatData[];
   allGroupChat: IGroupChatData[];
   currentChatMessage: IChatMessages[];
+  setCurrentChatMessage: (data: IChatMessages) => void;
   currentChatProfileDetails?: Partial<IChatGroup>;
   setSelectedChatProfileDetails?: (arg: any) => void;
   revalidateChatProfileDetails: (chatId: string) => Promise<void>;
@@ -43,6 +44,11 @@ const useChatData = create<ChatState>((set, get) => ({
         currentChatMessage: [],
       });
     }
+  },
+  setCurrentChatMessage: async (newChat) => {
+    set({
+      currentChatMessage: [...get().currentChatMessage, newChat],
+    });
   },
   setSelectedChatProfileDetails: async (arg: any) => {
     set({

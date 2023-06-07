@@ -1,10 +1,6 @@
 import {
   AccountCircle,
-  Add,
   Dashboard,
-  Email,
-  FileCopy,
-  Forum,
   MedicalInformationRounded,
 } from "@mui/icons-material";
 import ICONS from "assets/icons";
@@ -270,7 +266,7 @@ export default () => {
         ],
       },
       {
-        key: "28",
+        key: "28dcededed",
         title: "Assets",
         icon: <ICONS.Assets />,
         submenus: [
@@ -352,7 +348,7 @@ export default () => {
         ],
       },
       {
-        key: "11",
+        key: "11re32r23e23e32",
         title: "Branch",
         icon: <ICONS.Branch />,
         submenus: [
@@ -408,7 +404,7 @@ export default () => {
         route: "/admin/support",
       },
       {
-        key: "11",
+        key: "11wfewfwfwe",
         title: "Settings",
         icon: <ICONS.Setting />,
         submenus: [

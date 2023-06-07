@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useChange, useChatData } from "hooks";
+import { useAuth, useChange, useChatData, useSocket } from "hooks";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 import * as yup from "yup";
@@ -26,7 +26,14 @@ const ChatSendLink = ({ open, handleClose, sendId }: Props) => {
   const [isLink, setIsLink] = useState<string | null>(null);
   const { change } = useChange();
 
-  const { handleSendNewMessage, currentChatProfileDetails } = useChatData();
+  const {
+    handleSendNewMessage,
+    currentChatProfileDetails,
+    revalidateCurrentChat,
+  } = useChatData();
+
+  const { socketRef } = useSocket();
+  const { user } = useAuth();
 
   const handleSend = async () => {
     if (isLink) {
@@ -41,6 +48,11 @@ const ChatSendLink = ({ open, handleClose, sendId }: Props) => {
           handleClose();
           setLoading(false);
           setIsLink(null);
+          socketRef?.emit("SENT_MESSAGE", {
+            groupId: currentChatProfileDetails?.id,
+            userId: user?.id,
+          });
+          revalidateCurrentChat(currentChatProfileDetails?.id);
           return;
         } else {
           const res = await change(`chat/message/${sendId}`, {
@@ -58,7 +70,11 @@ const ChatSendLink = ({ open, handleClose, sendId }: Props) => {
             setLoading(false);
             return;
           }
-          Swal.fire(`Success`, `Link sent successfully!`, `success`);
+          socketRef?.emit("SENT_MESSAGE", {
+            groupId: currentChatProfileDetails?.id,
+            userId: user?.id,
+          });
+          revalidateCurrentChat(currentChatProfileDetails?.id);
           setLoading(false);
           handleClose();
           setIsLink(null);
