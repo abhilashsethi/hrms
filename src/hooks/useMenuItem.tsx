@@ -252,6 +252,12 @@ export default () => {
             route: "/admin/tenders/all-tenders",
           },
           {
+            key: "27-5",
+            title: "Members",
+            icon: <ICONS.All_Projects />,
+            route: "/admin/tenders/members",
+          },
+          {
             key: "27-3",
             title: "Create Tender",
             icon: <ICONS.Add_Project />,
