@@ -275,7 +275,7 @@ const AllAssets = () => {
 export default AllAssets;
 
 const links = [
-  // { id: 1, page: "Branch", link: "/admin/branch" },
+  { id: 1, page: "Assets", link: "/admin/assets" },
   {
     id: 2,
     page: "All Assets",

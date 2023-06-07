@@ -22,4 +22,4 @@ const index = () => {
 };
 
 export default index;
-const links = [{ id: 1, page: "Branch", link: "/admin/branch" }];
+const links = [{ id: 1, page: "Assets", link: "/admin/assets" }];
