@@ -1,4 +1,4 @@
-import { AssetsDashboardCard, AssetsDashboardCharts } from "components/admin/assets";
+import { AssetsDashboardCard, AssetsDashboardCharts, DashboardSkeletonLoading } from "components/admin/assets";
 import { AdminBreadcrumbs, Loader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -12,7 +12,7 @@ const index = () => {
                <>
                     <section className="lg:px-8 px-4 py-4">
                          <AdminBreadcrumbs links={links} />
-                         {isLoading && <Loader />}
+                         {isLoading && <DashboardSkeletonLoading />}
                          <AssetsDashboardCard data={branchDashboard} />
                          <AssetsDashboardCharts data={branchDashboard} />
                     </section>
