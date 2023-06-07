@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 import { Role } from "types";
 import moment from "moment";
 import { PDF } from "assets/home";
+import { useRouter } from "next/router";
 
 interface Props {
 	open: any;
@@ -27,6 +28,7 @@ interface Props {
 }
 
 const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
+	// console.log(assetData);
 	const [loading, setLoading] = useState(false);
 	const imageRef = useRef<HTMLInputElement | null>(null);
 	const { change } = useChange();
@@ -66,6 +68,40 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
 
 	const handleSubmit = async (values: any) => {
 		console.log(values);
+
+		setLoading(true);
+		try {
+			const res = await change(`assets/${assetData?.id}`, {
+				method: "PATCH",
+				body: {
+					name: values?.assetName,
+					purchasePrice: values?.billAmount,
+					brandName: values?.brandName,
+					marketPrice: values?.marketPrice,
+					isAssign: true,
+					modelName: values?.modelNo,
+				},
+			});
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire(
+					"Error",
+					res?.results?.msg || "Something went wrong!",
+					"error"
+				);
+				setLoading(false);
+				return;
+			}
+			// MainMutate();
+			handleClose();
+			Swal.fire(`Success`, `Updated Successfully!`, `success`);
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -113,9 +149,6 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
 							setFieldValue,
 						}) => (
 							<Form>
-								<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
-									Create Assets
-								</h1>
 								<div className="grid lg:grid-cols-2">
 									<div className="md:px-4 px-2 md:py-2 py-1">
 										<div className="md:py-2 py-1">
@@ -270,6 +303,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
 						)}
 					</Formik>
 				</div>
+
 				<div className="grid lg:grid-cols-2 gap-4 py-4">
 					{assetData?.docs?.map((data: any, k: any) => (
 						<div
