@@ -27,7 +27,7 @@ const AssetsDashboardCharts = ({ data }: Props) => {
               ["Assigned", "Not Assigned"]
             }
             series={
-              ["70%", "30%"]
+              [70, 30]
             }
             text=""
             type="donut"
