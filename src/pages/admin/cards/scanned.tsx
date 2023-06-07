@@ -1,9 +1,15 @@
 import { Close, FilterListRounded } from "@mui/icons-material";
-import { IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
+import {
+  IconButton,
+  MenuItem,
+  Pagination,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { AllScannedColumn, AllScannedGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
-  FiltersContainer,
   GridAndList,
   Loader,
   LoaderAnime,
@@ -28,8 +34,10 @@ const Cards = () => {
     mutate,
     pagination,
   } = useFetch<Card[]>(
-    `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${empId ? `&employeeID=${empId}` : ""
-    }${cardId ? `&cardId=${cardId}` : ""}${userType ? `&assignedTo=${userType}` : ""
+    `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${
+      empId ? `&employeeID=${empId}` : ""
+    }${cardId ? `&cardId=${cardId}` : ""}${
+      userType ? `&assignedTo=${userType}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
@@ -56,8 +64,26 @@ const Cards = () => {
                 setIsOrderBy(null);
               }}
             >
-              <Tooltip title={isOrderBy != null || userType != null || cardId != null || empId != null || userName != null ? `Remove Filters` : `Filter`}>
-                {isOrderBy != null || userType != null || cardId != null || empId != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+              <Tooltip
+                title={
+                  isOrderBy != null ||
+                  userType != null ||
+                  cardId != null ||
+                  empId != null ||
+                  userName != null
+                    ? `Remove Filters`
+                    : `Filter`
+                }
+              >
+                {isOrderBy != null ||
+                userType != null ||
+                cardId != null ||
+                empId != null ||
+                userName != null ? (
+                  <Close className={"!text-white"} />
+                ) : (
+                  <FilterListRounded className={"!text-white"} />
+                )}
               </Tooltip>
             </IconButton>
           </div>
@@ -68,7 +94,7 @@ const Cards = () => {
               placeholder="Employee Id"
               value={empId ? empId : ""}
               onChange={(e) => {
-                setPageNumber(1),setEmpId(e?.target?.value);
+                setPageNumber(1), setEmpId(e?.target?.value);
               }}
             />
             <TextField
@@ -77,7 +103,7 @@ const Cards = () => {
               placeholder="Employee Name"
               value={userName ? userName : ""}
               onChange={(e) => {
-                setPageNumber(1),setUsername(e?.target?.value);
+                setPageNumber(1), setUsername(e?.target?.value);
               }}
             />
             <TextField
@@ -86,7 +112,7 @@ const Cards = () => {
               placeholder="Card Id"
               value={cardId ? cardId : ""}
               onChange={(e) => {
-                setPageNumber(1),setCardId(e?.target?.value);
+                setPageNumber(1), setCardId(e?.target?.value);
               }}
             />
             <TextField
@@ -95,7 +121,9 @@ const Cards = () => {
               label="Select User Type"
               size="small"
               value={userType ? userType : ""}
-              onChange={(e) => {setPageNumber(1),setUserType(e.target.value)}}
+              onChange={(e) => {
+                setPageNumber(1), setUserType(e.target.value);
+              }}
             >
               {usertypes?.map((option: any) => (
                 <MenuItem key={option?.id} value={option.value}>
@@ -109,7 +137,9 @@ const Cards = () => {
               label="Order By"
               size="small"
               value={isOrderBy ? isOrderBy : ""}
-              onChange={(e) => {setPageNumber(1),setIsOrderBy(e?.target?.value)}}
+              onChange={(e) => {
+                setPageNumber(1), setIsOrderBy(e?.target?.value);
+              }}
             >
               {short.map((option) => (
                 <MenuItem key={option.id} value={option.value}>
@@ -134,14 +164,14 @@ const Cards = () => {
         </div>
         {cardData?.length === 0 ? <LoaderAnime /> : null}
         {Math.ceil(
-          Number(pagination?.total || 1) /
-          Number(pagination?.limit || 1)
-        ) > 1 ?
+          Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+        ) > 1 ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination
                 count={Math.ceil(
-                  Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+                  Number(pagination?.total || 1) /
+                    Number(pagination?.limit || 1)
                 )}
                 onChange={(e, v: number) => {
                   setPageNumber(v);
@@ -151,7 +181,7 @@ const Cards = () => {
               />
             </Stack>
           </div>
-          : null}
+        ) : null}
       </section>
     </PanelLayout>
   );

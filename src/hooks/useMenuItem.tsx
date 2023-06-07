@@ -1,10 +1,6 @@
 import {
   AccountCircle,
-  Add,
   Dashboard,
-  Email,
-  FileCopy,
-  Forum,
   MedicalInformationRounded,
 } from "@mui/icons-material";
 import ICONS from "assets/icons";
