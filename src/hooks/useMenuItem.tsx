@@ -280,12 +280,12 @@ export default () => {
 					// 	icon: <ICONS.Dashboard_1 />,
 					// 	route: "/admin/projects",
 					// },
-					{
-						key: "7-2",
-						title: "Return Asset",
-						icon: <ICONS.Create_Assets />,
-						route: "/admin/assets/return-assets",
-					},
+					// {
+					// 	key: "7-2",
+					// 	title: "Return Asset",
+					// 	icon: <ICONS.Create_Assets />,
+					// 	route: "/admin/assets/return-assets",
+					// },
 					{
 						key: "7-3",
 						title: "View All Asset",
