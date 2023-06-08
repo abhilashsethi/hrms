@@ -111,6 +111,11 @@ export type User = {
     createdAt?: string;
     updatedAt?: string;
   };
+  employeeOfBranchId?: string | null;
+  employeeOfBranch?: {
+    id?: string;
+    name?: string;
+  };
   wallet?: number;
   lastActiveTime?: string;
   isOnline?: boolean;

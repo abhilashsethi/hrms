@@ -60,29 +60,39 @@ const EmployeeDetails = () => {
     );
   };
 
+  console.log(employData);
+
   const basicDetails = useMemo(
     () => [
       {
         id: 1,
         title: "First Name",
-        value: `${employData?.firstName ? employData?.firstName : "---"}`,
+        value: employData?.firstName ? employData?.firstName : "---",
       },
       {
         id: 18,
         title: "Last Name",
-        value: `${employData?.lastName ? employData?.lastName : "---"}`,
+        value: employData?.lastName ? employData?.lastName : "---",
       },
       {
         id: 2,
         title: "Email",
-        value: `${employData?.email ? employData?.email : "---"}`,
+        value: employData?.email ? employData?.email : "---",
         copy: true,
       },
       {
         id: 3,
         title: "Emp Id",
-        value: `${employData?.employeeID ? employData?.employeeID : "---"}`,
+        value: employData?.employeeID ? employData?.employeeID : "---",
         copy: true,
+      },
+      {
+        id: 10,
+        title: "Branch",
+        value: employData?.employeeOfBranch?.name
+          ? employData?.employeeOfBranch?.name
+          : "---",
+        copy: false,
       },
 
       {
