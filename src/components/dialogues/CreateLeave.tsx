@@ -57,18 +57,18 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
     const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
-      if (value) {
+      if (key !== "link" && value) {
         acc[key] = value;
       }
       return acc;
     }, {});
-    const dtype = values?.link && values?.link?.type.split("/")[1];
     setLoading(true);
     try {
-      const url =
-        values?.link &&
-        (await uploadFile(values?.link, `${Date.now()}.${dtype}`));
-      if (url?.length) {
+      if (values?.link) {
+        const dtype = values?.link && values?.link?.type.split("/")[1];
+        const url =
+          values?.link &&
+          (await uploadFile(values?.link, `${Date.now()}.${dtype}`));
         const res = await change(`leaves`, {
           body: {
             ...reqValue,
@@ -76,7 +76,6 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
             docs: [{ link: url, docType: dtype }],
           },
         });
-        console.log(res);
         setLoading(false);
         if (res?.status !== 201) {
           Swal.fire(
@@ -369,16 +368,6 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
                   error={touched.reason && !!errors.reason}
                   helperText={touched.reason && errors.reason}
                 />
-                {/* <h1 className="py-1 mt-1">Upload Document</h1>
-								<input
-									className="w-full border-2 py-2 px-2 cursor-pointer"
-									placeholder="Upload document"
-									name="docs"
-									type="file"
-									onChange={(event: any) => {
-										setFieldValue("image", event.currentTarget.files[0]);
-									}}
-								/> */}
                 <p className="font-medium text-gray-700 my-2">Choose File</p>
                 <input
                   type="file"
@@ -389,13 +378,6 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
                     setFieldValue("link", e?.target?.files[0])
                   }
                 />
-                {/* {values.link && (
-									<img
-										className="w-24 object-contain"
-										src={URL.createObjectURL(values.link)}
-										alt="Preview"
-									/>
-								)} */}
                 <div className="flex justify-center mt-4">
                   <Button
                     type="submit"
