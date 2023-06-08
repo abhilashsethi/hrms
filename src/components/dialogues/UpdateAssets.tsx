@@ -173,7 +173,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
       <UpdateAssetDoc
         docData={isDocUpdate?.docData}
         open={isDocUpdate?.dialogue}
-        handleClose={() => setIsDocUpdate({ dialogue: false })}
+        handleCloseUpdateDoc={() => setIsDocUpdate({ dialogue: false })}
         mutate={mutate}
       />
       <UploadAssetDoc

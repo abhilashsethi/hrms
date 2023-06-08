@@ -14,12 +14,12 @@ import * as yup from "yup";
 import { useState } from "react";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
-import { SingleImageUpdateBranch } from "components/core";
+import { SingleDocUpdate, SingleImageUpdateBranch } from "components/core";
 import { deleteFile, uploadFile } from "utils";
 
 interface Props {
   open: any;
-  handleClose: any;
+  handleCloseUpdateDoc: any;
   mutate?: any;
   docData?: any;
   MainMutate?: any;
@@ -27,28 +27,27 @@ interface Props {
 
 const UpdateAssetDoc = ({
   open,
-  handleClose,
+  handleCloseUpdateDoc,
   mutate,
-  MainMutate,
   docData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const initialValues = {
-    image: `${docData ? docData : ""}`,
+    docs: `${docData ? docData : ""}`,
   };
   const handleSubmit = async (values: any) => {
+    console.log(values);
     setLoading(true);
-    const uniId = initialValues?.image?.substring(
-      initialValues?.image?.lastIndexOf("/") + 1
+    const uniId = initialValues?.docs?.substring(
+      initialValues?.docs?.lastIndexOf("/") + 1
     );
     try {
-      if (docData !== values?.image) {
-        const url = await uploadFile(values?.image, `${uniId}`);
+      if (docData !== values?.docs) {
+        const url = await uploadFile(values?.docs, `${uniId}`);
         setLoading(false);
         mutate();
-        MainMutate();
-        handleClose();
+        handleCloseUpdateDoc();
         Swal.fire(`Success`, `Updated Successfully!`, `success`);
         return;
       }
@@ -61,7 +60,7 @@ const UpdateAssetDoc = ({
   };
   return (
     <Dialog
-      onClose={handleClose}
+      onClose={handleCloseUpdateDoc}
       aria-labelledby="customized-dialog-title"
       open={open}
     >
@@ -70,11 +69,11 @@ const UpdateAssetDoc = ({
         sx={{ p: 2, minWidth: "18rem !important" }}
       >
         <p className="text-center text-xl font-bold text-theme tracking-wide">
-          UPDATE IMAGE
+          UPDATE DOCUMENT
         </p>
         <IconButton
           aria-label="close"
-          onClick={handleClose}
+          onClick={handleCloseUpdateDoc}
           sx={{
             top: 10,
             right: 10,
@@ -104,14 +103,14 @@ const UpdateAssetDoc = ({
             }) => (
               <Form>
                 <div className="flex flex-col gap-4">
-                  <SingleImageUpdateBranch
+                  <SingleDocUpdate
                     values={values}
                     setImageValue={(event: any) => {
-                      setFieldValue("image", event.currentTarget.files[0]);
+                      setFieldValue("docs", event.currentTarget.files[0]);
                     }}
                   >
-                    <ErrorMessage name="image" />
-                  </SingleImageUpdateBranch>
+                    <ErrorMessage name="docs" />
+                  </SingleDocUpdate>
                   <Button
                     type="submit"
                     fullWidth
