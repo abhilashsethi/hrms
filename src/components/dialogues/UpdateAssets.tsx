@@ -24,6 +24,7 @@ import UploadAssetImage from "./UploadAssetImage";
 import { HeadText } from "components/core";
 import { deleteFile } from "utils";
 import UploadAssetDoc from "./UploadAssetDoc";
+import UpdateAssetDoc from "./UpdateAssetDoc";
 
 interface Props {
   open: any;
@@ -41,6 +42,10 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
     dialogue?: boolean;
     imageData?: string | null;
   }>({ dialogue: false, imageData: null });
+  const [isDocUpdate, setIsDocUpdate] = useState<{
+    dialogue?: boolean;
+    docData?: string | null;
+  }>({ dialogue: false, docData: null });
   const [isDocUpload, setIsDocUpload] = useState<{
     dialogue?: boolean;
     assetData?: any;
@@ -156,13 +161,56 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
       }
     });
   };
-
+  const handleDeleteDoc = async (data: any, assetData: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          Swal.fire("", "Please Wait...", "info");
+          await deleteFile(String(data?.link?.split("/").reverse()[0]));
+          const updatedDocs = assetData?.docs.filter((doc: any) => doc?.link !== data);
+          console.log("updatedDocs", updatedDocs);
+          const res = await change(`assets/${assetData?.id}`, {
+            method: "PATCH",
+            body: { docs: updatedDocs },
+          });
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            return;
+          }
+          Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+          mutate();
+          handleClose();
+          return;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
   return (
     <>
       <UpdateAssetImage
         imageData={isUpdate?.imageData}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
+        mutate={mutate}
+      />
+      <UpdateAssetDoc
+        docData={isDocUpdate?.docData}
+        open={isDocUpdate?.dialogue}
+        handleCloseUpdateDoc={() => setIsDocUpdate({ dialogue: false })}
         mutate={mutate}
       />
       <UploadAssetDoc
@@ -431,7 +479,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                   <div className="flex justify-between pt-4 gap-2">
                     <HeadText title="Documents" />
                     <button
-                      // onClick={() => setIsUpload({ dialogue: true, assetData: assetData })}
+                      onClick={() => setIsDocUpload({ dialogue: true, assetData: assetData })}
                       className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">
                       Add More Document
                     </button>
@@ -449,14 +497,13 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                       <div className="flex justify-between gap-1 pt-4 pb-2">
                         <button
                           onClick={() => {
-                            console.log(data);
-                            // setIsUpdate({ dialogue: true, imageData: data });
+                            setIsDocUpdate({ dialogue: true, docData: data });
                           }}
                           className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
                         >
                           Edit
                         </button>
-                        <button className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
+                        <button onClick={() => handleDeleteDoc(data, assetData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
                           Delete
                         </button>
                       </div>

@@ -33,27 +33,18 @@ const AllAssets = () => {
   const [isBranch, setIsBranch] = useState<string | null>(null);
   const [isModel, setIsModel] = useState<string | null>(null);
   const [branchId, setBranchId] = useState<string | null>(null);
-  console.log(branchId);
 
-  const {
-    data: departmentData,
-    mutate,
-    isLoading,
-  } = useFetch<any>(
-    `departments?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
-    }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
-  );
 
   const {
     data: assetsData,
-    mutate: assetMutate,
+    mutate,
+    isLoading,
     pagination,
   } = useFetch<any>(
     `assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }${isBrand ? `&brandName=${isBrand}` : ""}${isBranch ? `&branchName=${isBranch}` : ""
     }${isModel ? `&modelName=${isModel}` : ""}`
   );
-  // console.log(assetsData);
 
   useEffect(() => {
     setTimeout(() => {
@@ -221,12 +212,12 @@ const AllAssets = () => {
               {isGrid ? (
                 <>
                   {isLoading && <Loader />}
-                  <AssetsGrid data={assetsData} mutate={assetMutate} />
+                  <AssetsGrid data={assetsData} mutate={mutate} />
                 </>
               ) : (
                 <>
                   {isLoading && <Loader />}
-                  <AssetsColumn data={assetsData} mutate={assetMutate} />
+                  <AssetsColumn data={assetsData} mutate={mutate} />
                 </>
               )}
               {assetsData?.length === 0 ? <LoaderAnime /> : null}
@@ -289,141 +280,3 @@ const short = [
   { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
 
-// const assetData = [
-//   {
-//     id: "01",
-//     name: "Laptop",
-//     photos: [
-//       {
-//         i: 1,
-//         photo:
-//           "https://img.freepik.com/free-photo/laptop-with-blank-black-screen-white-table_53876-97915.jpg?w=996&t=st=1685941336~exp=1685941936~hmac=600279e95b0695fc35146572dbae5a835b4b173cda718b594fff338d67c92c1f",
-//       },
-//       {
-//         i: 2,
-//         photo:
-//           "https://img.freepik.com/free-photo/work-desk-with-computer-cup-with-pens-pencils-against-white-wall_181624-44978.jpg?w=996&t=st=1685941433~exp=1685942033~hmac=dcd1ecea9d29a5b13041ca4b54294595ad87ef525867f1b8cf5c1d3c3be44f88",
-//       },
-//       {
-//         i: 3,
-//         photo:
-//           "https://img.freepik.com/free-photo/empty-meeting-room-with-table-whiteboard_1262-3763.jpg?w=996&t=st=1685941618~exp=1685942218~hmac=9cd100c941a6b9bceb1c82b24a870c0ba7da1bbe0d50a6acd83e162bc284d87c",
-//       },
-//       {
-//         i: 4,
-//         photo:
-//           "https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
-//       },
-//     ],
-//     modelName: "82K201Y8IN",
-//     brandName: "Lenovo",
-//     dateOfPurchase: "05/06/2023",
-//     purchasePrice: "50,000",
-//     marketPrice: "40,000",
-//     serialNumber: "2131335465",
-//     docs: "",
-//     assetOfBranch: {
-//       name: "Searching Yard",
-//     },
-//   },
-//   {
-//     id: "02",
-//     name: "Desktop",
-//     photos: [
-//       {
-//         i: 1,
-//         photo:
-//           "https://img.freepik.com/free-photo/laptop-with-blank-black-screen-white-table_53876-97915.jpg?w=996&t=st=1685941336~exp=1685941936~hmac=600279e95b0695fc35146572dbae5a835b4b173cda718b594fff338d67c92c1f",
-//       },
-//       {
-//         i: 2,
-//         photo:
-//           "https://img.freepik.com/free-photo/work-desk-with-computer-cup-with-pens-pencils-against-white-wall_181624-44978.jpg?w=996&t=st=1685941433~exp=1685942033~hmac=dcd1ecea9d29a5b13041ca4b54294595ad87ef525867f1b8cf5c1d3c3be44f88",
-//       },
-//       {
-//         i: 3,
-//         photo:
-//           "https://img.freepik.com/free-photo/empty-meeting-room-with-table-whiteboard_1262-3763.jpg?w=996&t=st=1685941618~exp=1685942218~hmac=9cd100c941a6b9bceb1c82b24a870c0ba7da1bbe0d50a6acd83e162bc284d87c",
-//       },
-//       {
-//         i: 4,
-//         photo:
-//           "https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
-//       },
-//     ],
-//     modelNo: "82K201Y8IN",
-//     brand: "Lenovo",
-//     dateOfPurchase: "05/06/2023",
-//     billAmount: "50,000",
-//     currentMp: "40,000",
-//     slNo: "2131335465",
-//     docs: "",
-//   },
-//   {
-//     id: "03",
-//     name: "Office Chairs",
-//     location: "Electronic City, Karnatak,",
-//     photos: [
-//       {
-//         i: 1,
-//         photo:
-//           "https://img.freepik.com/free-photo/laptop-with-blank-black-screen-white-table_53876-97915.jpg?w=996&t=st=1685941336~exp=1685941936~hmac=600279e95b0695fc35146572dbae5a835b4b173cda718b594fff338d67c92c1f",
-//       },
-//       {
-//         i: 2,
-//         photo:
-//           "https://img.freepik.com/free-photo/work-desk-with-computer-cup-with-pens-pencils-against-white-wall_181624-44978.jpg?w=996&t=st=1685941433~exp=1685942033~hmac=dcd1ecea9d29a5b13041ca4b54294595ad87ef525867f1b8cf5c1d3c3be44f88",
-//       },
-//       {
-//         i: 3,
-//         photo:
-//           "https://img.freepik.com/free-photo/empty-meeting-room-with-table-whiteboard_1262-3763.jpg?w=996&t=st=1685941618~exp=1685942218~hmac=9cd100c941a6b9bceb1c82b24a870c0ba7da1bbe0d50a6acd83e162bc284d87c",
-//       },
-//       {
-//         i: 4,
-//         photo:
-//           "https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
-//       },
-//     ],
-//     modelNo: "Movable Chair",
-//     brand: "",
-//     dateOfPurchase: "05/06/2023",
-//     billAmount: "50,000",
-//     currentMp: "40,000",
-//     slNo: "2131335465",
-//     docs: "",
-//   },
-//   {
-//     id: "04",
-//     name: "Printer",
-//     photos: [
-//       {
-//         i: 1,
-//         photo:
-//           "https://img.freepik.com/free-photo/laptop-with-blank-black-screen-white-table_53876-97915.jpg?w=996&t=st=1685941336~exp=1685941936~hmac=600279e95b0695fc35146572dbae5a835b4b173cda718b594fff338d67c92c1f",
-//       },
-//       {
-//         i: 2,
-//         photo:
-//           "https://img.freepik.com/free-photo/work-desk-with-computer-cup-with-pens-pencils-against-white-wall_181624-44978.jpg?w=996&t=st=1685941433~exp=1685942033~hmac=dcd1ecea9d29a5b13041ca4b54294595ad87ef525867f1b8cf5c1d3c3be44f88",
-//       },
-//       {
-//         i: 3,
-//         photo:
-//           "https://img.freepik.com/free-photo/empty-meeting-room-with-table-whiteboard_1262-3763.jpg?w=996&t=st=1685941618~exp=1685942218~hmac=9cd100c941a6b9bceb1c82b24a870c0ba7da1bbe0d50a6acd83e162bc284d87c",
-//       },
-//       {
-//         i: 4,
-//         photo:
-//           "https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
-//       },
-//     ],
-//     modelNo: "82K201Y8IN",
-//     brand: "Lenovo",
-//     dateOfPurchase: "05/06/2023",
-//     billAmount: "50,000",
-//     currentMp: "40,000",
-//     slNo: "2131335465",
-//     docs: "",
-//   },
-// ];
