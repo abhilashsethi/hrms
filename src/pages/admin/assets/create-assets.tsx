@@ -112,7 +112,7 @@ const CreateAssets = () => {
 					dateOfPurchase: new Date(values?.purchaseDate).toISOString(),
 					photos: photoUrls,
 					docs: docsUrls,
-					notes: values?.notes,
+					note: values?.notes,
 				},
 			});
 			setLoading(false);
@@ -128,6 +128,7 @@ const CreateAssets = () => {
 			}
 			Swal.fire(`Success`, `You have successfully Created!`, `success`);
 			resetForm();
+			router.push("/admin/assets/all-assets");
 			console.log(res);
 			return;
 		} catch (error) {
