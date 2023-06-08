@@ -11,8 +11,8 @@ const DashboardSkeletonLoading = () => {
         </div>
       </div>
       <div className="grid lg:grid-cols-2 content-between gap-6">
-        <div className="w-full h-80 rounded bg-gray-700"></div>
-        <div className="w-full h-80 rounded bg-gray-700"></div>
+        <div className="w-full h-96 rounded bg-gray-700"></div>
+        <div className="w-full h-96 rounded bg-gray-700"></div>
       </div>
 
     </div>
