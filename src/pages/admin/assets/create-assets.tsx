@@ -136,7 +136,6 @@ const CreateAssets = () => {
 		} finally {
 			setLoading(false);
 		}
-		console.log(values);
 	};
 
 	return (

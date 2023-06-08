@@ -32,11 +32,8 @@ const ChooseBranchToViewAssets = ({
 	setBranchId,
 }: Props) => {
 	const [loading, setLoading] = useState(false);
-	const [isBranch, setIsBranch] = useState<any>(null);
-	const [pageNumber, setPageNumber] = useState<number>(1);
 	const { change } = useChange();
 	const { data: branchData } = useFetch<any>(`branches`);
-	// console.log(branchData);
 	const router = useRouter();
 	const validationSchema = Yup.object().shape({
 		branchId: Yup.string().required("Branch is required!"),
@@ -51,8 +48,6 @@ const ChooseBranchToViewAssets = ({
 		try {
 			setBranchId(values.branchId);
 			setLoading(true);
-			// Swal.fire("Success", "Successfully submitted", "success");
-			// router?.push(`/admin/assets/create-assets?id=${values.branchId}`);
 			setLoading(false);
 			handleClose();
 		} catch (error) {
@@ -126,8 +121,8 @@ const ChooseBranchToViewAssets = ({
 											value={
 												values?.branchId
 													? branchData?.find(
-															(option: any) => option.id === values.branchId
-													  )
+														(option: any) => option.id === values.branchId
+													)
 													: {}
 											}
 											onChange={(e: any, r: any) => {
