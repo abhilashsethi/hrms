@@ -18,3 +18,6 @@ export { default as GROUP } from "./group.jpg";
 export { default as CHATDEFAULT } from "./chatdefault.jpg";
 export { default as CHATDOC } from "./chat-document.png";
 export { default as TENDERCARD } from "./tenderidea.png";
+export { default as TENDERCARD2 } from "./tender2.png";
+export { default as TENDERCARD3 } from "./tender3.png";
+export { default as TENDERCARD4 } from "./tender4.png";
