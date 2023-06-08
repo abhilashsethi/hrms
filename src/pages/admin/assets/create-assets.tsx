@@ -108,7 +108,6 @@ const CreateAssets = () => {
 					modelName: values?.modelNo,
 					branchId: router?.query?.id,
 					serialNumber: values?.serialNo,
-					isAssign: true,
 					dateOfPurchase: new Date(values?.purchaseDate).toISOString(),
 					photos: photoUrls,
 					docs: docsUrls,

@@ -91,6 +91,8 @@ const MoreOption = ({ item, mutate }: any) => {
 		assetData?: string | null;
 	}>({ dialogue: false, assetData: null });
 
+	console.log(item);
+
 	const handleDelete = async (id: string) => {
 		Swal.fire({
 			title: "Are you sure?",
