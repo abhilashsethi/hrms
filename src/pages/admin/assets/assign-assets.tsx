@@ -52,11 +52,13 @@ const AssignAssets = () => {
 		try {
 			const photoUrls = [];
 			for (const photo of values?.assignTimePhotos) {
+				console.log(photo?.uniId);
 				const url = await uploadFile(
 					photo?.file,
 					`${Date.now()}.${photo?.uniId}`
 				);
 				photoUrls.push(url);
+				console.log(values?.assignTimePhotos);
 			}
 
 			const res: any = await change(
@@ -278,10 +280,16 @@ const AssignAssets = () => {
 													multiple
 													onChange={(event: any) => {
 														const files = Array.from(event.target.files);
-														const fileObjects = files.map((file: any) => ({
-															file,
-															previewURL: URL.createObjectURL(file),
-														}));
+														const fileObjects = files.map((file: any) => {
+															const uniId = file.type
+																.split("/")[1]
+																.split("+")[0]; // Get unique ID of the image
+															return {
+																file,
+																previewURL: URL.createObjectURL(file),
+																uniId, // Add unique ID to the file object
+															};
+														});
 														setFieldValue("assignTimePhotos", fileObjects);
 													}}
 												/>

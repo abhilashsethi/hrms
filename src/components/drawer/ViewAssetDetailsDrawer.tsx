@@ -6,6 +6,7 @@ import { useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Slider from "react-slick";
 import { User } from "types";
 
 type Props = {
@@ -79,19 +80,17 @@ const ViewAssetDetailsDrawer = ({
 	employeeId,
 	assetId,
 }: Props) => {
-	console.log(assetId);
+	// console.log(assetId);
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedUser, setSelectedUser] = useState<string | null>(null);
 	const [searchedUser, setSearchedUser] = useState<any>([]);
 
-	const { data: assetInfo } = useFetch<any>(
-		`assets/getAssignAssetById/${assetId}`
+	const { data: assignId } = useFetch<any>(
+		`assets/asset/assign-asset/${assetId}`
 	);
-
-	console.log(assetInfo);
-
+	console.log(assignId);
 	const { data: users, isLoading } = useFetch<User[]>(`users`);
 	useEffect(() => {
 		if (users) {
@@ -102,6 +101,39 @@ const ViewAssetDetailsDrawer = ({
 		}
 	}, [users, searchTerm]);
 
+	const settings = {
+		dots: false,
+		infinite: true,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		autoplay: true,
+		speed: 400,
+		cssEase: "linear",
+		autoplaySpeed: 3000,
+		pauseOnHover: false,
+		arrows: false,
+		responsive: [
+			{
+				breakpoint: 940,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					infinite: true,
+					arrows: false,
+				},
+			},
+			{
+				breakpoint: 760,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					infinite: true,
+					arrows: false,
+				},
+			},
+		],
+	};
+
 	const classes = useStyles();
 
 	return (
@@ -111,7 +143,7 @@ const ViewAssetDetailsDrawer = ({
 					{/* Drawer Element */}
 
 					<div className="flex items-center justify-between pb-4">
-						<p className="text-lg font-bold text-theme">View Leaves</p>
+						<p className="text-lg font-bold text-theme">Assign Details</p>
 						<IconButton onClick={() => onClose()}>
 							<Close
 								fontSize="small"
@@ -126,12 +158,25 @@ const ViewAssetDetailsDrawer = ({
 							<div
 								className={`w-full h-full rounded-l-xl shadow-xl px-2 py-2 bg-[#edf4fe] my-3`}
 							>
+								<div className="w-1/3">
+									<Slider {...settings} className="">
+										{assignId?.assignTimePhotos?.map((data: any, k: any) => (
+											<img
+												key={k}
+												className="w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+												src={data}
+												alt="assets"
+											/>
+										))}
+									</Slider>
+								</div>
 								<div className="flex flex-col gap-3 font-semibold text-blue-700">
 									<>
 										<div className="flex gap-2">
-											Start Date :{" "}
+											Assigned User :{" "}
 											<span className="text-black font-medium">
-												{moment(new Date())?.format("DD/MM/YYYY")}
+												{assignId?.assignUser?.name}
 											</span>
 										</div>
 										<div className="flex gap-2">
