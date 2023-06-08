@@ -47,7 +47,7 @@ const UploadAssetImage = ({
         const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
         photoUrls.push(url);
       }
-      const res: any = await change(`branches/${assetData?.id}`, {
+      const res: any = await change(`assets/${assetData?.id}`, {
         method: "PATCH",
         body: { photos: photoUrls },
       });
