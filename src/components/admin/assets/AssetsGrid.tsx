@@ -344,7 +344,7 @@ const MoreOption = ({ item, mutate }: any) => {
                   </Tooltip>
                   <Tooltip title="Return Asset">
                     <Link
-                      href={`/admin/assets/assign-assets?id=${item?.id}`}
+                      href={`/admin/assets/return-assets?id=${item?.id}`}
                       className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
                     >
                       <AssignmentReturn fontSize="small" color="secondary" />
