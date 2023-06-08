@@ -334,7 +334,7 @@ const MoreOption = ({ item, mutate }: any) => {
               </Tooltip>
               {item?.isAssign ? (
                 <>
-                  <Tooltip title="Assign Employee">
+                  <Tooltip title="Assign Details">
                     <Link
                       href={`/admin/assets/assign-assets?id=${item?.id}`}
                       className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
@@ -342,7 +342,7 @@ const MoreOption = ({ item, mutate }: any) => {
                       <Visibility fontSize="small" color="secondary" />
                     </Link>
                   </Tooltip>
-                  <Tooltip title="Assign Employee">
+                  <Tooltip title="Return Asset">
                     <Link
                       href={`/admin/assets/assign-assets?id=${item?.id}`}
                       className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
