@@ -20,6 +20,9 @@ import Swal from "sweetalert2";
 import moment from "moment";
 import { PDF } from "assets/home";
 import UpdateAssetImage from "./UpdateAssetImage";
+import UploadAssetImage from "./UploadAssetImage";
+import { HeadText } from "components/core";
+import { deleteFile } from "utils";
 
 interface Props {
   open: any;
@@ -37,6 +40,10 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
     dialogue?: boolean;
     imageData?: string | null;
   }>({ dialogue: false, imageData: null });
+  const [isUpload, setIsUpload] = useState<{
+    dialogue?: boolean;
+    assetData?: any;
+  }>({ dialogue: false, assetData: null });
   const initialValues = {
     branchId: `${assetData?.assetOfBranch?.id ? assetData?.assetOfBranch?.id : ""}`,
     assetName: `${assetData?.name ? assetData?.name : ""}`,
@@ -107,6 +114,43 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
       setLoading(false);
     }
   };
+  const handleDelete = async (data: any, assetData: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          Swal.fire("", "Please Wait...", "info");
+          await deleteFile(String(data?.split("/").reverse()[0]));
+          const updatedPhotos = assetData?.photos.filter((photo: any) => photo !== data);
+          const res = await change(`assets/${assetData?.id}`, {
+            method: "PATCH",
+            body: { photos: updatedPhotos },
+          });
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            return;
+          }
+          Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+          mutate();
+          handleClose();
+          return;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
 
   return (
     <>
@@ -116,12 +160,13 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
       />
-      {/* <UploadBranchImage
-				branchData={isUpload?.branchData}
-				open={isUpload?.dialogue}
-				handleClose={() => setIsUpload({ dialogue: false })}
-				mutate={mutate}
-			/> */}
+      <UploadAssetImage
+        assetData={isUpload?.assetData}
+        open={isUpload?.dialogue}
+        handleClose={handleClose}
+        handleCloseUpload={() => setIsUpload({ dialogue: false })}
+        mutate={mutate}
+      />
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -381,36 +426,6 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                   <button
                     onClick={() => {
                       console.log(data);
-                      setIsUpdate({ dialogue: true, imageData: data });
-                    }}
-                    className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
-                  >
-                    Edit
-                  </button>
-                  <button className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-4 py-4">
-            {assetData?.photos?.map((data: any, k: any) => (
-              <div
-                key={k}
-                className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
-              >
-                <img
-                  className="lg:h-48 md:h-36 w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
-                  src={data}
-                  alt="Branch"
-                />
-                <div className="flex justify-between gap-1 pt-4 pb-2">
-                  <button
-                    onClick={() => {
-                      console.log(data);
                       // setIsUpdate({ dialogue: true, imageData: data });
                     }}
                     className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
@@ -424,6 +439,61 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
               </div>
             ))}
           </div>
+          {assetData?.photos?.length ?
+            (
+              <>
+                <div className="w-full">
+                  <div className="flex justify-between pt-4 gap-2">
+                    <HeadText title="Images" />
+                    <button onClick={() =>
+                      setIsUpload({ dialogue: true, assetData: assetData })}
+                      className=
+                      "bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">
+                      Add More Images
+                    </button>
+                  </div>
+                </div>
+                <div className="grid lg:grid-cols-2 gap-4 py-4">
+                  {assetData?.photos?.map((data: any, k: any) => (
+                    <div
+                      key={k}
+                      className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
+                    >
+                      <img
+                        className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+                        src={data}
+                        alt="Branch"
+                      />
+                      <div className="flex justify-between gap-1 pt-4 pb-2">
+                        <button
+                          onClick={() => {
+                            setIsUpdate({ dialogue: true, imageData: data });
+                          }}
+                          className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                        >
+                          Edit
+                        </button>
+                        <button onClick={() => handleDelete(data, assetData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )
+            :
+            (
+              <>
+                <div className="w-full py-4">
+                  <div className="grid justify-center justify-items-center pt-4 gap-2">
+                    <p>No Image Available</p>
+                    <button onClick={() => setIsUpload({ dialogue: true, assetData: assetData })} className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Add Images</button>
+                  </div>
+                </div>
+              </>
+            )}
         </DialogContent>
       </Dialog>
     </>

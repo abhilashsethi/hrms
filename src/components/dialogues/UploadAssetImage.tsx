@@ -20,18 +20,18 @@ import router from "next/router";
 
 interface Props {
   open: any;
+  handleCloseUpload: any;
   handleClose: any;
   mutate?: any;
-  branchData?: any;
-  MainMutate?: any;
+  assetData?: any;
 }
 
-const UploadBranchImage = ({
+const UploadAssetImage = ({
   open,
   handleClose,
+  handleCloseUpload,
   mutate,
-  MainMutate,
-  branchData,
+  assetData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
@@ -47,7 +47,7 @@ const UploadBranchImage = ({
         const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
         photoUrls.push(url);
       }
-      const res: any = await change(`branches/${branchData?.id}`, {
+      const res: any = await change(`assets/${assetData?.id}`, {
         method: "PATCH",
         body: { photos: photoUrls },
       });
@@ -62,9 +62,9 @@ const UploadBranchImage = ({
         return;
       }
       mutate();
-      MainMutate();
+      handleCloseUpload();
       handleClose();
-      router?.push("/admin/branch/all-branch");
+      // router?.push("/admin/branch/all-branch");
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
@@ -188,4 +188,4 @@ const UploadBranchImage = ({
   );
 };
 
-export default UploadBranchImage;
+export default UploadAssetImage;

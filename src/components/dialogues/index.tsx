@@ -40,3 +40,4 @@ export { default as AddParticipants } from "./AddParticipants";
 export { default as UpdateBranchImage } from "./UpdateBranchImage";
 export { default as UploadBranchImage } from "./UploadBranchImage";
 export { default as UpdateAssetImage } from "./UpdateAssetImage";
+export { default as UploadAssetImage } from "./UploadAssetImage";
