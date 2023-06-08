@@ -161,7 +161,44 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
       }
     });
   };
-
+  const handleDeleteDoc = async (data: any, assetData: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          Swal.fire("", "Please Wait...", "info");
+          await deleteFile(String(data?.link?.split("/").reverse()[0]));
+          const updatedDocs = assetData?.docs.filter((doc: any) => doc?.link !== data);
+          console.log("updatedDocs", updatedDocs);
+          const res = await change(`assets/${assetData?.id}`, {
+            method: "PATCH",
+            body: { docs: updatedDocs },
+          });
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            return;
+          }
+          Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+          mutate();
+          handleClose();
+          return;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
   return (
     <>
       <UpdateAssetImage
@@ -466,7 +503,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                         >
                           Edit
                         </button>
-                        <button className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
+                        <button onClick={() => handleDeleteDoc(data, assetData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
                           Delete
                         </button>
                       </div>
