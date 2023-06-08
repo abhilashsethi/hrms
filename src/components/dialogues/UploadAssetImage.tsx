@@ -22,16 +22,16 @@ interface Props {
   open: any;
   handleClose: any;
   mutate?: any;
-  branchData?: any;
+  assetData?: any;
   MainMutate?: any;
 }
 
-const UploadBranchImage = ({
+const UploadAssetImage = ({
   open,
   handleClose,
   mutate,
   MainMutate,
-  branchData,
+  assetData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
@@ -47,7 +47,7 @@ const UploadBranchImage = ({
         const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
         photoUrls.push(url);
       }
-      const res: any = await change(`branches/${branchData?.id}`, {
+      const res: any = await change(`branches/${assetData?.id}`, {
         method: "PATCH",
         body: { photos: photoUrls },
       });
@@ -188,4 +188,4 @@ const UploadBranchImage = ({
   );
 };
 
-export default UploadBranchImage;
+export default UploadAssetImage;
