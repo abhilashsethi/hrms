@@ -12,9 +12,10 @@ const index = () => {
                <>
                     <section className="lg:px-8 px-4 py-4">
                          <AdminBreadcrumbs links={links} />
-                         {isLoading && <DashboardSkeletonLoading />}
-                         <AssetsDashboardCard data={branchDashboard} />
-                         <AssetsDashboardCharts data={branchDashboard} />
+                         {isLoading ? <DashboardSkeletonLoading /> : (<>
+                              <AssetsDashboardCard data={branchDashboard} />
+                              <AssetsDashboardCharts data={branchDashboard} />
+                         </>)}
                     </section>
                </>
           </PanelLayout>

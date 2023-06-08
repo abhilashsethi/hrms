@@ -11,7 +11,7 @@ const AssetsDashboardCard = ({ data }: Props) => {
     count: data?.totalBranchCount,
     icon: <img src={TOTAL_ASSETS.src} className="w-16" alt="" />,
     color: "bg-gradient-to-br from-blue-600 to-cyan-400",
-    link: "/admin/branch/all-branch",
+    link: "/admin/assets/all-assets",
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const AssetsDashboardCard = ({ data }: Props) => {
     count: data?.totalLocationCount[0]?.totalLocations,
     icon: <img src={ASSIGNMENT.src} className="w-16" alt="" />,
     color: "bg-gradient-to-br from-green-500 to-emerald-400",
-    link: "/admin/branch/all-branch",
+    link: "/admin/assets/all-assets",
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const AssetsDashboardCard = ({ data }: Props) => {
     count: data?.totalActiveBranch,
     icon: <img src={PROHIBITION.src} className="w-16" alt="" />,
     color: "bg-gradient-to-br from-orange-500 to-yellow-400",
-    link: "/admin/branch/all-branch",
+    link: "/admin/assets/all-assets",
   },
   {
     id: 4,
@@ -35,7 +35,7 @@ const AssetsDashboardCard = ({ data }: Props) => {
     count: data?.totalInActiveBranch,
     icon: <img src={BLOCKED.src} className="w-16" alt="" />,
     color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
-    link: "/admin/clients/all-clients",
+    link: "/admin/assets/all-assets",
   }]
   return (
     <>
