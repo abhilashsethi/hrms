@@ -180,7 +180,7 @@ const EmployeeDetails = () => {
     {
       id: 3,
       title: "IFSC Code",
-      value: `${employData?.IFSCCode ? employData?.IFSCCode : "---"}`,
+      value: `${employData?.ifscCode ? employData?.ifscCode : "---"}`,
     },
   ];
   if (isLoading) {

@@ -285,7 +285,11 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                       onClick={handleClick}
                       className="flex gap-2 items-center cursor-pointer"
                     >
-                      <PhotoViewerSmall size="2rem" photo={user?.photo} />
+                      <PhotoViewerSmall
+                        size="2rem"
+                        photo={user?.photo}
+                        name={user?.name}
+                      />
                       <div className="hidden md:block">
                         <h1 className="text-sm">{user?.name}</h1>
                         <h1 className="text-sm font-light">{user?.email}</h1>

@@ -43,7 +43,7 @@ const validationSchema = Yup.object().shape({
     .max(50, "Last name must be less than 50 characters")
     .required("Last name is required!"),
   email: Yup.string().email("Invalid gmail address"),
-  employeeID: Yup.string().required("Employee ID is required!"),
+  // employeeID: Yup.string().required("Employee ID is required!"),
   phone: Yup.string().required("Phone No is required!"),
   dob: Yup.string().required("Date of Birth is required!"),
   address: Yup.string().required("Address is required!"),
@@ -64,7 +64,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
   const initialValues = {
     firstName: employData?.firstName || "",
     lastName: employData?.lastName || "",
-    employeeID: employData?.employeeID || "",
+    // employeeID: employData?.employeeID || "",
     phone: employData?.phone || "",
     email: employData?.email || "",
     dob: employData?.dob || "",
@@ -193,7 +193,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           }
                         />
                       </div>
-                      <div className="w-full">
+                      {/* <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Employee ID <span className="text-red-600">*</span>
                         </p>
@@ -210,7 +210,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                             (errors.employeeID as any)
                           }
                         />
-                      </div>
+                      </div> */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Phone No <span className="text-red-600">*</span>
