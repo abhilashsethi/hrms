@@ -21,6 +21,8 @@ import moment from "moment";
 import { PDF } from "assets/home";
 import UpdateAssetImage from "./UpdateAssetImage";
 import UploadAssetImage from "./UploadAssetImage";
+import { HeadText } from "components/core";
+import { deleteFile } from "utils";
 
 interface Props {
   open: any;
@@ -112,6 +114,43 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
       setLoading(false);
     }
   };
+  const handleDelete = async (data: any, assetData: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          Swal.fire("", "Please Wait...", "info");
+          await deleteFile(String(data?.split("/").reverse()[0]));
+          const updatedPhotos = assetData?.photos.filter((photo: any) => photo !== data);
+          const res = await change(`assets/${assetData?.id}`, {
+            method: "PATCH",
+            body: { photos: updatedPhotos },
+          });
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            return;
+          }
+          Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+          mutate();
+          handleClose();
+          return;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
 
   return (
     <>
@@ -124,7 +163,8 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
       <UploadAssetImage
         assetData={isUpload?.assetData}
         open={isUpload?.dialogue}
-        handleClose={() => setIsUpload({ dialogue: false })}
+        handleClose={handleClose}
+        handleCloseUpload={() => setIsUpload({ dialogue: false })}
         mutate={mutate}
       />
       <Dialog
@@ -386,7 +426,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                   <button
                     onClick={() => {
                       console.log(data);
-                      setIsUpdate({ dialogue: true, imageData: data });
+                      // setIsUpdate({ dialogue: true, imageData: data });
                     }}
                     className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
                   >
@@ -403,7 +443,8 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
             (
               <>
                 <div className="w-full">
-                  <div className="flex justify-end pt-4 gap-2">
+                  <div className="flex justify-between pt-4 gap-2">
+                    <HeadText title="Images" />
                     <button onClick={() =>
                       setIsUpload({ dialogue: true, assetData: assetData })}
                       className=
@@ -427,14 +468,13 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                       <div className="flex justify-between gap-1 pt-4 pb-2">
                         <button
                           onClick={() => {
-                            console.log(data);
-                            // setIsUpdate({ dialogue: true, imageData: data });
+                            setIsUpdate({ dialogue: true, imageData: data });
                           }}
                           className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
                         >
                           Edit
                         </button>
-                        <button className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
+                        <button onClick={() => handleDelete(data, assetData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
                           Delete
                         </button>
                       </div>
@@ -446,9 +486,11 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
             :
             (
               <>
-                <div className="flex flex-col justify-center justify-items-center pt-4 gap-2">
-                  <p>No Image Available</p>
-                  <button onClick={() => setIsUpload({ dialogue: true, assetData: assetData })} className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Add Images</button>
+                <div className="w-full py-4">
+                  <div className="grid justify-center justify-items-center pt-4 gap-2">
+                    <p>No Image Available</p>
+                    <button onClick={() => setIsUpload({ dialogue: true, assetData: assetData })} className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Add Images</button>
+                  </div>
                 </div>
               </>
             )}

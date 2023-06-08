@@ -20,17 +20,17 @@ import router from "next/router";
 
 interface Props {
   open: any;
+  handleCloseUpload: any;
   handleClose: any;
   mutate?: any;
   assetData?: any;
-  MainMutate?: any;
 }
 
 const UploadAssetImage = ({
   open,
   handleClose,
+  handleCloseUpload,
   mutate,
-  MainMutate,
   assetData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
@@ -62,9 +62,9 @@ const UploadAssetImage = ({
         return;
       }
       mutate();
-      MainMutate();
+      handleCloseUpload();
       handleClose();
-      router?.push("/admin/branch/all-branch");
+      // router?.push("/admin/branch/all-branch");
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
