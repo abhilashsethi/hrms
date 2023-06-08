@@ -47,9 +47,11 @@ const UploadBranchImage = ({
         const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
         photoUrls.push(url);
       }
+      const newPhotoArray = [...branchData?.photos, ...photoUrls];
+
       const res: any = await change(`branches/${branchData?.id}`, {
         method: "PATCH",
-        body: { photos: photoUrls },
+        body: { photos: newPhotoArray },
       });
       setLoading(false);
       if (res?.status !== 200) {
