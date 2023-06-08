@@ -3,6 +3,7 @@ import { Button, Grid, IconButton, Tooltip } from "@mui/material";
 import { TENDERCARD, TENDERCARD2, TENDERCARD3, TENDERCARD4 } from "assets/home";
 import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
 import Swal from "sweetalert2";
 
 const AllTenders = () => {
@@ -58,11 +59,13 @@ const AllTenders = () => {
                       </span>
                     </div>
                     <div className=" px-4 py-1 bg-white absolute right-0 bottom-[-15px] rounded-l-md flex gap-2 items-center">
-                      <Tooltip title="Details">
-                        <IconButton size="small">
-                          <Info />
-                        </IconButton>
-                      </Tooltip>
+                      <Link href="/admin/tenders/tender-details">
+                        <Tooltip title="Details">
+                          <IconButton size="small">
+                            <Info />
+                          </IconButton>
+                        </Tooltip>
+                      </Link>
                       <Tooltip title="Delete">
                         <IconButton size="small">
                           <Delete className="!text-youtube" />
