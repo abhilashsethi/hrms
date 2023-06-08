@@ -4,22 +4,24 @@ import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
 const index = () => {
-     const { data: branchDashboard, isLoading } = useFetch<any>(
-          `branches/dashboardInfo/data`
-     );
-     return (
-          <PanelLayout title="All Branches - Admin Panel">
-               <>
-                    <section className="lg:px-8 px-4 py-4">
-                         <AdminBreadcrumbs links={links} />
-                         {isLoading ? <DashboardSkeletonLoading /> : (<>
-                              <AssetsDashboardCard data={branchDashboard} />
-                              <AssetsDashboardCharts data={branchDashboard} />
-                         </>)}
-                    </section>
-               </>
-          </PanelLayout>
-     );
+  const { data: branchDashboard, isLoading } = useFetch<any>(
+    `branches/dashboardInfo/data`
+  );
+  return (
+    <PanelLayout title="All Branches - Admin Panel">
+      <>
+        <section className="lg:px-8 px-4 py-4">
+          <AdminBreadcrumbs links={links} />
+          {isLoading ? <DashboardSkeletonLoading />
+            : (
+              <>
+                <AssetsDashboardCard data={branchDashboard} />
+                <AssetsDashboardCharts data={branchDashboard} />
+              </>)}
+        </section>
+      </>
+    </PanelLayout>
+  );
 };
 
 export default index;

@@ -2,6 +2,7 @@ import {
   DashBoardCardTech,
   DashboardChartsTech,
 } from "components/admin/Technology";
+import { DashboardSkeletonLoading } from "components/admin/assets";
 import { AdminBreadcrumbs, Loader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -17,9 +18,12 @@ const Technologies = () => {
     <PanelLayout title="Technologies - Admin Panel">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
-        {isLoading && <Loader />}
-        <DashBoardCardTech dashboardData={techDashboard} tech={tech} />
-        <DashboardChartsTech dashboardData={techDashboard} />
+        {isLoading ? <DashboardSkeletonLoading />
+          : (
+            <>
+              <DashBoardCardTech dashboardData={techDashboard} tech={tech} />
+              <DashboardChartsTech dashboardData={techDashboard} />
+            </>)}
       </section>
     </PanelLayout>
   );
