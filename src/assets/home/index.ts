@@ -17,3 +17,4 @@ export { default as CHATICON } from "./chaticon.png";
 export { default as GROUP } from "./group.jpg";
 export { default as CHATDEFAULT } from "./chatdefault.jpg";
 export { default as CHATDOC } from "./chat-document.png";
+export { default as TENDERCARD } from "./tenderidea.png";
