@@ -23,6 +23,8 @@ import UpdateAssetImage from "./UpdateAssetImage";
 import UploadAssetImage from "./UploadAssetImage";
 import { HeadText } from "components/core";
 import { deleteFile } from "utils";
+import UploadAssetDoc from "./UploadAssetDoc";
+import UpdateAssetDoc from "./UpdateAssetDoc";
 
 interface Props {
   open: any;
@@ -40,6 +42,14 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
     dialogue?: boolean;
     imageData?: string | null;
   }>({ dialogue: false, imageData: null });
+  const [isDocUpdate, setIsDocUpdate] = useState<{
+    dialogue?: boolean;
+    docData?: string | null;
+  }>({ dialogue: false, docData: null });
+  const [isDocUpload, setIsDocUpload] = useState<{
+    dialogue?: boolean;
+    assetData?: any;
+  }>({ dialogue: false, assetData: null });
   const [isUpload, setIsUpload] = useState<{
     dialogue?: boolean;
     assetData?: any;
@@ -151,13 +161,62 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
       }
     });
   };
-
+  const handleDeleteDoc = async (data: any, assetData: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          Swal.fire("", "Please Wait...", "info");
+          await deleteFile(String(data?.link?.split("/").reverse()[0]));
+          const updatedDocs = assetData?.docs.filter((doc: any) => doc?.link !== data?.link);
+          const res = await change(`assets/${assetData?.id}`, {
+            method: "PATCH",
+            body: { docs: updatedDocs },
+          });
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            return;
+          }
+          Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+          mutate();
+          handleClose();
+          return;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
   return (
     <>
       <UpdateAssetImage
         imageData={isUpdate?.imageData}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
+        mutate={mutate}
+      />
+      <UpdateAssetDoc
+        docData={isDocUpdate?.docData}
+        open={isDocUpdate?.dialogue}
+        handleCloseUpdateDoc={() => setIsDocUpdate({ dialogue: false })}
+        mutate={mutate}
+      />
+      <UploadAssetDoc
+        assetData={isDocUpload?.assetData}
+        open={isDocUpload?.dialogue}
+        handleClose={handleClose}
+        handleCloseUpload={() => setIsDocUpload({ dialogue: false })}
         mutate={mutate}
       />
       <UploadAssetImage
@@ -412,33 +471,60 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
               )}
             </Formik>
           </div>
-
-          <div className="grid lg:grid-cols-2 gap-4 py-4">
-            {assetData?.docs?.map((data: any, k: any) => (
-              <div
-                key={k}
-                className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
-              >
-                <a href={data?.link}>
-                  <img src={PDF.src} alt="" />
-                </a>
-                <div className="flex justify-between gap-1 pt-4 pb-2">
-                  <button
-                    onClick={() => {
-                      console.log(data);
-                      // setIsUpdate({ dialogue: true, imageData: data });
-                    }}
-                    className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
-                  >
-                    Edit
-                  </button>
-                  <button className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
-                    Delete
-                  </button>
+          {assetData?.docs?.length ?
+            (
+              <>
+                <div className="w-full">
+                  <div className="flex justify-between pt-4 gap-2">
+                    <HeadText title="Documents" />
+                    <button
+                      onClick={() => setIsDocUpload({ dialogue: true, assetData: assetData })}
+                      className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">
+                      Add More Document
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+                <div className="grid lg:grid-cols-2 gap-4 py-4">
+                  {assetData?.docs?.map((data: any, k: any) => (
+                    <div
+                      key={k}
+                      className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
+                    >
+                      <a href={data?.link}>
+                        <img src={PDF.src} alt="" />
+                      </a>
+                      <div className="flex justify-between gap-1 pt-4 pb-2">
+                        <button
+                          onClick={() => {
+                            setIsDocUpdate({ dialogue: true, docData: data });
+                          }}
+                          className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                        >
+                          Edit
+                        </button>
+                        <button onClick={() => handleDeleteDoc(data, assetData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )
+            :
+            (
+              <>
+                <HeadText title="Documents" />
+                <div className="w-full py-4">
+                  <div className="grid justify-center justify-items-center pt-4 gap-2">
+                    <p>No Document Available</p>
+                    <button
+                      onClick={() => setIsDocUpload({ dialogue: true, assetData: assetData })}
+                      className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Add Documents</button>
+                  </div>
+                </div>
+              </>
+            )}
           {assetData?.photos?.length ?
             (
               <>
@@ -486,6 +572,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
             :
             (
               <>
+                <HeadText title="Images" />
                 <div className="w-full py-4">
                   <div className="grid justify-center justify-items-center pt-4 gap-2">
                     <p>No Image Available</p>

@@ -41,3 +41,5 @@ export { default as UpdateBranchImage } from "./UpdateBranchImage";
 export { default as UploadBranchImage } from "./UploadBranchImage";
 export { default as UpdateAssetImage } from "./UpdateAssetImage";
 export { default as UploadAssetImage } from "./UploadAssetImage";
+export { default as UploadAssetDoc } from "./UploadAssetDoc";
+export { default as UpdateAssetDoc } from "./UpdateAssetDoc";
