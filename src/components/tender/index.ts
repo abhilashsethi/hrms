@@ -4,3 +4,4 @@ export { default as TenderDocumentation } from "./TenderDocumentation";
 export { default as TenderReview } from "./TenderReview";
 export { default as TenderSubmission } from "./TenderSubmission";
 export { default as TenderTrack } from "./TenderTrack";
+export { default as TenderDetailsCreate } from "./TenderDetailsCreate";
