@@ -7,24 +7,18 @@ import {
 	InputLabel,
 	TextField,
 } from "@mui/material";
-import {
-	AdminBreadcrumbs
-} from "components/core";
+import { AdminBreadcrumbs } from "components/core";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import Swal from "sweetalert2";
+import { uploadFile } from "utils";
 import * as Yup from "yup";
 const initialValues = {
-	assetName: "",
-	modelNo: "",
-	billAmount: "",
-	brandName: "",
-	marketPrice: "",
-	serialNo: "",
-	uploadDoc: "",
-	images: [],
-	assignedUser: "",
+	assignTimePhotos: [],
+	assignedUserId: "",
 	assignDate: "",
 	assignTime: "",
 	reason: "",
@@ -32,39 +26,79 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-	assetName: Yup.string()
-		.matches(
-			/^[A-Za-z ]+$/,
-			"Asset Name must only contain alphabetic characters"
-		)
-		.min(2, "Asset Name must be at least 2 characters")
-		.max(50, "Asset Name must be less than 50 characters")
-		.required("Asset Name is required!"),
-	modelNo: Yup.string().required("Model No is required!"),
-
-	billAmount: Yup.number().required("Bill amount is required!"),
-
-	serialNo: Yup.string().required("Serial No. is required!"),
-	images: Yup.array().min(1, "Please upload at least one image"),
-	assignedUser: Yup.string().required("Assigned user is required!"),
+	assignTimePhotos: Yup.array().min(1, "Please upload at least one image"),
+	assignedUserId: Yup.string().required("Assigned user is required!"),
 	assignDate: Yup.string().required("Assigned Date is required!"),
-	assignTime: Yup.string().required("Assigned Date is required!"),
 	reason: Yup.string().required("Reason is required!"),
-	remarks: Yup.string().required("Remarks is required!"),
 });
 
 const AssignAssets = () => {
+	const router = useRouter();
 	const imageRef = useRef<HTMLInputElement | null>(null);
 	const [loading, setLoading] = useState(false);
-	const { data: userData } = useFetch<any>(`users`);
+	const [isBranchId, setIsBranchId] = useState<string | null>(null);
+	const { data: assetData } = useFetch<any>(`assets/${router?.query?.id}`);
+	console.log(assetData);
+
+	const { data: userData } = useFetch<any>(
+		`users?branchId=${assetData?.branchId}`
+	);
 	const { change, isChanging } = useChange();
 
-	const handleSubmit = async (values: any) => {
+	const handleSubmit = async (values: any, { resetForm }: any) => {
+		console.log(values);
+		setLoading(true);
+
+		try {
+			const photoUrls = [];
+			for (const photo of values?.assignTimePhotos) {
+				const url = await uploadFile(
+					photo?.file,
+					`${Date.now()}.${photo?.uniId}`
+				);
+				photoUrls.push(url);
+			}
+
+			const res: any = await change(
+				`assets/assignAssetToUser/${router?.query?.id}`,
+				{
+					body: {
+						userId: values?.assignedUserId,
+						dateOfAssign: new Date(values?.assignDate).toISOString(),
+						assignTimePhotos: photoUrls,
+						assignRemark: values?.remarks,
+						reasonForAssign: values?.reason,
+						assignTime: values?.assignTime,
+					},
+				}
+			);
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire(
+					"Error",
+					res?.results?.message || "Unable to Submit",
+					"error"
+				);
+				setLoading(false);
+				console.log(res);
+				return;
+			}
+			Swal.fire(`Success`, `You have successfully Assigned!`, `success`);
+			resetForm();
+			router.push("/admin/assets/all-assets");
+			console.log(res);
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 		console.log(values);
 	};
 
 	return (
-		<PanelLayout title="Create Assets - Admin Panel">
+		<PanelLayout title="Assign Assets - Admin Panel">
 			<section className="md:px-8 px-2 md:py-4 py-2">
 				<div className="px-2 md:px-0">
 					<AdminBreadcrumbs links={links} />
@@ -92,14 +126,14 @@ const AssignAssets = () => {
 									<div className="grid lg:grid-cols-2">
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="name">
+												<InputLabel htmlFor="assignedUserId">
 													Assign User<span className="text-red-500">*</span>
 												</InputLabel>
 											</div>
 											<Autocomplete
 												fullWidth
 												size="small"
-												id="assignedUser"
+												id="assignedUserId"
 												options={userData || []}
 												getOptionLabel={(option: any) =>
 													option.name ? option.name : ""
@@ -108,15 +142,15 @@ const AssignAssets = () => {
 													option.id === value.userId
 												}
 												value={
-													values?.assignedUser
+													values?.assignedUserId
 														? userData?.find(
-															(option: any) =>
-																option.id === values.assignedUser
-														)
+																(option: any) =>
+																	option.id === values.assignedUserId
+														  )
 														: {}
 												}
 												onChange={(e: any, r: any) => {
-													setFieldValue("assignedUser", r?.id);
+													setFieldValue("assignedUserId", r?.id);
 												}}
 												renderOption={(props, option) => (
 													<Box
@@ -133,10 +167,10 @@ const AssignAssets = () => {
 														placeholder="User Name"
 														onBlur={handleBlur}
 														error={
-															touched.assignedUser && !!errors.assignedUser
+															touched.assignedUserId && !!errors.assignedUserId
 														}
 														helperText={
-															touched.assignedUser && errors.assignedUser
+															touched.assignedUserId && errors.assignedUserId
 														}
 													/>
 												)}
@@ -248,11 +282,11 @@ const AssignAssets = () => {
 															file,
 															previewURL: URL.createObjectURL(file),
 														}));
-														setFieldValue("images", fileObjects);
+														setFieldValue("assignTimePhotos", fileObjects);
 													}}
 												/>
 												<div className="flex justify-center items-center gap-2 flex-wrap">
-													{values.images.map((image: any, index) => (
+													{values.assignTimePhotos.map((image: any, index) => (
 														<div className="" key={index}>
 															<img
 																className="w-40 object-contain"
