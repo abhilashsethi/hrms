@@ -175,8 +175,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
         try {
           Swal.fire("", "Please Wait...", "info");
           await deleteFile(String(data?.link?.split("/").reverse()[0]));
-          const updatedDocs = assetData?.docs.filter((doc: any) => doc?.link !== data);
-          console.log("updatedDocs", updatedDocs);
+          const updatedDocs = assetData?.docs.filter((doc: any) => doc?.link !== data?.link);
           const res = await change(`assets/${assetData?.id}`, {
             method: "PATCH",
             body: { docs: updatedDocs },
