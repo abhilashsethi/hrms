@@ -44,26 +44,6 @@ const validationSchema = Yup.object().shape({
 	purchaseDate: Yup.string().required("Purchase date is required!"),
 	billAmount: Yup.number().required("Bill amount is required!"),
 
-	// serialNo: Yup.string().required("Serial No. is required!"),
-	// images: Yup.array().min(1, "Please upload at least one image"),
-	// .of(
-	// 	Yup.mixed().test(
-	// 		"fileFormat",
-	// 		"Unsupported file format",
-	// 		(value: any) => {
-	// 			if (value) {
-	// 				const supportedFormats = [
-	// 					"image/jpeg",
-	// 					"image/png",
-	// 					"image/jpg",
-	// 					"image/gif",
-	// 				];
-	// 				return supportedFormats.includes(value.type);
-	// 			}
-	// 			return true;
-	// 		}
-	// 	)
-	// ),
 });
 
 const CreateAssets = () => {
