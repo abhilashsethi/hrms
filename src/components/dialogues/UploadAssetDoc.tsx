@@ -17,41 +17,42 @@ import { useChange } from "hooks";
 import Swal from "sweetalert2";
 import { uploadFile } from "utils";
 import router from "next/router";
+import { PDF } from "assets/home";
 
 interface Props {
   open: any;
+  handleCloseUpload: any;
   handleClose: any;
   mutate?: any;
-  branchData?: any;
-  MainMutate?: any;
+  assetData?: any;
 }
 
-const UploadBranchImage = ({
+const UploadAssetDoc = ({
   open,
   handleClose,
+  handleCloseUpload,
   mutate,
-  MainMutate,
-  branchData,
+  assetData,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const docsRef = useRef<HTMLInputElement | null>(null);
   const imageRef = useRef<HTMLInputElement | null>(null);
   const initialValues = {
-    photos: [],
+    uploadDoc: [],
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      const photoUrls = [];
-      for (const photo of values?.photos) {
-        const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
-        photoUrls.push(url);
+      const docsUrls = [];
+      for (const docLink of values?.uploadDoc) {
+        const url = await uploadFile(docLink?.file, `${Date.now()}.${docLink?.uniId}`);
+        docsUrls.push({ link: url, docType: docLink?.uniId });
       }
-      const newPhotoArray = [...branchData?.photos, ...photoUrls];
-
-      const res: any = await change(`branches/${branchData?.id}`, {
+      const newDocArray = [...assetData?.docs, ...docsUrls];
+      const res: any = await change(`assets/${assetData?.id}`, {
         method: "PATCH",
-        body: { photos: newPhotoArray },
+        body: { docs: newDocArray },
       });
       setLoading(false);
       if (res?.status !== 200) {
@@ -64,9 +65,9 @@ const UploadBranchImage = ({
         return;
       }
       mutate();
-      MainMutate();
+      handleCloseUpload();
       handleClose();
-      router?.push("/admin/branch/all-branch");
+      // router?.push("/admin/branch/all-branch");
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
@@ -78,7 +79,7 @@ const UploadBranchImage = ({
   };
   return (
     <Dialog
-      onClose={handleClose}
+      onClose={handleCloseUpload}
       aria-labelledby="customized-dialog-title"
       open={open}
     >
@@ -87,11 +88,11 @@ const UploadBranchImage = ({
         sx={{ p: 2, minWidth: "18rem !important" }}
       >
         <p className="text-center text-xl font-bold text-theme tracking-wide">
-          UPLOAD IMAGE
+          UPLOAD DOCUMENT
         </p>
         <IconButton
           aria-label="close"
-          onClick={handleClose}
+          onClick={handleCloseUpload}
           sx={{
             top: 10,
             right: 10,
@@ -121,54 +122,48 @@ const UploadBranchImage = ({
             }) => (
               <Form>
                 <div className="flex flex-col gap-4">
-                  {/* ----------------------------multiple image component------------------ */}
-                  <div className="md:px-4 px-2 md:py-2 py-1">
-                    <div className="py-2">
-                      <InputLabel htmlFor="image">
-                        Upload Images
-                      </InputLabel>
+                  <div
+                    onClick={() => docsRef?.current?.click()}
+                    className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
+                  >
+                    <input
+                      className="hidden"
+                      ref={docsRef}
+                      type="file"
+                      multiple
+                      onChange={(event: any) => {
+                        const files = Array.from(event.target.files);
+                        const fileObjects = files.map((file: any) => {
+                          const uniId = file.type
+                            .split("/")[1]
+                            .split("+")[0]; // Get unique ID of the image
+                          return {
+                            file,
+                            previewURL: URL.createObjectURL(file),
+                            uniId, // Add unique ID to the file object
+                          };
+                        });
+                        setFieldValue("uploadDoc", fileObjects);
+                      }}
+                    />
+                    <div className="flex justify-center items-center gap-2 flex-wrap">
+                      {values.uploadDoc.map((image: any, index: any) => (
+                        <div className="" key={index}>
+                          <img
+                            className="w-20 object-contain"
+                            src={PDF.src}
+                            alt={`Image ${index + 1}`}
+                          />
+                        </div>
+                      ))}
                     </div>
-                    <div
-                      onClick={() => imageRef?.current?.click()}
-                      className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
-                    >
-                      <input
-                        className="hidden"
-                        ref={imageRef}
-                        type="file"
-                        multiple
-                        onChange={(event: any) => {
-                          const files = Array.from(event.target.files);
-                          const fileObjects = files.map((file: any) => {
-                            const uniId = file.type.split("/")[1].split("+")[0]; // Get unique ID of the image
-                            return {
-                              file,
-                              previewURL: URL.createObjectURL(file),
-                              uniId, // Add unique ID to the file object
-                            };
-                          });
-                          setFieldValue("photos", fileObjects);
-                        }}
-                      />
-                      <div className="flex justify-center items-center gap-2 flex-wrap">
-                        {values.photos.map((image: any, index) => (
-                          <div className="" key={index}>
-                            <img
-                              className="w-20 object-contain"
-                              src={image.previewURL}
-                              alt={`Image ${index + 1}`}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                      <p>Upload Images</p>
-                      <CloudUpload fontSize="large" color="primary" />
-                      <ErrorMessage
-                        name="photos"
-                        component="div"
-                        className="error"
-                      />
-                    </div>
+                    <p>Upload Docs</p>
+                    <CloudUpload fontSize="large" color="primary" />
+                    <ErrorMessage
+                      name="uploadDoc"
+                      component="div"
+                      className="error"
+                    />
                   </div>
                   <Button
                     type="submit"
@@ -190,4 +185,4 @@ const UploadBranchImage = ({
   );
 };
 
-export default UploadBranchImage;
+export default UploadAssetDoc;

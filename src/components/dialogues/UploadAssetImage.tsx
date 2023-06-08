@@ -47,9 +47,10 @@ const UploadAssetImage = ({
         const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
         photoUrls.push(url);
       }
+      const newPhotoArray = [...assetData?.photos, ...photoUrls];
       const res: any = await change(`assets/${assetData?.id}`, {
         method: "PATCH",
-        body: { photos: photoUrls },
+        body: { photos: newPhotoArray },
       });
       setLoading(false);
       if (res?.status !== 200) {
@@ -76,7 +77,7 @@ const UploadAssetImage = ({
   };
   return (
     <Dialog
-      onClose={handleClose}
+      onClose={handleCloseUpload}
       aria-labelledby="customized-dialog-title"
       open={open}
     >
@@ -89,7 +90,7 @@ const UploadAssetImage = ({
         </p>
         <IconButton
           aria-label="close"
-          onClick={handleClose}
+          onClick={handleCloseUpload}
           sx={{
             top: 10,
             right: 10,
