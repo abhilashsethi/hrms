@@ -59,6 +59,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
   const { change } = useChange();
   const { data: roles } = useFetch<any>(`roles`);
   const { data: departmentsData } = useFetch<any>(`departments`);
+  const { data: branchData } = useFetch<any>(`branches`);
   const router = useRouter();
   const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
   const initialValues = {
@@ -74,6 +75,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
     departmentId: employData?.departmentId || "",
     joiningDate: employData?.joiningDate || "",
     bloodGroup: employData?.bloodGroup || "",
+    employeeOfBranchId: employData?.employeeOfBranchId || "",
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
@@ -324,6 +326,42 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                             <TextField
                               {...params}
                               label="Select Role"
+                              inputProps={{
+                                ...params.inputProps,
+                              }}
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
+                          Branch <span className="text-red-600">*</span>
+                        </p>
+                        <Autocomplete
+                          sx={{ width: "100%" }}
+                          options={branchData || []}
+                          autoHighlight
+                          getOptionLabel={(option: any) =>
+                            option.name ? option.name : ""
+                          }
+                          isOptionEqualToValue={(option, value) =>
+                            option.id === value.employeeOfBranchId
+                          }
+                          value={
+                            values?.employeeOfBranchId
+                              ? branchData?.find(
+                                  (option: any) =>
+                                    option.id === values.employeeOfBranchId
+                                )
+                              : {}
+                          }
+                          onChange={(e: any, r: any) => {
+                            setFieldValue("employeeOfBranchId", r?.id);
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="Select Branch"
                               inputProps={{
                                 ...params.inputProps,
                               }}
