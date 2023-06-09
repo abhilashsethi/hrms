@@ -1,4 +1,4 @@
-import { HeadText } from "components/core";
+import { HeadText, NoDatas } from "components/core";
 import moment from "moment";
 import { AccountTreeRounded } from "@mui/icons-material";
 import { status } from "nprogress";
@@ -12,6 +12,9 @@ const EmployProjects = ({ projectDetails }: Props) => {
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
       <HeadText title="Latest Projects" />
+      {projectDetails?.length === 0 && (
+        <NoDatas title="Not involved in any projects yet!" />
+      )}
       <div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
         {projectDetails?.slice(0, 4)?.map((item: any, i: any) => (
           <div key={i} className="flex gap-1 py-3 border-b-[1px]">

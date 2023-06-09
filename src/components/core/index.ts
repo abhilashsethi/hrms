@@ -38,3 +38,4 @@ export { default as PhotoUpdateView } from "./PhotoUpdateView";
 export { default as MultipleImagesUpload } from "./MultipleImagesUpload";
 export { default as SingleImageUpdateBranch } from "./SingleImageUpdateBranch";
 export { default as SingleDocUpdate } from "./SingleDocUpdate";
+export { default as NoDatas } from "./NoDatas";

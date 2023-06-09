@@ -42,10 +42,20 @@ const validationSchema = Yup.object().shape({
     .min(2, "Last name must be at least 2 characters")
     .max(50, "Last name must be less than 50 characters")
     .required("Last name is required!"),
-  email: Yup.string().email("Invalid gmail address"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Personal Email Required!"),
   // employeeID: Yup.string().required("Employee ID is required!"),
   phone: Yup.string().required("Phone No is required!"),
-  dob: Yup.string().required("Date of Birth is required!"),
+  dob: Yup.string()
+    .required("Date of Birth is required!")
+    .test("minimum-age", "You must be at least 18 years old", (value) => {
+      const currentDate = new Date();
+      const selectedDate = new Date(value);
+      const minAgeDate = new Date();
+      minAgeDate.setFullYear(currentDate.getFullYear() - 18);
+      return selectedDate <= minAgeDate;
+    }),
   address: Yup.string().required("Address is required!"),
   gender: Yup.string().required("Gender is required!"),
   roleId: Yup.string().required("Role is required!"),
@@ -180,7 +190,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                       </div>
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Email <span className="text-red-600">*</span>
+                          Personal Email <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth

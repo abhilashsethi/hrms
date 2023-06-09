@@ -37,7 +37,7 @@ const EmplyeesGrid = ({ data, mutate }: Props) => {
         spacing={{
           xs: 1,
           sm: 2,
-          md: 3,
+          md: 2,
         }}
       >
         {data?.map((item) => (
@@ -117,7 +117,7 @@ const CardContent = ({ item, mutate }: any) => {
           Swal.fire(`Error`, "Something went wrong!", "error");
           return;
         }
-        Swal.fire(`Success`, "User Blocked successfully!!", "success");
+        Swal.fire(`Success`, "Status updated successfully!", "success");
         return;
       }
     });
