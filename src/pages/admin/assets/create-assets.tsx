@@ -1,9 +1,13 @@
 import { Check, CloudUpload } from "@mui/icons-material";
-import { Autocomplete, Button, CircularProgress, InputLabel, TextField } from "@mui/material";
-import { PDF } from "assets/home";
 import {
-	AdminBreadcrumbs,
-} from "components/core";
+	Autocomplete,
+	Button,
+	CircularProgress,
+	InputLabel,
+	TextField,
+} from "@mui/material";
+import { PDF } from "assets/home";
+import { AdminBreadcrumbs } from "components/core";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -39,7 +43,6 @@ const validationSchema = Yup.object().shape({
 	purchaseDate: Yup.string().required("Purchase date is required!"),
 	assetType: Yup.string().required("Asset Type is required!"),
 	billAmount: Yup.number().required("Bill amount is required!"),
-
 });
 
 const CreateAssets = () => {
@@ -136,7 +139,7 @@ const CreateAssets = () => {
 									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
 										Create Assets
 									</h1>
-									<div className="grid lg:grid-cols-2">
+									<div className="grid lg:grid-cols-2 grid-cols-1">
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="md:py-2 py-1">
 												<InputLabel htmlFor="assetName">
@@ -295,7 +298,8 @@ const CreateAssets = () => {
 										<div className="px-4 py-2">
 											<div className="py-2">
 												<InputLabel htmlFor="role">
-													Select Asset Type <span className="text-red-600">*</span>
+													Select Asset Type{" "}
+													<span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 
@@ -311,7 +315,7 @@ const CreateAssets = () => {
 												renderInput={(params) => (
 													<TextField
 														{...params}
-														label="Select Asset Type"
+														// label="Select Asset Type"
 														placeholder="Selected Asset Type"
 														onBlur={handleBlur}
 														error={touched.assetType && !!errors.assetType}
@@ -321,7 +325,7 @@ const CreateAssets = () => {
 											/>
 										</div>
 
-										<div className="col-span-2 py-3">
+										<div className="md:col-span-2 col-span-1 py-3">
 											<p className="text-gray-500 mb-2">Upload Images</p>
 											{/* ----------------------------multiple Images component------------------ */}
 											<div
@@ -368,7 +372,7 @@ const CreateAssets = () => {
 												/>
 											</div>
 										</div>
-										<div className="col-span-2 py-3">
+										<div className="md:col-span-2 col-span-1 py-3">
 											<p className="text-gray-500 mb-2">UploaI Docs</p>
 											{/* ----------------------------multiple Docs component------------------ */}
 											<div
