@@ -214,6 +214,7 @@ const MoreOption = ({ item, mutate }: any) => {
 			<ViewAssetHistoryDrawer
 				open={assetHistory}
 				onClose={() => setAssetHistory(false)}
+				assetId={assetId}
 			/>
 			<ViewAssetDetailsDrawer
 				open={assetDetails}
@@ -350,16 +351,16 @@ const MoreOption = ({ item, mutate }: any) => {
 								<div className="grid grid-cols-3 gap-1">
 									{item?.docs?.length
 										? item?.docs?.map((doc: any, i: any) => {
-											return (
-												<a
-													key={i}
-													className="border border-theme rounded-md text-xs p-[2px]"
-													href={doc?.link}
-												>
-													Docs <Download fontSize="small" />
-												</a>
-											);
-										})
+												return (
+													<a
+														key={i}
+														className="border border-theme rounded-md text-xs p-[2px]"
+														href={doc?.link}
+													>
+														Docs <Download fontSize="small" />
+													</a>
+												);
+										  })
 										: "---"}
 								</div>
 							</span>
