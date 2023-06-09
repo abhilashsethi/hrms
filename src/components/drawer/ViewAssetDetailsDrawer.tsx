@@ -12,8 +12,7 @@ import { User } from "types";
 type Props = {
 	open?: boolean | any;
 	onClose: () => void;
-	setViewLeaves?: any;
-	employeeId?: any;
+
 	assetId?: any;
 };
 
@@ -46,38 +45,10 @@ const style = {
 	p: 4,
 };
 
-const Projects_Details = [
-	{
-		id: 1,
-		date: "10-05-2023",
-		status: "Approved",
-		credit: -1,
-	},
-	{
-		id: 2,
-		date: "12-05-2023",
-		status: "Rejected",
-		credit: -2,
-	},
-	{
-		id: 3,
-		date: "14-05-2023",
-		status: "Approved",
-		credit: -1,
-	},
-	{
-		id: 4,
-		date: "16-05-2023",
-		status: "Approved",
-		credit: -2,
-	},
-];
-
 const ViewAssetDetailsDrawer = ({
 	open,
 	onClose,
-	setViewLeaves,
-	employeeId,
+
 	assetId,
 }: Props) => {
 	// console.log(assetId);
@@ -85,7 +56,7 @@ const ViewAssetDetailsDrawer = ({
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedUser, setSelectedUser] = useState<string | null>(null);
 	const [searchedUser, setSearchedUser] = useState<any>([]);
-
+	const classes = useStyles();
 	const { data: assignId } = useFetch<any>(
 		`assets/asset/assign-asset/${assetId}`
 	);
@@ -133,15 +104,13 @@ const ViewAssetDetailsDrawer = ({
 		],
 	};
 
-	const classes = useStyles();
-
 	return (
 		<>
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
 				<Container style={{ marginTop: "1rem" }} className={classes.container}>
 					{/* Drawer Element */}
 
-					<div className="flex items-center justify-between pb-4">
+					<div className="flex items-center justify-between ">
 						<p className="text-lg font-bold text-theme">Assign Details</p>
 						<IconButton onClick={() => onClose()}>
 							<Close
@@ -151,51 +120,74 @@ const ViewAssetDetailsDrawer = ({
 						</IconButton>
 					</div>
 
-					{isLoading && <Loader />}
-					<div className="mt-4 flex flex-col gap-4">
-						<div className="">
-							<div
-								className={`w-full h-full rounded-l-xl shadow-xl px-2 py-2 bg-[#edf4fe] my-3`}
-							>
-								<div className="w-1/3">
-									<Slider {...settings} className="">
-										{assignId?.assignTimePhotos?.map((data: any, k: any) => (
-											<img
-												key={k}
-												className="w-full object-cover object-center 
+					{isLoading ? (
+						<Loader />
+					) : (
+						<div className="mt-2 flex flex-col gap-4">
+							<div className="">
+								<div
+									className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-[#edf4fe] my-3`}
+								>
+									<div className="w-full order-2 border border-gray-500 rounded-md p-[1px] mb-2">
+										<Slider {...settings} className="">
+											{assignId?.assignTimePhotos?.map((data: any, k: any) => (
+												<img
+													key={k}
+													className="w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-												src={data}
-												alt="assets"
-											/>
-										))}
-									</Slider>
-								</div>
-								<div className="flex flex-col gap-3 font-semibold text-blue-700">
-									<>
-										<div className="flex gap-2">
+													src={data}
+													alt="assets"
+												/>
+											))}
+										</Slider>
+									</div>
+									<div className="flex flex-col gap-1 font-semibold text-blue-700">
+										<div className="">
 											Assigned User :{" "}
 											<span className="text-black font-medium">
 												{assignId?.assignUser?.name}
 											</span>
 										</div>
-										<div className="flex gap-2">
-											End Date :{" "}
+										<div className="gap-2">
+											Date Of Assign :{" "}
 											<span className="text-black font-medium">
-												{moment(new Date())?.format("DD/MM/YYYY")}
+												{moment(assignId?.dateOfAssign)?.format("DD/MM/YYYY")}
 											</span>
 										</div>
-									</>
 
-									<div className="flex gap-2">
-										Date :{" "}
-										<span className="text-black font-medium">
-											{moment(new Date())?.format("DD/MM/YYYY")}
-										</span>
+										<div className="gap-2">
+											Date Of Return :{" "}
+											<span className="text-black font-medium">
+												{assignId?.dateOfReturn
+													? moment(assignId?.dateOfReturn)?.format("DD/MM/YYYY")
+													: "Not Specified"}
+											</span>
+										</div>
+										<div className="gap-2">
+											Time Of Assign :{" "}
+											<span className="text-black font-medium">
+												{assignId?.assignTime
+													? moment(assignId?.assignTime)?.format("LT")
+													: "Not Specified"}
+											</span>
+										</div>
+										<div className="gap-2">
+											Reason :{" "}
+											<span className="text-black font-medium">
+												{assignId?.reasonForAssign}
+											</span>
+										</div>
+										<div className="gap-2">
+											Remarks :{" "}
+											<span className="text-black font-medium">
+												{assignId?.assignRemark}
+											</span>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					)}
 				</Container>
 			</Drawer>
 		</>
