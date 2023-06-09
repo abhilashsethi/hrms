@@ -63,7 +63,7 @@ const AssetsGrid = ({ data, mutate }: Props) => {
 		<>
 			{data?.length ? (
 				<section className="py-6 ">
-					<div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6 items-center justify-center">
+					<div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 items-center justify-center">
 						{data?.map((item: any, index: any) => (
 							<div key={index}>
 								<MoreOption item={item} mutate={mutate} />

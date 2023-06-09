@@ -23,7 +23,8 @@ const PhotoViewerSmall = ({
           <img
             className="h-full w-full object-cover"
             src={photo || DEFAULTIMG.src}
-            alt=""
+            alt="image"
+            loading="lazy"
           />
         </div>
       )}

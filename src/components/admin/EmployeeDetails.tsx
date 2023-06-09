@@ -75,11 +75,20 @@ const EmployeeDetails = () => {
         value: employData?.lastName ? employData?.lastName : "---",
       },
       {
-        id: 2,
+        id: 19,
         title: "Email",
+        value: employData?.username ? employData?.username : "---",
+        copy: true,
+        isCut: false,
+      },
+      {
+        id: 2,
+        title: "Personal Email",
         value: employData?.email ? employData?.email : "---",
         copy: true,
+        isCut: false,
       },
+
       {
         id: 3,
         title: "Emp Id",
@@ -243,7 +252,10 @@ const EmployeeDetails = () => {
                     </div>
                     <div className="w-2/3">
                       {item?.copy ? (
-                        <CopyClipboard value={item?.value} />
+                        <CopyClipboard
+                          value={item?.value}
+                          isCut={item?.isCut}
+                        />
                       ) : (
                         <p className="text-sm">{item?.value}</p>
                       )}
