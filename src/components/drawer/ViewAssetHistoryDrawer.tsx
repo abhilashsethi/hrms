@@ -153,7 +153,6 @@ const ViewAssetHistoryDrawer = ({
 	const { data: assignId } = useFetch<any>(
 		`assets/asset/assign-asset/${assetId}`
 	);
-	console.log(assignId);
 
 	const validationSchema = Yup.object().shape({
 		type: Yup.string().required("Branch is required!"),
@@ -163,7 +162,6 @@ const ViewAssetHistoryDrawer = ({
 	};
 	const handleSubmit = async (values: any) => {
 		try {
-			console.log(values);
 			if (values.type == "assignHistory") {
 				setHistory(true);
 			}
@@ -360,8 +358,8 @@ const ViewAssetHistoryDrawer = ({
 												<span className="text-black font-medium">
 													{assignId?.dateOfReturn
 														? moment(assignId?.dateOfReturn)?.format(
-																"DD/MM/YYYY"
-														  )
+															"DD/MM/YYYY"
+														)
 														: "Not Specified"}
 												</span>
 											</div>
