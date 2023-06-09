@@ -62,14 +62,6 @@ const ViewAssetDetailsDrawer = ({
 	);
 	// console.log(assignId);
 	const { data: users, isLoading } = useFetch<User[]>(`users`);
-	useEffect(() => {
-		if (users) {
-			const filtered = users.filter((user) =>
-				user.name.toLowerCase().includes(searchTerm.toLowerCase())
-			);
-			setSearchedUser(filtered);
-		}
-	}, [users, searchTerm]);
 
 	const settings = {
 		dots: false,
