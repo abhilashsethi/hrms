@@ -4,6 +4,7 @@ interface Props {
 	data?: any;
 }
 const AssetsDashboardCharts = ({ data }: Props) => {
+	console.log(data);
 	return (
 		<div className="w-full">
 			<div className="grid lg:grid-cols-2 content-between gap-6">
@@ -29,7 +30,7 @@ const AssetsDashboardCharts = ({ data }: Props) => {
 					<p className="text-center text-lg font-bold">Assets Strength</p>
 					<ClientLineCharts
 						labels={["Assigned", "Not Assigned"]}
-						series={[70, 30]}
+						series={[data?.totalAssignAsset, data?.totalNotAssignedAsset]}
 						text=""
 						type="donut"
 						colors={[

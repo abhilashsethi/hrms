@@ -3,13 +3,15 @@ import {
 	BLOCKED,
 	ASSIGNMENT,
 	PROHIBITION,
+	TOTAL_BRANCH,
 } from "assets/dashboard_Icons";
 import Link from "next/link";
 
 interface Props {
 	data?: any;
+	branch?: any;
 }
-const AssetsDashboardCard = ({ data }: Props) => {
+const AssetsDashboardCard = ({ data, branch }: Props) => {
 	const cards = [
 		{
 			id: 1,
@@ -37,9 +39,9 @@ const AssetsDashboardCard = ({ data }: Props) => {
 		},
 		{
 			id: 4,
-			name: "Total Blocked",
-			count: data?.totalInActiveBranch,
-			icon: <img src={BLOCKED.src} className="w-16" alt="" />,
+			name: "Total Branch",
+			count: branch?.totalBranchCount,
+			icon: <img src={TOTAL_BRANCH.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
 			link: "/admin/assets/all-assets",
 		},
