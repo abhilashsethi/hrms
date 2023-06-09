@@ -23,7 +23,7 @@ const initialValues = {
 	uploadDoc: [],
 	images: [],
 	notes: "",
-	assetType: [],
+	assetType: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -37,7 +37,7 @@ const validationSchema = Yup.object().shape({
 		.required("Asset Name is required!"),
 	modelNo: Yup.string().required("Model No is required!"),
 	purchaseDate: Yup.string().required("Purchase date is required!"),
-	assetType: Yup.array().required("Asset Type is required!"),
+	assetType: Yup.string().required("Asset Type is required!"),
 	billAmount: Yup.number().required("Bill amount is required!"),
 
 });
