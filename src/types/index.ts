@@ -171,6 +171,7 @@ export type Tickets = {
 };
 export type Projects = {
   URLs?: urlTypes[];
+  endDate?: string | null;
   name: string;
   description: string | null;
   devURL: string | null;

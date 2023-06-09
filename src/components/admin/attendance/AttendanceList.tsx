@@ -1,6 +1,7 @@
 import MaterialTable from "@material-table/core";
 import { Avatar } from "@mui/material";
 import { RenderIconRow } from "components/common";
+import { CopyClipboard } from "components/core";
 import moment from "moment";
 import { Attendance } from "types";
 import { MuiTblOptions, getDataWithSL } from "utils";
@@ -15,7 +16,17 @@ const AttendanceList = ({ data }: Props) => {
       <MaterialTable
         title={"Today Attendance"}
         isLoading={!data}
-        data={data ? getDataWithSL<Attendance>(data) : []}
+        data={
+          data
+            ? data?.map((_: any, i: number) => ({
+                ..._,
+                sl: i + 1,
+                intime: moment(_?.createdAt).format("HH:MM A"),
+                outtime: moment(_?.updatedAt).format("HH:MM A"),
+                status: _?.status === "present" ? `PRESENT` : `ABSENT`,
+              }))
+            : []
+        }
         options={{ ...MuiTblOptions(), selection: false, paging: false }}
         columns={[
           {
@@ -31,25 +42,28 @@ const AttendanceList = ({ data }: Props) => {
           {
             title: "Email",
             field: "email",
-            render: ({ email }: any) => <RenderIconRow value={email} isEmail />,
+            render: ({ email }: any) => (
+              <CopyClipboard value={email} isCut={false} />
+            ),
           },
           {
             title: "Employee ID",
             field: "employeeID",
             render: ({ employeeID }: any) => (
-              <RenderIconRow value={employeeID} isId />
+              <CopyClipboard value={employeeID} isCut={false} />
             ),
           },
           {
             title: "Status",
-            field: "isPresent",
+            field: "status",
             render: (item: any) => {
               return (
                 <span
-                  className={`px-4 py-1 rounded-lg ${item?.status === "present"
+                  className={`px-4 py-1 rounded-lg ${
+                    item?.status === "present"
                       ? `bg-green-300 border-[1px] text-green-600 border-green-400`
                       : `bg-red-300 border-[1px] border-red-500 text-red-600`
-                    }`}
+                  }`}
                 >
                   {item?.status === "present" ? `PRESENT` : `ABSENT`}
                 </span>
@@ -58,12 +72,12 @@ const AttendanceList = ({ data }: Props) => {
           },
           {
             title: "In Time",
-            field: "createdAt",
+            field: "intime",
             render: (data) => moment(data?.createdAt).format("HH:MM A"),
           },
           {
             title: "Out Time",
-            field: "updatedAt",
+            field: "outtime",
             render: (data) => moment(data?.updatedAt).format("HH:MM A"),
           },
         ]}

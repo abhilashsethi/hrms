@@ -215,9 +215,7 @@ const CreateGuest = () => {
                     </div>
                     <div className="px-4 py-2">
                       <div className="py-2">
-                        <InputLabel htmlFor="company">
-                          Company Name
-                        </InputLabel>
+                        <InputLabel htmlFor="company">Company Name</InputLabel>
                       </div>
                       <TextField
                         size="small"
@@ -282,5 +280,5 @@ export default CreateGuest;
 
 const links = [
   { id: 1, page: "Guests", link: "/admin/guests" },
-  { id: 2, page: "Create Guest", link: "/admin/guests/create-guests" },
+  { id: 2, page: "Create Guest", link: "/admin/guests/create-guest" },
 ];

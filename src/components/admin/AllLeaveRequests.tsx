@@ -35,7 +35,6 @@ const AllLeaveRequests = () => {
   };
   const handleInfoCloseModal = () => setOpenInfoModal(false);
   const { data: leaveData } = useFetch<User[]>(`leaves/credits`);
-  console.log(leaveData);
   return (
     <section className="mt-8">
       <MaterialTable
@@ -54,7 +53,7 @@ const AllLeaveRequests = () => {
                 used: _?.leavesData?.totalApplied,
               }))
         }
-        options={{ ...MuiTblOptions(), selection: true }}
+        options={{ ...MuiTblOptions() }}
         columns={[
           {
             title: "#",
@@ -66,6 +65,7 @@ const AllLeaveRequests = () => {
             title: "Image",
             tooltip: "Image",
             field: "photo",
+            export: false,
             editable: "never",
             render: (item) => {
               return (
@@ -84,8 +84,8 @@ const AllLeaveRequests = () => {
             editable: "never",
           },
           {
-            title: "Email",
-            tooltip: "Email",
+            title: "Personal Email",
+            tooltip: "Personal Email",
             field: "email",
             render: (item) => {
               return <CopyClipboard value={item?.email} />;
