@@ -117,7 +117,7 @@ const CardContent = ({ item, mutate }: any) => {
           Swal.fire(`Error`, "Something went wrong!", "error");
           return;
         }
-        Swal.fire(`Success`, "User Blocked successfully!!", "success");
+        Swal.fire(`Success`, "Status updated successfully!", "success");
         return;
       }
     });

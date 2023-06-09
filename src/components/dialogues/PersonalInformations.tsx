@@ -39,7 +39,9 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
     panNo: Yup.string()
       .required("PAN number is required")
       .matches(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/, "Invalid PAN number"),
-    gmail: Yup.string().required("gmail is required"),
+    gmail: Yup.string()
+      .email("Invalid gmail address")
+      .required("gmail is required"),
     aadharNo: Yup.string().matches(
       /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
       "Invalid Aadhaar number"
