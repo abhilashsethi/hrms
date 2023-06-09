@@ -23,6 +23,7 @@ import { Check, Close, CloudUpload } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import moment from "moment";
 import { useRef, useState } from "react";
+import { uploadFile } from "utils";
 
 interface Props {
   open: any;
@@ -30,30 +31,122 @@ interface Props {
   mutate?: any;
   assetData?: any;
 }
+const checkListForLaptop = [
+  { id: 1, value: "isPowerOnOff", label: "Powers on/Off" },
+  { id: 2, value: "isAllKeyboardButtonWork", label: "All keyboard button work" },
+  { id: 3, value: "isTrackPadWork", label: "Trackpad works" },
+  { id: 4, value: "isCameraWork", label: "Camera works" },
+  { id: 5, value: "isSpeakerWork", label: "Speakers works" },
+  { id: 6, value: "isConnectionToInternetWork", label: "Connects to internet" },
+  { id: 7, value: "isBrightnessFunctionWork", label: "Brightness is fully adjustable to min and max brightness" },
+  { id: 8, value: "isChargingFunctionWork", label: "Charging block charges laptop" },
+  { id: 9, value: "isAllPortsWork", label: "All ports on laptop function" },
+  { id: 10, value: "isOpenAndCloseWork", label: "Opens and close properly" },
+  { id: 11, value: "isAllRubberPadsAttached", label: "Rubber pads are all attached" },
+  { id: 12, value: "isAllScrewArePresent", label: "All screws are present" },
+  { id: 13, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
+];
+const checkListForMonitor = [
+  { id: 1, value: "isPowerOnOff", label: "Powers on/Off" },
+  { id: 2, value: "isHDMICableInclude", label: "HDMI cable is included" },
+  { id: 3, value: "isPowerAdapterInclude", label: "Powers adapter is included" },
+  { id: 4, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
+];
+const checkListForMouse = [
+  { id: 1, value: "isUSBReceiverWork", label: "USB receiver is included" },
+  { id: 2, value: "isLeftClickWork", label: "Left click works" },
+  { id: 3, value: "isRightClickWork", label: "Right click works" },
+  { id: 4, value: "isScrollWheelWork", label: "Scroll wheel works" },
+  { id: 5, value: "isAdditionalButtonWork", label: "Additional buttons work" },
+  { id: 6, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
+];
+const checkListForKeyboard = [
+  { id: 1, value: "isUSBReceiverWork", label: "USB receiver is included" },
+  { id: 2, value: "isAllKeyboardButtonWork", label: "All keyboard button work" },
+  { id: 3, value: "isAllScrewArePresent", label: "All screws are present" },
+  { id: 4, value: "isAllRubberPadsAttached", label: "Rubber pads are all attached" },
+  { id: 5, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
+];
 const initialValues = {
   images: [],
   returnDate: "",
   returnTime: "",
   remark: "",
-  checklist: [],
+  checklist: checkListForLaptop.map(() => false),
 };
 
 const validationSchema = Yup.object().shape({
-
-  images: Yup.array().min(1, "Please upload at least one image"),
-  returnDate: Yup.string().required("Assigned Date is required!"),
-  returnTime: Yup.string().required("Assigned Date is required!"),
-  remark: Yup.string().required("remark is required!"),
-  checklist: Yup.array().min(1, 'Select at least one item from the checklist'),
+  // images: Yup.array().min(1, "Please upload at least one image"),
+  // returnDate: Yup.string().required("Assigned Date is required!"),
+  // returnTime: Yup.string().required("Assigned Date is required!"),
+  // remark: Yup.string().required("remark is required!"),
+  checklist: Yup.array().of(Yup.boolean()),
 });
 
 const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
+  const [checkedList, setCheckedList] = useState<String>("");
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
   const handleSubmit = async (values: any) => {
     console.log(values);
+    setLoading(true);
+    try {
+      const photoUrls = [];
+      for (const photo of values?.images) {
+        const url = await uploadFile(
+          photo?.file,
+          `${Date.now()}.${photo?.uniId}`
+        );
+        photoUrls.push(url);
+      }
+
+      const reqData = {
+        ...values.checklist,
+        images: photoUrls,
+        returnDate: new Date(values?.returnDate).toISOString(),
+        returnTime: values?.modelNo,
+        remark: values?.remark,
+      }
+      console.log(reqData);
+      return
+      const res: any = await change(`assets`, {
+        body: {
+          name: values?.assetName,
+          billAmount: Number(values?.billAmount),
+          brandName: values?.brandName,
+          marketPrice: Number(values?.marketPrice),
+          modelName: values?.modelNo,
+          branchId: router?.query?.id,
+          serialNumber: values?.serialNo,
+          dateOfPurchase: new Date(values?.purchaseDate).toISOString(),
+          photos: photoUrls,
+          assetType: values?.assetType,
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.message || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        console.log(res);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully Returned!`, `success`);
+      // resetForm();
+      // router.push("/admin/assets/all-assets");
+      console.log(res);
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -100,14 +193,12 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                   setFieldValue,
                 }) => (
                   <Form>
-                    <h1 className="text-lg uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
-                      Return Assets
-                    </h1>
                     <div className="grid lg:grid-cols-2">
                       <div className="md:px-4 px-2 md:py-2 py-1">
                         <div className="py-2">
                           <InputLabel htmlFor="returnDate">
-                            Date Of Return <span className="text-red-600">*</span>
+                            Date Of Return{" "}
+                            <span className="text-red-600">*</span>
                           </InputLabel>
                         </div>
                         <TextField
@@ -126,7 +217,8 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                       <div className="md:px-4 px-2 md:py-2 py-1">
                         <div className="py-2">
                           <InputLabel htmlFor="returnTime">
-                            Time Of Return <span className="text-red-600">*</span>
+                            Time Of Return{" "}
+                            <span className="text-red-600">*</span>
                           </InputLabel>
                         </div>
                         <TextField
@@ -169,31 +261,20 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                             Check List
                             <span className="text-red-600">*</span>
                           </InputLabel>
-
                         </div>
-                        <FieldArray name="checklist">
-                          {({ push, remove }: any) => (
-                            <FormGroup>
-                              <div className="grid lg:grid-cols-2 gap-x-4">
-                                {checkList?.map((check, i) => (
-                                  <div key={i}>
-                                    <FormControlLabel
-                                      control={
-                                        <Field
-                                          type="checkbox"
-                                          component={Checkbox}
-                                          name={`checklist[${i}]`}
-                                          value={check?.label}
-                                        />
-                                      }
-                                      label={check?.label}
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                            </FormGroup>
-                          )}
-                        </FieldArray>
+                        <FormGroup>
+                          <div className="grid lg:grid-cols-2 gap-x-4">
+                            {checkListForLaptop?.map((item, i) => (
+                              <FormControlLabel
+                                control={<Checkbox />}
+                                label={item?.label}
+                                name={`checklist[${i}]`}
+                                checked={values?.checklist[i]}
+                                onChange={handleChange}
+                              />
+                            ))}
+                          </div>
+                        </FormGroup>
                       </div>
                       <div className="col-span-2 md:px-4 px-2 md:py-2 py-1">
                         <p className="text-gray-500 mb-2">
@@ -215,11 +296,11 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                               const fileObjects = files.map((file: any) => {
                                 const uniId = file.type
                                   .split("/")[1]
-                                  .split("+")[0]; // Get unique ID of the image
+                                  .split("+")[0];
                                 return {
                                   file,
                                   previewURL: URL.createObjectURL(file),
-                                  uniId, // Add unique ID to the file object
+                                  uniId,
                                 };
                               });
                               setFieldValue("images", fileObjects);
@@ -245,7 +326,6 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                           />
                         </div>
                       </div>
-
                     </div>
                     <div className="flex justify-center md:py-4 py-2">
                       <Button
@@ -272,12 +352,4 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 };
 
 export default ReturnAsset;
-const checkList = [
-  { id: 1, label: "Powers on/Off" },
-  { id: 2, label: "All keyboard button work" },
-  { id: 3, label: "Trackpad works" },
-  { id: 4, label: "Camera works" },
-  { id: 5, label: "Speakers works" },
-  { id: 6, label: "Connects to internet" },
-  { id: 7, label: "Brightness is fully adjustable to min and max brightness" },
-]
+

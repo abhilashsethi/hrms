@@ -63,7 +63,7 @@ const AssetsGrid = ({ data, mutate }: Props) => {
 		<>
 			{data?.length ? (
 				<section className="py-6 ">
-					<div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6 items-center justify-center">
+					<div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 items-center justify-center">
 						{data?.map((item: any, index: any) => (
 							<div key={index}>
 								<MoreOption item={item} mutate={mutate} />
@@ -150,7 +150,46 @@ const MoreOption = ({ item, mutate }: any) => {
 			}
 		});
 	};
-
+	const handelReturn = async (id: string) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to Return?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, Return!",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				setLoading(true);
+				try {
+					const res = await change(`assets/${id}`, {
+						method: "PATCH",
+						body: { isReturn: true },
+					});
+					console.log(res);
+					setLoading(false);
+					if (res?.status !== 200) {
+						Swal.fire(
+							"Error",
+							res?.results?.msg || "Something went wrong!",
+							"error"
+						);
+						setLoading(false);
+						return;
+					}
+					Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+					mutate();
+					return;
+				} catch (error) {
+					console.log(error);
+					setLoading(false);
+				} finally {
+					setLoading(false);
+				}
+			}
+		});
+	};
 	return (
 		<>
 			<ChooseAssetHistory
@@ -178,6 +217,7 @@ const MoreOption = ({ item, mutate }: any) => {
 			<ViewAssetHistoryDrawer
 				open={assetHistory}
 				onClose={() => setAssetHistory(false)}
+				assetId={assetId}
 			/>
 			<ViewAssetDetailsDrawer
 				open={assetDetails}
@@ -314,16 +354,16 @@ const MoreOption = ({ item, mutate }: any) => {
 								<div className="grid grid-cols-3 gap-1">
 									{item?.docs?.length
 										? item?.docs?.map((doc: any, i: any) => {
-											return (
-												<a
-													key={i}
-													className="border border-theme rounded-md text-xs p-[2px]"
-													href={doc?.link}
-												>
-													Docs <Download fontSize="small" />
-												</a>
-											);
-										})
+												return (
+													<a
+														key={i}
+														className="border border-theme rounded-md text-xs p-[2px]"
+														href={doc?.link}
+													>
+														Docs <Download fontSize="small" />
+													</a>
+												);
+										  })
 										: "---"}
 								</div>
 							</span>
@@ -353,7 +393,8 @@ const MoreOption = ({ item, mutate }: any) => {
 									<Tooltip title="Return Asset">
 										<span
 											onClick={() => {
-												setIsReturn({ dialogue: true, assetData: item });
+												handelReturn(item?.id),
+													setIsReturn({ dialogue: true, assetData: item });
 											}}
 											className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
 										>

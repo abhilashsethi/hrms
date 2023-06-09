@@ -9,6 +9,7 @@ import {
   DialogTitle,
   IconButton,
   InputLabel,
+  MenuItem,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -56,6 +57,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
   }>({ dialogue: false, assetData: null });
   const initialValues = {
     branchId: `${assetData?.assetOfBranch?.id ? assetData?.assetOfBranch?.id : ""}`,
+    assetType: `${assetData?.assetType ? assetData?.assetType : ""}`,
     assetName: `${assetData?.name ? assetData?.name : ""}`,
     modelNo: `${assetData?.modelName ? assetData?.modelName : ""}`,
     purchaseDate: `${assetData?.dateOfPurchase
@@ -95,6 +97,7 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
         body: {
           branchId: values?.branchId,
           name: values?.assetName,
+          assetType: values?.assetType,
           dateOfPurchase: new Date(values?.purchaseDate).toISOString(),
           billAmount: Number(values?.billAmount),
           brandName: values?.brandName,
@@ -271,6 +274,31 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
               }) => (
                 <Form>
                   <div className="grid lg:grid-cols-2">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="py-2">
+                        <InputLabel htmlFor="role">
+                          Select Asset Type <span className="text-red-600">*</span>
+                        </InputLabel>
+                      </div>
+                      <TextField
+                        select
+                        fullWidth
+                        size="small"
+                        name="assetType"
+                        placeholder="Asset Type"
+                        value={values.assetType}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.assetType && !!errors.assetType}
+                        helperText={touched.assetType && errors.assetType}
+                      >
+                        {assetTypeArr.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="md:py-2 py-1">
                         <InputLabel htmlFor="name">
@@ -588,3 +616,30 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
 };
 
 export default UpdateAssets;
+const assetTypeArr = [
+  {
+    id: 1,
+    value: "Laptop",
+    name: "Laptop",
+  },
+  {
+    id: 2,
+    value: "Mouse",
+    name: "Mouse",
+  },
+  {
+    id: 3,
+    value: "KeyBoard",
+    name: "Key Board",
+  },
+  {
+    id: 4,
+    value: "Computer",
+    name: "Computer",
+  },
+  {
+    id: 5,
+    value: "Other",
+    name: "Other",
+  },
+];
