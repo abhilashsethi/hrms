@@ -33,7 +33,8 @@ const AllTechnologies = () => {
     isLoading,
     pagination,
   } = useFetch<any>(
-    `technologies?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""
+    `technologies?page=${pageNumber}&limit=8${
+      userName ? `&name=${userName}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
@@ -91,7 +92,9 @@ const AllTechnologies = () => {
                 size="small"
                 id="name"
                 value={userName ? userName : ""}
-                onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
+                onChange={(e) => {
+                  setPageNumber(1), setUsername(e.target.value);
+                }}
                 placeholder="Technology Name"
                 name="name"
               />
@@ -101,7 +104,9 @@ const AllTechnologies = () => {
                 label="Ascending/Descending"
                 size="small"
                 value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => {setPageNumber(1), setIsOrderBy(e?.target?.value)}}
+                onChange={(e) => {
+                  setPageNumber(1), setIsOrderBy(e?.target?.value);
+                }}
               >
                 {short.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -123,17 +128,16 @@ const AllTechnologies = () => {
             <TechnologyTable data={tech} mutate={mutate} />
           </>
         )}
-        {tech?.length === 0 ? <LoaderAnime /> : null}
+
         {Math.ceil(
-          Number(pagination?.total || 1) /
-          Number(pagination?.limit || 1)
+          Number(pagination?.total || 1) / Number(pagination?.limit || 1)
         ) > 1 ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination
                 count={Math.ceil(
                   Number(pagination?.total || 1) /
-                  Number(pagination?.limit || 1)
+                    Number(pagination?.limit || 1)
                 )}
                 onChange={(e, v: number) => {
                   setPageNumber(v);
