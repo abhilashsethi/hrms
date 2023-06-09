@@ -100,9 +100,6 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                   setFieldValue,
                 }) => (
                   <Form>
-                    <h1 className="text-lg uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
-                      Return Assets
-                    </h1>
                     <div className="grid lg:grid-cols-2">
                       <div className="md:px-4 px-2 md:py-2 py-1">
                         <div className="py-2">
