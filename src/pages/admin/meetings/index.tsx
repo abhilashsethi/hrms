@@ -31,7 +31,7 @@ const Meetings = () => {
 		{
 			id: 2,
 			icon: <PendingActions className="text-theme" />,
-			count: meetingData?.meetingStatusList
+			count: meetingData?.meetingStatusList.length
 				? meetingData?.meetingStatusList
 						?.filter((item: any) => item?.status === "Ongoing")
 						?.map((item: any) => item?._count)
@@ -43,7 +43,7 @@ const Meetings = () => {
 		{
 			id: 3,
 			icon: <AssignmentTurnedIn className="text-theme" />,
-			count: meetingData?.meetingStatusList
+			count: meetingData?.meetingStatusList.length
 				? meetingData?.meetingStatusList
 						?.filter((item: any) => item?.status === "Closed")
 						?.map((item: any) => item?._count)
