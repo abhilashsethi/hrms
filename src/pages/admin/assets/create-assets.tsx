@@ -1,17 +1,11 @@
-import { useTheme } from "@material-ui/core";
-import { Add, Check, CloudUpload } from "@mui/icons-material";
+import { Check, CloudUpload } from "@mui/icons-material";
 import { Autocomplete, Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { PDF } from "assets/home";
 import {
 	AdminBreadcrumbs,
-	FileUpload,
-	MultipleImagesUpload,
-	SingleImageUpdate,
 } from "components/core";
-import SingleImage from "components/core/SingleImage";
-import { error } from "console";
 import { ErrorMessage, Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -52,14 +46,10 @@ const CreateAssets = () => {
 	const router = useRouter();
 	const imageRef = useRef<HTMLInputElement | null>(null);
 	const docsRef = useRef<HTMLInputElement | null>(null);
-	const theme = useTheme();
-
 	const [loading, setLoading] = useState(false);
 	const { change, isChanging } = useChange();
 	const handleSubmit = async (values: any, { resetForm }: any) => {
-		// console.log(values);
 		setLoading(true);
-
 		try {
 			const photoUrls = [];
 			for (const photo of values?.images) {
@@ -79,8 +69,7 @@ const CreateAssets = () => {
 				);
 				docsUrls.push({ link: url, docType: docs?.uniId });
 			}
-			// console.log(docsUrls);
-			// return;
+
 			const res: any = await change(`assets`, {
 				body: {
 					name: values?.assetName,
