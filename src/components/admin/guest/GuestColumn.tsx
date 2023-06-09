@@ -54,7 +54,20 @@ const GuestColumn = ({ data, mutate }: Props) => {
       <MaterialTable
         title={<HeadStyle name="All Guests" icon={<PeopleRounded />} />}
         isLoading={!data}
-        data={data ? getDataWithSL<any>(data) : []}
+        data={
+          data
+            ? (data?.map((_: any, i: number) => ({
+                ..._,
+                sl: i + 1,
+                validFrom: _?.card.length
+                  ? moment(_?.card[0]?.validFrom).format("lll")
+                  : "---",
+                validTill: _?.card.length
+                  ? moment(_?.card[0]?.validTill).format("lll")
+                  : "---",
+              })) as any)
+            : []
+        }
         options={{ ...MuiTblOptions(), selection: false, paging: false }}
         columns={[
           {
@@ -84,7 +97,7 @@ const GuestColumn = ({ data, mutate }: Props) => {
           },
           {
             title: "Valid From",
-            field: "valid",
+            field: "validFrom",
             render: (data) => {
               return (
                 <div>
@@ -92,13 +105,13 @@ const GuestColumn = ({ data, mutate }: Props) => {
                     ? moment(data?.card[0]?.validFrom).format("lll")
                     : "---"}
                 </div>
-              )
+              );
             },
             editable: "never",
           },
           {
             title: "Valid Till",
-            field: "valid",
+            field: "validTill",
             render: (data) => {
               return (
                 <div>
@@ -106,7 +119,7 @@ const GuestColumn = ({ data, mutate }: Props) => {
                     ? moment(data?.card[0]?.validTill).format("lll")
                     : "---"}
                 </div>
-              )
+              );
             },
             editable: "never",
           },

@@ -37,3 +37,4 @@ export { default as ASSIGNMENT } from "./assignment.png";
 export { default as PROHIBITION } from "./prohibition.png";
 export { default as BLOCKED } from "./blocked.png";
 export { default as NEWPDF } from "./pdf.png";
+export { default as PENDING } from "./pending.png";
