@@ -284,7 +284,7 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                                   label={item?.label}
                                   name={item?.value}
                                   checked={values?.checklist?.includes(item?.value)}
-                                  onClick={() => {
+                                  onChange={() => {
                                     handleAddRemoveValue(setFieldValue, item?.value, values?.checklist)
                                   }}
                                 />
