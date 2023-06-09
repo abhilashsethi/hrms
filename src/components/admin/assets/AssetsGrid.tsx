@@ -146,31 +146,7 @@ const MoreOption = ({ item, mutate }: any) => {
 			}
 		});
 	};
-	const handleBlock = async (e: any, userId: string) => {
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to update status?",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, update!",
-		}).then(async (result) => {
-			if (result.isConfirmed) {
-				const res = await change(`users/${userId}`, {
-					method: "PATCH",
-					body: { isBlocked: !e.target?.checked },
-				});
-				mutate();
-				if (res?.status !== 200) {
-					Swal.fire(`Error`, "Something went wrong!", "error");
-					return;
-				}
-				Swal.fire(`Success`, "User Blocked successfully!!", "success");
-				return;
-			}
-		});
-	};
+
 	return (
 		<>
 			<ChooseAssetHistory
@@ -201,10 +177,18 @@ const MoreOption = ({ item, mutate }: any) => {
 
 			<div key={item?.id} className="mb-4 w-full">
 				<div
-					className="group h-full w-full border-2 border-gray-200 
+					className="relative group h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg"
 				>
-					{item?.isAssign ? <p>Assigned</p> : <p>Not Assigned</p>}
+					{item?.isAssign ? (
+						<p className="absolute top-2 z-50 rounded-r-xl bg-green-500 text-white text-sm px-2 pr-3 py-1 font-semibold">
+							Assigned
+						</p>
+					) : (
+						<p className="absolute top-2 z-50 rounded-r-xl bg-yellow-500 text-white text-sm px-2 pr-3 py-1 font-semibold">
+							Not Assigned
+						</p>
+					)}
 					{item?.photos?.length ? (
 						item?.photos?.length > 1 ? (
 							<>
