@@ -110,6 +110,7 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
         remark: values?.remark,
       }
       console.log(reqData);
+      return
       const res: any = await change(`assets`, {
         body: {
           name: values?.assetName,
