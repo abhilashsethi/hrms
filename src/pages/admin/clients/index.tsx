@@ -18,16 +18,16 @@ const index = () => {
       <div className="px-4 pt-4">
         <AdminBreadcrumbs links={links} />
       </div>
-      <div className="flex gap-2 py-4">
-        {isLoading ? <DashboardSkeletonLoading />
-          : (
-            <>
+      {isLoading ? <DashboardSkeletonLoading />
+        : (
+          <>
+            <div className="flex gap-2 py-4">
               <div className="w-full px-4 ">
                 <ClientDashboardCard cards={clientData} />
                 <ClientDashboardCharts cards={clientData} />
               </div>
-            </>)}
-      </div>
+            </div>
+          </>)}
     </PanelLayout>
   );
 };
