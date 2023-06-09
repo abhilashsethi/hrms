@@ -14,7 +14,7 @@ const AssetsDashboardCard = ({ data }: Props) => {
 		{
 			id: 1,
 			name: "Total Assets",
-			count: data?.totalAsset,
+			count: data?.totalAsset ? data?.totalAsset : 0,
 			icon: <img src={TOTAL_ASSETS.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-blue-600 to-cyan-400",
 			link: "/admin/assets/all-assets",
@@ -22,7 +22,7 @@ const AssetsDashboardCard = ({ data }: Props) => {
 		{
 			id: 2,
 			name: "Total Assigned",
-			count: data?.totalAssignAsset,
+			count: data?.totalAssignAsset ? data?.totalAssignAsset : 0,
 			icon: <img src={ASSIGNMENT.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-green-500 to-emerald-400",
 			link: "/admin/assets/all-assets",
@@ -30,7 +30,7 @@ const AssetsDashboardCard = ({ data }: Props) => {
 		{
 			id: 3,
 			name: "Total Not Assigned",
-			count: data?.totalNotAssignedAsset,
+			count: data?.totalNotAssignedAsset ? data?.totalNotAssignedAsset : 0,
 			icon: <img src={PROHIBITION.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-orange-500 to-yellow-400",
 			link: "/admin/assets/all-assets",
