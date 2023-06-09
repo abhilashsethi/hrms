@@ -173,19 +173,7 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                             <FormGroup>
                               <div className="grid lg:grid-cols-2 gap-x-4">
                                 {checkList?.map((check, i) => (
-                                  <div key={i}>
-                                    <FormControlLabel
-                                      control={
-                                        <Field
-                                          type="checkbox"
-                                          component={Checkbox}
-                                          name={`checklist[${i}]`}
-                                          value={check?.label}
-                                        />
-                                      }
-                                      label={check?.label}
-                                    />
-                                  </div>
+                                  <FormControlLabel control={<Checkbox />} label={check?.label} />
                                 ))}
                               </div>
                             </FormGroup>
