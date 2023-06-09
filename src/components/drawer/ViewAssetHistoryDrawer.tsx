@@ -1,10 +1,11 @@
 import { makeStyles } from "@material-ui/core";
-import { Check } from "@mui/icons-material";
+import { Check, Close } from "@mui/icons-material";
 import {
 	Button,
 	CircularProgress,
 	Container,
 	Drawer,
+	IconButton,
 	InputLabel,
 	MenuItem,
 	TextField,
@@ -178,6 +179,15 @@ const ViewAssetHistoryDrawer = ({
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
 				<Container style={{ marginTop: "1rem" }} className={classes.container}>
 					{/* Drawer Element */}
+					<div className="flex items-center justify-between ">
+						<p className="text-lg font-bold text-theme">Asset History</p>
+						<IconButton onClick={() => onClose()}>
+							<Close
+								fontSize="small"
+								className="text-red-500 block md:hidden"
+							/>
+						</IconButton>
+					</div>
 
 					<div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
 						<Formik
