@@ -163,7 +163,10 @@ const MoreOption = ({ item, mutate }: any) => {
 			if (result.isConfirmed) {
 				setLoading(true);
 				try {
-					const res = await change(`assets/${id}`, { method: "PATCH", body: { isReturn: true } });
+					const res = await change(`assets/${id}`, {
+						method: "PATCH",
+						body: { isReturn: true },
+					});
 					console.log(res);
 					setLoading(false);
 					if (res?.status !== 200) {
