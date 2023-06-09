@@ -313,19 +313,23 @@ const ViewAssetHistoryDrawer = ({
 										className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-[#edf4fe] my-3`}
 									>
 										<div className="w-full order-2 border border-gray-500 rounded-md p-[1px] mb-2">
-											<Slider {...settings} className="">
-												{assignId?.assignTimePhotos?.map(
-													(data: any, k: any) => (
-														<img
-															key={k}
-															className="w-full object-cover object-center 
+											{assignId?.assignTimePhotos?.length ? (
+												<Slider {...settings} className="">
+													{assignId?.assignTimePhotos?.map(
+														(data: any, k: any) => (
+															<img
+																key={k}
+																className="w-full object-cover object-center 
 											transition duration-500 ease-in-out transform group-hover:scale-105"
-															src={data}
-															alt="assets"
-														/>
-													)
-												)}
-											</Slider>
+																src={data}
+																alt="assets"
+															/>
+														)
+													)}
+												</Slider>
+											) : (
+												<p className="text-center">No Photos Available</p>
+											)}
 										</div>
 										<div className="flex flex-col gap-1 font-semibold text-blue-700">
 											<div className="">
@@ -385,14 +389,57 @@ const ViewAssetHistoryDrawer = ({
 													<span className="text-black font-medium">No</span>
 												)}
 											</p>
-											<p className="font-semibold text-blue-700">
-												Broken :{" "}
-												{assignId?.isBroken ? (
-													<span className="text-black font-medium">Yes</span>
-												) : (
-													<span className="text-black font-medium">No</span>
-												)}
-											</p>
+											{assignId?.isAllKeyboardButtonWork ? (
+												<p className="font-semibold text-blue-700">
+													Keyboard Works :{" "}
+													{assignId?.isAllKeyboardButtonWork ? (
+														<span className="text-black font-medium">Yes</span>
+													) : (
+														<span className="text-black font-medium">No</span>
+													)}
+												</p>
+											) : (
+												<p className="font-semibold text-blue-700">
+													Keyboard Works :{" "}
+													<span className="text-black font-medium">
+														Not Specified
+													</span>
+												</p>
+											)}
+											{assignId?.isAllPortsWork ? (
+												<p className="font-semibold text-blue-700">
+													All Ports Work :{" "}
+													{assignId?.isAllPortsWork ? (
+														<span className="text-black font-medium">Yes</span>
+													) : (
+														<span className="text-black font-medium">No</span>
+													)}
+												</p>
+											) : (
+												<p className="font-semibold text-blue-700">
+													All Ports Work :{" "}
+													<span className="text-black font-medium">
+														Not Specified
+													</span>
+												</p>
+											)}
+											{assignId?.isAllPortsWork ? (
+												<p className="font-semibold text-blue-700">
+													All Ports Work :{" "}
+													{assignId?.isAllPortsWork ? (
+														<span className="text-black font-medium">Yes</span>
+													) : (
+														<span className="text-black font-medium">No</span>
+													)}
+												</p>
+											) : (
+												<p className="font-semibold text-blue-700">
+													All Ports Work :{" "}
+													<span className="text-black font-medium">
+														Not Specified
+													</span>
+												</p>
+											)}
 										</div>
 									</div>
 								</div>
