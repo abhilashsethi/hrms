@@ -9,7 +9,7 @@ import {
 } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { LoaderAnime } from "components/core";
-import { UpdateDepartment } from "components/dialogues";
+import { ReturnAsset, UpdateDepartment } from "components/dialogues";
 import ChooseAssetHistory from "components/dialogues/ChooseAssetHistory";
 import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
@@ -94,6 +94,10 @@ const MoreOption = ({ item, mutate }: any) => {
 		dialogue?: boolean;
 		assetData?: string | null;
 	}>({ dialogue: false, assetData: null });
+	const [isReturn, setIsReturn] = useState<{
+		dialogue?: boolean;
+		assetData?: string | null;
+	}>({ dialogue: false, assetData: null });
 
 	// console.log(item);
 
@@ -146,36 +150,18 @@ const MoreOption = ({ item, mutate }: any) => {
 			}
 		});
 	};
-	const handleBlock = async (e: any, userId: string) => {
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to update status?",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, update!",
-		}).then(async (result) => {
-			if (result.isConfirmed) {
-				const res = await change(`users/${userId}`, {
-					method: "PATCH",
-					body: { isBlocked: !e.target?.checked },
-				});
-				mutate();
-				if (res?.status !== 200) {
-					Swal.fire(`Error`, "Something went wrong!", "error");
-					return;
-				}
-				Swal.fire(`Success`, "User Blocked successfully!!", "success");
-				return;
-			}
-		});
-	};
+
 	return (
 		<>
 			<ChooseAssetHistory
 				open={isView}
 				handleClose={() => setIsView(false)}
+				mutate={mutate}
+			/>
+			<ReturnAsset
+				assetData={isReturn?.assetData}
+				open={isReturn?.dialogue}
+				handleClose={() => setIsReturn({ dialogue: false })}
 				mutate={mutate}
 			/>
 			<UpdateAssets
@@ -201,10 +187,18 @@ const MoreOption = ({ item, mutate }: any) => {
 
 			<div key={item?.id} className="mb-4 w-full">
 				<div
-					className="group h-full w-full border-2 border-gray-200 
+					className="relative group h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg"
 				>
-					{item?.isAssign ? <p>Assigned</p> : <p>Not Assigned</p>}
+					{item?.isAssign ? (
+						<p className="absolute top-2 z-50 rounded-r-xl bg-green-500 text-white text-sm px-2 pr-3 py-1 font-semibold">
+							Assigned
+						</p>
+					) : (
+						<p className="absolute top-2 z-50 rounded-r-xl bg-yellow-500 text-white text-sm px-2 pr-3 py-1 font-semibold">
+							Not Assigned
+						</p>
+					)}
 					{item?.photos?.length ? (
 						item?.photos?.length > 1 ? (
 							<>
@@ -320,16 +314,16 @@ const MoreOption = ({ item, mutate }: any) => {
 								<div className="grid grid-cols-3 gap-1">
 									{item?.docs?.length
 										? item?.docs?.map((doc: any, i: any) => {
-												return (
-													<a
-														key={i}
-														className="border border-theme rounded-md text-xs p-[2px]"
-														href={doc?.link}
-													>
-														Docs <Download fontSize="small" />
-													</a>
-												);
-										  })
+											return (
+												<a
+													key={i}
+													className="border border-theme rounded-md text-xs p-[2px]"
+													href={doc?.link}
+												>
+													Docs <Download fontSize="small" />
+												</a>
+											);
+										})
 										: "---"}
 								</div>
 							</span>
@@ -357,12 +351,14 @@ const MoreOption = ({ item, mutate }: any) => {
 										</div>
 									</Tooltip>
 									<Tooltip title="Return Asset">
-										<Link
-											href={`/admin/assets/return-assets?id=${item?.id}`}
+										<span
+											onClick={() => {
+												setIsReturn({ dialogue: true, assetData: item });
+											}}
 											className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
 										>
 											<AssignmentReturn fontSize="small" color="secondary" />
-										</Link>
+										</span>
 									</Tooltip>
 								</>
 							) : (

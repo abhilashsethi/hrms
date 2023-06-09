@@ -82,7 +82,6 @@ const ViewAssetDetailsDrawer = ({
 }: Props) => {
 	// console.log(assetId);
 	const router = useRouter();
-	const [loading, setLoading] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedUser, setSelectedUser] = useState<string | null>(null);
 	const [searchedUser, setSearchedUser] = useState<any>([]);

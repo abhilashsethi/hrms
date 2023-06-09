@@ -1,4 +1,4 @@
-import { BranchBarChart, BranchBarChartDetails, ClientLineCharts } from "components/analytics";
+import { BranchBarChart, ClientLineCharts } from "components/analytics";
 import React from "react";
 interface Props {
   data?: any;
@@ -20,7 +20,7 @@ const AssetsDashboardCharts = ({ data }: Props) => {
             text=""
           />
         </div>
-        <div className="px-2 py-4 pt-9 bg-white w-full gap-5 lg:col-span-4 !border-grey-500 rounded-xl !shadow-xl">
+        <div className="px-2 py-4 pt-9 bg-white w-full gap-5 !border-grey-500 rounded-xl !shadow-xl">
           <p className="text-center text-lg font-bold">Assets Strength</p>
           <ClientLineCharts
             labels={

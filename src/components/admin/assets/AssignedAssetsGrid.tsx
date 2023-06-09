@@ -308,13 +308,13 @@ const MoreOption = ({ item, mutate }: any) => {
 									<DeleteRounded fontSize="small" color="error" />
 								</span>
 							</Tooltip>
-							<Link href={`/admin/assets/return-assets?id=${item?.id}`}>
+							<span>
 								<Tooltip title="Assign Employee">
 									<span className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center">
 										<AssignmentInd fontSize="small" color="secondary" />
 									</span>
 								</Tooltip>
-							</Link>
+							</span>
 							<Tooltip title="Edit Asset">
 								<span
 									onClick={() => {
