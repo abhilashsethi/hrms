@@ -1,5 +1,5 @@
-import { Add, Delete, Info } from "@mui/icons-material";
-import { Button, Grid, IconButton, Tooltip } from "@mui/material";
+import { Add, Delete, FilterListRounded, Info } from "@mui/icons-material";
+import { Button, Grid, IconButton, TextField, Tooltip } from "@mui/material";
 import { TENDERCARD, TENDERCARD2, TENDERCARD3, TENDERCARD4 } from "assets/home";
 import { AdminBreadcrumbs } from "components/core";
 import PanelLayout from "layouts/panel";
@@ -28,14 +28,33 @@ const AllTenders = () => {
         <AdminBreadcrumbs links={links} />
         <div className="flex justify-between items-center">
           <h1 className="text-theme font-semibold mt-4">All Tenders</h1>
-          <Button
-            size="small"
-            className="!bg-theme"
-            variant="contained"
-            startIcon={<Add />}
+          <Link href="/admin/tenders/create-tender">
+            <Button
+              size="small"
+              className="!bg-theme"
+              variant="contained"
+              startIcon={<Add />}
+            >
+              CREATE TENDER
+            </Button>
+          </Link>
+        </div>
+        <div className="md:flex gap-4 justify-between w-full py-2 mt-2">
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
           >
-            CREATE TENDER
-          </Button>
+            <IconButton>
+              <Tooltip title={`Filter`}>
+                <FilterListRounded className={"!text-white"} />
+              </Tooltip>
+            </IconButton>
+          </div>
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-4 gap-2">
+            <TextField fullWidth size="small" placeholder="Tender No" />
+            <TextField fullWidth size="small" placeholder="Tender Name" />
+            <TextField fullWidth size="small" placeholder="Tender Category" />
+          </div>
         </div>
         <section className="mt-4">
           <Grid container spacing={2}>
