@@ -1,39 +1,28 @@
 import { makeStyles } from "@material-ui/core";
+import { Check } from "@mui/icons-material";
 import {
-	AccountTreeRounded,
-	Check,
-	Close,
-	FreeBreakfast,
-} from "@mui/icons-material";
-import {
-	Avatar,
 	Button,
-	Card,
 	CircularProgress,
 	Container,
 	Drawer,
-	IconButton,
 	InputLabel,
 	MenuItem,
-	Modal,
 	TextField,
-	Tooltip,
 } from "@mui/material";
-import { Loader } from "components/core";
+import { Form, Formik } from "formik";
 import { useFetch } from "hooks";
 import moment from "moment";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { User } from "types";
-import { Form, Formik } from "formik";
-import * as Yup from "yup";
 import Slider from "react-slick";
+import { User } from "types";
+import * as Yup from "yup";
 
 type Props = {
 	open?: boolean | any;
 	onClose: () => void;
 	setViewProject?: any;
+	assetId?: any;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -122,7 +111,12 @@ const Projects_Details = [
 	},
 ];
 
-const ViewAssetHistoryDrawer = ({ open, onClose, setViewProject }: Props) => {
+const ViewAssetHistoryDrawer = ({
+	open,
+	onClose,
+	setViewProject,
+	assetId,
+}: Props) => {
 	const router = useRouter();
 	const [history, setHistory] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -155,10 +149,11 @@ const ViewAssetHistoryDrawer = ({ open, onClose, setViewProject }: Props) => {
 
 	const classes = useStyles();
 
-	const { data: projectDetails, mutate } = useFetch<any>(
-		`projects?memberId=${router?.query?.id}`
+	const { data: assignId } = useFetch<any>(
+		`assets/asset/assign-asset/${assetId}`
 	);
-	// console.log(projectDetails);
+	console.log(assignId);
+
 	const validationSchema = Yup.object().shape({
 		type: Yup.string().required("Branch is required!"),
 	});
@@ -246,48 +241,65 @@ const ViewAssetHistoryDrawer = ({ open, onClose, setViewProject }: Props) => {
 						</Formik>
 					</div>
 					{history ? (
-						<div className="mt-4 flex flex-col gap-4">
+						<div className="mt-2 flex flex-col gap-4">
 							<div className="">
-								<div className="flex justify-between items-center w-full relative rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3 gap-5">
-									<div className="w-1/3">
+								<div
+									className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-[#edf4fe] my-3`}
+								>
+									<div className="w-full order-2 border border-gray-500 rounded-md p-[1px] mb-2">
 										<Slider {...settings} className="">
-											{photos?.map((data: any, k: any) => (
+											{assignId?.assignTimePhotos?.map((data: any, k: any) => (
 												<img
 													key={k}
 													className="w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
-													src={data?.photo}
+											transition duration-500 ease-in-out transform group-hover:scale-105"
+													src={data}
 													alt="assets"
 												/>
 											))}
 										</Slider>
 									</div>
-									<div className="w-2/3">
-										<div>
-											<div>
-												<span className="font-semibold">Assigned User :</span>{" "}
-												<span className="font-semibold text-gray-500">
-													Gaurav Kumar
-												</span>
-											</div>
-											<div>
-												<span>Branch :</span> <span>SearchingYard</span>
-											</div>
-											<div>
-												<span>Model No :</span> <span>82ldsvbne12</span>
-											</div>
-											<div>
-												<span>Brand Name :</span> <span>Lenovo</span>
-											</div>
-											<div>
-												<span>Dt Of Purchase :</span> <span>10/06/2023</span>
-											</div>
-											<div>
-												<span>Bill Amount :</span> <span>40000</span>
-											</div>
-											<div>
-												<span>Current Market Price :</span> <span>50000</span>
-											</div>
+									<div className="flex flex-col gap-1 font-semibold text-blue-700">
+										<div className="">
+											Assigned User :{" "}
+											<span className="text-black font-medium">
+												{assignId?.assignUser?.name}
+											</span>
+										</div>
+										<div className="gap-2">
+											Date Of Assign :{" "}
+											<span className="text-black font-medium">
+												{moment(assignId?.dateOfAssign)?.format("DD/MM/YYYY")}
+											</span>
+										</div>
+
+										<div className="gap-2">
+											Date Of Return :{" "}
+											<span className="text-black font-medium">
+												{assignId?.dateOfReturn
+													? moment(assignId?.dateOfReturn)?.format("DD/MM/YYYY")
+													: "Not Specified"}
+											</span>
+										</div>
+										<div className="gap-2">
+											Time Of Assign :{" "}
+											<span className="text-black font-medium">
+												{assignId?.assignTime
+													? moment(assignId?.assignTime)?.format("LT")
+													: "Not Specified"}
+											</span>
+										</div>
+										<div className="gap-2">
+											Reason :{" "}
+											<span className="text-black font-medium">
+												{assignId?.reasonForAssign}
+											</span>
+										</div>
+										<div className="gap-2">
+											Remarks :{" "}
+											<span className="text-black font-medium">
+												{assignId?.assignRemark}
+											</span>
 										</div>
 									</div>
 								</div>
@@ -295,7 +307,96 @@ const ViewAssetHistoryDrawer = ({ open, onClose, setViewProject }: Props) => {
 						</div>
 					) : (
 						<>
-							<p>return history</p>
+							<div className="mt-2 flex flex-col gap-4">
+								<div className="">
+									<div
+										className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-[#edf4fe] my-3`}
+									>
+										<div className="w-full order-2 border border-gray-500 rounded-md p-[1px] mb-2">
+											<Slider {...settings} className="">
+												{assignId?.assignTimePhotos?.map(
+													(data: any, k: any) => (
+														<img
+															key={k}
+															className="w-full object-cover object-center 
+											transition duration-500 ease-in-out transform group-hover:scale-105"
+															src={data}
+															alt="assets"
+														/>
+													)
+												)}
+											</Slider>
+										</div>
+										<div className="flex flex-col gap-1 font-semibold text-blue-700">
+											<div className="">
+												Assigned User :{" "}
+												<span className="text-black font-medium">
+													{assignId?.assignUser?.name}
+												</span>
+											</div>
+											<div className="gap-2">
+												Date Of Assign :{" "}
+												<span className="text-black font-medium">
+													{moment(assignId?.dateOfAssign)?.format("DD/MM/YYYY")}
+												</span>
+											</div>
+
+											<div className="gap-2">
+												Date Of Return :{" "}
+												<span className="text-black font-medium">
+													{assignId?.dateOfReturn
+														? moment(assignId?.dateOfReturn)?.format(
+																"DD/MM/YYYY"
+														  )
+														: "Not Specified"}
+												</span>
+											</div>
+											<div className="gap-2">
+												Time Of Assign :{" "}
+												<span className="text-black font-medium">
+													{assignId?.assignTime
+														? moment(assignId?.assignTime)?.format("LT")
+														: "Not Specified"}
+												</span>
+											</div>
+											<div className="gap-2">
+												Reason :{" "}
+												<span className="text-black font-medium">
+													{assignId?.reasonForAssign}
+												</span>
+											</div>
+											<div className="gap-2">
+												Remarks :{" "}
+												<span className="text-black font-medium">
+													{assignId?.assignRemark}
+												</span>
+											</div>
+										</div>
+										<div>
+											<p className="text-lg font-semibold text-center">
+												Return Details
+											</p>
+											{/* --------------------------------------- */}
+											<p className="font-semibold text-blue-700">
+												Broken :{" "}
+												{assignId?.isBroken ? (
+													<span className="text-black font-medium">Yes</span>
+												) : (
+													<span className="text-black font-medium">No</span>
+												)}
+											</p>
+											<p className="font-semibold text-blue-700">
+												Broken :{" "}
+												{assignId?.isBroken ? (
+													<span className="text-black font-medium">Yes</span>
+												) : (
+													<span className="text-black font-medium">No</span>
+												)}
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
 						</>
 					)}
 				</Container>
