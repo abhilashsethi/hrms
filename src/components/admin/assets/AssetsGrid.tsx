@@ -150,7 +150,43 @@ const MoreOption = ({ item, mutate }: any) => {
 			}
 		});
 	};
-
+	const handelReturn = async (id: string) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to Return?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, Return!",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				setLoading(true);
+				try {
+					const res = await change(`assets/${id}`, { method: "PATCH", body: { isReturn: true } });
+					console.log(res);
+					setLoading(false);
+					if (res?.status !== 200) {
+						Swal.fire(
+							"Error",
+							res?.results?.msg || "Something went wrong!",
+							"error"
+						);
+						setLoading(false);
+						return;
+					}
+					Swal.fire(`Success`, `Deleted Successfully!`, `success`);
+					mutate();
+					return;
+				} catch (error) {
+					console.log(error);
+					setLoading(false);
+				} finally {
+					setLoading(false);
+				}
+			}
+		});
+	};
 	return (
 		<>
 			<ChooseAssetHistory
@@ -353,7 +389,8 @@ const MoreOption = ({ item, mutate }: any) => {
 									<Tooltip title="Return Asset">
 										<span
 											onClick={() => {
-												setIsReturn({ dialogue: true, assetData: item });
+												handelReturn(item?.id),
+													setIsReturn({ dialogue: true, assetData: item });
 											}}
 											className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
 										>
