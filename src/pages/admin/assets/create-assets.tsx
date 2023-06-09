@@ -1,17 +1,11 @@
-import { useTheme } from "@material-ui/core";
-import { Add, Check, CloudUpload } from "@mui/icons-material";
-import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
+import { Check, CloudUpload } from "@mui/icons-material";
+import { Autocomplete, Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { PDF } from "assets/home";
 import {
 	AdminBreadcrumbs,
-	FileUpload,
-	MultipleImagesUpload,
-	SingleImageUpdate,
 } from "components/core";
-import SingleImage from "components/core/SingleImage";
-import { error } from "console";
 import { ErrorMessage, Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -29,6 +23,7 @@ const initialValues = {
 	uploadDoc: [],
 	images: [],
 	notes: "",
+	assetType: [],
 };
 
 const validationSchema = Yup.object().shape({
@@ -42,6 +37,7 @@ const validationSchema = Yup.object().shape({
 		.required("Asset Name is required!"),
 	modelNo: Yup.string().required("Model No is required!"),
 	purchaseDate: Yup.string().required("Purchase date is required!"),
+	assetType: Yup.array().required("Asset Type is required!"),
 	billAmount: Yup.number().required("Bill amount is required!"),
 
 });
@@ -50,14 +46,10 @@ const CreateAssets = () => {
 	const router = useRouter();
 	const imageRef = useRef<HTMLInputElement | null>(null);
 	const docsRef = useRef<HTMLInputElement | null>(null);
-	const theme = useTheme();
-
 	const [loading, setLoading] = useState(false);
 	const { change, isChanging } = useChange();
 	const handleSubmit = async (values: any, { resetForm }: any) => {
-		// console.log(values);
 		setLoading(true);
-
 		try {
 			const photoUrls = [];
 			for (const photo of values?.images) {
@@ -77,8 +69,7 @@ const CreateAssets = () => {
 				);
 				docsUrls.push({ link: url, docType: docs?.uniId });
 			}
-			// console.log(docsUrls);
-			// return;
+
 			const res: any = await change(`assets`, {
 				body: {
 					name: values?.assetName,
@@ -90,6 +81,7 @@ const CreateAssets = () => {
 					serialNumber: values?.serialNo,
 					dateOfPurchase: new Date(values?.purchaseDate).toISOString(),
 					photos: photoUrls,
+					assetType: values?.assetType,
 					docs: docsUrls,
 					note: values?.notes,
 				},
@@ -300,26 +292,34 @@ const CreateAssets = () => {
 												helperText={touched.notes && errors.notes}
 											/>
 										</div>
-										{/* <div className="md:px-4 px-2 md:py-2 py-1">
+										<div className="px-4 py-2">
 											<div className="py-2">
-												<InputLabel htmlFor="uploadDoc">
-													Upload Document
+												<InputLabel htmlFor="role">
+													Select Asset Type <span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
-											<TextField
-												size="small"
+
+											<Autocomplete
 												fullWidth
-												type="file"
-												// placeholder="Phone"
-												id="uploadDoc"
-												name="uploadDoc"
-												value={values.uploadDoc}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.uploadDoc && !!errors.uploadDoc}
-												helperText={touched.uploadDoc && errors.uploadDoc}
+												size="small"
+												id="assetType"
+												options={assetType || []}
+												onChange={(e: any, r: any) => {
+													setFieldValue("assetType", r?.name);
+												}}
+												getOptionLabel={(option: any) => option.name}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														label="Select Asset Type"
+														placeholder="Selected Asset Type"
+														onBlur={handleBlur}
+														error={touched.assetType && !!errors.assetType}
+														helperText={touched.assetType && errors.assetType}
+													/>
+												)}
 											/>
-										</div> */}
+										</div>
 
 										<div className="col-span-2 py-3">
 											<p className="text-gray-500 mb-2">Upload Images</p>
@@ -443,4 +443,26 @@ export default CreateAssets;
 
 const links = [
 	{ id: 1, page: "Create Assets", link: "/admin/assets/create-assets" },
+];
+const assetType = [
+	{
+		id: 1,
+		name: "Laptop",
+	},
+	{
+		id: 2,
+		name: "Mouse",
+	},
+	{
+		id: 3,
+		name: "Key Board",
+	},
+	{
+		id: 4,
+		name: "Computer",
+	},
+	{
+		id: 5,
+		name: "Other",
+	},
 ];
