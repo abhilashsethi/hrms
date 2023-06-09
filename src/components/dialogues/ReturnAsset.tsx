@@ -72,7 +72,7 @@ const initialValues = {
   returnDate: "",
   returnTime: "",
   remark: "",
-  checklist: checkListForLaptop.map(() => false),
+  checklist: []
 };
 
 const validationSchema = Yup.object().shape({
@@ -80,7 +80,7 @@ const validationSchema = Yup.object().shape({
   // returnDate: Yup.string().required("Assigned Date is required!"),
   // returnTime: Yup.string().required("Assigned Date is required!"),
   // remark: Yup.string().required("remark is required!"),
-  checklist: Yup.array().of(Yup.boolean()),
+  checklist: Yup.array().of(Yup.string()),
 });
 
 const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
@@ -148,6 +148,18 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
       setLoading(false);
     }
   };
+
+  const handleAddRemoveValue = (setFieldValue: any, itemValue: any, allValues: any[]) => {
+    //if value already present remove the value
+    if (allValues?.includes(itemValue)) {
+      let newFilteredValue = allValues?.filter((item) => item !== itemValue)
+
+      setFieldValue("checkList", newFilteredValue)
+      return
+    }
+    setFieldValue("checkedList", [...allValues, itemValue])
+
+  }
   return (
     <>
       <Dialog
@@ -191,7 +203,7 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                   handleChange,
                   handleBlur,
                   setFieldValue,
-                }) => (
+                }: any) => (
                   <Form>
                     <div className="grid lg:grid-cols-2">
                       <div className="md:px-4 px-2 md:py-2 py-1">
@@ -252,7 +264,7 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.remark && !!errors.remark}
-                          helperText={touched.remark && errors.remark}
+                          helperText={touched.remark && errors.remark as any}
                         />
                       </div>
                       <div className="col-span-2 md:px-4 px-2 md:py-2 py-1">
@@ -264,15 +276,53 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                         </div>
                         <FormGroup>
                           <div className="grid lg:grid-cols-2 gap-x-4">
-                            {checkListForLaptop?.map((item, i) => (
-                              <FormControlLabel
-                                control={<Checkbox />}
-                                label={item?.label}
-                                name={`checklist[${i}]`}
-                                checked={values?.checklist[i]}
-                                onChange={handleChange}
-                              />
-                            ))}
+                            {
+                              // assetData?.assetType == "Laptop" ?
+                              checkListForLaptop?.map((item, i) => (
+                                <FormControlLabel
+                                  control={<Checkbox />}
+                                  label={item?.label}
+                                  name={item?.value}
+                                  checked={values?.checklist?.includes(item?.value)}
+                                  onClick={() => {
+                                    handleAddRemoveValue(setFieldValue, item?.value, values?.checklist)
+                                  }}
+                                />
+                              ))
+                              // : assetData?.assetType == "Mouse" ?
+                              //   checkListForMouse?.map((item, i) => (
+                              //     <FormControlLabel
+                              //       control={<Checkbox />}
+                              //       label={item?.label}
+                              //       name={item?.value}
+                              //       checked={values?.checklist?.includes(item?.value)}
+                              //       onChange={() => {
+                              //         handleAddRemoveValue(setFieldValue, item?.value, values?.checklist)
+                              //       }}
+                              //     />
+                              //   )) : assetData?.assetType == "Monitor" ?
+                              //     checkListForMonitor?.map((item, i) => (
+                              //       <FormControlLabel
+                              //         control={<Checkbox />}
+                              //         label={item?.label}
+                              //         name={item?.value}
+                              //         checked={values?.checklist?.includes(item?.value)}
+                              //         onChange={() => {
+                              //           handleAddRemoveValue(setFieldValue, item?.value, values?.checklist)
+                              //         }}
+                              //       />
+                              //     )) : assetData?.assetType == "Keyboard" ?
+                              //       checkListForKeyboard?.map((item, i) => (
+                              //         <FormControlLabel
+                              //           control={<Checkbox />}
+                              //           label={item?.label}
+                              //           name={item?.value}
+                              //           checked={values?.checklist?.includes(item?.value)}
+                              //           onChange={() => {
+                              //             handleAddRemoveValue(setFieldValue, item?.value, values?.checklist)
+                              //           }}
+                              //         />)) : null
+                            }
                           </div>
                         </FormGroup>
                       </div>
@@ -307,7 +357,7 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                             }}
                           />
                           <div className="flex justify-center items-center gap-2 flex-wrap">
-                            {values.images.map((image: any, index) => (
+                            {values.images.map((image: any, index: any) => (
                               <div className="" key={index}>
                                 <img
                                   className="w-40 object-contain"
