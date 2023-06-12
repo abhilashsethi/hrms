@@ -10,6 +10,7 @@ import {
 	MenuItem,
 	TextField,
 } from "@mui/material";
+import { ProjectDrawerSkeletonLoading } from "components/admin/clients";
 import { Form, Formik } from "formik";
 import { useFetch } from "hooks";
 import moment from "moment";
@@ -107,7 +108,7 @@ const ViewAssetHistoryDrawer = ({
 	};
 	const handleInfoCloseModal = () => setOpenInfoModal(false);
 
-	const { data: users, isLoading } = useFetch<User[]>(`users`);
+	const { data: users } = useFetch<User[]>(`users`);
 	useEffect(() => {
 		if (users) {
 			const filtered = users.filter((user) =>
@@ -126,7 +127,7 @@ const ViewAssetHistoryDrawer = ({
 
 	const classes = useStyles();
 
-	const { data: assignId } = useFetch<any>(
+	const { data: assignId, isLoading } = useFetch<any>(
 		`assets/all/return/asset/${assetId}`
 	);
 	console.log(assignId);
@@ -293,6 +294,7 @@ const ViewAssetHistoryDrawer = ({
 					) : (
 						<>
 							<div className="mt-2 flex flex-col gap-4">
+								{isLoading && <ProjectDrawerSkeletonLoading />}
 								{assignId?.map((item: any, i: any) => {
 									return (
 										<div
