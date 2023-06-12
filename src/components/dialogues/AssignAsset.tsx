@@ -97,6 +97,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 			Swal.fire(`Success`, `You have successfully Assigned!`, `success`);
 			resetForm();
 			handleClose();
+			mutate();
 			return;
 		} catch (error) {
 			setLoading(false);

@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import * as Yup from "yup";
 
@@ -32,9 +31,7 @@ const ChooseBranchToViewAssets = ({
 	setBranchId,
 }: Props) => {
 	const [loading, setLoading] = useState(false);
-	const { change } = useChange();
 	const { data: branchData } = useFetch<any>(`branches`);
-	const router = useRouter();
 	const validationSchema = Yup.object().shape({
 		branchId: Yup.string().required("Branch is required!"),
 	});
@@ -43,12 +40,8 @@ const ChooseBranchToViewAssets = ({
 	};
 
 	const handleSubmit = async (values: any) => {
-		console.log(values);
-
 		try {
 			setBranchId(values.branchId);
-			setLoading(true);
-			setLoading(false);
 			handleClose();
 		} catch (error) {
 			console.log(error);

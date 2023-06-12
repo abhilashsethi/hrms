@@ -142,7 +142,6 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
     //if value already present remove the value
     if (allValues?.includes(itemValue)) {
       let newFilteredValue = allValues?.filter((item) => item !== itemValue)
-
       setFieldValue("checkList", newFilteredValue)
       return
     }
@@ -177,7 +176,7 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 3 }}>
-          <div className="md:w-[50rem] w-[72vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-4">
+          <div className="md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-4">
             <div className="flex flex-col items-center w-full">
               <Formik
                 initialValues={initialValues}

@@ -2,7 +2,7 @@ import MaterialTable from "@material-table/core";
 import { BorderColor, Delete, Edit, PeopleRounded } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { RenderIconRow } from "components/common";
-import { HeadStyle, ReverseIOSSwitch } from "components/core";
+import { HeadStyle, IOSSwitch } from "components/core";
 import { UpdateBranch } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
@@ -199,7 +199,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
             tooltip: "Status",
             render: (data) => {
               return (
-                <ReverseIOSSwitch size="small"
+                <IOSSwitch size="small"
                   checked={data?.isBlocked}
                   onChange={(e) => handleBlock(e, data?.id)}
                 />

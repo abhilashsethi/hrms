@@ -238,7 +238,7 @@ const CreateBranch = () => {
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="manager">
-                          Assign Manager
+                          Assign Manager  <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <Autocomplete
