@@ -230,7 +230,6 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 												<div className="py-2">
 													<InputLabel htmlFor="assignTime">
 														Time Of Assign{" "}
-														<span className="text-red-600">*</span>
 													</InputLabel>
 												</div>
 												<TextField
@@ -290,9 +289,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 											</div>
 											<div className="md:px-4 px-2 md:py-2 py-1 col-span-2">
 												<div className="py-2">
-													<InputLabel htmlFor="remarks">
-														Remarks<span className="text-red-600">*</span>
-													</InputLabel>
+													<InputLabel htmlFor="remarks">Remarks</InputLabel>
 												</div>
 												<TextField
 													size="small"
@@ -357,11 +354,13 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 													</div>
 													<p>Upload Images</p>
 													<CloudUpload fontSize="large" color="primary" />
-													<ErrorMessage
-														name="images"
-														component="div"
-														className="error"
-													/>
+													<span className="text-red-500">
+														<ErrorMessage
+															name="assignTimePhotos"
+															component="div"
+															className="error"
+														/>
+													</span>
 												</div>
 											</div>
 										</div>

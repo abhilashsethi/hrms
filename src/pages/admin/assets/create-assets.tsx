@@ -57,7 +57,7 @@ const CreateAssets = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			setIsView(true);
-		}, 3000);
+		}, 2000);
 	}, []);
 	const handleSubmit = async (values: any, { resetForm }: any) => {
 		setLoading(true);
