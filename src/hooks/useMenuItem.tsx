@@ -288,6 +288,12 @@ export default () => {
 						icon: <ICONS.All_Assets />,
 						route: "/admin/assets/all-assets",
 					},
+					{
+						key: "28-3",
+						title: "Add Asset",
+						icon: <ICONS.All_Assets />,
+						route: "/admin/assets/create-assets",
+					},
 				],
 			},
 			{
