@@ -1,4 +1,4 @@
-import { TOTAL_ASSETS, TOTAL_BRANCH, TOTAL_CLIENT, TOTAL_EMPLOYEE } from "assets/dashboard_Icons";
+import { BLOCKED, TOTAL_ASSETS, TOTAL_BRANCH, TOTAL_CLIENT, TOTAL_EMPLOYEE, UNBLOCK } from "assets/dashboard_Icons";
 import Link from "next/link";
 
 interface Props {
@@ -25,7 +25,7 @@ const BranchDashboardCards = ({ data }: Props) => {
     id: 3,
     name: "Total Active Branch",
     count: data?.totalActiveBranch,
-    icon: <img src={TOTAL_EMPLOYEE.src} className="w-16" alt="" />,
+    icon: <img src={UNBLOCK.src} className="w-16" alt="" />,
     color: "bg-gradient-to-br from-orange-500 to-yellow-400",
     link: "/admin/branch/all-branch",
   },
@@ -33,7 +33,7 @@ const BranchDashboardCards = ({ data }: Props) => {
     id: 4,
     name: "Total InActive Branch",
     count: data?.totalInActiveBranch,
-    icon: <img src={TOTAL_CLIENT.src} className="w-16" alt="" />,
+    icon: <img src={BLOCKED.src} className="w-16" alt="" />,
     color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
     link: "/admin/branch/all-branch",
   }
@@ -42,7 +42,7 @@ const BranchDashboardCards = ({ data }: Props) => {
     <>
       <div className="flex gap-2 py-4">
         <div className="w-full">
-          <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
+          <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-1 md:grid-cols-2 gap-4">
             {cards?.map((item, i) => (
               <Link key={i} href={item?.link}>
                 <div className={`group hover:scale-105 transition duration-500 ease-in-out ${item?.color} w-full py-4 px-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer`}>

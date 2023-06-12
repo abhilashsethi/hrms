@@ -42,9 +42,9 @@ const BranchBarChartDetails = ({
       // formatter: function (val) {
       //   return val + "%";
       // },
-      offsetY: 475,
+      offsetY: 500,
       style: {
-        fontSize: "12px",
+        fontSize: "10px",
         colors: ["#304758"],
       },
     },
@@ -93,7 +93,7 @@ const BranchBarChartDetails = ({
     title: {
       text: text,
       floating: true,
-      offsetY: 470,
+      offsetY: 500,
       align: "center",
       style: {
         color: "#444",
