@@ -51,7 +51,7 @@ const CreateAssets = () => {
 	const imageRef = useRef<HTMLInputElement | null>(null);
 	const docsRef = useRef<HTMLInputElement | null>(null);
 	const [loading, setLoading] = useState(false);
-	const { change, isChanging } = useChange();
+	const { change } = useChange();
 	const [branchId, setBranchId] = useState<string | null>(null);
 	const [isView, setIsView] = useState(false);
 	useEffect(() => {
@@ -59,7 +59,6 @@ const CreateAssets = () => {
 			setIsView(true);
 		}, 3000);
 	}, []);
-	console.log(branchId);
 	const handleSubmit = async (values: any, { resetForm }: any) => {
 		setLoading(true);
 		try {
