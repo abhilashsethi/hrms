@@ -15,7 +15,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { AssetsColumn, AssetsGrid } from "components/admin/assets";
-import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
+import { AdminBreadcrumbs, Loader, LoaderAnime, SkeletonLoader } from "components/core";
 import ChooseBranch from "components/dialogues/ChooseBranch";
 import ChooseBranchToViewAssets from "components/dialogues/ChooseBranchToViewAssets";
 import { useFetch } from "hooks";
@@ -220,7 +220,7 @@ const AllAssets = () => {
 							</div>
 							{isGrid ? (
 								<>
-									{isLoading && <Loader />}
+									{isLoading && <SkeletonLoader />}
 									<AssetsGrid data={assetsData} mutate={assetMutate} />
 								</>
 							) : (
