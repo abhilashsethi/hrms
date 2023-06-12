@@ -40,8 +40,7 @@ const AllAssets = () => {
 		mutate,
 		isLoading,
 	} = useFetch<any>(
-		`departments?page=${pageNumber}&limit=8${
-			userName ? `&contains=${userName}` : ""
+		`departments?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
 		}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
 	);
 
@@ -50,10 +49,8 @@ const AllAssets = () => {
 		mutate: assetMutate,
 		pagination,
 	} = useFetch<any>(
-		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
-			isOrderBy ? `&orderBy=${isOrderBy}` : ""
-		}${isBrand ? `&brandName=${isBrand}` : ""}${
-			isBranch ? `&branchName=${isBranch}` : ""
+		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
+		}${isBrand ? `&brandName=${isBrand}` : ""}${isBranch ? `&branchName=${isBranch}` : ""
 		}${isModel ? `&modelName=${isModel}` : ""}`
 	);
 	// console.log(assetsData);
@@ -87,9 +84,8 @@ const AllAssets = () => {
 									<div className="flex gap-1">
 										<IconButton onClick={() => setIsGrid(true)} size="small">
 											<div
-												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-													isGrid && `border-2 border-theme`
-												}`}
+												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${isGrid && `border-2 border-theme`
+													}`}
 											>
 												<GridViewRounded
 													className={`${isGrid && `!text-theme`}`}
@@ -98,9 +94,8 @@ const AllAssets = () => {
 										</IconButton>
 										<IconButton onClick={() => setIsGrid(false)} size="small">
 											<div
-												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-													!isGrid && `border-2 border-theme`
-												}`}
+												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${!isGrid && `border-2 border-theme`
+													}`}
 											>
 												<TableRowsRounded
 													className={`${!isGrid && `!text-theme`}`}
@@ -138,19 +133,19 @@ const AllAssets = () => {
 											<Tooltip
 												title={
 													isOrderBy != null ||
-													userName != null ||
-													isBrand != null ||
-													isBranch != null ||
-													isModel != null
+														userName != null ||
+														isBrand != null ||
+														isBranch != null ||
+														isModel != null
 														? `Remove Filters`
 														: `Filter`
 												}
 											>
 												{isOrderBy != null ||
-												userName != null ||
-												isBrand != null ||
-												isBranch != null ||
-												isModel != null ? (
+													userName != null ||
+													isBrand != null ||
+													isBranch != null ||
+													isModel != null ? (
 													<Close className={"!text-white"} />
 												) : (
 													<FilterListRounded className={"!text-white"} />
@@ -217,7 +212,7 @@ const AllAssets = () => {
 											onChange={(e) => {
 												setPageNumber(1), setIsModel(e.target.value);
 											}}
-											placeholder="Model Number"
+											placeholder="Model Name"
 											name="modelName"
 										/>
 									</div>
@@ -243,7 +238,7 @@ const AllAssets = () => {
 										<Pagination
 											count={Math.ceil(
 												Number(pagination?.total || 1) /
-													Number(pagination?.limit || 1)
+												Number(pagination?.limit || 1)
 											)}
 											onChange={(e, v: number) => {
 												setPageNumber(v);

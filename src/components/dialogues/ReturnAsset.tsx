@@ -67,6 +67,9 @@ const checkListForKeyboard = [
   { id: 4, value: "isAllRubberPadsAttached", label: "Rubber pads are all attached" },
   { id: 5, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
 ];
+const other = [
+  { id: 1, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
+];
 const initialValues = {
   images: [],
   returnDate: "",
@@ -123,6 +126,7 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
         setLoading(false);
         return;
       }
+      mutate()
       Swal.fire(`Success`, `You have successfully Returned!`, `success`);
       handleClose()
       return;
@@ -296,7 +300,7 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                                           handleAddRemoveValue(setFieldValue, item?.value, values?.checklist)
                                         }}
                                       />
-                                    )) : assetData?.assetType == "Keyboard" ?
+                                    )) : assetData?.assetType == "KeyBoard" ?
                                       checkListForKeyboard?.map((item, i) => (
                                         <FormControlLabel
                                           control={<Checkbox />}
@@ -306,7 +310,26 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                                           onChange={() => {
                                             handleAddRemoveValue(setFieldValue, item?.value, values?.checklist)
                                           }}
-                                        />)) : null
+                                        />)) : assetData?.assetType == "other" ?
+                                        other?.map((item, i) => (
+                                          <FormControlLabel
+                                            control={<Checkbox />}
+                                            label={item?.label}
+                                            name={item?.value}
+                                            checked={values?.checklist?.includes(item?.value)}
+                                            onChange={() => {
+                                              handleAddRemoveValue(setFieldValue, item?.value, values?.checklist)
+                                            }}
+                                          />)) : other?.map((item, i) => (
+                                            <FormControlLabel
+                                              control={<Checkbox />}
+                                              label={item?.label}
+                                              name={item?.value}
+                                              checked={values?.checklist?.includes(item?.value)}
+                                              onChange={() => {
+                                                handleAddRemoveValue(setFieldValue, item?.value, values?.checklist)
+                                              }}
+                                            />))
                             }
                           </div>
                         </FormGroup>
