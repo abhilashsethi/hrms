@@ -9,7 +9,7 @@ import {
 } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { LoaderAnime } from "components/core";
-import { ReturnAsset, UpdateDepartment } from "components/dialogues";
+import { AssignAsset, ReturnAsset, UpdateDepartment } from "components/dialogues";
 import ChooseAssetHistory from "components/dialogues/ChooseAssetHistory";
 import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
@@ -96,6 +96,10 @@ const MoreOption = ({ item, mutate }: any) => {
     assetData?: string | null;
   }>({ dialogue: false, assetData: null });
   const [isReturn, setIsReturn] = useState<{
+    dialogue?: boolean;
+    assetData?: string | null;
+  }>({ dialogue: false, assetData: null });
+  const [isAssign, setIsAssign] = useState<{
     dialogue?: boolean;
     assetData?: string | null;
   }>({ dialogue: false, assetData: null });
@@ -200,6 +204,12 @@ const MoreOption = ({ item, mutate }: any) => {
         assetData={isReturn?.assetData}
         open={isReturn?.dialogue}
         handleClose={() => setIsReturn({ dialogue: false })}
+        mutate={mutate}
+      />
+      <AssignAsset
+        assetData={isAssign?.assetData}
+        open={isAssign?.dialogue}
+        handleClose={() => setIsAssign({ dialogue: false })}
         mutate={mutate}
       />
       <UpdateAssets
@@ -402,12 +412,14 @@ const MoreOption = ({ item, mutate }: any) => {
                 </>
               ) : (
                 <Tooltip title="Assign Employee">
-                  <Link
-                    href={`/admin/assets/assign-assets?id=${item?.id}`}
+                  <span
+                    onClick={() => {
+                      setIsAssign({ dialogue: true, assetData: item });
+                    }}
                     className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
                   >
                     <AssignmentInd fontSize="small" color="secondary" />
-                  </Link>
+                  </span>
                 </Tooltip>
               )}
               <Tooltip title="Edit Asset">
