@@ -47,6 +47,7 @@ const validationSchema = Yup.object().shape({
 	assignedUserId: Yup.string().required("Assigned user is required!"),
 	assignDate: Yup.string().required("Assigned Date is required!"),
 	reason: Yup.string().required("Reason is required!"),
+	remarks: Yup.string().required("Remarks is required!"),
 });
 
 const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
@@ -289,7 +290,9 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 											</div>
 											<div className="md:px-4 px-2 md:py-2 py-1 col-span-2">
 												<div className="py-2">
-													<InputLabel htmlFor="remarks">Remarks</InputLabel>
+													<InputLabel htmlFor="remarks">
+														Remarks<span className="text-red-600">*</span>
+													</InputLabel>
 												</div>
 												<TextField
 													size="small"
