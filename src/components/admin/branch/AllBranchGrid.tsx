@@ -181,9 +181,11 @@ const MoreOption = ({ item, mutate }: any) => {
               <span className="group flex text-sm items-center justify-center gap-2">
                 <span className="group flex items-center justify-center gap-2">
                   <img src={MANAGER.src} className="w-8 pr-2" alt="" />
-                  <span>Manager : </span>
                 </span>
-                {item?.manager?.name}
+                <div className="grid md:grid-cols-2">
+                  <span>Manager : </span>
+                  {item?.manager?.name}
+                </div>
               </span>
             </p>
             <p className="text-gray-500 flex items-start">

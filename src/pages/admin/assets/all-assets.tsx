@@ -45,7 +45,8 @@ const AllAssets = () => {
 	} = useFetch<any>(
 		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
 		}${isBrand ? `&brandName=${isBrand}` : ""}${isBranch ? `&branchName=${isBranch}` : ""
-		}${isModel ? `&modelName=${isModel}` : ""}`
+		}${isModel ? `&modelName=${isModel}` : ""}${branchId ? `&branchId=${branchId}` : ""
+		}`
 	);
 
 	useEffect(() => {
