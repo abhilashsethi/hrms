@@ -42,7 +42,7 @@ const BranchDashboardCards = ({ data }: Props) => {
     <>
       <div className="flex gap-2 py-4">
         <div className="w-full">
-          <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
+          <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-1 md:grid-cols-2 gap-4">
             {cards?.map((item, i) => (
               <Link key={i} href={item?.link}>
                 <div className={`group hover:scale-105 transition duration-500 ease-in-out ${item?.color} w-full py-4 px-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer`}>

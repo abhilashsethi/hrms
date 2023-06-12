@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import Slider from "react-slick";
 import { DeleteRounded, Edit } from "@mui/icons-material";
 import { deleteFile } from "utils";
+import { Tooltip } from "@mui/material";
 interface Props {
   data?: any;
   mutate?: any;
@@ -173,20 +174,19 @@ const MoreOption = ({ item, mutate }: any) => {
                         transition duration-500 ease-in-out transform group-hover:scale-105"
               src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />}
           <div className="py-1 pt-2 px-4">
-            <h1 className="inline-block py-1 title-font text-xl font-extrabold 
-                    text-gray-800 tracking-wide cursor-pointer">
+            <h1 className="inline-block py-1 title-font text-lg font-extrabold 
+                    text-gray-800 cursor-pointer">
               {item?.name}
             </h1>
             <p className="text-gray-500 flex items-start">
-              <span className="group flex text-sm items-center justify-center gap-2">
-                <span className="group flex items-center justify-center gap-2">
-                  <img src={MANAGER.src} className="w-8 pr-2" alt="" />
-                </span>
-                <div className="grid md:grid-cols-2">
-                  <span>Manager : </span>
+              <Tooltip title="Manager">
+                <span className="group flex text-sm items-center justify-center gap-2">
+                  <span className="group flex items-center justify-center gap-2">
+                    <img src={MANAGER.src} className="w-8 pr-2" alt="" />
+                  </span>
                   {item?.manager?.name}
-                </div>
-              </span>
+                </span>
+              </Tooltip>
             </p>
             <p className="text-gray-500 flex items-start">
               <RenderIconRow
