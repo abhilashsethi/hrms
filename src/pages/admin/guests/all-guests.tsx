@@ -1,9 +1,16 @@
 import { Add, Close, FilterListRounded } from "@mui/icons-material";
-import { Button, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  Pagination,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { GuestColumn, GuestsGrid } from "components/admin/guest";
 import {
   AdminBreadcrumbs,
-  FiltersContainer,
   GridAndList,
   Loader,
   LoaderAnime,
@@ -25,7 +32,8 @@ const AllGuests = () => {
     isLoading,
     pagination,
   } = useFetch<any[]>(
-    `guests?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    `guests?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+      isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }`
   );
   console.log(pagination);
@@ -48,7 +56,6 @@ const AllGuests = () => {
           </div>
         </div>
         <div>
-
           <div className="md:flex gap-4 justify-between w-full py-2">
             <div
               className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
@@ -60,8 +67,18 @@ const AllGuests = () => {
                   setUsername(null);
                 }}
               >
-                <Tooltip title={isOrderBy != null || userName != null ? `Remove Filters` : `Filter`}>
-                  {isOrderBy != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                <Tooltip
+                  title={
+                    isOrderBy != null || userName != null
+                      ? `Remove Filters`
+                      : `Filter`
+                  }
+                >
+                  {isOrderBy != null || userName != null ? (
+                    <Close className={"!text-white"} />
+                  ) : (
+                    <FilterListRounded className={"!text-white"} />
+                  )}
                 </Tooltip>
               </IconButton>
             </div>
@@ -71,7 +88,9 @@ const AllGuests = () => {
                 size="small"
                 id="name"
                 value={userName ? userName : ""}
-                onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
+                onChange={(e) => {
+                  setPageNumber(1), setUsername(e.target.value);
+                }}
                 placeholder="Guest Name"
                 name="name"
               />
@@ -81,7 +100,9 @@ const AllGuests = () => {
                 label="Ascending/Descending"
                 size="small"
                 value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => {setPageNumber(1), setIsOrderBy(e?.target?.value)}}
+                onChange={(e) => {
+                  setPageNumber(1), setIsOrderBy(e?.target?.value);
+                }}
               >
                 {short.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -106,15 +127,14 @@ const AllGuests = () => {
         {guestData?.length === 0 ? <LoaderAnime /> : null}
         <section className="mb-6">
           {Math.ceil(
-            Number(pagination?.total || 1) /
-            Number(pagination?.limit || 1)
+            Number(pagination?.total || 1) / Number(pagination?.limit || 1)
           ) > 1 ? (
             <div className="flex justify-center md:py-8 py-4">
               <Stack spacing={2}>
                 <Pagination
                   count={Math.ceil(
                     Number(pagination?.total || 1) /
-                    Number(pagination?.limit || 1)
+                      Number(pagination?.limit || 1)
                   )}
                   onChange={(e, v: number) => {
                     setPageNumber(v);
@@ -123,7 +143,6 @@ const AllGuests = () => {
                   variant="outlined"
                 />
               </Stack>
-
             </div>
           ) : null}
         </section>

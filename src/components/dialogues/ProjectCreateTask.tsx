@@ -247,5 +247,5 @@ const statuses = [
   { id: 1, value: "Open" },
   { id: 2, value: "Pending" },
   { id: 3, value: "Ongoing" },
-  { id: 4, value: "Completed" },
+  // { id: 4, value: "Completed" },
 ];
