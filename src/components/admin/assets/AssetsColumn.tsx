@@ -107,16 +107,12 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						editable: "never",
 						width: "2%",
 					},
-					{
-						title: "Asset Name",
-						tooltip: "Asset Name",
-						field: "name",
-					},
-					{
-						title: "Asset Images",
-						tooltip: "Asset Images",
-						field: "images",
-					},
+
+					// {
+					// 	title: "Asset Images",
+					// 	tooltip: "Asset Images",
+					// 	field: "images",
+					// },
 					// {
 					// 	title: "Asset Docs",
 					// 	tooltip: "Asset Docs",

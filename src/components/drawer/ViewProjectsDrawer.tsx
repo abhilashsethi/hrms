@@ -161,9 +161,9 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
 									>
 										<div className="absolute -top-4">
 											<Avatar
-												onClick={() => handleInfoOpen()}
+												// onClick={() => handleInfoOpen()}
 												variant="rounded"
-												className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
+												className="!mr-0.5 !ml-0.5 !bg-blue-700 !p-0"
 											>
 												<FreeBreakfast
 													sx={{ padding: "0px !important" }}
