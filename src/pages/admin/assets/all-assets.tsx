@@ -36,18 +36,11 @@ const AllAssets = () => {
 	const [branchId, setBranchId] = useState<string | null>(null);
 	// console.log(branchId);
 
-	const {
-		data: departmentData,
-		mutate,
-		isLoading,
-	} = useFetch<any>(
-		`departments?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
-		}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
-	);
 
 	const {
 		data: assetsData,
-		mutate: assetMutate,
+		mutate,
+		isLoading,
 		pagination,
 	} = useFetch<any>(
 		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
@@ -220,12 +213,12 @@ const AllAssets = () => {
 							{isGrid ? (
 								<>
 									{isLoading && <SkeletonLoader />}
-									<AssetsGrid data={assetsData} mutate={assetMutate} />
+									<AssetsGrid data={assetsData} mutate={mutate} />
 								</>
 							) : (
 								<>
 									{isLoading && <Loader />}
-									<AssetsColumn data={assetsData} mutate={assetMutate} />
+									<AssetsColumn data={assetsData} mutate={mutate} />
 								</>
 							)}
 							{assetsData?.length === 0 ? <LoaderAnime /> : null}
