@@ -43,7 +43,7 @@ const AssetsDashboardCard = ({ data, branch }: Props) => {
 			count: branch?.totalBranchCount,
 			icon: <img src={TOTAL_BRANCH.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
-			link: "/admin/assets/all-assets",
+			link: "/admin/branch/all-branch",
 		},
 	];
 	return (
