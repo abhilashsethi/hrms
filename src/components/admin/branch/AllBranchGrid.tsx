@@ -1,6 +1,6 @@
 import { LOCATION, MANAGER } from "assets/dashboard_Icons";
 import { RenderIconRow } from "components/common";
-import { CountryNameFlag, ReverseIOSSwitch } from "components/core";
+import { CountryNameFlag, IOSSwitch } from "components/core";
 import { UpdateBranch } from "components/dialogues";
 import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
@@ -227,7 +227,7 @@ const MoreOption = ({ item, mutate }: any) => {
               </span>
               <div className="group w-full hover:bg-theme hover:text-white gap-2 flex border-2 px-2 py-1 items-center justify-center ">
                 <p className="font-semibold tracking-wide text-sm">STATUS</p>
-                <ReverseIOSSwitch size="small"
+                <IOSSwitch size="small"
                   checked={item?.isBlocked}
                   onChange={(e) => handleBlock(e, item?.id)}
                 />
