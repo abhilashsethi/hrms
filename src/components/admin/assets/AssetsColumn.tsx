@@ -1,6 +1,7 @@
 import MaterialTable from "@material-table/core";
 import {
 	AssignmentInd,
+	AssignmentReturn,
 	BorderColor,
 	CurrencyRupee,
 	Delete,
@@ -18,8 +19,10 @@ import {
 } from "@mui/material";
 import { PDF } from "assets/home";
 import { HeadStyle } from "components/core";
+import { ReturnAsset } from "components/dialogues";
 import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
+import ViewAssetDetailsDrawer from "components/drawer/ViewAssetDetailsDrawer";
 import { useChange } from "hooks";
 import moment from "moment";
 import Link from "next/link";
@@ -32,6 +35,7 @@ interface Props {
 	mutate?: any;
 }
 const AssetsColumn = ({ data, mutate }: Props) => {
+	console.log(data);
 	const [loading, setLoading] = useState(false);
 	const { change, isChanging } = useChange();
 	const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
@@ -42,6 +46,13 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 		dialogue: false,
 		departmentData: null,
 	});
+	const [assetDetails, setAssetDetails] = useState(false);
+	const [assetId, setAssetId] = useState(false);
+
+	const [isReturn, setIsReturn] = useState<{
+		dialogue?: boolean;
+		assetData?: string | null;
+	}>({ dialogue: false, assetData: null });
 
 	const handleDelete = async (id: string) => {
 		Swal.fire({
@@ -82,18 +93,66 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 		});
 	};
 
+	const handelReturn = async (item: any) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to Return?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, Return!",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				setLoading(true);
+				try {
+					Swal.fire("", "Please Wait...", "info");
+					const res = await change(`assets/asset/return/${item?.id}`, {
+						method: "PATCH",
+						body: { isReturn: true },
+					});
+					console.log(res);
+					setLoading(false);
+					if (res?.status !== 200) {
+						Swal.fire(
+							"Error",
+							res?.results?.msg || "Something went wrong!",
+							"error"
+						);
+						setLoading(false);
+						return;
+					}
+					setIsReturn({ dialogue: true, assetData: item });
+					mutate();
+					return;
+				} catch (error) {
+					console.log(error);
+					setLoading(false);
+				} finally {
+					setLoading(false);
+				}
+			}
+		});
+	};
+
 	return (
 		<section className="mt-8">
-			{/* <DepartmentInformation
-				open={isInfo?.dialogue}
-				onClose={() => setIsInfo({ dialogue: false })}
-				roleId={isInfo?.role?.id}
-			/> */}
 			<UpdateAssets
 				assetData={isUpdate?.assetData}
 				open={isUpdate?.dialogue}
 				handleClose={() => setIsUpdate({ dialogue: false })}
 				mutate={mutate}
+			/>
+			<ReturnAsset
+				assetData={isReturn?.assetData}
+				open={isReturn?.dialogue}
+				handleClose={() => setIsReturn({ dialogue: false })}
+				mutate={mutate}
+			/>
+			<ViewAssetDetailsDrawer
+				open={assetDetails}
+				onClose={() => setAssetDetails(false)}
+				assetId={assetId}
 			/>
 			<MaterialTable
 				title={<HeadStyle name="All Assets" icon={<PeopleRounded />} />}
@@ -113,11 +172,11 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 					// 	tooltip: "Asset Images",
 					// 	field: "images",
 					// },
-					// {
-					// 	title: "Asset Docs",
-					// 	tooltip: "Asset Docs",
-					// 	field: "docs",
-					// },
+					{
+						title: "Asset Name",
+						tooltip: "Asset Name",
+						field: "name",
+					},
 					{
 						title: "Brand Name",
 						tooltip: "Brand Name",
@@ -147,12 +206,12 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 					{
 						title: "Bill Amount",
 						tooltip: "Bill Amount",
-						field: "purchasePrice",
+						field: "billAmount",
 						render: (data) => {
 							return (
 								<div className="">
 									<CurrencyRupee />{" "}
-									{data?.purchasePrice ? data?.purchasePrice : "---"}
+									{data?.billAmount ? data?.billAmount : "---"}
 								</div>
 							);
 						},
@@ -195,11 +254,53 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						render: (data) => {
 							return (
 								<div className="flex gap-1">
+									{data?.isAssign ? (
+										<>
+											<Tooltip title="Assign Details">
+												<div className="text-sm bg-purple-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+													<IconButton>
+														<Visibility
+															onClick={() => {
+																setAssetDetails(true), setAssetId(data?.id);
+															}}
+															className="!text-white"
+														/>
+													</IconButton>
+												</div>
+											</Tooltip>
+											<Tooltip title="Return Asset">
+												<div className="text-sm bg-green-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+													<IconButton>
+														<AssignmentReturn
+															onClick={() => {
+																handelReturn(data?.id),
+																	setIsReturn({
+																		dialogue: true,
+																		assetData: data,
+																	});
+															}}
+															className="!text-white"
+														/>
+													</IconButton>
+												</div>
+											</Tooltip>
+										</>
+									) : (
+										<Tooltip title="Assign Employee">
+											<Link href={`/admin/assets/assign-assets?id=${data?.id}`}>
+												<div className="text-sm bg-yellow-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+													<IconButton>
+														<AssignmentInd className="!text-white" />
+													</IconButton>
+												</div>
+											</Link>
+										</Tooltip>
+									)}
 									<Tooltip title="Edit">
 										<div className="text-sm bg-blue-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
 											<IconButton
 												onClick={() =>
-													setIsUpdate({ dialogue: true, role: data })
+													setIsUpdate({ dialogue: true, assetData: data })
 												}
 											>
 												<BorderColor className="!text-white" />
@@ -213,15 +314,6 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 											</IconButton>
 										</div>
 									</Tooltip>
-									<Link href={`/admin/assets/assign-assets?id=${data?.id}`}>
-										<Tooltip title="Assign Employee">
-											<div className="text-sm bg-purple-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-												<IconButton>
-													<AssignmentInd className="!text-white" />
-												</IconButton>
-											</div>
-										</Tooltip>
-									</Link>
 								</div>
 							);
 						},
