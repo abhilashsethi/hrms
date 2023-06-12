@@ -87,7 +87,7 @@ const CreateEmployee = () => {
       setLoading(false);
       console.log(res);
       if (res?.status !== 201) {
-        Swal.fire("Error", res?.results?.message || "Unable to Submit", "info");
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "info");
         setLoading(false);
         return;
       }

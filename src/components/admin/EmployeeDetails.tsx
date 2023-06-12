@@ -60,8 +60,6 @@ const EmployeeDetails = () => {
     );
   };
 
-  console.log(employData);
-
   const basicDetails = useMemo(
     () => [
       {
@@ -145,7 +143,7 @@ const EmployeeDetails = () => {
       },
       {
         id: 9,
-        title: "Department Id",
+        title: "Department",
         value: `${
           employData?.department?.name ? employData?.department?.name : "---"
         }`,
@@ -158,50 +156,56 @@ const EmployeeDetails = () => {
     ],
     [employData]
   );
-  const personalDetails = [
-    {
-      id: 1,
-      title: "PAN No",
-      value: `${employData?.panNo ? employData?.panNo : "---"}`,
-    },
-    {
-      id: 2,
-      title: "Aadhar No",
-      value: `${employData?.aadharNo ? employData?.aadharNo : "---"}`,
-    },
-    {
-      id: 3,
-      title: "Gmail",
-      value: `${employData?.gmail ? employData?.gmail : "---"}`,
-    },
-    {
-      id: 5,
-      title: "Linkedin",
-      value: `${employData?.linkedin ? employData?.linkedin : "---"}`,
-    },
-    {
-      id: 6,
-      title: "Github",
-      value: `${employData?.github ? employData?.github : "---"}`,
-    },
-  ];
-  const bankDetails = [
-    {
-      id: 1,
-      title: "Bank Name",
-      value: `${employData?.bankName ? employData?.bankName : "---"}`,
-    },
-    {
-      id: 2,
-      title: "Bank Ac/No",
-      value: `${employData?.accountNo ? employData?.accountNo : "---"}`,
-    },
-    {
-      id: 3,
-      title: "IFSC Code",
-      value: `${employData?.ifscCode ? employData?.ifscCode : "---"}`,
-    },
-  ];
+  const personalDetails = useMemo(
+    () => [
+      {
+        id: 1,
+        title: "PAN No",
+        value: `${employData?.panNo ? employData?.panNo : "---"}`,
+      },
+      {
+        id: 2,
+        title: "Aadhar No",
+        value: `${employData?.aadharNo ? employData?.aadharNo : "---"}`,
+      },
+      {
+        id: 3,
+        title: "Gmail",
+        value: `${employData?.gmail ? employData?.gmail : "---"}`,
+      },
+      {
+        id: 5,
+        title: "Linkedin",
+        value: `${employData?.linkedin ? employData?.linkedin : "---"}`,
+      },
+      {
+        id: 6,
+        title: "Github",
+        value: `${employData?.github ? employData?.github : "---"}`,
+      },
+    ],
+    [employData]
+  );
+  const bankDetails = useMemo(
+    () => [
+      {
+        id: 1,
+        title: "Bank Name",
+        value: `${employData?.bankName ? employData?.bankName : "---"}`,
+      },
+      {
+        id: 2,
+        title: "Bank Ac/No",
+        value: `${employData?.accountNo ? employData?.accountNo : "---"}`,
+      },
+      {
+        id: 3,
+        title: "IFSC Code",
+        value: `${employData?.ifscCode ? employData?.ifscCode : "---"}`,
+      },
+    ],
+    [employData]
+  );
   if (isLoading) {
     return (
       <section className="min-h-screen">
