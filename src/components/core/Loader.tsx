@@ -6,7 +6,7 @@ interface Props {
   animeHight?: number;
   animeWidth?: number;
 }
-const Loader = ({ image, animeHight = 250, animeWidth = 250 }: Props) => {
+const Loader = ({ image, animeHight = 250, animeWidth = 200 }: Props) => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -17,7 +17,7 @@ const Loader = ({ image, animeHight = 250, animeWidth = 250 }: Props) => {
   };
 
   return (
-    <div className="h-[70vh] z-50 fixed w-full bg-white flex flex-col justify-center items-center">
+    <div className="h-[85vh] w-full flex flex-col justify-center items-center">
       <Lottie options={defaultOptions} height={animeHight} width={animeWidth} />
     </div>
   );
