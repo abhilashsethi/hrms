@@ -32,8 +32,18 @@ interface Props {
 
 const validationSchema = Yup.object({
   userId: Yup.string().required("Select an employee"),
-  startDate: Yup.string().required("Please enter date"),
+  startDate: Yup.string()
+    .required("Please enter date")
+    .test("minimum-date", "Please provide the upcoming date!", (value) => {
+      const currentDate = new Date();
+      const selectedDate = new Date(value);
+      const minDate = new Date();
+      minDate.setDate(currentDate.getDate());
+      return selectedDate >= minDate;
+    }),
   variant: Yup.string().required("Please select a variant!"),
+  reason: Yup.string().required("Required!"),
+  type: Yup.string().required("Required!"),
 });
 const CreateLeave = ({ open, handleClose, mutate }: Props) => {
   const initialValues = {
