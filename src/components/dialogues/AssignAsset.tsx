@@ -37,6 +37,7 @@ const initialValues = {
   assignedUserId: "",
   assignDate: "",
   assignTime: "",
+  returnDate: "",
   reason: "",
   remarks: "",
 };
@@ -58,7 +59,6 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
   );
   const handleSubmit = async (values: any, { resetForm }: any) => {
     setLoading(true);
-
     try {
       const photoUrls = [];
       for (const photo of values?.assignTimePhotos) {
@@ -70,7 +70,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
       }
 
       const res: any = await change(
-        `assets/assignAssetToUser/${router?.query?.id}`,
+        `assets/assign-asset-to-user/${router?.query?.id}`,
         {
           body: {
             userId: values?.assignedUserId,
@@ -79,6 +79,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
             assignRemark: values?.remarks,
             reasonForAssign: values?.reason,
             assignTime: values?.assignTime,
+            dateOfReturn: new Date(values?.returnDate).toISOString(),
           },
         }
       );
@@ -239,6 +240,26 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
                           onBlur={handleBlur}
                           error={touched.assignTime && !!errors.assignTime}
                           helperText={touched.assignTime && errors.assignTime}
+                        />
+                      </div>
+                      <div className="md:px-4 px-2 md:py-2 py-1">
+                        <div className="py-2">
+                          <InputLabel htmlFor="returnDate">
+                            Date Of Return <span className="text-red-600">*</span>
+                          </InputLabel>
+                        </div>
+                        <TextField
+                          size="small"
+                          fullWidth
+                          // placeholder="Email"
+                          type="date"
+                          id="returnDate"
+                          name="returnDate"
+                          value={values.returnDate}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.returnDate && !!errors.returnDate}
+                          helperText={touched.returnDate && errors.returnDate}
                         />
                       </div>
                       <div className="md:px-4 px-2 md:py-2 py-1">

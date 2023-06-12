@@ -84,7 +84,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
-  console.log(assetData);
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
@@ -110,7 +109,7 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
       values?.checklist?.forEach((item: any) => {
         return reqData[item] = true
       })
-      const res: any = await change(`assets/UpdateAssignAssetToUser/${assetData?.id}`, {
+      const res: any = await change(`assets/update-assign-asset-to-user/${assetData?.id}`, {
         method: "PATCH",
         body: reqData,
       });
