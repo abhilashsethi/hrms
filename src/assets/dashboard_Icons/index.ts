@@ -38,3 +38,4 @@ export { default as PROHIBITION } from "./prohibition.png";
 export { default as BLOCKED } from "./blocked.png";
 export { default as NEWPDF } from "./pdf.png";
 export { default as PENDING } from "./pending.png";
+export { default as UNBLOCK } from "./unlock.png";
