@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { Close } from "@mui/icons-material";
 import { Container, Drawer, IconButton } from "@mui/material";
-import { Loader } from "components/core";
+import { Loader, NoDatas } from "components/core";
 import { useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -79,6 +79,7 @@ const ViewLeaveDrawer = ({
 
           {isLoading && <Loader />}
           <div className="mt-4 flex flex-col gap-4">
+            {leaveData?.length === 0 && <NoDatas title="No leaves found!" />}
             {leaveData?.map((item, index) => {
               return (
                 <div className="">

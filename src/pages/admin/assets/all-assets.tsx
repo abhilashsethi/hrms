@@ -15,7 +15,12 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { AssetsColumn, AssetsGrid } from "components/admin/assets";
-import { AdminBreadcrumbs, Loader, LoaderAnime, SkeletonLoader } from "components/core";
+import {
+	AdminBreadcrumbs,
+	Loader,
+	LoaderAnime,
+	SkeletonLoader,
+} from "components/core";
 import ChooseBranch from "components/dialogues/ChooseBranch";
 import ChooseBranchToViewAssets from "components/dialogues/ChooseBranchToViewAssets";
 import { useFetch } from "hooks";
@@ -34,8 +39,7 @@ const AllAssets = () => {
 	const [isBranch, setIsBranch] = useState<string | null>(null);
 	const [isModel, setIsModel] = useState<string | null>(null);
 	const [branchId, setBranchId] = useState<string | null>(null);
-	// console.log(branchId);
-
+	console.log(branchId);
 
 	const {
 		data: assetsData,
@@ -43,11 +47,15 @@ const AllAssets = () => {
 		isLoading,
 		pagination,
 	} = useFetch<any>(
-		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
-		}${isBrand ? `&brandName=${isBrand}` : ""}${isBranch ? `&branchName=${isBranch}` : ""
-		}${isModel ? `&modelName=${isModel}` : ""}${branchId ? `&branchId=${branchId}` : ""
+		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+			isOrderBy ? `&orderBy=${isOrderBy}` : ""
+		}${isBrand ? `&brandName=${isBrand}` : ""}${
+			isBranch ? `&branchName=${isBranch}` : ""
+		}${isModel ? `&modelName=${isModel}` : ""}${
+			branchId ? `&branchId=${branchId}` : ""
 		}`
 	);
+	console.log(assetsData);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -78,8 +86,9 @@ const AllAssets = () => {
 									<div className="flex gap-1">
 										<IconButton onClick={() => setIsGrid(true)} size="small">
 											<div
-												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${isGrid && `border-2 border-theme`
-													}`}
+												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+													isGrid && `border-2 border-theme`
+												}`}
 											>
 												<GridViewRounded
 													className={`${isGrid && `!text-theme`}`}
@@ -88,8 +97,9 @@ const AllAssets = () => {
 										</IconButton>
 										<IconButton onClick={() => setIsGrid(false)} size="small">
 											<div
-												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${!isGrid && `border-2 border-theme`
-													}`}
+												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+													!isGrid && `border-2 border-theme`
+												}`}
 											>
 												<TableRowsRounded
 													className={`${!isGrid && `!text-theme`}`}
@@ -126,19 +136,19 @@ const AllAssets = () => {
 											<Tooltip
 												title={
 													isOrderBy != null ||
-														userName != null ||
-														isBrand != null ||
-														isBranch != null ||
-														isModel != null
+													userName != null ||
+													isBrand != null ||
+													isBranch != null ||
+													isModel != null
 														? `Remove Filters`
 														: `Filter`
 												}
 											>
 												{isOrderBy != null ||
-													userName != null ||
-													isBrand != null ||
-													isBranch != null ||
-													isModel != null ? (
+												userName != null ||
+												isBrand != null ||
+												isBranch != null ||
+												isModel != null ? (
 													<Close className={"!text-white"} />
 												) : (
 													<FilterListRounded className={"!text-white"} />
@@ -231,7 +241,7 @@ const AllAssets = () => {
 										<Pagination
 											count={Math.ceil(
 												Number(pagination?.total || 1) /
-												Number(pagination?.limit || 1)
+													Number(pagination?.limit || 1)
 											)}
 											onChange={(e, v: number) => {
 												setPageNumber(v);
