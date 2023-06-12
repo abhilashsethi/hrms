@@ -60,7 +60,7 @@ const ViewAssetDetailsDrawer = ({
 	const { data: assignId } = useFetch<any>(
 		`assets/asset/assign-asset/${assetId}`
 	);
-	console.log(assignId);
+	// console.log(assignId);
 	const { data: users, isLoading } = useFetch<User[]>(`users`);
 
 	const settings = {

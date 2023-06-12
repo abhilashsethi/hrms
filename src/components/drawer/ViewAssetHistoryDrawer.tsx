@@ -88,30 +88,6 @@ const settings = {
 	],
 };
 
-const Projects_Details = [
-	{
-		id: 1,
-		title: "HRMS",
-		name: "Shrinu Readdy",
-		startDate: "25-04-2023",
-		endDate: "25-05-2023",
-	},
-	{
-		id: 2,
-		title: "Yard ERP",
-		name: "Shrinu Readdy",
-		startDate: "25-04-2023",
-		endDate: "25-05-2023",
-	},
-	{
-		id: 3,
-		title: "Yard CRM",
-		name: "Shrinu Readdy",
-		startDate: "25-04-2023",
-		endDate: "25-05-2023",
-	},
-];
-
 const ViewAssetHistoryDrawer = ({
 	open,
 	onClose,
@@ -151,8 +127,9 @@ const ViewAssetHistoryDrawer = ({
 	const classes = useStyles();
 
 	const { data: assignId } = useFetch<any>(
-		`assets/asset/assign-asset/${assetId}`
+		`assets/all/return/asset/${assetId}`
 	);
+	console.log(assignId);
 
 	const validationSchema = Yup.object().shape({
 		type: Yup.string().required("Branch is required!"),
@@ -358,8 +335,8 @@ const ViewAssetHistoryDrawer = ({
 												<span className="text-black font-medium">
 													{assignId?.dateOfReturn
 														? moment(assignId?.dateOfReturn)?.format(
-															"DD/MM/YYYY"
-														)
+																"DD/MM/YYYY"
+														  )
 														: "Not Specified"}
 												</span>
 											</div>
