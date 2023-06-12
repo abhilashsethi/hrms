@@ -633,8 +633,8 @@ const assetTypeArr = [
   },
   {
     id: 4,
-    value: "Computer",
-    name: "Computer",
+    value: "Monitor",
+    name: "Monitor",
   },
   {
     id: 5,
