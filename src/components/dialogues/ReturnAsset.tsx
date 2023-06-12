@@ -84,10 +84,10 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  // images: Yup.array().min(1, "Please upload at least one image"),
-  // returnDate: Yup.string().required("Assigned Date is required!"),
-  // returnTime: Yup.string().required("Assigned Date is required!"),
-  // remark: Yup.string().required("remark is required!"),
+  images: Yup.array().min(1, "Please upload at least one image"),
+  returnDate: Yup.string().required("Assigned Date is required!"),
+  returnTime: Yup.string().required("Assigned Date is required!"),
+  remark: Yup.string().required("remark is required!"),
   checklist: Yup.array().of(Yup.string()),
 });
 
@@ -98,7 +98,6 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      return
       const photoUrls = [];
       for (const photo of values?.images) {
         const url = await uploadFile(
@@ -148,7 +147,6 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
     if (allValues?.includes(itemValue)) {
       let newFilteredValue = allValues?.filter((item) => item !== itemValue)
       setFieldValue("checkList", newFilteredValue)
-      console.log(newFilteredValue);
       return
     }
     setFieldValue("checklist", [...allValues, itemValue])
