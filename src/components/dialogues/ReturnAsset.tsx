@@ -45,12 +45,14 @@ const checkListForLaptop = [
   { id: 11, value: "isAllRubberPadsAttached", label: "Rubber pads are all attached" },
   { id: 12, value: "isAllScrewArePresent", label: "All screws are present" },
   { id: 13, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
+  { id: 14, value: "isBroken", label: "Asset Is broken" },
 ];
 const checkListForMonitor = [
   { id: 1, value: "isPowerOnOff", label: "Powers on/Off" },
   { id: 2, value: "isHDMICableInclude", label: "HDMI cable is included" },
   { id: 3, value: "isPowerAdapterInclude", label: "Powers adapter is included" },
   { id: 4, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
+  { id: 5, value: "isBroken", label: "Asset Is broken" },
 ];
 const checkListForMouse = [
   { id: 1, value: "isUSBReceiverWork", label: "USB receiver is included" },
@@ -59,6 +61,7 @@ const checkListForMouse = [
   { id: 4, value: "isScrollWheelWork", label: "Scroll wheel works" },
   { id: 5, value: "isAdditionalButtonWork", label: "Additional buttons work" },
   { id: 6, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
+  { id: 8, value: "isBroken", label: "Asset Is broken" },
 ];
 const checkListForKeyboard = [
   { id: 1, value: "isUSBReceiverWork", label: "USB receiver is included" },
@@ -66,9 +69,11 @@ const checkListForKeyboard = [
   { id: 3, value: "isAllScrewArePresent", label: "All screws are present" },
   { id: 4, value: "isAllRubberPadsAttached", label: "Rubber pads are all attached" },
   { id: 5, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
+  { id: 6, value: "isBroken", label: "Asset Is broken" },
 ];
 const other = [
   { id: 1, value: "isThereAnyMejorScratchOrDent", label: "No major scratches or dents" },
+  { id: 2, value: "isBroken", label: "Asset Is broken" },
 ];
 const initialValues = {
   images: [],
@@ -79,10 +84,10 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  images: Yup.array().min(1, "Please upload at least one image"),
-  returnDate: Yup.string().required("Assigned Date is required!"),
-  returnTime: Yup.string().required("Assigned Date is required!"),
-  remark: Yup.string().required("remark is required!"),
+  // images: Yup.array().min(1, "Please upload at least one image"),
+  // returnDate: Yup.string().required("Assigned Date is required!"),
+  // returnTime: Yup.string().required("Assigned Date is required!"),
+  // remark: Yup.string().required("remark is required!"),
   checklist: Yup.array().of(Yup.string()),
 });
 
@@ -90,10 +95,10 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const router = useRouter();
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
+      return
       const photoUrls = [];
       for (const photo of values?.images) {
         const url = await uploadFile(
@@ -143,9 +148,11 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
     if (allValues?.includes(itemValue)) {
       let newFilteredValue = allValues?.filter((item) => item !== itemValue)
       setFieldValue("checkList", newFilteredValue)
+      console.log(newFilteredValue);
       return
     }
     setFieldValue("checklist", [...allValues, itemValue])
+
 
   }
   return (
