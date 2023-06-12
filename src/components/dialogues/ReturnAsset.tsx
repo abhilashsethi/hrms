@@ -76,22 +76,20 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  // images: Yup.array().min(1, "Please upload at least one image"),
-  // returnDate: Yup.string().required("Assigned Date is required!"),
-  // returnTime: Yup.string().required("Assigned Date is required!"),
-  // remark: Yup.string().required("remark is required!"),
+  images: Yup.array().min(1, "Please upload at least one image"),
+  returnDate: Yup.string().required("Assigned Date is required!"),
+  returnTime: Yup.string().required("Assigned Date is required!"),
+  remark: Yup.string().required("remark is required!"),
   checklist: Yup.array().of(Yup.string()),
 });
 
 const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
   console.log(assetData);
-  const [checkedList, setCheckedList] = useState<String>("");
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
   const handleSubmit = async (values: any) => {
-    console.log("hhhh", values);
     setLoading(true);
     try {
       const photoUrls = [];
@@ -108,17 +106,14 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
         dateOfReturn: new Date(values?.returnDate).toISOString(),
         returnRemark: values?.remark,
         isAccepted: true,
-        isAssign: false,
       }
       values?.checklist?.forEach((item: any) => {
         return reqData[item] = true
       })
-      console.log(reqData);
       const res: any = await change(`assets/UpdateAssignAssetToUser/${assetData?.id}`, {
         method: "PATCH",
         body: reqData,
       });
-      console.log(res);
       setLoading(false);
       if (res?.status !== 200) {
         Swal.fire(
@@ -127,13 +122,10 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
           "error"
         );
         setLoading(false);
-        console.log(res);
         return;
       }
       Swal.fire(`Success`, `You have successfully Returned!`, `success`);
-      // resetForm();
-      // router.push("/admin/assets/all-assets");
-      console.log(res);
+      handleClose()
       return;
     } catch (error) {
       console.log(error);
