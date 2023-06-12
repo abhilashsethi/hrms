@@ -174,20 +174,20 @@ const MoreOption = ({ item, mutate }: any) => {
                         transition duration-500 ease-in-out transform group-hover:scale-105"
               src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />}
           <div className="py-1 pt-2 px-4">
-            <h1 className="inline-block py-1 title-font text-lg font-extrabold 
+            <h1 className="inline-block py-1 font-extrabold 
                     text-gray-800 cursor-pointer">
-              {item?.name}
+              {item?.name || "---"}
             </h1>
-            <p className="text-gray-500 flex items-start">
-              <Tooltip title="Manager">
+            <Tooltip title="Manager">
+              <p className="text-gray-500 flex items-start">
                 <span className="group flex text-sm items-center justify-center gap-2">
                   <span className="group flex items-center justify-center gap-2">
                     <img src={MANAGER.src} className="w-8 pr-2" alt="" />
                   </span>
-                  {item?.manager?.name}
+                  {item?.manager?.name || "---"}
                 </span>
-              </Tooltip>
-            </p>
+              </p>
+            </Tooltip>
             <p className="text-gray-500 flex items-start">
               <RenderIconRow
                 value={item?.phone || "---"}

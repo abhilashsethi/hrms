@@ -16,7 +16,7 @@ const BranchDashboardCards = ({ data }: Props) => {
   {
     id: 2,
     name: "Total Country",
-    count: data?.totalLocationCount[0]?.totalLocations,
+    count: data?.totalCountryCount ? data?.totalCountryCount : "0",
     icon: <img src={TOTAL_ASSETS.src} className="w-16" alt="" />,
     color: "bg-gradient-to-br from-green-500 to-emerald-400",
     link: "/admin/branch/all-branch",
