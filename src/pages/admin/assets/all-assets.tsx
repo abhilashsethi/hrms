@@ -20,6 +20,7 @@ import ChooseBranch from "components/dialogues/ChooseBranch";
 import ChooseBranchToViewAssets from "components/dialogues/ChooseBranchToViewAssets";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const AllAssets = () => {
@@ -53,7 +54,6 @@ const AllAssets = () => {
 		}${isBrand ? `&brandName=${isBrand}` : ""}${isBranch ? `&branchName=${isBranch}` : ""
 		}${isModel ? `&modelName=${isModel}` : ""}`
 	);
-	// console.log(assetsData);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -103,16 +103,15 @@ const AllAssets = () => {
 											</div>
 										</IconButton>
 									</div>
-									{/* <Link href="/admin/assets/create-assets"> */}
-									<Button
-										onClick={() => setIsChoose(true)}
-										variant="contained"
-										className="!bg-theme"
-										startIcon={<Add />}
-									>
-										CREATE ASSETS
-									</Button>
-									{/* </Link> */}
+									<Link href="/admin/assets/create-assets">
+										<Button
+											variant="contained"
+											className="!bg-theme"
+											startIcon={<Add />}
+										>
+											CREATE ASSETS
+										</Button>
+									</Link>
 								</div>
 							</div>
 							<div>
