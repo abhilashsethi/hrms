@@ -22,3 +22,4 @@ export { default as TENDERCARD2 } from "./tender2.png";
 export { default as TENDERCARD3 } from "./tender3.png";
 export { default as TENDERCARD4 } from "./tender4.png";
 export { default as NODATAIMG } from "./nodataimg.png";
+export { default as QRIMAGE } from "./qrimage.png";

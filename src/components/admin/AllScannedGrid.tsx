@@ -5,14 +5,14 @@ import {
   PersonRemoveRounded,
 } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
+import { DEFAULTPROFILE, ID, QRIMAGE } from "assets/home";
 import { IOSSwitch } from "components/core";
-import { useChange, useFetch } from "hooks";
-import Swal from "sweetalert2";
-import { useState } from "react";
-import { Card } from "types";
 import { CardAssign, RoomAccessDrawer } from "components/drawer";
-import { DEFAULTPROFILE, ID } from "assets/home";
+import { useChange } from "hooks";
 import moment from "moment";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import { Card } from "types";
 
 interface Props {
   data?: Card[];
@@ -184,9 +184,9 @@ const CardComponent = ({ item, mutate }: Props) => {
                   <div className="w-full flex justify-between items-start gap-4 px-4 py-2">
                     <div className="w-[30%] flex items-center">
                       <img
-                        src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SearchingYard.com"
+                        src={QRIMAGE.src}
                         alt="QR Code"
-                        className="w-12 h-12 "
+                        className="h-12 object-contain"
                       />
                     </div>
                     <div className="w-[70%] flex flex-col items-end text-right tracking-wide">
@@ -263,9 +263,9 @@ const CardComponent = ({ item, mutate }: Props) => {
                   <div className="w-full flex justify-between items-start gap-4 px-4 py-2">
                     <div className="w-[30%] flex items-center">
                       <img
-                        src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SearchingYard.com"
+                        src={QRIMAGE.src}
                         alt="QR Code"
-                        className="w-12 h-12 "
+                        className="h-12 object-contain"
                       />
                     </div>
                     <div className="w-[70%] flex flex-col items-end text-right tracking-wide">

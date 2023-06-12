@@ -296,5 +296,3 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
 };
 
 export default CardAssign;
-
-const cards = [1, 2, 3, 4];

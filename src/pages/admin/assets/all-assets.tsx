@@ -20,6 +20,7 @@ import ChooseBranch from "components/dialogues/ChooseBranch";
 import ChooseBranchToViewAssets from "components/dialogues/ChooseBranchToViewAssets";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const AllAssets = () => {
@@ -35,25 +36,17 @@ const AllAssets = () => {
 	const [branchId, setBranchId] = useState<string | null>(null);
 	// console.log(branchId);
 
-	const {
-		data: departmentData,
-		mutate,
-		isLoading,
-	} = useFetch<any>(
-		`departments?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
-		}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
-	);
 
 	const {
 		data: assetsData,
-		mutate: assetMutate,
+		mutate,
+		isLoading,
 		pagination,
 	} = useFetch<any>(
 		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
 		}${isBrand ? `&brandName=${isBrand}` : ""}${isBranch ? `&branchName=${isBranch}` : ""
 		}${isModel ? `&modelName=${isModel}` : ""}`
 	);
-	// console.log(assetsData);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -103,16 +96,15 @@ const AllAssets = () => {
 											</div>
 										</IconButton>
 									</div>
-									{/* <Link href="/admin/assets/create-assets"> */}
-									<Button
-										onClick={() => setIsChoose(true)}
-										variant="contained"
-										className="!bg-theme"
-										startIcon={<Add />}
-									>
-										CREATE ASSETS
-									</Button>
-									{/* </Link> */}
+									<Link href="/admin/assets/create-assets">
+										<Button
+											variant="contained"
+											className="!bg-theme"
+											startIcon={<Add />}
+										>
+											CREATE ASSETS
+										</Button>
+									</Link>
 								</div>
 							</div>
 							<div>
@@ -221,12 +213,12 @@ const AllAssets = () => {
 							{isGrid ? (
 								<>
 									{isLoading && <SkeletonLoader />}
-									<AssetsGrid data={assetsData} mutate={assetMutate} />
+									<AssetsGrid data={assetsData} mutate={mutate} />
 								</>
 							) : (
 								<>
 									{isLoading && <Loader />}
-									<AssetsColumn data={assetsData} mutate={assetMutate} />
+									<AssetsColumn data={assetsData} mutate={mutate} />
 								</>
 							)}
 							{assetsData?.length === 0 ? <LoaderAnime /> : null}
