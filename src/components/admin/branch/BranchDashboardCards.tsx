@@ -35,7 +35,7 @@ const BranchDashboardCards = ({ data }: Props) => {
     count: data?.totalInActiveBranch,
     icon: <img src={TOTAL_CLIENT.src} className="w-16" alt="" />,
     color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
-    link: "/admin/clients/all-clients",
+    link: "/admin/branch/all-branch",
   }
   ]
   return (

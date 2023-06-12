@@ -108,12 +108,13 @@ const ReturnAsset = ({ open, handleClose, mutate, assetData }: Props) => {
         dateOfReturn: new Date(values?.returnDate).toISOString(),
         returnRemark: values?.remark,
         isAccepted: true,
+        isAssign: false,
       }
       values?.checklist?.forEach((item: any) => {
         return reqData[item] = true
       })
       console.log(reqData);
-      const res: any = await change(`assets/UpdateAssignAssetToUser/6481c545ba89f7fc6a59df1b`, {
+      const res: any = await change(`assets/UpdateAssignAssetToUser/${assetData?.id}`, {
         method: "PATCH",
         body: reqData,
       });

@@ -86,7 +86,6 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
     billAmount: Yup.number().required("Bill amount is required!"),
 
     serialNo: Yup.string().required("Serial No. is required!"),
-    images: Yup.array().min(1, "Please upload at least one image"),
   });
 
   const handleSubmit = async (values: any) => {

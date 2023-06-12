@@ -88,6 +88,7 @@ const MoreOption = ({ item, mutate }: any) => {
 		dialogue: false,
 		role: null,
 	});
+	console.log(item);
 	const [assetId, setAssetId] = useState(false);
 	const { change } = useChange();
 	const [isUpdate, setIsUpdate] = useState<{
@@ -150,7 +151,7 @@ const MoreOption = ({ item, mutate }: any) => {
 			}
 		});
 	};
-	const handelReturn = async (id: string) => {
+	const handelReturn = async (item: any) => {
 		Swal.fire({
 			title: "Are you sure?",
 			text: "You want to Return?",
@@ -163,7 +164,7 @@ const MoreOption = ({ item, mutate }: any) => {
 			if (result.isConfirmed) {
 				setLoading(true);
 				try {
-					const res = await change(`assets/${id}`, {
+					const res = await change(`assets/asset/return/${item?.id}`, {
 						method: "PATCH",
 						body: { isReturn: true },
 					});
@@ -178,6 +179,7 @@ const MoreOption = ({ item, mutate }: any) => {
 						setLoading(false);
 						return;
 					}
+					setIsReturn({ dialogue: true, assetData: item });
 					Swal.fire(`Success`, `Deleted Successfully!`, `success`);
 					mutate();
 					return;
@@ -354,16 +356,16 @@ const MoreOption = ({ item, mutate }: any) => {
 								<div className="grid grid-cols-3 gap-1">
 									{item?.docs?.length
 										? item?.docs?.map((doc: any, i: any) => {
-												return (
-													<a
-														key={i}
-														className="border border-theme rounded-md text-xs p-[2px]"
-														href={doc?.link}
-													>
-														Docs <Download fontSize="small" />
-													</a>
-												);
-										  })
+											return (
+												<a
+													key={i}
+													className="border border-theme rounded-md text-xs p-[2px]"
+													href={doc?.link}
+												>
+													Docs <Download fontSize="small" />
+												</a>
+											);
+										})
 										: "---"}
 								</div>
 							</span>
@@ -393,8 +395,7 @@ const MoreOption = ({ item, mutate }: any) => {
 									<Tooltip title="Return Asset">
 										<span
 											onClick={() => {
-												handelReturn(item?.id),
-													setIsReturn({ dialogue: true, assetData: item });
+												handelReturn(item)
 											}}
 											className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
 										>
