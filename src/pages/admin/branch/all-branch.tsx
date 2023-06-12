@@ -13,6 +13,7 @@ import {
   AdminBreadcrumbs,
   Loader,
   LoaderAnime,
+  SkeletonLoader,
 } from "components/core";
 import { CreateDepartment } from "components/dialogues";
 import { useFetch } from "hooks";
@@ -138,7 +139,7 @@ const AllBranch = () => {
         </div>
         {isGrid ? (
           <>
-            {isLoading && <Loader />}
+            {isLoading && <SkeletonLoader />}
             <AllBranchGrid data={branchData} mutate={mutate} />
           </>
         ) : (
