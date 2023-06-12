@@ -57,7 +57,7 @@ const CreateAssets = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			setIsView(true);
-		}, 3000);
+		}, 2000);
 	}, []);
 	const handleSubmit = async (values: any, { resetForm }: any) => {
 		setLoading(true);
@@ -208,11 +208,18 @@ const CreateAssets = () => {
 														// placeholder="Employee ID"
 														id="purchaseDate"
 														name="purchaseDate"
+														inputProps={{
+															max: new Date().toISOString().split("T")[0],
+														}}
 														value={values.purchaseDate}
 														onChange={handleChange}
 														onBlur={handleBlur}
-														error={touched.purchaseDate && !!errors.purchaseDate}
-														helperText={touched.purchaseDate && errors.purchaseDate}
+														error={
+															touched.purchaseDate && !!errors.purchaseDate
+														}
+														helperText={
+															touched.purchaseDate && errors.purchaseDate
+														}
 													/>
 												</div>
 												<div className="md:px-4 px-2 md:py-2 py-1">
@@ -271,12 +278,16 @@ const CreateAssets = () => {
 														onChange={handleChange}
 														onBlur={handleBlur}
 														error={touched.marketPrice && !!errors.marketPrice}
-														helperText={touched.marketPrice && errors.marketPrice}
+														helperText={
+															touched.marketPrice && errors.marketPrice
+														}
 													/>
 												</div>
 												<div className="md:px-4 px-2 md:py-2 py-1">
 													<div className="py-2">
-														<InputLabel htmlFor="serialNo">Serial No</InputLabel>
+														<InputLabel htmlFor="serialNo">
+															Serial No
+														</InputLabel>
 													</div>
 													<TextField
 														size="small"
@@ -334,7 +345,9 @@ const CreateAssets = () => {
 																placeholder="Selected Asset Type"
 																onBlur={handleBlur}
 																error={touched.assetType && !!errors.assetType}
-																helperText={touched.assetType && errors.assetType}
+																helperText={
+																	touched.assetType && errors.assetType
+																}
 															/>
 														)}
 													/>

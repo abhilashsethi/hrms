@@ -159,7 +159,7 @@ const ViewAssetDetailsDrawer = ({
 											Time Of Assign :{" "}
 											<span className="text-black font-medium">
 												{assignId?.assignTime
-													? moment(assignId?.assignTime)?.format("LT")
+													? assignId?.assignTime
 													: "Not Specified"}
 											</span>
 										</div>

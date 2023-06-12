@@ -59,7 +59,24 @@ const UpdateBranch = ({
       photos: branchData?.photos ? branchData?.photos : [],
     },
     enableReinitialize: true,
-    validationSchema: yup.object({ name: yup.string().required("Required!") }),
+    validationSchema: yup.object({
+      country: yup.string().required("Country Name is required!"),
+      location: yup.string().required("Location is required!"),
+      managerId: yup.string().required("Manager is required!"),
+      name: yup.string()
+        .min(2, "Name must be at least 2 characters")
+        .max(50, "Name must be less than 50 characters")
+        .required("Name is required!"),
+      phone: yup.string()
+        .matches(
+          /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+          "Phone number is not valid"
+        )
+        .min(6)
+        .max(15),
+      email: yup.string()
+        .email("Invalid email address"),
+    }),
     onSubmit: async (values) => {
       setLoading(true);
       try {

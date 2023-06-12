@@ -1,8 +1,7 @@
 import { makeStyles } from "@material-ui/core";
-import { Check, Close } from "@mui/icons-material";
+import { Close } from "@mui/icons-material";
 import {
 	Button,
-	CircularProgress,
 	Container,
 	Drawer,
 	IconButton,
@@ -10,13 +9,12 @@ import {
 	MenuItem,
 	TextField,
 } from "@mui/material";
+import { ProjectDrawerSkeletonLoading } from "components/admin/clients";
 import { Form, Formik } from "formik";
 import { useFetch } from "hooks";
 import moment from "moment";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Slider from "react-slick";
-import { User } from "types";
 import * as Yup from "yup";
 
 type Props = {
@@ -41,19 +39,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const style = {
-	position: "absolute" as "absolute",
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: 400,
-	// height: 600,
-	bgcolor: "background.paper",
-	// border: "2px solid #000",
-	borderRadius: "10px",
-	boxShadow: 24,
-	p: 4,
-};
+
 
 const settings = {
 	dots: false,
@@ -94,42 +80,11 @@ const ViewAssetHistoryDrawer = ({
 	setViewProject,
 	assetId,
 }: Props) => {
-	const router = useRouter();
 	const [history, setHistory] = useState(false);
-	const [loading, setLoading] = useState(false);
-	const [searchTerm, setSearchTerm] = useState("");
-	const [selectedUser, setSelectedUser] = useState<string | null>(null);
-	const [searchedUser, setSearchedUser] = useState<any>([]);
-
-	const [openInfoModal, setOpenInfoModal] = useState(false);
-	const handleInfoOpen = () => {
-		setOpenInfoModal(true);
-	};
-	const handleInfoCloseModal = () => setOpenInfoModal(false);
-
-	const { data: users, isLoading } = useFetch<User[]>(`users`);
-	useEffect(() => {
-		if (users) {
-			const filtered = users.filter((user) =>
-				user.name.toLowerCase().includes(searchTerm.toLowerCase())
-			);
-			setSearchedUser(filtered);
-		}
-	}, [users, searchTerm]);
-
-	const Drawer_document = [
-		{
-			id: 1,
-			title: "Document Title 1",
-		},
-	];
-
 	const classes = useStyles();
-
-	const { data: assignId } = useFetch<any>(
+	const { data: assignId, isLoading } = useFetch<any>(
 		`assets/all/return/asset/${assetId}`
 	);
-	console.log(assignId);
 
 	const validationSchema = Yup.object().shape({
 		type: Yup.string().required("Branch is required!"),
@@ -213,10 +168,6 @@ const ViewAssetHistoryDrawer = ({
 											type="submit"
 											variant="contained"
 											className="!bg-theme"
-											disabled={loading}
-											startIcon={
-												loading ? <CircularProgress size={20} /> : <Check />
-											}
 										>
 											Submit
 										</Button>
@@ -293,6 +244,7 @@ const ViewAssetHistoryDrawer = ({
 					) : (
 						<>
 							<div className="mt-2 flex flex-col gap-4">
+								{isLoading && <ProjectDrawerSkeletonLoading />}
 								{assignId?.map((item: any, i: any) => {
 									return (
 										<div
@@ -336,8 +288,8 @@ const ViewAssetHistoryDrawer = ({
 													<span className="text-black font-medium">
 														{item?.dateOfReturn
 															? moment(assignId?.dateOfReturn)?.format(
-																	"DD/MM/YYYY"
-															  )
+																"DD/MM/YYYY"
+															)
 															: "Not Specified"}
 													</span>
 												</div>

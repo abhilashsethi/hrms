@@ -47,6 +47,7 @@ const validationSchema = Yup.object().shape({
 	assignedUserId: Yup.string().required("Assigned user is required!"),
 	assignDate: Yup.string().required("Assigned Date is required!"),
 	reason: Yup.string().required("Reason is required!"),
+	remarks: Yup.string().required("Remarks is required!"),
 });
 
 const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
@@ -230,7 +231,6 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 												<div className="py-2">
 													<InputLabel htmlFor="assignTime">
 														Time Of Assign{" "}
-														<span className="text-red-600">*</span>
 													</InputLabel>
 												</div>
 												<TextField
@@ -357,11 +357,13 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 													</div>
 													<p>Upload Images</p>
 													<CloudUpload fontSize="large" color="primary" />
-													<ErrorMessage
-														name="images"
-														component="div"
-														className="error"
-													/>
+													<span className="text-red-500">
+														<ErrorMessage
+															name="assignTimePhotos"
+															component="div"
+															className="error"
+														/>
+													</span>
 												</div>
 											</div>
 										</div>
