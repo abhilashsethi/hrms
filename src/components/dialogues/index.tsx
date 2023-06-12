@@ -44,3 +44,4 @@ export { default as UploadAssetImage } from "./UploadAssetImage";
 export { default as UploadAssetDoc } from "./UploadAssetDoc";
 export { default as UpdateAssetDoc } from "./UpdateAssetDoc";
 export { default as ReturnAsset } from "./ReturnAsset";
+export { default as AssignAsset } from "./AssignAsset";

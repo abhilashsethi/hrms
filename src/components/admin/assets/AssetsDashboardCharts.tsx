@@ -13,15 +13,16 @@ const AssetsDashboardCharts = ({ data }: Props) => {
 						Branch Wise Asset Overview
 					</p>
 					<BranchBarChart
-						labels={[
-							"India",
-							"Pakistan",
-							"Bangladesh",
-							"Chaina",
-							"Austrelia",
-							"England",
-						]}
-						data={[20, 30, 15, 10, 50, 80]}
+						labels={
+							data?.countryWiseAssetCount?.length
+								? data?.countryWiseAssetCount?.map((item: any) => item?.country)
+								: []
+						}
+						data={
+							data?.countryWiseAssetCount?.length
+								? data?.countryWiseAssetCount?.map((item: any) => item?.count)
+								: []
+						}
 						type="bar"
 						text=""
 					/>
