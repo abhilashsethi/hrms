@@ -4,7 +4,7 @@ import FullCalendar from "@fullcalendar/react";
 import { BarChart, Check, Close } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { EmployeeDetails } from "components/admin";
-import { AdminBreadcrumbs, HeadText } from "components/core";
+import { AdminBreadcrumbs, HeadText, Loader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
@@ -72,10 +72,18 @@ const EmployeeProfile = () => {
     },
   ];
 
+  if (isLoading) {
+    return (
+      <section className="min-h-screen">
+        <Loader />
+      </section>
+    );
+  }
+
   return (
     <PanelLayout title={`Employee Profile - SY HR Management System`}>
       <section className="md:px-8 px-2 mx-auto">
-        <div className="pb-4">
+        <div className="pb-4 mt-4">
           <AdminBreadcrumbs links={links} />
         </div>
         <EmployeeDetails />

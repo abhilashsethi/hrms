@@ -1,5 +1,13 @@
 import { Add, Close, FilterListRounded } from "@mui/icons-material";
-import { Button, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  Pagination,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { LeavesColumn, LeavesGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
@@ -28,8 +36,10 @@ const LeaveRequests = () => {
     pagination,
     isLoading,
   } = useFetch<Leave[]>(
-    `leaves/all?page=${pageNumber}&limit=8${userName ? `&employeeName=${userName}` : ""
-    }${empId ? `&employeeID=${empId}` : ""}${leaveStatus ? `&status=${leaveStatus}` : ""
+    `leaves/all?page=${pageNumber}&limit=8${
+      userName ? `&employeeName=${userName}` : ""
+    }${empId ? `&employeeID=${empId}` : ""}${
+      leaveStatus ? `&status=${leaveStatus}` : ""
     }${leaveType ? `&type=${leaveType}` : ""}`
   );
   return (
@@ -67,8 +77,24 @@ const LeaveRequests = () => {
                 setLeaveStatus(null);
               }}
             >
-              <Tooltip title={empId != null || leaveStatus != null || leaveType != null || userName != null ? `Remove Filters` : `Filter`}>
-                {empId != null || leaveStatus != null || leaveType != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+              <Tooltip
+                title={
+                  empId != null ||
+                  leaveStatus != null ||
+                  leaveType != null ||
+                  userName != null
+                    ? `Remove Filters`
+                    : `Filter`
+                }
+              >
+                {empId != null ||
+                leaveStatus != null ||
+                leaveType != null ||
+                userName != null ? (
+                  <Close className={"!text-white"} />
+                ) : (
+                  <FilterListRounded className={"!text-white"} />
+                )}
               </Tooltip>
             </IconButton>
           </div>
@@ -78,13 +104,17 @@ const LeaveRequests = () => {
               size="small"
               value={empId ? empId : ""}
               placeholder="Employee Id"
-              onChange={(e) => {setPageNumber(1), setEmpId(e.target.value)}}
+              onChange={(e) => {
+                setPageNumber(1), setEmpId(e.target.value);
+              }}
             />
             <TextField
               fullWidth
               size="small"
               value={userName ? userName : ""}
-              onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
+              onChange={(e) => {
+                setPageNumber(1), setUsername(e.target.value);
+              }}
               placeholder="Employee Name"
             />
             <TextField
@@ -93,7 +123,9 @@ const LeaveRequests = () => {
               label="Leave Type"
               size="small"
               value={leaveType ? leaveType : ""}
-              onChange={(e) => {setPageNumber(1), setLeaveType(e?.target?.value)}}
+              onChange={(e) => {
+                setPageNumber(1), setLeaveType(e?.target?.value);
+              }}
             >
               {types.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
@@ -107,7 +139,9 @@ const LeaveRequests = () => {
               label="Leave Status"
               size="small"
               value={leaveStatus ? leaveStatus : ""}
-              onChange={(e) => {setPageNumber(1), setLeaveStatus(e?.target?.value)}}
+              onChange={(e) => {
+                setPageNumber(1), setLeaveStatus(e?.target?.value);
+              }}
             >
               {statuses.map((option: any) => (
                 <MenuItem key={option.id} value={option.value}>
@@ -134,15 +168,14 @@ const LeaveRequests = () => {
         {leavesData?.length === 0 && <LoaderAnime />}
         <section className="mb-6">
           {Math.ceil(
-            Number(pagination?.total || 1) /
-            Number(pagination?.limit || 1)
+            Number(pagination?.total || 1) / Number(pagination?.limit || 1)
           ) > 1 ? (
             <div className="flex justify-center md:py-8 py-4">
               <Stack spacing={2}>
                 <Pagination
                   count={Math.ceil(
                     Number(pagination?.total || 1) /
-                    Number(pagination?.limit || 1)
+                      Number(pagination?.limit || 1)
                   )}
                   onChange={(e, v: number) => {
                     setPageNumber(v);
@@ -182,62 +215,9 @@ const statuses = [
     value: "Rejected",
     label: "Rejected",
   },
-  {
-    id: 4,
-    value: null,
-    label: "All",
-  },
 ];
 
 const types = [
   { id: 1, value: "Casual", label: "Casual" },
   { id: 2, value: "Sick", label: "Sick" },
-  { id: 2, value: null, label: "All" },
-];
-
-const leavData = [
-  {
-    photo: "https://source.unsplash.com/100x100/?portrait?0",
-    name: "Srinu Redy",
-    role: "Visual Designer",
-    status: "Approved",
-    credit: 0,
-    monthlyleft: 2,
-    anuualleft: 8,
-    approvedByManager: "yes",
-    approvedByHR: "yes",
-  },
-  {
-    photo: "https://source.unsplash.com/100x100/?portrait?1",
-    name: "Kumara Gourav",
-    role: "Web Developer",
-    status: "Decline",
-    credit: 6,
-    monthlyleft: 2,
-    anuualleft: 8,
-    approvedByManager: "no",
-    approvedByHR: "no",
-  },
-  {
-    photo: "https://source.unsplash.com/100x100/?portrait?2",
-    name: "Sunil Mishra",
-    role: "Back-End Developer",
-    status: "Semi",
-    credit: 10,
-    monthlyleft: 2,
-    anuualleft: 8,
-    approvedByManager: "pending",
-    approvedByHR: "pending",
-  },
-  {
-    photo: "https://source.unsplash.com/100x100/?portrait?3",
-    name: "Abhilash Sethi",
-    role: "Web Developer",
-    status: "Pending",
-    credit: 3,
-    monthlyleft: 2,
-    anuualleft: 8,
-    approvedByManager: "yes",
-    approvedByHR: "pending",
-  },
 ];
