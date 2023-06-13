@@ -1,4 +1,4 @@
-import { Delete, Edit, Info } from "@mui/icons-material";
+import { Delete, DoorSliding, Edit, Info } from "@mui/icons-material";
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import { UpdateRole } from "components/dialogues";
 import { RoleInformation } from "components/drawer";
@@ -122,6 +122,17 @@ const AllRollGrid = ({ data, mutate }: Props) => {
                           }
                         >
                           <Info className="!text-white" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                    <div className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-yellow-600 to-yellow-400 flex justify-center items-center text-lg font-semibold">
+                      <Tooltip title="Access">
+                        <IconButton
+                        // onClick={() =>
+                        //   setIsInfo({ dialogue: true, role: item })
+                        // }
+                        >
+                          <DoorSliding className="!text-white" />
                         </IconButton>
                       </Tooltip>
                     </div>

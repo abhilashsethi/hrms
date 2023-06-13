@@ -1,5 +1,5 @@
 import MaterialTable from "@material-table/core";
-import { Info, PeopleRounded } from "@mui/icons-material";
+import { DoorSliding, Info, PeopleRounded } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { HeadStyle } from "components/core";
 import { RoleInformation } from "components/drawer";
@@ -58,15 +58,28 @@ const AllRollColumn = ({ data, mutate }: Props) => {
 						export: false,
 						render: (data) => {
 							return (
-								<Tooltip title="Details">
-									<div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-										<IconButton
-											onClick={() => setIsInfo({ dialogue: true, role: data })}
-										>
-											<Info className="!text-white" />
-										</IconButton>
-									</div>
-								</Tooltip>
+								<>
+									<Tooltip title="Details">
+										<div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+											<IconButton
+												onClick={() => setIsInfo({ dialogue: true, role: data })}
+											>
+												<Info className="!text-white" />
+											</IconButton>
+										</div>
+									</Tooltip>
+									<Tooltip title="Access">
+										<div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+											<IconButton
+											// onClick={() =>
+											//   setIsInfo({ dialogue: true, role: item })
+											// }
+											>
+												<DoorSliding className="!text-white" />
+											</IconButton>
+										</div>
+									</Tooltip>
+								</>
 							);
 						},
 						editable: "never",
