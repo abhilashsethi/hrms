@@ -438,30 +438,13 @@ export default () => {
 	);
 	const { user } = useAuth();
 
-	const getMenus = (roleData: any) => {
-		const myData = roleData?.find((item: any) => item?.name === roleData)
-		useEffect(() => {
-			let reqData = allData?.filter((item: any) => myData?.accessPages?.some((data: any) => data?.link === (item?.route ? item?.route : item?.submenus[0]?.route)))
-			setActiveMenu(reqData)
-		}, [roleData])
-		return activeMenu;
-	}
+	useEffect(() => {
+		const myData = roleData?.find((item: any) => item?.name === user?.role?.name)
+		let reqData = allData?.filter((item: any) => myData?.accessPages?.some((data: any) => data?.link === (item?.route ? item?.route : item?.submenus[0]?.route)))
+		setActiveMenu(reqData)
+	}, [roleData, user])
+	console.log(activeMenu);
+	if (user?.role?.name) return activeMenu
 
-	if (user?.role?.name === "CEO") { getMenus("CEO") }
-	if (user?.role?.name === "HR")
-		return [
-			{
-				key: "1",
-				title: "Dashboard",
-				icon: <Dashboard />,
-				route: "/admin/users",
-			},
-			{
-				key: "1",
-				title: "Profile",
-				icon: <AccountCircle />,
-				route: "/admin/profile",
-			},
-		];
 	return [];
 };
