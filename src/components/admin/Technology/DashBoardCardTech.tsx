@@ -2,10 +2,9 @@ import { AssignmentTurnedIn, ContentPasteGo } from "@mui/icons-material";
 import Link from "next/link";
 interface Props {
   dashboardData?: any;
-  tech?: any;
 }
 
-const DashBoardCardTech = ({ dashboardData, tech }: Props) => {
+const DashBoardCardTech = ({ dashboardData }: Props) => {
   return (
     <div className="flex gap-2 py-4">
       <div className="w-full ">

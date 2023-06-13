@@ -18,7 +18,7 @@ const DashboardChartsTech = ({ dashboardData }: Props) => {
           data={
             dashboardData?.TechInfo?.usedProjectCountArr?.length
               ? dashboardData?.TechInfo?.usedProjectCountArr?.map(
-                (item: any) => item?.usedProjectIdCount
+                (item: any) => item?.usedInCount
               )
               : []
           }
@@ -39,7 +39,7 @@ const DashboardChartsTech = ({ dashboardData }: Props) => {
           series={
             dashboardData?.TechInfo?.usedProjectCountArr?.length
               ? dashboardData?.TechInfo?.usedProjectCountArr?.map(
-                (item: any) => item?.usedProjectIdCount
+                (item: any) => item?.usedInCount
               )
               : []
           }
