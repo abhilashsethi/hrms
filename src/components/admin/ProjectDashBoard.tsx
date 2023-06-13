@@ -1,26 +1,10 @@
-import {
-	ContentPasteGo,
-	AssignmentTurnedIn,
-	PendingActions,
-	Pending,
-	MoreVert,
-} from "@mui/icons-material";
-import {
-	Grid,
-	IconButton,
-	LinearProgress,
-	Menu,
-	MenuItem,
-	Typography,
-} from "@mui/material";
+import { LinearProgress, Typography } from "@mui/material";
 import {
 	COMPLETED_PROJECT,
-	MEETINGICON3,
 	ON_GOING_PROJECT,
 	PENDING_PROJECT,
 	PROJECT,
 } from "assets/dashboard_Icons";
-import ICONS from "assets/icons";
 import {
 	ProgressBarDealsDashboard,
 	ProjectBarGraph,
@@ -29,11 +13,11 @@ import {
 } from "components/analytics";
 import { DashboardCard } from "components/core";
 import { useFetch } from "hooks";
-import { useState, MouseEvent } from "react";
-import { Projects } from "types";
+import { MouseEvent, useEffect, useState } from "react";
 
 const ProjectDashBoard = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const [reqData, setReqData] = useState<any>([]);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -45,38 +29,50 @@ const ProjectDashBoard = () => {
 	const { data: projectData, mutate } = useFetch<any>(
 		`projects/dashboard/details`
 	);
-	console.log(projectData);
+	console.log(projectData?.yearWiseProjectCounts);
+
+	useEffect(() => {
+		const demo = projectData?.yearWiseProjectCounts?.map((item: any) => {
+			return {
+				status: item?.year ? item?.year : "Not mentioned",
+				data: [item?.data[0]?.count ? item?.data[0]?.count : 0],
+			};
+		});
+		setReqData(demo);
+	}, [projectData?.yearWiseProjectCounts]);
 
 	const cards = [
 		{
 			id: 1,
 			img: PROJECT.src,
-			count: "20",
+			count: projectData?.totalProjects || 0,
 			title: "Total Project",
 			bg: "from-blue-500 to-blue-300",
 		},
 		{
 			id: 2,
 			img: ON_GOING_PROJECT.src,
-			count: "34",
+			count: projectData?.totalOngoingProjects || 0,
 			bg: "from-yellow-500 to-yellow-300",
 			title: "On Going Projects",
 		},
 		{
 			id: 3,
 			img: COMPLETED_PROJECT.src,
-			count: "34",
+			count: projectData?.totalFinishedProjects || 0,
 			bg: "from-emerald-500 to-emerald-300",
 			title: "Finished Projects",
 		},
 		{
 			id: 4,
 			img: PENDING_PROJECT.src,
-			count: "34",
+			count: projectData?.totalPendingProject || 0,
 			bg: "from-purple-500 to-purple-300",
 			title: "Pending",
 		},
 	];
+
+	console.log(reqData);
 
 	return (
 		<>
@@ -131,21 +127,11 @@ const ProjectDashBoard = () => {
 						Yearly Project Overview
 					</p>
 					<ProjectBarGraph
-						series={[
-							{
-								name: "ONGOING",
-								data: [44, 55, 41, 37, 56],
-							},
-							{
-								name: "COMPLETED",
-								data: [32, 32, 33, 22, 23],
-							},
-							{
-								name: "DELIVERED",
-								data: [10, 22, 8, 15, 13],
-							},
-						]}
-						categories={["2022", "2021", "2020", "2019", "2018"]}
+						// series={}
+						series={reqData ? reqData : []}
+						categories={projectData?.yearWiseProjectCounts?.map(
+							(item: any) => item?.data[0]?.year
+						)}
 						colors={["#5B50A1", "#C43C5C", "#E97451"]}
 						title=""
 						barHeight={360}
