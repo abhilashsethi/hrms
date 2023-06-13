@@ -82,7 +82,7 @@ const ViewLeaveDrawer = ({
             {leaveData?.length === 0 && <NoDatas title="No leaves found!" />}
             {leaveData?.map((item, index) => {
               return (
-                <div className="">
+                <div key={item?.id} className="">
                   <div
                     key={index}
                     className={`w-full h-full rounded-l-xl shadow-xl px-2 py-2 bg-[#edf4fe] my-3`}

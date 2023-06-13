@@ -29,7 +29,6 @@ interface Props {
   mutate?: any;
 }
 const EmplyeesGrid = ({ data, mutate }: Props) => {
-  console.log(data);
   return (
     <section className="md:my-8 my-4">
       <Grid
@@ -118,31 +117,6 @@ const CardContent = ({ item, mutate }: any) => {
           return;
         }
         Swal.fire(`Success`, "Status updated successfully!", "success");
-        return;
-      }
-    });
-  };
-  const handleAssign = async (e: any, userId: string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to change status?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, change!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await change(`users/${userId}`, {
-          method: "PATCH",
-          body: { isOfficeAccessGranted: !e.target?.checked },
-        });
-        mutate();
-        if (res?.status !== 200) {
-          Swal.fire(`Error`, "Something went wrong!", "error");
-          return;
-        }
-        Swal.fire(`Success`, "Updated successfully!", "success");
         return;
       }
     });
