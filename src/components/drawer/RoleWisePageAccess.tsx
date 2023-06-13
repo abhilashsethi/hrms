@@ -171,8 +171,8 @@ const MoreOption = ({ item, roleId }: any) => {
             {item?.icon}
             <span className="text-black font-semibold">{item?.name}</span>
             {roleData?.accessPages?.length ?
-              roleData?.accessPages?.map((data, i) => (
-                <div key={i}>
+              roleData?.accessPages?.find((data) => (
+                <div>
                   {data?.link == item?.value ?
                     <Tooltip title="Remove Access">
                       <Delete className="!text-red-600"
