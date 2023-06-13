@@ -1,11 +1,10 @@
+import { makeStyles } from "@material-ui/core";
 import { Close, Info } from "@mui/icons-material";
 import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
 import { CHATDOC, PDF } from "assets/home";
 import { DocPreview } from "components/dialogues";
 import moment from "moment";
 import { useState } from "react";
-import { makeStyles } from "@material-ui/core";
-import { useFetch } from "hooks";
 import { downloadFile } from "utils";
 
 type Props = {
@@ -37,10 +36,7 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
     dialogue: false,
     title: "Preview",
   });
-  const { data: myData } = useFetch(`leaves/${data?.id}`);
-  console.log(myData);
-  console.log(data);
-
+  // const { data: myData } = useFetch(`leaves/${data?.id}`);
   return (
     <>
       <DocPreview
@@ -101,7 +97,7 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
           <div className="flex w-full">
             <div className="flex gap-2 flex-wrap">
               {data?.docs?.length ? (
-                docs?.map((item: any) => (
+                data?.docs?.map((item: any) => (
                   <Tooltip title="Click to download">
                     <div
                       onClick={() =>
