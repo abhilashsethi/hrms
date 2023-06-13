@@ -27,7 +27,6 @@ const LeaveDashboard = () => {
   const { data: leaveData, isLoading } = useFetch<any>(
     `leaves/dashboard/details`
   );
-  // console.log(leaveMonthData);
 
   useEffect(() => {
     let monthData =
@@ -95,38 +94,35 @@ const LeaveDashboard = () => {
       <div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
         <div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">Leave Overview</p>
-          {
-            <LeaveBarChart
-              series={[
-                {
-                  name: "Sick Leave",
-                  data: leaveMonthData?.sick ? leaveMonthData?.sick : [],
-                },
 
-                {
-                  name: "Casual Leave",
-                  data: leaveMonthData?.casual ? leaveMonthData?.casual : [],
-                },
-              ]}
-              categories={leaveMonthData?.months ? leaveMonthData?.months : []}
-              type="bar"
-              text=""
-            />
-          }
+          <LeaveBarChart
+            series={[
+              {
+                name: "Sick Leave",
+                data: leaveMonthData?.sick ? leaveMonthData?.sick : 0,
+              },
+              {
+                name: "Casual Leave",
+                data: leaveMonthData?.casual ? leaveMonthData?.casual : 0,
+              },
+            ]}
+            categories={leaveMonthData?.months ? leaveMonthData?.months : []}
+            type="bar"
+            text=""
+          />
         </div>
         <div className="col-span-12 w-full flex flex-col justify-center md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-          <p className="text-lg font-bold text-center">Leave Details</p>
+          <p className="text-lg font-bold text-center">Leave Ratio</p>
           <LeaveDonutChart
             series={[
-              leaveData?.leaves?.leaveTypesList
+              leaveData?.leaves?.leaveTypesList[1]?._count
                 ? leaveData?.leaves?.leaveTypesList[1]?._count
-                : [],
-              leaveData?.leaves?.leaveTypesList
+                : 0,
+              leaveData?.leaves?.leaveTypesList[0]?._count
                 ? leaveData?.leaves?.leaveTypesList[0]?._count
-                : [],
+                : 0,
             ]}
-            text=""
-            type="donut"
+            type="pie"
             labels={["Sick Leave", "Casual Leave"]}
           />
         </div>
@@ -136,20 +132,3 @@ const LeaveDashboard = () => {
 };
 
 export default LeaveDashboard;
-
-const stats = [
-  {
-    id: 1,
-    title: "On Going Roles",
-    growth: "+10%",
-    value: "10",
-    sub: "Overall Roles 218",
-  },
-  {
-    id: 2,
-    title: "Finished Roles",
-    growth: "+10%",
-    value: "10",
-    sub: "Overall Roles 218",
-  },
-];
