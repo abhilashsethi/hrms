@@ -11,7 +11,8 @@ import {
   Tooltip,
 } from "@mui/material";
 import ICONS from "assets/icons";
-import { ProjectDrawerSkeletonLoading } from "components/admin/clients";
+import { ProjectDrawerSkeletonLoading, TicketDetailsSkeletonLoading } from "components/admin/clients";
+import { PageAccessSkeleton } from "components/admin/roles";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
@@ -84,10 +85,10 @@ const RoleWisePageAccess = ({
 };
 
 export default RoleWisePageAccess;
-const MoreOption = ({ item, mutate, roleId }: any) => {
+const MoreOption = ({ item, roleId }: any) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const { data: roleData, isLoading } = useFetch<Role>(
+  const { data: roleData, isLoading, mutate } = useFetch<Role>(
     `roles/${roleId}`
   );
   const handleClick = async (item: any) => {
@@ -126,40 +127,78 @@ const MoreOption = ({ item, mutate, roleId }: any) => {
       }
     });
   };
+  const handleDelete = async (data: any, roleData: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You want to Remove Access?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Remove!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        try {
+          Swal.fire("", "Please Wait...", "info");
+          const res = await change(`roles/removePage/${roleData?.id}`,
+            { method: "DELETE", body: { pageId: data?.pageId } });
+          setLoading(false);
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            setLoading(false);
+            return;
+          }
+          Swal.fire(`Success`, `Access Removed Successfully!`, `success`);
+          mutate();
+          return;
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        }
+      }
+    });
+  };
   return (
     <>
-      <div className="w-full py-2 px-2 rounded-md ">
-        <div className="flex justify-between justify-items-center">
-          {item?.icon}
-          <span className="text-black font-semibold">{item?.name}</span>
-          {roleData?.accessPages?.length ?
-            roleData?.accessPages?.map((data, i) => (
-              <div key={i}>
-                {data?.link == item?.value ?
-                  <Tooltip title="Remove Access">
-                    <Delete className="!text-red-600"
-                      onClick={() => handleClick(item)}
-                    />
-                  </Tooltip> :
-                  <Tooltip title="Add Access">
-                    <Add
-                      className="!text-black"
-                      onClick={() => handleClick(item)}
-                    />
-                  </Tooltip>
-                }
-              </div>
-            )) :
-            <Tooltip title="Add Access">
-              <Add
-                className="!text-black"
-                onClick={() => handleClick(item)}
-              />
-            </Tooltip>
-          }
+      {isLoading ? <PageAccessSkeleton /> :
+        <div className="w-full py-2 px-2 rounded-md ">
+          <div className="flex justify-between justify-items-center">
+            {item?.icon}
+            <span className="text-black font-semibold">{item?.name}</span>
+            {roleData?.accessPages?.length ?
+              roleData?.accessPages?.map((data, i) => (
+                <div key={i}>
+                  {data?.link == item?.value ?
+                    <Tooltip title="Remove Access">
+                      <Delete className="!text-red-600"
+                        onClick={() => handleDelete(data, roleData)}
+                      />
+                    </Tooltip> :
+                    <Tooltip title="Add Access">
+                      <Add
+                        className="!text-black"
+                        onClick={() => handleClick(item)}
+                      />
+                    </Tooltip>
+                  }
+                </div>
+              )) :
+              <Tooltip title="Add Access">
+                <Add
+                  className="!text-black"
+                  onClick={() => handleClick(item)}
+                />
+              </Tooltip>
+            }
 
+          </div>
         </div>
-      </div>
+      }
     </>
   );
 };
