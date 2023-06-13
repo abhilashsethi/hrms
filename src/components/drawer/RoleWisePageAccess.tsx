@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { Add, Close, MedicalInformationRounded } from "@mui/icons-material";
+import { Add, Close, Delete, MedicalInformationRounded } from "@mui/icons-material";
 import {
   Button,
   Container,
@@ -18,6 +18,7 @@ import moment from "moment";
 import { useState } from "react";
 import Slider from "react-slick";
 import Swal from "sweetalert2";
+import { Role } from "types";
 import * as Yup from "yup";
 
 type Props = {
@@ -86,6 +87,9 @@ export default RoleWisePageAccess;
 const MoreOption = ({ item, mutate, roleId }: any) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const { data: roleData, isLoading } = useFetch<Role>(
+    `roles/${roleId}`
+  );
   const handleClick = async (item: any) => {
     Swal.fire({
       title: "Are you sure?",
@@ -98,13 +102,10 @@ const MoreOption = ({ item, mutate, roleId }: any) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         setLoading(true);
-        console.log(item);
         try {
           Swal.fire("", "Please Wait...", "info");
-          // return
           const res = await change(`roles/addPage/${roleId}`,
-            { method: "POST", body: item?.value });
-          console.log(res);
+            { method: "POST", body: { link: item?.value } });
           setLoading(false);
           if (res?.status !== 200) {
             Swal.fire(
@@ -131,10 +132,32 @@ const MoreOption = ({ item, mutate, roleId }: any) => {
         <div className="flex justify-between justify-items-center">
           {item?.icon}
           <span className="text-black font-semibold">{item?.name}</span>
-          <Add
-            className="!text-black"
-            onClick={() => handleClick(item)}
-          />
+          {roleData?.accessPages?.length ?
+            roleData?.accessPages?.map((data, i) => (
+              <div key={i}>
+                {data?.link == item?.value ?
+                  <Tooltip title="Remove Access">
+                    <Delete className="!text-red-600"
+                      onClick={() => handleClick(item)}
+                    />
+                  </Tooltip> :
+                  <Tooltip title="Add Access">
+                    <Add
+                      className="!text-black"
+                      onClick={() => handleClick(item)}
+                    />
+                  </Tooltip>
+                }
+              </div>
+            )) :
+            <Tooltip title="Add Access">
+              <Add
+                className="!text-black"
+                onClick={() => handleClick(item)}
+              />
+            </Tooltip>
+          }
+
         </div>
       </div>
     </>
