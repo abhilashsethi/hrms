@@ -12,7 +12,7 @@ const useFCMToken = (uid: string | undefined) => {
       "serviceWorker" in navigator &&
       "PushManager" in window;
 
-    console.log(isSupported());
+    // console.log(isSupported());
 
     if (isSupported()) {
       Notification.requestPermission(async function (permission) {

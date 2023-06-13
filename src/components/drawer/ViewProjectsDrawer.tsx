@@ -157,11 +157,8 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
             )}
             {projectDetails?.map((item: any, index: any) => {
               return (
-                <div className="">
-                  <div
-                    key={index}
-                    className="w-full relative rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3"
-                  >
+                <div key={item?.id} className="">
+                  <div className="w-full relative rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3">
                     <div className="absolute -top-4">
                       <Avatar
                         // onClick={() => handleInfoOpen()}

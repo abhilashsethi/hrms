@@ -29,7 +29,7 @@ const CopyClipboard = ({ value, isCut = true }: Props) => {
           Copied to clipboard
         </Alert>
       </Snackbar>
-      <div className="group flex gap-2 items-center text-sm">
+      <span className="group flex gap-2 items-center text-sm">
         {isCut ? (
           <span>
             {value?.slice(0, 15)}
@@ -50,7 +50,7 @@ const CopyClipboard = ({ value, isCut = true }: Props) => {
             <ICONS.Copy />
           </span>
         </Tooltip>
-      </div>
+      </span>
     </>
   );
 };
