@@ -112,7 +112,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 		<>
 			<Dialog
 				onClose={handleClose}
-				maxWidth="lg"
+				maxWidth="xl"
 				aria-labelledby="customized-dialog-title"
 				open={open}
 			>
@@ -153,6 +153,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 									setFieldValue,
 								}) => (
 									<Form>
+										{/* {console.log(values)} */}
 										<div className="grid lg:grid-cols-2">
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="py-2">
@@ -222,6 +223,9 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 													id="assignDate"
 													name="assignDate"
 													value={values.assignDate}
+													inputProps={{
+														min: moment().format("YYYY-MM-DD"),
+													}}
 													onChange={handleChange}
 													onBlur={handleBlur}
 													error={touched.assignDate && !!errors.assignDate}
@@ -260,6 +264,11 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 												<TextField
 													size="small"
 													fullWidth
+													inputProps={{
+														min: values?.assignDate
+															? moment(values?.assignDate).format("YYYY-MM-DD")
+															: moment().format("YYYY-MM-DD"),
+													}}
 													// placeholder="Email"
 													type="date"
 													id="returnDate"
@@ -271,7 +280,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 													helperText={touched.returnDate && errors.returnDate}
 												/>
 											</div>
-											<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="md:px-4 px-2 md:py-2 py-1 col-span-2">
 												<div className="py-2">
 													<InputLabel htmlFor="reason">
 														Reason
