@@ -86,7 +86,7 @@ const ViewAssetHistoryDrawer = ({
 		`assets/all/return/asset/${assetId}`
 	);
 
-	console.log(data);
+	// console.log(data);
 
 	const validationSchema = Yup.object().shape({
 		type: Yup.string().required("Branch is required!"),
