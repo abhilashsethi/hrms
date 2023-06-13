@@ -103,6 +103,10 @@ const MoreOption = ({ item, mutate }: any) => {
 		dialogue?: boolean;
 		assetData?: string | null;
 	}>({ dialogue: false, assetData: null });
+
+	const { data: assignId, mutate: returnMutate } = useFetch<any>(
+		`assets/all/return/asset/${assetId}`
+	);
 	const handleDelete = async (id: string) => {
 		Swal.fire({
 			title: "Are you sure?",
@@ -204,7 +208,7 @@ const MoreOption = ({ item, mutate }: any) => {
 				assetData={isReturn?.assetData}
 				open={isReturn?.dialogue}
 				handleClose={() => setIsReturn({ dialogue: false })}
-				mutate={mutate}
+				mutate={returnMutate}
 			/>
 			<AssignAsset
 				assetData={isAssign?.assetData}
@@ -227,6 +231,7 @@ const MoreOption = ({ item, mutate }: any) => {
 				open={assetHistory}
 				onClose={() => setAssetHistory(false)}
 				assetId={assetId}
+				data={assignId}
 			/>
 			<ViewAssetDetailsDrawer
 				open={assetDetails}
@@ -363,16 +368,16 @@ const MoreOption = ({ item, mutate }: any) => {
 								<div className="grid grid-cols-3 gap-1">
 									{item?.docs?.length
 										? item?.docs?.map((doc: any, i: any) => {
-											return (
-												<a
-													key={i}
-													className="border border-theme rounded-md text-xs p-[2px]"
-													href={doc?.link}
-												>
-													Docs <Download fontSize="small" />
-												</a>
-											);
-										})
+												return (
+													<a
+														key={i}
+														className="border border-theme rounded-md text-xs p-[2px]"
+														href={doc?.link}
+													>
+														Docs <Download fontSize="small" />
+													</a>
+												);
+										  })
 										: "---"}
 								</div>
 							</span>

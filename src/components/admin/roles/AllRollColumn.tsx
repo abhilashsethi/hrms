@@ -18,16 +18,15 @@ const AllRollColumn = ({ data, mutate }: Props) => {
     role: null,
   });
   const [assetHistory, setAssetHistory] = useState(false);
-  const [assetId, setAssetId] = useState("");
+  const [roleId, setRileId] = useState("");
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
-  console.log(data);
   return (
     <section className="mt-8">
       <RoleWisePageAccess
         open={assetHistory}
         onClose={() => setAssetHistory(false)}
-        assetId={assetId}
+        roleId={roleId}
       />
       <RoleInformation
         open={isInfo?.dialogue}
@@ -81,7 +80,7 @@ const AllRollColumn = ({ data, mutate }: Props) => {
                         <IconButton
                           onClick={() => {
                             setAssetHistory(true);
-                            setAssetId(data?.id);
+                            setRileId(data?.id);
                           }}
                         >
                           <DoorSliding className="!text-white" />

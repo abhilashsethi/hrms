@@ -12,8 +12,6 @@ const Technologies = () => {
   const { data: techDashboard, isLoading } = useFetch<any>(
     `technologies/dashboard/details`
   );
-  console.log(techDashboard);
-  const { data: tech } = useFetch<any[]>(`technologies?page=1&limit=3`);
   return (
     <PanelLayout title="Technologies - Admin Panel">
       <section className="lg:px-8 px-4 py-4">
@@ -21,7 +19,7 @@ const Technologies = () => {
         {isLoading ? <DashboardSkeletonLoading />
           : (
             <>
-              <DashBoardCardTech dashboardData={techDashboard} tech={tech} />
+              <DashBoardCardTech dashboardData={techDashboard} />
               <DashboardChartsTech dashboardData={techDashboard} />
             </>)}
       </section>

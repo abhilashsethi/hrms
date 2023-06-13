@@ -204,6 +204,13 @@ export type Role = {
   updatedAt: Date;
   users: User[];
   departments: string;
+  accessPages: Pages[];
+};
+export type Pages = {
+  pageId: string;
+  link: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Leave = {

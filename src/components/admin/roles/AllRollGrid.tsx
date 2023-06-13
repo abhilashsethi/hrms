@@ -14,7 +14,7 @@ interface Props {
 
 const AllRollGrid = ({ data, mutate }: Props) => {
   const [assetHistory, setAssetHistory] = useState(false);
-  const [assetId, setAssetId] = useState("");
+  const [roleId, setRoleId] = useState("");
   const [roleData, setRoleData] = useState("");
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{
@@ -71,7 +71,7 @@ const AllRollGrid = ({ data, mutate }: Props) => {
       <RoleWisePageAccess
         open={assetHistory}
         onClose={() => setAssetHistory(false)}
-        assetId={assetId}
+        roleId={roleId}
       />
       <UpdateRole
         id={isUpdate?.id}
@@ -137,7 +137,7 @@ const AllRollGrid = ({ data, mutate }: Props) => {
                         <IconButton
                           onClick={() => {
                             setAssetHistory(true);
-                            setAssetId(item?.id);
+                            setRoleId(item?.id);
                           }}
                         >
                           <DoorSliding className="!text-white" />
