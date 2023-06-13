@@ -219,6 +219,7 @@ export const downloadFile = (url: string, name: string) => {
   fetch(url)
     .then((response) => response.blob())
     .then((blob) => {
+      console.log({ url });
       return fileDownload(blob, name);
     })
     .catch(console.error);

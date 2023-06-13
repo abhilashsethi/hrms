@@ -207,7 +207,7 @@ export type Role = {
   accessPages: Pages[];
 };
 export type Pages = {
-  id: string;
+  pageId: string;
   link: string;
   createdAt: Date;
   updatedAt: Date;

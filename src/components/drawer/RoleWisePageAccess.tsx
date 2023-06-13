@@ -170,31 +170,29 @@ const MoreOption = ({ item, roleId }: any) => {
           <div className="flex justify-between justify-items-center">
             {item?.icon}
             <span className="text-black font-semibold">{item?.name}</span>
-            {roleData?.accessPages?.length ?
-              roleData?.accessPages?.find((data) => (
-                <div>
-                  {data?.link == item?.value ?
-                    <Tooltip title="Remove Access">
-                      <Delete className="!text-red-600"
-                        onClick={() => handleDelete(data, roleData)}
-                      />
-                    </Tooltip> :
-                    <Tooltip title="Add Access">
-                      <Add
-                        className="!text-black"
-                        onClick={() => handleClick(item)}
-                      />
-                    </Tooltip>
-                  }
-                </div>
-              )) :
+
+            <>
+              {roleData?.accessPages?.find(data => data?.link === item?.value)?.pageId ?
+                (<Tooltip title="Remove Access">
+                  <Delete className="!text-red-600"
+                    onClick={() => handleDelete(roleData?.accessPages?.find(data => data?.link === item?.value), roleData)}
+                  />
+                </Tooltip>) :
+                <Tooltip title="Add Access">
+                  <Add
+                    className="!text-black"
+                    onClick={() => handleClick(item)}
+                  />
+                </Tooltip>}
+            </>
+
+            {/*            
               <Tooltip title="Add Access">
                 <Add
                   className="!text-black"
                   onClick={() => handleClick(item)}
                 />
-              </Tooltip>
-            }
+              </Tooltip> */}
 
           </div>
         </div>
