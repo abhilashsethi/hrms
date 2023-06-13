@@ -354,24 +354,24 @@ export default () => {
 				],
 			},
 			{
-				key: "11re32r23e23e32",
+				key: "55",
 				title: "Branch",
 				icon: <ICONS.Branch />,
 				submenus: [
 					{
-						key: "11-1",
+						key: "55-1",
 						title: "Dashboard",
 						icon: <ICONS.Dashboard_1 />,
 						route: "/admin/branch",
 					},
 					{
-						key: "11-2",
+						key: "55-2",
 						title: "All Branches",
 						icon: <ICONS.All_Branch />,
 						route: "/admin/branch/all-branch",
 					},
 					{
-						key: "11-3",
+						key: "55-3",
 						title: "Create Branch",
 						icon: <ICONS.Create_Branch />,
 						route: "/admin/branch/create-branch",

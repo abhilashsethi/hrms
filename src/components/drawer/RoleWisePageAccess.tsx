@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { Close } from "@mui/icons-material";
+import { Add, Close, MedicalInformationRounded } from "@mui/icons-material";
 import {
   Button,
   Container,
@@ -8,22 +8,23 @@ import {
   InputLabel,
   MenuItem,
   TextField,
+  Tooltip,
 } from "@mui/material";
+import ICONS from "assets/icons";
 import { ProjectDrawerSkeletonLoading } from "components/admin/clients";
 import { Form, Formik } from "formik";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import Slider from "react-slick";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 type Props = {
   open?: boolean | any;
   onClose: () => void;
-  setViewProject?: any;
-  assetId?: any;
+  roleId?: any;
 };
-
 const useStyles = makeStyles((theme) => ({
   container: {
     width: "100vw",
@@ -38,38 +39,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-
 const RoleWisePageAccess = ({
   open,
   onClose,
-  setViewProject,
-  assetId,
+  roleId,
 }: Props) => {
   const [history, setHistory] = useState(false);
   const classes = useStyles();
-  const { data: assignId, isLoading } = useFetch<any>(
-    `assets/all/return/asset/${assetId}`
-  );
-
-  const validationSchema = Yup.object().shape({
-    type: Yup.string().required("Branch is required!"),
-  });
-  const initialValues = {
-    type: "returnHistory",
-  };
-  const handleSubmit = async (values: any) => {
-    try {
-      if (values.type == "assignHistory") {
-        setHistory(true);
-      }
-      if (values.type == "returnHistory") {
-        setHistory(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
@@ -85,102 +61,19 @@ const RoleWisePageAccess = ({
             </IconButton>
           </div>
 
-          <div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              enableReinitialize={true}
-              onSubmit={handleSubmit}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                setFieldValue,
-              }) => (
-                <Form>
-                  <div className="px-4 py-2">
-                    <div className="px-4 py-2">
-                      <div className="py-2">
-                        <InputLabel htmlFor="name">
-                          Choose History Type
-                          <span className="text-red-500">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        select
-                        fullWidth
-                        name="type"
-                        placeholder="Document Type"
-                        value={values.type}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.type && !!errors.type}
-                        helperText={touched.type && errors.type}
-                      >
-                        {Asset_History.map((option) => (
-                          <MenuItem key={option.value} value={option.value}>
-                            {option.name}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </div>
-                  </div>
-                  <div className="flex justify-center py-4">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="!bg-theme"
-                    >
-                      Submit
-                    </Button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-          <div className="mt-2 flex flex-col gap-4">
-            <div className="">
-              <div
-                className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-[#edf4fe] my-3`}
-              >
-                <div className="w-full order-2 border border-gray-500 rounded-md p-[1px] mb-2">
-
-                </div>
-                <div className="flex flex-col gap-1 font-semibold text-blue-700">
-                  <div className="">
-                    Assigned User :{" "}
-                    <span className="text-black font-medium">
-                      Name
-                    </span>
-                  </div>
-                  <div className="gap-2">
-                    Date Of Assign :{" "}
-                    <span className="text-black font-medium">
-                      dage
-                    </span>
-                  </div>
-
-                  <div className="gap-2">
-                    Date Of Return :{" "}
-                    <span className="text-black font-medium">
-
-                      Not Specified
-                    </span>
-                  </div>
-                  <div className="gap-2">
-                    Time Of Assign :{" "}
-                    <span className="text-black font-medium">
-                      Not Specified
-                    </span>
-                  </div>
+          <div className="mt-2 mb-5 flex flex-col gap-4">
+            {PageList?.map((item, i) => (
+              <div key={i} className="">
+                <div
+                  className={`w-full rounded-xl shadow-lg px-2 py-2 
+                 bg-gradient-to-r from-rose-100 to-teal-100
+                  `}
+                >
+                  <MoreOption item={item} roleId={roleId} />
 
                 </div>
               </div>
-            </div>
+            ))}
           </div>
 
         </Container>
@@ -190,10 +83,115 @@ const RoleWisePageAccess = ({
 };
 
 export default RoleWisePageAccess;
+const MoreOption = ({ item, mutate, roleId }: any) => {
+  const [loading, setLoading] = useState(false);
+  const { change } = useChange();
+  const handleClick = async (item: any) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You want to Give ${item?.name} Access?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Add!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        console.log(item);
+        try {
+          Swal.fire("", "Please Wait...", "info");
+          // return
+          const res = await change(`roles/addPage/${roleId}`,
+            { method: "POST", body: item?.value });
+          console.log(res);
+          setLoading(false);
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            setLoading(false);
+            return;
+          }
+          Swal.fire(`Success`, `Access Granted Successfully!`, `success`);
+          mutate();
+          return;
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        }
+      }
+    });
+  };
+  return (
+    <>
+      <div className="w-full py-2 px-2 rounded-md ">
+        <div className="flex justify-between justify-items-center">
+          {item?.icon}
+          <span className="text-black font-semibold">{item?.name}</span>
+          <Add
+            className="!text-black"
+            onClick={() => handleClick(item)}
+          />
+        </div>
+      </div>
+    </>
+  );
+};
 
-const Asset_History = [
-  { id: 1, value: "assignHistory", name: "Assign History" },
-  { id: 2, value: "returnHistory", name: "Return History" },
+const PageList = [
+  { id: 1, value: "/admin", icon: <ICONS.Dashboard_1 />, name: "Admin Dashboard" },
+  { id: 2, value: "/admin/cards", icon: <ICONS.Dashboard_1 />, name: "Cards Dashboard" },
+  { id: 3, value: "/admin/cards/scanned", icon: <ICONS.Scanned_Cards />, name: "Scanned Cards" },
+  { id: 4, value: "/admin/employees", icon: <ICONS.Dashboard_1 />, name: "Employees Dashboard" },
+  { id: 5, value: "/admin/all-employees", icon: <ICONS.All_Employee />, name: "All Employees" },
+  { id: 6, value: "/admin/employees/create-employee", icon: <ICONS.Add_Employee />, name: "Create Employee" },
+  { id: 7, value: "/admin/employees/upload-employee-data", icon: <ICONS.Upload_Employee_Data />, name: "Upload Employee's Data" },
+  { id: 8, value: "/admin/clients", icon: <ICONS.Dashboard_1 />, name: "Clients Dashboard" },
+  { id: 9, value: "/admin/clients/all-clients", icon: <ICONS.All_Clients />, name: "All Clients" },
+  { id: 10, value: "/admin/clients/add-clients", icon: <ICONS.Add_Clients />, name: "Add Clients" },
+  { id: 11, value: "/admin/guests", icon: <ICONS.Dashboard_1 />, name: "Guests Dashboard" },
+  { id: 12, value: "/admin/guests/all-guests", icon: <ICONS.All_Guests />, name: "All Guests" },
+  { id: 13, value: "/admin/guests/create-guest", icon: <ICONS.Add_Guest />, name: "Add Guest" },
+  { id: 14, value: "/admin/attendances", icon: <ICONS.Dashboard_1 />, name: "Attendance Dashboard" },
+  { id: 15, value: "/admin/attendances/today", icon: <ICONS.Data_Wise_Attendance />, name: "Date Wise Attendance" },
+  { id: 16, value: "/admin/payroll/configure", icon: <ICONS.Configure />, name: "Payroll Configure" },
+  { id: 17, value: "/admin/payroll/view-config", icon: <ICONS.Configure />, name: "Payroll View Config" },
+  { id: 18, value: "/admin/payroll/add-salary-info", icon: <ICONS.Dashboard_1 />, name: "Payroll Add Salary Info" },
+  { id: 19, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
+  { id: 20, value: "/admin/leaves/leave-requests", icon: <ICONS.All_Leave_Requests />, name: "Leave Requests" },
+  { id: 21, value: "/admin/leaves/all-leaves", icon: <MedicalInformationRounded />, name: "Employee Leaves" },
+  { id: 22, value: "/admin/meetings", icon: <ICONS.Dashboard_1 />, name: "Meetings Dashboard" },
+  { id: 23, value: "/admin/meetings/all-meetings", icon: <ICONS.All_Meetings />, name: "All Meetings" },
+  { id: 24, value: "/admin/projects", icon: <ICONS.Dashboard_1 />, name: "Projects Dashboard" },
+  { id: 25, value: "/admin/projects/all-projects", icon: <ICONS.All_Projects />, name: "All Projects" },
+  { id: 26, value: "/admin/projects/create-projects", icon: <ICONS.Add_Project />, name: "Create Project" },
+  { id: 27, value: "/admin/tenders", icon: <ICONS.Dashboard_1 />, name: "Tenders Dashboard" },
+  { id: 28, value: "/admin/tenders/all-tenders", icon: <ICONS.All_Tender />, name: "All Tenders" },
+  { id: 29, value: "/admin/tenders/members", icon: <ICONS.All_Employee />, name: "Tenders Members" },
+  { id: 30, value: "/admin/tenders/create-tender", icon: <ICONS.Create_Tender />, name: "Create Tender" },
+  { id: 31, value: "/admin/tenders/tender-details", icon: <ICONS.Tender_Details />, name: "Tender Details" },
+  { id: 32, value: "/admin/assets", icon: <ICONS.Dashboard_1 />, name: "Assets Dashboard" },
+  { id: 33, value: "/admin/assets/all-assets", icon: <ICONS.All_Assets />, name: "View All Asset" },
+  { id: 34, value: "/admin/assets/create-assets", icon: <ICONS.All_Assets />, name: "Add Asset" },
+  { id: 35, value: "/admin/technologies", icon: <ICONS.Dashboard_1 />, name: "Technologies Dashboard" },
+  { id: 36, value: "/admin/technologies/all-technologies", icon: <ICONS.All_Tech />, name: "All Technologies" },
+  { id: 37, value: "/admin/roles", icon: <ICONS.Dashboard_1 />, name: "Roles Dashboard" },
+  { id: 38, value: "/admin/roles/all-roles", icon: <ICONS.All_Roles />, name: "All Roles" },
+  { id: 39, value: "/admin/department", icon: <ICONS.Dashboard_1 />, name: "Departments Dashboard" },
+  { id: 40, value: "/admin/department/all-department", icon: <ICONS.All_Departments />, name: "All Department" },
+  { id: 41, value: "/admin/branch", icon: <ICONS.Dashboard_1 />, name: "Branch Dashboard" },
+  { id: 42, value: "/admin/branch/all-branch", icon: <ICONS.All_Branch />, name: "All Branches" },
+  { id: 43, value: "/admin/branch/create-branch", icon: <ICONS.Create_Branch />, name: "Create Branch" },
+  { id: 44, value: "/admin/templates/create-template", icon: <ICONS.Create_Template />, name: "Create Email Templates" },
+  { id: 45, value: "/admin/templates/saved-templates", icon: <ICONS.Saved_Template />, name: "Saved Email Templates" },
+  { id: 46, value: "/admin/chat", icon: <ICONS.All_Chat />, name: "Chats" },
+  { id: 47, value: "/admin/support", icon: <ICONS.Support />, name: "Support" },
+  { id: 48, value: "/admin/change-password", icon: <ICONS.Change_Password />, name: "Change Password" },
+  // { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
+  // { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 ];
 
 
