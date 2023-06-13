@@ -1,11 +1,12 @@
 import { Close, Info } from "@mui/icons-material";
 import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
-import { PDF } from "assets/home";
+import { CHATDOC, PDF } from "assets/home";
 import { DocPreview } from "components/dialogues";
 import moment from "moment";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useFetch } from "hooks";
+import { downloadFile } from "utils";
 
 type Props = {
   open?: boolean | any;
@@ -100,20 +101,24 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
           <div className="flex w-full">
             <div className="flex gap-2 flex-wrap">
               {data?.docs?.length ? (
-                docs?.map((item) => (
-                  <Tooltip title="Click to preview">
+                docs?.map((item: any) => (
+                  <Tooltip title="Click to download">
                     <div
                       onClick={() =>
-                        setIsPreview({ dialogue: true, title: item?.title })
+                        downloadFile(
+                          item?.link,
+                          item?.link?.split("/")?.at(-1) as any
+                        )
                       }
                       key={item?.id}
                       className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
                     >
-                      <img className="w-12" src={item?.img} alt="photo" />
-                      <p className="text-xs">
-                        {item?.title?.slice(0, 9)}
-                        {item?.title?.length > 9 ? "..." : null}
-                      </p>
+                      <img
+                        className="h-12 object-contain"
+                        src={CHATDOC.src}
+                        alt="photo"
+                      />
+                      <p className="text-xs">file</p>
                     </div>
                   </Tooltip>
                 ))
@@ -122,9 +127,20 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
               )}
             </div>
           </div>
-          <div>
+          <div className="pb-8">
             <h1 className="mt-4 font-semibold">Approved By</h1>
-            <p className="mt-2">No Members approved.</p>
+            {data?.approvedBy?.name ? (
+              <div className="w-full mt-4 border-[1px]  rounded-md p-4 text-sm">
+                <h1 className="font-semibold"> {data?.approvedBy?.name}</h1>
+                <h1> {data?.approvedBy?.role}</h1>
+                <h1>
+                  Approved on :{" "}
+                  {moment(data?.approvedBy?.createdAt).format("lll")}
+                </h1>
+              </div>
+            ) : (
+              <p className="mt-4">No members approved yet!</p>
+            )}
           </div>
         </Container>
       </Drawer>
