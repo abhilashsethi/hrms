@@ -77,7 +77,7 @@ const AllRollColumn = ({ data, mutate }: Props) => {
                       </div>
                     </Tooltip>
                     <Tooltip title="Access">
-                      <div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+                      <div className="text-sm bg-gradient-to-r from-green-500 to-green-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
                         <IconButton
                           onClick={() => {
                             setAssetHistory(true);
