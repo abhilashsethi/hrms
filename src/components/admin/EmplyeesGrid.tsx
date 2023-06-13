@@ -206,7 +206,7 @@ const CardContent = ({ item, mutate }: any) => {
         {item?.role?.name}
       </span>
       <div className=" text-base font-semibold tracking-wide text-gray-600 pl-4">
-        <RenderIconRow value={item?.email} isEmail />
+        <RenderIconRow value={item?.username} isEmail />
       </div>
       <div className="flex gap-2 items-center font-semibold text-sm pl-4">
         EMP ID :
