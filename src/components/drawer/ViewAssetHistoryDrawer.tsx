@@ -22,6 +22,7 @@ type Props = {
 	onClose: () => void;
 	setViewProject?: any;
 	assetId?: any;
+	data?: any;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -77,6 +78,7 @@ const ViewAssetHistoryDrawer = ({
 	onClose,
 	setViewProject,
 	assetId,
+	data,
 }: Props) => {
 	const [history, setHistory] = useState(false);
 	const classes = useStyles();
@@ -84,7 +86,7 @@ const ViewAssetHistoryDrawer = ({
 		`assets/all/return/asset/${assetId}`
 	);
 
-	console.log(assignId);
+	console.log(data);
 
 	const validationSchema = Yup.object().shape({
 		type: Yup.string().required("Branch is required!"),
@@ -184,7 +186,7 @@ const ViewAssetHistoryDrawer = ({
 								>
 									<div className="w-full order-2 border border-gray-500 rounded-md p-[1px] mb-2">
 										<Slider {...settings} className="">
-											{assignId?.assignTimePhotos?.map((data: any, k: any) => (
+											{data?.assignTimePhotos?.map((data: any, k: any) => (
 												<img
 													key={k}
 													className="w-full object-cover object-center 
@@ -199,42 +201,42 @@ const ViewAssetHistoryDrawer = ({
 										<div className="">
 											Assigned User :{" "}
 											<span className="text-black font-medium">
-												{assignId?.assignUser?.name}
+												{data?.assignUser?.name}
 											</span>
 										</div>
 										<div className="gap-2">
 											Date Of Assign :{" "}
 											<span className="text-black font-medium">
-												{moment(assignId?.dateOfAssign)?.format("DD/MM/YYYY")}
+												{moment(data?.dateOfAssign)?.format("DD/MM/YYYY")}
 											</span>
 										</div>
 
 										<div className="gap-2">
 											Date Of Return :{" "}
 											<span className="text-black font-medium">
-												{assignId?.dateOfReturn
-													? moment(assignId?.dateOfReturn)?.format("DD/MM/YYYY")
+												{data?.dateOfReturn
+													? moment(data?.dateOfReturn)?.format("DD/MM/YYYY")
 													: "Not Specified"}
 											</span>
 										</div>
 										<div className="gap-2">
 											Time Of Assign :{" "}
 											<span className="text-black font-medium">
-												{assignId?.assignTime
-													? moment(assignId?.assignTime)?.format("LT")
+												{data?.assignTime
+													? moment(data?.assignTime)?.format("LT")
 													: "Not Specified"}
 											</span>
 										</div>
 										<div className="gap-2">
 											Reason :{" "}
 											<span className="text-black font-medium">
-												{assignId?.reasonForAssign}
+												{data?.reasonForAssign}
 											</span>
 										</div>
 										<div className="gap-2">
 											Remarks :{" "}
 											<span className="text-black font-medium">
-												{assignId?.assignRemark}
+												{data?.assignRemark}
 											</span>
 										</div>
 									</div>
@@ -245,7 +247,7 @@ const ViewAssetHistoryDrawer = ({
 						<>
 							<div className="mt-2 flex flex-col gap-4">
 								{isLoading && <ProjectDrawerSkeletonLoading />}
-								{assignId?.map((item: any, i: any) => {
+								{data?.map((item: any, i: any) => {
 									return (
 										<div
 											className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3`}
@@ -271,7 +273,7 @@ const ViewAssetHistoryDrawer = ({
 											</div>
 											<div className="flex flex-col gap-1 font-semibold text-blue-700">
 												<div className="">
-													Assigned User :{" "}
+													Returned User :{" "}
 													<span className="text-black font-medium">
 														{item?.assignUser?.name}
 													</span>
@@ -287,9 +289,7 @@ const ViewAssetHistoryDrawer = ({
 													Date Of Return :{" "}
 													<span className="text-black font-medium">
 														{item?.dateOfReturn
-															? moment(assignId?.dateOfReturn)?.format(
-																	"DD/MM/YYYY"
-															  )
+															? moment(data?.dateOfReturn)?.format("DD/MM/YYYY")
 															: "Not Specified"}
 													</span>
 												</div>
@@ -317,160 +317,199 @@ const ViewAssetHistoryDrawer = ({
 													Return Details
 												</p>
 												{/* --------------------------------------- */}
+												<div className="">
+													<p className="font-semibold text-blue-700">
+														Is Broken :{" "}
+														{item?.isBroken ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="font-semibold text-blue-700">
+														Keyboard Works :{" "}
+														{item?.isAllKeyboardButtonWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="font-semibold text-blue-700">
+														All Ports Work :{" "}
+														{item?.isAllPortsWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="font-semibold text-blue-700">
+														All Rubber Pads Attached :{" "}
+														{item?.isAllRubberPadsAttached ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														all screws are present :{" "}
+														{item?.isAllScrewArePresent ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														brightness button works :{" "}
+														{item?.isBrightnessFunctionWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														camera works :{" "}
+														{item?.isCameraWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														Charging Works :{" "}
+														{item?.isChargingFunctionWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														internet connectivity :{" "}
+														{item?.isConnectionToInternetWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														HDMI cable include :{" "}
+														{item?.isHDMICableInclude ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														left click works :{" "}
+														{item?.isLeftClickWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														Right click works :{" "}
+														{item?.isRightClickWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														Scroll wheel works :{" "}
+														{item?.isScrollWheelWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														power adapter include :{" "}
+														{item?.isPowerAdapterInclude ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
 
-												<p className="font-semibold text-blue-700">
-													Is Broken :{" "}
-													{item?.isBroken ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="font-semibold text-blue-700">
-													Keyboard Works :{" "}
-													{item?.isAllKeyboardButtonWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="font-semibold text-blue-700">
-													All Ports Work :{" "}
-													{item?.isAllPortsWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="font-semibold text-blue-700">
-													All Rubber Pads Attached :{" "}
-													{item?.isAllRubberPadsAttached ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													all screws are present :{" "}
-													{item?.isAllScrewArePresent ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													brightness button works :{" "}
-													{item?.isBrightnessFunctionWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													camera works :{" "}
-													{item?.isCameraWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													Charging Works :{" "}
-													{item?.isChargingFunctionWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													internet connectivity :{" "}
-													{item?.isConnectionToInternetWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													HDMI cable include :{" "}
-													{item?.isHDMICableInclude ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													left click works :{" "}
-													{item?.isLeftClickWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													Right click works :{" "}
-													{item?.isRightClickWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													Scroll wheel works :{" "}
-													{item?.isScrollWheelWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													power adapter include :{" "}
-													{item?.isPowerAdapterInclude ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-
-												<p className="capitalize font-semibold text-blue-700">
-													power on/off :{" "}
-													{item?.isPowerOnOff ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													Speaker Works :{" "}
-													{item?.isSpeakerWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													Is Any Dent :{" "}
-													{item?.isThereAnyMejorScratchOrDent ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													Track pad works :{" "}
-													{item?.isTrackPadWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
-												<p className="capitalize font-semibold text-blue-700">
-													USB port works :{" "}
-													{item?.isUSBReceiverWork ? (
-														<span className="text-black font-medium">Yes</span>
-													) : (
-														<span className="text-black font-medium">No</span>
-													)}
-												</p>
+													<p className="capitalize font-semibold text-blue-700">
+														power on/off :{" "}
+														{item?.isPowerOnOff ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														Speaker Works :{" "}
+														{item?.isSpeakerWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														Is Any Dent :{" "}
+														{item?.isThereAnyMejorScratchOrDent ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														Track pad works :{" "}
+														{item?.isTrackPadWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+													<p className="capitalize font-semibold text-blue-700">
+														USB port works :{" "}
+														{item?.isUSBReceiverWork ? (
+															<span className="text-black font-medium">
+																Yes
+															</span>
+														) : (
+															<span className="text-black font-medium">No</span>
+														)}
+													</p>
+												</div>
 											</div>
 										</div>
 									);
