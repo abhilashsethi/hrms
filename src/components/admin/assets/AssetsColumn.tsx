@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { PDF } from "assets/home";
 import { HeadStyle } from "components/core";
-import { ReturnAsset } from "components/dialogues";
+import { AssignAsset, ReturnAsset } from "components/dialogues";
 import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
 import ViewAssetDetailsDrawer from "components/drawer/ViewAssetDetailsDrawer";
@@ -50,6 +50,11 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 	const [assetId, setAssetId] = useState(false);
 
 	const [isReturn, setIsReturn] = useState<{
+		dialogue?: boolean;
+		assetData?: string | null;
+	}>({ dialogue: false, assetData: null });
+
+	const [isAssign, setIsAssign] = useState<{
 		dialogue?: boolean;
 		assetData?: string | null;
 	}>({ dialogue: false, assetData: null });
@@ -153,6 +158,12 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 				open={assetDetails}
 				onClose={() => setAssetDetails(false)}
 				assetId={assetId}
+			/>
+			<AssignAsset
+				assetData={isAssign?.assetData}
+				open={isAssign?.dialogue}
+				handleClose={() => setIsAssign({ dialogue: false })}
+				mutate={mutate}
 			/>
 			<MaterialTable
 				title={<HeadStyle name="All Assets" icon={<PeopleRounded />} />}
@@ -287,13 +298,19 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 										</>
 									) : (
 										<Tooltip title="Assign Employee">
-											<Link href={`/admin/assets/assign-assets?id=${data?.id}`}>
-												<div className="text-sm bg-yellow-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-													<IconButton>
-														<AssignmentInd className="!text-white" />
-													</IconButton>
-												</div>
-											</Link>
+											<div className="text-sm bg-yellow-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+												<IconButton>
+													<AssignmentInd
+														onClick={() => {
+															setIsAssign({
+																dialogue: true,
+																assetData: data,
+															});
+														}}
+														className="!text-white"
+													/>
+												</IconButton>
+											</div>
 										</Tooltip>
 									)}
 									<Tooltip title="Edit">

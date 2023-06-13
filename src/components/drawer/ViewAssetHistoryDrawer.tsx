@@ -39,8 +39,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-
-
 const settings = {
 	dots: false,
 	infinite: true,
@@ -85,6 +83,8 @@ const ViewAssetHistoryDrawer = ({
 	const { data: assignId, isLoading } = useFetch<any>(
 		`assets/all/return/asset/${assetId}`
 	);
+
+	console.log(assignId);
 
 	const validationSchema = Yup.object().shape({
 		type: Yup.string().required("Branch is required!"),
@@ -251,9 +251,9 @@ const ViewAssetHistoryDrawer = ({
 											className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3`}
 										>
 											<div className="w-full order-2 border border-gray-500 rounded-md p-[1px] mb-2">
-												{item?.assignTimePhotos?.length ? (
+												{item?.returnTimePhotos?.length ? (
 													<Slider {...settings} className="">
-														{item?.assignTimePhotos?.map(
+														{item?.returnTimePhotos?.map(
 															(data: any, k: any) => (
 																<img
 																	key={k}
@@ -288,8 +288,8 @@ const ViewAssetHistoryDrawer = ({
 													<span className="text-black font-medium">
 														{item?.dateOfReturn
 															? moment(assignId?.dateOfReturn)?.format(
-																"DD/MM/YYYY"
-															)
+																	"DD/MM/YYYY"
+															  )
 															: "Not Specified"}
 													</span>
 												</div>
