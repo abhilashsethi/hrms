@@ -34,7 +34,7 @@ const ProjectDashBoard = () => {
 	useEffect(() => {
 		const demo = projectData?.yearWiseProjectCounts?.map((item: any) => {
 			return {
-				status: item?.year ? item?.year : "Not mentioned",
+				name: item?.status ? item?.status : "Not mentioned",
 				data: [item?.data[0]?.count ? item?.data[0]?.count : 0],
 			};
 		});
@@ -72,7 +72,7 @@ const ProjectDashBoard = () => {
 		},
 	];
 
-	console.log(reqData);
+	// console.log(reqData);
 
 	return (
 		<>
@@ -129,9 +129,11 @@ const ProjectDashBoard = () => {
 					<ProjectBarGraph
 						// series={}
 						series={reqData ? reqData : []}
-						categories={projectData?.yearWiseProjectCounts?.map(
-							(item: any) => item?.data[0]?.year
-						)}
+						categories={
+							projectData?.yearWiseProjectCounts?.map((item: any) =>
+								item?.data?.map((item: any) => item?.year)
+							)[0]
+						}
 						colors={["#5B50A1", "#C43C5C", "#E97451"]}
 						title=""
 						barHeight={360}
