@@ -292,7 +292,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                       />
                       <div className="hidden md:block">
                         <h1 className="text-sm">{user?.name}</h1>
-                        <h1 className="text-sm font-light">{user?.email}</h1>
+                        <h1 className="text-sm font-light">{user?.username}</h1>
                       </div>
                     </div>
                     <Menu
@@ -333,7 +333,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                         <Avatar src={user?.photo || " "} alt={user?.name} />
                         <ListItemText
                           primary={`${user?.name}`}
-                          secondary={user?.email}
+                          secondary={user?.username}
                         />
                       </MenuItem>
                       <Divider />

@@ -44,7 +44,7 @@ const AllEmployees = () => {
     `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
       empId ? `&employeeID=${empId}` : ""
     }${isRole ? `&role=${isRole}` : ""}${
-      isDepartment ? `&department=${isDepartment}` : ""
+      isDepartment ? `&departmentName=${isDepartment}` : ""
     }`
   );
   return (
