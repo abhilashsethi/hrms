@@ -21,7 +21,7 @@ const DashboardCardsGuest = ({ data }: Props) => {
 				/>
 			),
 			name: "Total Guest",
-			count: data?.GuestInfo?.totalGuest,
+			count: data?.GuestInfo?.totalGuest || 0,
 			link: "/admin/guests/all-guests",
 		},
 		{
@@ -34,7 +34,7 @@ const DashboardCardsGuest = ({ data }: Props) => {
 				/>
 			),
 			name: "Total Blocked Guest",
-			count: data?.GuestInfo?.blockedGuestCount,
+			count: data?.GuestInfo?.blockedGuestCount || 0,
 			link: "/admin/guests/all-guests",
 		},
 		{
@@ -44,7 +44,7 @@ const DashboardCardsGuest = ({ data }: Props) => {
 				<Man fontSize="large" className="text-white group-hover:text-white" />
 			),
 			name: "Total Male Guest",
-			count: data?.GuestInfo?.guestCountByGender[1]?._count,
+			count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
 			link: "/admin/guests/all-guests",
 		},
 		{
@@ -54,7 +54,7 @@ const DashboardCardsGuest = ({ data }: Props) => {
 				<Woman fontSize="large" className="text-white group-hover:text-white" />
 			),
 			name: "Total Female Guest",
-			count: data?.GuestInfo?.guestCountByGender[0]?._count,
+			count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
 			link: "/admin/guests/all-guests",
 		},
 	];
