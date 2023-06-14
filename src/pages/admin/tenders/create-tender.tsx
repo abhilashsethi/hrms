@@ -7,7 +7,12 @@ import {
   Typography,
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
-import { TenderDetailsCreate } from "components/tender";
+import {
+  AssignMembers,
+  TenderCreateDocuments,
+  TenderCreateLaststep,
+  TenderDetailsCreate,
+} from "components/tender";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 
@@ -25,15 +30,22 @@ const CreateTender = () => {
   const handleSteps = (step: any) => {
     switch (step) {
       case 0:
-        return <TenderDetailsCreate />;
+        return <TenderDetailsCreate handleNext={handleNext} />;
       case 1:
-        return <section>Second Step</section>;
+        return (
+          <TenderCreateDocuments
+            handleNext={handleNext}
+            handleBack={handleBack}
+          />
+        );
 
       case 2:
-        return <section>Third Step</section>;
+        return (
+          <AssignMembers handleNext={handleNext} handleBack={handleBack} />
+        );
 
       case 3:
-        return <section>Last Step</section>;
+        return <TenderCreateLaststep handleBack={handleBack} />;
 
       default:
         break;
