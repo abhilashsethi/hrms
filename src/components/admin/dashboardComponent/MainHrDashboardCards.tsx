@@ -40,9 +40,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
     {
       id: 3,
       color: "from-blue-600 to-blue-400",
-      icon: (
-        <AssignmentTurnedIn fontSize="large" className="text-white group-hover:text-white" />
-      ),
+      icon: (<AssignmentTurnedIn fontSize="large" className="text-white group-hover:text-white" />),
       name: "Today Total Attendance",
       count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
       link: "/admin",
