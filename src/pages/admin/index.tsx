@@ -1,6 +1,6 @@
 import { AdminDashboard, WelcomeUser } from "components/admin";
 import { DashboardSkeletonLoading } from "components/admin/assets";
-import { MainEmployeeDashboardCards, MainEmployeeDashboardCharts, MainHrDashboardCards, MainHrDashboardCharts } from "components/admin/employee";
+import { MainEmployeeDashboardCards, MainEmployeeDashboardCharts, MainHrDashboardCards, MainHrDashboardCharts } from "components/admin/dashboardComponent";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
@@ -10,10 +10,14 @@ const AdminHome = () => {
   return (
     <PanelLayout title="Dashboard - Admin Panel">
       <>
-        <WelcomeUser title="Welcome Superadmin!" />
-        <AdminDashboard />
+        {isLoading ? <DashboardSkeletonLoading />
+          : (
+            <>
+              <WelcomeUser title="Welcome Superadmin!" />
+              <AdminDashboard />
+            </>
+          )}
         {/* Dashboard for developer or employee */}
-
 
         {/* <WelcomeUser title="Welcome Developer Name!" />
         <section className="lg:px-8 px-4 py-4">
@@ -38,6 +42,7 @@ const AdminHome = () => {
               </>
             )}
         </section> */}
+
 
       </>
     </PanelLayout>
