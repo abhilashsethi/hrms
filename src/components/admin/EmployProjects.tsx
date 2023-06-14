@@ -2,13 +2,19 @@ import { HeadText, NoDatas } from "components/core";
 import moment from "moment";
 import { AccountTreeRounded } from "@mui/icons-material";
 import { status } from "nprogress";
+import { useFetch } from "hooks";
+import { useState } from "react";
 
 type Props = {
 	projectDetails?: any;
+	userName?: string;
 };
 
-const EmployProjects = ({ projectDetails }: Props) => {
-	// console.log(projectDetails);
+const EmployProjects = ({ projectDetails, userName }: Props) => {
+	const { data: projectData } = useFetch<any>(
+		`projects?memberName=${userName}`
+	);
+	console.log(projectData);
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
 			<HeadText title="Latest Projects" />
@@ -16,7 +22,7 @@ const EmployProjects = ({ projectDetails }: Props) => {
 				<NoDatas title="Not involved in any projects yet!" />
 			)}
 			<div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
-				{/* {projectDetails?.slice(0, 4)?.map((item: any, i: any) => (
+				{projectData?.map((item: any, i: any) => (
 					<div key={i} className="flex gap-1 py-3 border-b-[1px]">
 						<div className="w-1/5 flex justify-center items-center">
 							<div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
@@ -50,7 +56,7 @@ const EmployProjects = ({ projectDetails }: Props) => {
 							</p>
 						</div>
 					</div>
-				))} */}
+				))}
 			</div>
 		</section>
 	);

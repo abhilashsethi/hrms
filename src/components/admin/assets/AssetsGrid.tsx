@@ -209,6 +209,7 @@ const MoreOption = ({ item, mutate }: any) => {
 				open={isReturn?.dialogue}
 				handleClose={() => setIsReturn({ dialogue: false })}
 				mutate={returnMutate}
+				assignMutate={mutate}
 			/>
 			<AssignAsset
 				assetData={isAssign?.assetData}
@@ -237,6 +238,7 @@ const MoreOption = ({ item, mutate }: any) => {
 				open={assetDetails}
 				onClose={() => setAssetDetails(false)}
 				assetId={assetId}
+				mutate={mutate}
 			/>
 
 			<div key={item?.id} className="mb-4 w-full">
