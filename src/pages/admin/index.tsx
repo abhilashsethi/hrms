@@ -10,9 +10,9 @@ const AdminHome = () => {
   return (
     <PanelLayout title="Dashboard - Admin Panel">
       <>
-        {/* <WelcomeUser title="Welcome Superadmin!" />
-        <AdminDashboard /> */}
-        <WelcomeUser title="Welcome Developer Name!" />
+        <WelcomeUser title="Welcome Superadmin!" />
+        <AdminDashboard />
+        {/* <WelcomeUser title="Welcome Developer Name!" />
         <section className="lg:px-8 px-4 py-4">
           {isLoading ? <DashboardSkeletonLoading />
             : (
@@ -21,7 +21,7 @@ const AdminHome = () => {
                 <MainEmployeeDashboardCharts data={""} />
               </>
             )}
-        </section>
+        </section> */}
       </>
     </PanelLayout>
   );
