@@ -9,8 +9,10 @@ const AdminHome = () => {
         {/* <WelcomeUser title="Welcome Superadmin!" />
         <AdminDashboard /> */}
         <WelcomeUser title="Welcome Developer Name!" />
-        <MainEmployeeDashboardCards data={""} />
-        <MainEmployeeDashboardCharts data={""} />
+        <section className="lg:px-8 px-4 py-4">
+          <MainEmployeeDashboardCards data={""} />
+          <MainEmployeeDashboardCharts data={""} />
+        </section>
       </>
     </PanelLayout>
   );
