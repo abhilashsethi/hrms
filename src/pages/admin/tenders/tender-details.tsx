@@ -2,23 +2,20 @@ import {
   Article,
   FileCopy,
   FindInPage,
-  Print,
   Task,
   Timeline,
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Button, Tab } from "@mui/material";
+import { Box, Tab } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import {
   TenderDetail,
   TenderDocumentation,
-  TenderLayout,
   TenderReview,
   TenderSubmission,
   TenderTrack,
 } from "components/tender";
 import PanelLayout from "layouts/panel";
-import moment from "moment";
 import React from "react";
 
 const TenderDetails = () => {

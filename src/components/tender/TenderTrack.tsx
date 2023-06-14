@@ -9,7 +9,14 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { Add, Check, Create, Delete, Download } from "@mui/icons-material";
+import {
+  Add,
+  Check,
+  Create,
+  Delete,
+  Download,
+  Edit,
+} from "@mui/icons-material";
 import moment from "moment";
 
 const TenderTrack = () => {
@@ -141,7 +148,7 @@ const TenderTrack = () => {
               <div className="flex gap-1 justify-start">
                 <Tooltip title="Edit">
                   <IconButton size="small">
-                    <Download />
+                    <Edit />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Delete">

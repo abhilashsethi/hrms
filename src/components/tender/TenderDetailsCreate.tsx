@@ -1,9 +1,13 @@
 import { Check } from "@mui/icons-material";
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
 import { useState } from "react";
 import * as Yup from "yup";
+
+interface Props {
+  handleNext?: () => void;
+}
+
 const initialValues = {
   tenderNo: "",
   title: "",
@@ -16,9 +20,15 @@ const initialValues = {
 
 const validationSchema = Yup.object().shape({
   tenderNo: Yup.string().required("Required!"),
+  title: Yup.string().required("Required!"),
+  portal: Yup.string().required("Required!"),
+  category: Yup.string().required("Required!"),
+  date: Yup.string().required("Required!"),
+  time: Yup.string().required("Required!"),
+  bid: Yup.string().required("Required!"),
 });
 
-const TenderDetailsCreate = () => {
+const TenderDetailsCreate = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (values: any) => {
     console.log(values);
@@ -178,17 +188,18 @@ const TenderDetailsCreate = () => {
                   />
                 </div>
               </div>
-              <div className="flex justify-center md:py-4 py-2">
+              <div className="flex justify-end md:py-4 py-2">
                 <Button
-                  type="submit"
+                  // type="submit"
                   variant="contained"
                   className="!bg-theme"
+                  onClick={handleNext}
                   disabled={loading}
                   startIcon={
                     loading ? <CircularProgress size={20} /> : <Check />
                   }
                 >
-                  SUBMIT
+                  NEXT
                 </Button>
               </div>
             </Form>
