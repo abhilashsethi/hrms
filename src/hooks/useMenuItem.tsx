@@ -435,7 +435,6 @@ export default () => {
 		`roles`
 	);
 	const { user } = useAuth();
-
 	useEffect(() => {
 		const myData = roleData?.find((item: any) => item?.name === user?.role?.name)
 		let reqData = allData?.filter((item: any) => myData?.accessPages?.some((data: any) => data?.link === (item?.route ? item?.route : item?.submenus[0]?.route)))

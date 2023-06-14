@@ -31,7 +31,6 @@ import { Client } from "types";
 const AllClients = () => {
 	const [isGrid, setIsGrid] = useState(true);
 	const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
-	const [isIssue, setIsIssue] = useState<string | null>(null);
 	const [userName, setUsername] = useState<string | null>(null);
 	const [pageNumber, setPageNumber] = useState<number>(1);
 	const [isUpload, setIsUpload] = useState(false);
@@ -44,7 +43,7 @@ const AllClients = () => {
 	} = useFetch<Client[]>(
 		`clients?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
 			isOrderBy ? `&orderBy=${isOrderBy}` : ""
-		}${isIssue ? `&issueResolved=${isIssue}` : ""}`
+		}`
 	);
 	return (
 		<>
@@ -100,18 +99,17 @@ const AllClients = () => {
 							<IconButton
 								onClick={() => {
 									setIsOrderBy(null);
-									setIsIssue(null);
 									setUsername(null);
 								}}
 							>
 								<Tooltip
 									title={
-										isOrderBy != null || isIssue != null || userName != null
+										isOrderBy != null || userName != null
 											? `Remove Filters`
 											: `Filter`
 									}
 								>
-									{isOrderBy != null || isIssue != null || userName != null ? (
+									{isOrderBy != null || userName != null ? (
 										<Close className={"!text-white"} />
 									) : (
 										<FilterListRounded className={"!text-white"} />
@@ -148,20 +146,6 @@ const AllClients = () => {
 									</MenuItem>
 								))}
 							</TextField>
-							{/* <TextField
-                fullWidth
-                select
-                label="Issue Resolved"
-                size="small"
-                value={isIssue ? isIssue : ""}
-                onChange={(e) => {setPageNumber(1), setIsIssue(e?.target?.value)}}
-              >
-                {ticket.map((option) => (
-                  <MenuItem key={option.id} value={option.value}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </TextField> */}
 						</div>
 					</div>
 					{isGrid ? (

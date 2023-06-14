@@ -18,7 +18,6 @@ const EmployLeaves = ({ employeeId }: Props) => {
   const { data: leaveDetails, isLoading: leaveDataLoading } = useFetch<any[]>(
     `leaves?employeeID=${employeeId}`
   );
-
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
       <HeadText title="Employee Leaves" />
@@ -89,13 +88,12 @@ const EmployLeaves = ({ employeeId }: Props) => {
                 </span>
               </p>
               <span
-                className={`text-white text-xs px-4 py-1 ${
-                  item?.status === "Rejected"
+                className={`text-white text-xs px-4 py-1 ${item?.status === "Rejected"
                     ? "bg-red-500"
                     : item?.status === "Pending"
-                    ? "bg-yellow-500"
-                    : "bg-green-500"
-                } font-semibold rounded-md text-center`}
+                      ? "bg-yellow-500"
+                      : "bg-green-500"
+                  } font-semibold rounded-md text-center`}
               >
                 {item?.status}
               </span>
