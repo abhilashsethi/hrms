@@ -6,6 +6,7 @@ import {
 	CurrencyRupee,
 	Delete,
 	Info,
+	Inventory2,
 	PeopleRounded,
 	Spa,
 	Visibility,
@@ -166,7 +167,7 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 				mutate={mutate}
 			/>
 			<MaterialTable
-				title={<HeadStyle name="All Assets" icon={<PeopleRounded />} />}
+				title={<HeadStyle name="All Assets" icon={<Inventory2 />} />}
 				isLoading={!data}
 				data={data ? getDataWithSL<any>(data) : []}
 				options={{ ...MuiTblOptions(), selection: false, paging: false }}
