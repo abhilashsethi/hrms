@@ -41,8 +41,7 @@ const AllClients = () => {
     pagination,
     isLoading,
   } = useFetch<Client[]>(
-    `clients?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
-    }`
+    `clients?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
     <>
