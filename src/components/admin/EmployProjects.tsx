@@ -17,40 +17,40 @@ const EmployProjects = ({ projectDetails }: Props) => {
 			)}
 			<div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
 				{/* {projectDetails?.slice(0, 4)?.map((item: any, i: any) => (
-          <div key={i} className="flex gap-1 py-3 border-b-[1px]">
-            <div className="w-1/5 flex justify-center items-center">
-              <div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
-                <AccountTreeRounded className="!text-secondary" />
-              </div>
-            </div>
-            <div className="w-4/5">
-              <div className="flex justify-between pr-3 items-center">
-                <p className="text-sm font-semibold tracking-wide">
-                  {item?.name?.length >= 20
-                    ? item?.name?.substring(0, 20) + "..."
-                    : item?.name}
-                </p>
-                <span
-                  className={`py-1 px-3 rounded-md  ${
-                    item?.status === "Rejected"
-                      ? "bg-red-500"
-                      : item?.status === "Pending"
-                      ? "bg-yellow-500"
-                      : "bg-green-500"
-                  } tracking-wide text-white text-xs font-semibold`}
-                >
-                  {item?.status}
-                </span>
-              </div>
-              <p className="text-sm tracking-wide">
-                Starts On :{" "}
-                {item?.startDate
-                  ? moment(item?.startDate).format("ll")
-                  : "Date Not Specified"}
-              </p>
-            </div>
-          </div>
-        ))} */}
+					<div key={i} className="flex gap-1 py-3 border-b-[1px]">
+						<div className="w-1/5 flex justify-center items-center">
+							<div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
+								<AccountTreeRounded className="!text-secondary" />
+							</div>
+						</div>
+						<div className="w-4/5">
+							<div className="flex justify-between pr-3 items-center">
+								<p className="text-sm font-semibold tracking-wide">
+									{item?.name?.length >= 20
+										? item?.name?.substring(0, 20) + "..."
+										: item?.name}
+								</p>
+								<span
+									className={`py-1 px-3 rounded-md  ${
+										item?.status === "Rejected"
+											? "bg-red-500"
+											: item?.status === "Pending"
+											? "bg-yellow-500"
+											: "bg-green-500"
+									} tracking-wide text-white text-xs font-semibold`}
+								>
+									{item?.status}
+								</span>
+							</div>
+							<p className="text-sm tracking-wide">
+								Starts On :{" "}
+								{item?.startDate
+									? moment(item?.startDate).format("ll")
+									: "Date Not Specified"}
+							</p>
+						</div>
+					</div>
+				))} */}
 			</div>
 		</section>
 	);
