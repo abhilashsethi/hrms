@@ -25,7 +25,7 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
           <p className="text-lg font-bold text-center">Leave Details</p>
           <GuestDonutChart
             labels={["Casual Leave", "Sick Leave"]}
-            series={["70", "30"]}
+            series={[70, 30]}
             text=""
             type="donut"
             colors={[

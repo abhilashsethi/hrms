@@ -1,8 +1,8 @@
 import {
-  AssignmentTurnedIn,
-  ContentPasteGo,
-  Man,
-  Woman,
+  FactCheck,
+  AccountTree,
+  QuestionAnswer,
+  WebAsset,
 } from "@mui/icons-material";
 import Link from "next/link";
 interface Props {
@@ -15,7 +15,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       id: 1,
       color: "from-green-600 to-green-400",
       icon: (
-        <ContentPasteGo
+        <AccountTree
           fontSize="large"
           className="text-white group-hover:text-white"
         />
@@ -28,7 +28,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       id: 2,
       color: "from-red-600 to-red-400",
       icon: (
-        <AssignmentTurnedIn
+        <FactCheck
           fontSize="large"
           className="text-white group-hover:text-white"
         />
@@ -41,7 +41,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       id: 3,
       color: "from-blue-600 to-blue-400",
       icon: (
-        <Man fontSize="large" className="text-white group-hover:text-white" />
+        <WebAsset fontSize="large" className="text-white group-hover:text-white" />
       ),
       name: "Total Assets Assigned",
       count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
@@ -51,7 +51,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       id: 4,
       color: "from-[#ff5874] to-[#ff8196]",
       icon: (
-        <Man fontSize="large" className="text-white group-hover:text-white" />
+        <QuestionAnswer fontSize="large" className="text-white group-hover:text-white" />
       ),
       name: "Total Chats",
       count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
