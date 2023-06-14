@@ -6,6 +6,7 @@ import {
 	CurrencyRupee,
 	Delete,
 	Info,
+	Inventory2,
 	PeopleRounded,
 	Spa,
 	Visibility,
@@ -166,7 +167,7 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 				mutate={mutate}
 			/>
 			<MaterialTable
-				title={<HeadStyle name="All Assets" icon={<PeopleRounded />} />}
+				title={<HeadStyle name="All Assets" icon={<Inventory2 />} />}
 				isLoading={!data}
 				data={data ? getDataWithSL<any>(data) : []}
 				options={{ ...MuiTblOptions(), selection: false, paging: false }}
@@ -355,7 +356,8 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 									<Card
 										sx={{
 											minWidth: 450,
-											maxWidth: 500,
+											// maxWidth: 500,
+											maxWidth: 800,
 											transition: "0.3s",
 											margin: "auto",
 											borderRadius: "10px",
@@ -368,7 +370,7 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 										<CardContent>
 											<Typography className="flex" gutterBottom align="left">
 												<p>Images :</p>
-												<div className="flex gap-2">
+												<div className="grid grid-cols-3 gap-2">
 													{rowData?.photos?.length ? (
 														rowData?.photos?.map((item: any, i: any) => {
 															return <img className="w-36" src={item} alt="" />;

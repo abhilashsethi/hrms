@@ -17,7 +17,6 @@ import ChatHead from "./ChatHead";
 
 import DefaultChatView from "./DefaultChatView";
 import ChatSendLink from "components/dialogues/ChatSendLink";
-import { IChatMessages } from "types";
 import MainChatViewContainer from "./MainChatViewContainer";
 
 interface Props {
@@ -44,6 +43,8 @@ const ChatRightSection = () => {
     currentChatProfileDetails,
     handleSendNewMessage,
     revalidateCurrentChat,
+    reValidateGroupChat,
+    reValidatePrivateChat,
   } = useChatData();
 
   const handleSend = async () => {
@@ -73,6 +74,9 @@ const ChatRightSection = () => {
             userId: user?.id,
           });
           revalidateCurrentChat(currentChatProfileDetails?.id);
+          currentChatProfileDetails?.isPrivateGroup
+            ? reValidatePrivateChat()
+            : reValidateGroupChat();
           setIsLoading(false);
           setIsMessage(null);
           return;
