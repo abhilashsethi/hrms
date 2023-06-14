@@ -5,3 +5,6 @@ export { default as TenderReview } from "./TenderReview";
 export { default as TenderSubmission } from "./TenderSubmission";
 export { default as TenderTrack } from "./TenderTrack";
 export { default as TenderDetailsCreate } from "./TenderDetailsCreate";
+export { default as TenderCreateDocuments } from "./TenderCreateDocuments";
+export { default as AssignMembers } from "./AssignMembers";
+export { default as TenderCreateLaststep } from "./TenderCreateLaststep";
