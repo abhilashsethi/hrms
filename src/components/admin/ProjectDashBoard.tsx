@@ -148,7 +148,7 @@ const ProjectDashBoard = () => {
 							<ProjectsRadialBar
 								className="w-full"
 								type="radialBar"
-								radialLabel={["Finished", "Onhold", "Ongoing", "Pending"]}
+								radialLabel={["Finished", "On-hold", "Ongoing", "Pending"]}
 								radialSeries={[
 									projectData?.totalFinishedProjects,
 									projectData?.totalOnHoldProjects,
