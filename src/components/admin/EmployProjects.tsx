@@ -16,7 +16,7 @@ const EmployProjects = ({ projectDetails }: Props) => {
 				<NoDatas title="Not involved in any projects yet!" />
 			)}
 			<div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
-				{projectDetails?.slice(0, 4)?.map((item: any, i: any) => (
+				{/* {projectDetails?.slice(0, 4)?.map((item: any, i: any) => (
 					<div key={i} className="flex gap-1 py-3 border-b-[1px]">
 						<div className="w-1/5 flex justify-center items-center">
 							<div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
@@ -50,7 +50,7 @@ const EmployProjects = ({ projectDetails }: Props) => {
 							</p>
 						</div>
 					</div>
-				))}
+				))} */}
 			</div>
 		</section>
 	);
