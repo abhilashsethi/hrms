@@ -4,19 +4,19 @@ import { AccountTreeRounded } from "@mui/icons-material";
 import { status } from "nprogress";
 
 type Props = {
-  projectDetails?: any;
+	projectDetails?: any;
 };
 
 const EmployProjects = ({ projectDetails }: Props) => {
-  // console.log(projectDetails);
-  return (
-    <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
-      <HeadText title="Latest Projects" />
-      {projectDetails?.length === 0 && (
-        <NoDatas title="Not involved in any projects yet!" />
-      )}
-      <div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
-        {projectDetails?.slice(0, 4)?.map((item: any, i: any) => (
+	// console.log(projectDetails);
+	return (
+		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
+			<HeadText title="Latest Projects" />
+			{projectDetails?.length === 0 && (
+				<NoDatas title="Not involved in any projects yet!" />
+			)}
+			<div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
+				{/* {projectDetails?.slice(0, 4)?.map((item: any, i: any) => (
           <div key={i} className="flex gap-1 py-3 border-b-[1px]">
             <div className="w-1/5 flex justify-center items-center">
               <div className="h-12 w-12 bg-theme-100 rounded-full flex justify-center items-center">
@@ -50,31 +50,31 @@ const EmployProjects = ({ projectDetails }: Props) => {
               </p>
             </div>
           </div>
-        ))}
-      </div>
-    </section>
-  );
+        ))} */}
+			</div>
+		</section>
+	);
 };
 
 export default EmployProjects;
 
 const cards = [
-  {
-    id: 1,
-    title: "HRMS for SY",
-    deadline: "May 10, 2023",
-    status: "COMPLETED",
-  },
-  {
-    id: 2,
-    title: "Yard ERP",
-    deadline: "May 10, 2023",
-    status: "COMPLETED",
-  },
-  {
-    id: 3,
-    title: "Yard CRM",
-    deadline: "May 10, 2023",
-    status: "COMPLETED",
-  },
+	{
+		id: 1,
+		title: "HRMS for SY",
+		deadline: "May 10, 2023",
+		status: "COMPLETED",
+	},
+	{
+		id: 2,
+		title: "Yard ERP",
+		deadline: "May 10, 2023",
+		status: "COMPLETED",
+	},
+	{
+		id: 3,
+		title: "Yard CRM",
+		deadline: "May 10, 2023",
+		status: "COMPLETED",
+	},
 ];
