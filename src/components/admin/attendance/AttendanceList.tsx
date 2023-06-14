@@ -19,6 +19,7 @@ const AttendanceList = ({ data }: Props) => {
             : data?.map((_: any, i: number) => ({
                 ..._,
                 sl: i + 1,
+                email: _?.username,
                 intime:
                   _?.status === "present"
                     ? moment(_?.createdAt).format("hh:mm A")

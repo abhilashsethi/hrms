@@ -55,7 +55,7 @@ const AttendanceGrid = ({ data }: Props) => {
                   {item?.name}
                 </p>
                 <span className="text-sm text-slate-500">
-                  <RenderIconRow value={item?.email} isEmail />
+                  <RenderIconRow value={item?.username} isEmail />
                 </span>
               </div>
               <div className="w-full bg-slate-100 py-3 px-1 border-[1px] border-gray-200 rounded-lg">
