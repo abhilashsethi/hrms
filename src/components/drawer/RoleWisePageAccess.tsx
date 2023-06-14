@@ -206,6 +206,7 @@ const PageList = [
   { id: 2, value: "/admin/cards", icon: <ICONS.Dashboard_1 />, name: "Cards Dashboard" },
   { id: 3, value: "/admin/cards/scanned", icon: <ICONS.Scanned_Cards />, name: "Scanned Cards" },
   { id: 4, value: "/admin/employees", icon: <ICONS.Dashboard_1 />, name: "Employees Dashboard" },
+  { id: 4, value: "/admin/employees/profile", icon: <ICONS.All_Employee />, name: "Employee Profile" },
   { id: 5, value: "/admin/all-employees", icon: <ICONS.All_Employee />, name: "All Employees" },
   { id: 6, value: "/admin/employees/create-employee", icon: <ICONS.Add_Employee />, name: "Create Employee" },
   { id: 7, value: "/admin/employees/upload-employee-data", icon: <ICONS.Upload_Employee_Data />, name: "Upload Employee's Data" },

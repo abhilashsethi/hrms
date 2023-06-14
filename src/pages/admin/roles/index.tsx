@@ -15,7 +15,7 @@ const Roles = () => {
 
   return (
     <PanelLayout title="Roles - Admin Panel">
-      <section className="lg:px-8 px-4 py-4">
+      <section className="lg:px-8 px-2 py-4">
         <AdminBreadcrumbs links={links} />
         {isLoading ? <DashboardSkeletonLoading />
           : (

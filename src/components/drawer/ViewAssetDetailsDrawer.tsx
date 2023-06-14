@@ -12,8 +12,8 @@ import { User } from "types";
 type Props = {
 	open?: boolean | any;
 	onClose: () => void;
-
 	assetId?: any;
+	mutate?: any;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -45,12 +45,7 @@ const style = {
 	p: 4,
 };
 
-const ViewAssetDetailsDrawer = ({
-	open,
-	onClose,
-
-	assetId,
-}: Props) => {
+const ViewAssetDetailsDrawer = ({ open, onClose, assetId, mutate }: Props) => {
 	// console.log(assetId);
 	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState("");

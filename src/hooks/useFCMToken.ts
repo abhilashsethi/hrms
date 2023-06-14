@@ -11,9 +11,6 @@ const useFCMToken = (uid: string | undefined) => {
       "Notification" in window &&
       "serviceWorker" in navigator &&
       "PushManager" in window;
-
-    // console.log(isSupported());
-
     if (isSupported()) {
       Notification.requestPermission(async function (permission) {
         const messagingResolver = await messaging;
