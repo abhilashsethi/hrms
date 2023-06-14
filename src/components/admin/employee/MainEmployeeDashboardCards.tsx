@@ -51,7 +51,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       id: 4,
       color: "from-[#ff5874] to-[#ff8196]",
       icon: (
-        <Chats fontSize="large" className="text-white group-hover:text-white" />
+        <Man fontSize="large" className="text-white group-hover:text-white" />
       ),
       name: "Total Chats",
       count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
