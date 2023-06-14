@@ -1,6 +1,6 @@
 import { AdminDashboard, WelcomeUser } from "components/admin";
 import { DashboardSkeletonLoading } from "components/admin/assets";
-import { MainEmployeeDashboardCards, MainEmployeeDashboardCharts } from "components/admin/employee";
+import { MainEmployeeDashboardCards, MainEmployeeDashboardCharts, MainHrDashboardCards, MainHrDashboardCharts } from "components/admin/employee";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
@@ -12,6 +12,9 @@ const AdminHome = () => {
       <>
         <WelcomeUser title="Welcome Superadmin!" />
         <AdminDashboard />
+        {/* Dashboard for developer or employee */}
+
+
         {/* <WelcomeUser title="Welcome Developer Name!" />
         <section className="lg:px-8 px-4 py-4">
           {isLoading ? <DashboardSkeletonLoading />
@@ -22,6 +25,20 @@ const AdminHome = () => {
               </>
             )}
         </section> */}
+
+        {/* Dashboard for HR */}
+
+        {/* <WelcomeUser title="Welcome Hr!" />
+        <section className="lg:px-8 px-4 py-4">
+          {isLoading ? <DashboardSkeletonLoading />
+            : (
+              <>
+                <MainHrDashboardCards data={""} />
+                <MainHrDashboardCharts data={""} />
+              </>
+            )}
+        </section> */}
+
       </>
     </PanelLayout>
   );
