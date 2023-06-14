@@ -34,10 +34,8 @@ const Cards = () => {
     mutate,
     pagination,
   } = useFetch<Card[]>(
-    `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${
-      empId ? `&employeeID=${empId}` : ""
-    }${cardId ? `&cardId=${cardId}` : ""}${
-      userType ? `&assignedTo=${userType}` : ""
+    `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${empId ? `&employeeID=${empId}` : ""
+    }${cardId ? `&cardId=${cardId}` : ""}${userType ? `&assignedTo=${userType}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
@@ -67,19 +65,19 @@ const Cards = () => {
               <Tooltip
                 title={
                   isOrderBy != null ||
-                  userType != null ||
-                  cardId != null ||
-                  empId != null ||
-                  userName != null
+                    userType != null ||
+                    cardId != null ||
+                    empId != null ||
+                    userName != null
                     ? `Remove Filters`
                     : `Filter`
                 }
               >
                 {isOrderBy != null ||
-                userType != null ||
-                cardId != null ||
-                empId != null ||
-                userName != null ? (
+                  userType != null ||
+                  cardId != null ||
+                  empId != null ||
+                  userName != null ? (
                   <Close className={"!text-white"} />
                 ) : (
                   <FilterListRounded className={"!text-white"} />
@@ -171,7 +169,7 @@ const Cards = () => {
               <Pagination
                 count={Math.ceil(
                   Number(pagination?.total || 1) /
-                    Number(pagination?.limit || 1)
+                  Number(pagination?.limit || 1)
                 )}
                 onChange={(e, v: number) => {
                   setPageNumber(v);

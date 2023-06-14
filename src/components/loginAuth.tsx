@@ -13,14 +13,12 @@ import * as Yup from "yup";
 const LoginSchema = [
   {
     key: "1",
-    label: "Email",
-    placeHolder: "Type Your Email",
+    label: "Username",
+    placeHolder: "Type Your Username",
     icon: "",
-    name: "email",
+    name: "username",
     type: "text",
-    validationSchema: Yup.string()
-      .required("Email is required")
-      .email("Invalid Email Address"),
+    validationSchema: Yup.string().required("Username is required"),
     initialValue: "",
   },
   {
@@ -159,7 +157,7 @@ const LoginAuth = () => {
                               name={item.name}
                               placeholder={item.placeHolder}
                               type={showPassword ? "text" : item.type}
-                              className="w-full h-10  px-4"
+                              className="w-full h-10  px-4 bg-white"
                               onChange={(e) => {
                                 props.field.onChange(e);
                                 formik.handleChange(e);

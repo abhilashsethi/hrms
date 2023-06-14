@@ -1,3 +1,4 @@
+import { DashboardSkeletonLoading } from "components/admin/assets";
 import { DashboardCards, DashboardCharts } from "components/admin/roles";
 import { AdminBreadcrumbs, Loader } from "components/core";
 import { useFetch } from "hooks";
@@ -16,12 +17,15 @@ const Roles = () => {
     <PanelLayout title="Roles - Admin Panel">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
-        {isLoading && <Loader />}
-        <DashboardCards dashboardData={roleDashboard} roleCard={roleDataCard} />
-        <DashboardCharts
-          dashboardData={roleDashboard}
-          roleCard={roleDataCard}
-        />
+        {isLoading ? <DashboardSkeletonLoading />
+          : (
+            <>
+              <DashboardCards dashboardData={roleDashboard} roleCard={roleDataCard} />
+              <DashboardCharts
+                dashboardData={roleDashboard}
+                roleCard={roleDataCard}
+              />
+            </>)}
       </section>
     </PanelLayout>
   );

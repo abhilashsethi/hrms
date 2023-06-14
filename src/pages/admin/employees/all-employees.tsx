@@ -1,10 +1,17 @@
-import { Add, Close, FilterListRounded, Upload } from "@mui/icons-material";
 import { useTheme } from "@material-ui/core";
-import { Button, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
+import { Add, Close, FilterListRounded, Upload } from "@mui/icons-material";
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  Pagination,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { EmployeesColumn, EmplyeesGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
-  FiltersContainer,
   GridAndList,
   Loader,
   LoaderAnime,
@@ -34,8 +41,10 @@ const AllEmployees = () => {
     isLoading,
     pagination,
   } = useFetch<User[]>(
-    `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${empId ? `&employeeID=${empId}` : ""
-    }${isRole ? `&role=${isRole}` : ""}${isDepartment ? `&department=${isDepartment}` : ""
+    `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+      empId ? `&employeeID=${empId}` : ""
+    }${isRole ? `&role=${isRole}` : ""}${
+      isDepartment ? `&departmentName=${isDepartment}` : ""
     }`
   );
   return (
@@ -87,8 +96,24 @@ const AllEmployees = () => {
                 setIsDepartment(null);
               }}
             >
-              <Tooltip title={isDepartment != null || empId != null || isRole != null || userName != null ? `Remove Filters` : `Filter`}>
-                {isDepartment != null || empId != null || isRole != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+              <Tooltip
+                title={
+                  isDepartment != null ||
+                  empId != null ||
+                  isRole != null ||
+                  userName != null
+                    ? `Remove Filters`
+                    : `Filter`
+                }
+              >
+                {isDepartment != null ||
+                empId != null ||
+                isRole != null ||
+                userName != null ? (
+                  <Close className={"!text-white"} />
+                ) : (
+                  <FilterListRounded className={"!text-white"} />
+                )}
               </Tooltip>
             </IconButton>
           </div>
@@ -98,13 +123,17 @@ const AllEmployees = () => {
               size="small"
               value={empId ? empId : ""}
               placeholder="Employee Id"
-              onChange={(e) => {setPageNumber(1), setEmpId(e.target.value)}}
+              onChange={(e) => {
+                setPageNumber(1), setEmpId(e.target.value);
+              }}
             />
             <TextField
               fullWidth
               size="small"
               value={userName ? userName : ""}
-              onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
+              onChange={(e) => {
+                setPageNumber(1), setUsername(e.target.value);
+              }}
               placeholder="Employee Name"
             />
             <TextField
@@ -113,7 +142,9 @@ const AllEmployees = () => {
               label="Select Role"
               size="small"
               value={isRole ? isRole : ""}
-              onChange={(e) => {setPageNumber(1), setIsRole(e?.target?.value)}}
+              onChange={(e) => {
+                setPageNumber(1), setIsRole(e?.target?.value);
+              }}
             >
               {roleData?.map((option: any) => (
                 <MenuItem key={option.id} value={option.name}>
@@ -127,7 +158,9 @@ const AllEmployees = () => {
               label="Select Department"
               size="small"
               value={isDepartment ? isDepartment : ""}
-              onChange={(e) => {setPageNumber(1), setIsDepartment(e.target.value)}}
+              onChange={(e) => {
+                setPageNumber(1), setIsDepartment(e.target.value);
+              }}
             >
               {departmentData?.map((option: any) => (
                 <MenuItem key={option.id} value={option.name}>
@@ -151,15 +184,14 @@ const AllEmployees = () => {
         {employees?.length === 0 ? <LoaderAnime /> : null}
         <section className="mb-6">
           {Math.ceil(
-            Number(pagination?.total || 1) /
-            Number(pagination?.limit || 1)
+            Number(pagination?.total || 1) / Number(pagination?.limit || 1)
           ) > 1 ? (
             <div className="flex justify-center md:py-8 py-4">
               <Stack spacing={2}>
                 <Pagination
                   count={Math.ceil(
                     Number(pagination?.total || 1) /
-                    Number(pagination?.limit || 1)
+                      Number(pagination?.limit || 1)
                   )}
                   onChange={(e, v: number) => {
                     setPageNumber(v);

@@ -65,24 +65,41 @@ const EmployeeDetails = () => {
       {
         id: 1,
         title: "First Name",
-        value: `${employData?.firstName ? employData?.firstName : "---"}`,
+        value: employData?.firstName ? employData?.firstName : "---",
       },
       {
         id: 18,
         title: "Last Name",
-        value: `${employData?.lastName ? employData?.lastName : "---"}`,
+        value: employData?.lastName ? employData?.lastName : "---",
+      },
+      {
+        id: 19,
+        title: "Email",
+        value: employData?.username ? employData?.username : "---",
+        copy: true,
+        isCut: false,
       },
       {
         id: 2,
-        title: "Email",
-        value: `${employData?.email ? employData?.email : "---"}`,
+        title: "Personal Email",
+        value: employData?.email ? employData?.email : "---",
         copy: true,
+        isCut: false,
       },
+
       {
         id: 3,
         title: "Emp Id",
-        value: `${employData?.employeeID ? employData?.employeeID : "---"}`,
+        value: employData?.employeeID ? employData?.employeeID : "---",
         copy: true,
+      },
+      {
+        id: 10,
+        title: "Branch",
+        value: employData?.employeeOfBranch?.name
+          ? employData?.employeeOfBranch?.name
+          : "---",
+        copy: false,
       },
 
       {
@@ -126,7 +143,7 @@ const EmployeeDetails = () => {
       },
       {
         id: 9,
-        title: "Department Id",
+        title: "Department",
         value: `${
           employData?.department?.name ? employData?.department?.name : "---"
         }`,
@@ -139,50 +156,56 @@ const EmployeeDetails = () => {
     ],
     [employData]
   );
-  const personalDetails = [
-    {
-      id: 1,
-      title: "PAN No",
-      value: `${employData?.panNo ? employData?.panNo : "---"}`,
-    },
-    {
-      id: 2,
-      title: "Aadhar No",
-      value: `${employData?.aadharNo ? employData?.aadharNo : "---"}`,
-    },
-    {
-      id: 3,
-      title: "Gmail",
-      value: `${employData?.gmail ? employData?.gmail : "---"}`,
-    },
-    {
-      id: 5,
-      title: "Linkedin",
-      value: `${employData?.linkedin ? employData?.linkedin : "---"}`,
-    },
-    {
-      id: 6,
-      title: "Github",
-      value: `${employData?.github ? employData?.github : "---"}`,
-    },
-  ];
-  const bankDetails = [
-    {
-      id: 1,
-      title: "Bank Name",
-      value: `${employData?.bankName ? employData?.bankName : "---"}`,
-    },
-    {
-      id: 2,
-      title: "Bank Ac/No",
-      value: `${employData?.accountNo ? employData?.accountNo : "---"}`,
-    },
-    {
-      id: 3,
-      title: "IFSC Code",
-      value: `${employData?.IFSCCode ? employData?.IFSCCode : "---"}`,
-    },
-  ];
+  const personalDetails = useMemo(
+    () => [
+      {
+        id: 1,
+        title: "PAN No",
+        value: `${employData?.panNo ? employData?.panNo : "---"}`,
+      },
+      {
+        id: 2,
+        title: "Aadhar No",
+        value: `${employData?.aadharNo ? employData?.aadharNo : "---"}`,
+      },
+      {
+        id: 3,
+        title: "Gmail",
+        value: `${employData?.gmail ? employData?.gmail : "---"}`,
+      },
+      {
+        id: 5,
+        title: "Linkedin",
+        value: `${employData?.linkedin ? employData?.linkedin : "---"}`,
+      },
+      {
+        id: 6,
+        title: "Github",
+        value: `${employData?.github ? employData?.github : "---"}`,
+      },
+    ],
+    [employData]
+  );
+  const bankDetails = useMemo(
+    () => [
+      {
+        id: 1,
+        title: "Bank Name",
+        value: `${employData?.bankName ? employData?.bankName : "---"}`,
+      },
+      {
+        id: 2,
+        title: "Bank Ac/No",
+        value: `${employData?.accountNo ? employData?.accountNo : "---"}`,
+      },
+      {
+        id: 3,
+        title: "IFSC Code",
+        value: `${employData?.ifscCode ? employData?.ifscCode : "---"}`,
+      },
+    ],
+    [employData]
+  );
   if (isLoading) {
     return (
       <section className="min-h-screen">
@@ -233,7 +256,10 @@ const EmployeeDetails = () => {
                     </div>
                     <div className="w-2/3">
                       {item?.copy ? (
-                        <CopyClipboard value={item?.value} />
+                        <CopyClipboard
+                          value={item?.value}
+                          isCut={item?.isCut}
+                        />
                       ) : (
                         <p className="text-sm">{item?.value}</p>
                       )}

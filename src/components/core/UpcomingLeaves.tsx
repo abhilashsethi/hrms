@@ -9,35 +9,7 @@ import { useFetch } from "hooks";
 
 const UpcomingLeaves = ({ data }: any) => {
 	const { data: leaveDetails } = useFetch<any>(`leaves/dashboard/details`);
-	// console.log(leaveDetails?.leaves?.leaveTypesList);
 
-	// function CircularProgressWithLabel(
-	// 	props: CircularProgressProps & { value: number }
-	// ) {
-	// 	return (
-	// 		<div className="relative md:flex">
-	// 			<CircularProgress size={80} variant="determinate" {...props} />
-	// 			<div
-	// 				style={{
-	// 					top: 0,
-	// 					left: 0,
-	// 					bottom: 0,
-	// 					right: 0,
-	// 					position: "absolute",
-	// 					display: "flex",
-	// 					alignItems: "center",
-	// 					justifyContent: "center",
-	// 				}}
-	// 			>
-	// 				<Typography
-	// 					variant="caption"
-	// 					component="div"
-	// 					color="text.secondary"
-	// 				>{`${Math.round(props.value)}%`}</Typography>
-	// 			</div>
-	// 		</div>
-	// 	);
-	// }
 	const [progress, setProgress] = useState(80);
 
 	return (

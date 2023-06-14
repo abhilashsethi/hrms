@@ -16,6 +16,7 @@ import * as Yup from "yup";
 import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { Loader } from "components/core";
+import { User } from "types";
 
 interface Props {
   open?: any;
@@ -27,16 +28,16 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
-  const { data: employData, isLoading } = useFetch<any>(
+  const { data: employData, isLoading } = useFetch<User>(
     `users/${router?.query?.id}`
   );
   if (isLoading) {
     return <Loader />;
   }
   const initialValues = {
-    bankName: `${employData?.bankName ? employData?.bankName : ""}`,
-    IFSCCode: `${employData?.IFSCCode ? employData?.IFSCCode : ""}`,
-    accountNo: `${employData?.accountNo ? employData?.accountNo : ""}`,
+    bankName: employData?.bankName || "",
+    ifscCode: employData?.ifscCode || "",
+    accountNo: employData?.accountNo || "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -48,7 +49,7 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
         /^[a-zA-Z\s]+$/,
         "Bank name can only contain letters and spaces"
       ),
-    IFSCCode: Yup.string()
+    ifscCode: Yup.string()
       .required("IFSC code is required")
       .matches(/^[A-Z]{4}[0][A-Z0-9]{6}$/, "Invalid IFSC code"),
     accountNo: Yup.string()
@@ -155,15 +156,15 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
                           IFSC Code <span className="text-red-600">*</span>
                         </p>
                         <TextField
-                          name="IFSCCode"
+                          name="ifscCode"
                           fullWidth
                           size="small"
                           placeholder="Enter IFSC Code"
-                          value={values.IFSCCode}
+                          value={values.ifscCode}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.IFSCCode && !!errors.IFSCCode}
-                          helperText={touched.IFSCCode && errors.IFSCCode}
+                          error={touched.ifscCode && !!errors.ifscCode}
+                          helperText={touched.ifscCode && errors.ifscCode}
                         />
                       </div>
                       {/* accountNo */}

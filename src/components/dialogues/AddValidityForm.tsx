@@ -36,7 +36,22 @@ const AddValidity = ({
   const { change } = useChange();
   const formik = useFormik({
     initialValues: { start: "", end: "" },
-    validationSchema: yup.object({ start: yup.string().required("Required!") }),
+    validationSchema: yup.object({
+      start: yup
+        .date()
+        .required("Required!")
+        .test("minimum-date", "You have provided the past date!", (value) => {
+          const currentDate = new Date();
+          const selectedDate = new Date(value);
+          const minDate = new Date();
+          minDate.setDate(currentDate.getDate());
+          return selectedDate >= minDate;
+        }),
+      end: yup
+        .date()
+        .required("Please enter an end date!")
+        .min(yup.ref("start"), "End date should be greater than start date!"),
+    }),
     onSubmit: async (values) => {
       setLoading(true);
       try {
@@ -59,6 +74,7 @@ const AddValidity = ({
         }
         Swal.fire("Success", "Guest assigned successfully!", "success");
         mutate();
+        formik.resetForm();
         handleClose();
         closeDrawer();
         return;

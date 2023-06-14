@@ -24,7 +24,7 @@ const BankInfo = () => {
       <div className="bg-white rounded-md shadow-md shadow-theme px-6 py-4">
         {employData?.bankName ||
         employData?.accountNo ||
-        employData?.IFSCCode ? (
+        employData?.ifscCode ? (
           <>
             <div className="flex justify-between">
               <h1 className="text-xl font-medium py-2">Bank information</h1>
@@ -41,7 +41,7 @@ const BankInfo = () => {
               <h5 className="font-medium">Bank account No. :</h5>
               <span className="col-span-2 ">{employData?.accountNo}</span>
               <h5 className="font-medium">IFSC Code :</h5>
-              <span className="col-span-2 ">{employData?.IFSCCode}</span>
+              <span className="col-span-2 ">{employData?.ifscCode}</span>
             </div>
           </>
         ) : (

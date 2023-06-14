@@ -43,7 +43,7 @@ const EmployDashboard = () => {
 	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
 
 	const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
-	// console.log(employeeDetails);
+	console.log(employeeDetails);
 
 	const roleData = employeeDetails?.departmentWiseUsers;
 
@@ -182,7 +182,7 @@ const EmployDashboard = () => {
 						labels={
 							employeeDetails?.groupByGender?.length
 								? employeeDetails?.groupByGender?.map((item: any) =>
-										item?.gender ? item?.gender : []
+										item?.gender ? item?.gender : "Not specified"
 								  )
 								: []
 						}

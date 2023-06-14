@@ -15,15 +15,18 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { AssetsColumn, AssetsGrid } from "components/admin/assets";
-import { AllBranchColumn, AllBranchGrid } from "components/admin/branch";
-import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
-import { CreateDepartment } from "components/dialogues";
+import {
+	AdminBreadcrumbs,
+	Loader,
+	LoaderAnime,
+	SkeletonLoader,
+} from "components/core";
 import ChooseBranch from "components/dialogues/ChooseBranch";
 import ChooseBranchToViewAssets from "components/dialogues/ChooseBranchToViewAssets";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const AllAssets = () => {
 	const [isGrid, setIsGrid] = useState(true);
@@ -36,27 +39,18 @@ const AllAssets = () => {
 	const [isBranch, setIsBranch] = useState<string | null>(null);
 	const [isModel, setIsModel] = useState<string | null>(null);
 	const [branchId, setBranchId] = useState<string | null>(null);
-	console.log(branchId);
 
 	const {
-		data: departmentData,
+		data: assetsData,
 		mutate,
 		isLoading,
 		pagination,
 	} = useFetch<any>(
-		`departments?page=${pageNumber}&limit=8${
-			userName ? `&contains=${userName}` : ""
-		}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
+		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
+		}${isBrand ? `&brandName=${isBrand}` : ""}${isBranch ? `&branchName=${isBranch}` : ""
+		}${isModel ? `&modelName=${isModel}` : ""}${branchId ? `&branchId=${branchId}` : ""
+		}`
 	);
-
-	const { data: assetsData, mutate: assetMutate } = useFetch<any>(
-		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
-			isOrderBy ? `&orderBy=${isOrderBy}` : ""
-		}${isBrand ? `&brandName=${isBrand}` : ""}${
-			isBranch ? `&branchName=${isBranch}` : ""
-		}${isModel ? `&modelName=${isModel}` : ""}`
-	);
-	// console.log(assetsData);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -87,9 +81,8 @@ const AllAssets = () => {
 									<div className="flex gap-1">
 										<IconButton onClick={() => setIsGrid(true)} size="small">
 											<div
-												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-													isGrid && `border-2 border-theme`
-												}`}
+												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${isGrid && `border-2 border-theme`
+													}`}
 											>
 												<GridViewRounded
 													className={`${isGrid && `!text-theme`}`}
@@ -98,9 +91,8 @@ const AllAssets = () => {
 										</IconButton>
 										<IconButton onClick={() => setIsGrid(false)} size="small">
 											<div
-												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-													!isGrid && `border-2 border-theme`
-												}`}
+												className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${!isGrid && `border-2 border-theme`
+													}`}
 											>
 												<TableRowsRounded
 													className={`${!isGrid && `!text-theme`}`}
@@ -108,16 +100,15 @@ const AllAssets = () => {
 											</div>
 										</IconButton>
 									</div>
-									{/* <Link href="/admin/assets/create-assets"> */}
-									<Button
-										onClick={() => setIsChoose(true)}
-										variant="contained"
-										className="!bg-theme"
-										startIcon={<Add />}
-									>
-										CREATE ASSETS
-									</Button>
-									{/* </Link> */}
+									<Link href="/admin/assets/create-assets">
+										<Button
+											variant="contained"
+											className="!bg-theme"
+											startIcon={<Add />}
+										>
+											CREATE ASSETS
+										</Button>
+									</Link>
 								</div>
 							</div>
 							<div>
@@ -138,19 +129,19 @@ const AllAssets = () => {
 											<Tooltip
 												title={
 													isOrderBy != null ||
-													userName != null ||
-													isBrand != null ||
-													isBranch != null ||
-													isModel != null
+														userName != null ||
+														isBrand != null ||
+														isBranch != null ||
+														isModel != null
 														? `Remove Filters`
 														: `Filter`
 												}
 											>
 												{isOrderBy != null ||
-												userName != null ||
-												isBrand != null ||
-												isBranch != null ||
-												isModel != null ? (
+													userName != null ||
+													isBrand != null ||
+													isBranch != null ||
+													isModel != null ? (
 													<Close className={"!text-white"} />
 												) : (
 													<FilterListRounded className={"!text-white"} />
@@ -217,7 +208,7 @@ const AllAssets = () => {
 											onChange={(e) => {
 												setPageNumber(1), setIsModel(e.target.value);
 											}}
-											placeholder="Model Number"
+											placeholder="Model Name"
 											name="modelName"
 										/>
 									</div>
@@ -225,13 +216,13 @@ const AllAssets = () => {
 							</div>
 							{isGrid ? (
 								<>
-									{isLoading && <Loader />}
-									<AssetsGrid data={assetsData} mutate={assetMutate} />
+									{isLoading && <SkeletonLoader />}
+									<AssetsGrid data={assetsData} mutate={mutate} />
 								</>
 							) : (
 								<>
 									{isLoading && <Loader />}
-									<AssetsColumn data={assetsData} mutate={assetMutate} />
+									<AssetsColumn data={assetsData} mutate={mutate} />
 								</>
 							)}
 							{assetsData?.length === 0 ? <LoaderAnime /> : null}
@@ -243,7 +234,7 @@ const AllAssets = () => {
 										<Pagination
 											count={Math.ceil(
 												Number(pagination?.total || 1) /
-													Number(pagination?.limit || 1)
+												Number(pagination?.limit || 1)
 											)}
 											onChange={(e, v: number) => {
 												setPageNumber(v);
@@ -280,7 +271,7 @@ const AllAssets = () => {
 export default AllAssets;
 
 const links = [
-	// { id: 1, page: "Branch", link: "/admin/branch" },
+	{ id: 1, page: "Assets", link: "/admin/assets" },
 	{
 		id: 2,
 		page: "All Assets",
@@ -292,140 +283,4 @@ const short = [
 	{ id: 2, value: "name:desc", name: "Name Descending" },
 	{ id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
 	{ id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
-];
-
-const assetData = [
-	{
-		id: "01",
-		name: "Laptop",
-		photos: [
-			{
-				i: 1,
-				photo:
-					"https://img.freepik.com/free-photo/laptop-with-blank-black-screen-white-table_53876-97915.jpg?w=996&t=st=1685941336~exp=1685941936~hmac=600279e95b0695fc35146572dbae5a835b4b173cda718b594fff338d67c92c1f",
-			},
-			{
-				i: 2,
-				photo:
-					"https://img.freepik.com/free-photo/work-desk-with-computer-cup-with-pens-pencils-against-white-wall_181624-44978.jpg?w=996&t=st=1685941433~exp=1685942033~hmac=dcd1ecea9d29a5b13041ca4b54294595ad87ef525867f1b8cf5c1d3c3be44f88",
-			},
-			{
-				i: 3,
-				photo:
-					"https://img.freepik.com/free-photo/empty-meeting-room-with-table-whiteboard_1262-3763.jpg?w=996&t=st=1685941618~exp=1685942218~hmac=9cd100c941a6b9bceb1c82b24a870c0ba7da1bbe0d50a6acd83e162bc284d87c",
-			},
-			{
-				i: 4,
-				photo:
-					"https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
-			},
-		],
-		modelNo: "82K201Y8IN",
-		brand: "Lenovo",
-		dateOfPurchase: "05/06/2023",
-		billAmount: "50,000",
-		currentMp: "40,000",
-		slNo: "2131335465",
-		docs: "",
-	},
-	{
-		id: "02",
-		name: "Desktop",
-		photos: [
-			{
-				i: 1,
-				photo:
-					"https://img.freepik.com/free-photo/laptop-with-blank-black-screen-white-table_53876-97915.jpg?w=996&t=st=1685941336~exp=1685941936~hmac=600279e95b0695fc35146572dbae5a835b4b173cda718b594fff338d67c92c1f",
-			},
-			{
-				i: 2,
-				photo:
-					"https://img.freepik.com/free-photo/work-desk-with-computer-cup-with-pens-pencils-against-white-wall_181624-44978.jpg?w=996&t=st=1685941433~exp=1685942033~hmac=dcd1ecea9d29a5b13041ca4b54294595ad87ef525867f1b8cf5c1d3c3be44f88",
-			},
-			{
-				i: 3,
-				photo:
-					"https://img.freepik.com/free-photo/empty-meeting-room-with-table-whiteboard_1262-3763.jpg?w=996&t=st=1685941618~exp=1685942218~hmac=9cd100c941a6b9bceb1c82b24a870c0ba7da1bbe0d50a6acd83e162bc284d87c",
-			},
-			{
-				i: 4,
-				photo:
-					"https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
-			},
-		],
-		modelNo: "82K201Y8IN",
-		brand: "Lenovo",
-		dateOfPurchase: "05/06/2023",
-		billAmount: "50,000",
-		currentMp: "40,000",
-		slNo: "2131335465",
-		docs: "",
-	},
-	{
-		id: "03",
-		name: "Office Chairs",
-		location: "Electronic City, Karnatak,",
-		photos: [
-			{
-				i: 1,
-				photo:
-					"https://img.freepik.com/free-photo/laptop-with-blank-black-screen-white-table_53876-97915.jpg?w=996&t=st=1685941336~exp=1685941936~hmac=600279e95b0695fc35146572dbae5a835b4b173cda718b594fff338d67c92c1f",
-			},
-			{
-				i: 2,
-				photo:
-					"https://img.freepik.com/free-photo/work-desk-with-computer-cup-with-pens-pencils-against-white-wall_181624-44978.jpg?w=996&t=st=1685941433~exp=1685942033~hmac=dcd1ecea9d29a5b13041ca4b54294595ad87ef525867f1b8cf5c1d3c3be44f88",
-			},
-			{
-				i: 3,
-				photo:
-					"https://img.freepik.com/free-photo/empty-meeting-room-with-table-whiteboard_1262-3763.jpg?w=996&t=st=1685941618~exp=1685942218~hmac=9cd100c941a6b9bceb1c82b24a870c0ba7da1bbe0d50a6acd83e162bc284d87c",
-			},
-			{
-				i: 4,
-				photo:
-					"https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
-			},
-		],
-		modelNo: "Movable Chair",
-		brand: "",
-		dateOfPurchase: "05/06/2023",
-		billAmount: "50,000",
-		currentMp: "40,000",
-		slNo: "2131335465",
-		docs: "",
-	},
-	{
-		id: "04",
-		name: "Printer",
-		photos: [
-			{
-				i: 1,
-				photo:
-					"https://img.freepik.com/free-photo/laptop-with-blank-black-screen-white-table_53876-97915.jpg?w=996&t=st=1685941336~exp=1685941936~hmac=600279e95b0695fc35146572dbae5a835b4b173cda718b594fff338d67c92c1f",
-			},
-			{
-				i: 2,
-				photo:
-					"https://img.freepik.com/free-photo/work-desk-with-computer-cup-with-pens-pencils-against-white-wall_181624-44978.jpg?w=996&t=st=1685941433~exp=1685942033~hmac=dcd1ecea9d29a5b13041ca4b54294595ad87ef525867f1b8cf5c1d3c3be44f88",
-			},
-			{
-				i: 3,
-				photo:
-					"https://img.freepik.com/free-photo/empty-meeting-room-with-table-whiteboard_1262-3763.jpg?w=996&t=st=1685941618~exp=1685942218~hmac=9cd100c941a6b9bceb1c82b24a870c0ba7da1bbe0d50a6acd83e162bc284d87c",
-			},
-			{
-				i: 4,
-				photo:
-					"https://img.freepik.com/free-photo/home-printer-based-toner_23-2149287461.jpg?w=996&t=st=1685943942~exp=1685944542~hmac=ca684816e145f3b09d5192377ff31eb0fed21d348b67d326b8582c36defce9e0",
-			},
-		],
-		modelNo: "82K201Y8IN",
-		brand: "Lenovo",
-		dateOfPurchase: "05/06/2023",
-		billAmount: "50,000",
-		currentMp: "40,000",
-		slNo: "2131335465",
-		docs: "",
-	},
 ];

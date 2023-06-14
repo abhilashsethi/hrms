@@ -1,3 +1,4 @@
+import { DashboardSkeletonLoading } from "components/admin/assets";
 import { DashboardCards, DashboardCharts } from "components/admin/department";
 import { AdminBreadcrumbs, Loader } from "components/core";
 import { useFetch } from "hooks";
@@ -12,9 +13,12 @@ const index = () => {
       <>
         <section className="lg:px-8 px-4 py-4">
           <AdminBreadcrumbs links={links} />
-          {isLoading && <Loader />}
-          <DashboardCards data={departmentDashboard} />
-          <DashboardCharts data={departmentDashboard} />
+          {isLoading ? <DashboardSkeletonLoading />
+            : (
+              <>
+                <DashboardCards data={departmentDashboard} />
+                <DashboardCharts data={departmentDashboard} />
+              </>)}
         </section>
       </>
     </PanelLayout>

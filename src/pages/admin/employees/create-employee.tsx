@@ -21,6 +21,7 @@ const initialValues = {
   email: "",
   roleId: "",
   departmentId: "",
+  employeeOfBranchId: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -41,6 +42,7 @@ const validationSchema = Yup.object().shape({
     .max(50, "Last name must be less than 50 characters")
     .required("Last name is required!"),
   phone: Yup.string()
+    .required("Required!")
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
       "Phone number is not valid"
@@ -50,6 +52,9 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required!"),
+  roleId: Yup.string().required("Required!"),
+  departmentId: Yup.string().required("Required!"),
+  employeeOfBranchId: Yup.string().required("Required!"),
   // password: Yup.string()
   //   .min(6, "Password should minimum 6 characters!")
   //   .required("Password is required!"),
@@ -65,6 +70,7 @@ const CreateEmployee = () => {
   const [loading, setLoading] = useState(false);
   const { data: departmentsData } = useFetch<any>(`departments`);
   const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
+  const { data: branchData } = useFetch<any>(`branches`);
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
     const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
@@ -79,8 +85,9 @@ const CreateEmployee = () => {
         body: reqValue,
       });
       setLoading(false);
+      console.log(res);
       if (res?.status !== 201) {
-        Swal.fire("Error", res?.results?.message || "Unable to Submit", "info");
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "info");
         setLoading(false);
         return;
       }
@@ -163,7 +170,7 @@ const CreateEmployee = () => {
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="email">
-                          Email <span className="text-red-600">*</span>
+                          Personal Email <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
@@ -177,6 +184,40 @@ const CreateEmployee = () => {
                         onBlur={handleBlur}
                         error={touched.email && !!errors.email}
                         helperText={touched.email && errors.email}
+                      />
+                    </div>
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="py-2">
+                        <InputLabel htmlFor="employeeOfBranchId">
+                          Branch <span className="text-red-600">*</span>
+                        </InputLabel>
+                      </div>
+
+                      <Autocomplete
+                        fullWidth
+                        size="small"
+                        id="employeeOfBranchId"
+                        options={branchData || []}
+                        onChange={(e: any, r: any) => {
+                          setFieldValue("employeeOfBranchId", r?.id);
+                        }}
+                        getOptionLabel={(option: any) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            // label="Role"
+                            placeholder="Branch"
+                            onBlur={handleBlur}
+                            error={
+                              touched.employeeOfBranchId &&
+                              !!errors.employeeOfBranchId
+                            }
+                            helperText={
+                              touched.employeeOfBranchId &&
+                              errors.employeeOfBranchId
+                            }
+                          />
+                        )}
                       />
                     </div>
                     {/* <div className="md:px-4 px-2 md:py-2 py-1">
@@ -218,7 +259,9 @@ const CreateEmployee = () => {
                     </div> */}
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="phone">Phone</InputLabel>
+                        <InputLabel htmlFor="phone">
+                          Phone <span className="text-red-600">*</span>
+                        </InputLabel>
                       </div>
                       <TextField
                         size="small"
@@ -235,7 +278,9 @@ const CreateEmployee = () => {
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="role">Role</InputLabel>
+                        <InputLabel htmlFor="role">
+                          Role <span className="text-red-600">*</span>
+                        </InputLabel>
                       </div>
 
                       <Autocomplete
@@ -262,7 +307,8 @@ const CreateEmployee = () => {
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="departmentId">
-                          Department Name
+                          Department Name{" "}
+                          <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <Autocomplete

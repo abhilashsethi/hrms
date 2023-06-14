@@ -18,21 +18,32 @@ import Swal from "sweetalert2";
 import { uploadFile } from "utils";
 import * as Yup from "yup";
 const initialValues = {
-  name: "",
+  firstName: "",
+  lastName: "",
   phone: "",
   email: "",
+  gender: "",
   password: "",
   confirmPassword: "",
-  gender: "",
 };
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
-    .min(2, "Name must be at least 2 characters")
-    .max(50, "Name must be less than 50 characters")
-    .required("Name is required!"),
-
+  firstName: Yup.string()
+    .matches(
+      /^[A-Za-z ]+$/,
+      "First name must only contain alphabetic characters"
+    )
+    .min(2, "First name must be at least 2 characters")
+    .max(50, "First name must be less than 50 characters")
+    .required("First name is required!"),
+  lastName: Yup.string()
+    .matches(
+      /^[A-Za-z ]+$/,
+      "Last name must only contain alphabetic characters"
+    )
+    .min(2, "Last name must be at least 2 characters")
+    .max(50, "Last name must be less than 50 characters")
+    .required("Last name is required!"),
   phone: Yup.string()
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
@@ -49,21 +60,14 @@ const validationSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password Must Match!")
     .required("Confirm password is required!"),
-  image: Yup.mixed()
-    .test("fileSize", "Image size is too large", (value: any) => {
-      if (value) {
-        const maxSize = 2 * 1024 * 1024; // Maximum size in bytes (2MB)
-        return value?.size <= maxSize;
-      }
-      return true;
-    })
-    .test("fileType", "Invalid file type", (value: any) => {
-      if (value) {
-        const supportedFormats = ["image/jpeg", "image/png", "image/gif"];
-        return supportedFormats.includes(value?.type);
-      }
-      return true;
-    }),
+  image: Yup.mixed().test(
+    "fileType",
+    "Only image files are allowed",
+    (value: any) => {
+      if (!value) return true; // Return true for optional field if no file is selected
+      return value && value?.type.startsWith("image/");
+    }
+  ),
 });
 const AddClients = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -71,29 +75,58 @@ const AddClients = () => {
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
-    setLoading(true);
     const uniId = new Date().getTime();
-    try {
-      delete values.confirmPassword;
-      const url: any = await uploadFile(values?.image, `${uniId}.png`);
-      delete values.image;
-      const res = await change(`clients`, {
-        body: { ...values, photo: url },
-      });
-      setLoading(false);
-      if (res?.status !== 201) {
-        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
-        setLoading(false);
-        return;
+    const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
+      if (value && key !== "confirmPassword" && key !== "image") {
+        acc[key] = value;
       }
-      router?.push("/admin/clients/all-clients");
-      Swal.fire(`Success`, `You have successfully Created!`, `success`);
-      return;
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
+      return acc;
+    }, {});
+    if (values?.image) {
+      try {
+        setLoading(true);
+        // delete values.confirmPassword;
+        const url: any = await uploadFile(values?.image, `${uniId}.png`);
+        delete values.image;
+        const res = await change(`clients`, {
+          body: { ...reqValue, photo: url },
+        });
+        setLoading(false);
+        if (res?.status !== 201) {
+          Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+          setLoading(false);
+          return;
+        }
+        router?.push("/admin/clients/all-clients");
+        Swal.fire(`Success`, `You have successfully Created!`, `success`);
+        return;
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      try {
+        setLoading(true);
+        const res = await change(`clients`, {
+          body: { ...reqValue },
+        });
+        setLoading(false);
+        if (res?.status !== 201) {
+          Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+          setLoading(false);
+          return;
+        }
+        router?.push("/admin/clients/all-clients");
+        Swal.fire(`Success`, `You have successfully Created!`, `success`);
+        return;
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
     }
   };
   return (
@@ -123,21 +156,40 @@ const AddClients = () => {
                 <div className="grid lg:grid-cols-2">
                   <div className="px-4 py-2">
                     <div className="py-2">
-                      <InputLabel htmlFor="name">
-                        Name <span className="text-red-600">*</span>
+                      <InputLabel htmlFor="firstName">
+                        First Name <span className="text-red-600">*</span>
                       </InputLabel>
                     </div>
                     <TextField
                       fullWidth
                       size="small"
-                      id="name"
-                      placeholder="Name"
-                      name="name"
-                      value={values.name}
+                      id="firstName"
+                      placeholder="First Name"
+                      name="firstName"
+                      value={values.firstName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.name && !!errors.name}
-                      helperText={touched.name && errors.name}
+                      error={touched.firstName && !!errors.firstName}
+                      helperText={touched.firstName && errors.firstName}
+                    />
+                  </div>
+                  <div className="px-4 py-2">
+                    <div className="py-2">
+                      <InputLabel htmlFor="firstName">
+                        Last Name <span className="text-red-600">*</span>
+                      </InputLabel>
+                    </div>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      id="lastName"
+                      placeholder="Last Name"
+                      name="lastName"
+                      value={values.lastName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.lastName && !!errors.lastName}
+                      helperText={touched.lastName && errors.lastName}
                     />
                   </div>
                   <div className="px-4 py-2">
@@ -288,7 +340,7 @@ const AddClients = () => {
                   <ClientImageUpload
                     values={values}
                     setImageValue={(event: any) => {
-                      setFieldValue("image", event.currentTarget.files[0]);
+                      setFieldValue("image", event.target.files[0]);
                     }}
                   >
                     <ErrorMessage name="image" />

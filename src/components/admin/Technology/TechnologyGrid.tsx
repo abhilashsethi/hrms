@@ -11,7 +11,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { PhotoViewerGuests } from "components/core";
+import { LoaderAnime, PhotoViewerGuests } from "components/core";
 import { UpdateTechnology } from "components/dialogues";
 import { useChange } from "hooks";
 
@@ -24,6 +24,9 @@ interface Props {
   mutate?: any;
 }
 const TechnologyGrid = ({ data, mutate }: Props) => {
+  if (data?.length === 0) {
+    return <LoaderAnime />;
+  }
   return (
     <section className="my-4">
       <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">

@@ -1,7 +1,7 @@
-import { Delete, Edit, Info } from "@mui/icons-material";
-import { Grid, IconButton, Tooltip } from "@mui/material";
+import { Delete, DoorSliding, Edit, Info } from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
 import { UpdateRole } from "components/dialogues";
-import { RoleInformation } from "components/drawer";
+import { RoleInformation, RoleWisePageAccess } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -13,6 +13,8 @@ interface Props {
 }
 
 const AllRollGrid = ({ data, mutate }: Props) => {
+  const [assetHistory, setAssetHistory] = useState(false);
+  const [roleId, setRoleId] = useState("");
   const [roleData, setRoleData] = useState("");
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{
@@ -66,6 +68,11 @@ const AllRollGrid = ({ data, mutate }: Props) => {
   };
   return (
     <>
+      <RoleWisePageAccess
+        open={assetHistory}
+        onClose={() => setAssetHistory(false)}
+        roleId={roleId}
+      />
       <UpdateRole
         id={isUpdate?.id}
         open={isUpdate?.dialogue}
@@ -122,6 +129,18 @@ const AllRollGrid = ({ data, mutate }: Props) => {
                           }
                         >
                           <Info className="!text-white" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                    <div className="h-10 w-10 cursor-pointer hover:shadow-xl rounded-full bg-gradient-to-r from-green-600 to-green-400 flex justify-center items-center text-lg font-semibold">
+                      <Tooltip title="Page Access">
+                        <IconButton
+                          onClick={() => {
+                            setAssetHistory(true);
+                            setRoleId(item?.id);
+                          }}
+                        >
+                          <DoorSliding className="!text-white" />
                         </IconButton>
                       </Tooltip>
                     </div>

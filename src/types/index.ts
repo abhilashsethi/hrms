@@ -71,6 +71,7 @@ export interface Guest {
 export type User = {
   firstName?: string;
   lastName?: string;
+  username?: String;
   id: string;
   email: string;
   password: string;
@@ -95,7 +96,7 @@ export type User = {
   kpi?: number;
   salaryInfoNewFields?: any;
   github?: string | null;
-  IFSCCode?: string | null;
+  ifscCode?: string | null;
   bankName?: string | null;
   bloodGroup?: BloodGroup;
   accountNo?: string | null;
@@ -110,6 +111,11 @@ export type User = {
     id?: string;
     createdAt?: string;
     updatedAt?: string;
+  };
+  employeeOfBranchId?: string | null;
+  employeeOfBranch?: {
+    id?: string;
+    name?: string;
   };
   wallet?: number;
   lastActiveTime?: string;
@@ -165,6 +171,7 @@ export type Tickets = {
 };
 export type Projects = {
   URLs?: urlTypes[];
+  endDate?: string | null;
   name: string;
   description: string | null;
   devURL: string | null;
@@ -197,6 +204,13 @@ export type Role = {
   updatedAt: Date;
   users: User[];
   departments: string;
+  accessPages: Pages[];
+};
+export type Pages = {
+  pageId: string;
+  link: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Leave = {

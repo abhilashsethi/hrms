@@ -42,16 +42,16 @@ const UploadBranchImage = ({
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      console.log(values);
       const photoUrls = [];
       for (const photo of values?.photos) {
         const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
         photoUrls.push(url);
       }
-      console.log(photoUrls);
+      const newPhotoArray = [...branchData?.photos, ...photoUrls];
+
       const res: any = await change(`branches/${branchData?.id}`, {
         method: "PATCH",
-        body: { photos: photoUrls },
+        body: { photos: newPhotoArray },
       });
       setLoading(false);
       if (res?.status !== 200) {

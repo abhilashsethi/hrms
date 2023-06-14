@@ -1,3 +1,4 @@
+import { DashboardSkeletonLoading } from "components/admin/assets";
 import {
   DashboardCardsGuest,
   DashboardChartsGuest,
@@ -14,9 +15,12 @@ const GuestsDashboard = () => {
     <PanelLayout title="Guests Dashboard - Admin Panel">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
-        {isLoading && <Loader />}
-        <DashboardCardsGuest data={guestData} />
-        <DashboardChartsGuest data={guestData} />
+        {isLoading ? <DashboardSkeletonLoading />
+          : (
+            <>
+              <DashboardCardsGuest data={guestData} />
+              <DashboardChartsGuest data={guestData} />
+            </>)}
       </section>
     </PanelLayout>
   );

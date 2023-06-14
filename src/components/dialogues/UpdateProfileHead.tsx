@@ -42,10 +42,20 @@ const validationSchema = Yup.object().shape({
     .min(2, "Last name must be at least 2 characters")
     .max(50, "Last name must be less than 50 characters")
     .required("Last name is required!"),
-  email: Yup.string().email("Invalid gmail address"),
-  employeeID: Yup.string().required("Employee ID is required!"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Personal Email Required!"),
+  // employeeID: Yup.string().required("Employee ID is required!"),
   phone: Yup.string().required("Phone No is required!"),
-  dob: Yup.string().required("Date of Birth is required!"),
+  dob: Yup.string()
+    .required("Date of Birth is required!")
+    .test("minimum-age", "You must be at least 18 years old", (value) => {
+      const currentDate = new Date();
+      const selectedDate = new Date(value);
+      const minAgeDate = new Date();
+      minAgeDate.setFullYear(currentDate.getFullYear() - 18);
+      return selectedDate <= minAgeDate;
+    }),
   address: Yup.string().required("Address is required!"),
   gender: Yup.string().required("Gender is required!"),
   roleId: Yup.string().required("Role is required!"),
@@ -59,12 +69,13 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
   const { change } = useChange();
   const { data: roles } = useFetch<any>(`roles`);
   const { data: departmentsData } = useFetch<any>(`departments`);
+  const { data: branchData } = useFetch<any>(`branches`);
   const router = useRouter();
   const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
   const initialValues = {
     firstName: employData?.firstName || "",
     lastName: employData?.lastName || "",
-    employeeID: employData?.employeeID || "",
+    // employeeID: employData?.employeeID || "",
     phone: employData?.phone || "",
     email: employData?.email || "",
     dob: employData?.dob || "",
@@ -74,6 +85,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
     departmentId: employData?.departmentId || "",
     joiningDate: employData?.joiningDate || "",
     bloodGroup: employData?.bloodGroup || "",
+    employeeOfBranchId: employData?.employeeOfBranchId || "",
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
@@ -178,7 +190,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                       </div>
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Email <span className="text-red-600">*</span>
+                          Personal Email <span className="text-red-600">*</span>
                         </p>
                         <TextField
                           fullWidth
@@ -193,7 +205,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                           }
                         />
                       </div>
-                      <div className="w-full">
+                      {/* <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Employee ID <span className="text-red-600">*</span>
                         </p>
@@ -210,7 +222,7 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                             (errors.employeeID as any)
                           }
                         />
-                      </div>
+                      </div> */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Phone No <span className="text-red-600">*</span>
@@ -324,6 +336,42 @@ const UpdateProfileHead = ({ open, handleClose, mutate }: Props) => {
                             <TextField
                               {...params}
                               label="Select Role"
+                              inputProps={{
+                                ...params.inputProps,
+                              }}
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
+                          Branch <span className="text-red-600">*</span>
+                        </p>
+                        <Autocomplete
+                          sx={{ width: "100%" }}
+                          options={branchData || []}
+                          autoHighlight
+                          getOptionLabel={(option: any) =>
+                            option.name ? option.name : ""
+                          }
+                          isOptionEqualToValue={(option, value) =>
+                            option.id === value.employeeOfBranchId
+                          }
+                          value={
+                            values?.employeeOfBranchId
+                              ? branchData?.find(
+                                  (option: any) =>
+                                    option.id === values.employeeOfBranchId
+                                )
+                              : {}
+                          }
+                          onChange={(e: any, r: any) => {
+                            setFieldValue("employeeOfBranchId", r?.id);
+                          }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="Select Branch"
                               inputProps={{
                                 ...params.inputProps,
                               }}

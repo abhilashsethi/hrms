@@ -2,6 +2,7 @@ import {
   DashBoardCardTech,
   DashboardChartsTech,
 } from "components/admin/Technology";
+import { DashboardSkeletonLoading } from "components/admin/assets";
 import { AdminBreadcrumbs, Loader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -11,15 +12,16 @@ const Technologies = () => {
   const { data: techDashboard, isLoading } = useFetch<any>(
     `technologies/dashboard/details`
   );
-  console.log(techDashboard);
-  const { data: tech } = useFetch<any[]>(`technologies?page=1&limit=3`);
   return (
     <PanelLayout title="Technologies - Admin Panel">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
-        {isLoading && <Loader />}
-        <DashBoardCardTech dashboardData={techDashboard} tech={tech} />
-        <DashboardChartsTech dashboardData={techDashboard} />
+        {isLoading ? <DashboardSkeletonLoading />
+          : (
+            <>
+              <DashBoardCardTech dashboardData={techDashboard} />
+              <DashboardChartsTech dashboardData={techDashboard} />
+            </>)}
       </section>
     </PanelLayout>
   );

@@ -25,6 +25,7 @@ interface Props {
 }
 const initialValues = {
   name: "",
+  image: null,
 };
 const validationSchema = yup.object().shape({
   name: yup.string().required("Required!"),

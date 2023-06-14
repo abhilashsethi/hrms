@@ -6,7 +6,7 @@ const DashboardChartsTech = ({ dashboardData }: Props) => {
   return (
     <div className="grid lg:grid-cols-2 content-between gap-6">
       <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
-        <p className="font-bold text-lg text-center">Technology Overview</p>
+        <p className="font-bold text-lg text-center">Technologies Used Project Overview</p>
         <TechnologyBarChart
           labels={
             dashboardData?.TechInfo?.usedProjectCountArr?.length
@@ -18,7 +18,7 @@ const DashboardChartsTech = ({ dashboardData }: Props) => {
           data={
             dashboardData?.TechInfo?.usedProjectCountArr?.length
               ? dashboardData?.TechInfo?.usedProjectCountArr?.map(
-                (item: any) => item?.usedProjectIdCount
+                (item: any) => item?.usedInCount
               )
               : []
           }
@@ -26,7 +26,7 @@ const DashboardChartsTech = ({ dashboardData }: Props) => {
           text=""
         />
       </div>
-      <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
+      {/* <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
         <p className="text-lg font-bold text-center">Technology Details</p>
         <TechnologyDonutChart
           labels={
@@ -39,7 +39,7 @@ const DashboardChartsTech = ({ dashboardData }: Props) => {
           series={
             dashboardData?.TechInfo?.usedProjectCountArr?.length
               ? dashboardData?.TechInfo?.usedProjectCountArr?.map(
-                (item: any) => item?.usedProjectIdCount
+                (item: any) => item?.usedInCount
               )
               : []
           }
@@ -54,7 +54,7 @@ const DashboardChartsTech = ({ dashboardData }: Props) => {
             "#005d32",
           ]}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
