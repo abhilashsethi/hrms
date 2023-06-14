@@ -1,6 +1,4 @@
 import {
-	AccountCircle,
-	Dashboard,
 	MedicalInformationRounded,
 } from "@mui/icons-material";
 import ICONS from "assets/icons";
@@ -433,7 +431,7 @@ const allData = [
 
 export default () => {
 	const [activeMenu, setActiveMenu] = useState<any>([])
-	const { data: roleData, isLoading, mutate } = useFetch<any>(
+	const { data: roleData } = useFetch<Role[]>(
 		`roles`
 	);
 	const { user } = useAuth();
@@ -443,7 +441,6 @@ export default () => {
 		let reqData = allData?.filter((item: any) => myData?.accessPages?.some((data: any) => data?.link === (item?.route ? item?.route : item?.submenus[0]?.route)))
 		setActiveMenu(reqData)
 	}, [roleData, user])
-	console.log(activeMenu);
 	if (user?.role?.name) return activeMenu
 
 	return [];
