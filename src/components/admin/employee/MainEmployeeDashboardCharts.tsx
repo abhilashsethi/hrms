@@ -1,4 +1,5 @@
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
+import EmployProjects from "../EmployProjects";
 
 interface Props {
   data?: any;
@@ -27,16 +28,29 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
             labels={["Casual Leave", "Sick Leave"]}
             series={[70, 30]}
             text=""
-            type="donut"
+            type="pie"
             colors={[
-              "#106EAD",
-              "#C33C5E",
-              "#25d366",
               "#BD33B5",
-              "#E60023",
               "#005d32",
             ]}
           />
+        </div>
+        <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
+          <p className="text-lg font-bold text-center">Current Month Attendance</p>
+          <GuestDonutChart
+            labels={["Present", "Absent"]}
+            series={[70, 30]}
+            text=""
+            type="donut"
+            colors={[
+              "#25d366",
+              "#E60023",
+            ]}
+          />
+        </div>
+        <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
+          <EmployProjects projectDetails={data} />
+
         </div>
       </div>
     </div>

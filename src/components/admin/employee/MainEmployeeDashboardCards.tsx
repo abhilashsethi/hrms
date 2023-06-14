@@ -65,7 +65,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
           {cards?.map((item) => (
             <Link href={item?.link} key={item?.id}>
               <div
-                className={`h-32 bg-gradient-to-br ${item?.color} w-full py-4 px-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
+                className={`h-40 bg-gradient-to-br ${item?.color} w-full py-4 px-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
               >
                 <div className="flex justify-around items-center">
                   <div>{item?.icon}</div>
