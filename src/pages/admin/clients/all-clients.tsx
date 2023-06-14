@@ -31,7 +31,6 @@ import { Client } from "types";
 const AllClients = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
-  const [isIssue, setIsIssue] = useState<string | null>(null);
   const [userName, setUsername] = useState<string | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [isUpload, setIsUpload] = useState(false);
@@ -43,7 +42,7 @@ const AllClients = () => {
     isLoading,
   } = useFetch<Client[]>(
     `clients?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
-    }${isIssue ? `&issueResolved=${isIssue}` : ""}`
+    }`
   );
   return (
     <>
@@ -97,12 +96,11 @@ const AllClients = () => {
               <IconButton
                 onClick={() => {
                   setIsOrderBy(null);
-                  setIsIssue(null);
                   setUsername(null);
                 }}
               >
-                <Tooltip title={isOrderBy != null || isIssue != null || userName != null ? `Remove Filters` : `Filter`}>
-                  {isOrderBy != null || isIssue != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                <Tooltip title={isOrderBy != null || userName != null ? `Remove Filters` : `Filter`}>
+                  {isOrderBy != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
                 </Tooltip>
               </IconButton>
             </div>
@@ -113,7 +111,7 @@ const AllClients = () => {
                 size="small"
                 id="name"
                 value={userName ? userName : ""}
-                onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
+                onChange={(e) => { setPageNumber(1), setUsername(e.target.value) }}
                 placeholder="Client Name"
                 name="name"
               />
@@ -123,7 +121,7 @@ const AllClients = () => {
                 label="Ascending/Descending"
                 size="small"
                 value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => {setPageNumber(1), setIsOrderBy(e?.target?.value)}}
+                onChange={(e) => { setPageNumber(1), setIsOrderBy(e?.target?.value) }}
               >
                 {short.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -131,20 +129,7 @@ const AllClients = () => {
                   </MenuItem>
                 ))}
               </TextField>
-              <TextField
-                fullWidth
-                select
-                label="Issue Resolved"
-                size="small"
-                value={isIssue ? isIssue : ""}
-                onChange={(e) => {setPageNumber(1), setIsIssue(e?.target?.value)}}
-              >
-                {ticket.map((option) => (
-                  <MenuItem key={option.id} value={option.value}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </TextField>
+
 
             </div>
           </div>
