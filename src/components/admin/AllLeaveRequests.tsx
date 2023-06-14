@@ -48,7 +48,7 @@ const AllLeaveRequests = () => {
                 sl: i + 1,
                 total: 12,
                 accepted: _?.leavesData?.totalAccepted,
-                rejected: _?.leavesData?.totalAccepted,
+                rejected: _?.leavesData?.totalRejected,
                 carryover: _?.leavesData?.carryOver,
                 used: _?.leavesData?.totalApplied,
               }))
