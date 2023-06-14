@@ -25,7 +25,7 @@ const ClientDashboardCard = ({ cards }: Props) => {
       id: 3,
 
       icon: <img src={INACTIVE.src} className="w-12" alt="" />,
-      count: cards?.clients?.genderWiseClientCount[0]?._count,
+      count: cards?.clients?.genderWiseClientCount[0]?._count || "0",
       title: "Male",
       color: "bg-gradient-to-br from-orange-500 to-yellow-400",
       link: "/admin/clients/all-clients",
@@ -33,7 +33,7 @@ const ClientDashboardCard = ({ cards }: Props) => {
     {
       id: 4,
       icon: <img src={CUSTOMER.src} className="w-12" alt="" />,
-      count: cards?.clients?.genderWiseClientCount[1]?._count,
+      count: cards?.clients?.genderWiseClientCount[1]?._count || "0",
       title: "Female",
       color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
       link: "/admin/clients/all-clients",
