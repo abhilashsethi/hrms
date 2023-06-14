@@ -68,9 +68,9 @@ const AttendanceGrid = ({ data }: Props) => {
                       <div className="flex gap-2 items-center text-xs tracking-wide font-medium">
                         <ICONS.Entry /> IN TIME
                       </div>
-                      <p className="font-semibold text-slate-600 text-sm">
-                        {moment(item?.createdAt).format("hh:mm A")}
-                      </p>
+                      <span className="font-semibold text-slate-600 text-sm">
+                        {moment(item?.inTime).format("hh:mm A")}
+                      </span>
                     </div>
                     <div className="w-1/2 py-2 px-2 flex flex-col gap-2 tracking-wide items-center">
                       <div className="flex gap-2 items-center text-xs tracking-wide font-medium ">
@@ -79,9 +79,9 @@ const AttendanceGrid = ({ data }: Props) => {
                         </span>
                         OUT TIME
                       </div>
-                      <p className="font-semibold text-slate-600 text-sm">
-                        {moment(item?.updatedAt).format("hh:mm A")}
-                      </p>
+                      <span className="font-semibold text-slate-600 text-sm">
+                        {moment(item?.outTime).format("hh:mm A")}
+                      </span>
                     </div>
                   </div>
                 ) : (

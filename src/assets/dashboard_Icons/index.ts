@@ -39,3 +39,6 @@ export { default as BLOCKED } from "./blocked.png";
 export { default as NEWPDF } from "./pdf.png";
 export { default as PENDING } from "./pending.png";
 export { default as UNBLOCK } from "./unlock.png";
+export { default as TENDERICONS1 } from "./tendericons1.png";
+export { default as TENDERICONS2 } from "./tendericons2.png";
+export { default as TENDERICONS3 } from "./tendericons3.png";

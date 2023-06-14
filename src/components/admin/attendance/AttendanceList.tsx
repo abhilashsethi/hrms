@@ -22,11 +22,11 @@ const AttendanceList = ({ data }: Props) => {
                 email: _?.username,
                 intime:
                   _?.status === "present"
-                    ? moment(_?.createdAt).format("hh:mm A")
+                    ? moment(_?.inTime).format("hh:mm A")
                     : "---",
                 outtime:
                   _?.status === "present"
-                    ? moment(_?.updatedAt).format("hh:mm A")
+                    ? moment(_?.outTime).format("hh:mm A")
                     : "---",
                 status: _?.status === "present" ? `PRESENT` : `ABSENT`,
               }))
