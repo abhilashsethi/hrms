@@ -2,7 +2,6 @@ import { MedicalInformationRounded } from "@mui/icons-material";
 import ICONS from "assets/icons";
 import useAuth from "./useAuth";
 import { useFetch } from "./useAPI";
-import { Role } from "types";
 import { useEffect, useState } from "react";
 
 const allData = [
@@ -377,17 +376,35 @@ const allData = [
   },
   {
     key: "20",
-    title: "Email Templates",
-    icon: <ICONS.Email_Template />,
+    title: "Email",
+    icon: <ICONS.Email />,
     submenus: [
       {
         key: "20-1",
+        title: "Create Email",
+        icon: <ICONS.Create className="!text-6xl" />,
+        route: "/admin/email/create",
+      },
+      {
+        key: "20-2",
+        title: "Inbox",
+        icon: <ICONS.Inbox />,
+        route: "/admin/email",
+      },
+      {
+        key: "20-3",
+        title: "Drafts",
+        icon: <ICONS.Draft />,
+        route: "/admin/email/drafts",
+      },
+      {
+        key: "20-4",
         title: "Create Template",
         icon: <ICONS.Create_Template />,
         route: "/admin/templates/create-template",
       },
       {
-        key: "20-2",
+        key: "20-5",
         title: "Saved Templates",
         icon: <ICONS.Saved_Template />,
         route: "/admin/templates/saved-templates",
@@ -468,12 +485,15 @@ export default () => {
           return undefined;
         }
       })
-      ?.filter((item) => typeof item !== "undefined");
+      ?.filter(
+        (item: any) =>
+          !(typeof item === "undefined" || item?.submenus?.length === 0)
+      );
 
     setActiveMenu(withSubmenuData);
   }, [isLoading, roleData?.accessPages?.length]);
 
-  if (user?.role?.name) return activeMenu;
+  if (user?.role?.name) return allData;
 
   return [];
 };
