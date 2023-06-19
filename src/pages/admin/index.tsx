@@ -81,8 +81,7 @@ const AdminHome = () => {
               {isLoading ? <DashboardSkeletonLoading />
                 : (
                   <>
-                    <MainDirectorDashboardCards data={""} />
-                    <MainManagerDashboardCharts data={""} />
+                    <AdminDashboard />
                   </>
                 )}
             </section>
