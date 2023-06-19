@@ -15,7 +15,6 @@ import PanelLayout from "layouts/panel";
 
 const AdminHome = () => {
   const { user } = useAuth();
-  console.log({ user });
   const { data: employeeDetails, isLoading } = useFetch<any>(
     `users/dashboard/details`
   );
@@ -37,7 +36,7 @@ const AdminHome = () => {
           </>
         ) : user?.role?.name == "DEVELOPER" ? (
           <>
-            <WelcomeUser title="Welcome Developer Name!" />
+            <WelcomeUser title={`Welcome ${user?.name}`} />
             <section className="lg:px-8 px-4 py-4">
               {isLoading ? <DashboardSkeletonLoading />
                 : (
@@ -50,7 +49,7 @@ const AdminHome = () => {
           </>
         ) : user?.role?.name == "HR" ? (
           <>
-            <WelcomeUser title="Welcome Hr!" />
+            <WelcomeUser title={`Welcome ${user?.name}`} />
             <section className="lg:px-8 px-4 py-4">
               {isLoading ? <DashboardSkeletonLoading />
                 : (
@@ -61,9 +60,9 @@ const AdminHome = () => {
                 )}
             </section>
           </>
-        ) : user?.role?.name == "HR" ? (
+        ) : user?.role?.name == "MANAGER" ? (
           <>
-            <WelcomeUser title="Welcome Manager Name!" />
+            <WelcomeUser title={`Welcome ${user?.name}`} />
             <section className="lg:px-8 px-4 py-4">
               {isLoading ? <DashboardSkeletonLoading />
                 : (
@@ -75,8 +74,9 @@ const AdminHome = () => {
             </section>
           </>
         ) : (
+          // client
           <>
-            <WelcomeUser title="Welcome Client Name!" />
+            <WelcomeUser title={`Welcome ${user?.name}`} />
             <section className="lg:px-8 px-4 py-4">
               {isLoading ? (
                 <DashboardSkeletonLoading />
