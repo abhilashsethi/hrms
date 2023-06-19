@@ -36,7 +36,7 @@ const AdminHome = () => {
           </>
         ) : user?.role?.name == "DEVELOPER" ? (
           <>
-            <WelcomeUser title="Welcome Developer Name!" />
+            <WelcomeUser title={`Welcome ${user?.name}`} />
             <section className="lg:px-8 px-4 py-4">
               {isLoading ? <DashboardSkeletonLoading />
                 : (
