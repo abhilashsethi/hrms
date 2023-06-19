@@ -5,6 +5,8 @@ import {
   MainEmployeeDashboardCharts,
   MainHrDashboardCards,
   MainHrDashboardCharts,
+  MainManagerDashboardCards,
+  MainManagerDashboardCharts,
 } from "components/admin/dashboardComponent";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -57,8 +59,8 @@ const AdminHome = () => {
           {isLoading ? <DashboardSkeletonLoading />
             : (
               <>
-                <MainHrDashboardCards data={""} />
-                <MainHrDashboardCharts data={""} />
+                <MainManagerDashboardCards data={""} />
+                <MainManagerDashboardCharts data={""} />
               </>
             )}
         </section> */}
