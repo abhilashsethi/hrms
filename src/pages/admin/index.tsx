@@ -9,6 +9,7 @@ import {
   MainEmployeeDashboardCharts,
   MainHrDashboardCards,
   MainHrDashboardCharts,
+  MainDirectorDashboardCards,
 } from "components/admin/dashboardComponent";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -68,6 +69,19 @@ const AdminHome = () => {
                 : (
                   <>
                     <MainManagerDashboardCards data={""} />
+                    <MainManagerDashboardCharts data={""} />
+                  </>
+                )}
+            </section>
+          </>
+        ) : user?.role?.name == "DIRECTOR" ? (
+          <>
+            <WelcomeUser title={`Welcome ${user?.name}`} />
+            <section className="lg:px-8 px-4 py-4">
+              {isLoading ? <DashboardSkeletonLoading />
+                : (
+                  <>
+                    <MainDirectorDashboardCards data={""} />
                     <MainManagerDashboardCharts data={""} />
                   </>
                 )}
