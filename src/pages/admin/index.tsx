@@ -57,7 +57,7 @@ const AdminHome = () => {
         </section> */}
 
         {/* Dashboard for Manager */}
-        <WelcomeUser title="Welcome Manager Name!" />
+        {/* <WelcomeUser title="Welcome Manager Name!" />
         <section className="lg:px-8 px-4 py-4">
           {isLoading ? <DashboardSkeletonLoading />
             : (
@@ -66,7 +66,7 @@ const AdminHome = () => {
                 <MainManagerDashboardCharts data={""} />
               </>
             )}
-        </section>
+        </section> */}
 
         {/* Dashboard for Client */}
         {/* <WelcomeUser title="Welcome Client Name!" />
