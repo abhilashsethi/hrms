@@ -49,7 +49,7 @@ const AdminHome = () => {
           </>
         ) : user?.role?.name == "HR" ? (
           <>
-            <WelcomeUser title="Welcome Hr!" />
+            <WelcomeUser title={`Welcome ${user?.name}`} />
             <section className="lg:px-8 px-4 py-4">
               {isLoading ? <DashboardSkeletonLoading />
                 : (
@@ -60,9 +60,9 @@ const AdminHome = () => {
                 )}
             </section>
           </>
-        ) : user?.role?.name == "HR" ? (
+        ) : user?.role?.name == "MANAGER" ? (
           <>
-            <WelcomeUser title="Welcome Manager Name!" />
+            <WelcomeUser title={`Welcome ${user?.name}`} />
             <section className="lg:px-8 px-4 py-4">
               {isLoading ? <DashboardSkeletonLoading />
                 : (
@@ -74,8 +74,9 @@ const AdminHome = () => {
             </section>
           </>
         ) : (
+          // client
           <>
-            <WelcomeUser title="Welcome Client Name!" />
+            <WelcomeUser title={`Welcome ${user?.name}`} />
             <section className="lg:px-8 px-4 py-4">
               {isLoading ? (
                 <DashboardSkeletonLoading />
