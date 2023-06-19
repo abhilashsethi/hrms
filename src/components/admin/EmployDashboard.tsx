@@ -43,7 +43,6 @@ const EmployDashboard = () => {
 	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
 
 	const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
-	console.log(employeeDetails);
 
 	const roleData = employeeDetails?.departmentWiseUsers;
 
@@ -135,7 +134,10 @@ const EmployDashboard = () => {
 							</span>
 						</div>
 					</div>
-					<UpcomingLeaves data={employeeData} />
+					<UpcomingLeaves
+						data={employeeData}
+						employeeDetails={employeeDetails}
+					/>
 				</div>
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6 mx-5 -mt-7 !mb-6">

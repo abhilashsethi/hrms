@@ -7,9 +7,9 @@ import { DEFAULTPROFILE } from "assets/home";
 import { useState } from "react";
 import { useFetch } from "hooks";
 
-const UpcomingLeaves = ({ data }: any) => {
+const UpcomingLeaves = ({ data, employeeDetails }: any) => {
 	const { data: leaveDetails } = useFetch<any>(`leaves/dashboard/details`);
-
+	console.log(employeeDetails?.allAbsentUsers);
 	const [progress, setProgress] = useState(80);
 
 	return (
@@ -67,37 +67,40 @@ const UpcomingLeaves = ({ data }: any) => {
 			<div className="mt-6 flex gap-4 items-center">
 				<HeadText title="Today Absent" />
 				<div className="h-8 w-8 bg-red-200 rounded-md flex justify-center items-center text-red-600 font-semibold">
-					4
+					{employeeDetails?.allAbsentUsers
+						? employeeDetails?.allAbsentUsers?.length
+						: 0}
 				</div>
 			</div>
 			<div className="h-[17rem] overflow-y-auto pr-2">
 				<div className="w-full mt-4 md:flex flex-col gap-2">
-					{cards?.map((item) => (
-						<div className="h-32 w-full border-2 tracking-wide p-4 rounded-lg">
-							<div className="flex gap-4 items-center">
-								<div className="h-12 w-12 bg-slate-300 rounded-full overflow-hidden shadow-lg">
-									<img
-										className="h-full w-full object-cover"
-										src={DEFAULTPROFILE.src}
-										alt=""
-									/>
+					{employeeDetails?.allAbsentUsers?.length &&
+						employeeDetails?.allAbsentUsers?.map((item: any) => (
+							<div className="w-full border-2 tracking-wide p-4 rounded-lg">
+								<div className="flex gap-4 items-center">
+									<div className="h-12 w-12 bg-slate-300 rounded-full overflow-hidden shadow-lg">
+										<img
+											className="h-full w-full object-cover"
+											src={item?.photo}
+											alt=""
+										/>
+									</div>
+									<div>
+										<p className="text-sm font-semibold">{item?.name}</p>
+										<p className="text-sm">{item?.role?.name}</p>
+									</div>
 								</div>
-								<div>
-									<p className="text-sm font-semibold">John Doe</p>
-									<p className="text-sm">Developer</p>
-								</div>
-							</div>
-							<div className="flex justify-between items-center mt-2">
-								<div className="text-sm">
+								{/* <div className="flex justify-between items-center mt-2">
+									<div className="text-sm">
 									<p className="text-gray-400">4 Sep 2019</p>
 									<p className="font-semibold">Leave Date</p>
 								</div>
-								<span className="bg-green-200 text-green-600 border-[1px] border-green-400 px-3 py-1 rounded-md font-medium">
-									Approved
-								</span>
+									<span className="bg-green-200 text-green-600 border-[1px] border-green-400 px-3 py-1 rounded-md font-medium">
+										Approved
+									</span>
+								</div> */}
 							</div>
-						</div>
-					))}
+						))}
 				</div>
 			</div>
 		</section>

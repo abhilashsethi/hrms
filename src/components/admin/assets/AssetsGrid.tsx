@@ -300,8 +300,8 @@ const MoreOption = ({ item, mutate }: any) => {
 						</h1>
 						<p className="text-gray-500 flex items-start">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
-								<span className="group flex items-center justify-center gap-2">
-									<span className="font-semibold">Branch Name : </span>
+								<span className="group flex items-center justify-center gap-1">
+									<span className="font-semibold">Branch Name </span>
 								</span>
 								<span className="text-gray-500">
 									{item?.assetOfBranch?.name || "___"}
@@ -311,7 +311,7 @@ const MoreOption = ({ item, mutate }: any) => {
 						<p className="text-gray-500 flex items-start">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
-									<span className="font-semibold">Model Number : </span>
+									<span className="font-semibold">Model Number </span>
 								</span>
 								<span className="text-gray-500">{item?.modelName}</span>
 							</span>
@@ -319,7 +319,7 @@ const MoreOption = ({ item, mutate }: any) => {
 						<p className="text-gray-500 flex items-start">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
-									<span className="font-semibold">Brand Name : </span>
+									<span className="font-semibold">Brand Name </span>
 								</span>
 								<span className="text-gray-500">
 									{item?.brandName || "---"}
@@ -329,7 +329,7 @@ const MoreOption = ({ item, mutate }: any) => {
 						<p className="text-sm text-slate-600 font-medium flex items-center gap-3">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
-									<span className="font-semibold">Sl.No : </span>
+									<span className="font-semibold">Sl.No </span>
 								</span>
 								<span className="text-gray-500">
 									{item?.serialNumber || "---"}
@@ -339,7 +339,7 @@ const MoreOption = ({ item, mutate }: any) => {
 						<p className="text-gray-500 flex items-start">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
-									<span className="font-semibold">Date Of Purchase : </span>
+									<span className="font-semibold">Date Of Purchase </span>
 								</span>
 								<span className="text-gray-500">
 									{moment(item?.dateOfPurchase).format("DD/MM/YYYY")}
@@ -349,7 +349,7 @@ const MoreOption = ({ item, mutate }: any) => {
 						<p className="text-sm text-slate-600 font-medium flex items-center gap-3">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
-									<span className="font-semibold">Bill amount : </span>
+									<span className="font-semibold">Bill amount </span>
 								</span>
 								<span className="text-gray-500">{item?.billAmount}</span>
 							</span>
@@ -357,7 +357,7 @@ const MoreOption = ({ item, mutate }: any) => {
 						<p className="text-sm text-slate-600 font-medium flex items-center gap-3">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
-									<span className="font-semibold">Current Market Price : </span>
+									<span className="font-semibold">Current Market Price </span>
 								</span>
 								<span className="text-gray-500">{item?.marketPrice}</span>
 							</span>
@@ -365,7 +365,7 @@ const MoreOption = ({ item, mutate }: any) => {
 						<p className="text-sm text-slate-600 font-medium py-2 flex items-center gap-3">
 							<span className="group flex text-sm text-theme items-center justify-center gap-2">
 								<span className="group flex items-center justify-center gap-2">
-									<span className="font-semibold">Docs : </span>
+									<span className="font-semibold">Docs </span>
 								</span>
 								<div className="grid grid-cols-3 gap-1">
 									{item?.docs?.length

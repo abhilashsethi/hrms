@@ -3,3 +3,9 @@ export { default as MainEmployeeDashboardCards } from "./MainEmployeeDashboardCa
 export { default as MainHrDashboardCards } from "./MainHrDashboardCards";
 export { default as MainHrDashboardCharts } from "./MainHrDashboardCharts";
 export { default as AreaChart } from "./AreaChart";
+export { default as MainClientDashboardCards } from "./MainClientDashboardCards";
+export { default as MainClientDashboardCharts } from "./MainClientDashboardCharts";
+export { default as MainManagerDashboardCharts } from "./MainManagerDashboardCharts";
+export { default as MainManagerDashboardCards } from "./MainManagerDashboardCards";
+export { default as MainDirectorDashboardCards } from "./MainDirectorDashboardCards";
+export { default as MainDirectorDashboardCharts } from "./MainDirectorDashboardCharts";
