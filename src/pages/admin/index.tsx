@@ -8,10 +8,13 @@ import {
   MainManagerDashboardCards,
   MainManagerDashboardCharts,
 } from "components/admin/dashboardComponent";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
 const AdminHome = () => {
+  const { user } = useAuth();
+  console.log({ user });
+
   const { data: employeeDetails, isLoading } = useFetch<any>(
     `users/dashboard/details`
   );
@@ -54,7 +57,7 @@ const AdminHome = () => {
         </section> */}
 
         {/* Dashboard for Manager */}
-        {/* <WelcomeUser title="Welcome Client Name!" />
+        <WelcomeUser title="Welcome Manager Name!" />
         <section className="lg:px-8 px-4 py-4">
           {isLoading ? <DashboardSkeletonLoading />
             : (
@@ -63,7 +66,7 @@ const AdminHome = () => {
                 <MainManagerDashboardCharts data={""} />
               </>
             )}
-        </section> */}
+        </section>
 
         {/* Dashboard for Client */}
         {/* <WelcomeUser title="Welcome Client Name!" />

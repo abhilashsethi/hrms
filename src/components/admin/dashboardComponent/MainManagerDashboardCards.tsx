@@ -1,8 +1,8 @@
 import {
   PendingActions,
   Groups,
-  Engineering,
-  AssignmentTurnedIn,
+  AccountTree,
+  WebAsset,
 } from "@mui/icons-material";
 import Link from "next/link";
 interface Props {
@@ -40,8 +40,8 @@ const MainManagerDashboardCards = ({ data }: Props) => {
     {
       id: 3,
       color: "from-blue-600 to-blue-400",
-      icon: (<AssignmentTurnedIn fontSize="large" className="text-white group-hover:text-white" />),
-      name: "Today Total Attendance",
+      icon: (<WebAsset fontSize="large" className="text-white group-hover:text-white" />),
+      name: "Total Assets",
       count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
       link: "/admin",
     },
@@ -49,9 +49,9 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       id: 4,
       color: "from-[#ff5874] to-[#ff8196]",
       icon: (
-        <Engineering fontSize="large" className="text-white group-hover:text-white" />
+        <AccountTree fontSize="large" className="text-white group-hover:text-white" />
       ),
-      name: "Total Guests",
+      name: "Total Projects",
       count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
       link: "/admin",
     },
