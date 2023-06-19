@@ -121,7 +121,7 @@ const ViewAssetHistoryDrawer = ({
 						</IconButton>
 					</div>
 
-					<div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
+					{/* <div className="md:w-[22rem] w-[72vw] md:px-4 px-2 tracking-wide">
 						<Formik
 							initialValues={initialValues}
 							validationSchema={validationSchema}
@@ -177,7 +177,7 @@ const ViewAssetHistoryDrawer = ({
 								</Form>
 							)}
 						</Formik>
-					</div>
+					</div> */}
 					{history ? (
 						<div className="mt-2 flex flex-col gap-4">
 							<div className="">
