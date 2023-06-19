@@ -15,7 +15,6 @@ import PanelLayout from "layouts/panel";
 
 const AdminHome = () => {
   const { user } = useAuth();
-  console.log({ user });
   const { data: employeeDetails, isLoading } = useFetch<any>(
     `users/dashboard/details`
   );
