@@ -3280,6 +3280,84 @@ const ICONS = {
 			</svg>
 		);
 	},
+	View_Configure: (props: IconType) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<rect
+					x="16"
+					y="75"
+					width="357.542"
+					height="357.542"
+					rx="30"
+					fill="url(#paint0_linear_2006_2)"
+					stroke="black"
+					stroke-width="20"
+				/>
+				<path
+					d="M250.188 348.52C250.188 348.52 294.88 259.134 373.093 259.134C451.305 259.134 495.998 348.52 495.998 348.52C495.998 348.52 451.305 437.905 373.093 437.905C294.88 437.905 250.188 348.52 250.188 348.52Z"
+					fill="url(#paint1_linear_2006_2)"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M373.094 382.039C391.606 382.039 406.613 367.032 406.613 348.52C406.613 330.007 391.606 315 373.094 315C354.581 315 339.574 330.007 339.574 348.52C339.574 367.032 354.581 382.039 373.094 382.039Z"
+					fill="url(#paint2_linear_2006_2)"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path d="M71.3633 171.983H102.763" stroke="black" stroke-width="20" />
+				<path d="M71.418 240.363H102.818" stroke="black" stroke-width="20" />
+				<path d="M134.883 172.43H310.078" stroke="black" stroke-width="20" />
+				<path d="M134.938 240.81H310.133" stroke="black" stroke-width="20" />
+				<defs>
+					<linearGradient
+						id="paint0_linear_2006_2"
+						x1="194.771"
+						y1="75"
+						x2="194.771"
+						y2="432.542"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_2006_2"
+						x1="373.093"
+						y1="259.134"
+						x2="373.093"
+						y2="437.905"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint2_linear_2006_2"
+						x1="373.094"
+						y1="315"
+						x2="373.094"
+						y2="382.039"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+				</defs>
+			</svg>
+		);
+	},
 	All_Chat: (props: IconType) => {
 		return (
 			<svg
