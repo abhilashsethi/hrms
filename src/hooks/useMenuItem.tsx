@@ -1,8 +1,8 @@
-import { MedicalInformationRounded } from "@mui/icons-material";
+import { MedicalInformationRounded, Send } from "@mui/icons-material";
 import ICONS from "assets/icons";
-import useAuth from "./useAuth";
-import { useFetch } from "./useAPI";
 import { useEffect, useState } from "react";
+import { useFetch } from "./useAPI";
+import useAuth from "./useAuth";
 
 const allData = [
   {
@@ -390,6 +390,12 @@ const allData = [
         title: "Inbox",
         icon: <ICONS.Inbox />,
         route: "/admin/email",
+      },
+      {
+        key: "20-6",
+        title: "Sent",
+        icon: <Send />,
+        route: "/admin/email/sent",
       },
       {
         key: "20-3",
