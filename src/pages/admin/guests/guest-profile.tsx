@@ -3,6 +3,7 @@ import ICONS from "assets/icons";
 import {
 	AdminBreadcrumbs,
 	HeadText,
+	IOSSwitch,
 	Loader,
 	ReverseIOSSwitch,
 } from "components/core";
@@ -141,8 +142,8 @@ const GuestProfile = () => {
 								<p className="font-semibold text-white tracking-wide text-sm">
 									STATUS
 								</p>
-								<ReverseIOSSwitch
-									checked={!guestData?.isBlocked}
+								<IOSSwitch
+									checked={guestData?.isBlocked}
 									onChange={(e) => handleBlock(e)}
 								/>
 							</div>
@@ -195,7 +196,7 @@ const GuestProfile = () => {
 													<ReverseIOSSwitch
 														disabled
 														checked
-														// onChange={(e) => handleBlock(e, item?.id)}
+													// onChange={(e) => handleBlock(e, item?.id)}
 													/>
 												</div>
 											</div>

@@ -6,6 +6,7 @@ import {
   ClientProfileImage,
   CountryNameFlag,
   HeadText,
+  IOSSwitch,
   Loader,
   ReverseIOSSwitch,
 } from "components/core";
@@ -143,7 +144,7 @@ const ClientDetails = () => {
                     <div className="w-full py-2 flex gap-2 mt-2">
                       <div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
                         <p className="font-semibold tracking-wide text-sm">STATUS</p>
-                        <ReverseIOSSwitch
+                        <IOSSwitch
                           checked={clientData?.isBlocked}
                           onChange={(e) => handleBlock(e)}
                         />
