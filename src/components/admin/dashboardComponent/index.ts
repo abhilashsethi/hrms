@@ -7,3 +7,5 @@ export { default as MainClientDashboardCards } from "./MainClientDashboardCards"
 export { default as MainClientDashboardCharts } from "./MainClientDashboardCharts";
 export { default as MainManagerDashboardCharts } from "./MainManagerDashboardCharts";
 export { default as MainManagerDashboardCards } from "./MainManagerDashboardCards";
+export { default as MainDirectorDashboardCards } from "./MainDirectorDashboardCards";
+export { default as MainDirectorDashboardCharts } from "./MainDirectorDashboardCharts";

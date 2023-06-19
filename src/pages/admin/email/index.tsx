@@ -1,10 +1,12 @@
+import { Inbox } from "components/email";
 import PanelLayout from "layouts/panel";
-import React from "react";
 
 const EmailInbox = () => {
   return (
     <PanelLayout title="Email | Inbox">
-      <div>Email Inbox</div>
+      <section className="w-full container mx-auto p-4">
+        <Inbox />
+      </section>
     </PanelLayout>
   );
 };
