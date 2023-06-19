@@ -35,7 +35,7 @@ const AdminHome = () => {
               </>
             )}
           </>
-        ) : user?.role?.name == "DEVELOPER" ? (
+        ) : user?.role?.name == "DEVELOPER" || "TESTER" ? (
           <>
             <WelcomeUser title={`Welcome ${user?.name}`} />
             <section className="lg:px-8 px-4 py-4">
@@ -81,8 +81,7 @@ const AdminHome = () => {
               {isLoading ? <DashboardSkeletonLoading />
                 : (
                   <>
-                    <MainDirectorDashboardCards data={""} />
-                    <MainManagerDashboardCharts data={""} />
+                    <AdminDashboard />
                   </>
                 )}
             </section>
