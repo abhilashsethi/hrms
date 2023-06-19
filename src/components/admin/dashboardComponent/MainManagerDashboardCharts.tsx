@@ -71,6 +71,16 @@ const MainManagerDashboardCharts = ({ data }: Props) => {
             series={[70, 30]}
             text=""
             type="pie"
+            colors={["#25d366", "#E60023", "#BD33B5"]}
+          />
+        </div>
+        <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
+          <p className="text-lg font-bold text-center">Project Overview</p>
+          <GuestDonutChart
+            labels={["PENDING", "COMPLETED"]}
+            series={[80, 20]}
+            text=""
+            type="donut"
             colors={[
               "#005d32",
               "#BD33B5",
@@ -87,20 +97,7 @@ const MainManagerDashboardCharts = ({ data }: Props) => {
             text=""
           />
         </div>
-        <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-          <p className="text-lg font-bold text-center">Project Overview</p>
-          <GuestDonutChart
-            labels={["PENDING", "COMPLETED"]}
-            series={[80, 20]}
-            text=""
-            type="pie"
-            colors={[
-              "#005d32",
-              "#BD33B5",
-              "#E60023",
-            ]}
-          />
-        </div>
+
       </div>
     </div>
   );
