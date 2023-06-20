@@ -1,15 +1,14 @@
 import { AdminDashboard, WelcomeUser } from "components/admin";
 import { DashboardSkeletonLoading } from "components/admin/assets";
 import {
-	MainManagerDashboardCards,
-	MainManagerDashboardCharts,
 	MainClientDashboardCards,
 	MainClientDashboardCharts,
 	MainEmployeeDashboardCards,
 	MainEmployeeDashboardCharts,
 	MainHrDashboardCards,
 	MainHrDashboardCharts,
-	MainDirectorDashboardCards,
+	MainManagerDashboardCards,
+	MainManagerDashboardCharts,
 } from "components/admin/dashboardComponent";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -46,8 +45,8 @@ const AdminHome = () => {
 								<DashboardSkeletonLoading />
 							) : (
 								<>
-									<MainEmployeeDashboardCards data={""} />
-									<MainEmployeeDashboardCharts data={""} />
+									<MainEmployeeDashboardCards data={developerDetails} />
+									<MainEmployeeDashboardCharts data={developerDetails} />
 								</>
 							)}
 						</section>
