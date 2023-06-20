@@ -22,7 +22,7 @@ const AdminHome = () => {
     `dashboards/developer-dashInfo/${user?.id}`
   );
   const { data: hrDetails, isLoading: hrIsLoading } = useFetch<any>(
-    `dashboards/hr-dashInfo/${user?.id}`
+    `dashboards/hr-dashInfo`
   );
   return (
     <PanelLayout title="Dashboard - Admin Panel">
