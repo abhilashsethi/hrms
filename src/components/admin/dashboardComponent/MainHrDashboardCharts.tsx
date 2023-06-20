@@ -1,10 +1,4 @@
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
-import {
-  FactCheck,
-  AccountTree,
-  QuestionAnswer,
-  WebAsset,
-} from "@mui/icons-material";
 import Link from "next/link";
 import { PhotoViewer } from "components/core";
 import { Tooltip } from "@mui/material";
@@ -67,14 +61,12 @@ const MainHrDashboardCharts = ({ data }: Props) => {
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Last Month Leave Details</p>
           <GuestDonutChart
-            labels={["Pending Leave", "Approved Leave", "Reject Leave"]}
-            series={[20, 30, 50]}
+            labels={data?.leaveCounts?.length ? data?.leaveCounts?.map((item: any) => item?.type) : []}
+            series={data?.leaveCounts?.length ? data?.leaveCounts?.map((item: any) => item?._count?.type) : []}
             text=""
             type="pie"
             colors={[
-              "#005d32",
-              "#BD33B5",
-              "#E60023",
+              "#106EAD", "#C33C5E", "#25d366", "#BD33B5", "#E60023", "#005d32"
             ]}
           />
         </div>

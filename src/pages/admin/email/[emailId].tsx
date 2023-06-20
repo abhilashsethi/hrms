@@ -1,13 +1,18 @@
-import { EmailContainer, EmailDetailsHeader } from "components/email";
+import {
+  EmailContainer,
+  EmailDetailsHeader,
+  EmailReplyContainer,
+} from "components/email";
 import PanelLayout from "layouts/panel";
 
 const ViewEmail = () => {
   return (
     <PanelLayout title="Email | View">
       <EmailDetailsHeader />
-      <section className="w-full my-4 container mx-auto p-4 rounded-md bg-gray-700/10 ">
+      <section className="w-full my-4 container mx-auto  rounded-md ">
         <EmailContainer />
       </section>
+      <EmailReplyContainer />
     </PanelLayout>
   );
 };
