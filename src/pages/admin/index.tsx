@@ -18,6 +18,9 @@ const AdminHome = () => {
 	const { data: employeeDetails, isLoading } = useFetch<any>(
 		`users/dashboard/details`
 	);
+	const { data: developerDetails, isLoading: devIsLoading } = useFetch<any>(
+		`dashboards/developer-dashInfo/${user?.id}`
+	);
 
 	return (
 		<PanelLayout title="Dashboard - Admin Panel">
@@ -41,8 +44,8 @@ const AdminHome = () => {
 								<DashboardSkeletonLoading />
 							) : (
 								<>
-									<MainEmployeeDashboardCards data={""} />
-									<MainEmployeeDashboardCharts data={""} />
+									<MainEmployeeDashboardCards data={developerDetails} />
+									<MainEmployeeDashboardCharts data={developerDetails} />
 								</>
 							)}
 						</section>
