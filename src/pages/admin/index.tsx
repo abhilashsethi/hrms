@@ -18,10 +18,6 @@ const AdminHome = () => {
 	const { data: employeeDetails, isLoading } = useFetch<any>(
 		`users/dashboard/details`
 	);
-	const { data: developerDetails, isLoading: devIsLoading } = useFetch<any>(
-		`dashboards/developer-dashInfo/${user?.id}`
-	);
-	console.log(developerDetails);
 
 	return (
 		<PanelLayout title="Dashboard - Admin Panel">
@@ -37,7 +33,7 @@ const AdminHome = () => {
 							</>
 						)}
 					</>
-				) : user?.role?.name == "DEVELOPER" || "TESTER" ? (
+				) : user?.role?.name == "DEVELOPER" ? (
 					<>
 						<WelcomeUser title={`Welcome ${user?.role?.name}`} />
 						<section className="lg:px-8 px-4 py-4">
@@ -45,8 +41,8 @@ const AdminHome = () => {
 								<DashboardSkeletonLoading />
 							) : (
 								<>
-									<MainEmployeeDashboardCards data={developerDetails} />
-									<MainEmployeeDashboardCharts data={developerDetails} />
+									<MainEmployeeDashboardCards data={""} />
+									<MainEmployeeDashboardCharts data={""} />
 								</>
 							)}
 						</section>
