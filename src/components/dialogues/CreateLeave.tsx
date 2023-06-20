@@ -45,8 +45,6 @@ const validationSchema = Yup.object({
 	variant: Yup.string().required("Please select a variant!"),
 	reason: Yup.string().required("Required!"),
 	type: Yup.string().required("Required!"),
-	// date: Yup.date()
-	// 	.min(new Date(Date.now() + 24 * 60 * 60 * 1000), 'Date must be tomorrow or later'),
 });
 const CreateLeave = ({ open, handleClose, mutate }: Props) => {
 	const initialValues = {

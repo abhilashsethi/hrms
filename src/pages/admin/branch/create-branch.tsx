@@ -58,14 +58,12 @@ const CreateBranch = () => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      console.log(values);
       const photoUrls = [];
       for (const photo of values?.photos) {
         const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
         photoUrls.push(url);
       }
-      console.log(photoUrls);
-      const ticketText = { name: values?.name, managerId: values?.managerId, phone: values?.phone, email: values?.email, country: values?.country, location: values?.location, photos: photoUrls, }
+      const ticketText = { name: values?.name, managerId: values?.managerId, phone: values?.phone ? values?.phone : null, email: values?.email ? values?.email : null, country: values?.country, location: values?.location, photos: photoUrls, }
       const res: any = await change(`branches`, {
         body: ticketText,
       });
