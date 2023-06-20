@@ -78,7 +78,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
                           >
                             <div className="flex justify-start items-center">
                               <div className=" bg-theme-100 rounded-full flex justify-center items-center">
-                                <PhotoViewer photo={"https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"} size="3rem" />
+                                <PhotoViewer photo={item?.userInfo?.photo} name={item?.userInfo?.name} size="3rem" />
                               </div>
                             </div>
                             <div className="w-full">
