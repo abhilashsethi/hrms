@@ -111,7 +111,7 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
         </div>
         {ticketsData?.documents?.length ? (
           <>
-            <div className="grid lg:grid-cols-5 md:grid-cols-3 w-full gap-6">
+            <div className="grid lg:grid-cols-4 md:grid-cols-3 w-full gap-6">
               {ticketsData?.documents?.map((docData) => (
                 <div key={docData?.docId} className="cursor-pointer">
                   <img className="w-12" src={PDF.src} alt="" />
