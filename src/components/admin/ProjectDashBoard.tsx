@@ -77,7 +77,7 @@ const ProjectDashBoard = () => {
 			title: "Total Projects",
 			// growth: "+10%",
 			value: projectData?.totalProjects,
-			sub: "Overall Projects 218",
+			sub: projectData?.totalProjects,
 			color: "warning",
 		},
 		{
@@ -85,7 +85,7 @@ const ProjectDashBoard = () => {
 			title: "Finished Projects",
 			// growth: "+10%",
 			value: projectData?.totalFinishedProjects,
-			sub: "Overall Projects 218",
+			sub: projectData?.totalProjects,
 			color: "primary",
 		},
 		{
@@ -93,7 +93,7 @@ const ProjectDashBoard = () => {
 			title: "On Hold Projects",
 			// growth: "+10%",
 			value: projectData?.totalOnHoldProjects,
-			sub: "Overall Projects 218",
+			sub: projectData?.totalProjects,
 			color: "secondary",
 		},
 		{
@@ -101,7 +101,7 @@ const ProjectDashBoard = () => {
 			title: "On Going Projects",
 			// growth: "+10%",
 			value: projectData?.totalOngoingProjects,
-			sub: "Overall Projects 218",
+			sub: projectData?.totalProjects,
 			color: "success",
 		},
 		{
@@ -109,7 +109,7 @@ const ProjectDashBoard = () => {
 			title: "Pending Projects",
 			// growth: "+10%",
 			value: projectData?.totalPendingProject,
-			sub: "Overall Projects 218",
+			sub: projectData?.totalProjects,
 			color: "warning",
 		},
 	];
@@ -133,8 +133,8 @@ const ProjectDashBoard = () => {
 								categories={
 									projectData?.yearWiseProjectCounts?.length
 										? projectData?.yearWiseProjectCounts?.map((item: any) =>
-												item?.data?.map((item: any) => item?.year)
-										  )[0]
+											item?.data?.map((item: any) => item?.year)
+										)[0]
 										: []
 								}
 								colors={["#5B50A1", "#C43C5C", "#E97451"]}
@@ -180,7 +180,7 @@ const ProjectDashBoard = () => {
 									color={item?.color as any}
 									value={item?.value}
 								/>
-								<span className="text-sm pt-6">Overall Projects 218</span>
+								<span className="text-sm pt-6">Overall Projects {projectData?.totalProjects}</span>
 							</div>
 						</div>
 					))}
