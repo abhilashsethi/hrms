@@ -186,66 +186,10 @@ const ProjectDashBoard = () => {
 					))}
 				</div>
 			</div>
-			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
-				{/* <div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
-					<p className="text-lg text-center font-bold">
-						Yearly Project Overview
-					</p>
-					<ProjectBarGraph
-						// series={}
-						series={reqData ? reqData : []}
-						categories={
-							projectData?.yearWiseProjectCounts?.length
-								? projectData?.yearWiseProjectCounts?.map((item: any) =>
-										item?.data?.map((item: any) => item?.year)
-								  )[0]
-								: []
-						}
-						colors={["#5B50A1", "#C43C5C", "#E97451"]}
-						title=""
-						barHeight={360}
-					/>
-				</div> */}
-				{/* <div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg text-center font-bold">Weekly Overview</p>
-					<ProjectsPieChart
-						title={""}
-						pieSeries={[24, 65, 35, 78, 56, 23, 46]}
-						pieLabel={[
-							"Sunday",
-							"Monday",
-							"Tuesday",
-							"Wednesday",
-							"Thursday",
-							"Friday",
-							"Saturday",
-						]}
-					/>
-				</div> */}
-			</div>
+
 		</>
 	);
 };
 
 export default ProjectDashBoard;
 
-const project_Arr = [
-	{
-		_id: "1",
-		icon: "/admin/project/connect_project.png",
-		title: "Connect",
-		description: "Projects in YardCrm.",
-	},
-	{
-		_id: "2",
-		icon: "/admin/project/track_project.png",
-		title: "Track",
-		description: "Stay on top of your tasks.",
-	},
-	{
-		_id: "3",
-		icon: "/admin/project/deliver_project.png",
-		title: "Deliver",
-		description: "Execute customer projects on time.",
-	},
-];
