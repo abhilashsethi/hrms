@@ -58,7 +58,6 @@ const CreateBranch = () => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      console.log(values);
       const photoUrls = [];
       for (const photo of values?.photos) {
         const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);

@@ -88,7 +88,6 @@ const MoreOption = ({ item, mutate }: any) => {
 		dialogue: false,
 		role: null,
 	});
-	// console.log(item);
 	const [assetId, setAssetId] = useState(false);
 	const { change } = useChange();
 	const [isUpdate, setIsUpdate] = useState<{
@@ -104,7 +103,7 @@ const MoreOption = ({ item, mutate }: any) => {
 		assetData?: string | null;
 	}>({ dialogue: false, assetData: null });
 
-	const { data: assignId, mutate: returnMutate } = useFetch<any>(
+	const { data: assignId, isLoading: returnLoading, mutate: returnMutate } = useFetch<any>(
 		`assets/all/return/asset/${assetId}`
 	);
 	const handleDelete = async (id: string) => {
@@ -233,6 +232,7 @@ const MoreOption = ({ item, mutate }: any) => {
 				onClose={() => setAssetHistory(false)}
 				assetId={assetId}
 				data={assignId}
+				isLoading={returnLoading}
 			/>
 			<ViewAssetDetailsDrawer
 				open={assetDetails}
@@ -370,16 +370,16 @@ const MoreOption = ({ item, mutate }: any) => {
 								<div className="grid grid-cols-3 gap-1">
 									{item?.docs?.length
 										? item?.docs?.map((doc: any, i: any) => {
-												return (
-													<a
-														key={i}
-														className="border border-theme rounded-md text-xs p-[2px]"
-														href={doc?.link}
-													>
-														Docs <Download fontSize="small" />
-													</a>
-												);
-										  })
+											return (
+												<a
+													key={i}
+													className="border border-theme rounded-md text-xs p-[2px]"
+													href={doc?.link}
+												>
+													Docs <Download fontSize="small" />
+												</a>
+											);
+										})
 										: "---"}
 								</div>
 							</span>
