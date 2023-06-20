@@ -145,19 +145,20 @@ const ProjectDashBoard = () => {
 
 						<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
 							<p className="text-lg font-bold text-center">Total Projects</p>
-							<ProjectsRadialBar
-								className="w-full"
-								type="radialBar"
-								radialLabel={["Finished", "On-hold", "Ongoing", "Pending"]}
-								radialSeries={[
-									projectData?.totalFinishedProjects,
-									projectData?.totalOnHoldProjects,
-									projectData?.totalOngoingProjects,
-									projectData?.totalPendingProject,
-								]}
-								totalReturn={projectData?.totalProjects}
-								title=""
-							/>
+							{projectData?.totalProjects &&
+								<ProjectsRadialBar
+									className="w-full"
+									type="radialBar"
+									radialLabel={["Finished", "On-hold", "Ongoing", "Pending"]}
+									radialSeries={[
+										projectData?.totalFinishedProjects,
+										projectData?.totalOnHoldProjects,
+										projectData?.totalOngoingProjects,
+										projectData?.totalPendingProject,
+									]}
+									totalReturn={projectData?.totalProjects}
+									title=""
+								/>}
 						</div>
 					</div>
 				</div>
