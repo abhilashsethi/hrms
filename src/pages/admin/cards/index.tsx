@@ -10,6 +10,7 @@ import {
   CARDICON3,
   CARDICON4,
 } from "assets/dashboard_Icons";
+import { BranchBarChart } from "components/analytics";
 import CardStatus from "components/analytics/CardStatus";
 import CardsAreaChart from "components/analytics/CardsAreaChart";
 import { AdminBreadcrumbs, DashboardCard } from "components/core";
@@ -80,11 +81,25 @@ const Cards = () => {
           </div>
         </div>
         <div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
-          <div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
-            <CardsAreaChart text="Repairs Report" type="area" />
+          <div className="col-span-12 pt-9 w-full bg-white  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
+            <p className="text-lg font-bold text-center">Scanned Users Assigned Overview</p>
+            <BranchBarChart
+              labels={
+                cardDetails?.cards
+                  ? ["Assigned To Employee", "Assigned To Guest"]
+                  : []
+              }
+              data={
+                cardDetails?.cards
+                  ? [cardDetails?.cards?.cardsAssignedToEmployee, cardDetails?.cards?.cardsAssignedToGuest]
+                  : []
+              }
+              type="bar"
+              text=""
+            />
           </div>
-          <div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
-            <p className="text-lg font-bold text-center">Scanned Users</p>
+          <div className="col-span-12 pt-9 w-full bg-white flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
+            <p className="text-lg font-bold text-center">Scanned Users Status</p>
             <CardStatus
               labels={["Blocked", "Un-Blocked"]}
               text=""
@@ -92,7 +107,7 @@ const Cards = () => {
               series={[
                 cardData?.filter((item) => item?.isBlocked)?.length || 0,
                 cardData?.filter((item) => item?.isBlocked === false)?.length ||
-                  0,
+                0,
               ]}
             />
           </div>

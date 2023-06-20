@@ -99,7 +99,7 @@ const ViewAssetHistoryDrawer = ({
 							/>
 						</IconButton>
 					</div>
-
+					{isLoading ? <ProjectDrawerSkeletonLoading /> : null}
 					{data?.length ?
 						<>
 							{history ? (

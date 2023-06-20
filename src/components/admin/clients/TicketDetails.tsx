@@ -23,6 +23,7 @@ const initialValues = {
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
+  console.log(ticketsData);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
@@ -30,7 +31,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
   const handleSubmit = async (values: any, { resetForm }: any) => {
     setLoading(true);
     try {
-      const ticketText = { text: values?.text, ticketId: router?.query?.id, userInfo: { id: user?.id, name: user?.name } }
+      const ticketText = { text: values?.text, ticketId: router?.query?.id, userInfo: { id: user?.id, name: user?.name, photo: user?.photo } }
       const res = await change(`ticket-conversations`, {
         body: ticketText,
       });
@@ -77,7 +78,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
                           >
                             <div className="flex justify-start items-center">
                               <div className=" bg-theme-100 rounded-full flex justify-center items-center">
-                                <PhotoViewer photo={"https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"} size="3rem" />
+                                <PhotoViewer photo={item?.userInfo?.photo} name={item?.userInfo?.name} size="3rem" />
                               </div>
                             </div>
                             <div className="w-full">
@@ -152,101 +153,3 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 
 export default TicketDetails;
 
-const chats = [
-  {
-    id: 1,
-    icon: (
-      <PhotoViewer
-        photo={
-          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-        }
-        size="3rem"
-      />
-    ),
-    time: "Today at 9:00 AM",
-    name: "John Smith",
-    details:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas nobis id tempora impedit facere cupiditate rem officiis repellendus quasi delectus!",
-    status: "COMPLETED",
-  },
-  {
-    id: 2,
-    icon: (
-      <PhotoViewer
-        photo={
-          "https://t4.ftcdn.net/jpg/02/14/74/61/360_F_214746128_31JkeaP6rU0NzzzdFC4khGkmqc8noe6h.jpg"
-        }
-        size="3rem"
-      />
-    ),
-    time: "Today at 9:00 AM",
-    name: "Shrinu Readdy",
-    details:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit, deserunt aliquam accusantium porro eligendi iusto expedita fuga veritatis consequuntur exercitationem!",
-    status: "COMPLETED",
-  },
-  {
-    id: 3,
-    icon: (
-      <PhotoViewer
-        photo={
-          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-        }
-        size="3rem"
-      />
-    ),
-    time: "Today at 9:00 AM",
-    name: "John Smith",
-    details:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas nobis id tempora impedit facere cupiditate rem officiis repellendus quasi delectus!",
-    status: "COMPLETED",
-  },
-  {
-    id: 4,
-    icon: (
-      <PhotoViewer
-        photo={
-          "https://t4.ftcdn.net/jpg/02/14/74/61/360_F_214746128_31JkeaP6rU0NzzzdFC4khGkmqc8noe6h.jpg"
-        }
-        size="3rem"
-      />
-    ),
-    time: "Today at 9:00 AM",
-    name: "Shrinu Readdy",
-    details:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit, deserunt aliquam accusantium porro eligendi iusto expedita fuga veritatis consequuntur exercitationem!",
-    status: "COMPLETED",
-  },
-  {
-    id: 5,
-    icon: (
-      <PhotoViewer
-        photo={
-          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-        }
-        size="3rem"
-      />
-    ),
-    time: "Today at 9:00 AM",
-    name: "John Smith",
-    details:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas nobis id tempora impedit facere cupiditate rem officiis repellendus quasi delectus!",
-    status: "COMPLETED",
-  },
-  {
-    id: 6,
-    icon: (
-      <PhotoViewer
-        photo={
-          "https://t4.ftcdn.net/jpg/02/14/74/61/360_F_214746128_31JkeaP6rU0NzzzdFC4khGkmqc8noe6h.jpg"
-        }
-        size="3rem"
-      />
-    ),
-    time: "Today at 9:00 AM",
-    name: "Shrinu Readdy",
-    details:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit, deserunt aliquam accusantium porro eligendi iusto expedita fuga veritatis consequuntur exercitationem!",
-    status: "COMPLETED",
-  },
-];
