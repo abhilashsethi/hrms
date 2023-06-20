@@ -63,7 +63,7 @@ const CreateBranch = () => {
         const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
         photoUrls.push(url);
       }
-      const ticketText = { name: values?.name, managerId: values?.managerId, phone: values?.phone ? values?.phone : null, email: values?.email ? values?.email : null, country: values?.country, location: values?.location, photos: photoUrls, }
+      const ticketText = { name: values?.name, managerId: values?.managerId, phone: values?.phone, email: values?.email, country: values?.country, location: values?.location, photos: photoUrls, }
       const res: any = await change(`branches`, {
         body: ticketText,
       });
