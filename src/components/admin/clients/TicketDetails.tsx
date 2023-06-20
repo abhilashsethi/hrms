@@ -31,7 +31,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
   const handleSubmit = async (values: any, { resetForm }: any) => {
     setLoading(true);
     try {
-      const ticketText = { text: values?.text, ticketId: router?.query?.id, userInfo: { id: user?.id, name: user?.name } }
+      const ticketText = { text: values?.text, ticketId: router?.query?.id, userInfo: { id: user?.id, name: user?.name, photo: user?.photo } }
       const res = await change(`ticket-conversations`, {
         body: ticketText,
       });
