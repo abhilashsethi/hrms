@@ -1,44 +1,47 @@
-import { Avatar, Checkbox, IconButton } from "@mui/material";
-import moment from "moment";
+import { Avatar, Checkbox } from "@mui/material";
 
 const EmailCard = ({
   className,
   isRead,
   email,
   subject,
+  messageDate,
+  userName,
 }: {
   className?: string;
   isRead?: boolean;
   email?: string;
   subject?: string;
+  messageDate?: any;
+  userName?: string;
 }) => {
   return (
-    <div
-      className={`w-full flex flex-col items-center gap-4 pr-4 justify-between md:flex-row  border-b border-l border-r ${className} `}
+    <tr
+      className={`flex-col flex md:flex-row border-b cursor-pointer border-gray-200 bg-white  w-full items-center ${
+        isRead ? "bg-white" : "bg-theme/20"
+      } `}
     >
-      <div className="flex flex-col md:flex-row items-center gap-8 ">
-        <div className="flex">
-          <IconButton>
-            <Checkbox size="small" />
-          </IconButton>
-
-          <div className="flex items-center gap-4">
-            <Avatar sx={{ width: 28, height: 28 }} />
-            <h3 className="font-medium tracking-wide text-black">User 001</h3>
+      <td className="px-5 py-5 max-w-[22%] w-full text-sm">
+        <div className="flex items-center gap-2 ">
+          <Checkbox size="small" />
+          <Avatar />
+          <div className="ml-3">
+            <p className="text-gray-900 whitespace-nowrap">{userName}</p>
+            <p className="text-gray-600 min-w-fit ">{subject}</p>
           </div>
         </div>
-        <span className="flex items-center ">
-          <p className="tracking-wide font-medium text-black ">New Subject</p>
-          <p className="tracking-wide font-medium text-black ">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum
-            dolor sit amet consectetur adipisicing. Lorem ipsum dolor sit amet.
-          </p>
-        </span>
-      </div>
-      <p className="text-black font-medium tracking-wide">
-        {moment().format("LLL")}
-      </p>
-    </div>
+      </td>
+      <td className="px-5 py-5 w-full   text-sm">
+        <p className="text-gray-900 break-words">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Necessitatibus quia magnam eveniet voluptates natus iusto, sed quas
+          dolore illo excepturi sit dicta laudantium, iure rem!
+        </p>
+      </td>
+      <td className="px-5 py-5 min-w-fit   text-sm">
+        <p className="text-gray-900 whitespace-nowrap">Sept 28, 2019</p>
+      </td>
+    </tr>
   );
 };
 

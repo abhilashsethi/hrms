@@ -6,20 +6,27 @@ const Inbox = () => {
     <div className="w-full flex flex-col">
       <InboxHeader />
 
-      <div className="flex flex-col my-4 p-4 bg-white  shadow-lg">
-        {Array(25)
-          .fill(0)
-          .map((_, i) => (
-            <EmailCard
-              key={i}
-              isRead={true}
-              email={
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut omnis at ut necessitatibus ullam, error quas nobis. Sequi sed maiores, eum quis neque id quasi!"
-              }
-              subject={"This ia a subject"}
-              className={i === 0 ? "border-t" : ""}
-            />
-          ))}
+      <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+        <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+          <table className="min-w-full leading-normal table-fixed ">
+            <tbody>
+              {Array(25)
+                .fill("lk")
+                .map((_, i) => (
+                  <EmailCard
+                    key={i}
+                    isRead={i % 3 === 0 || i % 7 === 0}
+                    userName={`User SY${Math.floor(
+                      (i + 2) * Math.random() * 1000
+                    )}`}
+                    subject={`Project delivery status ${Math.floor(
+                      (i + 2) * Math.random() * 1000
+                    )}`}
+                  />
+                ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

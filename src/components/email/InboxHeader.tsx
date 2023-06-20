@@ -9,7 +9,7 @@ import { Checkbox, IconButton } from "@mui/material";
 
 const InboxHeader = () => {
   return (
-    <div className="flex flex-col md:flex-row gap-2 justify-between p-4 bg-white py-4 border-b w-full items-center ">
+    <div className="flex flex-col md:flex-row gap-2 shadow-md rounded-lg justify-between p-4 bg-white py-4  w-full items-center ">
       <div className="flex gap-2 items-center">
         <Checkbox size="small" /> <span className="text-gray-800/20  ">|</span>
         <IconButton>
