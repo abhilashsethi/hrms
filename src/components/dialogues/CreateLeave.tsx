@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
 	userId: Yup.string().required("Select an employee"),
 	startDate: Yup.string()
 		.required("Please enter date")
-		.test("minimum-date", "Please provide the upcoming date!", (value) => {
+		.test("minimum-date", "You Can apply leave only 1 day before!", (value) => {
 			const currentDate = new Date();
 			const selectedDate = new Date(value);
 			const minDate = new Date();
@@ -45,6 +45,8 @@ const validationSchema = Yup.object({
 	variant: Yup.string().required("Please select a variant!"),
 	reason: Yup.string().required("Required!"),
 	type: Yup.string().required("Required!"),
+	// date: Yup.date()
+	// 	.min(new Date(Date.now() + 24 * 60 * 60 * 1000), 'Date must be tomorrow or later'),
 });
 const CreateLeave = ({ open, handleClose, mutate }: Props) => {
 	const initialValues = {
