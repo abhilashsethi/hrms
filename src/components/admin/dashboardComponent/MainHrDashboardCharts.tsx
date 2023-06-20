@@ -68,7 +68,7 @@ const MainHrDashboardCharts = ({ data }: Props) => {
           <p className="text-lg font-bold text-center">Last Month Leave Details</p>
           <GuestDonutChart
             labels={data?.leaveCounts?.length ? data?.leaveCounts?.map((item: any) => item?.type) : []}
-            series={data?.leaveCounts?.length ? data?.leaveCounts?.map((item: any) => item?._count) : []}
+            series={data?.leaveCounts?.length ? data?.leaveCounts?.map((item: any) => item?._count?.type) : []}
             text=""
             type="pie"
             colors={[
