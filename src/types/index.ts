@@ -145,7 +145,7 @@ export type TicketsConversations = {
     description?: string;
     title?: string;
   };
-  createdAt?: string | Date | undefined;
+  createdAt?: any;
   updatedAt?: string;
 };
 export interface DocumentType {
