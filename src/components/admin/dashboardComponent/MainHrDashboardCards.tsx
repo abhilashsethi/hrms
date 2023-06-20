@@ -21,7 +21,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
         />
       ),
       name: "Total Employees",
-      count: data?.GuestInfo?.totalGuest || 0,
+      count: data?.totalEmployees || 0,
       link: "/admin",
     },
     {
@@ -34,7 +34,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
         />
       ),
       name: "Pending Leave Request",
-      count: data?.GuestInfo?.blockedGuestCount || 0,
+      count: data?.totalPendingLeaveRequest || 0,
       link: "/admin",
     },
     {
@@ -42,7 +42,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
       color: "from-blue-600 to-blue-400",
       icon: (<AssignmentTurnedIn fontSize="large" className="text-white group-hover:text-white" />),
       name: "Today Total Attendance",
-      count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
+      count: data?.toDayTotalAttendance || 0,
       link: "/admin",
     },
     {
@@ -52,7 +52,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
         <Engineering fontSize="large" className="text-white group-hover:text-white" />
       ),
       name: "Total Guests",
-      count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
+      count: data?.totalGuest || 0,
       link: "/admin",
     },
   ];
