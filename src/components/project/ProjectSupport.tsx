@@ -5,6 +5,7 @@ import { useFetch } from "hooks";
 import moment from "moment";
 import React from "react";
 import { TicketsConversations } from "types";
+import { clock } from "utils";
 
 const ProjectSupport = () => {
   const { data: ticketsData, mutate, isLoading } = useFetch<TicketsConversations[]>(
@@ -19,16 +20,14 @@ const ProjectSupport = () => {
           <div key={data?.id} className="w-full rounded-md p-6 shadow-jubilation">
             <div className="flex justify-end">
               <span className="text-xs mb-1">
-                {moment(data?.createdAt).format("ll")}
+                {clock(data?.createdAt).fromNow()}
               </span>
             </div>
-
+            <div dangerouslySetInnerHTML={{ __html: `${data?.text}` }}></div>
+            <h1 className="text-sm font-semibold text-theme mt-2">Ticket Title :</h1>
             <h1 className="font-semibold text-slate-700 text-sm">
               {data?.ticket?.title}
             </h1>
-            <p className="mt-2 text-sm tracking-wide text-slate-500">
-              {data?.ticket?.description}
-            </p>
             <h1 className="text-sm font-semibold text-theme mt-2">User Info :</h1>
             <p>{data?.userInfo?.name}</p>
           </div>

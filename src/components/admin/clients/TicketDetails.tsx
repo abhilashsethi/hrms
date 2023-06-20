@@ -23,7 +23,6 @@ const initialValues = {
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
-  console.log(ticketsData);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
