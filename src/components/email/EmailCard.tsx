@@ -1,4 +1,5 @@
 import { Avatar, Checkbox } from "@mui/material";
+import { useRouter } from "next/router";
 
 const EmailCard = ({
   className,
@@ -15,9 +16,12 @@ const EmailCard = ({
   messageDate?: any;
   userName?: string;
 }) => {
+  const { push } = useRouter();
+
   return (
     <tr
-      className={`flex-col flex md:flex-row border-b cursor-pointer border-gray-200 bg-white  w-full items-center ${
+      onClick={() => push(`/admin/email/${Date.now()}`)}
+      className={`flex-col flex md:flex-row border-b cursor-pointer border-gray-200   w-full items-center ${
         isRead ? "bg-white" : "bg-theme/20"
       } `}
     >
@@ -26,16 +30,17 @@ const EmailCard = ({
           <Checkbox size="small" />
           <Avatar />
           <div className="ml-3">
-            <p className="text-gray-900 whitespace-nowrap">{userName}</p>
-            <p className="text-gray-600 min-w-fit ">{subject}</p>
+            <p className="text-gray-900 text-xs whitespace-nowrap">
+              {userName}
+            </p>
+            <p className="text-gray-600 min-w-fit text-xs ">{subject}</p>
           </div>
         </div>
       </td>
       <td className="px-5 py-5 w-full   text-sm">
         <p className="text-gray-900 break-words">
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Necessitatibus quia magnam eveniet voluptates natus iusto, sed quas
-          dolore illo excepturi sit dicta laudantium, iure rem!
+          Necessitatibus quia magnam eveniet voluptates natus iusto.
         </p>
       </td>
       <td className="px-5 py-5 min-w-fit   text-sm">
