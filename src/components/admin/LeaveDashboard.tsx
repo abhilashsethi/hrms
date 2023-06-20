@@ -65,8 +65,8 @@ const LeaveDashboard = () => {
     {
       id: 2,
       icon: <Sick fontSize="large" className="text-theme " />,
-      count: leaveData?.leaves?.leaveTypesList[1]?._count
-        ? leaveData?.leaves?.leaveTypesList[1]?._count
+      count: leaveData?.leaves?.leaveTypesList[0]?._count
+        ? leaveData?.leaves?.leaveTypesList[0]?._count
         : 0,
       title: "Sick Leaves",
       bg: "from-yellow-500 to-yellow-300",
@@ -75,8 +75,8 @@ const LeaveDashboard = () => {
     {
       id: 4,
       icon: <Pending fontSize="large" className="text-theme " />,
-      count: leaveData?.leaves?.leaveTypesList[0]?._count
-        ? leaveData?.leaves?.leaveTypesList[0]?._count
+      count: leaveData?.leaves?.leaveTypesList[1]?._count
+        ? leaveData?.leaves?.leaveTypesList[1]?._count
         : 0,
       title: "Casual Leaves",
       bg: "from-emerald-500 to-emerald-300",
