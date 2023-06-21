@@ -19,7 +19,7 @@ import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
 import ViewAssetDetailsDrawer from "components/drawer/ViewAssetDetailsDrawer";
 import ViewAssetHistoryDrawer from "components/drawer/ViewAssetHistoryDrawer";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { useState } from "react";
@@ -102,6 +102,7 @@ const MoreOption = ({ item, mutate }: any) => {
 		dialogue?: boolean;
 		assetData?: string | null;
 	}>({ dialogue: false, assetData: null });
+	const { user } = useAuth();
 
 	const { data: assignId, isLoading: returnLoading, mutate: returnMutate } = useFetch<any>(
 		`assets/all/return/asset/${assetId}`
@@ -386,14 +387,15 @@ const MoreOption = ({ item, mutate }: any) => {
 						</p>
 
 						<div className="flex bottom-0 ">
-							<Tooltip title="Delete Asset">
-								<span
-									onClick={() => handleDelete(item?.id)}
-									className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
-								>
-									<DeleteRounded fontSize="small" color="error" />
-								</span>
-							</Tooltip>
+							{user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+								<Tooltip title="Delete Asset">
+									<span
+										onClick={() => handleDelete(item?.id)}
+										className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
+									>
+										<DeleteRounded fontSize="small" color="error" />
+									</span>
+								</Tooltip> : null}
 							{item?.isAssign ? (
 								<>
 									<Tooltip title="Assign Details">
@@ -406,16 +408,17 @@ const MoreOption = ({ item, mutate }: any) => {
 											<Visibility fontSize="small" color="secondary" />
 										</div>
 									</Tooltip>
-									<Tooltip title="Return Asset">
-										<span
-											onClick={() => {
-												handelReturn(item);
-											}}
-											className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
-										>
-											<AssignmentReturn fontSize="small" color="secondary" />
-										</span>
-									</Tooltip>
+									{user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+										<Tooltip title="Return Asset">
+											<span
+												onClick={() => {
+													handelReturn(item);
+												}}
+												className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
+											>
+												<AssignmentReturn fontSize="small" color="secondary" />
+											</span>
+										</Tooltip> : null}
 								</>
 							) : (
 								<Tooltip title="Assign Employee">
@@ -429,27 +432,30 @@ const MoreOption = ({ item, mutate }: any) => {
 									</span>
 								</Tooltip>
 							)}
-							<Tooltip title="Edit Asset">
-								<span
-									onClick={() => {
-										setIsUpdate({ dialogue: true, assetData: item });
-									}}
-									className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
-								>
-									<Edit color="primary" fontSize="small" />
-								</span>
-							</Tooltip>
-							<Tooltip title="History of Asset">
-								<span
-									onClick={() => {
-										setAssetHistory(true);
-										setAssetId(item?.id);
-									}}
-									className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
-								>
-									<History color="primary" fontSize="small" />
-								</span>
-							</Tooltip>
+							{user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+								<>
+									<Tooltip title="Edit Asset">
+										<span
+											onClick={() => {
+												setIsUpdate({ dialogue: true, assetData: item });
+											}}
+											className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
+										>
+											<Edit color="primary" fontSize="small" />
+										</span>
+									</Tooltip>
+									<Tooltip title="History of Asset">
+										<span
+											onClick={() => {
+												setAssetHistory(true);
+												setAssetId(item?.id);
+											}}
+											className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
+										>
+											<History color="primary" fontSize="small" />
+										</span>
+									</Tooltip>
+								</> : null}
 						</div>
 					</div>
 				</div>
