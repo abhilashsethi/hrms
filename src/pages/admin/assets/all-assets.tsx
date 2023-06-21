@@ -61,6 +61,7 @@ const AllAssets = () => {
     `assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }${isBrand ? `&brandName=${isBrand}` : ""}${isBranch ? `&branchName=${isBranch}` : ""
     }${isModel ? `&modelName=${isModel}` : ""}${branchId ? `&branchId=${branchId}` : ""
+    }${user?.role?.name == "CEO" || user?.role?.name == "HR" ? "" : `&branchId=${user?.employeeOfBranchId}`
     }`
   );
 
