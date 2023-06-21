@@ -29,6 +29,10 @@ const Cards = () => {
   const [userType, setUserType] = useState<string | null>(null);
   const [isGrid, setIsGrid] = useState(true);
   const { user } = useAuth();
+  const links = user?.role?.name == "CEO" || user?.role?.name == "HR" ? [
+    { id: 1, page: "Cards", link: "/admin/cards" },
+    { id: 2, page: "Scanned Cards", link: "/admin/cards/scanned" },
+  ] : [{ id: 1, page: "My Cards", link: "/admin/cards/scanned" },];
   const {
     data: cardData,
     isLoading,
@@ -190,10 +194,7 @@ const Cards = () => {
 };
 
 export default Cards;
-const links = [
-  { id: 1, page: "Cards", link: "/admin/cards" },
-  { id: 2, page: "Scanned Cards", link: "/admin/cards/scanned" },
-];
+
 
 interface UserTypeItem {
   id?: number;
