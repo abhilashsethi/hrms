@@ -25,11 +25,10 @@ const AttendanceGrid = ({ data }: Props) => {
               <div className="w-full flex justify-between items-center">
                 {/* <div className="flex gap-2 items-center"> */}
                 <span
-                  className={`border-[1px] rounded-lg font-medium tracking-wide text-sm px-3 py-0.5 ${
-                    item?.status === "present"
+                  className={`border-[1px] rounded-lg font-medium tracking-wide text-sm px-3 py-0.5 ${item?.status === "present"
                       ? `bg-emerald-200 text-green-600 border-green-500`
                       : `bg-red-200 text-red-600 border-red-500`
-                  }`}
+                    }`}
                 >
                   {item?.status === "present" ? `PRESENT` : `ABSENT`}
                 </span>
