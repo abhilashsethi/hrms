@@ -254,7 +254,7 @@ const PageList = [
 	},
 	{
 		id: 5,
-		value: "/admin/all-employees",
+		value: "/admin/employees/all-employees",
 		icon: <ICONS.All_Employee />,
 		name: "All Employees",
 	},
