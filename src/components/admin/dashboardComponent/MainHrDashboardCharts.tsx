@@ -50,7 +50,7 @@ const MainHrDashboardCharts = ({ data }: Props) => {
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
-          <p className="font-bold text-lg text-center">Last Year Employee Overview</p>
+          <p className="font-bold text-lg text-center">This Year Employee Overview</p>
           <GuestBarChart
             labels={data?.allEmployeeJoiningCount?.length ? data?.allEmployeeJoiningCount?.map((item: any) => item?.month) : []}
             data={data?.allEmployeeJoiningCount?.length ? data?.allEmployeeJoiningCount?.map((item: any) => item?.count) : []}
