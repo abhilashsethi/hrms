@@ -40,7 +40,18 @@ const AllAssets = () => {
   const [isModel, setIsModel] = useState<string | null>(null);
   const [branchId, setBranchId] = useState<string | null>(null);
   const { user } = useAuth();
-
+  const links = user?.role?.name == "CEO" || user?.role?.name == "HR" ? [
+    { id: 1, page: "Assets", link: "/admin/assets" },
+    {
+      id: 2,
+      page: "All Assets",
+      link: "/admin/assets/all-assets",
+    },
+  ] : [{
+    id: 2,
+    page: "My Assets",
+    link: "/admin/assets/all-assets",
+  },];
   const {
     data: assetsData,
     mutate,
@@ -274,14 +285,7 @@ const AllAssets = () => {
 
 export default AllAssets;
 
-const links = [
-  { id: 1, page: "Assets", link: "/admin/assets" },
-  {
-    id: 2,
-    page: "All Assets",
-    link: "/admin/assets/all-assets",
-  },
-];
+
 const short = [
   { id: 1, value: "name:asc", name: "Name Ascending" },
   { id: 2, value: "name:desc", name: "Name Descending" },
