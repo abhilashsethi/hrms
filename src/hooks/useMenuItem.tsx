@@ -156,7 +156,7 @@ const allData = [
 			{
 				key: "14-3",
 				title: "Add Salary Info",
-				icon: <ICONS.Dashboard_1 />,
+				icon: <ICONS.Add_Salary_Info />,
 				route: "/admin/payroll/add-salary-info",
 			},
 		],
