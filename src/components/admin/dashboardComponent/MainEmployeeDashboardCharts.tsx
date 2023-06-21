@@ -6,7 +6,7 @@ import {
 	WebAsset,
 } from "@mui/icons-material";
 import Link from "next/link";
-import { PhotoViewer } from "components/core";
+import { NoDatas, PhotoViewer } from "components/core";
 import { Tooltip } from "@mui/material";
 import moment from "moment";
 interface Props {
@@ -86,13 +86,21 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 				</div>
 				<div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Leave Details</p>
-					<GuestDonutChart
-						labels={["Casual Leave", "Sick Leave"]}
-						series={[70, 30]}
-						text=""
-						type="pie"
-						colors={["#cddc39", "#03a9f4"]}
-					/>
+					{data?.allLeaveCount?.length ? (
+						<GuestDonutChart
+							labels={["Casual Leave", "Sick Leave"]}
+							series={
+								data?.allLeaveCount?.length
+									? data?.allLeaveCount?.map((item: any) => item?.totalCount)
+									: []
+							}
+							text=""
+							type="pie"
+							colors={["#cddc39", "#03a9f4"]}
+						/>
+					) : (
+						<NoDatas title={"No Leave Taken"} />
+					)}
 				</div>
 				<div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">
@@ -157,7 +165,6 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 													<span>{moment(item?.endDate).format("L")}</span>
 												</div>
 											</div>
-											<div>{item?.description}</div>
 										</div>
 									</Link>
 								))}
