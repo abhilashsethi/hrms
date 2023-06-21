@@ -339,19 +339,7 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
           ]}
 
           editable={{
-            // async onRowUpdate(newData, oldData) {
-            //   try {
-            //     const response = await change(`cards/${newData.id}`, {
-            //       method: "PATCH",
-            //       body: { userId: newData.userId },
-            //     });
-            //     mutate();
-            //     Swal.fire("Success", "Updated successfully!", "success");
-            //   } catch (error) {
-            //     console.log(error);
-            //     Swal.fire("Error", "Something went wrong!!", "error");
-            //   }
-            // },
+
             onRowDelete: user?.role?.name == "CEO" || user?.role?.name == "HR"
               ? async oldData => {
 
