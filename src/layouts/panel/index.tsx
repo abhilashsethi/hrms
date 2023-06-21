@@ -352,7 +352,11 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                       </Link>
                       <Link
                         href={
-                          user?.role?.name === "CEO" || user?.role?.name === "DEVELOPER" || user?.role?.name === "TESTER" || user?.role?.name === "HR" || user?.role?.name === "MANAGER"
+                          user?.role?.name === "CEO" ||
+                            user?.role?.name === "DEVELOPER" ||
+                            user?.role?.name === "TESTER" ||
+                            user?.role?.name === "HR" ||
+                            user?.role?.name === "MANAGER"
                             ? `/admin/employees/profile/${user?.id}`
                             : `/admin/clients/client-profile?id=${user?.id}`
                         }
