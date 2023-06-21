@@ -28,12 +28,7 @@ export default () => {
 			route: "/admin",
 		},
 
-		user?.role?.name == "MANAGER" ? {
-			key: "2card",
-			title: "My Cards",
-			icon: <ICONS.Scanned_Cards />,
-			route: "/admin/cards/scanned",
-		} : {
+		user?.role?.name == "CEO" ? {
 			key: "2",
 			title: "Cards",
 			icon: <ICONS.Card />,
@@ -51,9 +46,14 @@ export default () => {
 					route: "/admin/cards/scanned",
 				},
 			],
+		} : {
+			key: "2card",
+			title: "My Cards",
+			icon: <ICONS.Scanned_Cards />,
+			route: "/admin/cards/scanned",
 		},
 
-		{
+		user?.role?.name == "CEO" || user?.role?.name == "HR" ? {
 			key: "3",
 			title: "Employees",
 			icon: <ICONS.Employees />,
@@ -83,6 +83,11 @@ export default () => {
 					route: "/admin/employees/upload-employee-data",
 				},
 			],
+		} : {
+			key: "3ss",
+			title: "My Profile",
+			icon: <ICONS.All_Employee />,
+			route: "/admin/employees/all-employees",
 		},
 		{
 			key: "4",
@@ -134,7 +139,7 @@ export default () => {
 				},
 			],
 		},
-		{
+		user?.role?.name == "CEO" || user?.role?.name == "HR" ? {
 			key: "5",
 			title: "Attendance",
 			icon: <ICONS.Attendance />,
@@ -152,6 +157,11 @@ export default () => {
 					route: "/admin/attendances/today",
 				},
 			],
+		} : {
+			key: "5ss",
+			title: "My Attendance",
+			icon: <ICONS.Data_Wise_Attendance />,
+			route: "/admin/attendances/today",
 		},
 		{
 			key: "14",
@@ -184,7 +194,7 @@ export default () => {
 				},
 			],
 		},
-		{
+		user?.role?.name == "CEO" || user?.role?.name == "HR" ? {
 			key: "9",
 			title: "Leaves",
 			icon: <ICONS.Leaves />,
@@ -208,6 +218,11 @@ export default () => {
 					route: "/admin/leaves/all-leaves",
 				},
 			],
+		} : {
+			key: "9ss",
+			title: "My Leaves",
+			icon: <ICONS.Employee_Leaves />,
+			route: "/admin/leaves/all-leaves",
 		},
 		{
 			key: "6",
@@ -228,7 +243,7 @@ export default () => {
 				},
 			],
 		},
-		{
+		user?.role?.name == "CEO" || user?.role?.name == "HR" ? {
 			key: "7",
 			title: "Projects",
 			icon: <ICONS.Projects />,
@@ -252,8 +267,13 @@ export default () => {
 					route: "/admin/projects/create-projects",
 				},
 			],
+		} : {
+			key: "7ss",
+			title: "My Projects",
+			icon: <ICONS.All_Projects />,
+			route: "/admin/projects/all-projects",
 		},
-		{
+		user?.role?.name == "CEO" || user?.role?.name == "HR" ? {
 			key: "27",
 			title: "Tenders",
 			icon: <ICONS.Tender />,
@@ -289,8 +309,13 @@ export default () => {
 					route: "/admin/tenders/tender-details",
 				},
 			],
+		} : {
+			key: "27ss",
+			title: "My Tenders",
+			icon: <ICONS.All_Tender />,
+			route: "/admin/tenders/all-tenders",
 		},
-		{
+		user?.role?.name == "CEO" || user?.role?.name == "HR" ? {
 			key: "28",
 			title: "Assets",
 			icon: <ICONS.Assets />,
@@ -314,6 +339,11 @@ export default () => {
 					route: "/admin/assets/create-assets",
 				},
 			],
+		} : {
+			key: "28ss",
+			title: "My Asset",
+			icon: <ICONS.All_Assets />,
+			route: "/admin/assets/create-assets",
 		},
 		{
 			key: "12",
