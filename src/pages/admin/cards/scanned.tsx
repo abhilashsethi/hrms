@@ -40,7 +40,7 @@ const Cards = () => {
     pagination,
   } = useFetch<Card[]>(
     `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""
-    }${user?.role?.name == "CEO" || user?.role?.name == "HR" ? "" : `&name=${user?.name}`
+    }${user?.role?.name == "CEO" || user?.role?.name == "HR" ? "" : `&userId=${user?.id}`
     }${empId ? `&employeeID=${empId}` : ""
     }${cardId ? `&cardId=${cardId}` : ""}${userType ? `&assignedTo=${userType}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
