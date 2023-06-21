@@ -69,7 +69,7 @@ const CreateEmail = () => {
   };
 
   return (
-    <div className="w-full flex  flex-col my-4 p-4 border rounded-lg shadow-lg gap-4">
+    <div className="w-full flex  flex-col my-4 p-4 border rounded-lg bg-white shadow-lg gap-4">
       <div className="flex flex-col gap-4 md:flex-row items-center ">
         <div className="flex flex-col w-full gap-2">
           <InputLabel className="!font-semibold"> To - </InputLabel>

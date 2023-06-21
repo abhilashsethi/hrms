@@ -1,4 +1,4 @@
-import { KeyboardBackspace, East } from "@mui/icons-material";
+import { KeyboardBackspace, East, ArrowRightAlt } from "@mui/icons-material";
 import { FormControl, IconButton, MenuItem, Select } from "@mui/material";
 
 const CreateHeader = () => {
@@ -14,7 +14,7 @@ const CreateHeader = () => {
         </div>
         <div className="flex gap-4 items-center">
           <p className="font-medium text-xs  tracking-wide">
-            Choose Template <East />{" "}
+            Choose Template <ArrowRightAlt />{" "}
           </p>
           <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
             <Select
