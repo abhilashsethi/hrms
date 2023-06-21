@@ -48,6 +48,18 @@ const TodayAttendance = () => {
   function handleDateChange(date: any) {
     setSelectedDate(date);
   }
+  const links = user?.role?.name == "CEO" || user?.role?.name == "HR" ? [
+    { id: 1, page: "Attendances", link: "/admin/attendances" },
+    {
+      id: 2,
+      page: "Datewise",
+      link: "/admin/attendances/today",
+    },
+  ] : [{
+    id: 2,
+    page: "My Attendance",
+    link: "/admin/attendances/today",
+  },];
   const {
     data: attendance,
     isLoading,
@@ -263,11 +275,4 @@ const orderBy = [
   { id: 1, value: "createdAt:asc", name: "Created Ascending" },
   { id: 2, value: "createdAt:desc", name: "Created Descending" },
 ];
-const links = [
-  { id: 1, page: "Attendances", link: "/admin/attendances" },
-  {
-    id: 2,
-    page: "Datewise",
-    link: "/admin/attendances/today",
-  },
-];
+
