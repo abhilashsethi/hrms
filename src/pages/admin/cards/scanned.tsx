@@ -29,7 +29,6 @@ const Cards = () => {
   const [userType, setUserType] = useState<string | null>(null);
   const [isGrid, setIsGrid] = useState(true);
   const { user } = useAuth();
-
   const {
     data: cardData,
     isLoading,
@@ -37,7 +36,7 @@ const Cards = () => {
     pagination,
   } = useFetch<Card[]>(
     `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""
-    }${user?.role?.name == "CEO" || user?.role?.name == "HR" ? "" : `&name=${user?.role?.name}`
+    }${user?.role?.name == "CEO" || user?.role?.name == "HR" ? "" : `&name=${user?.name}`
     }${empId ? `&employeeID=${empId}` : ""
     }${cardId ? `&cardId=${cardId}` : ""}${userType ? `&assignedTo=${userType}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
@@ -156,12 +155,12 @@ const Cards = () => {
           {isGrid ? (
             <>
               {isLoading && <SkeletonLoaderLarge />}
-              <AllScannedGrid data={cardData} mutate={mutate} />
+              <AllScannedGrid data={cardData} user={user} mutate={mutate} />
             </>
           ) : (
             <>
               {isLoading && <Loader />}
-              <AllScannedColumn data={cardData} mutate={mutate} />
+              <AllScannedColumn data={cardData} user={user} mutate={mutate} />
             </>
           )}
         </div>
