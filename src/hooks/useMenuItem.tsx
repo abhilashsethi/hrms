@@ -222,7 +222,7 @@ export default () => {
 			key: "9ss",
 			title: "My Leaves",
 			icon: <ICONS.Employee_Leaves />,
-			route: "/admin/leaves/all-leaves",
+			route: "//admin/leaves/leave-requests",
 		},
 		{
 			key: "6",
