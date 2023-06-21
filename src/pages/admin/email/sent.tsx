@@ -1,11 +1,14 @@
+import SentEmail from "components/email/SentEmail";
 import PanelLayout from "layouts/panel";
 
-const SentEmail = () => {
+const SentEmailPage = () => {
   return (
     <PanelLayout title="Email | Sent">
-      <div>Sent Email</div>
+      <section className="w-full container mx-auto p-4">
+        <SentEmail />
+      </section>
     </PanelLayout>
   );
 };
 
-export default SentEmail;
+export default SentEmailPage;

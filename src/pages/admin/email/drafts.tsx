@@ -1,12 +1,14 @@
+import { DraftEmail } from "components/email";
 import PanelLayout from "layouts/panel";
-import React from "react";
 
-const DraftEmails = () => {
+const DraftEmailsPage = () => {
   return (
     <PanelLayout title="Email | Draft">
-      <div>Email Draft</div>
+      <section className="w-full container mx-auto p-4">
+        <DraftEmail />
+      </section>
     </PanelLayout>
   );
 };
 
-export default DraftEmails;
+export default DraftEmailsPage;
