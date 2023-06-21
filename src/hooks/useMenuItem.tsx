@@ -181,7 +181,7 @@ const allData = [
 			{
 				key: "9-3",
 				title: "Employee Leaves",
-				icon: <MedicalInformationRounded />,
+				icon: <ICONS.Employee_Leaves />,
 				route: "/admin/leaves/all-leaves",
 			},
 		],
@@ -394,7 +394,7 @@ const allData = [
 			{
 				key: "20-6",
 				title: "Sent",
-				icon: <Send />,
+				icon: <ICONS.Sent />,
 				route: "/admin/email/sent",
 			},
 			{

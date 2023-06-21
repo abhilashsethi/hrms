@@ -1,14 +1,8 @@
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
-import {
-	FactCheck,
-	AccountTree,
-	QuestionAnswer,
-	WebAsset,
-} from "@mui/icons-material";
-import Link from "next/link";
-import { NoDatas, PhotoViewer } from "components/core";
-import { Tooltip } from "@mui/material";
+
+import { NoDatas } from "components/core";
 import moment from "moment";
+import Link from "next/link";
 interface Props {
 	data?: any;
 }
@@ -40,7 +34,7 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 			id: 3,
 			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
 
-			name: "Study In Rusia",
+			name: "Study In Russia",
 			count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
 			link: "/admin",
 		},
@@ -158,11 +152,11 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 											<div className="grid lg:grid-cols-2 gap-4 text-xs text-center font-semibold">
 												<div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black justify-center w-full">
 													<span>Start Date</span>
-													<span>{moment(item?.startDate).format("L")}</span>
+													<span>{moment(item?.startDate).format("LL")}</span>
 												</div>
 												<div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-black justify-center w-full">
 													<span>End Date</span>
-													<span>{moment(item?.endDate).format("L")}</span>
+													<span>{moment(item?.endDate).format("LL")}</span>
 												</div>
 											</div>
 										</div>

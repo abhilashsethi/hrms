@@ -25,7 +25,7 @@ const MainHrDashboardCharts = ({ data }: Props) => {
       id: 2,
       color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
 
-      name: "Prasad Ghos",
+      name: "Prasad Ghosh",
       count: data?.GuestInfo?.blockedGuestCount || 0,
       link: "/admin",
     },
