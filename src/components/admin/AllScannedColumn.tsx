@@ -18,9 +18,10 @@ import { MuiTblOptions, clock, getDataWithSL } from "utils";
 interface Props {
   data?: Card[];
   mutate?: any;
+  user?: any;
 }
 
-const AllScannedColumn = ({ data, mutate }: Props) => {
+const AllScannedColumn = ({ data, user, mutate }: Props) => {
   const [isAccess, setIsAccess] = useState<{
     dialogue?: boolean;
     cardId?: string | null;
@@ -113,30 +114,30 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
             !data
               ? []
               : (data?.map((_, i: number) => ({
-                  ..._,
-                  sl: i + 1,
-                  name: _?.userId
-                    ? _?.user?.name
-                    : _?.guestId
+                ..._,
+                sl: i + 1,
+                name: _?.userId
+                  ? _?.user?.name
+                  : _?.guestId
                     ? _?.guest?.name
                     : "---",
-                  validFrom: _?.userId
-                    ? "---"
-                    : _?.guestId
+                validFrom: _?.userId
+                  ? "---"
+                  : _?.guestId
                     ? _?.validFrom
                     : "---",
-                  validTill: _?.userId
-                    ? "---"
-                    : _?.guestId
+                validTill: _?.userId
+                  ? "---"
+                  : _?.guestId
                     ? _?.validTill
                     : "---",
-                  userType: _?.userId
-                    ? "Employee"
-                    : _?.guestId
+                userType: _?.userId
+                  ? "Employee"
+                  : _?.guestId
                     ? "Guest"
                     : "---",
-                  userID: _?.userId ? _?.user?.employeeID : "---",
-                })) as Card[])
+                userID: _?.userId ? _?.user?.employeeID : "---",
+              })) as Card[])
           }
           options={{ ...MuiTblOptions(), paging: false }}
           columns={[
@@ -195,11 +196,14 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
                 />
               ),
               editable: "never",
+              hidden: user?.role?.name == "CEO" || user?.role?.name == "HR" ? false : true,
             },
             {
               title: "Assign / Remove",
               field: "employeeId",
               export: false,
+              hidden: user?.role?.name == "CEO" || user?.role?.name == "HR" ? false : true,
+
               render: (data) => (
                 <>
                   {data?.userId || data?.guestId ? (
@@ -245,6 +249,35 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
                       </IconButton>
                     </Tooltip>
                   )}
+                </>
+              ),
+              editable: "never",
+            },
+            {
+              title: "Room Access",
+              field: "employeeId",
+              export: false,
+              hidden: user?.role?.name == "CEO" || user?.role?.name == "HR" ? true : false,
+
+              render: (data) => (
+                <>
+                  <div className="flex gap-2 items-center">
+                    <Tooltip title="Room Access">
+                      <div className="h-10 w-10 bg-gradient-to-r from-theme-200 via-theme-50 to-secondary-200 shadow-lg rounded-full">
+                        <IconButton
+                          onClick={() =>
+                            setIsAccess({
+                              dialogue: true,
+                              cardId: data?.cardId,
+                            })
+                          }
+                        >
+                          <MeetingRoomRounded className="!text-blue-600" />
+                        </IconButton>
+                      </div>
+                    </Tooltip>
+                  </div>
+
                 </>
               ),
               editable: "never",
@@ -304,6 +337,7 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
               editable: "never",
             },
           ]}
+
           editable={{
             // async onRowUpdate(newData, oldData) {
             //   try {
@@ -318,24 +352,27 @@ const AllScannedColumn = ({ data, mutate }: Props) => {
             //     Swal.fire("Error", "Something went wrong!!", "error");
             //   }
             // },
-            async onRowDelete(oldData) {
-              try {
-                const response = await change(`cards/delete/${oldData?.id}`, {
-                  method: "DELETE",
-                });
-                if (response?.status !== 200) {
-                  Swal.fire("Error", "Something went wrong!", "error");
+            onRowDelete: user?.role?.name == "CEO" || user?.role?.name == "HR"
+              ? async oldData => {
+
+                try {
+                  const response = await change(`cards/delete/${oldData?.id}`, {
+                    method: "DELETE",
+                  });
+                  if (response?.status !== 200) {
+                    Swal.fire("Error", "Something went wrong!", "error");
+                  }
+                  mutate();
+                  Swal.fire("Success", "Deleted successfully!", "success");
+                } catch (error) {
+                  console.log(error);
                 }
-                mutate();
-                Swal.fire("Success", "Deleted successfully!", "success");
-              } catch (error) {
-                console.log(error);
               }
-            },
+              : undefined,
           }}
         />
       </div>
-    </div>
+    </div >
   );
 };
 

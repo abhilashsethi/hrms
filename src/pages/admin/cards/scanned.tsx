@@ -15,7 +15,7 @@ import {
   LoaderAnime,
   SkeletonLoaderLarge,
 } from "components/core";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import { Card } from "types";
@@ -28,13 +28,16 @@ const Cards = () => {
   const [cardId, setCardId] = useState<string | null>(null);
   const [userType, setUserType] = useState<string | null>(null);
   const [isGrid, setIsGrid] = useState(true);
+  const { user } = useAuth();
   const {
     data: cardData,
     isLoading,
     mutate,
     pagination,
   } = useFetch<Card[]>(
-    `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${empId ? `&employeeID=${empId}` : ""
+    `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""
+    }${user?.role?.name == "CEO" || user?.role?.name == "HR" ? "" : `&name=${user?.name}`
+    }${empId ? `&employeeID=${empId}` : ""
     }${cardId ? `&cardId=${cardId}` : ""}${userType ? `&assignedTo=${userType}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
@@ -47,116 +50,117 @@ const Cards = () => {
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
           </div>
         </div>
-
-        <div className="md:flex gap-4 justify-between w-full py-2">
-          <div
-            className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+        {user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+          <div className="md:flex gap-4 justify-between w-full py-2">
+            <div
+              className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}
-          >
-            <IconButton
-              onClick={() => {
-                setEmpId(null);
-                setUsername(null);
-                setCardId(null);
-                setUserType(null);
-                setIsOrderBy(null);
-              }}
             >
-              <Tooltip
-                title={
-                  isOrderBy != null ||
+              <IconButton
+                onClick={() => {
+                  setEmpId(null);
+                  setUsername(null);
+                  setCardId(null);
+                  setUserType(null);
+                  setIsOrderBy(null);
+                }}
+              >
+                <Tooltip
+                  title={
+                    isOrderBy != null ||
+                      userType != null ||
+                      cardId != null ||
+                      empId != null ||
+                      userName != null
+                      ? `Remove Filters`
+                      : `Filter`
+                  }
+                >
+                  {isOrderBy != null ||
                     userType != null ||
                     cardId != null ||
                     empId != null ||
-                    userName != null
-                    ? `Remove Filters`
-                    : `Filter`
-                }
+                    userName != null ? (
+                    <Close className={"!text-white"} />
+                  ) : (
+                    <FilterListRounded className={"!text-white"} />
+                  )}
+                </Tooltip>
+              </IconButton>
+            </div>
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <TextField
+                fullWidth
+                size="small"
+                placeholder="Employee Id"
+                value={empId ? empId : ""}
+                onChange={(e) => {
+                  setPageNumber(1), setEmpId(e?.target?.value);
+                }}
+              />
+              <TextField
+                fullWidth
+                size="small"
+                placeholder="Employee Name"
+                value={userName ? userName : ""}
+                onChange={(e) => {
+                  setPageNumber(1), setUsername(e?.target?.value);
+                }}
+              />
+              <TextField
+                fullWidth
+                size="small"
+                placeholder="Card Id"
+                value={cardId ? cardId : ""}
+                onChange={(e) => {
+                  setPageNumber(1), setCardId(e?.target?.value);
+                }}
+              />
+              <TextField
+                fullWidth
+                select
+                label="Select User Type"
+                size="small"
+                value={userType ? userType : ""}
+                onChange={(e) => {
+                  setPageNumber(1), setUserType(e.target.value);
+                }}
               >
-                {isOrderBy != null ||
-                  userType != null ||
-                  cardId != null ||
-                  empId != null ||
-                  userName != null ? (
-                  <Close className={"!text-white"} />
-                ) : (
-                  <FilterListRounded className={"!text-white"} />
-                )}
-              </Tooltip>
-            </IconButton>
+                {usertypes?.map((option: any) => (
+                  <MenuItem key={option?.id} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                fullWidth
+                select
+                label="Order By"
+                size="small"
+                value={isOrderBy ? isOrderBy : ""}
+                onChange={(e) => {
+                  setPageNumber(1), setIsOrderBy(e?.target?.value);
+                }}
+              >
+                {short.map((option) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
           </div>
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Employee Id"
-              value={empId ? empId : ""}
-              onChange={(e) => {
-                setPageNumber(1), setEmpId(e?.target?.value);
-              }}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Employee Name"
-              value={userName ? userName : ""}
-              onChange={(e) => {
-                setPageNumber(1), setUsername(e?.target?.value);
-              }}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Card Id"
-              value={cardId ? cardId : ""}
-              onChange={(e) => {
-                setPageNumber(1), setCardId(e?.target?.value);
-              }}
-            />
-            <TextField
-              fullWidth
-              select
-              label="Select User Type"
-              size="small"
-              value={userType ? userType : ""}
-              onChange={(e) => {
-                setPageNumber(1), setUserType(e.target.value);
-              }}
-            >
-              {usertypes?.map((option: any) => (
-                <MenuItem key={option?.id} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              fullWidth
-              select
-              label="Order By"
-              size="small"
-              value={isOrderBy ? isOrderBy : ""}
-              onChange={(e) => {
-                setPageNumber(1), setIsOrderBy(e?.target?.value);
-              }}
-            >
-              {short.map((option) => (
-                <MenuItem key={option.id} value={option.value}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </div>
-        </div>
+          : null}
         <div>
           {isGrid ? (
             <>
               {isLoading && <SkeletonLoaderLarge />}
-              <AllScannedGrid data={cardData} mutate={mutate} />
+              <AllScannedGrid data={cardData} user={user} mutate={mutate} />
             </>
           ) : (
             <>
               {isLoading && <Loader />}
-              <AllScannedColumn data={cardData} mutate={mutate} />
+              <AllScannedColumn data={cardData} user={user} mutate={mutate} />
             </>
           )}
         </div>

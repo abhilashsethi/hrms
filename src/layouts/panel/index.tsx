@@ -1,4 +1,4 @@
-import { Logout, Settings } from "@mui/icons-material";
+import { Logout, Person, Settings } from "@mui/icons-material";
 import {
   Avatar,
   Badge,
@@ -80,7 +80,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
           chatId: chatId,
         },
       });
-    } catch (error) {}
+    } catch (error) { }
   };
 
   //listen to all the chat event upon receiving event update the chat count
@@ -155,11 +155,10 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
           role={user?.role?.name}
         />
         <main
-          className={`min-h-screen bg-white ${
-            isOpen
-              ? "md:ml-[calc(100vw-calc(100vw-240px))] md:w-[calc(100vw-258px)] w-[calc(100vw-0px)]"
-              : "md:ml-[calc(100vw-calc(100vw-72px))] md:w-[calc(100vw-72px)] w-[calc(100vw-58px)] ml-[calc(100vw-calc(100vw-55px))]"
-          } dashboard-main `}
+          className={`min-h-screen bg-white ${isOpen
+            ? "md:ml-[calc(100vw-calc(100vw-240px))] md:w-[calc(100vw-258px)] w-[calc(100vw-0px)]"
+            : "md:ml-[calc(100vw-calc(100vw-72px))] md:w-[calc(100vw-72px)] w-[calc(100vw-58px)] ml-[calc(100vw-calc(100vw-55px))]"
+            } dashboard-main `}
         >
           <header className={`h-16 bg-white`}>
             <div className="flex h-16 items-center justify-between px-4">
@@ -227,8 +226,8 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                       user?.role?.name === "CEO"
                         ? "/admin/chat"
                         : user?.role?.name === "HR"
-                        ? "/admin"
-                        : "/"
+                          ? "/admin"
+                          : "/"
                     }
                   >
                     <Tooltip title="Chats">
@@ -257,8 +256,8 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                       user?.role?.name === "CEO"
                         ? "/admin"
                         : user?.role?.name === "HR"
-                        ? "/admin"
-                        : "/"
+                          ? "/admin"
+                          : "/"
                     }
                   >
                     <Tooltip title="Notifications">
@@ -349,6 +348,24 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                             <Settings fontSize="small" />
                           </ListItemIcon>
                           Settings
+                        </MenuItem>
+                      </Link>
+                      <Link
+                        href={
+                          user?.role?.name === "CEO" ||
+                            user?.role?.name === "DEVELOPER" ||
+                            user?.role?.name === "TESTER" ||
+                            user?.role?.name === "HR" ||
+                            user?.role?.name === "MANAGER"
+                            ? `/admin/employees/profile/${user?.id}`
+                            : `/admin/clients/client-profile?id=${user?.id}`
+                        }
+                      >
+                        <MenuItem>
+                          <ListItemIcon>
+                            <Person fontSize="small" />
+                          </ListItemIcon>
+                          Profile
                         </MenuItem>
                       </Link>
                       <MenuItem onClick={handleLogout}>
