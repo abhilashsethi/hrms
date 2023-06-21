@@ -6,29 +6,17 @@ import {
 	MedicalInformationRounded,
 } from "@mui/icons-material";
 import {
-	Button,
 	Container,
 	Drawer,
 	IconButton,
-	InputLabel,
-	MenuItem,
-	TextField,
 	Tooltip,
 } from "@mui/material";
 import ICONS from "assets/icons";
-import {
-	ProjectDrawerSkeletonLoading,
-	TicketDetailsSkeletonLoading,
-} from "components/admin/clients";
 import { PageAccessSkeleton } from "components/admin/roles";
-import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
-import moment from "moment";
 import { useState } from "react";
-import Slider from "react-slick";
 import Swal from "sweetalert2";
 import { Role } from "types";
-import * as Yup from "yup";
 
 type Props = {
 	open?: boolean | any;
