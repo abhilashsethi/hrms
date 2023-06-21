@@ -7,45 +7,8 @@ interface Props {
   data?: any;
 }
 const MainHrDashboardCharts = ({ data }: Props) => {
-  const getMonthName = (monthNumber: any) => {
-    const date = new Date();
-    date.setMonth(monthNumber - 1);
-    return date.toLocaleString("default", { month: "long" });
-  };
-  const cards = [
-    {
-      id: 1,
-      color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
 
-      name: "John Doe",
-      count: data?.GuestInfo?.totalGuest || 0,
-      link: "/admin",
-    },
-    {
-      id: 2,
-      color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
 
-      name: "Prasad Ghosh",
-      count: data?.GuestInfo?.blockedGuestCount || 0,
-      link: "/admin",
-    },
-    {
-      id: 3,
-      color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-      name: "Subala Mohanta",
-      count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
-      link: "/admin",
-    },
-    {
-      id: 4,
-      color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-      name: "Joti Panda",
-      count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
-      link: "/admin",
-    },
-  ];
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
