@@ -22,7 +22,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
       ),
       name: "Total Employees",
       count: data?.totalEmployees || 0,
-      link: "/admin",
+      link: "/admin/employees/all-employees",
     },
     {
       id: 2,
@@ -35,7 +35,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
       ),
       name: "Pending Leave Request",
       count: data?.totalPendingLeaveRequest || 0,
-      link: "/admin",
+      link: "/admin/leaves/leave-requests",
     },
     {
       id: 3,
@@ -43,7 +43,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
       icon: (<AssignmentTurnedIn fontSize="large" className="text-white group-hover:text-white" />),
       name: "Today Total Attendance",
       count: data?.toDayTotalAttendance || 0,
-      link: "/admin",
+      link: "/admin/attendances/today",
     },
     {
       id: 4,
@@ -53,7 +53,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
       ),
       name: "Total Guests",
       count: data?.totalGuest || 0,
-      link: "/admin",
+      link: "/admin/guests/all-guests",
     },
   ];
   return (
