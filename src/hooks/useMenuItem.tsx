@@ -343,7 +343,7 @@ export default () => {
 			key: "28ss",
 			title: "My Asset",
 			icon: <ICONS.All_Assets />,
-			route: "/admin/assets/create-assets",
+			route: "/admin/assets/all-assets",
 		},
 		{
 			key: "12",
