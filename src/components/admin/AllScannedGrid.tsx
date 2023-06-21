@@ -217,46 +217,67 @@ const CardComponent = ({ item, user, mutate }: Props) => {
                     </div>
                     <div className="w-full flex flex-col items-center justify-center gap-2 mt-2">
                       <div className="flex items-center gap-4">
-                        <Tooltip title="Delete Card">
-                          <div className="h-10 w-10 bg-white shadow-lg rounded-full">
-                            <IconButton onClick={() => handleDelete(item?.id)}>
-                              <Delete className="!text-youtube" />
-                            </IconButton>
-                          </div>
-                        </Tooltip>
-                        <Tooltip title="Remove Person">
-                          <div className="h-10 w-10 bg-white shadow-lg rounded-full">
-                            <IconButton
-                              onClick={() => handleRemove(item?.cardId)}
-                            >
-                              <PersonRemoveRounded className="!text-theme" />
-                            </IconButton>
-                          </div>
-                        </Tooltip>
-                        <Tooltip title="Room Access">
-                          <div className="h-10 w-10 bg-white shadow-lg rounded-full">
-                            <IconButton
-                              onClick={() => {
-                                setIsAccess({
-                                  dialogue: true,
-                                  cardId: item?.cardId,
-                                });
-                              }}
-                            >
-                              <MeetingRoomRounded className="!text-black" />
-                            </IconButton>
-                          </div>
-                        </Tooltip>
+                        {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+                          <>
+                            <Tooltip title="Delete Card">
+                              <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                                <IconButton onClick={() => handleDelete(item?.id)}>
+                                  <Delete className="!text-youtube" />
+                                </IconButton>
+                              </div>
+                            </Tooltip>
+                            <Tooltip title="Remove Person">
+                              <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                                <IconButton
+                                  onClick={() => handleRemove(item?.cardId)}
+                                >
+                                  <PersonRemoveRounded className="!text-theme" />
+                                </IconButton>
+                              </div>
+                            </Tooltip>
+                            <Tooltip title="Room Access">
+                              <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                                <IconButton
+                                  onClick={() => {
+                                    setIsAccess({
+                                      dialogue: true,
+                                      cardId: item?.cardId,
+                                    });
+                                  }}
+                                >
+                                  <MeetingRoomRounded className="!text-black" />
+                                </IconButton>
+                              </div>
+                            </Tooltip>
+                          </>
+                        ) :
+                          <Tooltip title="Room Access">
+                            <div className="h-10 w-10 bg-white shadow-lg rounded-full">
+                              <IconButton
+                                onClick={() => {
+                                  setIsAccess({
+                                    dialogue: true,
+                                    cardId: item?.cardId,
+                                  });
+                                }}
+                              >
+                                <MeetingRoomRounded className="!text-black" />
+                              </IconButton>
+                            </div>
+                          </Tooltip>
+                        }
                       </div>
-                      <div className="flex flex-col items-center gap-1">
-                        <p className="font-semibold tracking-wide text-sm">
-                          Unblock/Block
-                        </p>
-                        <IOSSwitch
-                          checked={item?.isBlocked}
-                          onChange={(e) => handleBlock(e, item?.cardId)}
-                        />
-                      </div>
+                      {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+                        <div className="flex flex-col items-center gap-1">
+                          <p className="font-semibold tracking-wide text-sm">
+                            Unblock/Block
+                          </p>
+                          <IOSSwitch
+                            checked={item?.isBlocked}
+                            onChange={(e) => handleBlock(e, item?.cardId)}
+                          />
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </>
@@ -337,17 +358,20 @@ const CardComponent = ({ item, user, mutate }: Props) => {
                                 <MeetingRoomRounded className="!text-black" />
                               </IconButton>
                             </div>
-                          </Tooltip>}
+                          </Tooltip>
+                        }
                       </div>
-                      <div className="flex flex-col items-center gap-1">
-                        <p className="font-semibold tracking-wide text-sm">
-                          Unblock/Block
-                        </p>
-                        <IOSSwitch
-                          checked={item?.isBlocked}
-                          onChange={(e) => handleBlock(e, item?.cardId)}
-                        />
-                      </div>
+                      {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+                        <div className="flex flex-col items-center gap-1">
+                          <p className="font-semibold tracking-wide text-sm">
+                            Unblock/Block
+                          </p>
+                          <IOSSwitch
+                            checked={item?.isBlocked}
+                            onChange={(e) => handleBlock(e, item?.cardId)}
+                          />
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                   <div className="px-4 flex gap-4 w-full">
