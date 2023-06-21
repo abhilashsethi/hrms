@@ -357,11 +357,11 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
                             : `/admin/clients/client-profile?id=${user?.id}`
                         }
                       >
-                        <MenuItem onClick={handleLogout}>
+                        <MenuItem>
                           <ListItemIcon>
                             <Person fontSize="small" />
                           </ListItemIcon>
-                          PROFILE
+                          Profile
                         </MenuItem>
                       </Link>
                       <MenuItem onClick={handleLogout}>
