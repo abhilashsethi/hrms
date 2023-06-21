@@ -8,6 +8,7 @@ const EmailCard = ({
   subject,
   messageDate,
   userName,
+  onclick,
 }: {
   className?: string;
   isRead?: boolean;
@@ -15,12 +16,15 @@ const EmailCard = ({
   subject?: string;
   messageDate?: any;
   userName?: string;
+  onclick?: () => void;
 }) => {
   const { push } = useRouter();
 
   return (
     <tr
-      onClick={() => push(`/admin/email/${Date.now()}`)}
+      onClick={() => {
+        onclick ? onclick() : push(`/admin/email/${Date.now()}`);
+      }}
       className={`flex-col flex md:flex-row border-b cursor-pointer border-gray-200   w-full items-center ${
         isRead ? "bg-white" : "bg-theme/20"
       } `}

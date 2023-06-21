@@ -8,6 +8,7 @@ import {
 import { Checkbox, IconButton, Menu, MenuItem } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import EmailCard from "./EmailCard";
+import { useRouter } from "next/router";
 
 const DraftEmail = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -18,6 +19,9 @@ const DraftEmail = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { push } = useRouter();
+
   return (
     <div className="w-full flex flex-col">
       <div className="flex flex-col md:flex-row gap-2 shadow-md rounded-lg justify-between p-4 bg-white py-4  w-full items-center ">
@@ -70,6 +74,9 @@ const DraftEmail = () => {
                 .fill("lk")
                 .map((_, i) => (
                   <EmailCard
+                    onclick={() =>
+                      push(`/admin/email/create?draftId=${Date.now()}`)
+                    }
                     key={i}
                     isRead={i % 3 === 0 || i % 7 === 0}
                     userName={`User SY${Math.floor(
