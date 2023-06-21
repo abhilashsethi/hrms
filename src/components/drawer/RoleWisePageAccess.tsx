@@ -492,14 +492,24 @@ const PageList = [
 		icon: <ICONS.Create />,
 		name: "Create Email",
 	},
-	{ id: 101, value: "/admin/email", icon: <ICONS.Inbox />, name: "Inbox" },
+	{
+		key: 103,
+		name: "Sent",
+		icon: <ICONS.Sent />,
+		value: "/admin/email/sent",
+	},
+	{
+		id: 101,
+		value: "/admin/email",
+		icon: <ICONS.Inbox />,
+		name: "Inbox",
+	},
 	{
 		id: 102,
 		value: "/admin/email/drafts",
 		icon: <ICONS.Draft />,
 		name: "Drafts",
 	},
-	// { id: 103, value: "/admin/email/drafts", icon: <ICONS.ChevronRight />, name: "Drafts" },
 	{
 		id: 44,
 		value: "/admin/templates/create-template",
