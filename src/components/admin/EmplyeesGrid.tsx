@@ -222,15 +222,17 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 				EMP ID :
 				<CopyClipboard value={item?.employeeID} />
 			</div>
-			<div className="w-full px-8 flex gap-2 mt-2 justify-center">
-				<div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
-					<p className="font-semibold tracking-wide text-sm">STATUS</p>
-					<ReverseIOSSwitch
-						checked={item?.isBlocked}
-						onChange={(e) => handleBlock(e, item?.id)}
-					/>
+			{userDetails?.role?.name == "CEO" || userDetails?.role?.name == "HR" ? (
+				<div className="w-full px-8 flex gap-2 mt-2 justify-center">
+					<div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
+						<p className="font-semibold tracking-wide text-sm">STATUS</p>
+						<ReverseIOSSwitch
+							checked={item?.isBlocked}
+							onChange={(e) => handleBlock(e, item?.id)}
+						/>
+					</div>
 				</div>
-			</div>
+			) : null}
 		</div>
 	);
 };
