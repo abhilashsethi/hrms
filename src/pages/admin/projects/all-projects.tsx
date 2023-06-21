@@ -15,12 +15,13 @@ import {
 	LoaderAnime,
 } from "components/core";
 import { TechnologiesFilter } from "components/drawer";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
 
 const AllProjects = () => {
+	const { user } = useAuth();
 	const [clientName, setClientName] = useState<any>([]);
 	const [projectName, setProjectName] = useState(null);
 	const [bugStatus, setBugStatus] = useState(null);
@@ -41,6 +42,12 @@ const AllProjects = () => {
 	} = useFetch<any>(
 		`projects?page=${pageNumber}&limit=6${
 			projectName ? `&name=${projectName}` : ""
+		}${
+			user?.role?.name === "CEO" ||
+			user?.role?.name === "HR" ||
+			user?.role?.name === "MANAGER"
+				? ""
+				: `&memberId=${user?.id}`
 		}${status ? `&projectStatus=${status}` : ""}${
 			bugStatus ? `&bugs=${bugStatus}` : ""
 		}` +
@@ -65,20 +72,22 @@ const AllProjects = () => {
 					setTechnologies={setTechnologies}
 					setClientName={setClientName}
 				/>
-				<div className="flex md:justify-between justify-start md:items-center items-start py-4 md:flex-row flex-col">
-					<AdminBreadcrumbs links={links} />
-					<div className="flex gap-4 items-center">
-						<Link href="/admin/projects/create-projects">
-							<Button
-								className="!bg-theme"
-								variant="contained"
-								startIcon={<Add />}
-							>
-								ADD PROJECTS
-							</Button>
-						</Link>
+				{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+					<div className="flex md:justify-between justify-start md:items-center items-start py-4 md:flex-row flex-col">
+						<AdminBreadcrumbs links={links} />
+						<div className="flex gap-4 items-center">
+							<Link href="/admin/projects/create-projects">
+								<Button
+									className="!bg-theme"
+									variant="contained"
+									startIcon={<Add />}
+								>
+									ADD PROJECTS
+								</Button>
+							</Link>
+						</div>
 					</div>
-				</div>
+				) : null}
 
 				<div className="md:flex gap-4 w-full py-2">
 					<div
@@ -179,6 +188,7 @@ const AllProjects = () => {
 						mutate={mutate}
 						projectData={projectData}
 						isLoading={isLoading}
+						userDetails={user}
 					/>
 				</div>
 				{projectData?.length === 0 ? <LoaderAnime /> : null}

@@ -25,6 +25,7 @@ import { useState } from "react";
 import { User } from "types";
 
 const AllEmployees = () => {
+	const { user } = useAuth();
 	const theme = useTheme();
 	const [pageNumber, setPageNumber] = useState<number>(1);
 	const [isGrid, setIsGrid] = useState(true);
@@ -45,10 +46,30 @@ const AllEmployees = () => {
 			empId ? `&employeeID=${empId}` : ""
 		}${isRole ? `&role=${isRole}` : ""}${
 			isDepartment ? `&departmentName=${isDepartment}` : ""
+		}${
+			user?.role?.name === "CEO" || user?.role?.name === "HR"
+				? ""
+				: `&userId=${user?.id}`
 		}`
 	);
-	const { user } = useAuth();
-	console.log(user);
+	const links =
+		user?.role?.name === "CEO" || user?.role?.name === "HR"
+			? [
+					{ id: 1, page: "Employees", link: "/admin/employees" },
+					{
+						id: 2,
+						page: "All Employees",
+						link: "/admin/employees/all-employees",
+					},
+			  ]
+			: [
+					{
+						id: 3,
+						page: "My Profile",
+						link: "/admin/employees/all-employees",
+					},
+			  ];
+
 	return (
 		<PanelLayout title="All Users - Admin Panel">
 			<section className="md:px-8 px-4">
@@ -58,7 +79,7 @@ const AllEmployees = () => {
 				/>
 				<div className="flex flex-col md:flex-row w-full md:justify-between justify-start items-start md:items-center md:py-4 py-2">
 					<div className="md:w-auto w-full">
-						<AdminBreadcrumbs links={links} />
+						<AdminBreadcrumbs links={links as any} />
 					</div>
 					<div className="flex gap-4 md:items-center md:flex-row flex-col-reverse md:w-auto w-full items-end">
 						<GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
@@ -184,7 +205,11 @@ const AllEmployees = () => {
 				) : (
 					<>
 						{isLoading && <Loader />}
-						<EmployeesColumn data={employees} mutate={mutate} />
+						<EmployeesColumn
+							userDetails={user}
+							data={employees}
+							mutate={mutate}
+						/>
 					</>
 				)}
 				{employees?.length === 0 ? <LoaderAnime /> : null}
@@ -215,8 +240,3 @@ const AllEmployees = () => {
 };
 
 export default AllEmployees;
-
-const links = [
-	{ id: 1, page: "Employees", link: "/admin/employees" },
-	{ id: 2, page: "All Employees", link: "/admin/employees/all-employees" },
-];
