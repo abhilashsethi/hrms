@@ -117,7 +117,7 @@ const ProjectVideoDrawer = ({ open, onClose }: Props) => {
 										image={NODOCUMENT}
 										animeHight={200}
 										animeWidth={150}
-										text={"No Documents found!"}
+										text={"No Videos found!"}
 									/>
 								</div>
 							)}
