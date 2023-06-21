@@ -79,7 +79,7 @@ const MainHrDashboardCharts = ({ data }: Props) => {
           <div className="grid lg:grid-cols-2 grid-cols-1 lg:px-8 px-2 py-4 gap-4">
 
             {data?.recentGuests?.map((item: any) => (
-              <Link href={`/admin/guests/guest-profile?${item?.id}`} key={item?.id}>
+              <Link href={`/admin/guests/guest-profile?id=${item?.id}`} key={item?.id}>
                 <div
                   className={`h-full w-full bg-slate-200 py-4 lg:px-5 px-2 flex flex-col gap-2 rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
                 >
