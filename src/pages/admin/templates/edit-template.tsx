@@ -4,8 +4,6 @@ import PanelLayout from "layouts/panel";
 import { useRef } from "react";
 import EmailEditor from "react-email-editor";
 import { RemoveRedEye, SendToMobile } from "@mui/icons-material";
-import Swal from "sweetalert2";
-import { EmailTemplateType, User } from "types";
 import { useRouter } from "next/router";
 
 const EditTemplate = () => {

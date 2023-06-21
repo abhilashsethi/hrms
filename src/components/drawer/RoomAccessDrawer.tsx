@@ -3,7 +3,7 @@ import { Button, CircularProgress, Container, Drawer } from "@mui/material";
 import { ReverseIOSSwitch } from "components/core";
 import { makeStyles } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
 
 type Props = {
@@ -39,6 +39,7 @@ const rooms = [
 const RoomAccessDrawer = ({ open, onClose, cardId, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const { user } = useAuth();
   const { data: accessData, isLoading } = useFetch<any>(`cards/${cardId}`);
   const classes = useStyles();
   const [items, setItems] = useState<any>([]);
@@ -121,22 +122,25 @@ const RoomAccessDrawer = ({ open, onClose, cardId, mutate }: Props) => {
                   <p className="font-semibold">{item?.value}</p>
                   <ReverseIOSSwitch
                     checked={item?.isAccess}
+                    disabled={user?.role?.name == "CEO" || user?.role?.name == "HR" ? false : true}
                     onChange={(e) => handleChange(e, item?.value)}
                   />
                 </div>
               ))}
             </div>
-            <div className="flex justify-end mt-6">
-              <Button
-                onClick={() => handleSubmit()}
-                disabled={loading}
-                variant="contained"
-                className="!bg-emerald-600"
-                startIcon={loading ? <CircularProgress size={20} /> : <Done />}
-              >
-                SAVE CHANGES
-              </Button>
-            </div>
+            {user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+              <div className="flex justify-end mt-6">
+                <Button
+                  onClick={() => handleSubmit()}
+                  disabled={loading}
+                  variant="contained"
+                  className="!bg-emerald-600"
+                  startIcon={loading ? <CircularProgress size={20} /> : <Done />}
+                >
+                  SAVE CHANGES
+                </Button>
+              </div>
+              : null}
           </>
         )}
       </Container>

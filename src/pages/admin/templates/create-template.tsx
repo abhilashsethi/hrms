@@ -1,7 +1,7 @@
 import { FileCopy, Save, Send } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -12,7 +12,6 @@ import { User } from "types";
 
 const CreateTemplate = () => {
   const router = useRouter();
-  const { data: userData } = useFetch<User>(`users/${router?.query?.empId}`);
   const links = [
     {
       id: 1,
@@ -26,6 +25,45 @@ const CreateTemplate = () => {
     // editor is ready
     console.log("onReady");
   };
+
+  const { change } = useChange();
+
+  const handleTemplateSave = () => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to save this mail?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, send!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          emailEditorRef.current.editor.exportHtml(
+            async ({ html }: { html: string }) => {
+              router.push(`/admin/templates/saved-templates`);
+            }
+          );
+        }
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        Swal.fire({
+          title: "Error?",
+          text: error?.message,
+          icon: "error",
+        });
+        return;
+      }
+      Swal.fire({
+        title: "Error?",
+        text: "Oops, Something went wrong!",
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <PanelLayout title="Send Email - Admin Panel">
       <section className="px-8 py-4">
@@ -44,25 +82,7 @@ const CreateTemplate = () => {
                 variant="contained"
                 startIcon={<Save />}
                 className="!bg-blue-500"
-                onClick={() => {
-                  Swal.fire({
-                    title: "Are you sure?",
-                    text: "You want to save this mail?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, send!",
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      Swal.fire(
-                        "Sent!",
-                        "Template saved successfully!",
-                        "success"
-                      );
-                    }
-                  });
-                }}
+                onClick={handleTemplateSave}
               >
                 Save Template
               </Button>

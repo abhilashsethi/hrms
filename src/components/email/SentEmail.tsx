@@ -4,8 +4,9 @@ import {
   Delete,
   MoreVert,
   Refresh,
+  Search,
 } from "@mui/icons-material";
-import { Checkbox, IconButton, Menu, MenuItem } from "@mui/material";
+import { Checkbox, IconButton, Menu, MenuItem, TextField } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import EmailCard from "./EmailCard";
 
@@ -45,6 +46,19 @@ const SentEmail = () => {
             <MenuItem onClick={handleClose}>Newest First</MenuItem>
             <MenuItem onClick={handleClose}>Oldest First</MenuItem>
           </Menu>
+        </div>
+
+        <div className="w-full flex items-center justify-center">
+          <TextField
+            className="w-full"
+            id="outlined-basic"
+            variant="outlined"
+            size="small"
+            fullWidth
+            InputProps={{
+              startAdornment: <Search />,
+            }}
+          />
         </div>
 
         <div className="flex gap-2 items-center">

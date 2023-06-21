@@ -1,12 +1,16 @@
+import { CreateEmail, CreateHeader } from "components/email";
 import PanelLayout from "layouts/panel";
 import React from "react";
 
-const CreateEmail = () => {
+const CreateEmailPage = () => {
   return (
     <PanelLayout title="Email | Create">
-      <div>Email create</div>
+      <CreateHeader />
+      <section className="container mx-auto px-4">
+        <CreateEmail />
+      </section>
     </PanelLayout>
   );
 };
 
-export default CreateEmail;
+export default CreateEmailPage;

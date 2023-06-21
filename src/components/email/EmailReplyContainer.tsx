@@ -14,18 +14,7 @@ const EmailReplyContainer = () => {
       />
       <div className="w-full bg-themeBlue ">
         <div className="w-full flex items-center container mx-auto p-4 justify-between">
-          {replay ? (
-            <button
-              className="flex gap-4 items-center hover:scale-95 transition-all border border-red-500 ease-in-out duration-300 hover:bg-red-600 justify-center bg-red-500 text-white px-4 py-2 rounded-md shadow-lg "
-              onClick={() => {
-                setIsForwarding(false);
-                setReply(false);
-              }}
-            >
-              <Cancel />
-              <span className="text-sm">Cancel</span>
-            </button>
-          ) : (
+          {!replay && (
             <div className="flex gap-4 items-center">
               <button
                 className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg "
