@@ -159,6 +159,11 @@ const EmployeesColumn = ({ data, mutate, userDetails }: Props) => {
 					{
 						title: "UNBLOCK/BLOCK",
 						field: "isBlocked",
+						hidden:
+							userDetails?.role?.name == "CEO" ||
+							userDetails?.role?.name == "HR"
+								? false
+								: true,
 						emptyValue: "Not Provided",
 						align: "center",
 						render: (data) => (
@@ -192,35 +197,21 @@ const EmployeesColumn = ({ data, mutate, userDetails }: Props) => {
 				//   push(`/admin/attendances/user/${rowData?.id}`)
 				// }
 				editable={{
-					onRowDelete: async (oldData) => {
-						const res = await change(`users/${oldData.id}`, {
-							method: "DELETE",
-						});
-						if (res?.status !== 200) {
-							Swal.fire(`Error`, "Something went wrong!", "error");
-							return;
-						}
-						Swal.fire(`Success`, "Deleted Successfully!", "success");
-						mutate();
-						return;
-					},
-					// onRowUpdate: async (newData: any) => {
-					//   const res = await change(`users/${newData?.id}`, {
-					//     method: "PATCH",
-					//     body: {
-					//       isOfficeAccessGranted:
-					//         newData?.isOfficeAccessGranted === "true" ? true : false,
-					//     },
-					//   });
-					//   console.log(res);
-					//   mutate();
-					//   if (res?.status !== 200) {
-					//     Swal.fire(`Error`, "Something went wrong!", "error");
-					//     return;
-					//   }
-					//   Swal.fire(`Success`, "Updated Successfully!", "success");
-					//   return;
-					// },
+					onRowDelete:
+						userDetails?.role?.name == "CEO" || userDetails?.role?.name == "HR"
+							? async (oldData) => {
+									const res = await change(`users/${oldData.id}`, {
+										method: "DELETE",
+									});
+									if (res?.status !== 200) {
+										Swal.fire(`Error`, "Something went wrong!", "error");
+										return;
+									}
+									Swal.fire(`Success`, "Deleted Successfully!", "success");
+									mutate();
+									return;
+							  }
+							: undefined,
 				}}
 			/>
 		</section>
