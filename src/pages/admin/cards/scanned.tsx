@@ -29,7 +29,6 @@ const Cards = () => {
   const [userType, setUserType] = useState<string | null>(null);
   const [isGrid, setIsGrid] = useState(true);
   const { user } = useAuth();
-  console.log(user);
   const {
     data: cardData,
     isLoading,
@@ -156,12 +155,12 @@ const Cards = () => {
           {isGrid ? (
             <>
               {isLoading && <SkeletonLoaderLarge />}
-              <AllScannedGrid data={cardData} mutate={mutate} />
+              <AllScannedGrid data={cardData} user={user} mutate={mutate} />
             </>
           ) : (
             <>
               {isLoading && <Loader />}
-              <AllScannedColumn data={cardData} mutate={mutate} />
+              <AllScannedColumn data={cardData} user={user} mutate={mutate} />
             </>
           )}
         </div>
