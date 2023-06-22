@@ -359,3 +359,23 @@ export interface ClientToServerEvents {
     groupId?: string;
   }) => void;
 }
+
+type EmailUser = {
+  id: string;
+  name: string;
+  photo: string;
+  username: string;
+};
+
+export type SentEmailType = {
+  bcc: EmailUser[];
+  cc: EmailUser[];
+  content: string;
+  isRead: boolean;
+  isSend: boolean;
+  receiver: EmailUser;
+  subject: string;
+  attachments: string[];
+  id: string;
+  sentAt: string;
+};

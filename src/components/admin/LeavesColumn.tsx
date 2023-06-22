@@ -198,7 +198,6 @@ const LeavesColumn = ({ data, mutate }: Props) => {
                 name: _?.user?.name,
                 photo: _?.user?.photo ? _?.user?.photo : null,
                 role: _?.user?.role,
-                thisMonth: getYearLeaves(_?.user?.id),
               }))
           }
           options={{
@@ -243,17 +242,6 @@ const LeavesColumn = ({ data, mutate }: Props) => {
                 </span>
               ),
             },
-            // {
-            //   title: "This Month Leaves",
-            //   tooltip: "This Month Leaves",
-            //   field: "thisMonth",
-            // },
-            // {
-            //   title: "This Year Leaves",
-            //   tooltip: "Role",
-            //   field: "role",
-            //   render: (item) => <span>{getYearLeaves(item?.user?.id)}</span>,
-            // },
             {
               title: "Details",
               tooltip: "Details",
@@ -274,51 +262,6 @@ const LeavesColumn = ({ data, mutate }: Props) => {
                 }
               },
             },
-            // {
-            //   title: "Approved by Manager",
-            //   tooltip: "status",
-            //   width: "3%",
-            //   field: "status",
-            //   render: (item) => (
-            //     <>
-            //       {item?.approvedByManager === "yes" ? (
-            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-green-500">
-            //           <Check fontSize="small" className="" />
-            //         </div>
-            //       ) : item?.approvedByManager === "pending" ? (
-            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-blue-500">
-            //           <HourglassBottomRounded fontSize="small" className="" />
-            //         </div>
-            //       ) : (
-            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-red-600">
-            //           <Close fontSize="small" className="" />
-            //         </div>
-            //       )}
-            //     </>
-            //   ),
-            // },
-            // {
-            //   title: "Approved by HR",
-            //   tooltip: "status",
-            //   field: "status",
-            //   render: (item) => (
-            //     <>
-            //       {item?.approvedByHR === "yes" ? (
-            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-green-500">
-            //           <Check fontSize="small" className="" />
-            //         </div>
-            //       ) : item?.approvedByHR === "pending" ? (
-            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-blue-500">
-            //           <HourglassBottomRounded fontSize="small" className="" />
-            //         </div>
-            //       ) : (
-            //         <div className="h-7 w-7 rounded-md flex justify-center items-center text-white shadow-md !bg-red-600">
-            //           <Close fontSize="small" className="" />
-            //         </div>
-            //       )}
-            //     </>
-            //   ),
-            // },
             {
               title: "Status",
               tooltip: "Status",
@@ -359,94 +302,6 @@ const LeavesColumn = ({ data, mutate }: Props) => {
 };
 
 export default LeavesColumn;
-const LeaveStatus = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  return (
-    <div>
-      <button
-        onClick={handleClick}
-        className="flex gap-3 items-center bg-white px-4 py-1.5 rounded-full font-medium shadow-lg"
-      >
-        <span className="flex gap-2 items-center">
-          <RadioButtonChecked fontSize="small" className="!text-blue-500" />
-          Pending
-        </span>
-        <div>
-          <KeyboardArrowDownRounded fontSize="small" />
-        </div>
-      </button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        {status?.map((item) => (
-          <MenuItem
-            key={item?.id}
-            className="flex gap-2 items-center"
-            onClick={handleClose}
-          >
-            {item?.icon}
-            {item?.value}
-          </MenuItem>
-        ))}
-      </Menu>
-    </div>
-  );
-};
 
-const cards = [
-  { id: 1, title: "Today Presents", value: "12/20" },
-  { id: 2, title: "Planned Leaves", value: "8" },
-  { id: 3, title: "Unplanned Leaves", value: "0" },
-  { id: 4, title: "Pending Requests", value: "12" },
-];
 
-const data = [
-  {
-    id: 1,
-    name: "Srinu reddy",
-    type: "Medical Leave",
-    from: "27 Feb 2023",
-    to: "27 Feb 2019",
-    days: "1 day",
-    reason: "Going to Hospital",
-    status: "PENDING",
-  },
-];
 
-const status = [
-  {
-    id: 1,
-    value: "Pending",
-    icon: <RadioButtonChecked fontSize="small" className="!text-blue-500" />,
-  },
-  {
-    id: 2,
-    value: "Approved",
-    icon: <RadioButtonChecked fontSize="small" className="!text-green-500" />,
-  },
-  {
-    id: 3,
-    value: "Declined",
-    icon: <RadioButtonChecked fontSize="small" className="!text-red-500" />,
-  },
-];
-
-const getYearLeaves = ({ id }: any) => {
-  const { data: empLeaves } = useFetch<any>(`leaves/details/${id}`);
-  return empLeaves?.totalLeavesCurrentYear
-    ? empLeaves?.totalLeavesCurrentYear
-    : 0;
-};
