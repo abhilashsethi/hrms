@@ -21,7 +21,7 @@ const DashboardCard = ({ data }: Props) => {
 		<div className="w-full px-4 ">
 			<div className="grid lg:grid-cols-4 gap-4">
 				{data?.map((item) => (
-					<Link href="/admin/cards/scanned" key={item?.id}>
+					<div key={item?.id}>
 						<div
 							className={`${item?.className} bg-white w-ful flex flex-col border-[1px] rounded-lg p-4 hover:scale-105 transition-all ease-in-out duration-300 cursor-pointer hover:bg-theme group shadow-next`}
 						>
@@ -38,7 +38,7 @@ const DashboardCard = ({ data }: Props) => {
 								{item?.count}
 							</h3>
 						</div>
-					</Link>
+					</div>
 				))}
 			</div>
 		</div>
