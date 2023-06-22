@@ -18,7 +18,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
       icon: (
         <Groups
           fontSize="large"
-          className="text-white group-hover:text-white"
+          className="text-theme"
         />
       ),
       name: "Total Employees",
@@ -31,7 +31,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
       icon: (
         <PendingActions
           fontSize="large"
-          className="text-white group-hover:text-white"
+          className="text-theme"
         />
       ),
       name: "Pending Leave Request",
@@ -41,7 +41,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
     {
       id: 3,
       color: "bg-[#f6c8ff]",
-      icon: (<AssignmentTurnedIn fontSize="large" className="text-white group-hover:text-white" />),
+      icon: (<AssignmentTurnedIn fontSize="large" className="text-theme" />),
       name: "Today Total Attendance",
       count: data?.toDayTotalAttendance || 0,
       link: "/admin/attendances/today",
@@ -50,7 +50,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
       id: 4,
       color: "bg-[#feb76f]",
       icon: (
-        <Engineering fontSize="large" className="text-white group-hover:text-white" />
+        <Engineering fontSize="large" className="text-theme" />
       ),
       name: "Total Guests",
       count: data?.totalGuest || 0,
