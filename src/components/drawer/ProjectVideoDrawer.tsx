@@ -16,7 +16,7 @@ import { NODOCUMENT } from "assets/animations";
 import { DOC, IMG, PDF, Video, XLS } from "assets/home";
 import { LoaderAnime } from "components/core";
 import AddVideoModal from "components/dialogues/AddVideoModal";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProjectVideoDrawer = ({ open, onClose }: Props) => {
+	const { user } = useAuth();
 	const router = useRouter();
 	const [isPreview, setIsPreview] = useState<{
 		dialogue?: boolean;
@@ -79,16 +80,18 @@ const ProjectVideoDrawer = ({ open, onClose }: Props) => {
 							<InsertDriveFileRounded />
 							Project Video Links
 						</p>
-						<button
-							onClick={() => setGetDocument((prev) => !prev)}
-							className="flex text-sm items-center bg-white text-theme md:p-1 p-[2px] rounded-md group hover:bg-theme hover:text-white border border-theme"
-						>
-							Add Video Link
-							<Add
-								fontSize="small"
-								className="text-theme group-hover:text-white transition duration-500 ease-in-out"
-							/>
-						</button>
+						{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+							<button
+								onClick={() => setGetDocument((prev) => !prev)}
+								className="flex text-sm items-center bg-white text-theme md:p-1 p-[2px] rounded-md group hover:bg-theme hover:text-white border border-theme"
+							>
+								Add Video Link
+								<Add
+									fontSize="small"
+									className="text-theme group-hover:text-white transition duration-500 ease-in-out"
+								/>
+							</button>
+						) : null}
 					</div>
 					<div className="flex justify-center w-full">
 						<div className="flex gap-2 flex-wrap">
