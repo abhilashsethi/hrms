@@ -224,3 +224,10 @@ export const downloadFile = (url: string, name: string) => {
     })
     .catch(console.error);
 };
+
+export const parseTextFromHtml = (html: string) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(` <div>${html}</div>`, "text/html");
+  const textContent = doc?.querySelector("div")?.textContent;
+  return textContent;
+};

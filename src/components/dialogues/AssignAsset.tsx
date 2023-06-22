@@ -37,7 +37,7 @@ const initialValues = {
 	assignedUserId: "",
 	assignDate: "",
 	assignTime: "",
-	returnDate: "",
+	// returnDate: "",
 	reason: "",
 	remarks: "",
 };
@@ -49,7 +49,7 @@ const validationSchema = Yup.object().shape({
 	reason: Yup.string().required("Reason is required!"),
 	remarks: Yup.string().required("Remarks is required!"),
 	assignTime: Yup.string().required("Assign Time is required!"),
-	returnDate: Yup.string().required("Return Date is required!"),
+	// returnDate: Yup.string().required("Return Date is required!"),
 });
 
 const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
@@ -83,7 +83,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 						assignRemark: values?.remarks,
 						reasonForAssign: values?.reason,
 						assignTime: values?.assignTime,
-						dateOfReturn: new Date(values?.returnDate).toISOString(),
+						// dateOfReturn: new Date(values?.returnDate).toISOString(),
 					},
 				}
 			);
@@ -254,7 +254,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 													helperText={touched.assignTime && errors.assignTime}
 												/>
 											</div>
-											<div className="md:px-4 px-2 md:py-2 py-1">
+											{/* <div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="py-2">
 													<InputLabel htmlFor="returnDate">
 														Date Of Return{" "}
@@ -279,7 +279,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 													error={touched.returnDate && !!errors.returnDate}
 													helperText={touched.returnDate && errors.returnDate}
 												/>
-											</div>
+											</div> */}
 											<div className="md:px-4 px-2 md:py-2 py-1 col-span-2">
 												<div className="py-2">
 													<InputLabel htmlFor="reason">

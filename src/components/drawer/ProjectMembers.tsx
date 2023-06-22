@@ -273,7 +273,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
 							<h4 className="font-semibold mt-4">Team Members : </h4>
 							{(projectData?.involvedMembers?.length &&
 								user?.role?.name === "CEO") ||
-							user?.role?.name === "HR" ? (
+							user?.role?.name === "HR	" ? (
 								<Tooltip title="Add Members">
 									<IconButton
 										onClick={() => setIsMembers((prev) => !prev)}

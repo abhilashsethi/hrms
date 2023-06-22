@@ -9,6 +9,18 @@ import {
 import { Checkbox, IconButton, Menu, MenuItem, TextField } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import EmailCard from "./EmailCard";
+import { useAuth, useFetch } from "hooks";
+import { SentEmailType } from "types";
+import { useRouter } from "next/router";
+
+type SentEmailData = {
+  allSendEmails: SentEmailType[];
+  pagination: {
+    total: number;
+    limit: number;
+    page: number;
+  };
+};
 
 const SentEmail = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -19,6 +31,15 @@ const SentEmail = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { user } = useAuth();
+
+  const { push } = useRouter();
+
+  const { data, isValidating } = useFetch<SentEmailData>(
+    `emails/get/sendMails/${user?.id}`
+  );
+
   return (
     <div className="w-full flex flex-col">
       <div className="flex flex-col md:flex-row gap-2 shadow-md rounded-lg justify-between p-4 bg-white py-4  w-full items-center ">
@@ -80,20 +101,23 @@ const SentEmail = () => {
         <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
           <table className="min-w-full leading-normal table-fixed ">
             <tbody>
-              {Array(25)
-                .fill("lk")
-                .map((_, i) => (
-                  <EmailCard
-                    key={i}
-                    isRead={i % 3 === 0 || i % 7 === 0}
-                    userName={`User SY${Math.floor(
-                      (i + 2) * Math.random() * 1000
-                    )}`}
-                    subject={`Project delivery status ${Math.floor(
-                      (i + 2) * Math.random() * 1000
-                    )}`}
-                  />
-                ))}
+              {isValidating
+                ? "Loading..."
+                : data?.allSendEmails?.length
+                ? data?.allSendEmails?.map((item, i) => (
+                    <EmailCard
+                      key={item?.id}
+                      isRead={true}
+                      userName={item?.receiver?.name}
+                      subject={item?.subject}
+                      email={item?.receiver?.username}
+                      onclick={() => push(`/admin/email/${item?.id}`)}
+                      messageDate={item?.sentAt || new Date()}
+                      messages={item?.content}
+                      photo={item?.receiver?.photo}
+                    />
+                  ))
+                : "No Data"}
             </tbody>
           </table>
         </div>
