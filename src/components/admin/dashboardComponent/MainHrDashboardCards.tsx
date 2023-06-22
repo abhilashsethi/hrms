@@ -4,6 +4,7 @@ import {
   Engineering,
   AssignmentTurnedIn,
 } from "@mui/icons-material";
+import { CardAsset } from "assets/home";
 import Link from "next/link";
 interface Props {
   data?: any;
@@ -13,7 +14,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
   const cards = [
     {
       id: 1,
-      color: "from-green-600 to-green-400",
+      color: "bg-[#bbcbff]",
       icon: (
         <Groups
           fontSize="large"
@@ -26,7 +27,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
     },
     {
       id: 2,
-      color: "from-red-600 to-red-400",
+      color: "bg-[#b9e9fd]",
       icon: (
         <PendingActions
           fontSize="large"
@@ -39,7 +40,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
     },
     {
       id: 3,
-      color: "from-blue-600 to-blue-400",
+      color: "bg-[#f6c8ff]",
       icon: (<AssignmentTurnedIn fontSize="large" className="text-white group-hover:text-white" />),
       name: "Today Total Attendance",
       count: data?.toDayTotalAttendance || 0,
@@ -47,7 +48,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
     },
     {
       id: 4,
-      color: "from-[#ff5874] to-[#ff8196]",
+      color: "bg-[#feb76f]",
       icon: (
         <Engineering fontSize="large" className="text-white group-hover:text-white" />
       ),
@@ -63,6 +64,22 @@ const MainHrDashboardCards = ({ data }: Props) => {
           {cards?.map((item) => (
             <Link href={item?.link} key={item?.id}>
               <div
+                className={`h-40 ${item?.color} w-full p-4 flex flex-col rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-500 ease-in-out relative overflow-hidden`}
+              >
+                <img
+                  className="absolute right-[-35px] top-[-12px] h-24 object-contain"
+                  src={CardAsset.src}
+                  alt=""
+                />
+                <div className="bg-white h-12 w-12 rounded-lg flex items-center justify-center">
+                  {item?.icon}
+                </div>
+                <span className="text-lg mt-6">{item?.count}</span>
+                <span className="font-semibold tracking-wide text-sm ">
+                  {item?.name}
+                </span>
+              </div>
+              {/* <div
                 className={`h-40 bg-gradient-to-br ${item?.color} w-full py-4 px-2 flex flex-col rounded-xl shadow-xl justify-between cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
               >
                 <div className="flex justify-around items-center">
@@ -74,7 +91,7 @@ const MainHrDashboardCards = ({ data }: Props) => {
                 <span className="text-xl text-white text-center font-semibold">
                   {item?.count}
                 </span>
-              </div>
+              </div> */}
             </Link>
           ))}
         </div>
