@@ -123,7 +123,7 @@ const LeaveDashboard = () => {
                 : 0,
             ]}
             type="pie"
-            labels={["Sick Leave", "Casual Leave"]}
+            labels={["Casual Leave", "Sick Leave"]}
           />
         </div>
       </div>
