@@ -1,5 +1,7 @@
 import { Avatar, Checkbox } from "@mui/material";
+import moment from "moment";
 import { useRouter } from "next/router";
+import { parseTextFromHtml } from "utils";
 
 const EmailCard = ({
   className,
@@ -9,6 +11,8 @@ const EmailCard = ({
   messageDate,
   userName,
   onclick,
+  photo,
+  messages,
 }: {
   className?: string;
   isRead?: boolean;
@@ -17,6 +21,8 @@ const EmailCard = ({
   messageDate?: any;
   userName?: string;
   onclick?: () => void;
+  photo?: string;
+  messages?: string;
 }) => {
   const { push } = useRouter();
 
@@ -32,7 +38,9 @@ const EmailCard = ({
       <td className="px-5 py-5 max-w-[22%] w-full text-sm">
         <div className="flex items-center gap-2 ">
           <Checkbox size="small" />
-          <Avatar />
+          <Avatar src={photo} alt={userName}>
+            {userName?.[0]}
+          </Avatar>
           <div className="ml-3">
             <p className="text-gray-900 text-xs whitespace-nowrap">
               {userName}
@@ -43,12 +51,16 @@ const EmailCard = ({
       </td>
       <td className="px-5 py-5 w-full   text-sm">
         <p className="text-gray-900 break-words">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Necessitatibus quia magnam eveniet voluptates natus iusto.
+          {messages &&
+            (messages?.length > 100
+              ? parseTextFromHtml(messages?.slice(0, 100)) + "... "
+              : parseTextFromHtml(messages))}
         </p>
       </td>
       <td className="px-5 py-5 min-w-fit   text-sm">
-        <p className="text-gray-900 whitespace-nowrap">Sept 28, 2019</p>
+        <p className="text-gray-900 whitespace-nowrap">
+          {moment(messageDate).format("LL")}
+        </p>
       </td>
     </tr>
   );
