@@ -19,7 +19,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { Projects } from "types";
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 const ProjectURLS = ({ open, onClose, id }: Props) => {
+	const { user } = useAuth();
 	const [isSnackbar, setIsSnackbar] = React.useState(false);
 	const handleClick = () => {
 		setIsSnackbar(true);
@@ -174,17 +175,19 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
 						</h4>
 						<div className="flex justify-between items-center">
 							<h4 className="font-semibold mt-4 underline">Project URLs : </h4>
-							<span>
-								<Button
-									onClick={() => setIsCreate((prev) => !prev)}
-									variant="contained"
-									className="!bg-theme"
-									size="small"
-									startIcon={<Add />}
-								>
-									CREATE
-								</Button>
-							</span>
+							{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+								<span>
+									<Button
+										onClick={() => setIsCreate((prev) => !prev)}
+										variant="contained"
+										className="!bg-theme"
+										size="small"
+										startIcon={<Add />}
+									>
+										CREATE
+									</Button>
+								</span>
+							) : null}
 						</div>
 						{isCreate && (
 							<form

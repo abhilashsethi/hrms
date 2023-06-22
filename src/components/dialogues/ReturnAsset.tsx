@@ -168,6 +168,7 @@ const ReturnAsset = ({
 				returnRemark: values?.remark,
 				isAccepted: true,
 			};
+			console.log(reqData);
 			values?.checklist?.forEach((item: any) => {
 				return (reqData[item] = true);
 			});
