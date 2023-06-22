@@ -29,7 +29,6 @@ const ProjectDashBoard = () => {
 	const { data: projectData, mutate } = useFetch<any>(
 		`projects/dashboard/details`
 	);
-	console.log(projectData);
 
 	useEffect(() => {
 		const demo = projectData?.yearWiseProjectCounts?.map((item: any) => {
@@ -61,7 +60,7 @@ const ProjectDashBoard = () => {
 			img: COMPLETED_PROJECT.src,
 			count: projectData?.totalFinishedProjects || 0,
 			bg: "from-emerald-500 to-emerald-300",
-			title: "Finished Projects",
+			title: "Completed Projects",
 		},
 		{
 			id: 4,
@@ -82,7 +81,7 @@ const ProjectDashBoard = () => {
 		},
 		{
 			id: 1,
-			title: "Finished Projects",
+			title: "Completed Projects",
 			// growth: "+10%",
 			value: projectData?.totalFinishedProjects,
 			sub: projectData?.totalProjects,
@@ -133,8 +132,8 @@ const ProjectDashBoard = () => {
 								categories={
 									projectData?.yearWiseProjectCounts?.length
 										? projectData?.yearWiseProjectCounts?.map((item: any) =>
-											item?.data?.map((item: any) => item?.year)
-										)[0]
+												item?.data?.map((item: any) => item?.year)
+										  )[0]
 										: []
 								}
 								colors={["#5B50A1", "#C43C5C", "#E97451"]}
@@ -145,7 +144,7 @@ const ProjectDashBoard = () => {
 
 						<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
 							<p className="text-lg font-bold text-center">Total Projects</p>
-							{projectData?.totalProjects &&
+							{projectData?.totalProjects && (
 								<ProjectsRadialBar
 									className="w-full"
 									type="radialBar"
@@ -158,7 +157,8 @@ const ProjectDashBoard = () => {
 									]}
 									totalReturn={projectData?.totalProjects}
 									title=""
-								/>}
+								/>
+							)}
 						</div>
 					</div>
 				</div>
@@ -181,16 +181,16 @@ const ProjectDashBoard = () => {
 									color={item?.color as any}
 									value={item?.value}
 								/>
-								<span className="text-sm pt-6">Overall Projects {projectData?.totalProjects}</span>
+								<span className="text-sm pt-6">
+									Overall Projects {projectData?.totalProjects}
+								</span>
 							</div>
 						</div>
 					))}
 				</div>
 			</div>
-
 		</>
 	);
 };
 
 export default ProjectDashBoard;
-

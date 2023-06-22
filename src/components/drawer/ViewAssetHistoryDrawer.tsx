@@ -84,7 +84,7 @@ const ViewAssetHistoryDrawer = ({
 }: Props) => {
 	const [history, setHistory] = useState(false);
 	const classes = useStyles();
-
+	console.log(data);
 	return (
 		<>
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
