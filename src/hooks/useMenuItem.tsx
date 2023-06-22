@@ -91,7 +91,7 @@ export default () => {
         key: "3ss",
         title: "My Profile",
         icon: <ICONS.All_Employee />,
-        route: "/admin/employees/all-employees",
+        route: `/admin/employees/profile/${user?.id}`,
       },
     {
       key: "4",
