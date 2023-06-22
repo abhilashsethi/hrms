@@ -104,7 +104,11 @@ const ViewAssetHistoryDrawer = ({
 						<>
 							<div className="mt-2 flex flex-col gap-4">
 								{isLoading && <ProjectDrawerSkeletonLoading />}
-								{data?.map((item: any, i: any) => {
+								{data?.sort(
+									(a: any, b: any) =>
+										(new Date(b?.createdAt) as any) -
+										(new Date(a?.createdAt) as any)
+								)?.map((item: any, i: any) => {
 									return (
 										<div
 											className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3`}
