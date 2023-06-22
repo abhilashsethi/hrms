@@ -38,7 +38,7 @@ const AssetHistoryMoreOption = ({ open, data, item, handleClose }: Props) => {
         sx={{ p: 2, minWidth: "18rem !important" }}
       >
         <p className="text-center text-xl font-bold text-theme tracking-wide">
-          UPDATE PICTURE
+          RETURN DETAILS
         </p>
         <IconButton
           aria-label="close"
