@@ -25,7 +25,7 @@ const AttendanceReport = () => {
     {
       id: 4,
       page: "Monthly Attendance",
-      link: `/admin/employees/attendance-report?empId=${router?.query?.empId}`,
+      link: `/admin/employees/attendance-report?empId=${router?.query?.empId}?month=${router?.query?.month}`,
     },
   ];
   const { data: attendanceData } = useFetch<any>(
