@@ -27,7 +27,7 @@ const LeaveDashboard = () => {
   const { data: leaveData, isLoading } = useFetch<any>(
     `leaves/dashboard/details`
   );
-
+  console.log(leaveData);
   useEffect(() => {
     let monthData =
       leaveData?.leaves?.leaveCountMonthWiseArr[0]?.leaveCounts?.map(
@@ -49,7 +49,6 @@ const LeaveDashboard = () => {
     });
   }, [leaveData]);
 
-  const monthWiseLeaveDetails = leaveData?.leaves?.monthWiseLeaveList;
 
   const cards = [
     {
