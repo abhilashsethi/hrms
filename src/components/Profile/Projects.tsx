@@ -4,6 +4,7 @@ import {
 	Event,
 	MoreVertRounded,
 	TaskAlt,
+	Visibility,
 } from "@mui/icons-material";
 import {
 	Avatar,
@@ -331,7 +332,7 @@ const MoreOption = ({ item, mutate, userDetails }: Props) => {
 				<Link href={`/admin/projects/project-details?id=${item?.id}`}>
 					<MenuItem>
 						<ListItemIcon>
-							<EditRounded fontSize="small" />
+							<Visibility fontSize="small" />
 						</ListItemIcon>
 						Details
 					</MenuItem>
