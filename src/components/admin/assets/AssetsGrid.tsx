@@ -421,17 +421,19 @@ const MoreOption = ({ item, mutate }: any) => {
 										</Tooltip> : null}
 								</>
 							) : (
-								{ user?.role?.name == "CEO" || user?.role?.name == "HR" ?
-									<Tooltip title="Assign Employee">
-										<span
-											onClick={() => {
-												setIsAssign({ dialogue: true, assetData: item });
-											}}
-											className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
-										>
-											<AssignmentInd fontSize="small" color="secondary" />
-										</span>
-									</Tooltip> : null}
+								<>
+									{user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+										<Tooltip title="Assign Employee">
+											<span
+												onClick={() => {
+													setIsAssign({ dialogue: true, assetData: item });
+												}}
+												className="cursor-pointer group w-full flex border-2 px-2 py-1 items-center justify-center"
+											>
+												<AssignmentInd fontSize="small" color="secondary" />
+											</span>
+										</Tooltip> : null}
+								</>
 							)}
 							{user?.role?.name == "CEO" || user?.role?.name == "HR" ?
 								<>
