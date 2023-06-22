@@ -1,5 +1,5 @@
-import { ContentPasteGo, Pending, Sick } from "@mui/icons-material";
-import { CASUAL_LEAVE, SICK_LEAVE, TOTAL_LEAVES } from "assets/dashboard_Icons";
+import { ContentPasteGo, Pending, PendingActions, Sick } from "@mui/icons-material";
+import { CASUAL_LEAVE, PENDING, SICK_LEAVE, TOTAL_LEAVES } from "assets/dashboard_Icons";
 import { LeaveBarChart, LeaveDonutChart } from "components/analytics";
 import { DashboardCard } from "components/core";
 import { useFetch } from "hooks";
@@ -68,7 +68,7 @@ const LeaveDashboard = () => {
       count: leaveData?.leaves?.leaveTypesList[0]?._count
         ? leaveData?.leaves?.leaveTypesList[0]?._count
         : 0,
-      title: "Sick Leaves",
+      title: "Approved Sick Leaves",
       bg: "from-yellow-500 to-yellow-300",
       img: SICK_LEAVE.src,
     },
@@ -78,9 +78,19 @@ const LeaveDashboard = () => {
       count: leaveData?.leaves?.leaveTypesList[1]?._count
         ? leaveData?.leaves?.leaveTypesList[1]?._count
         : 0,
-      title: "Casual Leaves",
+      title: "Approved Casual Leaves",
       bg: "from-emerald-500 to-emerald-300",
       img: CASUAL_LEAVE.src,
+    },
+    {
+      id: 5,
+      icon: <PendingActions fontSize="large" className="text-theme " />,
+      count: leaveData?.leaves?.leaveTypesList[1]?._count
+        ? leaveData?.leaves?.leaveTypesList[1]?._count
+        : 0,
+      title: "Pending Leave Request",
+      bg: "from-green-500 to-green-300",
+      img: PENDING.src,
     },
   ];
 
