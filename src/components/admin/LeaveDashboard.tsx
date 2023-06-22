@@ -68,12 +68,12 @@ const LeaveDashboard = () => {
   return (
     <>
       <div className="flex gap-2 py-4">
-        <div className="w-3/4 px-4 ">
+        <div className="full px-2 ">
           <DashboardCard data={cards} />
         </div>
       </div>
-      <div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
-        <div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
+      <div className="grid grid-cols-12 content-between gap-6 px-2 !mb-6">
+        <div className="col-span-12 bg-white pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">Leave Overview</p>
 
           <LeaveBarChart
@@ -92,7 +92,7 @@ const LeaveDashboard = () => {
             text=""
           />
         </div>
-        <div className="col-span-12 w-full flex flex-col justify-center md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
+        <div className="col-span-12 w-full bg-white flex flex-col justify-center md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Leave Ratio</p>
           <LeaveDonutChart
             series={
