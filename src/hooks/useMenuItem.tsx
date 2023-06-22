@@ -88,7 +88,7 @@ export default () => {
             key: "3-5",
             title: "My Profile",
             icon: <ICONS.All_Employee />,
-            route: `/admin/employees/profile/${user?.id}`,
+            route: `/admin/employees/profile`,
           },
         ],
       }
