@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { ProjectDrawerSkeletonLoading } from "components/admin/clients";
 import { LoaderAnime } from "components/core";
+import { AssetHistoryMoreOption } from "components/dialogues";
 import { Form, Formik } from "formik";
 import { useFetch } from "hooks";
 import moment from "moment";
@@ -85,8 +86,18 @@ const ViewAssetHistoryDrawer = ({
 	const [history, setHistory] = useState(false);
 	const classes = useStyles();
 	console.log(data);
+	const [isReturn, setIsReturn] = useState<{
+		dialogue?: boolean;
+		item?: string | null;
+	}>({ dialogue: false, item: null });
 	return (
 		<>
+			<AssetHistoryMoreOption
+				data={data}
+				open={isReturn?.dialogue}
+				handleClose={() => setIsReturn({ dialogue: false })}
+			/>
+
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
 				<Container style={{ marginTop: "1rem" }} className={classes.container}>
 					{/* Drawer Element */}
@@ -173,204 +184,15 @@ const ViewAssetHistoryDrawer = ({
 													</span>
 												</div>
 											</div>
+											<span onClick={() => {
+												setIsReturn({ dialogue: true, item: item })
+											}}>View More</span>
 											<div>
-												<p className="text-lg font-semibold text-center">
+												{/* <p className="text-lg font-semibold text-center">
 													Return Details
-												</p>
+												</p> */}
 												{/* --------------------------------------- */}
-												<div className="">
-													<p className="font-semibold text-blue-700">
-														Is Broken :{" "}
-														{item?.isBroken ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="font-semibold text-blue-700">
-														Keyboard Works :{" "}
-														{item?.isAllKeyboardButtonWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="font-semibold text-blue-700">
-														All Ports Work :{" "}
-														{item?.isAllPortsWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="font-semibold text-blue-700">
-														All Rubber Pads Attached :{" "}
-														{item?.isAllRubberPadsAttached ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														all screws are present :{" "}
-														{item?.isAllScrewArePresent ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														brightness button works :{" "}
-														{item?.isBrightnessFunctionWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														camera works :{" "}
-														{item?.isCameraWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														Charging Works :{" "}
-														{item?.isChargingFunctionWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														internet connectivity :{" "}
-														{item?.isConnectionToInternetWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														HDMI cable include :{" "}
-														{item?.isHDMICableInclude ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														left click works :{" "}
-														{item?.isLeftClickWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														Right click works :{" "}
-														{item?.isRightClickWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														Scroll wheel works :{" "}
-														{item?.isScrollWheelWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														power adapter include :{" "}
-														{item?.isPowerAdapterInclude ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
 
-													<p className="capitalize font-semibold text-blue-700">
-														power on/off :{" "}
-														{item?.isPowerOnOff ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														Speaker Works :{" "}
-														{item?.isSpeakerWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														Is Any Dent :{" "}
-														{item?.isThereAnyMejorScratchOrDent ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														Track pad works :{" "}
-														{item?.isTrackPadWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-													<p className="capitalize font-semibold text-blue-700">
-														USB port works :{" "}
-														{item?.isUSBReceiverWork ? (
-															<span className="text-black font-medium">
-																Yes
-															</span>
-														) : (
-															<span className="text-black font-medium">No</span>
-														)}
-													</p>
-												</div>
 											</div>
 										</div>
 									);
