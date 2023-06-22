@@ -14,7 +14,7 @@ const UpcomingLeaves = ({ data, employeeDetails }: any) => {
 
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
-			<HeadText title="Employee Leaves" />
+			<HeadText title="Employee Status" />
 			<div className="md:flex justify-between items-center py-4 pt-4 px-4 ">
 				{/* <CircularProgressWithLabel value={progress} /> */}
 				<div className="flex gap-9 items-center">
@@ -39,24 +39,23 @@ const UpcomingLeaves = ({ data, employeeDetails }: any) => {
 					</div>
 				</div>
 			</div>
+			<HeadText title="Employee Leaves" />
 			<div className="md:flex justify-center items-center grid gap-2 mt-2">
 				{leaveDetails?.leaves?.leaveTypesList?.map((item: any, i: any) => {
 					return (
 						<div
 							key={i}
-							className={`md:w-1/3 h-28 flex justify-center shadow-md items-center flex-col gap-3 rounded-lg ${
-								item?.type === "Casual"
+							className={`md:w-1/3 h-28 flex justify-center shadow-md items-center flex-col gap-3 rounded-lg ${item?.type === "Casual"
 									? "bg-gradient-to-br from-emerald-400 to-emerald-200"
 									: "bg-gradient-to-br from-red-400 to-red-200"
-							}`}
+								}`}
 						>
 							<p className="text-lg font-semibold tracking-wide">
 								{item?._count ? item?._count : 0}
 							</p>
 							<p
-								className={`text-sm font-semibold tracking-wide ${
-									item?.type === "Casual" ? "text-green-700" : "text-red-700"
-								}`}
+								className={`text-sm font-semibold tracking-wide ${item?.type === "Casual" ? "text-green-700" : "text-red-700"
+									}`}
 							>
 								{item?.type && `${(item?.type).toUpperCase()} LEAVE`}
 							</p>
