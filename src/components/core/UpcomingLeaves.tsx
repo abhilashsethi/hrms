@@ -1,9 +1,5 @@
 import { HeadText } from "components/core";
-import CircularProgress, {
-	CircularProgressProps,
-} from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
-import { DEFAULTPROFILE } from "assets/home";
+
 import { useState } from "react";
 import { useFetch } from "hooks";
 
@@ -46,8 +42,8 @@ const UpcomingLeaves = ({ data, employeeDetails }: any) => {
 						<div
 							key={i}
 							className={`md:w-1/3 h-28 flex justify-center shadow-md items-center flex-col gap-3 rounded-lg ${item?.type === "Casual"
-									? "bg-gradient-to-br from-emerald-400 to-emerald-200"
-									: "bg-gradient-to-br from-red-400 to-red-200"
+								? "bg-gradient-to-br from-emerald-400 to-emerald-200"
+								: "bg-gradient-to-br from-red-400 to-red-200"
 								}`}
 						>
 							<p className="text-lg font-semibold tracking-wide">
