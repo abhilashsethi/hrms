@@ -9,18 +9,20 @@ import { MuiTblOptions } from "utils";
 
 const AttendanceReport = () => {
   const router = useRouter();
-  // console.log(router?.query?.empId?.toLocaleString());
   const getMonthName = (monthNumber: any) => {
     const date = new Date(2000, monthNumber, 1); // Creating a Date object with the year 2000 and the given month number
     const monthName = date.toLocaleString("default", { month: "long" }); // Getting the month name using the 'long' option
-
     return monthName;
   };
-  console.log(getMonthName(router?.query?.month));
   const links = [
-    { id: 1, page: "Employee Profile", link: "/admin/employees" },
+    { id: 1, page: "All Employee", link: "/admin/employees" },
     {
       id: 2,
+      page: "Employee Profile",
+      link: `/admin/employees/profile/${router?.query?.empId}`,
+    },
+    {
+      id: 3,
       page: "Monthly Attendance",
       link: `/admin/employees/profile/${router?.query?.empId}`,
     },
@@ -28,7 +30,6 @@ const AttendanceReport = () => {
   const { data: attendanceData } = useFetch<any>(
     `attendances/${router?.query?.empId}?month=${router?.query?.month}`
   );
-  // console.log(attendanceData);
   return (
     <PanelLayout title="Monthly Report - Admin Panel">
       <section className="px-8 py-4">
@@ -50,11 +51,11 @@ const AttendanceReport = () => {
               !attendanceData
                 ? []
                 : (attendanceData?.map((_: any, i: number) => ({
-                    ..._,
-                    sl: i + 1,
-                    in: moment(_?.inTime).format("hh:MM A"),
-                    out: moment(_?.outTime).format("hh:MM A"),
-                  })) as any)
+                  ..._,
+                  sl: i + 1,
+                  in: moment(_?.inTime).format("hh:MM A"),
+                  out: moment(_?.outTime).format("hh:MM A"),
+                })) as any)
             }
             options={{ ...MuiTblOptions() }}
             columns={[
