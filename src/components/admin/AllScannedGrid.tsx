@@ -48,11 +48,11 @@ export default AllScannedGrid;
 interface Props {
 	item?: any;
 	mutate?: any;
-	user?: any;
 }
 
-const CardComponent = ({ item, user, mutate }: Props) => {
+const CardComponent = ({ item, mutate }: Props) => {
 	const [isValidity, setIsValidity] = useState(false);
+	const { user } = useAuth();
 	const [isAccess, setIsAccess] = useState<{
 		dialogue?: boolean;
 		cardId?: string | null;
@@ -143,7 +143,6 @@ const CardComponent = ({ item, user, mutate }: Props) => {
 			}
 		});
 	};
-
 	return (
 		<>
 			<RoomAccessDrawer
@@ -152,7 +151,7 @@ const CardComponent = ({ item, user, mutate }: Props) => {
 				onClose={() => setIsAccess({ dialogue: false })}
 				cardId={isAccess?.cardId}
 			/>
-			<div className=" flex items-center justify-center w-full h-full cursor-pointer">
+			<div className="flex items-center justify-center w-full h-full cursor-pointer">
 				<div
 					className="w-[18rem] h-[29.5rem] bg-contain group bg-no-repeat shadow-lg rounded-xl overflow-hidden"
 					style={{
@@ -299,22 +298,29 @@ const CardComponent = ({ item, user, mutate }: Props) => {
 										</div>
 										<div className="w-full flex flex-col items-center justify-center gap-2 mt-2">
 											<div className="flex items-center gap-4">
-												<Tooltip title="Delete Card">
-													<div className="h-10 w-10 bg-white shadow-lg rounded-full">
-														<IconButton onClick={() => handleDelete(item?.id)}>
-															<Delete className="!text-youtube" />
-														</IconButton>
-													</div>
-												</Tooltip>
-												<Tooltip title="Remove Person">
-													<div className="h-10 w-10 bg-white shadow-lg rounded-full">
-														<IconButton
-															onClick={() => handleRemove(item?.cardId)}
-														>
-															<PersonRemoveRounded className="!text-theme" />
-														</IconButton>
-													</div>
-												</Tooltip>
+												{user?.role?.name == "CEO" ||
+												user?.role?.name == "HR" ? (
+													<>
+														<Tooltip title="Delete Card">
+															<div className="h-10 w-10 bg-white shadow-lg rounded-full">
+																<IconButton
+																	onClick={() => handleDelete(item?.id)}
+																>
+																	<Delete className="!text-youtube" />
+																</IconButton>
+															</div>
+														</Tooltip>
+														<Tooltip title="Remove Person">
+															<div className="h-10 w-10 bg-white shadow-lg rounded-full">
+																<IconButton
+																	onClick={() => handleRemove(item?.cardId)}
+																>
+																	<PersonRemoveRounded className="!text-theme" />
+																</IconButton>
+															</div>
+														</Tooltip>
+													</>
+												) : null}
 												<Tooltip title="Room Access">
 													<div className="h-10 w-10 bg-white shadow-lg rounded-full">
 														<IconButton
