@@ -6,15 +6,7 @@ import { useFetch } from "hooks";
 import { MouseEvent, useEffect, useState } from "react";
 
 const LeaveDashboard = () => {
-  const [leaveMonthData, setLeaveMonthData] = useState<{
-    months?: any;
-    casual?: any;
-    sick?: any;
-  }>({
-    months: [],
-    casual: [],
-    sick: [],
-  });
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -28,26 +20,6 @@ const LeaveDashboard = () => {
     `leaves/dashboard/details`
   );
   console.log(leaveData);
-  useEffect(() => {
-    let monthData =
-      leaveData?.leaves?.leaveCountMonthWiseArr[0]?.leaveCounts?.map(
-        (data: any) => data?.month
-      );
-    let casualLeave =
-      leaveData?.leaves?.leaveCountMonthWiseArr[0]?.leaveCounts?.map(
-        (data: any) => data?.count
-      );
-    let sickLeave =
-      leaveData?.leaves?.leaveCountMonthWiseArr[1]?.leaveCounts?.map(
-        (data: any) => data?.count
-      );
-
-    setLeaveMonthData({
-      casual: casualLeave,
-      sick: sickLeave,
-      months: monthData,
-    });
-  }, [leaveData]);
 
 
   const cards = [
@@ -64,8 +36,8 @@ const LeaveDashboard = () => {
     {
       id: 2,
       icon: <Sick fontSize="large" className="text-theme " />,
-      count: leaveData?.leaves?.leaveTypesList[0]?._count
-        ? leaveData?.leaves?.leaveTypesList[0]?._count
+      count: leaveData?.leaves?.totalApprovedSickLeave
+        ? leaveData?.leaves?.totalApprovedSickLeave
         : 0,
       title: "Approved Sick Leaves",
       bg: "from-yellow-500 to-yellow-300",
@@ -74,8 +46,8 @@ const LeaveDashboard = () => {
     {
       id: 4,
       icon: <Pending fontSize="large" className="text-theme " />,
-      count: leaveData?.leaves?.leaveTypesList[1]?._count
-        ? leaveData?.leaves?.leaveTypesList[1]?._count
+      count: leaveData?.leaves?.totalApprovedCasualLeave
+        ? leaveData?.leaves?.totalApprovedCasualLeave
         : 0,
       title: "Approved Casual Leaves",
       bg: "from-emerald-500 to-emerald-300",
@@ -84,8 +56,8 @@ const LeaveDashboard = () => {
     {
       id: 5,
       icon: <PendingActions fontSize="large" className="text-theme " />,
-      count: leaveData?.leaves?.leaveTypesList[1]?._count
-        ? leaveData?.leaves?.leaveTypesList[1]?._count
+      count: leaveData?.leaves?.totalPendingLeaveRequest
+        ? leaveData?.leaves?.totalPendingLeaveRequest
         : 0,
       title: "Pending Leave Request",
       bg: "from-green-500 to-green-300",
@@ -107,15 +79,15 @@ const LeaveDashboard = () => {
           <LeaveBarChart
             series={[
               {
-                name: "Sick Leave",
-                data: leaveMonthData?.sick ? leaveMonthData?.sick : 0,
+                name: leaveData?.leaves?.leaveCountMonthWiseArr[0]?.leaveType,
+                data: leaveData?.leaves?.leaveCountMonthWiseArr[0]?.leaveCounts?.map((item: any) => item?.count),
               },
               {
-                name: "Casual Leave",
-                data: leaveMonthData?.casual ? leaveMonthData?.casual : 0,
+                name: leaveData?.leaves?.leaveCountMonthWiseArr[1]?.leaveType,
+                data: leaveData?.leaves?.leaveCountMonthWiseArr[1]?.leaveCounts?.map((item: any) => item?.count),
               },
             ]}
-            categories={leaveMonthData?.months ? leaveMonthData?.months : []}
+            categories={leaveData?.leaves?.leaveCountMonthWiseArr[1]?.leaveCounts?.map((item: any) => item?.month)}
             type="bar"
             text=""
           />
