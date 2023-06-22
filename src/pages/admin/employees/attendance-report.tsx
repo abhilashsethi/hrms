@@ -15,14 +15,15 @@ const AttendanceReport = () => {
     return monthName;
   };
   const links = [
-    { id: 1, page: "All Employee", link: "/admin/employees" },
+    { id: 1, page: "Employee", link: "/admin/employees" },
+    { id: 2, page: "All Employee", link: "/admin/employees/all-employees" },
     {
-      id: 2,
+      id: 3,
       page: "Employee Profile",
       link: `/admin/employees/profile/${router?.query?.empId}`,
     },
     {
-      id: 3,
+      id: 4,
       page: "Monthly Attendance",
       link: `/admin/employees/attendance-report?empId=${router?.query?.empId}`,
     },
