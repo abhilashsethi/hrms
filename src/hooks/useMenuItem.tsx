@@ -84,12 +84,7 @@ export default () => {
             icon: <ICONS.Upload_Employee_Data />,
             route: "/admin/employees/upload-employee-data",
           },
-          {
-            key: "3-5",
-            title: "My Profile",
-            icon: <ICONS.All_Employee />,
-            route: `/admin/employees/profile`,
-          },
+
         ],
       }
       : {
@@ -206,7 +201,8 @@ export default () => {
       ],
     },
     user?.role?.name == "CEO" || user?.role?.name == "HR"
-      ? {
+      ?
+      {
         key: "9",
         title: "Leaves",
         icon: <ICONS.Leaves />,
