@@ -16,7 +16,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { PhotoViewer } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Form, Formik } from "formik";
@@ -38,7 +38,7 @@ type Props = {
 
 const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
 	const { change } = useChange();
-
+	const { user } = useAuth();
 	const { data: employeesData } = useFetch<User[]>(`users`);
 	const [isManager, setIsManager] = useState(false);
 	const [isMembers, setIsMembers] = useState(false);
@@ -230,12 +230,14 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
 						)}
 						{projectData?.manager ? (
 							<div className="h-32 w-32 px-4 relative mt-3 rounded-md flex flex-col gap-2 items-center justify-center shadow-jubilation">
-								<div
-									onClick={() => removeManager()}
-									className="absolute right-[5px] top-[4px] cursor-pointer bg-red-500 h-6 w-6 rounded-full flex justify-center items-center"
-								>
-									<Close className="!text-[1rem] !text-white" />
-								</div>
+								{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+									<div
+										onClick={() => removeManager()}
+										className="absolute right-[5px] top-[4px] cursor-pointer bg-red-500 h-6 w-6 rounded-full flex justify-center items-center"
+									>
+										<Close className="!text-[1rem] !text-white" />
+									</div>
+								) : null}
 								<div className="grid px-1 pt-2 gap-2 justify-items-center">
 									<PhotoViewer
 										name={projectData?.manager?.name}
@@ -249,22 +251,29 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
 						) : (
 							<div className="flex gap-4 flex-col px-12 lg:py-4 py-6">
 								<h1 className="text-center ">
-									Team manager not mentioned, click to add
+									Team manager not mentioned,{" "}
+									{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+										<span>click to add</span>
+									) : null}
 								</h1>
-								<Button
-									size="small"
-									startIcon={<Add />}
-									onClick={() => setIsManager((prev) => !prev)}
-									variant="contained"
-									className="!bg-theme !hover:bg-theme-600 !text-white !font-semibold tracking-wide px-2"
-								>
-									ADD TEAM MANAGER
-								</Button>
+								{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+									<Button
+										size="small"
+										startIcon={<Add />}
+										onClick={() => setIsManager((prev) => !prev)}
+										variant="contained"
+										className="!bg-theme !hover:bg-theme-600 !text-white !font-semibold tracking-wide px-2"
+									>
+										ADD TEAM MANAGER
+									</Button>
+								) : null}
 							</div>
 						)}
 						<div className="flex justify-between">
 							<h4 className="font-semibold mt-4">Team Members : </h4>
-							{projectData?.involvedMembers?.length ? (
+							{(projectData?.involvedMembers?.length &&
+								user?.role?.name === "CEO") ||
+							user?.role?.name === "HR" ? (
 								<Tooltip title="Add Members">
 									<IconButton
 										onClick={() => setIsMembers((prev) => !prev)}
