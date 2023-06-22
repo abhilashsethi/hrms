@@ -115,88 +115,100 @@ const ViewAssetHistoryDrawer = ({
 						<>
 							<div className="mt-2 flex flex-col gap-4">
 								{isLoading && <ProjectDrawerSkeletonLoading />}
-								{data?.sort(
-									(a: any, b: any) =>
-										(new Date(b?.createdAt) as any) -
-										(new Date(a?.createdAt) as any)
-								)?.map((item: any, i: any) => {
-									return (
-										<div
-											className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3`}
-										>
-											<div className="w-full order-2 border border-gray-500 rounded-md p-[1px] mb-2">
-												{item?.returnTimePhotos?.length ? (
-													<Slider {...settings} className="">
-														{item?.returnTimePhotos?.map(
-															(data: any, k: any) => (
-																<img
-																	key={k}
-																	className="w-full object-cover object-center 
+								{data
+									?.sort(
+										(a: any, b: any) =>
+											(new Date(b?.createdAt) as any) -
+											(new Date(a?.createdAt) as any)
+									)
+									?.map((item: any, i: any) => {
+										return (
+											<div
+												className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3`}
+											>
+												<div className="grid grid-cols-2 gap-2 ">
+													<div className="w-full order-2 border border-gray-500 rounded-md p-[1px] mb-2">
+														{item?.returnTimePhotos?.length ? (
+															<Slider {...settings} className="">
+																{item?.returnTimePhotos?.map(
+																	(data: any, k: any) => (
+																		<img
+																			key={k}
+																			className="w-full object-cover object-center 
 											transition duration-500 ease-in-out transform group-hover:scale-105"
-																	src={data}
-																	alt="assets"
-																/>
-															)
+																			src={data}
+																			alt="assets"
+																		/>
+																	)
+																)}
+															</Slider>
+														) : (
+															<p className="text-center">No Photos Available</p>
 														)}
-													</Slider>
-												) : (
-													<p className="text-center">No Photos Available</p>
-												)}
-											</div>
-											<div className="flex flex-col gap-1 font-semibold text-blue-700">
-												<div className="">
-													Returned User :{" "}
-													<span className="text-black font-medium">
-														{item?.assignUser?.name}
-													</span>
-												</div>
-												<div className="gap-2">
-													Date Of Assign :{" "}
-													<span className="text-black font-medium">
-														{moment(item?.dateOfAssign)?.format("DD/MM/YYYY")}
-													</span>
-												</div>
+													</div>
+													<div className="flex flex-col gap-1 font-semibold text-blue-700">
+														<div className="">
+															Returned User :{" "}
+															<span className="text-black font-medium">
+																{item?.assignUser?.name}
+															</span>
+														</div>
+														<div className="gap-2">
+															Date Of Assign :{" "}
+															<span className="text-black font-medium">
+																{moment(item?.dateOfAssign)?.format(
+																	"DD/MM/YYYY"
+																)}
+															</span>
+														</div>
 
-												<div className="gap-2">
-													Date Of Return :{" "}
-													<span className="text-black font-medium">
-														{item?.dateOfReturn
-															? moment(item?.dateOfReturn)?.format("DD/MM/YYYY")
-															: "Not Specified"}
-													</span>
+														<div className="gap-2">
+															Date Of Return :{" "}
+															<span className="text-black font-medium">
+																{item?.dateOfReturn
+																	? moment(item?.dateOfReturn)?.format(
+																			"DD/MM/YYYY"
+																	  )
+																	: "Not Specified"}
+															</span>
+														</div>
+														<div className="gap-2">
+															Time Of Assign :{" "}
+															<span className="text-black font-medium">
+																{item?.assignTime}
+															</span>
+														</div>
+														<div className="gap-2">
+															Reason :{" "}
+															<span className="text-black font-medium">
+																{item?.reasonForAssign}
+															</span>
+														</div>
+														<div className="gap-2">
+															Remarks :{" "}
+															<span className="text-black font-medium">
+																{item?.assignRemark}
+															</span>
+														</div>
+													</div>
 												</div>
-												<div className="gap-2">
-													Time Of Assign :{" "}
-													<span className="text-black font-medium">
-														{item?.assignTime}
-													</span>
-												</div>
-												<div className="gap-2">
-													Reason :{" "}
-													<span className="text-black font-medium">
-														{item?.reasonForAssign}
-													</span>
-												</div>
-												<div className="gap-2">
-													Remarks :{" "}
-													<span className="text-black font-medium">
-														{item?.assignRemark}
-													</span>
-												</div>
-											</div>
-											<span onClick={() => {
-												setIsReturn({ dialogue: true, item: item })
-											}}>View More</span>
-											<div>
-												{/* <p className="text-lg font-semibold text-center">
+												<span
+													className="text-center bg-theme rounded-xl text-white font-semibold px-2 py-1"
+													onClick={() => {
+														setIsReturn({ dialogue: true, item: item });
+													}}
+												>
+													View More
+												</span>
+												<div>
+													{/* <p className="text-lg font-semibold text-center">
 													Return Details
 												</p> */}
-												{/* --------------------------------------- */}
-
+													{/* --------------------------------------- */}
+												</div>
 											</div>
-										</div>
-									);
-								})}
+										);
+									})}
 							</div>
 						</>
 					) : (
