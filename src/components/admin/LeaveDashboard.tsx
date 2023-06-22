@@ -95,16 +95,13 @@ const LeaveDashboard = () => {
         <div className="col-span-12 w-full flex flex-col justify-center md:col-span-12 lg:col-span-5 !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Leave Ratio</p>
           <LeaveDonutChart
-            series={[
-              leaveData?.leaves?.leaveTypesList[1]?._count
-                ? leaveData?.leaves?.leaveTypesList[1]?._count
-                : 0,
-              leaveData?.leaves?.leaveTypesList[0]?._count
-                ? leaveData?.leaves?.leaveTypesList[0]?._count
-                : 0,
-            ]}
+            series={
+              leaveData?.leaves?.leaveTypesList?.map((item: any) => item?._count)
+            }
             type="pie"
-            labels={["Casual Leave", "Sick Leave"]}
+            labels={
+              leaveData?.leaves?.leaveTypesList?.map((item: any) => item?.type)
+            }
           />
         </div>
       </div>
