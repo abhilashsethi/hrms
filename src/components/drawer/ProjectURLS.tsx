@@ -249,16 +249,18 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
 											<span>{Number(i) + 1}.</span>
 											<span className="font-semibold">{item?.title}</span>
 										</h1>
-										<div>
-											<Tooltip title="Delete">
-												<IconButton
-													onClick={() => removeURL(item?.id)}
-													size="small"
-												>
-													<Delete className="!text-red-500" />
-												</IconButton>
-											</Tooltip>
-										</div>
+										{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+											<div>
+												<Tooltip title="Delete">
+													<IconButton
+														onClick={() => removeURL(item?.id)}
+														size="small"
+													>
+														<Delete className="!text-red-500" />
+													</IconButton>
+												</Tooltip>
+											</div>
+										) : null}
 									</div>
 									<div className="flex gap-2 items-center mt-3">
 										<a

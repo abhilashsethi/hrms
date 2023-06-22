@@ -18,7 +18,7 @@ import { NODOCUMENT } from "assets/animations";
 import { DOC, IMG, PDF, XLS } from "assets/home";
 import { LoaderAnime } from "components/core";
 import AddDocumentModal from "components/dialogues/AddDocumentModal";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProjectDocuments = ({ open, onClose }: Props) => {
+	const { user } = useAuth();
 	const router = useRouter();
 	const [isPreview, setIsPreview] = useState<{
 		dialogue?: boolean;
@@ -64,14 +65,6 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 
 	return (
 		<>
-			{/* <DocPreview
-				open={isPreview?.dialogue}
-				handleClose={() => setIsPreview({ dialogue: false })}
-				title={isPreview?.title}
-				data={documentDetails?.documents}
-				activeLink={activeDocLink}
-			/> */}
-
 			<AddDocumentModal
 				open={getDocument}
 				handleClose={() => setGetDocument(false)}
@@ -82,10 +75,10 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 				<Container
 					style={{ marginTop: "1rem" }}
 					className={classes.container}
-				// style={{
-				// 	width: "30vw",
-				// 	marginTop: "3.5vh",
-				// }}
+					// style={{
+					// 	width: "30vw",
+					// 	marginTop: "3.5vh",
+					// }}
 				>
 					<IconButton
 						className="flex justify-end w-full"
@@ -98,16 +91,18 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 							<InsertDriveFileRounded />
 							Project Documents
 						</p>
-						<button
-							onClick={() => setGetDocument((prev) => !prev)}
-							className="flex text-sm items-center bg-white text-theme md:p-1 p-[2px] rounded-md group hover:bg-theme hover:text-white border border-theme"
-						>
-							Add Document{" "}
-							<Add
-								fontSize="small"
-								className="text-theme group-hover:text-white transition duration-500 ease-in-out"
-							/>
-						</button>
+						{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+							<button
+								onClick={() => setGetDocument((prev) => !prev)}
+								className="flex text-sm items-center bg-white text-theme md:p-1 p-[2px] rounded-md group hover:bg-theme hover:text-white border border-theme"
+							>
+								Add Document{" "}
+								<Add
+									fontSize="small"
+									className="text-theme group-hover:text-white transition duration-500 ease-in-out"
+								/>
+							</button>
+						) : null}
 					</div>
 					<div className="flex justify-center w-full">
 						<div className="flex gap-2 flex-wrap">
@@ -140,8 +135,8 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 													item?.docType === "pdf"
 														? PDF.src
 														: item?.docType === "img"
-															? IMG.src
-															: DOC.src
+														? IMG.src
+														: DOC.src
 												}
 												alt=""
 											/>
