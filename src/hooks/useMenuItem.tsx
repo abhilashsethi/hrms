@@ -26,71 +26,71 @@ export default () => {
       route: "/admin",
     },
 
-    user?.role?.name == "CEO"
+    user?.role?.name == "CEO" || user?.role?.name == "HR"
       ? {
-          key: "2",
-          title: "Cards",
-          icon: <ICONS.Card />,
-          submenus: [
-            {
-              key: "2-1",
-              title: "Dashboard",
-              icon: <ICONS.Dashboard_1 />,
-              route: "/admin/cards",
-            },
-            {
-              key: "2-2",
-              title: "Scanned Cards",
-              icon: <ICONS.Scanned_Cards />,
-              route: "/admin/cards/scanned",
-            },
-          ],
-        }
+        key: "2",
+        title: "Cards",
+        icon: <ICONS.Card />,
+        submenus: [
+          {
+            key: "2-1",
+            title: "Dashboard",
+            icon: <ICONS.Dashboard_1 />,
+            route: "/admin/cards",
+          },
+          {
+            key: "2-2",
+            title: "Scanned Cards",
+            icon: <ICONS.Scanned_Cards />,
+            route: "/admin/cards/scanned",
+          },
+        ],
+      }
       : {
-          key: "2card",
-          title: "My Cards",
-          icon: <ICONS.Scanned_Cards />,
-          route: "/admin/cards/scanned",
-        },
+        key: "2card",
+        title: "My Cards",
+        icon: <ICONS.Scanned_Cards />,
+        route: "/admin/cards/scanned",
+      },
 
     user?.role?.name == "CEO" || user?.role?.name == "HR"
       ? {
-          key: "3",
-          title: "Employees",
-          icon: <ICONS.Employees />,
-          submenus: [
-            {
-              key: "3-1",
-              title: "Dashboard",
-              icon: <ICONS.Dashboard_1 />,
-              route: "/admin/employees",
-            },
-            {
-              key: "3-2",
-              title: "All Employees",
-              icon: <ICONS.All_Employee />,
-              route: "/admin/employees/all-employees",
-            },
-            {
-              key: "3-3",
-              title: "Create Employee",
-              icon: <ICONS.Add_Employee />,
-              route: "/admin/employees/create-employee",
-            },
-            {
-              key: "3-4",
-              title: "Upload Employee's Data",
-              icon: <ICONS.Upload_Employee_Data />,
-              route: "/admin/employees/upload-employee-data",
-            },
-          ],
-        }
+        key: "3",
+        title: "Employees",
+        icon: <ICONS.Employees />,
+        submenus: [
+          {
+            key: "3-1",
+            title: "Dashboard",
+            icon: <ICONS.Dashboard_1 />,
+            route: "/admin/employees",
+          },
+          {
+            key: "3-2",
+            title: "All Employees",
+            icon: <ICONS.All_Employee />,
+            route: "/admin/employees/all-employees",
+          },
+          {
+            key: "3-3",
+            title: "Create Employee",
+            icon: <ICONS.Add_Employee />,
+            route: "/admin/employees/create-employee",
+          },
+          {
+            key: "3-4",
+            title: "Upload Employee's Data",
+            icon: <ICONS.Upload_Employee_Data />,
+            route: "/admin/employees/upload-employee-data",
+          },
+        ],
+      }
       : {
-          key: "3ss",
-          title: "My Profile",
-          icon: <ICONS.All_Employee />,
-          route: "/admin/employees/all-employees",
-        },
+        key: "3ss",
+        title: "My Profile",
+        icon: <ICONS.All_Employee />,
+        route: "/admin/employees/all-employees",
+      },
     {
       key: "4",
       title: "Clients",
@@ -143,30 +143,30 @@ export default () => {
     },
     user?.role?.name == "CEO" || user?.role?.name == "HR"
       ? {
-          key: "5",
-          title: "Attendance",
-          icon: <ICONS.Attendance />,
-          submenus: [
-            {
-              key: "5-1",
-              title: "Dashboard",
-              icon: <ICONS.Dashboard_1 />,
-              route: "/admin/attendances",
-            },
-            {
-              key: "5-2",
-              title: "Date Wise Attendance",
-              icon: <ICONS.Data_Wise_Attendance />,
-              route: "/admin/attendances/today",
-            },
-          ],
-        }
+        key: "5",
+        title: "Attendance",
+        icon: <ICONS.Attendance />,
+        submenus: [
+          {
+            key: "5-1",
+            title: "Dashboard",
+            icon: <ICONS.Dashboard_1 />,
+            route: "/admin/attendances",
+          },
+          {
+            key: "5-2",
+            title: "Date Wise Attendance",
+            icon: <ICONS.Data_Wise_Attendance />,
+            route: "/admin/attendances/today",
+          },
+        ],
+      }
       : {
-          key: "5ss",
-          title: "My Attendance",
-          icon: <ICONS.Data_Wise_Attendance />,
-          route: "/admin/attendances/today",
-        },
+        key: "5ss",
+        title: "My Attendance",
+        icon: <ICONS.Data_Wise_Attendance />,
+        route: "/admin/attendances/today",
+      },
     {
       key: "14",
       title: "Payroll",
@@ -200,36 +200,36 @@ export default () => {
     },
     user?.role?.name == "CEO" || user?.role?.name == "HR"
       ? {
-          key: "9",
-          title: "Leaves",
-          icon: <ICONS.Leaves />,
-          submenus: [
-            {
-              key: "9-1",
-              title: "Dashboard",
-              icon: <ICONS.Dashboard_1 />,
-              route: "/admin/leaves",
-            },
-            {
-              key: "9-2",
-              title: "Leave Requests",
-              icon: <ICONS.All_Leave_Requests />,
-              route: "/admin/leaves/leave-requests",
-            },
-            {
-              key: "9-3",
-              title: "Employee Leaves",
-              icon: <ICONS.Employee_Leaves />,
-              route: "/admin/leaves/all-leaves",
-            },
-          ],
-        }
+        key: "9",
+        title: "Leaves",
+        icon: <ICONS.Leaves />,
+        submenus: [
+          {
+            key: "9-1",
+            title: "Dashboard",
+            icon: <ICONS.Dashboard_1 />,
+            route: "/admin/leaves",
+          },
+          {
+            key: "9-2",
+            title: "Leave Requests",
+            icon: <ICONS.All_Leave_Requests />,
+            route: "/admin/leaves/leave-requests",
+          },
+          {
+            key: "9-3",
+            title: "Employee Leaves",
+            icon: <ICONS.Employee_Leaves />,
+            route: "/admin/leaves/all-leaves",
+          },
+        ],
+      }
       : {
-          key: "9ss",
-          title: "My Leaves",
-          icon: <ICONS.Employee_Leaves />,
-          route: "//admin/leaves/leave-requests",
-        },
+        key: "9ss",
+        title: "My Leaves",
+        icon: <ICONS.Employee_Leaves />,
+        route: "/admin/leaves/all-leaves",
+      },
     {
       key: "6",
       title: "Meetings",
@@ -251,112 +251,112 @@ export default () => {
     },
     user?.role?.name == "CEO" || user?.role?.name == "HR"
       ? {
-          key: "7",
-          title: "Projects",
-          icon: <ICONS.Projects />,
-          submenus: [
-            {
-              key: "7-1",
-              title: "Dashboard",
-              icon: <ICONS.Dashboard_1 />,
-              route: "/admin/projects",
-            },
-            {
-              key: "7-2",
-              title: "All Projects",
-              icon: <ICONS.All_Projects />,
-              route: "/admin/projects/all-projects",
-            },
-            {
-              key: "7-3",
-              title: "Create Project",
-              icon: <ICONS.Add_Project />,
-              route: "/admin/projects/create-projects",
-            },
-          ],
-        }
+        key: "7",
+        title: "Projects",
+        icon: <ICONS.Projects />,
+        submenus: [
+          {
+            key: "7-1",
+            title: "Dashboard",
+            icon: <ICONS.Dashboard_1 />,
+            route: "/admin/projects",
+          },
+          {
+            key: "7-2",
+            title: "All Projects",
+            icon: <ICONS.All_Projects />,
+            route: "/admin/projects/all-projects",
+          },
+          {
+            key: "7-3",
+            title: "Create Project",
+            icon: <ICONS.Add_Project />,
+            route: "/admin/projects/create-projects",
+          },
+        ],
+      }
       : {
-          key: "7ss",
-          title: "My Projects",
-          icon: <ICONS.All_Projects />,
-          route: "/admin/projects/all-projects",
-        },
+        key: "7ss",
+        title: "My Projects",
+        icon: <ICONS.All_Projects />,
+        route: "/admin/projects/all-projects",
+      },
     user?.role?.name == "CEO" || user?.role?.name == "HR"
       ? {
-          key: "27",
-          title: "Tenders",
-          icon: <ICONS.Tender />,
-          submenus: [
-            {
-              key: "27-1",
-              title: "Dashboard",
-              icon: <ICONS.Dashboard_1 />,
-              route: "/admin/tenders",
-            },
-            {
-              key: "27-2",
-              title: "All Tenders",
-              icon: <ICONS.All_Tender />,
-              route: "/admin/tenders/all-tenders",
-            },
-            {
-              key: "27-5",
-              title: "Members",
-              icon: <ICONS.All_Employee />,
-              route: "/admin/tenders/members",
-            },
-            {
-              key: "27-3",
-              title: "Create Tender",
-              icon: <ICONS.Create_Tender />,
-              route: "/admin/tenders/create-tender",
-            },
-            {
-              key: "27-4",
-              title: "Tender Details",
-              icon: <ICONS.Tender_Details />,
-              route: "/admin/tenders/tender-details",
-            },
-          ],
-        }
+        key: "27",
+        title: "Tenders",
+        icon: <ICONS.Tender />,
+        submenus: [
+          {
+            key: "27-1",
+            title: "Dashboard",
+            icon: <ICONS.Dashboard_1 />,
+            route: "/admin/tenders",
+          },
+          {
+            key: "27-2",
+            title: "All Tenders",
+            icon: <ICONS.All_Tender />,
+            route: "/admin/tenders/all-tenders",
+          },
+          {
+            key: "27-5",
+            title: "Members",
+            icon: <ICONS.All_Employee />,
+            route: "/admin/tenders/members",
+          },
+          {
+            key: "27-3",
+            title: "Create Tender",
+            icon: <ICONS.Create_Tender />,
+            route: "/admin/tenders/create-tender",
+          },
+          {
+            key: "27-4",
+            title: "Tender Details",
+            icon: <ICONS.Tender_Details />,
+            route: "/admin/tenders/tender-details",
+          },
+        ],
+      }
       : {
-          key: "27ss",
-          title: "My Tenders",
-          icon: <ICONS.All_Tender />,
-          route: "/admin/tenders/all-tenders",
-        },
+        key: "27ss",
+        title: "My Tenders",
+        icon: <ICONS.All_Tender />,
+        route: "/admin/tenders/all-tenders",
+      },
     user?.role?.name == "CEO" || user?.role?.name == "HR"
       ? {
-          key: "28",
-          title: "Assets",
-          icon: <ICONS.Assets />,
-          submenus: [
-            {
-              key: "28-1",
-              title: "Dashboard",
-              icon: <ICONS.Dashboard_1 />,
-              route: "/admin/assets",
-            },
-            {
-              key: "28-2",
-              title: "View All Asset",
-              icon: <ICONS.All_Assets />,
-              route: "/admin/assets/all-assets",
-            },
-            {
-              key: "28-3",
-              title: "Add Asset",
-              icon: <ICONS.All_Assets />,
-              route: "/admin/assets/create-assets",
-            },
-          ],
-        }
+        key: "28",
+        title: "Assets",
+        icon: <ICONS.Assets />,
+        submenus: [
+          {
+            key: "28-1",
+            title: "Dashboard",
+            icon: <ICONS.Dashboard_1 />,
+            route: "/admin/assets",
+          },
+          {
+            key: "28-2",
+            title: "View All Asset",
+            icon: <ICONS.All_Assets />,
+            route: "/admin/assets/all-assets",
+          },
+          {
+            key: "28-3",
+            title: "Add Asset",
+            icon: <ICONS.All_Assets />,
+            route: "/admin/assets/create-assets",
+          },
+        ],
+      }
       : {
-          key: "28ss",
-          title: "My Asset",
-          icon: <ICONS.All_Assets />,
-          route: "/admin/assets/all-assets",
-        },
+        key: "28ss",
+        title: "My Asset",
+        icon: <ICONS.All_Assets />,
+        route: "/admin/assets/all-assets",
+      },
     {
       key: "12",
       title: "Technologies",
