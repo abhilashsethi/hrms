@@ -44,6 +44,7 @@ export default () => {
             icon: <ICONS.Scanned_Cards />,
             route: "/admin/cards/scanned",
           },
+
         ],
       }
       : {
@@ -82,6 +83,12 @@ export default () => {
             title: "Upload Employee's Data",
             icon: <ICONS.Upload_Employee_Data />,
             route: "/admin/employees/upload-employee-data",
+          },
+          {
+            key: "3-5",
+            title: "My Profile",
+            icon: <ICONS.All_Employee />,
+            route: `/admin/employees/profile`,
           },
         ],
       }
@@ -228,7 +235,7 @@ export default () => {
         key: "9ss",
         title: "My Leaves",
         icon: <ICONS.Employee_Leaves />,
-        route: "/admin/leaves/all-leaves",
+        route: "/admin/leaves/leave-requests",
       },
     {
       key: "6",
