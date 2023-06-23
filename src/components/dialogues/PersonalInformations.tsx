@@ -20,13 +20,14 @@ interface Props {
   open?: any;
   handleClose?: any;
   mutate?: any;
+  employData?: any;
+
 }
 
-const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
+const PersonalInformations = ({ open, handleClose, employData, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
-  const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
   const initialValues = {
     panNo: `${employData?.panNo ? employData?.panNo : ""}`,
     aadharNo: `${employData?.aadharNo ? employData?.aadharNo : ""}`,

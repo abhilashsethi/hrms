@@ -22,8 +22,13 @@ import { useState } from "react";
 import { User } from "types";
 import CopyClipboard from "./CopyCliboard";
 import EmployeeProfileImage from "./EmployeeProfileImage";
+interface Props {
 
-const ViewEmployeeHead = () => {
+  employData?: any;
+  mutate?: any;
+
+}
+const ViewEmployeeHead = ({ employData, mutate }: Props) => {
   const [document, setDocument] = useState(false);
   const [projects, setProjects] = useState(false);
   const [leaves, setLeaves] = useState(false);
@@ -33,9 +38,7 @@ const ViewEmployeeHead = () => {
 
   const router = useRouter();
   const [isProfile, setIsProfile] = useState(false);
-  const { data: employData, mutate } = useFetch<User>(
-    `users/${router?.query?.id}`
-  );
+
 
   const shortCuts: shortCutTypes[] = [
     {

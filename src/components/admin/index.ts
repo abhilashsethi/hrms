@@ -17,3 +17,4 @@ export { default as EmployProjects } from "./EmployProjects";
 export { default as EmployLeaves } from "./EmployLeaves";
 export { default as EmployeeAllAttendance } from "./EmployeeAllAttendance";
 export { default as AllLeaveRequests } from "./AllLeaveRequests";
+export { default as ProfileDetails } from "./ProfileDetails";

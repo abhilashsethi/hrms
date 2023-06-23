@@ -12,7 +12,7 @@ import {
 	PersonalInformations,
 	UpdateProfileHead,
 } from "components/dialogues";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useState, useMemo } from "react";
@@ -21,7 +21,8 @@ import EmpAttendanceIndividual from "./EmpAttendanceIndividual";
 import EmployProjects from "./EmployProjects";
 import EmployLeaves from "./EmployLeaves";
 
-const EmployeeDetails = () => {
+const ProfileDetails = () => {
+	const { user } = useAuth();
 	const router = useRouter();
 	const [isDialogue, setIsDialogue] = useState(false);
 	const [isPersonal, setIsPersonal] = useState(false);
@@ -30,10 +31,10 @@ const EmployeeDetails = () => {
 		data: employData,
 		mutate,
 		isLoading,
-	} = useFetch<User>(`users/${router?.query?.id}`);
+	} = useFetch<User>(`users/${user?.id}`);
 
 	const { data: projectDetails } = useFetch<any>(
-		`projects?memberId=${router?.query?.id}`
+		`projects?memberId=${user?.id}`
 	);
 
 	const SwitchBloodgroup = (bloodGroup: any) => {
@@ -226,8 +227,8 @@ const EmployeeDetails = () => {
 				handleClose={() => setIsPersonal(false)}
 			/>
 			<BankInformationUpdate
-				mutate={mutate}
 				employData={employData}
+				mutate={mutate}
 				open={isBank}
 				handleClose={() => setIsBank(false)}
 			/>
@@ -336,4 +337,4 @@ const EmployeeDetails = () => {
 	);
 };
 
-export default EmployeeDetails;
+export default ProfileDetails;
