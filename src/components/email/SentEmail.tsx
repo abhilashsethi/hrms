@@ -14,6 +14,7 @@ import { SentEmailType } from "types";
 import { useRouter } from "next/router";
 import Lottie from "react-lottie";
 import { EMAILSENT } from "assets/animations";
+import { LoaderAnime } from "components/core";
 
 type SentEmailData = {
   allSendEmails: SentEmailType[];
@@ -53,7 +54,7 @@ const SentEmail = () => {
 
   const { push } = useRouter();
 
-  const { data, isValidating, mutate } = useFetch<SentEmailData>(
+  const { data, isValidating, mutate, error } = useFetch<SentEmailData>(
     `emails/get/sendMails/${user?.id}?page=${pageNo}&limit=20` +
       (searchText?.trim()?.length ? `&username=${searchText}` : "") +
       (sortBy ? `&sortBy=${sortBy}` : "")
@@ -204,7 +205,12 @@ const SentEmail = () => {
                   />
                 ))
               ) : (
-                "No Data"
+                <tr>
+                  {" "}
+                  <td className=" h-[70vh] ">
+                    <LoaderAnime text={error || "No sent email found"} />
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
