@@ -194,6 +194,12 @@ export default () => {
           icon: <ICONS.Add_Salary_Info />,
           route: "/admin/payroll/add-salary-info",
         },
+        {
+          key: "14-4",
+          title: "My Salary Info",
+          icon: <ICONS.Add_Salary_Info />,
+          route: "/admin/payroll/my-salary-info",
+        },
       ],
     },
     user?.role?.name == "CEO" || user?.role?.name == "HR"
