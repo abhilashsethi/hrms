@@ -1,6 +1,7 @@
-import { Add, Close, FilterListRounded } from "@mui/icons-material";
+import { Add, Close, FilterListRounded, KeyboardArrowLeftRounded } from "@mui/icons-material";
 import {
 	Button,
+	Grid,
 	IconButton,
 	MenuItem,
 	Pagination,
@@ -14,8 +15,10 @@ import {
 	GridAndList,
 	Loader,
 	LoaderAnime,
+	PhotoViewer,
 } from "components/core";
 import { CreateLeave, CreateLeaveUser } from "components/dialogues";
+import { LeaveDocuments } from "components/drawer";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
@@ -108,7 +111,19 @@ const MyLeaves = () => {
 					</div>
 				) : (
 					<>
-						<LeavesGrid data={leavesData} mutate={mutate} />
+						<section className="md:py-2 py-2">
+							<Grid container spacing={3}>
+								{leavesData
+									?.sort(
+										(a: any, b: any) =>
+											(new Date(b?.createdAt) as any) -
+											(new Date(a?.createdAt) as any)
+									)
+									?.map((item: any) => (
+										<CardComponent item={item} mutate={mutate} key={item?.id} />
+									))}
+							</Grid>
+						</section>
 					</>
 				)}
 
@@ -140,6 +155,96 @@ const MyLeaves = () => {
 };
 
 export default MyLeaves;
+interface Props {
+	item?: any;
+	mutate?: any;
+}
+const CardComponent = ({ item, mutate }: Props) => {
+	const [loading, setLoading] = useState(false);
+	const [rloading, setRLoading] = useState(false);
+	const [isDocuments, setIsDocuments] = useState(false);
+	const renderStatus = (item: any) => {
+		switch (item?.status) {
+			case "Approved":
+				return (
+					<div className="flex justify-center">
+						<span className="bg-green-600 text-white white rounded-full px-6 py-1 text-sm">
+							{item?.status}
+						</span>
+					</div>
+				);
+			case "Pending":
+				return (
+					<>
+						<span className="bg-yellow-600 text-white rounded-full px-6 py-1 text-sm">
+							{item?.status}
+						</span>
+
+					</>
+				);
+			case "Rejected":
+				return (
+					<div className="flex justify-center">
+						<span className="bg-red-600 text-white rounded-full px-6 py-1 text-sm">
+							{item?.status}
+						</span>
+					</div>
+				);
+			default:
+				return (
+					<>
+						<span>{item?.status}</span>
+						<div className="pt-4">
+						</div>
+					</>
+				);
+		}
+	};
+
+	return (
+		<Grid item lg={3} sm={12} xs={12}>
+			<div
+				className={`relative h-full mt-7 flex flex-col px-2 justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-gradient-to-r from-rose-100 to-teal-100 hover:scale-105 ease-in-out transition-all duration-200 md:mt-0`}
+			>
+				<LeaveDocuments
+					data={item}
+					open={isDocuments}
+					onClose={() => setIsDocuments(false)}
+				/>
+				<span className="absolute right-[8px] top-[8px]">
+					<Tooltip title="Details">
+						<IconButton onClick={() => setIsDocuments(true)}>
+							<KeyboardArrowLeftRounded />
+						</IconButton>
+					</Tooltip>
+				</span>
+
+				<div className="flex justify-center ">
+					<PhotoViewer name={item?.user?.name} photo={item?.user?.photo} />
+				</div>
+				<div className="flex-1 my-4">
+					<p className="text-base font-semibold leading-snug">
+						{item?.user?.name}
+					</p>
+					<p className="mb-2 text-sm">{item?.user?.role}</p>
+					<div className="mb-2 text-sm group flex items-center justify-center gap-2 pb-2">
+						<div className="flex w-full justify-center gap-2">
+							<div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
+								<p className="font-semibold">This Month Leaves</p>
+								<p>{item?.totalLeaveThisMonth | 0}</p>
+							</div>
+							<div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
+								<p className="font-semibold">This Year Leaves</p>
+								<p>{item?.totalLeaveThisYear | 0}</p>
+							</div>
+						</div>
+					</div>
+					<div className="">{renderStatus(item)}</div>
+				</div>
+			</div>
+		</Grid>
+	);
+};
 
 const links = [
 	{ id: 1, page: "Leaves", link: "/admin/leaves" },

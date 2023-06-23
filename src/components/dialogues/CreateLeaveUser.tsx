@@ -1,7 +1,6 @@
 import { Check, Close } from "@mui/icons-material";
 import {
-	Autocomplete,
-	Box,
+
 	Button,
 	CircularProgress,
 	Dialog,
@@ -16,7 +15,6 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { PhotoViewerSmall } from "components/core";
 import { Form, Formik } from "formik";
 import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
@@ -32,7 +30,6 @@ interface Props {
 }
 
 const validationSchema = Yup.object({
-	userId: Yup.string().required("Select an employee"),
 	startDate: Yup.string()
 		.required("Please enter date")
 		.test("minimum-date", "You Can apply leave only 1 day before!", (value) => {
@@ -53,7 +50,6 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
 		reason: "",
 		link: "",
 		endDate: null,
-		userId: "",
 		variant: "FullDay",
 		leaveMonth: `${moment(new Date().toISOString()).format("MMMM")}`,
 		leaveYear: `${moment(new Date().toISOString()).format("YYYY")}`,
