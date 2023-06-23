@@ -168,20 +168,20 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
 								<p>{projectData?.client?.email}</p>
 							</div>
 						</div>
-						<div className="mt-2 flex justify-center gap-2">
-							<Link
-								href={`/admin/clients/client-profile?id=${projectData?.clientId}`}
-							>
-								<Button
-									variant="contained"
-									className="!bg-theme"
-									size="small"
-									startIcon={<Person />}
+						{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+							<div className="mt-2 flex justify-center gap-2">
+								<Link
+									href={`/admin/clients/client-profile?id=${projectData?.clientId}`}
 								>
-									View Details
-								</Button>
-							</Link>
-							{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+									<Button
+										variant="contained"
+										className="!bg-theme"
+										size="small"
+										startIcon={<Person />}
+									>
+										View Details
+									</Button>
+								</Link>
 								<Button
 									onClick={() => removeClient()}
 									variant="contained"
@@ -191,8 +191,8 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
 								>
 									Remove
 								</Button>
-							) : null}
-						</div>
+							</div>
+						) : null}
 					</div>
 				</>
 			) : (
