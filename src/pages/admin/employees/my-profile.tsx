@@ -63,7 +63,6 @@ const MyProfile = () => {
      }, [attendanceData]);
 
      const links = [
-          { id: 1, page: "Employees", link: "/admin/employees" },
           {
                id: 2,
                page: "Employee Profile",
