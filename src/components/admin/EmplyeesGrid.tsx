@@ -84,7 +84,6 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 					const res = await change(`users/${user?.id}`, {
 						method: "DELETE",
 					});
-					console.log(res);
 					if (user?.photo) {
 						await deleteFile(String(user?.photo?.split("/").reverse()[0]));
 					}
@@ -184,7 +183,7 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 						</MenuItem>
 					</Link>
 					{userDetails?.role?.name == "CEO" ||
-					userDetails?.role?.name == "HR" ? (
+						userDetails?.role?.name == "HR" ? (
 						<>
 							<MenuItem
 								onClick={() => {

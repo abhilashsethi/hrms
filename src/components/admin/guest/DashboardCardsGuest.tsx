@@ -9,7 +9,6 @@ interface Props {
 	data?: any;
 }
 const DashboardCardsGuest = ({ data }: Props) => {
-	console.log(data);
 	const cards = [
 		{
 			id: 1,

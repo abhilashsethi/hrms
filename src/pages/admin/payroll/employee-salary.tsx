@@ -137,7 +137,6 @@ const EmployeeSalary = () => {
 						]}
 						editable={{
 							onRowUpdate: async (oldData, newData) => {
-								console.log(newData);
 							},
 						}}
 						data={data ? getDataWithSL<any>(data) : []}

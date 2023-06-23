@@ -88,12 +88,9 @@ const AllMeetings = () => {
 		mutate,
 		isLoading,
 	} = useFetch<any>(
-		`meetings?page=${pageNumber}&limit=8${
-			meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
-		}${meetingStatus ? `&status=${meetingStatus}` : ""}${
-			selectDate ? `&date=${selectDate}` : ""
-		}${currentRange?.startDate ? `&startDate=${currentRange?.startDate}` : ""}${
-			currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
+		`meetings?page=${pageNumber}&limit=8${meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
+		}${meetingStatus ? `&status=${meetingStatus}` : ""}${selectDate ? `&date=${selectDate}` : ""
+		}${currentRange?.startDate ? `&startDate=${currentRange?.startDate}` : ""}${currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
 		}`
 	);
 	return (
@@ -149,18 +146,16 @@ const AllMeetings = () => {
 							<div className="flex gap-1">
 								<IconButton onClick={() => setIsGrid(true)} size="small">
 									<div
-										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-											isGrid && `border-2 border-theme`
-										}`}
+										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${isGrid && `border-2 border-theme`
+											}`}
 									>
 										<GridViewRounded className={`${isGrid && `!text-theme`}`} />
 									</div>
 								</IconButton>
 								<IconButton onClick={() => setIsGrid(false)} size="small">
 									<div
-										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-											!isGrid && `border-2 border-theme`
-										}`}
+										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${!isGrid && `border-2 border-theme`
+											}`}
 									>
 										<TableRowsRounded
 											className={`${!isGrid && `!text-theme`}`}
@@ -185,15 +180,15 @@ const AllMeetings = () => {
 								<Tooltip
 									title={
 										selectDate != null ||
-										meetingStatus != null ||
-										meetingPerson != null
+											meetingStatus != null ||
+											meetingPerson != null
 											? `Remove Filters`
 											: `Filter`
 									}
 								>
 									{selectDate != null ||
-									meetingStatus != null ||
-									meetingPerson != null ? (
+										meetingStatus != null ||
+										meetingPerson != null ? (
 										<Close className={"!text-white"} />
 									) : (
 										<FilterListRounded className={"!text-white"} />
@@ -237,7 +232,6 @@ const AllMeetings = () => {
 								}
 								onChange={(e) => {
 									setSelectDate(new Date(e.target.value).toISOString());
-									console.log(new Date(e.target.value).toISOString());
 								}}
 							/>
 

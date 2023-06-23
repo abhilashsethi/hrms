@@ -26,7 +26,6 @@ const GuestProfile = () => {
 		mutate,
 		isLoading,
 	} = useFetch<any>(`guests/${router?.query?.id}`);
-	console.log(guestData);
 	const { change } = useChange();
 	const basicDetails = [
 		{

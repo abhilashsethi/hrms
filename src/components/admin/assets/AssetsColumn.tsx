@@ -36,7 +36,6 @@ interface Props {
 	mutate?: any;
 }
 const AssetsColumn = ({ data, mutate }: Props) => {
-	console.log(data);
 	const [loading, setLoading] = useState(false);
 	const { change, isChanging } = useChange();
 	const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
@@ -117,7 +116,6 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						method: "PATCH",
 						body: { isReturn: true },
 					});
-					console.log(res);
 					setLoading(false);
 					if (res?.status !== 200) {
 						Swal.fire(
@@ -345,7 +343,6 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 						openIcon: () => <Visibility />,
 						render: ({ rowData }) => (
 							<>
-								{console.log(rowData)}
 								<div
 									style={{
 										padding: "12px",

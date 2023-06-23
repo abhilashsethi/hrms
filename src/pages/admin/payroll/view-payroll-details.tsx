@@ -34,7 +34,6 @@ const ViewPayrollDetails = () => {
 			Gross_Salary >= item?.startGrossSalary &&
 			Gross_Salary <= item?.endGrossSalary
 	);
-	console.log(Professional_Tax?.tax);
 
 	const Tds: any = employData?.tds;
 	const Tds_Amount =
@@ -61,9 +60,8 @@ const ViewPayrollDetails = () => {
 		{
 			id: 2,
 			name: "Basic Salary",
-			count: `${
-				Gross_Salary ? (Configs?.basicSalary * Gross_Salary) / 100 : "---"
-			}`,
+			count: `${Gross_Salary ? (Configs?.basicSalary * Gross_Salary) / 100 : "---"
+				}`,
 		},
 		{
 			id: 2,
@@ -83,35 +81,32 @@ const ViewPayrollDetails = () => {
 		{
 			id: 2,
 			name: "Special Allowance",
-			count: `${
-				Gross_Salary
+			count: `${Gross_Salary
 					? Gross_Salary -
-					  ((Configs?.basicSalary * Gross_Salary) / 100 +
-							(Configs?.hra * Gross_Salary) / 100 +
-							Configs?.conveyanceAllowances +
-							Configs?.medicalAllowances)
+					((Configs?.basicSalary * Gross_Salary) / 100 +
+						(Configs?.hra * Gross_Salary) / 100 +
+						Configs?.conveyanceAllowances +
+						Configs?.medicalAllowances)
 					: "---"
-			}`,
+				}`,
 		},
 	];
 	const deduction = [
 		{
 			id: 1,
 			name: "PF Contribution by Employee",
-			count: `${
-				Gross_Salary
+			count: `${Gross_Salary
 					? (Configs?.pfEmployee *
-							((Configs?.basicSalary * Gross_Salary) / 100)) /
-					  100
+						((Configs?.basicSalary * Gross_Salary) / 100)) /
+					100
 					: "---"
-			}`,
+				}`,
 		},
 		{
 			id: 2,
 			name: "ESI Contribution by Employee",
-			count: `${
-				Gross_Salary ? (Configs?.esiEmployee * Gross_Salary) / 100 : "---"
-			}`,
+			count: `${Gross_Salary ? (Configs?.esiEmployee * Gross_Salary) / 100 : "---"
+				}`,
 		},
 		{
 			id: 2,
@@ -131,40 +126,35 @@ const ViewPayrollDetails = () => {
 		},
 		{
 			id: 2,
-			name: `${
-				New_Fields ? New_Fields?.map((item: any) => item?.title) : null
-			}`,
-			count: `${
-				New_Fields ? New_Fields?.map((item: any) => item?.value) : null
-			}`,
+			name: `${New_Fields ? New_Fields?.map((item: any) => item?.title) : null
+				}`,
+			count: `${New_Fields ? New_Fields?.map((item: any) => item?.value) : null
+				}`,
 		},
 	];
 	const ctc = [
 		{
 			id: 1,
 			name: "PF Contribution by Employer",
-			count: `${
-				Gross_Salary
+			count: `${Gross_Salary
 					? (Configs?.pfEmployer *
-							((Configs?.basicSalary * Gross_Salary) / 100)) /
-					  100
+						((Configs?.basicSalary * Gross_Salary) / 100)) /
+					100
 					: "---"
-			}`,
+				}`,
 		},
 		{
 			id: 2,
 			name: "ESI Contribution by Employer",
-			count: `${
-				Gross_Salary ? (Configs?.esiEmployer * Gross_Salary) / 100 : "---"
-			}`,
+			count: `${Gross_Salary ? (Configs?.esiEmployer * Gross_Salary) / 100 : "---"
+				}`,
 		},
 		{ id: 2, name: "KPI", count: `${Gross_Salary ? employData?.kpi : "---"}` },
 		{
 			id: 2,
 			name: "CTC",
-			count: `${
-				Gross_Salary ? Gross_Salary + Employer_Pf + Employer_Esi : "---"
-			}`,
+			count: `${Gross_Salary ? Gross_Salary + Employer_Pf + Employer_Esi : "---"
+				}`,
 		},
 	];
 

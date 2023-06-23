@@ -4,7 +4,6 @@ interface Props {
 	data?: any;
 }
 const AssetsDashboardCharts = ({ data }: Props) => {
-	console.log(data);
 	return (
 		<div className="w-full">
 			<div className="grid lg:grid-cols-2 content-between gap-6">
