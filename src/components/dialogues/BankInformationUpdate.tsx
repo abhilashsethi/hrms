@@ -22,18 +22,14 @@ interface Props {
   open?: any;
   mutate?: any;
   handleClose?: any;
+  employData?: any;
 }
 
-const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
+const BankInformationUpdate = ({ open, mutate, employData, handleClose }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
-  const { data: employData, isLoading } = useFetch<User>(
-    `users/${router?.query?.id}`
-  );
-  if (isLoading) {
-    return <Loader />;
-  }
+
   const initialValues = {
     bankName: employData?.bankName || "",
     ifscCode: employData?.ifscCode || "",
@@ -60,7 +56,7 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
     setLoading(true);
     try {
       Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
-      const resData: any = await change(`users/${router?.query?.id}`, {
+      const resData: any = await change(`users/${employData?.id}`, {
         method: "PATCH",
         body: values,
       });
@@ -146,7 +142,7 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.bankName && !!errors.bankName}
-                          helperText={touched.bankName && errors.bankName}
+                          helperText={touched?.bankName as any && errors?.bankName as any}
                         />
                       </div>
 
@@ -164,7 +160,7 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.ifscCode && !!errors.ifscCode}
-                          helperText={touched.ifscCode && errors.ifscCode}
+                          helperText={touched.ifscCode as any && errors.ifscCode as any}
                         />
                       </div>
                       {/* accountNo */}
@@ -181,7 +177,7 @@ const BankInformationUpdate = ({ open, mutate, handleClose }: Props) => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.accountNo && !!errors.accountNo}
-                          helperText={touched.accountNo && errors.accountNo}
+                          helperText={touched.accountNo as any && errors.accountNo as any}
                         />
                       </div>
                     </div>

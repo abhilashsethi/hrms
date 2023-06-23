@@ -48,23 +48,15 @@ const TodayAttendance = () => {
 	function handleDateChange(date: any) {
 		setSelectedDate(date);
 	}
-	const links =
-		user?.role?.name == "CEO" || user?.role?.name == "HR"
-			? [
-					{ id: 1, page: "Attendances", link: "/admin/attendances" },
-					{
-						id: 2,
-						page: "Datewise",
-						link: "/admin/attendances/today",
-					},
-			  ]
-			: [
-					{
-						id: 2,
-						page: "My Attendance",
-						link: "/admin/attendances/today",
-					},
-			  ];
+	const links = [
+		{ id: 1, page: "Attendances", link: "/admin/attendances" },
+		{
+			id: 2,
+			page: "Datewise",
+			link: "/admin/attendances/today",
+		},
+	];
+
 	const {
 		data: attendance,
 		isLoading,
@@ -145,118 +137,118 @@ const TodayAttendance = () => {
 						</div>
 					</div>
 				</div>
-				{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
-					<>
-						<div className="mt-4">
-							<div className="grid lg:grid-cols-3 gap-4">
-								{cards?.map((item) => (
-									<div key={item?.id}>
-										<div className="w-full tracking-wide border-b-4 hover:bg-theme hover:text-white hover:border-white border-theme h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center transition-all ease duration-300">
-											<p className="text-base font-semibold text-center">
-												{item?.title}
-											</p>
-											<p className="text-lg font-bold">{item?.value}</p>
-										</div>
+
+				<>
+					<div className="mt-4">
+						<div className="grid lg:grid-cols-3 gap-4">
+							{cards?.map((item) => (
+								<div key={item?.id}>
+									<div className="w-full tracking-wide border-b-4 hover:bg-theme hover:text-white hover:border-white border-theme h-full bg-white shadow-lg rounded-xl p-4 flex flex-col gap-2 justify-center items-center transition-all ease duration-300">
+										<p className="text-base font-semibold text-center">
+											{item?.title}
+										</p>
+										<p className="text-lg font-bold">{item?.value}</p>
 									</div>
-								))}
-							</div>
+								</div>
+							))}
 						</div>
-						<section className="mt-4">
-							<div className="md:flex gap-4 justify-between w-full py-2">
-								<div
-									className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+					</div>
+					<section className="mt-4">
+						<div className="md:flex gap-4 justify-between w-full py-2">
+							<div
+								className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}
+							>
+								<IconButton
+									onClick={() => {
+										setEmpId(null);
+										setUsername(null);
+										setOrder(null);
+										setStatus("all");
+									}}
 								>
-									<IconButton
-										onClick={() => {
-											setEmpId(null);
-											setUsername(null);
-											setOrder(null);
-											setStatus("all");
-										}}
-									>
-										<Tooltip
-											title={
-												order != null ||
-												status != "all" ||
-												empId != null ||
-												userName != null
-													? `Remove Filters`
-													: `Filter`
-											}
-										>
-											{order != null ||
+									<Tooltip
+										title={
+											order != null ||
 											status != "all" ||
 											empId != null ||
-											userName != null ? (
-												<Close className={"!text-white"} />
-											) : (
-												<FilterListRounded className={"!text-white"} />
-											)}
-										</Tooltip>
-									</IconButton>
-								</div>
-
-								<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-									<TextField
-										fullWidth
-										size="small"
-										value={empId ? empId : ""}
-										placeholder="Employee Id"
-										name="employeeId"
-										onChange={(e) => {
-											setPageNumber(1), setEmpId(e.target.value);
-										}}
-									/>
-									<TextField
-										fullWidth
-										size="small"
-										value={userName ? userName : ""}
-										placeholder="Employee Name"
-										onChange={(e) => {
-											setPageNumber(1), setUsername(e.target.value);
-										}}
-										name="employeeName"
-									/>
-									<TextField
-										size="small"
-										fullWidth
-										select
-										value={status != "null" ? status : "null"}
-										label="Status"
-										defaultValue="all"
-										onChange={(e: any) => {
-											setPageNumber(1), setStatus(e.target.value);
-										}}
+											userName != null
+												? `Remove Filters`
+												: `Filter`
+										}
 									>
-										{selects.map((option: any) => (
-											<MenuItem key={option.id} value={option.value}>
-												{option.label}
-											</MenuItem>
-										))}
-									</TextField>
-									<TextField
-										size="small"
-										fullWidth
-										select
-										value={order ? order : ""}
-										label="Order By"
-										// defaultValue="all"
-										onChange={(e: any) => {
-											setPageNumber(1), setOrder(e.target.value);
-										}}
-									>
-										{orderBy.map((option: any) => (
-											<MenuItem key={option.id} value={option.value}>
-												{option.name}
-											</MenuItem>
-										))}
-									</TextField>
-								</div>
+										{order != null ||
+										status != "all" ||
+										empId != null ||
+										userName != null ? (
+											<Close className={"!text-white"} />
+										) : (
+											<FilterListRounded className={"!text-white"} />
+										)}
+									</Tooltip>
+								</IconButton>
 							</div>
-						</section>
-					</>
-				) : null}
+
+							<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+								<TextField
+									fullWidth
+									size="small"
+									value={empId ? empId : ""}
+									placeholder="Employee Id"
+									name="employeeId"
+									onChange={(e) => {
+										setPageNumber(1), setEmpId(e.target.value);
+									}}
+								/>
+								<TextField
+									fullWidth
+									size="small"
+									value={userName ? userName : ""}
+									placeholder="Employee Name"
+									onChange={(e) => {
+										setPageNumber(1), setUsername(e.target.value);
+									}}
+									name="employeeName"
+								/>
+								<TextField
+									size="small"
+									fullWidth
+									select
+									value={status != "null" ? status : "null"}
+									label="Status"
+									defaultValue="all"
+									onChange={(e: any) => {
+										setPageNumber(1), setStatus(e.target.value);
+									}}
+								>
+									{selects.map((option: any) => (
+										<MenuItem key={option.id} value={option.value}>
+											{option.label}
+										</MenuItem>
+									))}
+								</TextField>
+								<TextField
+									size="small"
+									fullWidth
+									select
+									value={order ? order : ""}
+									label="Order By"
+									// defaultValue="all"
+									onChange={(e: any) => {
+										setPageNumber(1), setOrder(e.target.value);
+									}}
+								>
+									{orderBy.map((option: any) => (
+										<MenuItem key={option.id} value={option.value}>
+											{option.name}
+										</MenuItem>
+									))}
+								</TextField>
+							</div>
+						</div>
+					</section>
+				</>
+
 				<section>
 					{isLoading ? (
 						<Loader />

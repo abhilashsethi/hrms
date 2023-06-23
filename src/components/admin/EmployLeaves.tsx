@@ -6,20 +6,19 @@ import { useRouter } from "next/router";
 import { NODATAIMG } from "assets/home";
 
 type Props = {
-	employeeId?: any;
+	employData?: any;
 };
 
-const EmployLeaves = ({ employeeId }: Props) => {
-	// console.log(employeeId);
+const EmployLeaves = ({ employData }: Props) => {
 	const router = useRouter();
 	const { data: leaveData, mutate } = useFetch<any>(
-		`leaves/details/${router?.query?.id}`
+		`leaves/details/${employData?.id}`
 	);
 
 	const { data: leaveDetails, isLoading: leaveDataLoading } = useFetch<any[]>(
-		`leaves?employeeID=${employeeId}`
+		`leaves?employeeID=${employData?.employeeID}`
 	);
-	console.log(leaveData);
+
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
 			<HeadText title="Employee Leaves" />
@@ -90,13 +89,12 @@ const EmployLeaves = ({ employeeId }: Props) => {
 								</span>
 							</p>
 							<span
-								className={`text-white text-xs px-4 py-1 ${
-									item?.status === "Rejected"
-										? "bg-red-500"
-										: item?.status === "Pending"
+								className={`text-white text-xs px-4 py-1 ${item?.status === "Rejected"
+									? "bg-red-500"
+									: item?.status === "Pending"
 										? "bg-yellow-500"
 										: "bg-green-500"
-								} font-semibold rounded-md text-center`}
+									} font-semibold rounded-md text-center`}
 							>
 								{item?.status}
 							</span>

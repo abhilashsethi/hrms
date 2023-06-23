@@ -57,7 +57,6 @@ const AttendanceDashBoard = () => {
     setAttendances(myData);
   }, [attendanceData]);
 
-  console.log(attendances);
 
   const cards = [
     {

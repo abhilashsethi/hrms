@@ -18,7 +18,6 @@ interface Props {
   data?: any;
 }
 const MainHrDashboardCards = ({ data }: Props) => {
-  console.log(data);
   const cards = [
     {
       id: 1,

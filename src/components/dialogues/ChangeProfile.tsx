@@ -22,12 +22,12 @@ interface Props {
   open: boolean;
   handleClose: any;
   mutate?: any;
+  employData?: any;
 }
 
-const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
+const ChangeProfile = ({ open, handleClose, employData, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { data: employData } = useFetch<User>(`users/${router?.query?.id}`);
   const { change } = useChange();
   const imgRef = useRef<any>();
   const formik = useFormik({
@@ -57,7 +57,7 @@ const ChangeProfile = ({ open, handleClose, mutate }: Props) => {
       try {
         const url = await uploadFile(values?.photo, `${uniId}.png`);
         console.log(url);
-        const res = await change(`users/${router?.query?.id}`, {
+        const res = await change(`users/${employData?.id}`, {
           method: "PATCH",
           body: { photo: url },
         });

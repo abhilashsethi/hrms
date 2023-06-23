@@ -216,15 +216,18 @@ const ProfileDetails = () => {
 		<section>
 			<UpdateProfileHead
 				mutate={mutate}
+				employData={employData}
 				open={isDialogue}
 				handleClose={() => setIsDialogue(false)}
 			/>
 			<PersonalInformations
 				mutate={mutate}
+				employData={employData}
 				open={isPersonal}
 				handleClose={() => setIsPersonal(false)}
 			/>
 			<BankInformationUpdate
+				employData={employData}
 				mutate={mutate}
 				open={isBank}
 				handleClose={() => setIsBank(false)}
@@ -233,7 +236,10 @@ const ProfileDetails = () => {
 				<Grid container spacing={2}>
 					<Grid item lg={8} md={12} sm={12} xs={12}>
 						<div className="w-full h-full rounded-lg bg-white shadow-xl md:p-4 p-2">
-							<ViewEmployeeHead />
+							<ViewEmployeeHead
+								employData={employData}
+								mutate={mutate}
+							/>
 							{/* --------------------Basic Details-------------------- */}
 							<section className="py-4 md:px-8 px-3">
 								<div className=" pb-2 flex justify-between items-center">
@@ -317,8 +323,8 @@ const ProfileDetails = () => {
 					</Grid>
 					<Grid item lg={4}>
 						<div className="w-full h-full">
-							<EmpAttendanceIndividual />
-							<EmployLeaves employeeId={employData?.employeeID} />
+							<EmpAttendanceIndividual employData={employData} />
+							<EmployLeaves employData={employData} />
 							<EmployProjects
 								userName={employData?.name}
 								projectDetails={projectDetails}

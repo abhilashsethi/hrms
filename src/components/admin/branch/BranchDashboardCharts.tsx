@@ -4,7 +4,6 @@ interface Props {
 	data?: any;
 }
 const BranchDashboardCharts = ({ data }: Props) => {
-	console.log(data?.countryWiseBranchCount?.length);
 	return (
 		<div className="w-full">
 			<div className="grid lg:grid-cols-3 grid-cols-1 content-between gap-6">

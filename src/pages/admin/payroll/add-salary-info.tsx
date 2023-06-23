@@ -92,7 +92,6 @@ const AddPrescription = () => {
 	}, []);
 
 	const handleSend = async (values: any, submitProps: any) => {
-		console.log(values?.salaryInfoNewFields);
 		setLoading(true);
 		try {
 			const ticketText = {
@@ -103,12 +102,10 @@ const AddPrescription = () => {
 					return { title: item?.title, value: Number(item.value) };
 				}),
 			};
-			console.log(ticketText);
 			const res = await change(`users/addSalaryInfo/${values?.userId}`, {
 				method: "PATCH",
 				body: ticketText,
 			});
-			console.log(res);
 			setLoading(false);
 			if (res?.status !== 200) {
 				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
@@ -145,7 +142,7 @@ const AddPrescription = () => {
 					? [...formik?.values[name], { title: "", value: "" }]
 					: [{ title: "", value: "" }]
 			);
-		} catch (error) {}
+		} catch (error) { }
 	};
 
 	const handleFormikOnChange = (
@@ -168,7 +165,7 @@ const AddPrescription = () => {
 					return item;
 				})
 			);
-		} catch (error) {}
+		} catch (error) { }
 	};
 	return (
 		<PanelLayout title="Add Salary Info - Admin Panel">
@@ -209,14 +206,13 @@ const AddPrescription = () => {
 															}
 															error={Boolean(
 																formik?.touched[inputItem?.name] &&
-																	formik?.errors[inputItem?.name]
+																formik?.errors[inputItem?.name]
 															)}
 															helperText={
 																formik?.touched[inputItem?.name] &&
 																(formik?.errors[inputItem?.name] as any)
 															}
 															onChange={(e: any, value: any) => {
-																console.log(value?.data?.id, inputItem?.name);
 																formik?.setFieldValue(
 																	inputItem?.name,
 																	value?.data?.id
@@ -243,7 +239,7 @@ const AddPrescription = () => {
 																			name="item"
 																			error={Boolean(
 																				formik?.touched?.salaryInfoNewFields &&
-																					formik?.errors?.salaryInfoNewFields
+																				formik?.errors?.salaryInfoNewFields
 																			)}
 																			value={item.value}
 																			title={item?.title}
@@ -286,7 +282,7 @@ const AddPrescription = () => {
 															styleContact={inputItem?.styleContact}
 															error={Boolean(
 																formik?.touched[inputItem.name] &&
-																	formik?.errors[inputItem.name]
+																formik?.errors[inputItem.name]
 															)}
 															helperText={
 																formik?.touched[inputItem.name] &&

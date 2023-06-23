@@ -239,7 +239,6 @@ const AssignedAssetsColumn = ({ data, mutate }: Props) => {
 						openIcon: () => <Visibility />,
 						render: ({ rowData }) => (
 							<>
-								{console.log(rowData)}
 								<div
 									style={{
 										padding: "12px",

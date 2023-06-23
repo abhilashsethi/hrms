@@ -20,13 +20,14 @@ interface Props {
   open?: any;
   handleClose?: any;
   mutate?: any;
+  employData?: any;
+
 }
 
-const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
+const PersonalInformations = ({ open, handleClose, employData, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
-  const { data: employData } = useFetch<any>(`users/${router?.query?.id}`);
   const initialValues = {
     panNo: `${employData?.panNo ? employData?.panNo : ""}`,
     aadharNo: `${employData?.aadharNo ? employData?.aadharNo : ""}`,
@@ -59,7 +60,7 @@ const PersonalInformations = ({ open, handleClose, mutate }: Props) => {
     setLoading(true);
     try {
       Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
-      const resData: any = await change(`users/${router?.query?.id}`, {
+      const resData: any = await change(`users/${employData?.id}`, {
         method: "PATCH",
         body: values,
       });

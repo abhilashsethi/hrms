@@ -19,8 +19,6 @@ const LeaveDashboard = () => {
   const { data: leaveData, isLoading } = useFetch<any>(
     `leaves/dashboard/details`
   );
-  console.log(leaveData);
-
 
   const cards = [
     {

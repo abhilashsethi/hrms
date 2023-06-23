@@ -79,8 +79,6 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
 		});
 	};
 
-	// const { data: meetingData, mutate, isLoading } = useFetch<any>(`meetings`);
-	// // console.log(meetingData);
 
 	const router = useRouter();
 

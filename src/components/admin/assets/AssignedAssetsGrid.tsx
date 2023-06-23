@@ -51,7 +51,6 @@ const settings = {
 	],
 };
 const AssignedAssetsGrid = ({ data, mutate }: Props) => {
-	console.log(data);
 	return (
 		<>
 			<section className="py-6 ">

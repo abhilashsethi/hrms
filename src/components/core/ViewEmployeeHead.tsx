@@ -22,8 +22,13 @@ import { useState } from "react";
 import { User } from "types";
 import CopyClipboard from "./CopyCliboard";
 import EmployeeProfileImage from "./EmployeeProfileImage";
+interface Props {
 
-const ViewEmployeeHead = () => {
+  employData?: any;
+  mutate?: any;
+
+}
+const ViewEmployeeHead = ({ employData, mutate }: Props) => {
   const [document, setDocument] = useState(false);
   const [projects, setProjects] = useState(false);
   const [leaves, setLeaves] = useState(false);
@@ -33,9 +38,7 @@ const ViewEmployeeHead = () => {
 
   const router = useRouter();
   const [isProfile, setIsProfile] = useState(false);
-  const { data: employData, mutate } = useFetch<User>(
-    `users/${router?.query?.id}`
-  );
+
 
   const shortCuts: shortCutTypes[] = [
     {
@@ -55,7 +58,7 @@ const ViewEmployeeHead = () => {
       title: "Payroll",
       onClick: () =>
         router.push(
-          `/admin/payroll/view-payroll-details?id=${router?.query?.id}`
+          `/admin/payroll/view-payroll-details?id=${employData?.id}`
         ),
     },
     {
@@ -68,7 +71,7 @@ const ViewEmployeeHead = () => {
       icon: <EmailRounded />,
       title: "Mail",
       onClick: () =>
-        router?.push(`/admin/employees/send-email?empId=${router?.query?.id}`),
+        router?.push(`/admin/employees/send-email?empId=${employData?.id}`),
     },
     {
       id: 6,
@@ -93,6 +96,7 @@ const ViewEmployeeHead = () => {
     <>
       <ChangeProfile
         open={isProfile}
+        employData={employData}
         handleClose={() => setIsProfile(false)}
         mutate={mutate}
       />
@@ -134,10 +138,12 @@ const ViewEmployeeHead = () => {
           <ViewProjectsDrawer
             open={projects}
             onClose={() => setProjects(false)}
+            employData={employData}
             setViewProject={setViewProjects}
           />
 
           <ViewDocumentDrawer
+            employData={employData}
             open={document}
             onClose={() => setDocument(false)}
             setViewDocument={setViewDocument}

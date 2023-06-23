@@ -42,20 +42,20 @@ const EmployeeDetails = () => {
 				{bloodGroup === "A_Positive"
 					? "A+"
 					: bloodGroup === "A_Negative"
-					? "A-"
-					: bloodGroup === "B_Negative"
-					? "B-"
-					: bloodGroup === "B_Positive"
-					? "B+"
-					: bloodGroup === "AB_Positive"
-					? "AB+"
-					: bloodGroup === "AB_Negative"
-					? "AB-"
-					: bloodGroup === "O_Positive"
-					? "O+"
-					: bloodGroup === "O_Negative"
-					? "0-"
-					: "Not mentioned"}
+						? "A-"
+						: bloodGroup === "B_Negative"
+							? "B-"
+							: bloodGroup === "B_Positive"
+								? "B+"
+								: bloodGroup === "AB_Positive"
+									? "AB+"
+									: bloodGroup === "AB_Negative"
+										? "AB-"
+										: bloodGroup === "O_Positive"
+											? "O+"
+											: bloodGroup === "O_Negative"
+												? "0-"
+												: "Not mentioned"}
 			</span>
 		);
 	};
@@ -105,11 +105,10 @@ const EmployeeDetails = () => {
 			{
 				id: 4,
 				title: "Date Of Joining",
-				value: `${
-					employData?.joiningDate
-						? moment(employData?.joiningDate).format("ll")
-						: "---"
-				}`,
+				value: `${employData?.joiningDate
+					? moment(employData?.joiningDate).format("ll")
+					: "---"
+					}`,
 			},
 			{
 				id: 5,
@@ -120,9 +119,8 @@ const EmployeeDetails = () => {
 			{
 				id: 6,
 				title: "Date Of Birth",
-				value: `${
-					employData?.dob ? moment(employData?.dob).format("ll") : "---"
-				}`,
+				value: `${employData?.dob ? moment(employData?.dob).format("ll") : "---"
+					}`,
 			},
 			{
 				id: 7,
@@ -144,9 +142,8 @@ const EmployeeDetails = () => {
 			{
 				id: 9,
 				title: "Department",
-				value: `${
-					employData?.department?.name ? employData?.department?.name : "---"
-				}`,
+				value: `${employData?.department?.name ? employData?.department?.name : "---"
+					}`,
 			},
 			{
 				id: 9,
@@ -218,16 +215,19 @@ const EmployeeDetails = () => {
 		<section>
 			<UpdateProfileHead
 				mutate={mutate}
+				employData={employData}
 				open={isDialogue}
 				handleClose={() => setIsDialogue(false)}
 			/>
 			<PersonalInformations
 				mutate={mutate}
+				employData={employData}
 				open={isPersonal}
 				handleClose={() => setIsPersonal(false)}
 			/>
 			<BankInformationUpdate
 				mutate={mutate}
+				employData={employData}
 				open={isBank}
 				handleClose={() => setIsBank(false)}
 			/>
@@ -235,7 +235,10 @@ const EmployeeDetails = () => {
 				<Grid container spacing={2}>
 					<Grid item lg={8} md={12} sm={12} xs={12}>
 						<div className="w-full h-full rounded-lg bg-white shadow-xl md:p-4 p-2">
-							<ViewEmployeeHead />
+							<ViewEmployeeHead
+								employData={employData}
+								mutate={mutate}
+							/>
 							{/* --------------------Basic Details-------------------- */}
 							<section className="py-4 md:px-8 px-3">
 								<div className=" pb-2 flex justify-between items-center">
@@ -319,8 +322,8 @@ const EmployeeDetails = () => {
 					</Grid>
 					<Grid item lg={4}>
 						<div className="w-full h-full">
-							<EmpAttendanceIndividual />
-							<EmployLeaves employeeId={employData?.employeeID} />
+							<EmpAttendanceIndividual employData={employData} />
+							<EmployLeaves employData={employData} />
 							<EmployProjects
 								userName={employData?.name}
 								projectDetails={projectDetails}

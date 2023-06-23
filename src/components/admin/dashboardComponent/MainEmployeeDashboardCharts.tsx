@@ -7,7 +7,6 @@ interface Props {
 	data?: any;
 }
 const MainEmployeeDashboardCharts = ({ data }: Props) => {
-	console.log(data);
 	const getMonthName = (monthNumber: any) => {
 		const date = new Date();
 		date.setMonth(monthNumber - 1);
@@ -131,17 +130,16 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 													{item?.industry ? item?.industry : "Not specified"}
 												</div>
 												<div
-													className={`px-2 rounded-lg flex items-center uppercase shadow-md text-xs tracking-wide font-semibold text-white ${
-														item?.status === "Pending"
+													className={`px-2 rounded-lg flex items-center uppercase shadow-md text-xs tracking-wide font-semibold text-white ${item?.status === "Pending"
 															? `bg-yellow-500`
 															: item?.status === "Ongoing"
-															? `bg-blue-500`
-															: item?.status === "Onhold"
-															? `bg-red-500`
-															: item?.status === "Completed"
-															? `bg-green-500`
-															: `bg-slate-500`
-													}`}
+																? `bg-blue-500`
+																: item?.status === "Onhold"
+																	? `bg-red-500`
+																	: item?.status === "Completed"
+																		? `bg-green-500`
+																		: `bg-slate-500`
+														}`}
 												>
 													{item?.status}
 												</div>

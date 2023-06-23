@@ -174,7 +174,6 @@ const MoreOption = ({ item, mutate }: any) => {
 						method: "PATCH",
 						body: { isReturn: true },
 					});
-					console.log(res);
 					setLoading(false);
 					if (res?.status !== 200) {
 						Swal.fire(

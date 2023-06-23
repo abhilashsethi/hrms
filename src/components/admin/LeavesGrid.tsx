@@ -214,11 +214,7 @@ const CardComponent = ({ item, mutate }: Props) => {
 						</IconButton>
 					</Tooltip>
 				</span>
-				{/* <img
-                  alt=""
-                  className="absolute -top-10 self-center flex-shrink-0 w-16 h-16 bg-center bg-cover rounded-full bg-gray-500"
-                  src={SAMPLEDP.src}
-                /> */}
+
 				<div className="flex justify-center ">
 					<PhotoViewer name={item?.user?.name} photo={item?.user?.photo} />
 				</div>

@@ -12,7 +12,6 @@ const ViewConfig = () => {
 	const { data: configData, mutate } = useFetch<any>(
 		`payrolls/getAllPayrollConfigs`
 	);
-	console.log(configData);
 
 	const handleInfoOpen = (data: any) => {
 		setIsInfo(true);

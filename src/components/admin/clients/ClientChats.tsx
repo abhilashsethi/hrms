@@ -74,9 +74,8 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 					<div className="flex items-center mt-3 gap-3">
 						<div className="font-semibold ">Issue Resolved :</div>
 						<div
-							className={`text-xs ${
-								ticketsData?.isResolved ? `bg-[#44bd44]` : `bg-red-600`
-							}  text-white p-1 rounded-md font-semibold px-2`}
+							className={`text-xs ${ticketsData?.isResolved ? `bg-[#44bd44]` : `bg-red-600`
+								}  text-white p-1 rounded-md font-semibold px-2`}
 						>
 							{ticketsData?.isResolved ? <p> Yes</p> : <p>No</p>}
 						</div>
@@ -131,7 +130,6 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 					</div>
 					{ticketsData?.documents?.length ? (
 						<>
-							{console.log(ticketsData)}
 							<div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full gap-6">
 								{ticketsData?.documents?.map((docData) => (
 									<div key={docData?.docId} className="cursor-pointer">
