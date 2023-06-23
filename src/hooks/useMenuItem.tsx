@@ -52,50 +52,44 @@ export default () => {
       ],
     },
 
-    user?.role?.name == "CEO" || user?.role?.name == "HR"
-      ? {
-        key: "3",
-        title: "Employees",
-        icon: <ICONS.Employees />,
-        submenus: [
-          {
-            key: "3-1",
-            title: "Dashboard",
-            icon: <ICONS.Dashboard_1 />,
-            route: "/admin/employees",
-          },
-          {
-            key: "3-2",
-            title: "All Employees",
-            icon: <ICONS.All_Employee />,
-            route: "/admin/employees/all-employees",
-          },
-          {
-            key: "3-3",
-            title: "Create Employee",
-            icon: <ICONS.Add_Employee />,
-            route: "/admin/employees/create-employee",
-          },
-          {
-            key: "3-4",
-            title: "Upload Employee's Data",
-            icon: <ICONS.Upload_Employee_Data />,
-            route: "/admin/employees/upload-employee-data",
-          },
-          // {
-          //   key: "3-5",
-          //   title: "my profile",
-          //   icon: <ICONS.Upload_Employee_Data />,
-          //   route: `/admin/employees/profile/${user?.id}`,
-          // },
-        ],
-      }
-      : {
-        key: "3ss",
-        title: "My Profile",
-        icon: <ICONS.All_Employee />,
-        route: `/admin/employees/profile/${user?.id}`,
-      },
+    {
+      key: "3",
+      title: "Employees",
+      icon: <ICONS.Employees />,
+      submenus: [
+        {
+          key: "3-1",
+          title: "Dashboard",
+          icon: <ICONS.Dashboard_1 />,
+          route: "/admin/employees",
+        },
+        {
+          key: "3-2",
+          title: "All Employees",
+          icon: <ICONS.All_Employee />,
+          route: "/admin/employees/all-employees",
+        },
+        {
+          key: "3-3",
+          title: "Create Employee",
+          icon: <ICONS.Add_Employee />,
+          route: "/admin/employees/create-employee",
+        },
+        {
+          key: "3-4",
+          title: "Upload Employee's Data",
+          icon: <ICONS.Upload_Employee_Data />,
+          route: "/admin/employees/upload-employee-data",
+        },
+        {
+          key: "3-5",
+          title: "my profile",
+          icon: <ICONS.Upload_Employee_Data />,
+          route: `/admin/employees/my-profile`,
+        },
+      ],
+    },
+
     {
       key: "4",
       title: "Clients",
@@ -146,32 +140,31 @@ export default () => {
         },
       ],
     },
-    user?.role?.name == "CEO" || user?.role?.name == "HR"
-      ? {
-        key: "5",
-        title: "Attendance",
-        icon: <ICONS.Attendance />,
-        submenus: [
-          {
-            key: "5-1",
-            title: "Dashboard",
-            icon: <ICONS.Dashboard_1 />,
-            route: "/admin/attendances",
-          },
-          {
-            key: "5-2",
-            title: "Date Wise Attendance",
-            icon: <ICONS.Data_Wise_Attendance />,
-            route: "/admin/attendances/today",
-          },
-        ],
-      }
-      : {
-        key: "5ss",
-        title: "My Attendance",
-        icon: <ICONS.Data_Wise_Attendance />,
-        route: "/admin/attendances/today",
-      },
+    {
+      key: "5",
+      title: "Attendance",
+      icon: <ICONS.Attendance />,
+      submenus: [
+        {
+          key: "5-1",
+          title: "Dashboard",
+          icon: <ICONS.Dashboard_1 />,
+          route: "/admin/attendances",
+        },
+        {
+          key: "5-2",
+          title: "Date Wise Attendance",
+          icon: <ICONS.Data_Wise_Attendance />,
+          route: "/admin/attendances/today",
+        },
+        {
+          key: "5-3",
+          title: "My Attendance",
+          icon: <ICONS.Data_Wise_Attendance />,
+          route: "/admin/attendances/my-attendance",
+        },
+      ],
+    },
     {
       key: "14",
       title: "Payroll",

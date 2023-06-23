@@ -242,9 +242,9 @@ const PageList = [
   },
   {
     id: 4,
-    value: "/admin/employees/profile",
+    value: "/admin/employees/my-profile",
     icon: <ICONS.All_Employee />,
-    name: "Employee Profile",
+    name: "My Profile",
   },
   {
     id: 5,
@@ -305,6 +305,12 @@ const PageList = [
     value: "/admin/attendances",
     icon: <ICONS.Dashboard_1 />,
     name: "Attendance Dashboard",
+  },
+  {
+    id: 1445,
+    name: "My Attendance",
+    icon: <ICONS.Data_Wise_Attendance />,
+    value: "/admin/attendances/my-attendance",
   },
   {
     id: 15,
