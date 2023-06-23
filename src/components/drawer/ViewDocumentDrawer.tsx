@@ -23,6 +23,7 @@ type Props = {
   open?: boolean | any;
   onClose: () => void;
   setViewDocument?: any;
+  employData?: any;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +55,7 @@ const style = {
   p: 4,
 };
 
-const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
+const ViewDocumentDrawer = ({ open, onClose, employData, setViewDocument }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [activeId, setActiveId] = useState<any>();
@@ -91,7 +92,7 @@ const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
   const classes = useStyles();
 
   const { data: documentDetails, mutate } = useFetch<any>(
-    `users/${router?.query?.id}`
+    `users/${employData?.id}`
   );
   return (
     <>
@@ -195,8 +196,8 @@ const ViewDocumentDrawer = ({ open, onClose, setViewDocument }: Props) => {
                           item?.docType === "pdf"
                             ? PDF.src
                             : item?.docType === "img"
-                            ? IMG.src
-                            : DOC.src
+                              ? IMG.src
+                              : DOC.src
                         }
                         alt=""
                       />

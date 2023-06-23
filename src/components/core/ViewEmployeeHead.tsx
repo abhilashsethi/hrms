@@ -58,7 +58,7 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
       title: "Payroll",
       onClick: () =>
         router.push(
-          `/admin/payroll/view-payroll-details?id=${router?.query?.id}`
+          `/admin/payroll/view-payroll-details?id=${employData?.id}`
         ),
     },
     {
@@ -71,7 +71,7 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
       icon: <EmailRounded />,
       title: "Mail",
       onClick: () =>
-        router?.push(`/admin/employees/send-email?empId=${router?.query?.id}`),
+        router?.push(`/admin/employees/send-email?empId=${employData?.id}`),
     },
     {
       id: 6,
@@ -96,6 +96,7 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
     <>
       <ChangeProfile
         open={isProfile}
+        employData={employData}
         handleClose={() => setIsProfile(false)}
         mutate={mutate}
       />
@@ -137,10 +138,12 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
           <ViewProjectsDrawer
             open={projects}
             onClose={() => setProjects(false)}
+            employData={employData}
             setViewProject={setViewProjects}
           />
 
           <ViewDocumentDrawer
+            employData={employData}
             open={document}
             onClose={() => setDocument(false)}
             setViewDocument={setViewDocument}
