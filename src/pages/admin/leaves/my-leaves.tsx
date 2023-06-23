@@ -23,10 +23,7 @@ import { Leave } from "types";
 
 const MyLeaves = () => {
 	const { user } = useAuth();
-	const [isGrid, setIsGrid] = useState(true);
 	const [pageNumber, setPageNumber] = useState<number>(1);
-	const [userName, setUsername] = useState<string | null>(null);
-	const [empId, setEmpId] = useState<string | null>(null);
 	const [leaveType, setLeaveType] = useState<string | null>(null);
 	const [leaveStatus, setLeaveStatus] = useState<string | null>(null);
 	const [isLeave, setIsLeave] = useState<boolean>(false);
@@ -36,20 +33,26 @@ const MyLeaves = () => {
 		pagination,
 		isLoading,
 	} = useFetch<Leave[]>(
-		`leaves/all?page=${pageNumber}&limit=8${
-			leaveStatus ? `&status=${leaveStatus}` : ""
-		}${leaveType ? `&type=${leaveType}` : ""}${
-			user?.id ? `&userId=${user?.id}` : ""
+		`leaves/all?page=${pageNumber}&limit=8${leaveStatus ? `&status=${leaveStatus}` : ""
+		}${leaveType ? `&type=${leaveType}` : ""}${user?.id ? `&userId=${user?.id}` : ""
 		}`
 	);
 	return (
 		<PanelLayout title="Leave Requests - Admin Panel">
 			<section className="md:px-8 px-4 py-2">
-				<CreateLeave
-					mutate={mutate}
-					open={isLeave}
-					handleClose={() => setIsLeave(false)}
-				/>
+				{user?.role?.name == "CEO" || user?.role?.name == "HR" || user?.role?.name == "MANAGER" ?
+					<CreateLeave
+						mutate={mutate}
+						open={isLeave}
+						handleClose={() => setIsLeave(false)}
+					/>
+					:
+					<CreateLeave
+						mutate={mutate}
+						open={isLeave}
+						handleClose={() => setIsLeave(false)}
+					/>
+				}
 				<div className="flex justify-between items-center py-4 md:flex-row flex-col">
 					<AdminBreadcrumbs links={links} />
 					<div className="flex gap-4 items-center">
@@ -119,7 +122,7 @@ const MyLeaves = () => {
 								<Pagination
 									count={Math.ceil(
 										Number(pagination?.total || 1) /
-											Number(pagination?.limit || 1)
+										Number(pagination?.limit || 1)
 									)}
 									onChange={(e, v: number) => {
 										setPageNumber(v);
