@@ -10,14 +10,16 @@ type Props = {
 };
 
 const EmployLeaves = ({ employeeId }: Props) => {
+	// console.log(employeeId);
+	const router = useRouter();
 	const { data: leaveData, mutate } = useFetch<any>(
-		`leaves/details/${employeeId}`
+		`leaves/details/${router?.query?.id}`
 	);
 
 	const { data: leaveDetails, isLoading: leaveDataLoading } = useFetch<any[]>(
 		`leaves?employeeID=${employeeId}`
 	);
-	console.log("leave", leaveData);
+	console.log(employeeId);
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
 			<HeadText title="Employee Leaves" />
