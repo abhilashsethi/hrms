@@ -361,6 +361,12 @@ const PageList = [
     name: "Employee Leaves",
   },
   {
+    id: 210,
+    value: "/admin/leaves/my-leaves",
+    icon: <MedicalInformationRounded />,
+    name: "My Leaves",
+  },
+  {
     id: 22,
     value: "/admin/meetings",
     icon: <ICONS.Dashboard_1 />,
@@ -373,6 +379,12 @@ const PageList = [
     name: "All Meetings",
   },
   {
+    id: 230,
+    value: "/admin/meetings/my-meetings",
+    icon: <ICONS.All_Meetings />,
+    name: "My Meetings",
+  },
+  {
     id: 24,
     value: "/admin/projects",
     icon: <ICONS.Dashboard_1 />,
@@ -383,6 +395,12 @@ const PageList = [
     value: "/admin/projects/all-projects",
     icon: <ICONS.All_Projects />,
     name: "All Projects",
+  },
+  {
+    id: 250,
+    value: "/admin/projects/my-projects",
+    icon: <ICONS.All_Projects />,
+    name: "My Projects",
   },
   {
     id: 26,
@@ -431,6 +449,12 @@ const PageList = [
     value: "/admin/assets/all-assets",
     icon: <ICONS.All_Assets />,
     name: "View All Asset",
+  },
+  {
+    id: 330,
+    value: "/admin/assets/my-assets",
+    icon: <ICONS.All_Assets />,
+    name: "My Asset",
   },
   {
     id: 34,
