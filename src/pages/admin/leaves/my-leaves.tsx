@@ -15,7 +15,7 @@ import {
 	Loader,
 	LoaderAnime,
 } from "components/core";
-import { CreateLeave } from "components/dialogues";
+import { CreateLeave, CreateLeaveUser } from "components/dialogues";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
@@ -47,7 +47,7 @@ const MyLeaves = () => {
 						handleClose={() => setIsLeave(false)}
 					/>
 					:
-					<CreateLeave
+					<CreateLeaveUser
 						mutate={mutate}
 						open={isLeave}
 						handleClose={() => setIsLeave(false)}
