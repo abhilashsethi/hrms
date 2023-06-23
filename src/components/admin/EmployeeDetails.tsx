@@ -323,7 +323,7 @@ const EmployeeDetails = () => {
 					<Grid item lg={4}>
 						<div className="w-full h-full">
 							<EmpAttendanceIndividual employData={employData} />
-							<EmployLeaves employData={employData?.employeeID} />
+							<EmployLeaves employData={employData} />
 							<EmployProjects
 								userName={employData?.name}
 								projectDetails={projectDetails}
