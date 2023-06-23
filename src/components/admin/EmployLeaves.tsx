@@ -16,7 +16,7 @@ const EmployLeaves = ({ employData }: Props) => {
 	);
 
 	const { data: leaveDetails, isLoading: leaveDataLoading } = useFetch<any[]>(
-		`leaves?employeeID=${employData?.employeeId}`
+		`leaves?employeeID=${employData?.employeeID}`
 	);
 
 	console.log(leaveData);
