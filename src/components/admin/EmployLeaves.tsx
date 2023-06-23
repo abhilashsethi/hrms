@@ -17,7 +17,7 @@ const EmployLeaves = ({ employeeId }: Props) => {
 	const { data: leaveDetails, isLoading: leaveDataLoading } = useFetch<any[]>(
 		`leaves?employeeID=${employeeId}`
 	);
-	console.log(leaveData);
+	console.log("leave", leaveData);
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
 			<HeadText title="Employee Leaves" />
