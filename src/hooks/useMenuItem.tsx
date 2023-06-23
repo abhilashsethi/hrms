@@ -82,12 +82,12 @@ export default () => {
             icon: <ICONS.Upload_Employee_Data />,
             route: "/admin/employees/upload-employee-data",
           },
-          // {
-          //   key: "3-5",
-          //   title: "my profile",
-          //   icon: <ICONS.Upload_Employee_Data />,
-          //   route: `/admin/employees/profile/${user?.id}`,
-          // },
+          {
+            key: "3-5",
+            title: "my profile",
+            icon: <ICONS.Upload_Employee_Data />,
+            route: `/admin/employees/my-profile`,
+          },
         ],
       }
       : {

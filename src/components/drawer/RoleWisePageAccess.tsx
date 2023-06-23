@@ -242,9 +242,9 @@ const PageList = [
   },
   {
     id: 4,
-    value: "/admin/employees/profile",
+    value: "/admin/employees/my-profile",
     icon: <ICONS.All_Employee />,
-    name: "Employee Profile",
+    name: "My Profile",
   },
   {
     id: 5,
