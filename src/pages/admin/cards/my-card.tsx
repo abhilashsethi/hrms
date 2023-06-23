@@ -32,7 +32,7 @@ const MyCard = () => {
           isLoading,
           mutate,
      } = useFetch<Card[]>(
-          `cards&${user?.id ? "" : `&userId=${user?.id}`}`
+          `cards?${user?.id ? "" : `&userId=${user?.id}`}`
      );
      return (
           <PanelLayout title="Scanned Cards - Admin Panel">
