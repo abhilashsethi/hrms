@@ -379,3 +379,16 @@ export type SentEmailType = {
   id: string;
   sentAt: string;
 };
+export type InboxEmailType = {
+  bcc: EmailUser[];
+  cc: EmailUser[];
+  content: string;
+  isRead: boolean;
+  isSend: boolean;
+  receiver: EmailUser;
+  subject: string;
+  attachments: string[];
+  id: string;
+  sentAt: string;
+  sender: EmailUser;
+};
