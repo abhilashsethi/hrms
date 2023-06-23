@@ -56,15 +56,11 @@ const style = {
 
 const ViewProjectsDrawer = ({ open, onClose, employData, setViewProject }: Props) => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [searchedUser, setSearchedUser] = useState<any>([]);
 
   const [openInfoModal, setOpenInfoModal] = useState(false);
-  const handleInfoOpen = () => {
-    setOpenInfoModal(true);
-  };
+
   const handleInfoCloseModal = () => setOpenInfoModal(false);
 
   const { data: users, isLoading } = useFetch<User[]>(`users`);
@@ -76,13 +72,6 @@ const ViewProjectsDrawer = ({ open, onClose, employData, setViewProject }: Props
       setSearchedUser(filtered);
     }
   }, [users, searchTerm]);
-
-  const Drawer_document = [
-    {
-      id: 1,
-      title: "Document Title 1",
-    },
-  ];
 
   const classes = useStyles();
 

@@ -57,7 +57,7 @@ const ChangeProfile = ({ open, handleClose, employData, mutate }: Props) => {
       try {
         const url = await uploadFile(values?.photo, `${uniId}.png`);
         console.log(url);
-        const res = await change(`users/${router?.query?.id}`, {
+        const res = await change(`users/${employData?.id}`, {
           method: "PATCH",
           body: { photo: url },
         });

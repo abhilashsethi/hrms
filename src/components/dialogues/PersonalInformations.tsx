@@ -60,7 +60,7 @@ const PersonalInformations = ({ open, handleClose, employData, mutate }: Props) 
     setLoading(true);
     try {
       Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
-      const resData: any = await change(`users/${router?.query?.id}`, {
+      const resData: any = await change(`users/${employData?.id}`, {
         method: "PATCH",
         body: values,
       });

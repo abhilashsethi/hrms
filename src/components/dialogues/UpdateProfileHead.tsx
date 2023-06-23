@@ -90,7 +90,7 @@ const UpdateProfileHead = ({ open, handleClose, employData, mutate }: Props) => 
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      const res = await change(`users/${router?.query?.id}`, {
+      const res = await change(`users/${employData?.id}`, {
         method: "PATCH",
         body: values,
       });
@@ -104,7 +104,7 @@ const UpdateProfileHead = ({ open, handleClose, employData, mutate }: Props) => 
       Swal.fire(`Success`, `Updated Successfully`, `success`);
       handleClose();
       return;
-    } catch (error) {}
+    } catch (error) { }
   };
   return (
     <>
@@ -325,8 +325,8 @@ const UpdateProfileHead = ({ open, handleClose, employData, mutate }: Props) => 
                           value={
                             values?.roleId
                               ? roles?.find(
-                                  (option: any) => option.id === values.roleId
-                                )
+                                (option: any) => option.id === values.roleId
+                              )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
@@ -360,9 +360,9 @@ const UpdateProfileHead = ({ open, handleClose, employData, mutate }: Props) => 
                           value={
                             values?.employeeOfBranchId
                               ? branchData?.find(
-                                  (option: any) =>
-                                    option.id === values.employeeOfBranchId
-                                )
+                                (option: any) =>
+                                  option.id === values.employeeOfBranchId
+                              )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
@@ -396,9 +396,9 @@ const UpdateProfileHead = ({ open, handleClose, employData, mutate }: Props) => 
                           value={
                             values?.departmentId
                               ? departmentsData?.find(
-                                  (option: any) =>
-                                    option.id === values.departmentId
-                                )
+                                (option: any) =>
+                                  option.id === values.departmentId
+                              )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
