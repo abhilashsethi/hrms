@@ -3,7 +3,7 @@ import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClic
 import FullCalendar from "@fullcalendar/react";
 import { BarChart, Check, Close } from "@mui/icons-material";
 import { Button } from "@mui/material";
-import { EmployeeDetails } from "components/admin";
+import { ProfileDetails } from "components/admin";
 import { AdminBreadcrumbs, HeadText } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -77,7 +77,7 @@ const MyProfile = () => {
                     <div className="pb-4 mt-4">
                          <AdminBreadcrumbs links={links} />
                     </div>
-                    <EmployeeDetails />
+                    <ProfileDetails />
                     {isLoading ? null : (
                          <div className="flex gap-3">
                               <div className="w-full">
