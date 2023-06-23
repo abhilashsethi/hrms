@@ -83,7 +83,7 @@ export default () => {
         },
         {
           key: "3-5",
-          title: "my profile",
+          title: "My Profile",
           icon: <ICONS.Upload_Employee_Data />,
           route: `/admin/employees/my-profile`,
         },
@@ -194,12 +194,7 @@ export default () => {
           icon: <ICONS.Add_Salary_Info />,
           route: "/admin/payroll/add-salary-info",
         },
-        {
-          key: "14-4",
-          title: "My Salary Info",
-          icon: <ICONS.Add_Salary_Info />,
-          route: "/admin/payroll/my-salary-info",
-        },
+
       ],
     },
 
@@ -286,7 +281,7 @@ export default () => {
         {
           key: "7-4",
           title: "My Projects",
-          icon: <ICONS.Add_Project />,
+          icon: <ICONS.All_Projects />,
           route: "/admin/projects/my-projects",
         },
       ],
