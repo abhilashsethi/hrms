@@ -229,6 +229,12 @@ const PageList = [
     name: "Scanned Cards",
   },
   {
+    id: 300,
+    value: "/admin/cards/my-card",
+    icon: <ICONS.Scanned_Cards />,
+    name: "My Cards",
+  },
+  {
     id: 4,
     value: "/admin/employees",
     icon: <ICONS.Dashboard_1 />,

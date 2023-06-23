@@ -26,33 +26,31 @@ export default () => {
       route: "/admin",
     },
 
-    user?.role?.name == "CEO" || user?.role?.name == "HR"
-      ? {
-        key: "2",
-        title: "Cards",
-        icon: <ICONS.Card />,
-        submenus: [
-          {
-            key: "2-1",
-            title: "Dashboard",
-            icon: <ICONS.Dashboard_1 />,
-            route: "/admin/cards",
-          },
-          {
-            key: "2-2",
-            title: "Scanned Cards",
-            icon: <ICONS.Scanned_Cards />,
-            route: "/admin/cards/scanned",
-          },
-
-        ],
-      }
-      : {
-        key: "2card",
-        title: "My Cards",
-        icon: <ICONS.Scanned_Cards />,
-        route: "/admin/cards/scanned",
-      },
+    {
+      key: "2",
+      title: "Cards",
+      icon: <ICONS.Card />,
+      submenus: [
+        {
+          key: "2-1",
+          title: "Dashboard",
+          icon: <ICONS.Dashboard_1 />,
+          route: "/admin/cards",
+        },
+        {
+          key: "2-2",
+          title: "Scanned Cards",
+          icon: <ICONS.Scanned_Cards />,
+          route: "/admin/cards/scanned",
+        },
+        {
+          key: "2-3",
+          title: "My Cards",
+          icon: <ICONS.Scanned_Cards />,
+          route: "/admin/cards/my-card",
+        },
+      ],
+    },
 
     user?.role?.name == "CEO" || user?.role?.name == "HR"
       ? {
@@ -84,7 +82,12 @@ export default () => {
             icon: <ICONS.Upload_Employee_Data />,
             route: "/admin/employees/upload-employee-data",
           },
-
+          // {
+          //   key: "3-5",
+          //   title: "my profile",
+          //   icon: <ICONS.Upload_Employee_Data />,
+          //   route: `/admin/employees/profile/${user?.id}`,
+          // },
         ],
       }
       : {
