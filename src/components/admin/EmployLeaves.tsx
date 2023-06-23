@@ -6,20 +6,19 @@ import { useRouter } from "next/router";
 import { NODATAIMG } from "assets/home";
 
 type Props = {
-	employeeId?: any;
+	employData?: any;
 };
 
-const EmployLeaves = ({ employeeId }: Props) => {
+const EmployLeaves = ({ employData }: Props) => {
 	// console.log(employeeId);
 	const router = useRouter();
 	const { data: leaveData, mutate } = useFetch<any>(
-		`leaves/details/${router?.query?.id}`
+		`leaves/details/${employData?.id}`
 	);
 
 	const { data: leaveDetails, isLoading: leaveDataLoading } = useFetch<any[]>(
-		`leaves?employeeID=${employeeId}`
+		`leaves?employeeID=${employData?.employeeId}`
 	);
-	console.log(employeeId);
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
 			<HeadText title="Employee Leaves" />

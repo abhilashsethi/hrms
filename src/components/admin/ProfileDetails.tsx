@@ -324,7 +324,7 @@ const ProfileDetails = () => {
 					<Grid item lg={4}>
 						<div className="w-full h-full">
 							<EmpAttendanceIndividual employData={employData} />
-							<EmployLeaves employeeId={employData?.employeeID} />
+							<EmployLeaves employData={employData} />
 							<EmployProjects
 								userName={employData?.name}
 								projectDetails={projectDetails}
