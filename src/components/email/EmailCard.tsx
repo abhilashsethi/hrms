@@ -13,6 +13,8 @@ const EmailCard = ({
   onclick,
   photo,
   messages,
+  selected,
+  onSelect,
 }: {
   className?: string;
   isRead?: boolean;
@@ -23,22 +25,27 @@ const EmailCard = ({
   onclick?: () => void;
   photo?: string;
   messages?: string;
+  selected?: boolean;
+  onSelect?: () => any;
 }) => {
   const { push } = useRouter();
 
   return (
     <tr
-      onClick={() => {
-        onclick ? onclick() : push(`/admin/email/${Date.now()}`);
-      }}
       className={`flex-col flex md:flex-row border-b cursor-pointer border-gray-200   w-full items-center ${
         isRead ? "bg-white" : "bg-theme/20"
       } `}
     >
       <td className="px-5 py-5 max-w-[22%] w-full text-sm">
         <div className="flex items-center gap-2 ">
-          <Checkbox size="small" />
-          <Avatar src={photo} alt={userName}>
+          <Checkbox size="small" checked={selected} onClick={onSelect} />
+          <Avatar
+            src={photo}
+            alt={userName}
+            onClick={() => {
+              onclick ? onclick() : push(`/admin/email/${Date.now()}`);
+            }}
+          >
             {userName?.[0]}
           </Avatar>
           <div className="ml-3">
@@ -49,7 +56,12 @@ const EmailCard = ({
           </div>
         </div>
       </td>
-      <td className="px-5 py-5 w-full   text-sm">
+      <td
+        className="px-5 py-5 w-full   text-sm"
+        onClick={() => {
+          onclick ? onclick() : push(`/admin/email/${Date.now()}`);
+        }}
+      >
         <p className="text-gray-900 break-words">
           {messages &&
             (messages?.length > 100
