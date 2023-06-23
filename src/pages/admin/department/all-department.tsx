@@ -104,7 +104,7 @@ const AllDepartment = () => {
                 size="small"
                 id="name"
                 value={userName ? userName : ""}
-                onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
+                onChange={(e) => { setPageNumber(1), setUsername(e.target.value) }}
                 placeholder="Department Name"
                 name="name"
               />
@@ -114,7 +114,7 @@ const AllDepartment = () => {
                 label="Ascending/Descending"
                 size="small"
                 value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => {setPageNumber(1), setIsOrderBy(e?.target?.value)}}
+                onChange={(e) => { setPageNumber(1), setIsOrderBy(e?.target?.value) }}
               >
                 {short.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -177,6 +177,6 @@ const links = [
 const short = [
   { id: 1, value: "name:asc", name: "Name Ascending" },
   { id: 2, value: "name:desc", name: "Name Descending" },
-  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
-  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
+  { id: 3, value: "createdAt:desc", name: "CreatedAt Ascending" },
+  { id: 4, value: "createdAt:asc", name: "CreatedAt Descending" },
 ];
