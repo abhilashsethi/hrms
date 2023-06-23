@@ -21,6 +21,7 @@ type Props = {
   open?: boolean | any;
   onClose: () => void;
   setViewProject?: any;
+  employData?: any;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -52,31 +53,8 @@ const style = {
   p: 4,
 };
 
-const Projects_Details = [
-  {
-    id: 1,
-    title: "HRMS",
-    name: "Shrinu Readdy",
-    startDate: "25-04-2023",
-    endDate: "25-05-2023",
-  },
-  {
-    id: 2,
-    title: "Yard ERP",
-    name: "Shrinu Readdy",
-    startDate: "25-04-2023",
-    endDate: "25-05-2023",
-  },
-  {
-    id: 3,
-    title: "Yard CRM",
-    name: "Shrinu Readdy",
-    startDate: "25-04-2023",
-    endDate: "25-05-2023",
-  },
-];
 
-const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
+const ViewProjectsDrawer = ({ open, onClose, employData, setViewProject }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -109,7 +87,7 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
   const classes = useStyles();
 
   const { data: projectDetails, mutate } = useFetch<any>(
-    `projects?memberId=${router?.query?.id}`
+    `projects?memberId=${employData?.id}`
   );
   // console.log(projectDetails);
 
@@ -173,11 +151,10 @@ const ViewProjectsDrawer = ({ open, onClose, setViewProject }: Props) => {
                     </div>
                     <div className="flex justify-end w-full">
                       <p
-                        className={`border border-green-500 p-1 rounded-full text-xs font-semibold text-white ${
-                          item?.status === "Pending"
-                            ? "bg-red-500"
-                            : "bg-green-500"
-                        } hover:scale-105 transition duration-300 ease-in-out cursor-pointer`}
+                        className={`border border-green-500 p-1 rounded-full text-xs font-semibold text-white ${item?.status === "Pending"
+                          ? "bg-red-500"
+                          : "bg-green-500"
+                          } hover:scale-105 transition duration-300 ease-in-out cursor-pointer`}
                       >
                         {item?.status}
                       </p>

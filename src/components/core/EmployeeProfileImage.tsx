@@ -17,6 +17,7 @@ const EmployeeProfileImage = ({ employData, mutate }: Props) => {
         open={isProfile}
         handleClose={() => setIsProfile(false)}
         mutate={mutate}
+        employData={employData}
       />
       <div className="h-24 w-24 rounded-full border-[4px] border-white flex justify-center items-center text-3xl">
         <div className="relative h-full w-full flex justify-center items-center group">
