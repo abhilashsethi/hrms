@@ -307,6 +307,12 @@ const PageList = [
     name: "Attendance Dashboard",
   },
   {
+    id: 1445,
+    name: "My Attendance",
+    icon: <ICONS.Data_Wise_Attendance />,
+    value: "/admin/attendances/my-attendance",
+  },
+  {
     id: 15,
     value: "/admin/attendances/today",
     icon: <ICONS.Data_Wise_Attendance />,
