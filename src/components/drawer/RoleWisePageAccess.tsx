@@ -336,12 +336,7 @@ const PageList = [
     icon: <ICONS.Add_Salary_Info />,
     name: "Payroll Add Salary Info",
   },
-  {
-    id: 1800,
-    value: "/admin/payroll/my-salary-info",
-    icon: <ICONS.Add_Salary_Info />,
-    name: "My Salary Info",
-  },
+
   {
     id: 19,
     value: "/admin/leaves",
