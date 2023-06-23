@@ -160,8 +160,6 @@ interface Props {
 	mutate?: any;
 }
 const CardComponent = ({ item, mutate }: Props) => {
-	const [loading, setLoading] = useState(false);
-	const [rloading, setRLoading] = useState(false);
 	const [isDocuments, setIsDocuments] = useState(false);
 	const renderStatus = (item: any) => {
 		switch (item?.status) {
@@ -247,7 +245,6 @@ const CardComponent = ({ item, mutate }: Props) => {
 };
 
 const links = [
-	{ id: 1, page: "Leaves", link: "/admin/leaves" },
 	{ id: 2, page: "My Leaves", link: "/admin/leaves/my-leaves" },
 ];
 
