@@ -323,7 +323,7 @@ const ProfileDetails = () => {
 					</Grid>
 					<Grid item lg={4}>
 						<div className="w-full h-full">
-							<EmpAttendanceIndividual />
+							<EmpAttendanceIndividual employData={employData} />
 							<EmployLeaves employeeId={employData?.employeeID} />
 							<EmployProjects
 								userName={employData?.name}

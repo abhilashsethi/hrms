@@ -7,8 +7,10 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useFetch } from "hooks";
 import { useRouter } from "next/router";
-
-const EmpAttendanceIndividual = () => {
+type Props = {
+	employData?: any;
+};
+const EmpAttendanceIndividual = ({ employData }: Props) => {
 	const [absents, setAbsents] = useState(0);
 	const [progress, setProgress] = useState(80);
 	const [activeMonth, setActiveMonth] = useState(
@@ -44,9 +46,8 @@ const EmpAttendanceIndividual = () => {
 	}
 
 	const { data: attendanceData } = useFetch<any>(
-		`attendances/${router?.query?.id}${activeMonth}`
+		`attendances/${employData?.id}${activeMonth}`
 	);
-	console.log(attendanceData);
 
 	const date = new Date();
 	const lastDayOfMonth = new Date(

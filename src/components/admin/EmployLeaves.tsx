@@ -10,10 +10,8 @@ type Props = {
 };
 
 const EmployLeaves = ({ employeeId }: Props) => {
-	// console.log(employeeId);
-	const router = useRouter();
 	const { data: leaveData, mutate } = useFetch<any>(
-		`leaves/details/${router?.query?.id}`
+		`leaves/details/${employeeId}`
 	);
 
 	const { data: leaveDetails, isLoading: leaveDataLoading } = useFetch<any[]>(
@@ -90,13 +88,12 @@ const EmployLeaves = ({ employeeId }: Props) => {
 								</span>
 							</p>
 							<span
-								className={`text-white text-xs px-4 py-1 ${
-									item?.status === "Rejected"
-										? "bg-red-500"
-										: item?.status === "Pending"
+								className={`text-white text-xs px-4 py-1 ${item?.status === "Rejected"
+									? "bg-red-500"
+									: item?.status === "Pending"
 										? "bg-yellow-500"
 										: "bg-green-500"
-								} font-semibold rounded-md text-center`}
+									} font-semibold rounded-md text-center`}
 							>
 								{item?.status}
 							</span>
