@@ -9,3 +9,7 @@ export { default as MainManagerDashboardCharts } from "./MainManagerDashboardCha
 export { default as MainManagerDashboardCards } from "./MainManagerDashboardCards";
 export { default as MainDirectorDashboardCards } from "./MainDirectorDashboardCards";
 export { default as MainDirectorDashboardCharts } from "./MainDirectorDashboardCharts";
+export { default as ProjectManagerDashboardCards } from "./ProjectManagerDashboardCards";
+export { default as ProjectManagerDashboardCharts } from "./ProjectManagerDashboardCharts";
+export { default as AccountantDashboardCards } from "./AccountantDashboardCards";
+export { default as AccountantDashboardCharts } from "./AccountantDashboardCharts";

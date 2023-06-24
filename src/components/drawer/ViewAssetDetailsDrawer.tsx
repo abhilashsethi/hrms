@@ -55,7 +55,7 @@ const ViewAssetDetailsDrawer = ({ open, onClose, assetId, mutate }: Props) => {
 	const { data: assignId } = useFetch<any>(
 		`assets/asset/assign-asset/${assetId}`
 	);
-	// console.log(assignId);
+	console.log(assignId);
 	const { data: users, isLoading } = useFetch<User[]>(`users`);
 
 	const settings = {
@@ -142,14 +142,6 @@ const ViewAssetDetailsDrawer = ({ open, onClose, assetId, mutate }: Props) => {
 											</span>
 										</div>
 
-										<div className="gap-2">
-											Date Of Return :{" "}
-											<span className="text-black font-medium">
-												{assignId?.dateOfReturn
-													? moment(assignId?.dateOfReturn)?.format("DD/MM/YYYY")
-													: "Not Specified"}
-											</span>
-										</div>
 										<div className="gap-2">
 											Time Of Assign :{" "}
 											<span className="text-black font-medium">
