@@ -8,6 +8,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
+import { PhotoViewer } from "components/core";
 import { ProjectCreateTask, UpdateTaskStatus } from "components/dialogues";
 import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
@@ -19,6 +20,7 @@ const ProjectTasks = () => {
 	const { user } = useAuth();
 	const { change } = useChange();
 	const [isCreate, setIsCreate] = useState(false);
+	const [isItemId, setItemId] = useState("");
 	const [isUpdate, setIsUpdate] = useState(false);
 	const router = useRouter();
 	const {
@@ -70,8 +72,8 @@ const ProjectTasks = () => {
 			/>
 
 			{user?.role?.name == "CEO" ||
-			user?.role?.name == "HR" ||
-			user?.role?.name == "PROJECT MANAGER" ? (
+				user?.role?.name == "HR" ||
+				user?.role?.name == "PROJECT MANAGER" ? (
 				<div className="flex border-b-2 pb-2 justify-end">
 					<Button
 						onClick={() => setIsCreate(true)}
@@ -89,17 +91,16 @@ const ProjectTasks = () => {
 				{projectData?.tasks?.map((item: any) => (
 					<div
 						key={item?.id}
-						className={`w-full rounded-md shadow-md p-4 shadow-sleek ${
-							item?.status === "COMPLETED"
-								? "bg-green-100"
-								: item?.status === "ONGOING"
+						className={`w-full rounded-md shadow-md p-4 shadow-sleek ${item?.status === "COMPLETED"
+							? "bg-green-100"
+							: item?.status === "ONGOING"
 								? "bg-blue-100"
 								: "bg-cyan-50"
-						}`}
+							}`}
 					>
 						<UpdateTaskStatus
 							handleClose={() => setIsUpdate(false)}
-							id={item?.id}
+							id={isItemId}
 							mutate={mutate}
 							open={isUpdate}
 						/>
@@ -109,17 +110,18 @@ const ProjectTasks = () => {
 						<div className="flex justify-between">
 							<h1 className="font-semibold text-slate-700">{item?.title}</h1>
 							<span
-								className={`text-xs font-semibold px-4 py-1 h-6 rounded-full text-white ${
-									item?.status === "Open"
-										? "bg-purple-400"
-										: item?.status === "Pending"
+								className={`text-xs font-semibold px-4 py-1 h-6 rounded-full text-white ${item?.status === "Open"
+									? "bg-purple-400"
+									: item?.status === "Pending"
 										? "bg-yellow-500"
 										: item?.status === "Ongoing"
-										? "bg-blue-500"
-										: item?.status === "Completed"
-										? "bg-green-500"
-										: "bg-green-400"
-								}`}
+											? "bg-blue-500"
+											: item?.status === "Fixed"
+												? "bg-green-500"
+												: item?.status === "Reviewed"
+													? "bg-red-500"
+													: "bg-red-400"
+									}`}
 							>
 								{item?.status}
 							</span>
@@ -129,13 +131,11 @@ const ProjectTasks = () => {
 							Assigned To :
 						</h2>
 						<div className="flex justify-between mt-4">
-							<AvatarGroup className="!cursor-pointer" max={4}>
-								<Avatar alt="Remy Sharp" src={DEFAULTPROFILE.src || " "} />
-							</AvatarGroup>
+							<PhotoViewer name={item?.assignedUsers?.name} photo={item?.assignedUsers?.photo} size="20" />
 							{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
 								<div className="flex gap-2 items-center">
 									<Tooltip title="Edit">
-										<IconButton onClick={() => setIsUpdate(true)}>
+										<IconButton onClick={() => { setItemId(item?.id), setIsUpdate(true) }}>
 											<Edit />
 										</IconButton>
 									</Tooltip>
