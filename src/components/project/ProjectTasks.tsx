@@ -131,7 +131,10 @@ const ProjectTasks = () => {
 							Assigned To :
 						</h2>
 						<div className="flex justify-between mt-4">
-							<PhotoViewer name={item?.assignedUsers?.name} photo={item?.assignedUsers?.photo} size="20" />
+							<div className="flex justify-center justify-items-center gap-3">
+								<PhotoViewer name={item?.assignedUsers?.name} photo={item?.assignedUsers?.photo} />
+								<p className="text-lg font-semibold">{item?.assignedUsers?.name}</p>
+							</div>
 							{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
 								<div className="flex gap-2 items-center">
 									<Tooltip title="Edit">
