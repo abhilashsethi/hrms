@@ -35,7 +35,7 @@ const MainHrDashboardCharts = ({ data }: Props) => {
         </div>
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">Last Year Attendance Overview</p>
-          <GuestBarChart
+          {/* <GuestBarChart
             labels={data?.currentYearAttendance?.length ?
               data?.currentYearAttendance?.map((item: any) =>
                 item?.month) : []}
@@ -44,7 +44,7 @@ const MainHrDashboardCharts = ({ data }: Props) => {
                 item?.count) : []}
             type="bar"
             text=""
-          />
+          /> */}
 
         </div>
         <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
