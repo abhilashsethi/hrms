@@ -12,40 +12,7 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 		date.setMonth(monthNumber - 1);
 		return date.toLocaleString("default", { month: "long" });
 	};
-	const cards = [
-		{
-			id: 1,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
 
-			name: "Yard Erp",
-			count: data?.GuestInfo?.totalGuest || 0,
-			link: "/admin",
-		},
-		{
-			id: 2,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "HRMS Yard Iot",
-			count: data?.GuestInfo?.blockedGuestCount || 0,
-			link: "/admin",
-		},
-		{
-			id: 3,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "Study In Russia",
-			count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
-			link: "/admin",
-		},
-		{
-			id: 4,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "Political Party Web",
-			count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
-			link: "/admin",
-		},
-	];
 	return (
 		<div className="w-full">
 			<div className="grid lg:grid-cols-2 content-between gap-6">
