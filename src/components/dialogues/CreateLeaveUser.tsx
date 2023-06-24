@@ -58,11 +58,11 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState("one");
-	const { data: usersData } = useFetch(`users`);
+	const { data: leaveData } = useFetch(`leaves/details/${user?.id}`);
 	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
-
+	console.log({ leaveData });
 	const handleSubmit = async (values: any, { resetForm }: any) => {
 		const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
 			if (key !== "link" && value) {
