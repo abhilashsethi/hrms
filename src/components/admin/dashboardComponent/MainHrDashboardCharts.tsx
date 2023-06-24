@@ -2,6 +2,7 @@ import { AreaChart, GuestBarChart, GuestDonutChart } from "components/analytics"
 import Link from "next/link";
 import { PhotoViewer } from "components/core";
 import { Tooltip } from "@mui/material";
+import moment from "moment";
 interface Props {
   data?: any;
 }
@@ -69,11 +70,11 @@ const MainHrDashboardCharts = ({ data }: Props) => {
                   <div className="grid lg:grid-cols-2 gap-4 text-sm text-center font-semibold">
                     <div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
                       <span>Valid From</span>
-                      <span>15-02-2023</span>
+                      <span>{item?.card?.length ? moment(item?.card[0]?.validFrom).format("lll") : <p>Not Specified</p>}</span>
                     </div>
                     <div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
                       <span>Valid Till</span>
-                      <span>18-03-2023</span>
+                      <span>{item?.card?.length ? moment(item?.card[0]?.validTill).format("lll") : <p>Not Specified</p>}</span>
                     </div>
                   </div>
                 </div>
