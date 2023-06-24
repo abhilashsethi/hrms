@@ -54,8 +54,7 @@ const CreateEmail = () => {
       subject: draftData?.subject ? draftData?.subject : "",
       attachments: draftData?.attachments?.length ? draftData?.attachments : [],
       message: draftData?.content?.length ? draftData?.content : "",
-      isDraft:
-        typeof draftData?.isSend !== "undefined" ? !draftData?.isSend : false,
+      isDraft: false,
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -74,19 +73,21 @@ const CreateEmail = () => {
       try {
         //if attachments are present then upload the file and get ur
 
-        if (
-          value?.attachments?.length &&
-          typeof value?.attachments[0] !== "string"
-        ) {
+        if (value?.attachments?.length) {
           await Promise.all(
             value?.attachments?.map((item: any) => {
               return new Promise(async (resolve, reject) => {
                 try {
-                  let url = await uploadFile(
-                    item,
-                    Date.now() + "-" + item?.name
-                  );
-                  url && attachmentUrl.push(url);
+                  if (typeof item === "string") {
+                    attachmentUrl.push(item);
+                  } else {
+                    let url = await uploadFile(
+                      item,
+                      Date.now() + "-" + item?.name
+                    );
+                    url && attachmentUrl.push(url);
+                  }
+
                   resolve(true);
                 } catch (error) {
                   reject(error);
@@ -96,25 +97,37 @@ const CreateEmail = () => {
           );
         }
 
-        const response = await change(`emails`, {
-          method: "POST",
-          body: {
-            senderId: user?.id,
-            receiverIds:
-              Array.isArray(value?.recipients) &&
-              value?.recipients?.map((item: EmailUser) => item?.id),
-            cc:
-              Array.isArray(value?.ccRecipients) &&
-              value?.ccRecipients?.map((item: EmailUser) => item?.id),
-            bcc:
-              Array.isArray(value?.bccRecipients) &&
-              value?.bccRecipients?.map((item: EmailUser) => item?.id),
-            subject: value?.subject,
-            content: value?.message,
-            attachments: attachmentUrl,
-            isSend: !value?.isDraft,
-          },
-        });
+        let draftQuery: any = {};
+
+        if (query?.draftId) {
+          draftQuery.receiverId =
+            Array.isArray(value?.recipients) && value?.recipients[0]?.id;
+        } else {
+          draftQuery.receiverIds =
+            Array.isArray(value?.recipients) &&
+            value?.recipients?.map((item: EmailUser) => item?.id);
+        }
+
+        const response = await change(
+          query?.draftId ? `emails/${query?.draftId}` : `emails`,
+          {
+            method: query?.draftId ? "PATCH" : "POST",
+            body: {
+              senderId: user?.id,
+              cc:
+                Array.isArray(value?.ccRecipients) &&
+                value?.ccRecipients?.map((item: EmailUser) => item?.id),
+              bcc:
+                Array.isArray(value?.bccRecipients) &&
+                value?.bccRecipients?.map((item: EmailUser) => item?.id),
+              subject: value?.subject,
+              content: value?.message,
+              attachments: attachmentUrl,
+              isSend: !value?.isDraft,
+              ...draftQuery,
+            },
+          }
+        );
 
         if (response?.status !== 200) throw new Error(response?.results?.msg);
 
@@ -126,7 +139,7 @@ const CreateEmail = () => {
           timer: 1500,
         });
 
-        push(`/admin/email/sent`);
+        push(value?.isDraft ? `/admin/email/drafts` : `/admin/email/sent`);
       } catch (error) {
         //if images are already uploaded and then error thrown delete uploaded files
 
