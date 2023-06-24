@@ -106,7 +106,7 @@ const MeetingData = () => {
 											</p>
 											{/* <AccessTime /> */}
 											<span className="text-sm md:text-base">{`${moment(
-												meetingDetails?.meetingDate
+												meetingDetails?.meetingStartTime
 											).format("LL")}, ${moment(
 												meetingDetails?.meetingStartTime
 											).format("LT")}`}</span>
@@ -118,7 +118,7 @@ const MeetingData = () => {
 										</p>
 										{/* <AccessTime /> */}
 										<span className="text-sm md:text-base">
-											{`${moment(meetingDetails?.meetingDate).format(
+											{`${moment(meetingDetails?.meetingEndTime).format(
 												"LL"
 											)}, ${moment(meetingDetails?.meetingEndTime).format(
 												"LT"
