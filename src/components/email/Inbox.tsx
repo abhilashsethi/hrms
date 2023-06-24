@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { InboxEmailType, SentEmailType } from "types";
+import Swal from "sweetalert2";
 
 const defaultOptions = {
   loop: true,
@@ -64,6 +65,67 @@ const Inbox = () => {
     });
   };
 
+  const handleDeleteEmail = async () => {
+    try {
+      if (allClicked) {
+        const response = await change(`emails/deleteAll`, {
+          method: "DELETE",
+        });
+
+        if (response?.status !== 200) throw new Error(response?.results?.msg);
+
+        Swal.fire({
+          title: "Success",
+          text: "Email deleted successfully",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      }
+
+      await Promise.all(
+        selectedEmails?.map(
+          (item) =>
+            new Promise(async (resolve, reject) => {
+              try {
+                const response = await change(`emails/${item}`, {
+                  method: "DELETE",
+                });
+
+                if (response?.status !== 200)
+                  throw new Error(response?.results?.msg);
+                resolve(true);
+              } catch (error) {
+                reject(error);
+              }
+            })
+        )
+      );
+      Swal.fire({
+        title: "Success",
+        text: "Email deleted successfully",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        Swal.fire({
+          title: "Error",
+          text: error?.message,
+          icon: "error",
+        });
+        return;
+      }
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong!.Try again.",
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <div className="w-full flex flex-col">
       <InboxHeader
@@ -77,6 +139,7 @@ const Inbox = () => {
         pageNo={pageNo}
         totalPage={data?.pagination?.total}
         searchText={searchText}
+        handleDeleteEmail={handleDeleteEmail}
       />
 
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">

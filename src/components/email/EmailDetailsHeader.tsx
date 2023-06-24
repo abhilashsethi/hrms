@@ -6,8 +6,10 @@ import {
   West,
 } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
+import { useChange } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 const EmailDetailsHeader = ({
   print,
@@ -18,9 +20,38 @@ const EmailDetailsHeader = ({
 }) => {
   const { back, query } = useRouter();
 
-  const handleDeleteEmail = () => {
+  const { change } = useChange();
+
+  const handleDeleteEmail = async () => {
     try {
-    } catch (error) {}
+      const response = await change(`emails/${query?.emailId}`, {
+        method: "DELETE",
+      });
+
+      if (response?.status !== 200) throw new Error(response?.results?.msg);
+
+      Swal.fire({
+        title: "Success",
+        text: "Email deleted successfully",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        Swal.fire({
+          title: "Error",
+          text: error?.message,
+          icon: "error",
+        });
+        return;
+      }
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong!.Try again.",
+        icon: "error",
+      });
+    }
   };
 
   return (
