@@ -37,7 +37,7 @@ const AdminHome = () => {
               <DashboardSkeletonLoading />
             ) : (
               <>
-                <WelcomeUser title="Welcome Superadmin!" />
+                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <AdminDashboard />
               </>
             )}
