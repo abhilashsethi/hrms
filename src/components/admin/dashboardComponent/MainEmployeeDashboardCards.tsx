@@ -31,7 +31,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
 			color: "bg-[#b9e9fd]",
 			icon: <FactCheck fontSize="medium" className="text-theme" />,
 			name: "Total Attendance This Month",
-			count: data?.lastMonthAttendanceCount || 0,
+			count: data?.currentMonthAttendanceCount || 0,
 			link: "/admin",
 		},
 		{
@@ -57,28 +57,28 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
 			icon: <PersonPin fontSize="medium" className="text-white" />,
 			title: "My Profile",
 			color: "bg-[#673ab7]",
-			link: "/admin/leaves/all-leaves",
+			link: "/admin/employees/my-profile",
 		},
 		{
 			id: 2,
 			icon: <RecentActors fontSize="medium" className="text-white" />,
 			title: "My Cards",
 			color: "bg-[#e91e63]",
-			link: "/admin/roles/all-roles",
+			link: "/admin/cards/my-card",
 		},
 		{
 			id: 3,
 			icon: <EventAvailable fontSize="medium" className="text-white" />,
 			title: "My Attendance",
 			color: "bg-[#ff9800]",
-			link: "/admin/department/all-department",
+			link: "/admin/attendances/my-attendance",
 		},
 		{
 			id: 4,
 			icon: <AccountTree fontSize="medium" className="text-white" />,
 			title: "My Projects",
 			color: "bg-[#00bcd4]",
-			link: "/admin/meetings/all-meetings",
+			link: "/admin/projects/my-projects",
 		},
 		{
 			id: 5,
@@ -92,7 +92,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
 			icon: <Chat fontSize="medium" className="text-white" />,
 			title: "Chats",
 			color: "bg-[#3f51b5]",
-			link: "/admin/technologies/all-technologies",
+			link: "/admin/email",
 		},
 		{
 			id: 7,
@@ -215,8 +215,8 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
 											</div>
 											<button
 												className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${item?.status === "Pending"
-														? `text-red-700 bg-red-300`
-														: `text-green-700 bg-green-300`
+													? `text-red-700 bg-red-300`
+													: `text-green-700 bg-green-300`
 													} p-1 h-7 rounded-lg text-center`}
 											>
 												{item?.status}

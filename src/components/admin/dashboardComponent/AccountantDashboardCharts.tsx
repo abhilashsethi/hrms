@@ -49,13 +49,13 @@ const AccountantDashboardCharts = ({ data }: Props) => {
 		<div className="w-full">
 			<div className="grid lg:grid-cols-2 content-between gap-6">
 				<div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
-					<p className="font-bold text-lg text-center">Ticket Issue Details</p>
+					<p className="font-bold text-lg text-center">Attendance Overview</p>
 					<GuestBarChart
 						labels={[
-							"Yard Erp",
-							"HRMS Yard Iot",
-							"Study In Russia",
-							"Political Party Web",
+							"Jhone",
+							"Dinesh",
+							"Prasad",
+							"Chiku",
 						]}
 						data={[5, 5, 10, 12]}
 						type="bar"
