@@ -78,7 +78,7 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 					/>
 				</div>
 				<div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold text-center">Leave Details</p>
+					<p className="text-lg font-bold text-center">Current Year Leave Details</p>
 					{data?.allLeaveCount?.length ? (
 						<GuestDonutChart
 							labels={["Casual Leave", "Sick Leave"]}
