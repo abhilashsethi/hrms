@@ -29,7 +29,7 @@ const AdminHome = () => {
     `dashboards/hr-dashInfo`
   );
   return (
-    <PanelLayout title="Dashboard - Admin Panel">
+    <PanelLayout title={`Dashboard - ${user?.role?.name}`}>
       <>
         {user?.role?.name == "CEO" ? (
           <>
