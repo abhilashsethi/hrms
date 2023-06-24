@@ -44,102 +44,104 @@ const AdminHome = () => {
           </>
         ) : user?.role?.name == "DEVELOPER" || user?.role?.name === "TESTER" ? (
           <>
-            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
+            {isLoading ? (
+              <DashboardSkeletonLoading />
+            ) : (
+              <>
+                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                <section className="lg:px-8 px-4 py-4">
                   <MainEmployeeDashboardCards data={developerDetails} />
                   <MainEmployeeDashboardCharts data={developerDetails} />
-                </>
-              )}
-            </section>
+                </section>
+              </>
+            )}
           </>
         ) : user?.role?.name == "HR" ? (
           <>
-            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
+            {hrIsLoading ? (
+              <DashboardSkeletonLoading />
+            ) : (
+              <>
+                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                <section className="lg:px-8 px-4 py-4">
                   <MainHrDashboardCards data={hrDetails} />
                   <MainHrDashboardCharts data={hrDetails} />
-                </>
-              )}
-            </section>
+                </section>
+              </>
+            )}
           </>
         ) : user?.role?.name == "MANAGER" ? (
           <>
-            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
+            {isLoading ? (
+              <DashboardSkeletonLoading />
+            ) : (
+              <>
+                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                <section className="lg:px-8 px-4 py-4">
                   <MainManagerDashboardCards data={""} />
                   <MainManagerDashboardCharts data={""} />
-                </>
-              )}
-            </section>
+                </section>
+              </>
+            )}
           </>
         ) : user?.role?.name == "DIRECTOR" ? (
           <>
-            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
+            {isLoading ? (
+              <DashboardSkeletonLoading />
+            ) : (
+              <>
+                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                <section className="lg:px-8 px-4 py-4">
                   <AdminDashboard />
-                </>
-              )}
-            </section>
+                </section>
+              </>
+            )}
           </>
         ) : user?.role?.name == "PROJECT MANAGER" ? (
           <>
-            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
+            {isLoading ? (
+              <DashboardSkeletonLoading />
+            ) : (
+              <>
+                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                <section className="lg:px-8 px-4 py-4">
                   <ProjectManagerDashboardCards data={""} />
                   <ProjectManagerDashboardCharts data={""} />
-                </>
-              )}
-            </section>
+                </section>
+              </>
+            )}
           </>
         )
           : user?.role?.name == "ACCOUNTANT" ? (
             <>
-              <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-              <section className="lg:px-8 px-4 py-4">
-                {isLoading ? (
-                  <DashboardSkeletonLoading />
-                ) : (
-                  <>
+              {isLoading ? (
+                <DashboardSkeletonLoading />
+              ) : (
+                <>
+                  <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                  <section className="lg:px-8 px-4 py-4">
                     <AccountantDashboardCards data={""} />
                     <AccountantDashboardCharts data={""} />
-                  </>
-                )}
-              </section>
+                  </section>
+                </>
+              )}
             </>
           ) : (
             // client
             <>
-              <WelcomeUser title={`Welcome client ${user?.name}`} />
-              <section className="lg:px-8 px-4 py-4">
-                {isLoading ? (
-                  <DashboardSkeletonLoading />
-                ) : (
-                  <>
+              {isLoading ? (
+                <DashboardSkeletonLoading />
+              ) : (
+                <>
+                  <WelcomeUser title={`Welcome client ${user?.name}`} />
+                  <section className="lg:px-8 px-4 py-4">
+
                     <MainClientDashboardCards data={""} />
                     <MainClientDashboardCharts data={""} />
-                  </>
-                )}
-              </section>
+
+                  </section>
+                </>
+              )}
             </>
           )}
 
@@ -156,7 +158,7 @@ const AdminHome = () => {
 					)}
 				</section> */}
       </>
-    </PanelLayout>
+    </PanelLayout >
   );
 };
 
