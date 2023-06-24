@@ -127,7 +127,7 @@ const ViewAssetHistoryDrawer = ({
 												className={`w-full h-full  rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 my-3`}
 											>
 												<div className="grid grid-cols-2 gap-2 ">
-													<div className="w-full order-2 border border-gray-500 rounded-md p-[1px] mb-2">
+													<div className="w-full order-2 rounded-md p-[1px] mb-2">
 														{item?.returnTimePhotos?.length ? (
 															<Slider {...settings} className="">
 																{item?.returnTimePhotos?.map(
@@ -173,6 +173,14 @@ const ViewAssetHistoryDrawer = ({
 															</span>
 														</div>
 														<div className="gap-2">
+															Time Of Return :{" "}
+															<span className="text-black font-medium">
+																{item?.returnTime
+																	? item?.returnTime
+																	: "Not Specified"}
+															</span>
+														</div>
+														<div className="gap-2">
 															Time Of Assign :{" "}
 															<span className="text-black font-medium">
 																{item?.assignTime}
@@ -192,14 +200,14 @@ const ViewAssetHistoryDrawer = ({
 														</div>
 													</div>
 												</div>
-												<span
+												<button
 													className="text-center bg-theme rounded-xl text-white font-semibold px-2 py-1"
 													onClick={() => {
 														setIsReturn({ dialogue: true, item: item });
 													}}
 												>
 													View More
-												</span>
+												</button>
 												<div>
 													{/* <p className="text-lg font-semibold text-center">
 													Return Details

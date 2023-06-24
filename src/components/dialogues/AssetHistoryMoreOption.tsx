@@ -39,7 +39,7 @@ const AssetHistoryMoreOption = ({ open, data, item, handleClose }: Props) => {
 				<p className="text-center text-xl font-bold text-theme tracking-wide">
 					RETURN ASSET DETAILS
 				</p>
-				<IconButton
+				{/* <IconButton
 					aria-label="close"
 					onClick={handleClose}
 					sx={{
@@ -52,7 +52,7 @@ const AssetHistoryMoreOption = ({ open, data, item, handleClose }: Props) => {
 					<Tooltip title="Close">
 						<Close />
 					</Tooltip>
-				</IconButton>
+				</IconButton> */}
 			</DialogTitle>
 			<DialogContent className="app-scrollbar" sx={{ p: 2 }}>
 				<div className="md:w-full w-full md:px-4 px-2 tracking-wide">
