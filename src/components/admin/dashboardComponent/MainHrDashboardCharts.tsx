@@ -1,8 +1,7 @@
-import { GuestBarChart, GuestDonutChart } from "components/analytics";
+import { AreaChart, GuestBarChart, GuestDonutChart } from "components/analytics";
 import Link from "next/link";
 import { PhotoViewer } from "components/core";
 import { Tooltip } from "@mui/material";
-import AreaChart from "./AreaChart";
 interface Props {
   data?: any;
 }
@@ -15,8 +14,8 @@ const MainHrDashboardCharts = ({ data }: Props) => {
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">This Year Employee Overview</p>
           <GuestBarChart
-            labels={data?.allEmployeeJoiningCount?.length ? data?.allEmployeeJoiningCount?.map((item: any) => item?.month) : []}
-            data={data?.allEmployeeJoiningCount?.length ? data?.allEmployeeJoiningCount?.map((item: any) => item?.count) : []}
+            labels={data?.userCountMonthWise?.length ? data?.userCountMonthWise?.map((item: any) => item?.month) : []}
+            data={data?.userCountMonthWise?.length ? data?.userCountMonthWise?.map((item: any) => item?.count) : []}
             type="bar"
             text=""
           />
@@ -35,7 +34,17 @@ const MainHrDashboardCharts = ({ data }: Props) => {
         </div>
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">Last Year Attendance Overview</p>
-          <AreaChart text="Repairs Report" type="area" />
+          <GuestBarChart
+            labels={data?.currentYearAttendance?.length ?
+              data?.currentYearAttendance?.map((item: any) =>
+                item?.month) : []}
+            data={data?.currentYearAttendance?.length ?
+              data?.currentYearAttendance?.map((item: any) =>
+                item?.count) : []}
+            type="bar"
+            text=""
+          />
+
         </div>
         <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Recent Guests</p>

@@ -33,3 +33,4 @@ export { default as BranchBarChart } from "./BranchBarChart";
 export { default as BranchBarChartDetails } from "./BranchBarChartDetails";
 export { default as CommonDonutChart } from "./CommonDonutChart";
 export { default as CommonBarChart } from "./CommonBarChart";
+export { default as AreaChart } from "./AreaChart";
