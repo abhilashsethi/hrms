@@ -20,7 +20,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
+import { EmailType, EmailUser, User } from "types";
 import { deleteFile, uploadFile } from "utils";
 import * as Yup from "yup";
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
@@ -40,18 +40,23 @@ const CreateEmail = () => {
 
   const { user } = useAuth();
 
-  const { push } = useRouter();
+  const { push, query } = useRouter();
+
+  const { data: draftData, isValidating } = useFetch<EmailType>(
+    `emails/${query?.draftId}?draft=true`
+  );
 
   const formik = useFormik({
     initialValues: {
-      recipients: "",
-      ccRecipients: "",
-      bccRecipients: "",
-      subject: "",
-      attachments: [],
-      message: "",
+      recipients: draftData?.receiver?.id ? [draftData?.receiver] : "",
+      ccRecipients: draftData?.cc?.length ? draftData?.cc : "",
+      bccRecipients: draftData?.bcc?.length ? draftData?.bcc : "",
+      subject: draftData?.subject ? draftData?.subject : "",
+      attachments: draftData?.attachments?.length ? draftData?.attachments : [],
+      message: draftData?.content?.length ? draftData?.content : "",
       isDraft: false,
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
       recipients: Yup.array(Yup.object()).required(
         "Email recipient is required*"
@@ -70,14 +75,19 @@ const CreateEmail = () => {
 
         if (value?.attachments?.length) {
           await Promise.all(
-            value?.attachments?.map((item: File) => {
+            value?.attachments?.map((item: any) => {
               return new Promise(async (resolve, reject) => {
                 try {
-                  let url = await uploadFile(
-                    item,
-                    Date.now() + "-" + item?.name
-                  );
-                  url && attachmentUrl.push(url);
+                  if (typeof item === "string") {
+                    attachmentUrl.push(item);
+                  } else {
+                    let url = await uploadFile(
+                      item,
+                      Date.now() + "-" + item?.name
+                    );
+                    url && attachmentUrl.push(url);
+                  }
+
                   resolve(true);
                 } catch (error) {
                   reject(error);
@@ -87,25 +97,37 @@ const CreateEmail = () => {
           );
         }
 
-        const response = await change(`emails`, {
-          method: "POST",
-          body: {
-            senderId: user?.id,
-            receiverIds:
-              Array.isArray(value?.recipients) &&
-              value?.recipients?.map((item: User) => item?.id),
-            cc:
-              Array.isArray(value?.ccRecipients) &&
-              value?.ccRecipients?.map((item: User) => item?.id),
-            bcc:
-              Array.isArray(value?.bccRecipients) &&
-              value?.bccRecipients?.map((item: User) => item?.id),
-            subject: value?.subject,
-            content: value?.message,
-            attachments: attachmentUrl,
-            isSend: !value?.isDraft,
-          },
-        });
+        let draftQuery: any = {};
+
+        if (query?.draftId) {
+          draftQuery.receiverId =
+            Array.isArray(value?.recipients) && value?.recipients[0]?.id;
+        } else {
+          draftQuery.receiverIds =
+            Array.isArray(value?.recipients) &&
+            value?.recipients?.map((item: EmailUser) => item?.id);
+        }
+
+        const response = await change(
+          query?.draftId ? `emails/${query?.draftId}` : `emails`,
+          {
+            method: query?.draftId ? "PATCH" : "POST",
+            body: {
+              senderId: user?.id,
+              cc:
+                Array.isArray(value?.ccRecipients) &&
+                value?.ccRecipients?.map((item: EmailUser) => item?.id),
+              bcc:
+                Array.isArray(value?.bccRecipients) &&
+                value?.bccRecipients?.map((item: EmailUser) => item?.id),
+              subject: value?.subject,
+              content: value?.message,
+              attachments: attachmentUrl,
+              isSend: !value?.isDraft,
+              ...draftQuery,
+            },
+          }
+        );
 
         if (response?.status !== 200) throw new Error(response?.results?.msg);
 
@@ -117,7 +139,7 @@ const CreateEmail = () => {
           timer: 1500,
         });
 
-        push(`/admin/email/sent`);
+        push(value?.isDraft ? `/admin/email/drafts` : `/admin/email/sent`);
       } catch (error) {
         //if images are already uploaded and then error thrown delete uploaded files
 
@@ -152,7 +174,16 @@ const CreateEmail = () => {
       }
     },
   });
-  const handleRemoveFile = (slNumber: number) => {
+  const handleRemoveFile = async (slNumber: number) => {
+    //checkout what is the type of attachment
+    if (
+      formik?.values?.attachments?.length &&
+      typeof formik?.values?.attachments[slNumber] === "string"
+    ) {
+      //delete the image
+      await deleteFile(formik?.values?.attachments[slNumber]);
+    }
+
     //filter out this number of index and set other value
 
     formik?.setFieldValue(
@@ -467,14 +498,16 @@ const CreateEmail = () => {
                   </IconButton>
                 </span>
                 <a
-                  href={URL.createObjectURL(item)}
+                  href={
+                    typeof item === "string" ? item : URL.createObjectURL(item)
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <InsertDriveFile className="!text-7xl !text-theme" />
                 </a>
                 <p className="text-center py-2 text-xs font-medium  break-words">
-                  {item?.name}
+                  {item?.name || item?.split("/")?.at(-1)}
                 </p>
               </div>
             ))}

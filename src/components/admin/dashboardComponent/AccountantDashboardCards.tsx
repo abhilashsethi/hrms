@@ -1,15 +1,15 @@
 import {
   AccountTree,
-  BugReport,
+  Assessment,
   Chat,
+  CoPresent,
   Email,
   EventAvailable,
-  FactCheck,
+  Output,
+  People,
   PersonPin,
-  QuestionAnswer,
   RecentActors,
-  SupportAgent,
-  WebAsset
+  SupportAgent
 } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { CardAsset } from "assets/home";
@@ -23,12 +23,12 @@ const AccountantDashboardCards = ({ data }: Props) => {
       id: 1,
       color: "bg-[#bbcbff]",
       icon: (
-        <AccountTree
+        <People
           fontSize="large"
-          className="text-white group-hover:text-white"
+          className="text-theme"
         />
       ),
-      name: "Total Projects",
+      name: "Total Employees",
       count: data?.GuestInfo?.totalGuest || 0,
       link: "/admin",
     },
@@ -36,12 +36,12 @@ const AccountantDashboardCards = ({ data }: Props) => {
       id: 2,
       color: "bg-[#b9e9fd]",
       icon: (
-        <WebAsset
+        <Output
           fontSize="large"
-          className="text-white group-hover:text-white"
+          className="text-theme"
         />
       ),
-      name: "On Going Projects",
+      name: "Total Leaves This Month",
       count: data?.GuestInfo?.blockedGuestCount || 0,
       link: "/admin",
     },
@@ -49,12 +49,12 @@ const AccountantDashboardCards = ({ data }: Props) => {
       id: 3,
       color: "bg-[#f6c8ff]",
       icon: (
-        <FactCheck
+        <CoPresent
           fontSize="large"
-          className="text-white group-hover:text-white"
+          className="text-theme"
         />
       ),
-      name: "Finished Projects",
+      name: "Total Attendance This Month",
       count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
       link: "/admin",
     },
@@ -62,12 +62,12 @@ const AccountantDashboardCards = ({ data }: Props) => {
       id: 4,
       color: "bg-[#feb76f]",
       icon: (
-        <BugReport
+        <Assessment
           fontSize="large"
-          className="text-white group-hover:text-white"
+          className="text-theme"
         />
       ),
-      name: "Total Bugs",
+      name: "Total Assets",
       count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
       link: "/admin",
     },

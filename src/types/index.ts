@@ -360,7 +360,7 @@ export interface ClientToServerEvents {
   }) => void;
 }
 
-type EmailUser = {
+export type EmailUser = {
   id: string;
   name: string;
   photo: string;
@@ -391,4 +391,19 @@ export type InboxEmailType = {
   id: string;
   sentAt: string;
   sender: EmailUser;
+};
+
+export type EmailType = {
+  attachments: string[];
+  bcc: EmailUser[];
+  cc: EmailUser[];
+  content: string;
+  id: string;
+  receiver: EmailUser;
+  sender: EmailUser;
+  subject: string;
+  isSend: boolean;
+  sentAt: string;
+  replyTo: InboxEmailType;
+  isSenderUser: boolean;
 };
