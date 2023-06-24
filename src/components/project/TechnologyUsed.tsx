@@ -1,4 +1,4 @@
-import { Check, Close, Add } from "@mui/icons-material";
+import { Add, Check, Close } from "@mui/icons-material";
 import {
 	Autocomplete,
 	Button,
@@ -7,7 +7,6 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { AWS, CSS, JAVASCRIPT, NEXTJS, REACT } from "assets/svgicons";
 import { Form, Formik } from "formik";
 import { useAuth, useChange, useFetch } from "hooks";
 import { useState } from "react";
@@ -103,7 +102,9 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
 					Technology Used
 				</h1>
 				{(projectData?.technologies?.length && user?.role?.name == "CEO") ||
-				user?.role?.name == "HR" ? (
+				user?.role?.name == "CEO" ||
+				user?.role?.name == "HR" ||
+				user?.role?.name == "PROJECT MANAGER" ? (
 					<Tooltip title="Add Technology">
 						<IconButton
 							onClick={() => setIsUpdate((prev) => !prev)}
@@ -170,7 +171,9 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
 							key={item?.id}
 							className="px-4 py-4 relative mt-3 rounded-md shadow-jubilation"
 						>
-							{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+							{user?.role?.name == "CEO" ||
+							user?.role?.name == "HR" ||
+							user?.role?.name == "PROJECT MANAGER" ? (
 								<div
 									onClick={() => removeTechnology(item?.id)}
 									className="absolute right-[5px] top-[4px] cursor-pointer shadow-md bg-red-500 h-6 w-6 rounded-full flex justify-center items-center"
@@ -194,7 +197,9 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
 					<div className="flex flex-col gap-4 lg:py-12 py-6">
 						<h1 className="text-center">
 							Technology details not mentioned,{" "}
-							{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+							{user?.role?.name == "CEO" ||
+							user?.role?.name == "HR" ||
+							user?.role?.name == "PROJECT MANAGER" ? (
 								<span>click to add.</span>
 							) : null}
 						</h1>

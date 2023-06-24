@@ -175,7 +175,9 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
 						</h4>
 						<div className="flex justify-between items-center">
 							<h4 className="font-semibold mt-4 underline">Project URLs : </h4>
-							{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+							{user?.role?.name == "CEO" ||
+							user?.role?.name == "HR" ||
+							user?.role?.name == "PROJECT MANAGER" ? (
 								<span>
 									<Button
 										onClick={() => setIsCreate((prev) => !prev)}
@@ -249,7 +251,9 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
 											<span>{Number(i) + 1}.</span>
 											<span className="font-semibold">{item?.title}</span>
 										</h1>
-										{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+										{user?.role?.name == "CEO" ||
+										user?.role?.name == "HR" ||
+										user?.role?.name == "PROJECT MANAGER" ? (
 											<div>
 												<Tooltip title="Delete">
 													<IconButton

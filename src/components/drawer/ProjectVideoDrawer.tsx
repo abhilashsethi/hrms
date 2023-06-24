@@ -80,7 +80,9 @@ const ProjectVideoDrawer = ({ open, onClose }: Props) => {
 							<InsertDriveFileRounded />
 							Project Video Links
 						</p>
-						{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+						{user?.role?.name == "CEO" ||
+						user?.role?.name == "HR" ||
+						user?.role?.name == "PROJECT MANAGER" ? (
 							<button
 								onClick={() => setGetDocument((prev) => !prev)}
 								className="flex text-sm items-center bg-white text-theme md:p-1 p-[2px] rounded-md group hover:bg-theme hover:text-white border border-theme"
