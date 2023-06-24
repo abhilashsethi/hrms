@@ -404,4 +404,6 @@ export type EmailType = {
   subject: string;
   isSend: boolean;
   sentAt: string;
+  replyTo: InboxEmailType;
+  isSenderUser: boolean;
 };
