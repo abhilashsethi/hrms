@@ -210,7 +210,7 @@ const DraftEmail = () => {
                 <tr>
                   {" "}
                   <td className=" h-[70vh] ">
-                    <LoaderAnime text={error || "No sent email found"} />
+                    <LoaderAnime text={error || "No email in draft"} />
                   </td>
                 </tr>
               )}

@@ -25,7 +25,7 @@ const ViewEmail = () => {
       <section className="w-full my-4 container mx-auto  rounded-md ">
         <EmailContainer data={data} printRef={printRef} />
       </section>
-      <EmailReplyContainer />
+      <EmailReplyContainer data={data} />
     </PanelLayout>
   );
 };
