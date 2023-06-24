@@ -1,6 +1,8 @@
 import { AdminDashboard, WelcomeUser } from "components/admin";
 import { DashboardSkeletonLoading } from "components/admin/assets";
 import {
+  AccountantDashboardCards,
+  AccountantDashboardCharts,
   MainClientDashboardCards,
   MainClientDashboardCharts,
   MainEmployeeDashboardCards,
@@ -9,6 +11,8 @@ import {
   MainHrDashboardCharts,
   MainManagerDashboardCards,
   MainManagerDashboardCharts,
+  ProjectManagerDashboardCards,
+  ProjectManagerDashboardCharts,
 } from "components/admin/dashboardComponent";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -101,28 +105,43 @@ const AdminHome = () => {
                 <DashboardSkeletonLoading />
               ) : (
                 <>
-                  <MainClientDashboardCards data={""} />
-                  <MainClientDashboardCharts data={""} />
+                  <ProjectManagerDashboardCards data={""} />
+                  <ProjectManagerDashboardCharts data={""} />
                 </>
               )}
             </section>
           </>
-        ) : (
-          // client
-          <>
-            <WelcomeUser title={`Welcome client ${user?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
-                  <MainClientDashboardCards data={""} />
-                  <MainClientDashboardCharts data={""} />
-                </>
-              )}
-            </section>
-          </>
-        )}
+        )
+          : user?.role?.name == "ACCOUNTANT" ? (
+            <>
+              <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+              <section className="lg:px-8 px-4 py-4">
+                {isLoading ? (
+                  <DashboardSkeletonLoading />
+                ) : (
+                  <>
+                    <AccountantDashboardCards data={""} />
+                    <AccountantDashboardCharts data={""} />
+                  </>
+                )}
+              </section>
+            </>
+          ) : (
+            // client
+            <>
+              <WelcomeUser title={`Welcome client ${user?.name}`} />
+              <section className="lg:px-8 px-4 py-4">
+                {isLoading ? (
+                  <DashboardSkeletonLoading />
+                ) : (
+                  <>
+                    <MainClientDashboardCards data={""} />
+                    <MainClientDashboardCharts data={""} />
+                  </>
+                )}
+              </section>
+            </>
+          )}
 
         {/* Dashboard for Client */}
         {/* <WelcomeUser title="Welcome Client Name!" />
