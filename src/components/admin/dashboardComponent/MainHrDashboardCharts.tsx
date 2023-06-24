@@ -70,11 +70,11 @@ const MainHrDashboardCharts = ({ data }: Props) => {
                   <div className="grid lg:grid-cols-2 gap-4 text-sm text-center font-semibold">
                     <div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
                       <span>Valid From</span>
-                      <span>{item?.card?.length ? moment(item?.card[0]?.validFrom).format("ll") : <p>Not Specified</p>}</span>
+                      <span>{item?.card?.length ? moment(item?.card[0]?.validFrom).format("ll") : <p>Not Given</p>}</span>
                     </div>
                     <div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
                       <span>Valid Till</span>
-                      <span>{item?.card?.length ? moment(item?.card[0]?.validTill).format("ll") : <p>Not Specified</p>}</span>
+                      <span>{item?.card?.length ? moment(item?.card[0]?.validTill).format("ll") : <p>Not Given</p>}</span>
                     </div>
                   </div>
                 </div>
