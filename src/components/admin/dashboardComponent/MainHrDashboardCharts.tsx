@@ -23,7 +23,7 @@ const MainHrDashboardCharts = ({ data }: Props) => {
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Last Month Leave Details</p>
-          {/* <GuestDonutChart
+          <GuestDonutChart
             labels={data?.leaveCounts?.length ? data?.leaveCounts?.map((item: any) => item?.type) : []}
             series={data?.leaveCounts?.length ? data?.leaveCounts?.map((item: any) => item?._count?.type) : []}
             text=""
@@ -31,7 +31,7 @@ const MainHrDashboardCharts = ({ data }: Props) => {
             colors={[
               "#106EAD", "#C33C5E", "#25d366", "#BD33B5", "#E60023", "#005d32"
             ]}
-          /> */}
+          />
         </div>
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">Last Year Attendance Overview</p>
