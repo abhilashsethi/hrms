@@ -1,21 +1,14 @@
 import {
-	FactCheck,
 	AccountTree,
-	QuestionAnswer,
-	WebAsset,
-	ExitToApp,
-	Groups3,
-	Diversity2,
-	MeetingRoom,
-	People,
-	Construction,
-	SupportAgent,
-	PersonPin,
-	RecentActors,
-	Done,
-	EventAvailable,
-	Email,
 	Chat,
+	Email,
+	EventAvailable,
+	FactCheck,
+	PersonPin,
+	QuestionAnswer,
+	RecentActors,
+	SupportAgent,
+	WebAsset
 } from "@mui/icons-material";
 import { Avatar, Grid, Tooltip } from "@mui/material";
 import { CardAsset } from "assets/home";
@@ -221,11 +214,10 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
 												<p>{item?.date}</p>
 											</div>
 											<button
-												className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${
-													item?.status === "Pending"
+												className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${item?.status === "Pending"
 														? `text-red-700 bg-red-300`
 														: `text-green-700 bg-green-300`
-												} p-1 h-7 rounded-lg text-center`}
+													} p-1 h-7 rounded-lg text-center`}
 											>
 												{item?.status}
 											</button>
