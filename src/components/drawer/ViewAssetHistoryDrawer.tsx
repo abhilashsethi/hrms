@@ -93,7 +93,7 @@ const ViewAssetHistoryDrawer = ({
 	return (
 		<>
 			<AssetHistoryMoreOption
-				data={data}
+				item={isReturn?.item}
 				open={isReturn?.dialogue}
 				handleClose={() => setIsReturn({ dialogue: false })}
 			/>

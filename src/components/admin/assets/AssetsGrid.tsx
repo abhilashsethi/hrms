@@ -104,9 +104,12 @@ const MoreOption = ({ item, mutate }: any) => {
 	}>({ dialogue: false, assetData: null });
 	const { user } = useAuth();
 
-	const { data: assignId, isLoading: returnLoading, mutate: returnMutate } = useFetch<any>(
-		`assets/all/return/asset/${assetId}`
-	);
+	const {
+		data: assignId,
+		isLoading: returnLoading,
+		mutate: returnMutate,
+	} = useFetch<any>(`assets/all/return/asset/${assetId}`);
+	// console.log(assignId);
 	const handleDelete = async (id: string) => {
 		Swal.fire({
 			title: "Are you sure?",
@@ -370,23 +373,23 @@ const MoreOption = ({ item, mutate }: any) => {
 								<div className="grid grid-cols-3 gap-1">
 									{item?.docs?.length
 										? item?.docs?.map((doc: any, i: any) => {
-											return (
-												<a
-													key={i}
-													className="border border-theme rounded-md text-xs p-[2px]"
-													href={doc?.link}
-												>
-													Docs <Download fontSize="small" />
-												</a>
-											);
-										})
+												return (
+													<a
+														key={i}
+														className="border border-theme rounded-md text-xs p-[2px]"
+														href={doc?.link}
+													>
+														Docs <Download fontSize="small" />
+													</a>
+												);
+										  })
 										: "---"}
 								</div>
 							</span>
 						</p>
 
 						<div className="flex bottom-0 ">
-							{user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+							{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
 								<Tooltip title="Delete Asset">
 									<span
 										onClick={() => handleDelete(item?.id)}
@@ -394,7 +397,8 @@ const MoreOption = ({ item, mutate }: any) => {
 									>
 										<DeleteRounded fontSize="small" color="error" />
 									</span>
-								</Tooltip> : null}
+								</Tooltip>
+							) : null}
 							{item?.isAssign ? (
 								<>
 									<Tooltip title="Assign Details">
@@ -407,7 +411,7 @@ const MoreOption = ({ item, mutate }: any) => {
 											<Visibility fontSize="small" color="secondary" />
 										</div>
 									</Tooltip>
-									{user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+									{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
 										<Tooltip title="Return Asset">
 											<span
 												onClick={() => {
@@ -417,11 +421,12 @@ const MoreOption = ({ item, mutate }: any) => {
 											>
 												<AssignmentReturn fontSize="small" color="secondary" />
 											</span>
-										</Tooltip> : null}
+										</Tooltip>
+									) : null}
 								</>
 							) : (
 								<>
-									{user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+									{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
 										<Tooltip title="Assign Employee">
 											<span
 												onClick={() => {
@@ -431,10 +436,11 @@ const MoreOption = ({ item, mutate }: any) => {
 											>
 												<AssignmentInd fontSize="small" color="secondary" />
 											</span>
-										</Tooltip> : null}
+										</Tooltip>
+									) : null}
 								</>
 							)}
-							{user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+							{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
 								<>
 									<Tooltip title="Edit Asset">
 										<span
@@ -457,7 +463,8 @@ const MoreOption = ({ item, mutate }: any) => {
 											<History color="primary" fontSize="small" />
 										</span>
 									</Tooltip>
-								</> : null}
+								</>
+							) : null}
 						</div>
 					</div>
 				</div>

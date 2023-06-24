@@ -45,7 +45,9 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 					/>
 				</div>
 				<div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold text-center">Current Year Leave Details</p>
+					<p className="text-lg font-bold text-center">
+						Current Year Leave Details
+					</p>
 					{data?.allLeaveCount?.length ? (
 						<GuestDonutChart
 							labels={["Casual Leave", "Sick Leave"]}
@@ -97,16 +99,17 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 													{item?.industry ? item?.industry : "Not specified"}
 												</div>
 												<div
-													className={`px-2 rounded-lg flex items-center uppercase shadow-md text-xs tracking-wide font-semibold text-white ${item?.status === "Pending"
-														? `bg-yellow-500`
-														: item?.status === "Ongoing"
+													className={`px-2 rounded-lg flex items-center uppercase shadow-md text-xs tracking-wide font-semibold text-white ${
+														item?.status === "Pending"
+															? `bg-yellow-500`
+															: item?.status === "Ongoing"
 															? `bg-blue-500`
 															: item?.status === "Onhold"
-																? `bg-red-500`
-																: item?.status === "Completed"
-																	? `bg-green-500`
-																	: `bg-slate-500`
-														}`}
+															? `bg-red-500`
+															: item?.status === "Completed"
+															? `bg-green-500`
+															: `bg-slate-500`
+													}`}
 												>
 													{item?.status}
 												</div>
