@@ -43,19 +43,11 @@ const MyLeaves = () => {
 	return (
 		<PanelLayout title="Leave Requests - Admin Panel">
 			<section className="md:px-8 px-4 py-2">
-				{user?.role?.name == "CEO" || user?.role?.name == "HR" || user?.role?.name == "MANAGER" ?
-					<CreateLeave
-						mutate={mutate}
-						open={isLeave}
-						handleClose={() => setIsLeave(false)}
-					/>
-					:
-					<CreateLeaveUser
-						mutate={mutate}
-						open={isLeave}
-						handleClose={() => setIsLeave(false)}
-					/>
-				}
+				<CreateLeaveUser
+					mutate={mutate}
+					open={isLeave}
+					handleClose={() => setIsLeave(false)}
+				/>
 				<div className="flex justify-between items-center py-4 md:flex-row flex-col">
 					<AdminBreadcrumbs links={links} />
 					<div className="flex gap-4 items-center">
