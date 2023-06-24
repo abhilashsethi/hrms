@@ -1,4 +1,4 @@
-import { AreaChart, GuestBarChart, GuestDonutChart } from "components/analytics";
+import { GuestBarChart, GuestDonutChart } from "components/analytics";
 import Link from "next/link";
 import { PhotoViewer } from "components/core";
 import { Tooltip } from "@mui/material";
