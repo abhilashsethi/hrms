@@ -132,8 +132,23 @@ const ProjectTasks = () => {
 						</h2>
 						<div className="flex justify-between mt-4">
 							<div className="flex justify-center justify-items-center gap-3">
-								<PhotoViewer name={item?.assignedUsers?.name} photo={item?.assignedUsers?.photo} size="3rem" />
-								<p className="text-lg font-semibold">{item?.assignedUsers?.name}</p>
+								{!item?.assignedUsers?.length ? (
+									<p>No Members assigned.</p>
+								) : (
+									<div className="flex gap-2 group items-center pt-2">
+										<AvatarGroup
+											className="!cursor-pointer"
+											max={4}
+										>
+											{item?.assignedUsers?.map(
+												(data: { name?: string; photo?: string }) => (
+													<Avatar alt={data?.name} src={data?.photo || " "} />
+												)
+											)}
+										</AvatarGroup>
+									</div>
+								)}
+
 							</div>
 							{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
 								<div className="flex gap-2 items-center">
