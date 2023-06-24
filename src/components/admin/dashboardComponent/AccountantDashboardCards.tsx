@@ -25,7 +25,7 @@ const AccountantDashboardCards = ({ data }: Props) => {
       icon: (
         <AccountTree
           fontSize="large"
-          className="text-white group-hover:text-white"
+          className="text-theme"
         />
       ),
       name: "Total Projects",
@@ -38,7 +38,7 @@ const AccountantDashboardCards = ({ data }: Props) => {
       icon: (
         <WebAsset
           fontSize="large"
-          className="text-white group-hover:text-white"
+          className="text-theme"
         />
       ),
       name: "On Going Projects",
@@ -51,7 +51,7 @@ const AccountantDashboardCards = ({ data }: Props) => {
       icon: (
         <FactCheck
           fontSize="large"
-          className="text-white group-hover:text-white"
+          className="text-theme"
         />
       ),
       name: "Finished Projects",
@@ -64,7 +64,7 @@ const AccountantDashboardCards = ({ data }: Props) => {
       icon: (
         <BugReport
           fontSize="large"
-          className="text-white group-hover:text-white"
+          className="text-theme"
         />
       ),
       name: "Total Bugs",
