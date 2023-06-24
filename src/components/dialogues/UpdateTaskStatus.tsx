@@ -34,21 +34,19 @@ const UpdateTaskStatus = ({ open, handleClose, mutate, id }: Props) => {
   const router = useRouter();
   const { data: projectData } = useFetch<any>(`projects/${router?.query?.id}`);
   useEffect(() => {
-    const reqData = projectData?.bugs?.find((item: any) => item?.id === id);
+    const reqData = projectData?.bugs?.find((item: any) => item?.id === id?.id);
     setBugData(reqData);
   }, [projectData]);
 
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const { data: employData } = useFetch<any>(`projects/${id}`);
-  console.log(employData);
   const initialValues = {
-    status: `${bugData?.status ? bugData?.status : ""}`,
+    status: `${id?.status ? id?.status : ""}`,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      const res = await change(`projects/update-task/${id}`, {
+      const res = await change(`projects/update-task/${id?.id}`, {
         method: "PATCH",
         body: {
           status: values?.status,
@@ -168,5 +166,6 @@ const statuses = [
   { id: 1, value: "Open" },
   { id: 2, value: "Pending" },
   { id: 3, value: "Ongoing" },
-  { id: 4, value: "Completed" },
+  { id: 4, value: "Fixed" },
+  { id: 5, value: "Reviewed" },
 ];

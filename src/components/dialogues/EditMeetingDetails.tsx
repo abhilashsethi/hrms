@@ -53,7 +53,7 @@ const EditMeetingDetails = ({
 	const { data: meetingDetails, isLoading } = useFetch<MeetingProps>(
 		`meetings/${meetingId}`
 	);
-	// console.log(meetingDetails);
+	console.log(meetingDetails);
 
 	const initialValues = {
 		title: `${meetingDetails?.title ? meetingDetails?.title : ""}`,
@@ -104,6 +104,7 @@ const EditMeetingDetails = ({
 					},
 				});
 				mutate();
+				handleClose();
 				if (res?.status !== 200) {
 					Swal.fire(`Error`, "Something went wrong!", "error");
 					return;

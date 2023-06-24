@@ -26,137 +26,144 @@ const AdminHome = () => {
     `dashboards/developer-dashInfo/${user?.id}`
   );
   const { data: hrDetails, isLoading: hrIsLoading } = useFetch<any>(
-    `dashboards/hr-dashInfo`
+    `dashboards/hr-dashInfo?branchId=${user?.employeeOfBranchId}`
   );
+  console.log({ user });
+  console.log({ hrDetails });
   return (
     <PanelLayout title={`Dashboard - ${user?.role?.name}`}>
       <>
-        {user?.role?.name == "CEO" ? (
+        {user?.role ?
           <>
-            {isLoading ? (
-              <DashboardSkeletonLoading />
-            ) : (
+            {user?.role?.name == "CEO" ? (
               <>
-                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-                <AdminDashboard />
+                {isLoading ? (
+                  <DashboardSkeletonLoading />
+                ) : (
+                  <>
+                    <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                    <AdminDashboard />
+                  </>
+                )}
               </>
-            )}
-          </>
-        ) : user?.role?.name == "DEVELOPER" || user?.role?.name === "TESTER" ? (
-          <>
-            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
-                  <MainEmployeeDashboardCards data={developerDetails} />
-                  <MainEmployeeDashboardCharts data={developerDetails} />
-                </>
-              )}
-            </section>
-          </>
-        ) : user?.role?.name == "HR" ? (
-          <>
-            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
-                  <MainHrDashboardCards data={hrDetails} />
-                  <MainHrDashboardCharts data={hrDetails} />
-                </>
-              )}
-            </section>
-          </>
-        ) : user?.role?.name == "MANAGER" ? (
-          <>
-            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
-                  <MainManagerDashboardCards data={""} />
-                  <MainManagerDashboardCharts data={""} />
-                </>
-              )}
-            </section>
-          </>
-        ) : user?.role?.name == "DIRECTOR" ? (
-          <>
-            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
-                  <AdminDashboard />
-                </>
-              )}
-            </section>
-          </>
-        ) : user?.role?.name == "PROJECT MANAGER" ? (
-          <>
-            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-            <section className="lg:px-8 px-4 py-4">
-              {isLoading ? (
-                <DashboardSkeletonLoading />
-              ) : (
-                <>
-                  <ProjectManagerDashboardCards data={""} />
-                  <ProjectManagerDashboardCharts data={""} />
-                </>
-              )}
-            </section>
-          </>
-        )
-          : user?.role?.name == "ACCOUNTANT" ? (
-            <>
-              <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-              <section className="lg:px-8 px-4 py-4">
+            ) : user?.role?.name == "DEVELOPER" || user?.role?.name === "TESTER" ? (
+              <>
                 {isLoading ? (
                   <DashboardSkeletonLoading />
                 ) : (
                   <>
-                    <AccountantDashboardCards data={""} />
-                    <AccountantDashboardCharts data={""} />
+                    <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                    <section className="lg:px-8 px-4 py-4">
+                      <MainEmployeeDashboardCards data={developerDetails} />
+                      <MainEmployeeDashboardCharts data={developerDetails} />
+                    </section>
                   </>
                 )}
-              </section>
-            </>
-          ) : (
-            // client
-            <>
-              <WelcomeUser title={`Welcome client ${user?.name}`} />
-              <section className="lg:px-8 px-4 py-4">
+              </>
+            ) : user?.role?.name == "HR" ? (
+              <>
+                {hrIsLoading ? (
+                  <DashboardSkeletonLoading />
+                ) : (
+                  <>
+                    <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                    <section className="lg:px-8 px-4 py-4">
+                      <MainHrDashboardCards data={hrDetails} />
+                      <MainHrDashboardCharts data={hrDetails} />
+                    </section>
+                  </>
+                )}
+              </>
+            ) : user?.role?.name == "MANAGER" ? (
+              <>
                 {isLoading ? (
                   <DashboardSkeletonLoading />
                 ) : (
                   <>
-                    <MainClientDashboardCards data={""} />
-                    <MainClientDashboardCharts data={""} />
+                    <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                    <section className="lg:px-8 px-4 py-4">
+                      <MainManagerDashboardCards data={""} />
+                      <MainManagerDashboardCharts data={""} />
+                    </section>
                   </>
                 )}
-              </section>
-            </>
-          )}
-
-        {/* Dashboard for Client */}
-        {/* <WelcomeUser title="Welcome Client Name!" />
-				<section className="lg:px-8 px-4 py-4">
-					{isLoading ? (
-						<DashboardSkeletonLoading />
-					) : (
-						<>
-							<MainClientDashboardCards data={""} />
-							<MainClientDashboardCharts  data={""} />
-						</>
-					)}
-				</section> */}
+              </>
+            ) : user?.role?.name == "DIRECTOR" ? (
+              <>
+                {isLoading ? (
+                  <DashboardSkeletonLoading />
+                ) : (
+                  <>
+                    <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                    <section className="lg:px-8 px-4 py-4">
+                      <AdminDashboard />
+                    </section>
+                  </>
+                )}
+              </>
+            ) : user?.role?.name == "PROJECT MANAGER" ? (
+              <>
+                {isLoading ? (
+                  <DashboardSkeletonLoading />
+                ) : (
+                  <>
+                    <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                    <section className="lg:px-8 px-4 py-4">
+                      <ProjectManagerDashboardCards data={""} />
+                      <ProjectManagerDashboardCharts data={""} />
+                    </section>
+                  </>
+                )}
+              </>
+            )
+              : user?.role?.name == "ACCOUNTANT" ? (
+                <>
+                  {isLoading ? (
+                    <DashboardSkeletonLoading />
+                  ) : (
+                    <>
+                      <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                      <section className="lg:px-8 px-4 py-4">
+                        <AccountantDashboardCards data={""} />
+                        <AccountantDashboardCharts data={""} />
+                      </section>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  {isLoading ? (
+                    <DashboardSkeletonLoading />
+                  ) : (
+                    <>
+                      <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                      <section className="lg:px-8 px-4 py-4">
+                        <MainEmployeeDashboardCards data={developerDetails} />
+                        <MainEmployeeDashboardCharts data={developerDetails} />
+                      </section>
+                    </>
+                  )}
+                </>
+              )}
+          </>
+          :
+          <>
+            {/* Dashboard for Client */}
+            <WelcomeUser title="Welcome Client Name!" />
+            <section className="lg:px-8 px-4 py-4">
+              {isLoading ? (
+                <DashboardSkeletonLoading />
+              ) : (
+                <>
+                  <MainClientDashboardCards data={""} />
+                  <MainClientDashboardCharts data={""} />
+                </>
+              )}
+            </section>
+          </>
+        }
       </>
-    </PanelLayout>
+    </PanelLayout >
   );
 };
 

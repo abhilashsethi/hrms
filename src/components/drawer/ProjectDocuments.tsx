@@ -91,7 +91,9 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 							<InsertDriveFileRounded />
 							Project Documents
 						</p>
-						{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+						{user?.role?.name == "CEO" ||
+						user?.role?.name == "HR" ||
+						user?.role?.name == "PROJECT MANAGER" ? (
 							<button
 								onClick={() => setGetDocument((prev) => !prev)}
 								className="flex text-sm items-center bg-white text-theme md:p-1 p-[2px] rounded-md group hover:bg-theme hover:text-white border border-theme"
@@ -112,19 +114,6 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 										key={item?.id}
 										className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
 									>
-										{/* <img
-                    onClick={() => {
-                      setIsPreview({
-                        dialogue: true,
-                        title: item?.title,
-                      });
-                      setActiveDocLink(item?.link);
-                      setActiveId(item?.id);
-                    }}
-                    className="w-12"
-                    src={item?.docType === "pdf" ? PDF.src : IMG.src}
-                    alt="photo"
-                  /> */}
 										<a
 											className="cursor-pointer flex flex-col items-center justify-center"
 											href={`${item?.link}`}

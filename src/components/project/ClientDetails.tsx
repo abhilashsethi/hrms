@@ -5,13 +5,12 @@ import {
 	CircularProgress,
 	TextField,
 } from "@mui/material";
-import ICONS from "assets/icons";
 import { PhotoViewer } from "components/core";
-import { useAuth, useChange, useFetch } from "hooks";
-import { useState } from "react";
 import { Form, Formik } from "formik";
-import Swal from "sweetalert2";
+import { useAuth, useChange, useFetch } from "hooks";
 import Link from "next/link";
+import { useState } from "react";
+import Swal from "sweetalert2";
 interface Props {
 	projectData?: any;
 	mutate?: any;
@@ -168,7 +167,9 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
 								<p>{projectData?.client?.email}</p>
 							</div>
 						</div>
-						{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+						{user?.role?.name == "CEO" ||
+						user?.role?.name == "HR" ||
+						user?.role?.name == "PROJECT MANAGER" ? (
 							<div className="mt-2 flex justify-center gap-2">
 								<Link
 									href={`/admin/clients/client-profile?id=${projectData?.clientId}`}
@@ -200,11 +201,15 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
 					<div className="flex flex-col gap-2 lg:py-12 py-6">
 						<h1 className="text-center">
 							Client details not specified.{" "}
-							{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+							{user?.role?.name == "CEO" ||
+							user?.role?.name == "HR" ||
+							user?.role?.name == "PROJECT MANAGER" ? (
 								<span> Click here to add clients</span>
 							) : null}
 						</h1>
-						{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+						{user?.role?.name == "CEO" ||
+						user?.role?.name == "HR" ||
+						user?.role?.name == "PROJECT MANAGER" ? (
 							<Button
 								size="small"
 								startIcon={<Add />}

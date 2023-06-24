@@ -41,8 +41,7 @@ const AllClients = () => {
 		pagination,
 		isLoading,
 	} = useFetch<Client[]>(
-		`clients?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
-			isOrderBy ? `&orderBy=${isOrderBy}` : ""
+		`clients?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
 		}`
 	);
 	return (
@@ -60,18 +59,16 @@ const AllClients = () => {
 							<div className="flex gap-1">
 								<IconButton onClick={() => setIsGrid(true)} size="small">
 									<div
-										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-											isGrid && `border-2 border-theme`
-										}`}
+										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${isGrid && `border-2 border-theme`
+											}`}
 									>
 										<GridViewRounded className={`${isGrid && `!text-theme`}`} />
 									</div>
 								</IconButton>
 								<IconButton onClick={() => setIsGrid(false)} size="small">
 									<div
-										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-											!isGrid && `border-2 border-theme`
-										}`}
+										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${!isGrid && `border-2 border-theme`
+											}`}
 									>
 										<TableRowsRounded
 											className={`${!isGrid && `!text-theme`}`}
@@ -169,7 +166,7 @@ const AllClients = () => {
 								<Pagination
 									count={Math.ceil(
 										Number(pagination?.total || 1) /
-											Number(pagination?.limit || 1)
+										Number(pagination?.limit || 1)
 									)}
 									onChange={(e, v: number) => {
 										setPageNumber(v);
@@ -191,8 +188,8 @@ export default AllClients;
 const short = [
 	{ id: 1, value: "name:asc", name: "Name Ascending" },
 	{ id: 2, value: "name:desc", name: "Name Descending" },
-	{ id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
-	{ id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
+	{ id: 3, value: "createdAt:desc", name: "CreatedAt Ascending" },
+	{ id: 4, value: "createdAt:asc", name: "CreatedAt Descending" },
 ];
 const ticket = [
 	{ id: 1, value: "true", name: "Yes" },

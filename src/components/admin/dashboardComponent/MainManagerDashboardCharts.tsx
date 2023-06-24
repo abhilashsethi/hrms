@@ -1,14 +1,4 @@
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
-import {
-  FactCheck,
-  AccountTree,
-  QuestionAnswer,
-  WebAsset,
-} from "@mui/icons-material";
-import Link from "next/link";
-import { PhotoViewer } from "components/core";
-import { Tooltip } from "@mui/material";
-import AreaChart from "./AreaChart";
 interface Props {
   data?: any;
 }

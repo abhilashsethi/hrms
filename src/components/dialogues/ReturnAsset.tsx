@@ -167,6 +167,7 @@ const ReturnAsset = ({
 				dateOfReturn: new Date(values?.returnDate).toISOString(),
 				returnRemark: values?.remark,
 				isAccepted: true,
+				returnTime: values?.returnTime,
 			};
 			values?.checklist?.forEach((item: any) => {
 				return (reqData[item] = true);
@@ -180,11 +181,7 @@ const ReturnAsset = ({
 			);
 			setLoading(false);
 			if (res?.status !== 200) {
-				Swal.fire(
-					"Error",
-					res?.results?.msg || "Unable to Submit",
-					"error"
-				);
+				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
 				setLoading(false);
 				return;
 			}
@@ -332,24 +329,24 @@ const ReturnAsset = ({
 													<div className="grid lg:grid-cols-2 gap-x-4">
 														{assetData?.assetType == "Laptop"
 															? checkListForLaptop?.map((item, i) => (
-																<FormControlLabel
-																	control={<Checkbox />}
-																	label={item?.label}
-																	name={item?.value}
-																	checked={values?.checklist?.includes(
-																		item?.value
-																	)}
-																	onClick={() => {
-																		handleAddRemoveValue(
-																			setFieldValue,
-																			item?.value,
-																			values?.checklist
-																		);
-																	}}
-																/>
-															))
+																	<FormControlLabel
+																		control={<Checkbox />}
+																		label={item?.label}
+																		name={item?.value}
+																		checked={values?.checklist?.includes(
+																			item?.value
+																		)}
+																		onClick={() => {
+																			handleAddRemoveValue(
+																				setFieldValue,
+																				item?.value,
+																				values?.checklist
+																			);
+																		}}
+																	/>
+															  ))
 															: assetData?.assetType == "Mouse"
-																? checkListForMouse?.map((item, i) => (
+															? checkListForMouse?.map((item, i) => (
 																	<FormControlLabel
 																		control={<Checkbox />}
 																		label={item?.label}
@@ -365,78 +362,78 @@ const ReturnAsset = ({
 																			);
 																		}}
 																	/>
-																))
-																: assetData?.assetType == "Monitor"
-																	? checkListForMonitor?.map((item, i) => (
-																		<FormControlLabel
-																			control={<Checkbox />}
-																			label={item?.label}
-																			name={item?.value}
-																			checked={values?.checklist?.includes(
-																				item?.value
-																			)}
-																			onChange={() => {
-																				handleAddRemoveValue(
-																					setFieldValue,
-																					item?.value,
-																					values?.checklist
-																				);
-																			}}
-																		/>
-																	))
-																	: assetData?.assetType == "KeyBoard"
-																		? checkListForKeyboard?.map((item, i) => (
-																			<FormControlLabel
-																				control={<Checkbox />}
-																				label={item?.label}
-																				name={item?.value}
-																				checked={values?.checklist?.includes(
-																					item?.value
-																				)}
-																				onChange={() => {
-																					handleAddRemoveValue(
-																						setFieldValue,
-																						item?.value,
-																						values?.checklist
-																					);
-																				}}
-																			/>
-																		))
-																		: assetData?.assetType == "other"
-																			? other?.map((item, i) => (
-																				<FormControlLabel
-																					control={<Checkbox />}
-																					label={item?.label}
-																					name={item?.value}
-																					checked={values?.checklist?.includes(
-																						item?.value
-																					)}
-																					onChange={() => {
-																						handleAddRemoveValue(
-																							setFieldValue,
-																							item?.value,
-																							values?.checklist
-																						);
-																					}}
-																				/>
-																			))
-																			: other?.map((item, i) => (
-																				<FormControlLabel
-																					control={<Checkbox />}
-																					label={item?.label}
-																					name={item?.value}
-																					checked={values?.checklist?.includes(
-																						item?.value
-																					)}
-																					onChange={() => {
-																						handleAddRemoveValue(
-																							setFieldValue,
-																							item?.value,
-																							values?.checklist
-																						);
-																					}}
-																				/>
-																			))}
+															  ))
+															: assetData?.assetType == "Monitor"
+															? checkListForMonitor?.map((item, i) => (
+																	<FormControlLabel
+																		control={<Checkbox />}
+																		label={item?.label}
+																		name={item?.value}
+																		checked={values?.checklist?.includes(
+																			item?.value
+																		)}
+																		onChange={() => {
+																			handleAddRemoveValue(
+																				setFieldValue,
+																				item?.value,
+																				values?.checklist
+																			);
+																		}}
+																	/>
+															  ))
+															: assetData?.assetType == "KeyBoard"
+															? checkListForKeyboard?.map((item, i) => (
+																	<FormControlLabel
+																		control={<Checkbox />}
+																		label={item?.label}
+																		name={item?.value}
+																		checked={values?.checklist?.includes(
+																			item?.value
+																		)}
+																		onChange={() => {
+																			handleAddRemoveValue(
+																				setFieldValue,
+																				item?.value,
+																				values?.checklist
+																			);
+																		}}
+																	/>
+															  ))
+															: assetData?.assetType == "other"
+															? other?.map((item, i) => (
+																	<FormControlLabel
+																		control={<Checkbox />}
+																		label={item?.label}
+																		name={item?.value}
+																		checked={values?.checklist?.includes(
+																			item?.value
+																		)}
+																		onChange={() => {
+																			handleAddRemoveValue(
+																				setFieldValue,
+																				item?.value,
+																				values?.checklist
+																			);
+																		}}
+																	/>
+															  ))
+															: other?.map((item, i) => (
+																	<FormControlLabel
+																		control={<Checkbox />}
+																		label={item?.label}
+																		name={item?.value}
+																		checked={values?.checklist?.includes(
+																			item?.value
+																		)}
+																		onChange={() => {
+																			handleAddRemoveValue(
+																				setFieldValue,
+																				item?.value,
+																				values?.checklist
+																			);
+																		}}
+																	/>
+															  ))}
 													</div>
 												</FormGroup>
 											</div>

@@ -18,7 +18,7 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 
 			name: "Yard Erp",
 			count: data?.GuestInfo?.totalGuest || 0,
-			link: "/admin",
+			link: `/admin/projects/project-details?id=${data?.projectId}`,
 		},
 		{
 			id: 2,
@@ -26,7 +26,7 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 
 			name: "HRMS Yard Iot",
 			count: data?.GuestInfo?.blockedGuestCount || 0,
-			link: "/admin",
+			link: `/admin/projects/project-details?id=${data?.projectId}`,
 		},
 		{
 			id: 3,
@@ -34,7 +34,7 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 
 			name: "Study In Russia",
 			count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
-			link: "/admin",
+			link: `/admin/projects/project-details?id=${data?.projectId}`,
 		},
 		{
 			id: 4,
@@ -42,12 +42,48 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 
 			name: "Political Party Web",
 			count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
-			link: "/admin",
+			link: `/admin/projects/project-details?id=${data?.projectId}`,
 		},
 	];
 	return (
 		<div className="w-full">
 			<div className="grid lg:grid-cols-2 content-between gap-6">
+				<div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
+					<p className="font-bold text-lg text-center">
+						Current Year Leave Overview
+					</p>
+					<GuestBarChart
+						labels={[
+							"Jan",
+							"Feb",
+							"Mar",
+							"Apr",
+							"May",
+							"Jun",
+							"Jul",
+							"Aug",
+							"Sept",
+							"Oct",
+							"Nov",
+						]}
+						data={[5, 5, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20]}
+						type="bar"
+						text=""
+					/>
+				</div>
+
+				<div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
+					<p className="text-lg font-bold text-center">
+						Current Month Projects Overview
+					</p>
+					<GuestDonutChart
+						labels={["On Going Projects", "Finished Projects", "Total Bugs"]}
+						series={[45, 25, 30]}
+						text=""
+						type="donut"
+						colors={["#25d366", "#E60023", "#BD33B5"]}
+					/>
+				</div>
 				<div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="font-bold text-lg text-center">Ticket Issue Details</p>
 					<GuestBarChart
@@ -60,28 +96,6 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 						data={[5, 5, 10, 12]}
 						type="bar"
 						text=""
-					/>
-				</div>
-				{/* <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold text-center">Leave Details</p>
-					<GuestDonutChart
-						labels={["Casual Leave", "Sick Leave"]}
-						series={[70, 30]}
-						text=""
-						type="pie"
-						colors={["#BD33B5", "#005d32"]}
-					/>
-				</div> */}
-				<div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold text-center">
-						Current Month Projects Overview
-					</p>
-					<GuestDonutChart
-						labels={["On Going Projects", "Finished Projects", "Total Bugs"]}
-						series={[45, 25, 30]}
-						text=""
-						type="donut"
-						colors={["#25d366", "#E60023", "#BD33B5"]}
 					/>
 				</div>
 				<div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
