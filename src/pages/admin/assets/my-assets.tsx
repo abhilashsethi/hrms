@@ -1,35 +1,8 @@
-import {
-	Add,
-	Close,
-	FilterListRounded,
-	GridViewRounded,
-	TableRowsRounded,
-} from "@mui/icons-material";
-import {
-	Button,
-	IconButton,
-	MenuItem,
-	Pagination,
-	Stack,
-	TextField,
-	Tooltip,
-} from "@mui/material";
-import {
-	AssetsColumn,
-	AssetsGrid,
-	MyAssetsGrid,
-} from "components/admin/assets";
-import {
-	AdminBreadcrumbs,
-	Loader,
-	LoaderAnime,
-	SkeletonLoader,
-} from "components/core";
-import ChooseBranch from "components/dialogues/ChooseBranch";
-import ChooseBranchToViewAssets from "components/dialogues/ChooseBranchToViewAssets";
+import { Pagination, Stack } from "@mui/material";
+import { MyAssetsGrid } from "components/admin/assets";
+import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const MyAssets = () => {
@@ -45,11 +18,10 @@ const MyAssets = () => {
 	const [branchId, setBranchId] = useState<string | null>(null);
 	const { user } = useAuth();
 	const links = [
-		{ id: 1, page: "Assets", link: "/admin/assets" },
 		{
-			id: 2,
+			id: 1,
 			page: "My Assets",
-			link: "/admin/assets/all-assets",
+			link: "/admin/assets/my-assets",
 		},
 	];
 
@@ -59,7 +31,7 @@ const MyAssets = () => {
 		isLoading,
 		pagination,
 	} = useFetch<any>(
-		`assets/assign/user/of/asset?${user?.id ? `&userId=${user?.id}` : ""}`
+		`assets/assign/user/of/asset?${user?.id ? `userId=${user?.id}` : ""}`
 	);
 	console.log(assetsData);
 
