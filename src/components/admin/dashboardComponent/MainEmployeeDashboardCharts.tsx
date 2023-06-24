@@ -49,7 +49,7 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 							}
 							text=""
 							type="pie"
-							colors={["#cddc39", "#03a9f4"]}
+							colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
 						/>
 					) : (
 						<NoDatas title={"No Leave Taken"} />
