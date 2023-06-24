@@ -132,7 +132,7 @@ const ProjectTasks = () => {
 						</h2>
 						<div className="flex justify-between mt-4">
 							<div className="flex justify-center justify-items-center gap-3">
-								<PhotoViewer name={item?.assignedUsers?.name} photo={item?.assignedUsers?.photo} />
+								<PhotoViewer name={item?.assignedUsers?.name} photo={item?.assignedUsers?.photo} size="3rem" />
 								<p className="text-lg font-semibold">{item?.assignedUsers?.name}</p>
 							</div>
 							{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
