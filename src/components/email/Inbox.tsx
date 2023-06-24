@@ -4,7 +4,7 @@ import { LoaderAnime } from "components/core";
 import EmailCard from "./EmailCard";
 import InboxHeader from "./InboxHeader";
 import { useState } from "react";
-import { useAuth, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { InboxEmailType, SentEmailType } from "types";
 
@@ -37,6 +37,8 @@ const Inbox = () => {
 
   const { push } = useRouter();
 
+  const { change } = useChange();
+
   const { data, isValidating, mutate, error } = useFetch<InboxDataType>(
     `emails/getMyInbox/${user?.id}?page=${pageNo}&limit=20` +
       (searchText?.trim()?.length ? `&userName=${searchText}` : "")
@@ -50,6 +52,15 @@ const Inbox = () => {
         return prev.filter((item) => item !== emailId);
       }
       return [...prev, emailId];
+    });
+  };
+
+  const handleReadEmail = async (emailId: string) => {
+    await change(`emails/${emailId}`, {
+      method: "PATCH",
+      body: {
+        isRead: true,
+      },
     });
   };
 
@@ -89,7 +100,10 @@ const Inbox = () => {
                     userName={item?.sender?.name}
                     subject={item?.subject}
                     email={item?.sender?.username}
-                    onclick={() => push(`/admin/email/${item?.id}`)}
+                    onclick={() => {
+                      push(`/admin/email/${item?.id}`);
+                      handleReadEmail(item?.id);
+                    }}
                     messageDate={item?.sentAt || new Date()}
                     messages={item?.content}
                     photo={item?.sender?.photo}
