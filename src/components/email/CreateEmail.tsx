@@ -20,7 +20,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
+import { EmailType, EmailUser, User } from "types";
 import { deleteFile, uploadFile } from "utils";
 import * as Yup from "yup";
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
@@ -40,18 +40,24 @@ const CreateEmail = () => {
 
   const { user } = useAuth();
 
-  const { push } = useRouter();
+  const { push, query } = useRouter();
+
+  const { data: draftData, isValidating } = useFetch<EmailType>(
+    `emails/${query?.draftId}?draft=true`
+  );
 
   const formik = useFormik({
     initialValues: {
-      recipients: "",
-      ccRecipients: "",
-      bccRecipients: "",
-      subject: "",
-      attachments: [],
-      message: "",
-      isDraft: false,
+      recipients: draftData?.receiver?.id ? [draftData?.receiver] : "",
+      ccRecipients: draftData?.cc?.length ? draftData?.cc : "",
+      bccRecipients: draftData?.bcc?.length ? draftData?.bcc : "",
+      subject: draftData?.subject ? draftData?.subject : "",
+      attachments: draftData?.attachments?.length ? draftData?.attachments : [],
+      message: draftData?.content?.length ? draftData?.content : "",
+      isDraft:
+        typeof draftData?.isSend !== "undefined" ? !draftData?.isSend : false,
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
       recipients: Yup.array(Yup.object()).required(
         "Email recipient is required*"
@@ -68,9 +74,12 @@ const CreateEmail = () => {
       try {
         //if attachments are present then upload the file and get ur
 
-        if (value?.attachments?.length) {
+        if (
+          value?.attachments?.length &&
+          typeof value?.attachments[0] !== "string"
+        ) {
           await Promise.all(
-            value?.attachments?.map((item: File) => {
+            value?.attachments?.map((item: any) => {
               return new Promise(async (resolve, reject) => {
                 try {
                   let url = await uploadFile(
@@ -93,13 +102,13 @@ const CreateEmail = () => {
             senderId: user?.id,
             receiverIds:
               Array.isArray(value?.recipients) &&
-              value?.recipients?.map((item: User) => item?.id),
+              value?.recipients?.map((item: EmailUser) => item?.id),
             cc:
               Array.isArray(value?.ccRecipients) &&
-              value?.ccRecipients?.map((item: User) => item?.id),
+              value?.ccRecipients?.map((item: EmailUser) => item?.id),
             bcc:
               Array.isArray(value?.bccRecipients) &&
-              value?.bccRecipients?.map((item: User) => item?.id),
+              value?.bccRecipients?.map((item: EmailUser) => item?.id),
             subject: value?.subject,
             content: value?.message,
             attachments: attachmentUrl,
@@ -152,7 +161,16 @@ const CreateEmail = () => {
       }
     },
   });
-  const handleRemoveFile = (slNumber: number) => {
+  const handleRemoveFile = async (slNumber: number) => {
+    //checkout what is the type of attachment
+    if (
+      formik?.values?.attachments?.length &&
+      typeof formik?.values?.attachments[slNumber] === "string"
+    ) {
+      //delete the image
+      await deleteFile(formik?.values?.attachments[slNumber]);
+    }
+
     //filter out this number of index and set other value
 
     formik?.setFieldValue(
@@ -467,14 +485,16 @@ const CreateEmail = () => {
                   </IconButton>
                 </span>
                 <a
-                  href={URL.createObjectURL(item)}
+                  href={
+                    typeof item === "string" ? item : URL.createObjectURL(item)
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <InsertDriveFile className="!text-7xl !text-theme" />
                 </a>
                 <p className="text-center py-2 text-xs font-medium  break-words">
-                  {item?.name}
+                  {item?.name || item?.split("/")?.at(-1)}
                 </p>
               </div>
             ))}

@@ -1,8 +1,16 @@
 import { FileDownload, InsertDriveFile } from "@mui/icons-material";
 import { Avatar, IconButton } from "@mui/material";
 import ReplyToEmail from "./ReplyToEmail";
+import { useFetch } from "hooks";
+import { useRouter } from "next/router";
 
 const EmailContainer = () => {
+  const { query } = useRouter();
+
+  const { data } = useFetch(`emails/${query?.emailId}`);
+
+  console.log({ data });
+
   return (
     <div className="w-full flex flex-col  gap-4">
       <ReplyToEmail />
