@@ -51,7 +51,7 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 			<div className="grid lg:grid-cols-2 content-between gap-6">
 				<div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="font-bold text-lg text-center">
-						Last Year Attendance Overview
+						This Year Attendance Overview
 					</p>
 					<GuestBarChart
 						labels={[
@@ -131,14 +131,14 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
 												</div>
 												<div
 													className={`px-2 rounded-lg flex items-center uppercase shadow-md text-xs tracking-wide font-semibold text-white ${item?.status === "Pending"
-															? `bg-yellow-500`
-															: item?.status === "Ongoing"
-																? `bg-blue-500`
-																: item?.status === "Onhold"
-																	? `bg-red-500`
-																	: item?.status === "Completed"
-																		? `bg-green-500`
-																		: `bg-slate-500`
+														? `bg-yellow-500`
+														: item?.status === "Ongoing"
+															? `bg-blue-500`
+															: item?.status === "Onhold"
+																? `bg-red-500`
+																: item?.status === "Completed"
+																	? `bg-green-500`
+																	: `bg-slate-500`
 														}`}
 												>
 													{item?.status}

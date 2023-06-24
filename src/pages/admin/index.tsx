@@ -93,6 +93,20 @@ const AdminHome = () => {
               )}
             </section>
           </>
+        ) : user?.role?.name == "PROJECT MANAGER" ? (
+          <>
+            <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+            <section className="lg:px-8 px-4 py-4">
+              {isLoading ? (
+                <DashboardSkeletonLoading />
+              ) : (
+                <>
+                  <MainClientDashboardCards data={""} />
+                  <MainClientDashboardCharts data={""} />
+                </>
+              )}
+            </section>
+          </>
         ) : (
           // client
           <>
