@@ -104,6 +104,7 @@ const EditMeetingDetails = ({
 					},
 				});
 				mutate();
+				// handleClose();
 				handleClose();
 				if (res?.status !== 200) {
 					Swal.fire(`Error`, "Something went wrong!", "error");
