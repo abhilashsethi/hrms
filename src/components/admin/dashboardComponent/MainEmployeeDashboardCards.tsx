@@ -8,7 +8,7 @@ import {
 	QuestionAnswer,
 	RecentActors,
 	SupportAgent,
-	WebAsset
+	WebAsset,
 } from "@mui/icons-material";
 import { Avatar, Grid, Tooltip } from "@mui/material";
 import { CardAsset } from "assets/home";
@@ -99,7 +99,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
 			icon: <SupportAgent fontSize="medium" className="text-white" />,
 			title: "Support",
 			color: "bg-[#4caf50]",
-			link: "/admin/support",
+			link: `/admin/support`,
 		},
 	];
 	const leave_status = [
@@ -214,10 +214,11 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
 												<p>{item?.date}</p>
 											</div>
 											<button
-												className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${item?.status === "Pending"
-													? `text-red-700 bg-red-300`
-													: `text-green-700 bg-green-300`
-													} p-1 h-7 rounded-lg text-center`}
+												className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${
+													item?.status === "Pending"
+														? `text-red-700 bg-red-300`
+														: `text-green-700 bg-green-300`
+												} p-1 h-7 rounded-lg text-center`}
 											>
 												{item?.status}
 											</button>
