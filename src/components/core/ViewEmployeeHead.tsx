@@ -25,6 +25,7 @@ interface Props {
 	mutate?: any;
 }
 const ViewEmployeeHead = ({ employData, mutate }: Props) => {
+	// console.log(employData)
 	const [document, setDocument] = useState(false);
 	const [projects, setProjects] = useState(false);
 	const [leaves, setLeaves] = useState(false);
