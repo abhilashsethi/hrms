@@ -127,7 +127,7 @@ const MeetingData = () => {
 									</div>
 									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">
 										<p className="md:text-base text-sm font-semibold">
-											Client Name
+											Client Name:
 										</p>{" "}
 										:{" "}
 										<span className="md:text-base text-sm">
