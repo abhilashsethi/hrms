@@ -6,11 +6,24 @@ import {
   InsertDriveFile,
   Send,
 } from "@mui/icons-material";
-import { IconButton, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Avatar,
+  Chip,
+  FormHelperText,
+  IconButton,
+  InputLabel,
+  TextField,
+} from "@mui/material";
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useChange, useAuth, useFetch } from "hooks";
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
+import { EmailType, User } from "types";
+import { uploadFile, deleteFile } from "utils";
 
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
@@ -18,37 +31,140 @@ const TypeEmailContainer = ({
   forwardedTo,
   open,
   onClose,
+  data,
 }: {
   forwardedTo?: boolean;
   open?: boolean;
   onClose?: (arg: any) => void;
+  data?: EmailType;
 }) => {
   const attachRef = useRef<HTMLInputElement | null>(null);
+
+  const { change } = useChange();
+  const { user } = useAuth();
+  const { push } = useRouter();
+  const [searchText, setSearchText] = useState("");
+  const { data: users, isValidating: userLoading } = useFetch<User[]>(
+    `users?page=1&limit=20` + (searchText ? `&name=${searchText}` : "")
+  );
+
+  const [selectedAutoComplete, setSelectedAutocomplete] = useState<any>();
 
   const formik = useFormik({
     initialValues: {
       isForwarded: forwardedTo,
-      forwardTo: "",
-      message: "",
+      forwardedToId: "",
       attachments: [],
+      message: "",
+      isDraft: false,
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      isForwarded: Yup.boolean(),
-      forwardTo: Yup.string().when("isForwarded", (value, schema) =>
-        value ? Yup.string().required().email("Provide a valid email*") : schema
-      ),
-      message: Yup.string().required(),
       attachments: Yup.array().optional().nullable(),
+      message: Yup.string().required("Message is required*"),
+      isDraft: Yup.boolean(),
+      isForwarded: Yup.boolean(),
+      forwardedToId: Yup.string().when("isForwarded", {
+        is: true,
+        then: () => Yup.string().required("Required"),
+      }),
     }),
-    onSubmit: (values) => {
-      console.log({ values });
+    onSubmit: async (value) => {
+      let attachmentUrl: string[] = [];
+      try {
+        //if attachments are present then upload the file and get ur
+
+        if (value?.attachments?.length) {
+          await Promise.all(
+            value?.attachments?.map((item: any) => {
+              return new Promise(async (resolve, reject) => {
+                try {
+                  if (typeof item === "string") {
+                    attachmentUrl.push(item);
+                  } else {
+                    let url = await uploadFile(
+                      item,
+                      Date.now() + "-" + item?.name
+                    );
+                    url && attachmentUrl.push(url);
+                  }
+
+                  resolve(true);
+                } catch (error) {
+                  reject(error);
+                }
+              });
+            })
+          );
+        }
+
+        const response = await change(`emails`, {
+          method: "POST",
+          body: {
+            senderId: user?.id,
+            subject: value?.isForwarded
+              ? `Forwarded | ${data?.subject}`
+              : `Reply | ${data?.subject}`,
+            content: value?.forwardedToId
+              ? `Forwarded Message &lt;&lt;${data?.sender?.username}&gt;&gt; <br/> ${data?.content} &lt;&lt;${user?.username}&gt;&gt; <br/> ${value?.message} `
+              : value?.message,
+            attachments: attachmentUrl,
+            isSend: !value?.isDraft,
+            receiverIds: value?.forwardedToId
+              ? [value?.forwardedToId]
+              : [data?.sender?.id],
+            replyId: value?.isForwarded ? undefined : data?.id,
+          },
+        });
+
+        if (response?.status !== 200) throw new Error(response?.results?.msg);
+
+        Swal.fire({
+          title: "Success",
+          text: "Email sent successfully",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        push(value?.isDraft ? `/admin/email/drafts` : `/admin/email/sent`);
+      } catch (error) {
+        //if images are already uploaded and then error thrown delete uploaded files
+
+        if (attachmentUrl?.length) {
+          await Promise.all(
+            attachmentUrl?.map((item: string) => {
+              return new Promise(async (resolve, reject) => {
+                try {
+                  await deleteFile(item);
+                  resolve(true);
+                } catch (error) {
+                  reject(error);
+                }
+              });
+            })
+          );
+        }
+
+        if (error instanceof Error) {
+          Swal.fire({
+            title: "Error",
+            text: error?.message,
+            icon: "error",
+          });
+          return;
+        }
+        Swal.fire({
+          title: "Error",
+          text: "Something went wrong!.Try again.",
+          icon: "error",
+        });
+      }
     },
   });
 
   const handleRemoveFile = (slNumber: number) => {
-    //filter out this number of index and set other favlue
-
+    //filter out this number of index and set other value
     formik?.setFieldValue(
       "attachments",
       formik?.values?.attachments?.filter((item, index) => index !== slNumber)
@@ -61,67 +177,90 @@ const TypeEmailContainer = ({
         open ? "h-full opacity-100" : " opacity-0 h-0 overflow-hidden "
       } `}
     >
-      {forwardedTo && (
+      {formik?.values?.isForwarded && (
         <div className="flex flex-col gap-2">
-          <h3 className="font-semibold tracking-wide text-sm">Forward To -</h3>
-          <TextField
-            variant="outlined"
-            name="forwardTo"
-            value={formik?.values?.forwardTo}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            size="small"
-            fullWidth
-            type="email"
-            error={Boolean(
-              formik?.touched?.forwardTo && formik?.errors?.forwardTo
-            )}
-            helperText={
-              formik?.touched?.forwardTo && (formik?.errors?.forwardTo as any)
-            }
-          />
+          <div className="flex flex-col w-full gap-2">
+            <InputLabel className="!font-semibold"> Forwarded To - </InputLabel>
+            <Autocomplete
+              loading={userLoading}
+              clearOnBlur={false}
+              fullWidth
+              value={selectedAutoComplete}
+              isOptionEqualToValue={(option, value) => option?.id === value?.id}
+              options={users || []}
+              getOptionLabel={(option: any) => option.username}
+              onChange={(e, v) => {
+                formik?.setFieldValue("forwardedToId", v?.id);
+                setSelectedAutocomplete(v);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  value={searchText}
+                  onChange={(e) => setSearchText(e?.target?.value)}
+                  {...params}
+                  size="small"
+                  fullWidth
+                  error={Boolean(
+                    formik?.touched?.forwardedToId &&
+                      formik?.errors?.forwardedToId
+                  )}
+                  helperText={
+                    formik?.touched?.forwardedToId &&
+                    (formik?.errors?.forwardedToId as any)
+                  }
+                />
+              )}
+            />
+          </div>
         </div>
       )}
-
-      <ReactQuill
-        placeholder="Reply message ..."
-        theme="snow"
-        modules={{
-          toolbar: [
-            [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline", "strike", "blockquote"],
-            [
-              { list: "ordered" },
-              { list: "bullet" },
-              { indent: "-1" },
-              { indent: "+1" },
+      <div className="flex flex-col gap-4">
+        <ReactQuill
+          placeholder="Reply message ..."
+          theme="snow"
+          modules={{
+            toolbar: [
+              [{ header: [1, 2, false] }],
+              ["bold", "italic", "underline", "strike", "blockquote"],
+              [
+                { list: "ordered" },
+                { list: "bullet" },
+                { indent: "-1" },
+                { indent: "+1" },
+              ],
+              ["link", "image"],
+              ["clean"],
             ],
-            ["link", "image"],
-            ["clean"],
-          ],
-        }}
-        formats={[
-          "header",
-          "bold",
-          "italic",
-          "underline",
-          "strike",
-          "blockquote",
-          "list",
-          "bullet",
-          "indent",
-          "link",
-          "image",
-        ]}
-        value={formik?.values?.message}
-        onChange={(value) => formik?.setFieldValue("message", value)}
-        onBlur={() => formik?.setFieldTouched("message", true)}
-        style={{
-          height: "15rem",
-          paddingBottom: "2rem",
-        }}
-        className=" w-full bg-white rounded-lg"
-      />
+          }}
+          formats={[
+            "header",
+            "bold",
+            "italic",
+            "underline",
+            "strike",
+            "blockquote",
+            "list",
+            "bullet",
+            "indent",
+            "link",
+            "image",
+          ]}
+          value={formik?.values?.message}
+          onChange={(value) => formik?.setFieldValue("message", value)}
+          onBlur={() => formik?.setFieldTouched("message", true)}
+          style={{
+            height: "15rem",
+            paddingBottom: "2rem",
+          }}
+          className=" w-full bg-white rounded-lg"
+        />
+        {Boolean(formik?.touched?.message && formik?.errors?.message) && (
+          <FormHelperText error={true}>
+            {formik?.touched?.message && formik?.errors?.message}
+          </FormHelperText>
+        )}
+      </div>
+
       {formik?.values?.attachments?.length ? (
         <>
           <h3 className="font-medium tracking-wide mt-8 px-4">Attachments -</h3>
@@ -157,7 +296,11 @@ const TypeEmailContainer = ({
 
       <div className="flex items-center gap-4 py-4 w-full justify-between">
         <div className="flex gap-4 items-center">
-          <button className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg ">
+          <button
+            className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg "
+            onClick={formik?.submitForm}
+            type="submit"
+          >
             <Send />
             <span className="text-sm">Send Email</span>
           </button>
@@ -183,7 +326,15 @@ const TypeEmailContainer = ({
             <span className="text-sm">Attach</span>
           </button>
 
-          <button className="flex gap-4 items-center hover:scale-95 transition-all border border-secondary-500 ease-in-out duration-300 hover:bg-secondary-600 justify-center bg-secondary-500 text-white px-4 py-2 rounded-md shadow-lg ">
+          <button
+            className="flex gap-4 items-center hover:scale-95 transition-all border border-secondary-500 ease-in-out duration-300 hover:bg-secondary-600 justify-center bg-secondary-500 text-white px-4 py-2 rounded-md shadow-lg "
+            onClick={() => {
+              formik?.setFieldValue("isDraft", true);
+              formik?.submitForm();
+              console.log("button clicked");
+            }}
+            type="submit"
+          >
             <Drafts />
             <span className="text-sm">Save To Draft</span>
           </button>

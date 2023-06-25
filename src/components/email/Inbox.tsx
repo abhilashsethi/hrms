@@ -4,9 +4,10 @@ import { LoaderAnime } from "components/core";
 import EmailCard from "./EmailCard";
 import InboxHeader from "./InboxHeader";
 import { useState } from "react";
-import { useAuth, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { InboxEmailType, SentEmailType } from "types";
+import Swal from "sweetalert2";
 
 const defaultOptions = {
   loop: true,
@@ -37,6 +38,8 @@ const Inbox = () => {
 
   const { push } = useRouter();
 
+  const { change } = useChange();
+
   const { data, isValidating, mutate, error } = useFetch<InboxDataType>(
     `emails/getMyInbox/${user?.id}?page=${pageNo}&limit=20` +
       (searchText?.trim()?.length ? `&userName=${searchText}` : "")
@@ -53,6 +56,76 @@ const Inbox = () => {
     });
   };
 
+  const handleReadEmail = async (emailId: string) => {
+    await change(`emails/${emailId}`, {
+      method: "PATCH",
+      body: {
+        isRead: true,
+      },
+    });
+  };
+
+  const handleDeleteEmail = async () => {
+    try {
+      if (allClicked) {
+        const response = await change(`emails/deleteAll`, {
+          method: "DELETE",
+        });
+
+        if (response?.status !== 200) throw new Error(response?.results?.msg);
+
+        Swal.fire({
+          title: "Success",
+          text: "Email deleted successfully",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      }
+
+      await Promise.all(
+        selectedEmails?.map(
+          (item) =>
+            new Promise(async (resolve, reject) => {
+              try {
+                const response = await change(`emails/${item}`, {
+                  method: "DELETE",
+                });
+
+                if (response?.status !== 200)
+                  throw new Error(response?.results?.msg);
+                resolve(true);
+              } catch (error) {
+                reject(error);
+              }
+            })
+        )
+      );
+      Swal.fire({
+        title: "Success",
+        text: "Email deleted successfully",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        Swal.fire({
+          title: "Error",
+          text: error?.message,
+          icon: "error",
+        });
+        return;
+      }
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong!.Try again.",
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <div className="w-full flex flex-col">
       <InboxHeader
@@ -66,6 +139,7 @@ const Inbox = () => {
         pageNo={pageNo}
         totalPage={data?.pagination?.total}
         searchText={searchText}
+        handleDeleteEmail={handleDeleteEmail}
       />
 
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -89,7 +163,10 @@ const Inbox = () => {
                     userName={item?.sender?.name}
                     subject={item?.subject}
                     email={item?.sender?.username}
-                    onclick={() => push(`/admin/email/${item?.id}`)}
+                    onclick={() => {
+                      push(`/admin/email/${item?.id}`);
+                      handleReadEmail(item?.id);
+                    }}
                     messageDate={item?.sentAt || new Date()}
                     messages={item?.content}
                     photo={item?.sender?.photo}

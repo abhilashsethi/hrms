@@ -1,16 +1,19 @@
-import { Cancel, Reply } from "@mui/icons-material";
+import { Reply } from "@mui/icons-material";
 import { useState } from "react";
 import TypeEmailContainer from "./TypeEmailContainer";
+import { EmailType } from "types";
 
-const EmailReplyContainer = () => {
+const EmailReplyContainer = ({ data }: { data?: EmailType }) => {
   const [replay, setReply] = useState(false);
   const [isForwarding, setIsForwarding] = useState(false);
+
   return (
     <>
       <TypeEmailContainer
         forwardedTo={isForwarding}
         open={replay}
         onClose={setReply}
+        data={data}
       />
       <div className="w-full bg-themeBlue ">
         <div className="w-full flex items-center container mx-auto p-4 justify-between">

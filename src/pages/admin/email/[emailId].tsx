@@ -9,10 +9,24 @@ import { useRouter } from "next/router";
 import { useRef } from "react";
 import { EmailType } from "types";
 import { useReactToPrint } from "react-to-print";
+import { EMAILSENT } from "assets/animations";
+import Lottie from "react-lottie";
+import { LoaderAnime } from "components/core";
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: EMAILSENT,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 
 const ViewEmail = () => {
   const { query } = useRouter();
-  const { data } = useFetch<EmailType>(`emails/${query?.emailId}`);
+  const { data, isValidating, error } = useFetch<EmailType>(
+    `emails/${query?.emailId}`
+  );
   const printRef = useRef(null);
 
   const handlePrint = useReactToPrint({
@@ -21,11 +35,23 @@ const ViewEmail = () => {
 
   return (
     <PanelLayout title="Email | View">
-      <EmailDetailsHeader sentTime={data?.sentAt} print={handlePrint} />
-      <section className="w-full my-4 container mx-auto  rounded-md ">
-        <EmailContainer data={data} printRef={printRef} />
-      </section>
-      <EmailReplyContainer />
+      {isValidating ? (
+        <div className="w-full flex items-center min-h-[80vh] justify-center">
+          <Lottie options={defaultOptions} height={300} width={300} />
+        </div>
+      ) : data?.id ? (
+        <>
+          <EmailDetailsHeader sentTime={data?.sentAt} print={handlePrint} />
+          <section className="w-full my-4 container mx-auto  rounded-md ">
+            <EmailContainer data={data} printRef={printRef} />
+          </section>
+          <EmailReplyContainer data={data} />
+        </>
+      ) : (
+        <div className="flex items-center min-h-[80vh] justify-center">
+          <LoaderAnime text={error || "No email in draft"} />
+        </div>
+      )}
     </PanelLayout>
   );
 };

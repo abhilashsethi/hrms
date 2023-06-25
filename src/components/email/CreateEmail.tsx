@@ -23,6 +23,7 @@ import Swal from "sweetalert2";
 import { EmailType, EmailUser, User } from "types";
 import { deleteFile, uploadFile } from "utils";
 import * as Yup from "yup";
+import ReplyToEmail from "./ReplyToEmail";
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 const CreateEmail = () => {
@@ -115,11 +116,13 @@ const CreateEmail = () => {
             body: {
               senderId: user?.id,
               cc:
-                Array.isArray(value?.ccRecipients) &&
-                value?.ccRecipients?.map((item: EmailUser) => item?.id),
+                (Array.isArray(value?.ccRecipients) &&
+                  value?.ccRecipients?.map((item: EmailUser) => item?.id)) ||
+                undefined,
               bcc:
-                Array.isArray(value?.bccRecipients) &&
-                value?.bccRecipients?.map((item: EmailUser) => item?.id),
+                (Array.isArray(value?.bccRecipients) &&
+                  value?.bccRecipients?.map((item: EmailUser) => item?.id)) ||
+                undefined,
               subject: value?.subject,
               content: value?.message,
               attachments: attachmentUrl,
@@ -133,7 +136,7 @@ const CreateEmail = () => {
 
         Swal.fire({
           title: "Success",
-          text: response?.results?.msg,
+          text: "Email sent successfully",
           icon: "success",
           showConfirmButton: false,
           timer: 1500,
@@ -193,375 +196,387 @@ const CreateEmail = () => {
   };
 
   return (
-    <div className="w-full flex  flex-col my-4 p-4 border rounded-lg bg-white shadow-lg gap-4">
-      <div className="flex flex-col gap-4 lg:flex-row items-center ">
-        <div className="flex flex-col w-full gap-2">
-          <InputLabel className="!font-semibold"> To - </InputLabel>
-          <Autocomplete
-            loading={userLoading}
-            multiple
-            fullWidth
-            limitTags={2}
-            options={users || []}
-            value={
-              Array.isArray(formik?.values?.recipients)
-                ? formik?.values?.recipients
-                : []
-            }
-            isOptionEqualToValue={(option, value) =>
-              option?.name === value.name
-            }
-            clearOnBlur={false}
-            getOptionLabel={(option: any) => option.name}
-            filterSelectedOptions={true}
-            noOptionsText={
-              <h3
-                className="font-semibold tracking-wide !text-sm cursor-pointer"
-                onClick={() => {
-                  setPageLimit(undefined);
-                  setSearchText("");
-                }}
-              >
-                Select All
-              </h3>
-            }
-            onChange={(e, v) => {
-              formik?.setFieldValue("recipients", v);
-            }}
-            renderTags={(tagValue, getTagProps) => {
-              return tagValue.map((option, index) => (
-                <Chip
-                  {...getTagProps({ index })}
-                  label={
-                    <div className="flex flex-col">
-                      <h3 className="font-semibold tracking-wide  !text-sm">
-                        {option.name}
-                      </h3>
-                      <p className="!text-xs whitespace-nowrap ">
-                        {option?.username}
-                      </p>
-                    </div>
-                  }
-                  avatar={
-                    <Avatar src={option?.photo || undefined}>
-                      {option?.name[0]}
-                    </Avatar>
-                  }
-                />
-              ));
-            }}
-            renderInput={(params) => (
-              <TextField
-                value={searchText}
-                onChange={(e) => setSearchText(e?.target?.value)}
-                {...params}
-                size="small"
-                fullWidth
-                error={Boolean(
-                  formik?.touched?.recipients && formik?.errors?.recipients
-                )}
-                helperText={
-                  formik?.touched?.recipients &&
-                  (formik?.errors?.recipients as any)
-                }
-              />
-            )}
-          />
-        </div>
-        <div className="flex flex-col w-full gap-2">
-          <InputLabel className="!font-semibold"> Subject - </InputLabel>
-          <TextField
-            size="small"
-            name="subject"
-            value={formik?.values?.subject}
-            onChange={formik?.handleChange}
-            onBlur={formik?.handleBlur}
-            error={Boolean(formik?.touched?.subject && formik?.errors?.subject)}
-            helperText={
-              formik?.touched?.subject && (formik?.errors?.subject as any)
-            }
-            fullWidth
-          />
-        </div>
-      </div>
-      <div className="flex flex-col gap-4 lg:flex-row items-center ">
-        <div className="flex flex-col w-full gap-2">
-          <InputLabel className="!font-semibold"> Cc - </InputLabel>
-          <Autocomplete
-            loading={userLoading}
-            clearOnBlur={false}
-            multiple
-            fullWidth
-            limitTags={2}
-            value={
-              Array.isArray(formik?.values?.ccRecipients)
-                ? formik?.values?.ccRecipients
-                : []
-            }
-            isOptionEqualToValue={(option, value) =>
-              option?.name === value?.name
-            }
-            options={users || []}
-            getOptionLabel={(option: any) => option.name}
-            filterSelectedOptions
-            noOptionsText={
-              <h3
-                className="font-semibold tracking-wide !text-sm cursor-pointer"
-                onClick={() => {
-                  setPageLimit(undefined);
-                  setSearchText("");
-                }}
-              >
-                Select All
-              </h3>
-            }
-            onChange={(e, v) => {
-              formik?.setFieldValue("ccRecipients", v);
-            }}
-            renderTags={(tagValue, getTagProps) => {
-              return tagValue.map((option, index) => (
-                <Chip
-                  {...getTagProps({ index })}
-                  label={
-                    <div className="flex flex-col">
-                      <h3 className="font-semibold tracking-wide  !text-sm">
-                        {option.name}
-                      </h3>
-                      <p className="!text-xs whitespace-nowrap ">
-                        {option?.username}
-                      </p>
-                    </div>
-                  }
-                  avatar={
-                    <Avatar src={option?.photo || undefined}>
-                      {option?.name[0]}
-                    </Avatar>
-                  }
-                />
-              ));
-            }}
-            renderInput={(params) => (
-              <TextField
-                value={searchText}
-                onChange={(e) => setSearchText(e?.target?.value)}
-                {...params}
-                size="small"
-                fullWidth
-                error={Boolean(
-                  formik?.touched?.ccRecipients && formik?.errors?.ccRecipients
-                )}
-                helperText={
-                  formik?.touched?.ccRecipients &&
-                  (formik?.errors?.ccRecipients as any)
-                }
-              />
-            )}
-          />
-        </div>
-        <div className="flex flex-col w-full gap-2">
-          <InputLabel className="!font-semibold"> Bcc - </InputLabel>
-          <Autocomplete
-            loading={userLoading}
-            multiple
-            fullWidth
-            clearOnBlur={false}
-            limitTags={2}
-            options={users || []}
-            value={
-              Array.isArray(formik?.values?.bccRecipients)
-                ? formik?.values?.bccRecipients
-                : []
-            }
-            isOptionEqualToValue={(option, value) =>
-              option?.name === value?.name
-            }
-            getOptionLabel={(option: any) => option.name}
-            filterSelectedOptions
-            noOptionsText={
-              <h3
-                className="font-semibold tracking-wide !text-sm cursor-pointer"
-                onClick={() => {
-                  setPageLimit(undefined);
-                  setSearchText("");
-                }}
-              >
-                Select All
-              </h3>
-            }
-            onChange={(e, v) => {
-              formik?.setFieldValue("bccRecipients", v);
-            }}
-            renderTags={(tagValue, getTagProps) => {
-              return tagValue.map((option, index) => (
-                <Chip
-                  {...getTagProps({ index })}
-                  label={
-                    <div className="flex flex-col">
-                      <h3 className="font-semibold tracking-wide  !text-sm">
-                        {option.name}
-                      </h3>
-                      <p className="!text-xs whitespace-nowrap ">
-                        {option?.username}
-                      </p>
-                    </div>
-                  }
-                  avatar={
-                    <Avatar src={option?.photo || undefined}>
-                      {option?.name[0]}
-                    </Avatar>
-                  }
-                />
-              ));
-            }}
-            renderInput={(params) => (
-              <TextField
-                value={searchText}
-                onChange={(e) => setSearchText(e?.target?.value)}
-                {...params}
-                size="small"
-                fullWidth
-                error={Boolean(
-                  formik?.touched?.bccRecipients &&
-                    formik?.errors?.bccRecipients
-                )}
-                helperText={
-                  formik?.touched?.bccRecipients &&
-                  (formik?.errors?.bccRecipients as any)
-                }
-              />
-            )}
-          />
-        </div>
-      </div>
-      <div className="flex flex-col w-full gap-2">
-        <InputLabel className="!font-semibold"> Message - </InputLabel>
-        <ReactQuill
-          placeholder="Reply message ..."
-          theme="snow"
-          modules={{
-            toolbar: [
-              [{ header: [1, 2, false] }],
-              ["bold", "italic", "underline", "strike", "blockquote"],
-              [
-                { list: "ordered" },
-                { list: "bullet" },
-                { indent: "-1" },
-                { indent: "+1" },
-              ],
-              ["link", "image"],
-              ["clean"],
-            ],
-          }}
-          formats={[
-            "header",
-            "bold",
-            "italic",
-            "underline",
-            "strike",
-            "blockquote",
-            "list",
-            "bullet",
-            "indent",
-            "link",
-            "image",
-          ]}
-          value={formik?.values?.message}
-          onChange={(value) => formik?.setFieldValue("message", value)}
-          onBlur={() => formik?.setFieldTouched("message", true)}
-          style={{
-            height: "50vh",
-            paddingBottom: "2rem",
-          }}
-          className=" w-full bg-white rounded-lg"
-        />
-        {Boolean(formik?.touched?.message && formik?.errors?.message) && (
-          <FormHelperText error={true}>
-            {formik?.touched?.message && formik?.errors?.message}
-          </FormHelperText>
-        )}
-      </div>
-      {formik?.values?.attachments?.length ? (
-        <>
-          <h3 className="font-medium tracking-wide mt-8 px-4">Attachments -</h3>
-          <div className="flex flex-wrap gap-4 px-4 pb-4 ">
-            {formik?.values?.attachments?.map((item: any, i) => (
-              <div
-                className="flex flex-col items-center relative p-4 rounded-md bg-themeBlue shadow-lg"
-                key={i}
-              >
-                <span className="absolute -top-5 -right-5 z-10">
-                  <IconButton
-                    className="!bg-red-500 !text-white"
-                    onClick={() => handleRemoveFile(i)}
-                  >
-                    <Close className="!text-xl" />
-                  </IconButton>
-                </span>
-                <a
-                  href={
-                    typeof item === "string" ? item : URL.createObjectURL(item)
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
+    <>
+      {draftData?.replyTo?.id && (
+        <ReplyToEmail data={draftData?.replyTo as any} />
+      )}
+      <div className="w-full flex  flex-col my-4 p-4 border rounded-lg bg-white shadow-lg gap-4">
+        <div className="flex flex-col gap-4 lg:flex-row items-center ">
+          <div className="flex flex-col w-full gap-2">
+            <InputLabel className="!font-semibold"> To - </InputLabel>
+            <Autocomplete
+              loading={userLoading}
+              multiple
+              fullWidth
+              limitTags={2}
+              options={users || []}
+              value={
+                Array.isArray(formik?.values?.recipients)
+                  ? formik?.values?.recipients
+                  : []
+              }
+              isOptionEqualToValue={(option, value) =>
+                option?.name === value.name
+              }
+              clearOnBlur={false}
+              getOptionLabel={(option: any) => option.name}
+              filterSelectedOptions={true}
+              noOptionsText={
+                <h3
+                  className="font-semibold tracking-wide !text-sm cursor-pointer"
+                  onClick={() => {
+                    setPageLimit(undefined);
+                    setSearchText("");
+                  }}
                 >
-                  <InsertDriveFile className="!text-7xl !text-theme" />
-                </a>
-                <p className="text-center py-2 text-xs font-medium  break-words">
-                  {item?.name || item?.split("/")?.at(-1)}
-                </p>
-              </div>
-            ))}
+                  Select All
+                </h3>
+              }
+              onChange={(e, v) => {
+                formik?.setFieldValue("recipients", v);
+              }}
+              renderTags={(tagValue, getTagProps) => {
+                return tagValue.map((option, index) => (
+                  <Chip
+                    {...getTagProps({ index })}
+                    label={
+                      <div className="flex flex-col">
+                        <h3 className="font-semibold tracking-wide  !text-sm">
+                          {option.name}
+                        </h3>
+                        <p className="!text-xs whitespace-nowrap ">
+                          {option?.username}
+                        </p>
+                      </div>
+                    }
+                    avatar={
+                      <Avatar src={option?.photo || undefined}>
+                        {option?.name[0]}
+                      </Avatar>
+                    }
+                  />
+                ));
+              }}
+              renderInput={(params) => (
+                <TextField
+                  value={searchText}
+                  onChange={(e) => setSearchText(e?.target?.value)}
+                  {...params}
+                  size="small"
+                  fullWidth
+                  error={Boolean(
+                    formik?.touched?.recipients && formik?.errors?.recipients
+                  )}
+                  helperText={
+                    formik?.touched?.recipients &&
+                    (formik?.errors?.recipients as any)
+                  }
+                />
+              )}
+            />
           </div>
-        </>
-      ) : null}
-
-      <div className="flex items-center gap-4 py-4 w-full justify-between">
-        <div className="flex gap-4 items-center">
-          <button
-            className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg "
-            onClick={() => {
-              formik?.submitForm();
+          <div className="flex flex-col w-full gap-2">
+            <InputLabel className="!font-semibold"> Subject - </InputLabel>
+            <TextField
+              size="small"
+              name="subject"
+              value={formik?.values?.subject}
+              onChange={formik?.handleChange}
+              onBlur={formik?.handleBlur}
+              error={Boolean(
+                formik?.touched?.subject && formik?.errors?.subject
+              )}
+              helperText={
+                formik?.touched?.subject && (formik?.errors?.subject as any)
+              }
+              fullWidth
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 lg:flex-row items-center ">
+          <div className="flex flex-col w-full gap-2">
+            <InputLabel className="!font-semibold"> Cc - </InputLabel>
+            <Autocomplete
+              loading={userLoading}
+              clearOnBlur={false}
+              multiple
+              fullWidth
+              limitTags={2}
+              value={
+                Array.isArray(formik?.values?.ccRecipients)
+                  ? formik?.values?.ccRecipients
+                  : []
+              }
+              isOptionEqualToValue={(option, value) =>
+                option?.name === value?.name
+              }
+              options={users || []}
+              getOptionLabel={(option: any) => option.name}
+              filterSelectedOptions
+              noOptionsText={
+                <h3
+                  className="font-semibold tracking-wide !text-sm cursor-pointer"
+                  onClick={() => {
+                    setPageLimit(undefined);
+                    setSearchText("");
+                  }}
+                >
+                  Select All
+                </h3>
+              }
+              onChange={(e, v) => {
+                formik?.setFieldValue("ccRecipients", v);
+              }}
+              renderTags={(tagValue, getTagProps) => {
+                return tagValue.map((option, index) => (
+                  <Chip
+                    {...getTagProps({ index })}
+                    label={
+                      <div className="flex flex-col">
+                        <h3 className="font-semibold tracking-wide  !text-sm">
+                          {option.name}
+                        </h3>
+                        <p className="!text-xs whitespace-nowrap ">
+                          {option?.username}
+                        </p>
+                      </div>
+                    }
+                    avatar={
+                      <Avatar src={option?.photo || undefined}>
+                        {option?.name[0]}
+                      </Avatar>
+                    }
+                  />
+                ));
+              }}
+              renderInput={(params) => (
+                <TextField
+                  value={searchText}
+                  onChange={(e) => setSearchText(e?.target?.value)}
+                  {...params}
+                  size="small"
+                  fullWidth
+                  error={Boolean(
+                    formik?.touched?.ccRecipients &&
+                      formik?.errors?.ccRecipients
+                  )}
+                  helperText={
+                    formik?.touched?.ccRecipients &&
+                    (formik?.errors?.ccRecipients as any)
+                  }
+                />
+              )}
+            />
+          </div>
+          <div className="flex flex-col w-full gap-2">
+            <InputLabel className="!font-semibold"> Bcc - </InputLabel>
+            <Autocomplete
+              loading={userLoading}
+              multiple
+              fullWidth
+              clearOnBlur={false}
+              limitTags={2}
+              options={users || []}
+              value={
+                Array.isArray(formik?.values?.bccRecipients)
+                  ? formik?.values?.bccRecipients
+                  : []
+              }
+              isOptionEqualToValue={(option, value) =>
+                option?.name === value?.name
+              }
+              getOptionLabel={(option: any) => option.name}
+              filterSelectedOptions
+              noOptionsText={
+                <h3
+                  className="font-semibold tracking-wide !text-sm cursor-pointer"
+                  onClick={() => {
+                    setPageLimit(undefined);
+                    setSearchText("");
+                  }}
+                >
+                  Select All
+                </h3>
+              }
+              onChange={(e, v) => {
+                formik?.setFieldValue("bccRecipients", v);
+              }}
+              renderTags={(tagValue, getTagProps) => {
+                return tagValue.map((option, index) => (
+                  <Chip
+                    {...getTagProps({ index })}
+                    label={
+                      <div className="flex flex-col">
+                        <h3 className="font-semibold tracking-wide  !text-sm">
+                          {option.name}
+                        </h3>
+                        <p className="!text-xs whitespace-nowrap ">
+                          {option?.username}
+                        </p>
+                      </div>
+                    }
+                    avatar={
+                      <Avatar src={option?.photo || undefined}>
+                        {option?.name[0]}
+                      </Avatar>
+                    }
+                  />
+                ));
+              }}
+              renderInput={(params) => (
+                <TextField
+                  value={searchText}
+                  onChange={(e) => setSearchText(e?.target?.value)}
+                  {...params}
+                  size="small"
+                  fullWidth
+                  error={Boolean(
+                    formik?.touched?.bccRecipients &&
+                      formik?.errors?.bccRecipients
+                  )}
+                  helperText={
+                    formik?.touched?.bccRecipients &&
+                    (formik?.errors?.bccRecipients as any)
+                  }
+                />
+              )}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col w-full gap-2">
+          <InputLabel className="!font-semibold"> Message - </InputLabel>
+          <ReactQuill
+            placeholder="Reply message ..."
+            theme="snow"
+            modules={{
+              toolbar: [
+                [{ header: [1, 2, false] }],
+                ["bold", "italic", "underline", "strike", "blockquote"],
+                [
+                  { list: "ordered" },
+                  { list: "bullet" },
+                  { indent: "-1" },
+                  { indent: "+1" },
+                ],
+                ["link", "image"],
+                ["clean"],
+              ],
             }}
-          >
-            <Send />
-            <span className="text-sm">Send Email</span>
-          </button>
-          <input
-            type="file"
-            name="attachments"
-            ref={attachRef}
-            onChange={(e: any) =>
-              formik.setFieldValue(
-                "attachments",
-                formik?.values?.attachments?.length
-                  ? [...formik?.values?.attachments, e?.target?.files[0]]
-                  : [e?.target?.files[0]]
-              )
-            }
-            className="!opacity-0 !w-0 !overflow-hidden absolute "
+            formats={[
+              "header",
+              "bold",
+              "italic",
+              "underline",
+              "strike",
+              "blockquote",
+              "list",
+              "bullet",
+              "indent",
+              "link",
+              "image",
+            ]}
+            value={formik?.values?.message}
+            onChange={(value) => formik?.setFieldValue("message", value)}
+            onBlur={() => formik?.setFieldTouched("message", true)}
+            style={{
+              height: "50vh",
+              paddingBottom: "2rem",
+            }}
+            className=" w-full bg-white rounded-lg"
           />
-          <button
-            className="flex gap-4 items-center hover:scale-95 transition-all border border-secondary-500 ease-in-out duration-300 hover:bg-secondary-600 justify-center bg-secondary-500 text-white px-4 py-2 rounded-md shadow-lg "
-            onClick={() => attachRef?.current?.click()}
-          >
-            <AttachFile />
-            <span className="text-sm">Attach</span>
-          </button>
+          {Boolean(formik?.touched?.message && formik?.errors?.message) && (
+            <FormHelperText error={true}>
+              {formik?.touched?.message && formik?.errors?.message}
+            </FormHelperText>
+          )}
+        </div>
+        {formik?.values?.attachments?.length ? (
+          <>
+            <h3 className="font-medium tracking-wide mt-8 px-4">
+              Attachments -
+            </h3>
+            <div className="flex flex-wrap gap-4 px-4 pb-4 ">
+              {formik?.values?.attachments?.map((item: any, i) => (
+                <div
+                  className="flex flex-col items-center relative p-4 rounded-md bg-themeBlue shadow-lg"
+                  key={i}
+                >
+                  <span className="absolute -top-5 -right-5 z-10">
+                    <IconButton
+                      className="!bg-red-500 !text-white"
+                      onClick={() => handleRemoveFile(i)}
+                    >
+                      <Close className="!text-xl" />
+                    </IconButton>
+                  </span>
+                  <a
+                    href={
+                      typeof item === "string"
+                        ? item
+                        : URL.createObjectURL(item)
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <InsertDriveFile className="!text-7xl !text-theme" />
+                  </a>
+                  <p className="text-center py-2 text-xs font-medium  break-words">
+                    {item?.name || item?.split("/")?.at(-1)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : null}
 
-          <button
-            className="flex gap-4 items-center hover:scale-95 transition-all border border-secondary-500 ease-in-out duration-300 hover:bg-secondary-600 justify-center bg-secondary-500 text-white px-4 py-2 rounded-md shadow-lg "
-            onClick={() => {
-              formik?.setFieldValue("isDraft", true);
-              formik?.submitForm();
-            }}
-            type="submit"
-          >
-            <Drafts />
-            <span className="text-sm">Save To Draft</span>
-          </button>
+        <div className="flex items-center gap-4 py-4 w-full justify-between">
+          <div className="flex gap-4 items-center">
+            <button
+              className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg "
+              onClick={() => {
+                formik?.submitForm();
+              }}
+            >
+              <Send />
+              <span className="text-sm">Send Email</span>
+            </button>
+            <input
+              type="file"
+              name="attachments"
+              ref={attachRef}
+              onChange={(e: any) =>
+                formik.setFieldValue(
+                  "attachments",
+                  formik?.values?.attachments?.length
+                    ? [...formik?.values?.attachments, e?.target?.files[0]]
+                    : [e?.target?.files[0]]
+                )
+              }
+              className="!opacity-0 !w-0 !overflow-hidden absolute "
+            />
+            <button
+              className="flex gap-4 items-center hover:scale-95 transition-all border border-secondary-500 ease-in-out duration-300 hover:bg-secondary-600 justify-center bg-secondary-500 text-white px-4 py-2 rounded-md shadow-lg "
+              onClick={() => attachRef?.current?.click()}
+            >
+              <AttachFile />
+              <span className="text-sm">Attach</span>
+            </button>
+
+            <button
+              className="flex gap-4 items-center hover:scale-95 transition-all border border-secondary-500 ease-in-out duration-300 hover:bg-secondary-600 justify-center bg-secondary-500 text-white px-4 py-2 rounded-md shadow-lg "
+              onClick={() => {
+                formik?.setFieldValue("isDraft", true);
+                formik?.submitForm();
+              }}
+              type="submit"
+            >
+              <Drafts />
+              <span className="text-sm">Save To Draft</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

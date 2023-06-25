@@ -22,6 +22,7 @@ const InboxHeader = ({
   totalPage,
   pageNo,
   searchText,
+  handleDeleteEmail,
 }: {
   setAllClicked: (arg: any) => void;
   allClicked: boolean;
@@ -33,6 +34,7 @@ const InboxHeader = ({
   totalPage?: number;
   pageNo: number;
   searchText: string;
+  handleDeleteEmail?: () => void;
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -62,7 +64,7 @@ const InboxHeader = ({
           onClick={() => setAllClicked((prev: boolean) => !prev)}
         />{" "}
         <span className="text-gray-800/20">|</span>
-        <IconButton>
+        <IconButton onClick={handleDeleteEmail}>
           <Delete />
         </IconButton>
         <IconButton

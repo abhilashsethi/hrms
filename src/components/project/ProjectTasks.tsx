@@ -153,7 +153,7 @@ const ProjectTasks = () => {
 							{user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
 								<div className="flex gap-2 items-center">
 									<Tooltip title="Edit">
-										<IconButton onClick={() => { setItemId(item?.id), setIsUpdate(true) }}>
+										<IconButton onClick={() => { setItemId(item), setIsUpdate(true) }}>
 											<Edit />
 										</IconButton>
 									</Tooltip>

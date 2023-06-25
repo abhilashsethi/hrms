@@ -9,12 +9,13 @@ import {
 import { Checkbox, IconButton, Menu, MenuItem, TextField } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import EmailCard from "./EmailCard";
-import { useAuth, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { SentEmailType } from "types";
 import { useRouter } from "next/router";
 import Lottie from "react-lottie";
 import { EMAILSENT } from "assets/animations";
 import { LoaderAnime } from "components/core";
+import Swal from "sweetalert2";
 
 type SentEmailData = {
   allSendEmails: SentEmailType[];
@@ -69,6 +70,69 @@ const SentEmail = () => {
     });
   };
 
+  const { change } = useChange();
+
+  const handleDeleteEmail = async () => {
+    try {
+      if (allClicked) {
+        const response = await change(`emails/deleteAll`, {
+          method: "DELETE",
+        });
+
+        if (response?.status !== 200) throw new Error(response?.results?.msg);
+
+        Swal.fire({
+          title: "Success",
+          text: "Email deleted successfully",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      }
+
+      await Promise.all(
+        selectedEmails?.map(
+          (item) =>
+            new Promise(async (resolve, reject) => {
+              try {
+                const response = await change(`emails/${item}`, {
+                  method: "DELETE",
+                });
+
+                if (response?.status !== 200)
+                  throw new Error(response?.results?.msg);
+                resolve(true);
+              } catch (error) {
+                reject(error);
+              }
+            })
+        )
+      );
+      Swal.fire({
+        title: "Success",
+        text: "Email deleted successfully",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        Swal.fire({
+          title: "Error",
+          text: error?.message,
+          icon: "error",
+        });
+        return;
+      }
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong!.Try again.",
+        icon: "error",
+      });
+    }
+  };
+
   return (
     <div className="w-full flex flex-col">
       <div className="flex flex-col md:flex-row gap-2 shadow-md rounded-lg justify-between p-4 bg-white py-4  w-full items-center ">
@@ -79,7 +143,7 @@ const SentEmail = () => {
             onClick={() => setAllClicked((prev) => !prev)}
           />{" "}
           <span className="text-gray-800/20">|</span>
-          <IconButton>
+          <IconButton onClick={handleDeleteEmail}>
             <Delete />
           </IconButton>
           <IconButton
