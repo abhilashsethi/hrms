@@ -1,5 +1,6 @@
 import {
   Add,
+  Delete,
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from "@mui/icons-material";
@@ -53,22 +54,36 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                   <div>
                     {values.inputFields.map((field, index) => (
                       <div key={index}>
-                        <Field
-                          as={TextField}
-                          name={`inputFields[${index}].field1`}
-                          label="Field 1"
-                        />
-                        <Field
-                          as={TextField}
-                          name={`inputFields[${index}].field2`}
-                          label="Field 2"
-                        />
-                        <Button type="button" onClick={() => remove(index)}>
-                          Remove
-                        </Button>
+                        <div className="lg:w-1/2 w-full grid">
+                          <Field
+                            as={TextField}
+                            type="text"
+                            name={`inputFields[${index}].field1`}
+                            label="Document Title"
+                          />
+                          <div className="flex gap-x-4">
+                            <Field
+                              as={TextField}
+                              type="file"
+                              name={`inputFields[${index}].field2`}
+                              label="Upload file"
+                            />
+                            <Button type="button"
+                              variant="contained"
+                              startIcon={<Delete />}
+                              className="!bg-blue-600"
+                              onClick={() => remove(index)}>
+                              Remove
+                            </Button>
+                          </div>
+                        </div>
                       </div>
                     ))}
-                    <Button type="button" onClick={() => push({ field1: '', field2: '' })}>
+                    <Button type="button"
+                      variant="contained"
+                      startIcon={<Add />}
+                      className="!bg-blue-600"
+                      onClick={() => push({ field1: '', field2: '' })}>
                       Add Field
                     </Button>
                   </div>
