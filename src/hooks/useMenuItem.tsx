@@ -170,12 +170,7 @@ export default () => {
       title: "Payroll",
       icon: <ICONS.Payroll_1 />,
       submenus: [
-        // {
-        // 	key: "14-1",
-        // 	title: "Employee Salary",
-        // 	icon: <ICONS.Dashboard_1 />,
-        // 	route: "/admin/payroll/employee-salary",
-        // },
+
         {
           key: "14-2",
           title: "Configure",
@@ -287,50 +282,44 @@ export default () => {
       ],
     },
 
-    user?.role?.name == "CEO" || user?.role?.name == "HR"
-      ? {
-        key: "27",
-        title: "Tenders",
-        icon: <ICONS.Tender />,
-        submenus: [
-          {
-            key: "27-1",
-            title: "Dashboard",
-            icon: <ICONS.Dashboard_1 />,
-            route: "/admin/tenders",
-          },
-          {
-            key: "27-2",
-            title: "All Tenders",
-            icon: <ICONS.All_Tender />,
-            route: "/admin/tenders/all-tenders",
-          },
-          {
-            key: "27-5",
-            title: "Members",
-            icon: <ICONS.All_Employee />,
-            route: "/admin/tenders/members",
-          },
-          {
-            key: "27-3",
-            title: "Create Tender",
-            icon: <ICONS.Create_Tender />,
-            route: "/admin/tenders/create-tender",
-          },
-          {
-            key: "27-4",
-            title: "Tender Details",
-            icon: <ICONS.Tender_Details />,
-            route: "/admin/tenders/tender-details",
-          },
-        ],
-      }
-      : {
-        key: "27ss",
-        title: "My Tenders",
-        icon: <ICONS.All_Tender />,
-        route: "/admin/tenders/all-tenders",
-      },
+    {
+      key: "27",
+      title: "Tenders",
+      icon: <ICONS.Tender />,
+      submenus: [
+        {
+          key: "27-1",
+          title: "Dashboard",
+          icon: <ICONS.Dashboard_1 />,
+          route: "/admin/tenders",
+        },
+        {
+          key: "27-2",
+          title: "All Tenders",
+          icon: <ICONS.All_Tender />,
+          route: "/admin/tenders/all-tenders",
+        },
+        {
+          key: "27-5",
+          title: "Members",
+          icon: <ICONS.All_Employee />,
+          route: "/admin/tenders/members",
+        },
+        {
+          key: "27-3",
+          title: "Create Tender",
+          icon: <ICONS.Create_Tender />,
+          route: "/admin/tenders/create-tender",
+        },
+        {
+          key: "27-6",
+          title: "My Tenders",
+          icon: <ICONS.All_Tender />,
+          route: "/admin/tenders/my-tenders",
+        },
+
+      ],
+    },
     {
       key: "28",
       title: "Assets",
