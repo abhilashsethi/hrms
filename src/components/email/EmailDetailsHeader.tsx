@@ -37,6 +37,7 @@ const EmailDetailsHeader = ({
         showConfirmButton: false,
         timer: 1500,
       });
+      back();
     } catch (error) {
       if (error instanceof Error) {
         Swal.fire({

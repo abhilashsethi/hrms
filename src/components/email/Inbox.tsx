@@ -81,6 +81,7 @@ const Inbox = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        mutate?.();
         return;
       }
 
@@ -109,6 +110,7 @@ const Inbox = () => {
         showConfirmButton: false,
         timer: 1500,
       });
+      mutate?.();
     } catch (error) {
       if (error instanceof Error) {
         Swal.fire({
