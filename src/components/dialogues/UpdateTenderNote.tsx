@@ -7,13 +7,11 @@ import {
   DialogTitle,
   IconButton,
   InputLabel,
-  MenuItem,
   TextField,
   Tooltip
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
-import moment from "moment";
+import { useChange } from "hooks";
 import { useRef, useState } from "react";
 import * as Yup from "yup";
 
@@ -24,22 +22,17 @@ interface Props {
   tenderData?: any;
 }
 
-const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => {
+const UpdateTenderNote = ({ open, handleClose, mutate, tenderData }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { data: branchData } = useFetch<any>(`branches`);
   const imageRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
 
   const initialValues = {
-    documentTitle: "",
-    documentFile: "",
-
-
+    note: `${tenderData?.note ? tenderData?.note : ""}`,
   };
 
   const validationSchema = Yup.object().shape({
-    documentFile: Yup.string().required("Document is required!"),
-    documentTitle: Yup.string().required("Document Name is required!"),
+    note: Yup.string().required("Note is required!"),
 
   });
 
@@ -57,10 +50,9 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
       >
         <DialogTitle
           id="customized-dialog-title"
-          sx={{ p: 2, minWidth: "18rem !important" }}
         >
           <p className="text-center text-xl font-bold text-theme tracking-wide">
-            ADD DOCUMENT
+            UPDATE NOTE
           </p>
           <IconButton
             aria-label="close"
@@ -78,7 +70,7 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-          <div className="md:px-4 px-2 tracking-wide">
+          <div className="md:w-[25rem] w-full md:px-4 px-2 tracking-wide">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -91,49 +83,32 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
                 touched,
                 handleChange,
                 handleBlur,
-                setFieldValue,
               }) => (
                 <Form>
                   <div className="grid">
 
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="documentTitle">
-                          Document Title <span className="text-red-600">*</span>
+                        <InputLabel htmlFor="note">
+                          Note <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         size="small"
                         fullWidth
-                        // placeholder="Email"
-                        id="documentTitle"
-                        name="documentTitle"
-                        value={values.documentTitle}
+                        multiline
+                        rows={4}
+                        placeholder="Add Some Note"
+                        id="note"
+                        name="note"
+                        value={values.note}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.documentTitle && !!errors.documentTitle}
-                        helperText={touched.documentTitle && errors.documentTitle}
+                        error={touched.note && !!errors.note}
+                        helperText={touched.note && errors.note}
                       />
                     </div>
-                    <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="portal">
-                          Upload file <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        type="file"
-                        name="documentFile"
-                        value={values.documentFile}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.documentFile && !!errors.documentFile}
-                        helperText={touched.documentFile && errors.documentFile}
-                      />
 
-                    </div>
                   </div>
                   <div className="flex justify-center md:py-4 py-2">
                     <Button
@@ -160,12 +135,4 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
   );
 };
 
-export default AddTenderDocument;
-const documentFile = [
-  { id: 1, title: "Online" },
-  { id: 2, title: "Offline" },
-];
-const exemption = [
-  { id: 1, title: "Yes" },
-  { id: 2, title: "No" },
-];
+export default UpdateTenderNote;

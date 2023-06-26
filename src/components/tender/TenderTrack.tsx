@@ -1,15 +1,3 @@
-import { PhotoViewerSmall, TextTitles } from "components/core";
-import TenderLayout from "./TenderLayout";
-import { CHATDOC } from "assets/home";
-import {
-  Button,
-  Checkbox,
-  IconButton,
-  Link,
-  MenuItem,
-  TextField,
-  Tooltip,
-} from "@mui/material";
 import {
   Add,
   Check,
@@ -19,12 +7,31 @@ import {
   Edit,
   Person
 } from "@mui/icons-material";
+import {
+  Button,
+  IconButton,
+  Link,
+  MenuItem,
+  TextField,
+  Tooltip
+} from "@mui/material";
+import { CHATDOC } from "assets/home";
+import { PhotoViewerSmall } from "components/core";
+import { AddTenderDocument, TenderCreateNote, UpdateTenderNote } from "components/dialogues";
 import moment from "moment";
 import { useState } from "react";
-import { AddTenderDocument } from "components/dialogues";
+import TenderLayout from "./TenderLayout";
 
 const TenderTrack = () => {
   const [isDocument, setIsDocument] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
+  const [isCreateNote, setIsCreateNote] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
+  const [isUpdateNote, setIsUpdateNote] = useState<{
     dialogue?: boolean;
     tenderData?: any | null;
   }>({ dialogue: false, tenderData: null });
@@ -34,6 +41,18 @@ const TenderTrack = () => {
         tenderData={isDocument?.tenderData}
         open={isDocument?.dialogue}
         handleClose={() => setIsDocument({ dialogue: false })}
+      // mutate={mutate}
+      />
+      <TenderCreateNote
+        tenderData={isCreateNote?.tenderData}
+        open={isCreateNote?.dialogue}
+        handleClose={() => setIsCreateNote({ dialogue: false })}
+      // mutate={mutate}
+      />
+      <UpdateTenderNote
+        tenderData={isUpdateNote?.tenderData}
+        open={isUpdateNote?.dialogue}
+        handleClose={() => setIsUpdateNote({ dialogue: false })}
       // mutate={mutate}
       />
       <h1 className="text-theme font-semibold">Assigned Member</h1>
@@ -173,7 +192,9 @@ const TenderTrack = () => {
             startIcon={<Create />}
             variant="contained"
             className="!bg-theme"
-          >
+            onClick={() => {
+              setIsCreateNote({ dialogue: true, tenderData: documents });
+            }}>
             Create Note
           </Button>
         </div>
@@ -188,7 +209,9 @@ const TenderTrack = () => {
             <div className="flex justify-between items-end">
               <div className="flex gap-1 justify-start">
                 <Tooltip title="Edit">
-                  <IconButton size="small">
+                  <IconButton size="small" onClick={() => {
+                    setIsUpdateNote({ dialogue: true, tenderData: documents });
+                  }}>
                     <Edit />
                   </IconButton>
                 </Tooltip>
