@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useChange, useChatData, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
@@ -35,6 +35,7 @@ const validationSchema = yup.object().shape({
     .min(1, "At least include one member!"),
 });
 const ChatGroupCreate = ({ open, onClose }: Props) => {
+  const { reValidateGroupChat } = useChatData();
   const { data: employeeData } = useFetch<User[]>(`users`);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
@@ -54,10 +55,11 @@ const ChatGroupCreate = ({ open, onClose }: Props) => {
         setLoading(false);
         return;
       }
-      // mutate();
+
       onClose();
       Swal.fire(`Success`, `Created Successfully!`, `success`);
       resetForm();
+      reValidateGroupChat();
       return;
     } catch (error) {
       setLoading(false);

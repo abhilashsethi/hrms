@@ -130,24 +130,32 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
 };
 
 export default ChatMessage;
-const DocFormat = ({ data }: any) => {
+const DocFormat = ({ data }: { data?: IChatMessages }) => {
   return (
-    <div className="flex gap-2 items-center">
-      <img className="h-12 object-contain" src={CHATDOC.src} alt="" />
-      <div className="flex w-4/5 justify-between items-center">
-        <h1>Document</h1>
-        <Tooltip title="Download">
-          <IconButton
-            onClick={() =>
-              downloadFile(data?.link, data?.link?.split("/")?.at(-1) as any)
-            }
-            size="small"
-          >
-            <FileDownloadOutlined />
-          </IconButton>
-        </Tooltip>
+    <>
+      <div className="flex gap-2 items-center">
+        <img className="h-12 object-contain" src={CHATDOC.src} alt="" />
+        <div className="flex w-4/5 justify-between items-center">
+          <h1>{data?.link?.split("/")?.at(-1)}</h1>
+          <Tooltip title="Download">
+            <IconButton
+              onClick={() =>
+                downloadFile(
+                  data?.link as any,
+                  data?.link?.split("/")?.at(-1) as any
+                )
+              }
+              size="small"
+            >
+              <FileDownloadOutlined />
+            </IconButton>
+          </Tooltip>
+        </div>
       </div>
-    </div>
+      <p className="tracking-wide whitespace-pre-line break-words ">
+        {data?.text}
+      </p>
+    </>
   );
 };
 
@@ -192,7 +200,12 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
   ];
 
   const { socketRef } = useSocket();
-  const { revalidateCurrentChat } = useChatData();
+  const {
+    revalidateCurrentChat,
+    currentChatProfileDetails,
+    reValidateGroupChat,
+    reValidatePrivateChat,
+  } = useChatData();
 
   const handleReact = async (message: string | null) => {
     if (message) {
@@ -248,6 +261,10 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
             return;
           }
           Swal.fire(`Success`, "Message deleted successfully!", "success");
+          revalidateCurrentChat(activeProfile?.id);
+          currentChatProfileDetails?.isPrivateGroup
+            ? reValidatePrivateChat()
+            : reValidateGroupChat();
           return;
         } catch (error) {
           console.log(error);
@@ -296,14 +313,15 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
               >
                 <Reply fontSize="small" /> <span>Reply</span>
               </div>
-              {data?.sender?.id === user?.id && (
-                <div
-                  onClick={() => handleDelete()}
-                  className="flex gap-2 items-center hover:bg-slate-200 px-2 py-1 cursor-pointer text-sm tracking-wide"
-                >
-                  <Delete fontSize="small" /> <span>Delete</span>
-                </div>
-              )}
+              {data?.sender?.id === user?.id &&
+                !moment(moment(data?.createdAt).add(1, "hour")).isBefore() && (
+                  <div
+                    onClick={() => handleDelete()}
+                    className="flex gap-2 items-center hover:bg-slate-200 px-2 py-1 cursor-pointer text-sm tracking-wide"
+                  >
+                    <Delete fontSize="small" /> <span>Delete</span>
+                  </div>
+                )}
             </div>
           )}
         </div>

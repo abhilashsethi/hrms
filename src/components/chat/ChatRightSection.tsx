@@ -50,6 +50,7 @@ const ChatRightSection = () => {
   const handleSend = async () => {
     if (isMessage) {
       try {
+        if (!isMessage?.trim()) return;
         setIsLoading(true);
 
         if (currentChatProfileDetails?.isNewChat) {

@@ -2,10 +2,11 @@ import { FileDownload, Visibility } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { ChatImagePreview } from "components/dialogues";
 import { useState } from "react";
+import { IChatMessages } from "types";
 import { downloadFile } from "utils";
 
 interface Props {
-  data?: any;
+  data?: IChatMessages;
 }
 
 const ImageMessage = ({ data }: Props) => {
@@ -15,7 +16,7 @@ const ImageMessage = ({ data }: Props) => {
       <ChatImagePreview
         open={isPreview}
         handleClose={() => setIsPreview(false)}
-        activePreview={data?.link}
+        activePreview={String(data?.link)}
       />
       <div className="h-52 w-full relative group">
         <img
@@ -34,7 +35,10 @@ const ImageMessage = ({ data }: Props) => {
         <Tooltip title="Download">
           <IconButton
             onClick={() =>
-              downloadFile(data?.link, data?.link?.split("/")?.at(-1) as any)
+              downloadFile(
+                String(data?.link),
+                data?.link?.split("/")?.at(-1) as any
+              )
             }
             size="small"
           >
@@ -42,6 +46,9 @@ const ImageMessage = ({ data }: Props) => {
           </IconButton>
         </Tooltip>
       </div>
+      <p className="tracking-wide whitespace-pre-line break-words ">
+        {data?.text}
+      </p>
     </>
   );
 };
