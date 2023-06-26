@@ -4,7 +4,7 @@ import { CHATDOC } from "assets/home";
 import moment from "moment";
 import TenderLayout from "./TenderLayout";
 import { useState } from "react";
-import { UpdateTenderBasicDetails, UpdateTenderEMDDetails, UpdateTenderFeeDetails } from "components/dialogues";
+import { UpdateTenderBasicDetails, AddTenderDocument, UpdateTenderEMDDetails, UpdateTenderFeeDetails } from "components/dialogues";
 
 const TenderDetail = () => {
   const [isUpdate, setIsUpdate] = useState<{
@@ -16,6 +16,10 @@ const TenderDetail = () => {
     tenderData?: any | null;
   }>({ dialogue: false, tenderData: null });
   const [isEmdDetails, setIsEmdDetails] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
+  const [isDocument, setIsDocument] = useState<{
     dialogue?: boolean;
     tenderData?: any | null;
   }>({ dialogue: false, tenderData: null });
@@ -37,6 +41,12 @@ const TenderDetail = () => {
         tenderData={isEmdDetails?.tenderData}
         open={isEmdDetails?.dialogue}
         handleClose={() => setIsEmdDetails({ dialogue: false })}
+      // mutate={mutate}
+      />
+      <AddTenderDocument
+        tenderData={isDocument?.tenderData}
+        open={isDocument?.dialogue}
+        handleClose={() => setIsDocument({ dialogue: false })}
       // mutate={mutate}
       />
       <div className="flex justify-end">
@@ -147,7 +157,9 @@ const TenderDetail = () => {
                 startIcon={<Add />}
                 variant="contained"
                 className="!bg-theme"
-              >
+                onClick={() => {
+                  setIsDocument({ dialogue: true, tenderData: tenderFees });
+                }}>
                 Add Document
               </Button>
             </div>
