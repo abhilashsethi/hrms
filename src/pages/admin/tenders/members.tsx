@@ -27,10 +27,10 @@ const Members = () => {
             ADD MEMBERS
           </Button>
         </div>
-        <section className="mt-4">
-          <Grid container spacing={1}>
+        <section className="my-4">
+          <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
             {members?.map((item) => (
-              <Grid key={item?.id} item lg={3}>
+              <div key={item?.id}>
                 <div className="w-full border-[1px] border-blue-400 bg-gradient-to-b from-blue-50 to-blue-200 gap-2 rounded-md flex flex-col items-center py-4">
                   <PhotoViewer name={item?.name} photo={item?.photo} />
                   <h1 className="text-sm font-semibold">{item?.name}</h1>
@@ -54,9 +54,9 @@ const Members = () => {
                     </Button>
                   </div>
                 </div>
-              </Grid>
+              </div>
             ))}
-          </Grid>
+          </div>
         </section>
       </section>
     </PanelLayout>
