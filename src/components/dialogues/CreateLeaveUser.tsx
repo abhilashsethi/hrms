@@ -58,7 +58,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState("one");
-	const { data: leaveData } = useFetch(`leaves/details/${user?.id}`);
+	const { data: leaveData } = useFetch(`leaves/credits?userId=${user?.id}`);
 	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
