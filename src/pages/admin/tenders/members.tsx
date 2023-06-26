@@ -16,7 +16,7 @@ const Members = () => {
       />
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
-        <div className="flex justify-between items-center">
+        <div className="flex justify-end w-full">
           <Button
             size="small"
             className="!bg-theme"
