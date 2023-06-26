@@ -53,7 +53,6 @@ const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
       >
         <DialogTitle
           id="customized-dialog-title"
-          sx={{ p: 2, maxWidth: "18rem !important" }}
         >
           <p className="text-center text-xl font-bold text-theme tracking-wide">
             CREATE NOTE
