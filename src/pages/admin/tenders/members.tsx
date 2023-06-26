@@ -1,20 +1,28 @@
 import { Add, Delete, Info } from "@mui/icons-material";
 import { Button, Grid } from "@mui/material";
 import { AdminBreadcrumbs, PhotoViewer } from "components/core";
+import { CreateTenderMember } from "components/dialogues";
 import PanelLayout from "layouts/panel";
+import { useState } from "react";
 
 const Members = () => {
+  const [isChoose, setIsChoose] = useState(false);
+
   return (
     <PanelLayout title="Tender Members">
+      <CreateTenderMember
+        open={isChoose}
+        handleClose={() => setIsChoose(false)}
+      />
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
         <div className="flex justify-between items-center">
-          <h1 className="text-theme font-semibold mt-4">Tender Members</h1>
           <Button
             size="small"
             className="!bg-theme"
             variant="contained"
             startIcon={<Add />}
+            onClick={() => setIsChoose(true)}
           >
             ADD MEMBERS
           </Button>

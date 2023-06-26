@@ -72,7 +72,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                   </div>
                 )}
               </FieldArray>
-              <Button type="submit">Submit</Button>
+              {/* <Button type="submit">Submit</Button> */}
             </Form>
           )}
         </Formik>

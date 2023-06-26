@@ -51,3 +51,4 @@ export { default as UpdateTenderBasicDetails } from "./UpdateTenderBasicDetails"
 export { default as UpdateTenderFeeDetails } from "./UpdateTenderFeeDetails";
 export { default as UpdateTenderEMDDetails } from "./UpdateTenderEMDDetails";
 export { default as AddTenderDocument } from "./AddTenderDocument";
+export { default as CreateTenderMember } from "./CreateTenderMember";
