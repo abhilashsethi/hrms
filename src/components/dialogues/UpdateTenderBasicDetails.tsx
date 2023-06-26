@@ -116,8 +116,8 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
               }) => (
                 <Form>
                   <div className="grid lg:grid-cols-2">
-                    <div className="py-1">
-                      <div className="py-1">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="md:px-4 px-2 md:py-2 py-1">
                         <InputLabel htmlFor="portal">
                           Tender Status <span className="text-red-600">*</span>
                         </InputLabel>
@@ -141,8 +141,8 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         ))}
                       </TextField>
                     </div>
-                    <div className="py-1">
-                      <div className="py-1">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="md:px-4 px-2 md:py-2 py-1">
                         <InputLabel htmlFor="tenderNo">
                           Tender No. <span className="text-red-600">*</span>
                         </InputLabel>
@@ -160,8 +160,8 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         helperText={touched.tenderNo && errors.tenderNo}
                       />
                     </div>
-                    <div className="py-1">
-                      <div className="py-1">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="md:px-4 px-2 md:py-2 py-1">
                         <InputLabel htmlFor="tenderTitle">
                           Tender Title <span className="text-red-600">*</span>
                         </InputLabel>
@@ -179,7 +179,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         helperText={touched.tenderTitle && errors.tenderTitle}
                       />
                     </div>
-                    <div className="py-1">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="portal">
                           Portal Name <span className="text-red-600">*</span>
@@ -198,8 +198,8 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         helperText={touched.portal && errors.portal}
                       />
                     </div>
-                    <div className="py-1">
-                      <div className="py-1">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="md:px-4 px-2 md:py-2 py-1">
                         <InputLabel htmlFor="portal">
                           Tender Category <span className="text-red-600">*</span>
                         </InputLabel>
@@ -224,7 +224,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                       </TextField>
                     </div>
 
-                    <div className="py-1">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="submissionDate">
                           Date Of Submission <span className="text-red-600">*</span>
@@ -244,7 +244,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         helperText={touched.submissionDate && errors.submissionDate}
                       />
                     </div>
-                    <div className="py-1">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="submissionDate">
                           Time Of Submission <span className="text-red-600">*</span>
@@ -264,7 +264,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         helperText={touched.submissionTime && errors.submissionTime}
                       />
                     </div>
-                    <div className="py-1">
+                    <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="bidValue">
                           Bid Value <span className="text-red-600">*</span>
