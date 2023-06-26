@@ -175,8 +175,8 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
-								<div className="flex gap-x-4">
-									<p className="font-medium text-gray-700 my-2">Leave Credits Left -</p>
+								<div className="flex gap-x-4 my-2">
+									<p className="font-medium text-gray-700">Leave Credits Left -</p>
 									<span className="bg-red-500 text-white font-semibold p-1 rounded-lg">{leaveData[0]?.leavesData?.carryOver}</span>
 								</div>
 								<p className="font-medium text-gray-700 my-2">Leave Type</p>
