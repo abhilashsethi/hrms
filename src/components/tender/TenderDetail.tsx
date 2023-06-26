@@ -4,7 +4,7 @@ import { CHATDOC } from "assets/home";
 import moment from "moment";
 import TenderLayout from "./TenderLayout";
 import { useState } from "react";
-import { UpdateTenderBasicDetails, UpdateTenderFeeDetails } from "components/dialogues";
+import { UpdateTenderBasicDetails, UpdateTenderEMDDetails, UpdateTenderFeeDetails } from "components/dialogues";
 
 const TenderDetail = () => {
   const [isUpdate, setIsUpdate] = useState<{
@@ -12,6 +12,10 @@ const TenderDetail = () => {
     tenderData?: any | null;
   }>({ dialogue: false, tenderData: null });
   const [isFeeDetails, setIsFeeDetails] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
+  const [isEmdDetails, setIsEmdDetails] = useState<{
     dialogue?: boolean;
     tenderData?: any | null;
   }>({ dialogue: false, tenderData: null });
@@ -27,6 +31,12 @@ const TenderDetail = () => {
         tenderData={isFeeDetails?.tenderData}
         open={isFeeDetails?.dialogue}
         handleClose={() => setIsFeeDetails({ dialogue: false })}
+      // mutate={mutate}
+      />
+      <UpdateTenderEMDDetails
+        tenderData={isEmdDetails?.tenderData}
+        open={isEmdDetails?.dialogue}
+        handleClose={() => setIsEmdDetails({ dialogue: false })}
       // mutate={mutate}
       />
       <div className="flex justify-end">
@@ -104,7 +114,9 @@ const TenderDetail = () => {
         <TenderLayout title="EMD Fee Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
-              <IconButton size="small">
+              <IconButton size="small" onClick={() => {
+                setIsEmdDetails({ dialogue: true, tenderData: tenderFees });
+              }}>
                 <Edit />
               </IconButton>
             </Tooltip>
