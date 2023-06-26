@@ -5,6 +5,7 @@ import {
   Button,
   Checkbox,
   IconButton,
+  Link,
   MenuItem,
   TextField,
   Tooltip,
@@ -16,24 +17,62 @@ import {
   Delete,
   Download,
   Edit,
+  Person
 } from "@mui/icons-material";
 import moment from "moment";
+import { useState } from "react";
+import { AddTenderDocument } from "components/dialogues";
 
 const TenderTrack = () => {
+  const [isDocument, setIsDocument] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
   return (
     <section>
+      <AddTenderDocument
+        tenderData={isDocument?.tenderData}
+        open={isDocument?.dialogue}
+        handleClose={() => setIsDocument({ dialogue: false })}
+      // mutate={mutate}
+      />
       <h1 className="text-theme font-semibold">Assigned Member</h1>
-      <div className="w-80 border-[1px] border-theme mt-2 rounded-md p-2 flex gap-4 items-center">
-        <PhotoViewerSmall
-          name="Srinu Reddy"
-          size="3.5rem"
-          photo={
-            "https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/rm328-366-tong-08_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=6a37204762fdd64612ec2ca289977b5e"
-          }
-        />
-        <div>
-          <h1>Srinu Reddy</h1>
-          <h1 className="text-sm text-gray-600">srinu@sy.com</h1>
+      <div className="w-80 rounded-md border-theme border-2 mt-3 p-4">
+        <div className="mt-2 rounded-md p-2 flex gap-4 items-center">
+          <PhotoViewerSmall
+            name="Srinu Reddy"
+            size="3.5rem"
+            photo={
+              "https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/rm328-366-tong-08_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=6a37204762fdd64612ec2ca289977b5e"
+            }
+          />
+          <div>
+            <h1>Srinu Reddy</h1>
+            <h1 className="text-sm text-gray-600">srinu@sy.com</h1>
+          </div>
+        </div>
+        <div className="mt-2 flex justify-center gap-2">
+          <Link
+            href={`/admin/employees/all-employees?id=`}
+          >
+            <Button
+              variant="contained"
+              className="!bg-theme"
+              size="small"
+              startIcon={<Person />}
+            >
+              View Details
+            </Button>
+          </Link>
+          <Button
+            // onClick={() => removeClient()}
+            variant="contained"
+            className="!bg-youtube"
+            size="small"
+            startIcon={<Delete />}
+          >
+            Remove
+          </Button>
         </div>
       </div>
       <div className="mt-14">
@@ -44,7 +83,9 @@ const TenderTrack = () => {
                 startIcon={<Add />}
                 variant="contained"
                 className="!bg-theme"
-              >
+                onClick={() => {
+                  setIsDocument({ dialogue: true, tenderData: documents });
+                }}>
                 Add Document
               </Button>
             </div>

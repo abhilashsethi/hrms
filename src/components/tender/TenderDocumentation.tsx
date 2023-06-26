@@ -13,10 +13,22 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Add, Check, Delete, Download, Person } from "@mui/icons-material";
+import { useState } from "react";
+import { AddTenderDocument } from "components/dialogues";
 
 const TenderDocumentation = () => {
+  const [isDocument, setIsDocument] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
   return (
     <section>
+      <AddTenderDocument
+        tenderData={isDocument?.tenderData}
+        open={isDocument?.dialogue}
+        handleClose={() => setIsDocument({ dialogue: false })}
+      // mutate={mutate}
+      />
       <h1 className="text-theme font-semibold">Assigned Member</h1>
       <div className="w-80 rounded-md border-theme border-2 mt-3 p-4">
         <div className="mt-2 rounded-md p-2 flex gap-4 items-center">
@@ -64,7 +76,9 @@ const TenderDocumentation = () => {
                 startIcon={<Add />}
                 variant="contained"
                 className="!bg-theme"
-              >
+                onClick={() => {
+                  setIsDocument({ dialogue: true, tenderData: documents });
+                }}>
                 Add Document
               </Button>
             </div>

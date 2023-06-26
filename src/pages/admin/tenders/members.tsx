@@ -1,28 +1,36 @@
 import { Add, Delete, Info } from "@mui/icons-material";
 import { Button, Grid } from "@mui/material";
 import { AdminBreadcrumbs, PhotoViewer } from "components/core";
+import { CreateTenderMember } from "components/dialogues";
 import PanelLayout from "layouts/panel";
+import { useState } from "react";
 
 const Members = () => {
+  const [isChoose, setIsChoose] = useState(false);
+
   return (
     <PanelLayout title="Tender Members">
+      <CreateTenderMember
+        open={isChoose}
+        handleClose={() => setIsChoose(false)}
+      />
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
-        <div className="flex justify-between items-center">
-          <h1 className="text-theme font-semibold mt-4">Tender Members</h1>
+        <div className="flex justify-end w-full">
           <Button
             size="small"
             className="!bg-theme"
             variant="contained"
             startIcon={<Add />}
+            onClick={() => setIsChoose(true)}
           >
             ADD MEMBERS
           </Button>
         </div>
-        <section className="mt-4">
-          <Grid container spacing={1}>
+        <section className="my-4">
+          <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
             {members?.map((item) => (
-              <Grid key={item?.id} item lg={3}>
+              <div key={item?.id}>
                 <div className="w-full border-[1px] border-blue-400 bg-gradient-to-b from-blue-50 to-blue-200 gap-2 rounded-md flex flex-col items-center py-4">
                   <PhotoViewer name={item?.name} photo={item?.photo} />
                   <h1 className="text-sm font-semibold">{item?.name}</h1>
@@ -46,9 +54,9 @@ const Members = () => {
                     </Button>
                   </div>
                 </div>
-              </Grid>
+              </div>
             ))}
-          </Grid>
+          </div>
         </section>
       </section>
     </PanelLayout>
