@@ -1,7 +1,5 @@
-import { Check, Close, CloudUpload } from "@mui/icons-material";
+import { Check, Close } from "@mui/icons-material";
 import {
-  Autocomplete,
-  Box,
   Button,
   CircularProgress,
   Dialog,
@@ -9,23 +7,15 @@ import {
   DialogTitle,
   IconButton,
   InputLabel,
-  MenuItem,
   TextField,
-  Tooltip,
+  Tooltip
 } from "@mui/material";
-import { ErrorMessage, Form, Formik } from "formik";
-import * as Yup from "yup";
-import { useRef, useState } from "react";
+import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
-import Swal from "sweetalert2";
 import moment from "moment";
-import { PDF } from "assets/home";
-import UpdateAssetImage from "./UpdateAssetImage";
-import UploadAssetImage from "./UploadAssetImage";
-import { HeadText } from "components/core";
-import { deleteFile } from "utils";
-import UploadAssetDoc from "./UploadAssetDoc";
-import UpdateAssetDoc from "./UpdateAssetDoc";
+import { useRef, useState } from "react";
+import Swal from "sweetalert2";
+import * as Yup from "yup";
 
 interface Props {
   open: any;
@@ -39,28 +29,15 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
   const { data: branchData } = useFetch<any>(`branches`);
   const imageRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
-  const [isUpdate, setIsUpdate] = useState<{
-    dialogue?: boolean;
-    imageData?: string | null;
-  }>({ dialogue: false, imageData: null });
-  const [isDocUpdate, setIsDocUpdate] = useState<{
-    dialogue?: boolean;
-    docData?: string | null;
-  }>({ dialogue: false, docData: null });
-  const [isDocUpload, setIsDocUpload] = useState<{
-    dialogue?: boolean;
-    tenderData?: any;
-  }>({ dialogue: false, tenderData: null });
-  const [isUpload, setIsUpload] = useState<{
-    dialogue?: boolean;
-    tenderData?: any;
-  }>({ dialogue: false, tenderData: null });
+
   const initialValues = {
-    branchId: `${tenderData?.assetOfBranch?.id ? tenderData?.assetOfBranch?.id : ""}`,
-    assetType: `${tenderData?.assetType ? tenderData?.assetType : ""}`,
-    assetName: `${tenderData?.name ? tenderData?.name : ""}`,
-    modelNo: `${tenderData?.modelName ? tenderData?.modelName : ""}`,
-    purchaseDate: `${tenderData?.dateOfPurchase
+    status: `${tenderData?.assetOfBranch?.id ? tenderData?.assetOfBranch?.id : ""}`,
+    tenderNo: `${tenderData?.tenderNo ? tenderData?.tenderNo : ""}`,
+    tenderTitle: `${tenderData?.name ? tenderData?.name : ""}`,
+    portal: `${tenderData?.modelName ? tenderData?.modelName : ""}`,
+    tenderCategory: `${tenderData?.tenderCategory ? tenderData?.tenderCategory : ""}`,
+    submissionTime: `${tenderData?.submissionTime ? tenderData?.submissionTime : ""}`,
+    submissionDate: `${tenderData?.dateOfPurchase
       ? moment(tenderData?.dateOfPurchase).format("YYYY-MM-DD")
       : ""
       }`,
@@ -68,7 +45,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
   };
 
   const validationSchema = Yup.object().shape({
-    assetName: Yup.string()
+    tenderTitle: Yup.string()
       .matches(
         /^[A-Za-z ]+$/,
         "Asset Name must only contain alphabetic characters"
@@ -76,27 +53,28 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
       .min(2, "Asset Name must be at least 2 characters")
       .max(50, "Asset Name must be less than 50 characters")
       .required("Asset Name is required!"),
-    modelNo: Yup.string().required("Model No is required!"),
-    purchaseDate: Yup.string().required("Purchase date is required!"),
-    billAmount: Yup.number().required("Bill amount is required!"),
+    portal: Yup.string().required("Model No is required!"),
+    submissionDate: Yup.string().required("Purchase date is required!"),
+    submissionTime: Yup.string().required("Purchase date is required!"),
 
-    serialNo: Yup.string().required("Serial No. is required!"),
   });
 
   const handleSubmit = async (values: any) => {
     setLoading(true);
+    console.log(values);
+    return
     try {
       const res = await change(`assets/${tenderData?.id}`, {
         method: "PATCH",
         body: {
-          branchId: values?.branchId,
-          name: values?.assetName,
-          assetType: values?.assetType,
-          dateOfPurchase: new Date(values?.purchaseDate).toISOString(),
+          status: values?.status,
+          name: values?.tenderTitle,
+          tenderNo: values?.tenderNo,
+          dateOfPurchase: new Date(values?.submissionDate).toISOString(),
           billAmount: Number(values?.billAmount),
           brandName: values?.brandName,
           marketPrice: Number(values?.marketPrice),
-          modelName: values?.modelNo,
+          modelName: values?.portal,
           serialNumber: values?.serialNo,
         },
       });
@@ -172,47 +150,47 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                   <div className="grid lg:grid-cols-2">
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="md:py-2 py-1">
-                        <InputLabel htmlFor="assetName">
-                          Asset Name <span className="text-red-600">*</span>
+                        <InputLabel htmlFor="tenderTitle">
+                          Tender Name <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         fullWidth
                         size="small"
-                        id="assetName"
+                        id="tenderTitle"
                         // placeholder="Name"
-                        name="assetName"
-                        value={values.assetName}
+                        name="tenderTitle"
+                        value={values.tenderTitle}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.assetName && !!errors.assetName}
-                        helperText={touched.assetName && errors.assetName}
+                        error={touched.tenderTitle && !!errors.tenderTitle}
+                        helperText={touched.tenderTitle && errors.tenderTitle}
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="modelNo">
-                          Model No. <span className="text-red-600">*</span>
+                        <InputLabel htmlFor="portal">
+                          Portal Name <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         size="small"
                         fullWidth
                         // placeholder="Email"
-                        id="modelNo"
-                        name="modelNo"
-                        value={values.modelNo}
+                        id="portal"
+                        name="portal"
+                        value={values.portal}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.modelNo && !!errors.modelNo}
-                        helperText={touched.modelNo && errors.modelNo}
+                        error={touched.portal && !!errors.portal}
+                        helperText={touched.portal && errors.portal}
                       />
                     </div>
 
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="purchaseDate">
-                          Date Of Purchase <span className="text-red-600">*</span>
+                        <InputLabel htmlFor="submissionDate">
+                          Date Of Submission <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
@@ -220,13 +198,33 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         fullWidth
                         type="date"
                         // placeholder="Employee ID"
-                        id="purchaseDate"
-                        name="purchaseDate"
-                        value={values.purchaseDate}
+                        id="submissionDate"
+                        name="submissionDate"
+                        value={values.submissionDate}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.purchaseDate && !!errors.purchaseDate}
-                        helperText={touched.purchaseDate && errors.purchaseDate}
+                        error={touched.submissionDate && !!errors.submissionDate}
+                        helperText={touched.submissionDate && errors.submissionDate}
+                      />
+                    </div>
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="py-2">
+                        <InputLabel htmlFor="submissionDate">
+                          Time Of Submission <span className="text-red-600">*</span>
+                        </InputLabel>date
+                      </div>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        type="time"
+                        // placeholder="Employee ID"
+                        id="submissionTime"
+                        name="submissionTime"
+                        value={values.submissionTime}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.submissionTime && !!errors.submissionTime}
+                        helperText={touched.submissionTime && errors.submissionTime}
                       />
                     </div>
 
@@ -257,7 +255,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
 };
 
 export default UpdateTenderBasicDetails;
-const assetTypeArr = [
+const tenderNoArr = [
   {
     id: 1,
     value: "Laptop",
