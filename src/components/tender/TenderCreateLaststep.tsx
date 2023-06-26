@@ -11,6 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Form, Formik } from "formik";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 
@@ -19,17 +20,26 @@ interface Props {
 }
 
 const initialValues = {
+  emdFees: "",
   fees: "",
+  emdPaymentMode: "",
   paymentMode: "",
 };
 
 const validationSchema = Yup.object().shape({
+  emdFees: Yup.string().required("Required!"),
   fees: Yup.string().required("Required!"),
   paymentMode: Yup.string().required("Required!"),
+  emdPaymentMode: Yup.string().required("Required!"),
 });
 
 const TenderCreateLaststep = ({ handleBack }: Props) => {
-  const handleSubmit = async () => {
+  const [isEmdValue, setIsEmdValue] = useState("no")
+  const handleOptionChange = (event: any) => {
+    setIsEmdValue(event.target.value);
+  };
+  const handleSubmit = async (values: any) => {
+    console.log(values);
     Swal.fire("Success", "Tender created successfully!", "success");
   };
   return (
@@ -81,7 +91,7 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
                     error={touched.paymentMode && !!errors.paymentMode}
                     helperText={touched.paymentMode && errors.paymentMode}
                   >
-                    {paymentmodes.map((option) => (
+                    {paymentModes.map((option) => (
                       <MenuItem key={option.id} value={option.title}>
                         {option.title}
                       </MenuItem>
@@ -93,53 +103,55 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
               <div className="md:py-2 py-1">
                 <h1 className="mb-2">EMD Exemption</h1>
 
-                <RadioGroup defaultValue={"no"} row>
-                  <FormControlLabel
-                    value="yes"
-                    control={<Radio />}
-                    label="Yes"
-                  />
+                <RadioGroup
+                  defaultValue={isEmdValue}
+                  row
+                  onChange={handleOptionChange}
+                >
+                  <FormControlLabel value="yes" control={<Radio />} label="Yes" />
                   <FormControlLabel value="no" control={<Radio />} label="No" />
                 </RadioGroup>
               </div>
-              <div className="grid lg:grid-cols-2 gap-4">
-                <div className="md:py-2 py-1">
-                  <h1 className="mb-2">EMD Amount in ₹</h1>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    placeholder="EMD amount"
-                    name="fees"
-                    value={values.fees}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.fees && !!errors.fees}
-                    helperText={touched.fees && errors.fees}
-                  />
+              {isEmdValue === "no" && (
+                <div className="grid lg:grid-cols-2 gap-4">
+                  <div className="md:py-2 py-1">
+                    <h1 className="mb-2">EMD Amount in ₹</h1>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      placeholder="EMD amount"
+                      name="emdFees"
+                      value={values.emdFees}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.emdFees && !!errors.emdFees}
+                      helperText={touched.emdFees && errors.emdFees}
+                    />
+                  </div>
+                  <div className="md:py-2 py-1">
+                    <h1 className="mb-2">Payment Mode</h1>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      select
+                      name="emdPaymentMode"
+                      placeholder="Payment Mode"
+                      label="Select payment mode"
+                      value={values.emdPaymentMode}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.emdPaymentMode && !!errors.emdPaymentMode}
+                      helperText={touched.emdPaymentMode && errors.emdPaymentMode}
+                    >
+                      {paymentModes.map((option) => (
+                        <MenuItem key={option.id} value={option.title}>
+                          {option.title}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </div>
                 </div>
-                <div className="md:py-2 py-1">
-                  <h1 className="mb-2">Payment Mode</h1>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    select
-                    name="paymentMode"
-                    placeholder="Payment Mode"
-                    label="Select payment mode"
-                    value={values.paymentMode}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.paymentMode && !!errors.paymentMode}
-                    helperText={touched.paymentMode && errors.paymentMode}
-                  >
-                    {paymentmodes.map((option) => (
-                      <MenuItem key={option.id} value={option.title}>
-                        {option.title}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-              </div>
+              )}
             </Form>
           )}
         </Formik>
@@ -168,7 +180,7 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
 
 export default TenderCreateLaststep;
 
-const paymentmodes = [
+const paymentModes = [
   { id: 1, title: "Online" },
   { id: 2, title: "Offline" },
 ];

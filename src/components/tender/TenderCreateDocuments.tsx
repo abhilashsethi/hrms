@@ -1,5 +1,6 @@
 import {
   Add,
+  Delete,
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from "@mui/icons-material";
@@ -12,10 +13,8 @@ interface Props {
 }
 
 const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
-
-
   const initialValues = {
-    inputFields: [{ field1: '', field2: '' }]
+    inputFields: [{ docTitle: '', doc: '' }]
   };
 
   const handleSubmit = (values: any) => {
@@ -25,57 +24,56 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
   return (
     <section>
       <div className="w-full my-6 py-6 px-20 flex justify-center">
-        {/* <div className="w-1/2">
-          <div className="flex justify-end w-full">
-            <Button
-              variant="contained"
-              startIcon={<Add />}
-              className="!bg-blue-600"
-            >
-              ADD MORE
-            </Button>
-          </div>
-          <h1 className="mb-3">Document Title </h1>
-          <TextField placeholder="Document Title" size="small" fullWidth />
-          <h1 className="mb-3 mt-3">Upload file </h1>
-          <input
-            className="border-2 w-full py-4 px-4 rounded-md cursor-pointer"
-            type="file"
-            name=""
-            id=""
-          />
-        </div> */}
+
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ values }) => (
-            <form onSubmit={handleSubmit}>
+            <Form>
               <FieldArray name="inputFields">
                 {({ remove, push }) => (
                   <div>
                     {values.inputFields.map((field, index) => (
-                      <div key={index}>
-                        <Field
-                          as={TextField}
-                          name={`inputFields[${index}].field1`}
-                          label="Field 1"
-                        />
-                        <Field
-                          as={TextField}
-                          name={`inputFields[${index}].field2`}
-                          label="Field 2"
-                        />
-                        <Button type="button" onClick={() => remove(index)}>
-                          Remove
-                        </Button>
+                      <div key={index} className="my-2">
+                        <div className="px-8 py-4 w-full grid gap-2 border-2 border-theme">
+                          <h1 className="">Document Title </h1>
+                          <Field
+                            as={TextField}
+                            fullWidth
+                            size="small"
+                            type="text"
+                            name={`inputFields[${index}].docTitle`}
+                          />
+                          <h1 className="">Upload file </h1>
+                          <Field
+                            as={TextField}
+                            fullWidth
+                            size="small"
+                            type="file"
+                            name={`inputFields[${index}].doc`}
+                          />
+                          <div className="flex justify-end w-full">
+                            <Button type="button"
+                              variant="contained"
+                              startIcon={<Delete />}
+                              className="!bg-red-600"
+                              onClick={() => remove(index)}>
+                              Remove
+                            </Button>
+                          </div>
+                        </div>
                       </div>
                     ))}
-                    <Button type="button" onClick={() => push({ field1: '', field2: '' })}>
-                      Add Field
+                    <Button type="button"
+                      variant="contained"
+                      startIcon={<Add />}
+                      className="!bg-blue-600"
+                      onClick={() => push({ docTitle: '', doc: '' })}>
+                      ADD MORE FIELD
                     </Button>
                   </div>
                 )}
               </FieldArray>
               <Button type="submit">Submit</Button>
-            </form>
+            </Form>
           )}
         </Formik>
       </div>
