@@ -3,10 +3,52 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 import { CHATDOC } from "assets/home";
 import moment from "moment";
 import TenderLayout from "./TenderLayout";
+import { useState } from "react";
+import { UpdateTenderBasicDetails, AddTenderDocument, UpdateTenderEMDDetails, UpdateTenderFeeDetails } from "components/dialogues";
 
 const TenderDetail = () => {
+  const [isUpdate, setIsUpdate] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
+  const [isFeeDetails, setIsFeeDetails] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
+  const [isEmdDetails, setIsEmdDetails] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
+  const [isDocument, setIsDocument] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
   return (
     <section className="">
+      <UpdateTenderBasicDetails
+        tenderData={isUpdate?.tenderData}
+        open={isUpdate?.dialogue}
+        handleClose={() => setIsUpdate({ dialogue: false })}
+      // mutate={mutate}
+      />
+      <UpdateTenderFeeDetails
+        tenderData={isFeeDetails?.tenderData}
+        open={isFeeDetails?.dialogue}
+        handleClose={() => setIsFeeDetails({ dialogue: false })}
+      // mutate={mutate}
+      />
+      <UpdateTenderEMDDetails
+        tenderData={isEmdDetails?.tenderData}
+        open={isEmdDetails?.dialogue}
+        handleClose={() => setIsEmdDetails({ dialogue: false })}
+      // mutate={mutate}
+      />
+      <AddTenderDocument
+        tenderData={isDocument?.tenderData}
+        open={isDocument?.dialogue}
+        handleClose={() => setIsDocument({ dialogue: false })}
+      // mutate={mutate}
+      />
       <div className="flex justify-end">
         <Button startIcon={<Print />} variant="contained" className="!bg-theme">
           View Details
@@ -16,7 +58,9 @@ const TenderDetail = () => {
         <TenderLayout title="Basic Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
-              <IconButton size="small">
+              <IconButton size="small" onClick={() => {
+                setIsUpdate({ dialogue: true, tenderData: tenderFees });
+              }}>
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -51,7 +95,9 @@ const TenderDetail = () => {
         <TenderLayout title="Tender Fee Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
-              <IconButton size="small">
+              <IconButton size="small" onClick={() => {
+                setIsFeeDetails({ dialogue: true, tenderData: tenderFees });
+              }}>
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -78,7 +124,9 @@ const TenderDetail = () => {
         <TenderLayout title="EMD Fee Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
-              <IconButton size="small">
+              <IconButton size="small" onClick={() => {
+                setIsEmdDetails({ dialogue: true, tenderData: tenderFees });
+              }}>
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -109,7 +157,9 @@ const TenderDetail = () => {
                 startIcon={<Add />}
                 variant="contained"
                 className="!bg-theme"
-              >
+                onClick={() => {
+                  setIsDocument({ dialogue: true, tenderData: tenderFees });
+                }}>
                 Add Document
               </Button>
             </div>
