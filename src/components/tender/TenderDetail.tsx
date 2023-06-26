@@ -4,7 +4,12 @@ import { CHATDOC } from "assets/home";
 import moment from "moment";
 import TenderLayout from "./TenderLayout";
 import { useState } from "react";
-import { UpdateTenderBasicDetails, AddTenderDocument, UpdateTenderEMDDetails, UpdateTenderFeeDetails } from "components/dialogues";
+import {
+  UpdateTenderBasicDetails,
+  AddTenderDocument,
+  UpdateTenderEMDDetails,
+  UpdateTenderFeeDetails
+} from "components/dialogues";
 
 const TenderDetail = () => {
   const [isUpdate, setIsUpdate] = useState<{
