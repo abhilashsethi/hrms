@@ -34,7 +34,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const TenderCreateLaststep = ({ handleBack }: Props) => {
-  const [isEmdValue, setIsEmdValue] = useState("No")
+  const [isEmdValue, setIsEmdValue] = useState("no")
   const handleOptionChange = (event: any) => {
     setIsEmdValue(event.target.value);
   };
@@ -91,7 +91,7 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
                     error={touched.paymentMode && !!errors.paymentMode}
                     helperText={touched.paymentMode && errors.paymentMode}
                   >
-                    {paymentmodes.map((option) => (
+                    {paymentModes.map((option) => (
                       <MenuItem key={option.id} value={option.title}>
                         {option.title}
                       </MenuItem>
@@ -143,7 +143,7 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
                       error={touched.emdPaymentMode && !!errors.emdPaymentMode}
                       helperText={touched.emdPaymentMode && errors.emdPaymentMode}
                     >
-                      {paymentmodes.map((option) => (
+                      {paymentModes.map((option) => (
                         <MenuItem key={option.id} value={option.title}>
                           {option.title}
                         </MenuItem>
@@ -180,7 +180,7 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
 
 export default TenderCreateLaststep;
 
-const paymentmodes = [
+const paymentModes = [
   { id: 1, title: "Online" },
   { id: 2, title: "Offline" },
 ];
