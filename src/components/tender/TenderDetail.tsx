@@ -3,10 +3,22 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 import { CHATDOC } from "assets/home";
 import moment from "moment";
 import TenderLayout from "./TenderLayout";
+import { useState } from "react";
+import { UpdateTenderBasicDetails } from "components/dialogues";
 
 const TenderDetail = () => {
+  const [isUpdate, setIsUpdate] = useState<{
+    dialogue?: boolean;
+    tenderData?: any | null;
+  }>({ dialogue: false, tenderData: null });
   return (
     <section className="">
+      <UpdateTenderBasicDetails
+        tenderData={isUpdate?.tenderData}
+        open={isUpdate?.dialogue}
+        handleClose={() => setIsUpdate({ dialogue: false })}
+      // mutate={mutate}
+      />
       <div className="flex justify-end">
         <Button startIcon={<Print />} variant="contained" className="!bg-theme">
           View Details
@@ -51,7 +63,9 @@ const TenderDetail = () => {
         <TenderLayout title="Tender Fee Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
-              <IconButton size="small">
+              <IconButton size="small" onClick={() => {
+                setIsUpdate({ dialogue: true, tenderData: tenderFees });
+              }}>
                 <Edit />
               </IconButton>
             </Tooltip>

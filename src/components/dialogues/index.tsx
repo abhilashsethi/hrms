@@ -47,3 +47,4 @@ export { default as ReturnAsset } from "./ReturnAsset";
 export { default as AssignAsset } from "./AssignAsset";
 export { default as AssetHistoryMoreOption } from "./AssetHistoryMoreOption";
 export { default as CreateLeaveUser } from "./CreateLeaveUser";
+export { default as UpdateTenderBasicDetails } from "./UpdateTenderBasicDetails";
