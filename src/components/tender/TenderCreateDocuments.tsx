@@ -58,12 +58,16 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                           <h1 className="">Document Title </h1>
                           <Field
                             as={TextField}
+                            fullWidth
+                            size="small"
                             type="text"
                             name={`inputFields[${index}].field1`}
                           />
                           <h1 className="">Upload file </h1>
                           <Field
                             as={TextField}
+                            fullWidth
+                            size="small"
                             type="file"
                             name={`inputFields[${index}].field2`}
                           />
