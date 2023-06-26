@@ -1,15 +1,3 @@
-import { PhotoViewerSmall, TextTitles } from "components/core";
-import TenderLayout from "./TenderLayout";
-import { CHATDOC } from "assets/home";
-import {
-  Button,
-  Checkbox,
-  IconButton,
-  Link,
-  MenuItem,
-  TextField,
-  Tooltip,
-} from "@mui/material";
 import {
   Add,
   Check,
@@ -19,9 +7,20 @@ import {
   Edit,
   Person
 } from "@mui/icons-material";
+import {
+  Button,
+  IconButton,
+  Link,
+  MenuItem,
+  TextField,
+  Tooltip
+} from "@mui/material";
+import { CHATDOC } from "assets/home";
+import { PhotoViewerSmall } from "components/core";
+import { AddTenderDocument, TenderCreateNote, UpdateTenderNote } from "components/dialogues";
 import moment from "moment";
 import { useState } from "react";
-import { AddTenderDocument, TenderCreateNote, UpdateTenderNote } from "components/dialogues";
+import TenderLayout from "./TenderLayout";
 
 const TenderTrack = () => {
   const [isDocument, setIsDocument] = useState<{

@@ -20,7 +20,6 @@ import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
-import { Role } from "types";
 
 const AllBranch = () => {
   const [isGrid, setIsGrid] = useState(true);
