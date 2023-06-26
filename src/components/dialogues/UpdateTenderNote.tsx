@@ -26,7 +26,6 @@ interface Props {
 
 const UpdateTenderNote = ({ open, handleClose, mutate, tenderData }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { data: branchData } = useFetch<any>(`branches`);
   const imageRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
 
@@ -35,7 +34,7 @@ const UpdateTenderNote = ({ open, handleClose, mutate, tenderData }: Props) => {
   };
 
   const validationSchema = Yup.object().shape({
-    note: Yup.string().required("Document Name is required!"),
+    note: Yup.string().required("Note is required!"),
 
   });
 
