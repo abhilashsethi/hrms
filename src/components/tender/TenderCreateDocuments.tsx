@@ -4,7 +4,7 @@ import {
   KeyboardArrowRight,
 } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
-import { Form, Formik } from "formik";
+import { FieldArray, Form, Field, Formik } from "formik";
 
 interface Props {
   handleBack?: () => void;
@@ -12,16 +12,16 @@ interface Props {
 }
 
 const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
+
+
   const initialValues = {
-    inputFields: [{ value: '' }]
+    inputFields: [{ field1: '', field2: '' }]
   };
 
   const handleSubmit = (values: any) => {
     // Access the values of all input fields
-    console.log(values);
-    console.log(values.inputFields.map((field: any) => field.value));
+    console.log(values.inputFields);
   };
-
   return (
     <section>
       <div className="w-full my-6 py-6 px-20 flex justify-center">
@@ -46,26 +46,36 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
           />
         </div> */}
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ values, handleChange, handleSubmit }) => (
-            <Form onSubmit={handleSubmit}>
-              {values.inputFields.map((field, index) => (
-                <div key={index}>
-                  <input
-                    type="text"
-                    name={`inputFields[${index}].value`}
-                    value={field.value}
-                    onChange={handleChange}
-                  />
-                  <button type="button" onClick={() => values.inputFields.splice(index, 1)}>
-                    Remove
-                  </button>
-                </div>
-              ))}
-              <button type="button" onClick={() => values.inputFields.push({ value: '' })}>
-                Add Field
-              </button>
-              <button type="submit">Submit</button>
-            </Form>
+          {({ values }) => (
+            <form onSubmit={handleSubmit}>
+              <FieldArray name="inputFields">
+                {({ remove, push }) => (
+                  <div>
+                    {values.inputFields.map((field, index) => (
+                      <div key={index}>
+                        <Field
+                          as={TextField}
+                          name={`inputFields[${index}].field1`}
+                          label="Field 1"
+                        />
+                        <Field
+                          as={TextField}
+                          name={`inputFields[${index}].field2`}
+                          label="Field 2"
+                        />
+                        <Button type="button" onClick={() => remove(index)}>
+                          Remove
+                        </Button>
+                      </div>
+                    ))}
+                    <Button type="button" onClick={() => push({ field1: '', field2: '' })}>
+                      Add Field
+                    </Button>
+                  </div>
+                )}
+              </FieldArray>
+              <Button type="submit">Submit</Button>
+            </form>
           )}
         </Formik>
       </div>
