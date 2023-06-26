@@ -7,6 +7,7 @@ import {
   DialogTitle,
   IconButton,
   InputLabel,
+  MenuItem,
   TextField,
   Tooltip
 } from "@mui/material";
@@ -14,7 +15,6 @@ import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRef, useState } from "react";
-import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 interface Props {
@@ -31,10 +31,11 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
   const { change } = useChange();
 
   const initialValues = {
-    status: `${tenderData?.assetOfBranch?.id ? tenderData?.assetOfBranch?.id : ""}`,
+    tenderStatus: `${tenderData?.assetOfBranch?.id ? tenderData?.assetOfBranch?.id : ""}`,
     tenderNo: `${tenderData?.tenderNo ? tenderData?.tenderNo : ""}`,
     tenderTitle: `${tenderData?.name ? tenderData?.name : ""}`,
     portal: `${tenderData?.modelName ? tenderData?.modelName : ""}`,
+    bidValue: `${tenderData?.bidValue ? tenderData?.bidValue : ""}`,
     tenderCategory: `${tenderData?.tenderCategory ? tenderData?.tenderCategory : ""}`,
     submissionTime: `${tenderData?.submissionTime ? tenderData?.submissionTime : ""}`,
     submissionDate: `${tenderData?.dateOfPurchase
@@ -63,41 +64,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
     setLoading(true);
     console.log(values);
     return
-    try {
-      const res = await change(`assets/${tenderData?.id}`, {
-        method: "PATCH",
-        body: {
-          status: values?.status,
-          name: values?.tenderTitle,
-          tenderNo: values?.tenderNo,
-          dateOfPurchase: new Date(values?.submissionDate).toISOString(),
-          billAmount: Number(values?.billAmount),
-          brandName: values?.brandName,
-          marketPrice: Number(values?.marketPrice),
-          modelName: values?.portal,
-          serialNumber: values?.serialNo,
-        },
-      });
-      setLoading(false);
-      if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Something went wrong!",
-          "error"
-        );
-        setLoading(false);
-        return;
-      }
-      mutate();
-      handleClose();
-      Swal.fire(`Success`, `Updated Successfully!`, `success`);
-      return;
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
+
   };
 
 
@@ -148,10 +115,50 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
               }) => (
                 <Form>
                   <div className="grid lg:grid-cols-2">
+                    <div className="md:py-2 py-1">
+                      <h1 className="mb-2">Tender Status</h1>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        select
+                        name="tenderStatus"
+                        label="Select Status"
+                        value={values.tenderStatus}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.tenderStatus && !!errors.tenderStatus}
+                        helperText={touched.tenderStatus && errors.tenderStatus}
+                      >
+                        {tenderStatus.map((option) => (
+                          <MenuItem key={option.id} value={option.title}>
+                            {option.title}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="md:py-2 py-1">
+                        <InputLabel htmlFor="tenderNo">
+                          Tender No. <span className="text-red-600">*</span>
+                        </InputLabel>
+                      </div>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        id="tenderNo"
+                        // placeholder="Name"
+                        name="tenderNo"
+                        value={values.tenderNo}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.tenderNo && !!errors.tenderNo}
+                        helperText={touched.tenderNo && errors.tenderNo}
+                      />
+                    </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="md:py-2 py-1">
                         <InputLabel htmlFor="tenderTitle">
-                          Tender Name <span className="text-red-600">*</span>
+                          Tender Title <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
@@ -186,6 +193,27 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         helperText={touched.portal && errors.portal}
                       />
                     </div>
+                    <div className="md:py-2 py-1">
+                      <h1 className="mb-2">Tender Category</h1>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        select
+                        name="tenderCategory"
+                        label="Select Tender Category"
+                        value={values.tenderCategory}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.tenderCategory && !!errors.tenderCategory}
+                        helperText={touched.tenderCategory && errors.tenderCategory}
+                      >
+                        {tenderCategory.map((option) => (
+                          <MenuItem key={option.id} value={option.title}>
+                            {option.title}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
 
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
@@ -211,7 +239,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                       <div className="py-2">
                         <InputLabel htmlFor="submissionDate">
                           Time Of Submission <span className="text-red-600">*</span>
-                        </InputLabel>date
+                        </InputLabel>
                       </div>
                       <TextField
                         size="small"
@@ -225,6 +253,25 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         onBlur={handleBlur}
                         error={touched.submissionTime && !!errors.submissionTime}
                         helperText={touched.submissionTime && errors.submissionTime}
+                      />
+                    </div>
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="py-2">
+                        <InputLabel htmlFor="bidValue">
+                          Bid Value <span className="text-red-600">*</span>
+                        </InputLabel>
+                      </div>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        // placeholder="Email"
+                        id="bidValue"
+                        name="bidValue"
+                        value={values.bidValue}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.bidValue && !!errors.bidValue}
+                        helperText={touched.bidValue && errors.bidValue}
                       />
                     </div>
 
@@ -255,30 +302,12 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
 };
 
 export default UpdateTenderBasicDetails;
-const tenderNoArr = [
-  {
-    id: 1,
-    value: "Laptop",
-    name: "Laptop",
-  },
-  {
-    id: 2,
-    value: "Mouse",
-    name: "Mouse",
-  },
-  {
-    id: 3,
-    value: "KeyBoard",
-    name: "Key Board",
-  },
-  {
-    id: 4,
-    value: "Monitor",
-    name: "Monitor",
-  },
-  {
-    id: 5,
-    value: "Other",
-    name: "Other",
-  },
+const tenderCategory = [
+  { id: 1, title: "Online" },
+  { id: 2, title: "Offline" },
+];
+const tenderStatus = [
+  { id: 1, title: "Open" },
+  { id: 2, title: "Pending" },
+  { id: 3, title: "Closed" },
 ];
