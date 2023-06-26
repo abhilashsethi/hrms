@@ -60,7 +60,7 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
           sx={{ p: 2, minWidth: "18rem !important" }}
         >
           <p className="text-center text-xl font-bold text-theme tracking-wide">
-            UPDATE BASIC DETAILS
+            UPDATE FEES
           </p>
           <IconButton
             aria-label="close"
@@ -96,7 +96,7 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
                 <Form>
                   <div className="grid">
                     <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="py-2">
                         <InputLabel htmlFor="portal">
                           Payment Mode <span className="text-red-600">*</span>
                         </InputLabel>
