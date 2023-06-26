@@ -4,8 +4,11 @@ import { CHATDOC } from "assets/home";
 import {
   Button,
   Checkbox,
+  FormControlLabel,
   IconButton,
   Link,
+  Radio,
+  RadioGroup,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -120,12 +123,15 @@ const TenderDocumentation = () => {
       <div className="mt-4">
         <h1 className="font-semibold">All documents created ? </h1>
         <div className="flex gap-2 items-center">
-          <div className="flex gap-2 items-center">
-            <Checkbox /> <span>Yes</span>
-          </div>
-          <div className="flex gap-2 items-center">
-            <Checkbox /> <span>No</span>
-          </div>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+          >
+            <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+            <FormControlLabel value="No" control={<Radio />} label="No" />
+          </RadioGroup>
+
         </div>
       </div>
       <div className="w-1/2">
