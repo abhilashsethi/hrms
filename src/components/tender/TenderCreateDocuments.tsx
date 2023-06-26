@@ -4,6 +4,7 @@ import {
   KeyboardArrowRight,
 } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
+import { FieldArray, Form, Field, Formik } from "formik";
 
 interface Props {
   handleBack?: () => void;
@@ -11,10 +12,20 @@ interface Props {
 }
 
 const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
+
+
+  const initialValues = {
+    inputFields: [{ field1: '', field2: '' }]
+  };
+
+  const handleSubmit = (values: any) => {
+    // Access the values of all input fields
+    console.log(values.inputFields);
+  };
   return (
     <section>
       <div className="w-full my-6 py-6 px-20 flex justify-center">
-        <div className="w-1/2">
+        {/* <div className="w-1/2">
           <div className="flex justify-end w-full">
             <Button
               variant="contained"
@@ -33,7 +44,40 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
             name=""
             id=""
           />
-        </div>
+        </div> */}
+        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+          {({ values }) => (
+            <form onSubmit={handleSubmit}>
+              <FieldArray name="inputFields">
+                {({ remove, push }) => (
+                  <div>
+                    {values.inputFields.map((field, index) => (
+                      <div key={index}>
+                        <Field
+                          as={TextField}
+                          name={`inputFields[${index}].field1`}
+                          label="Field 1"
+                        />
+                        <Field
+                          as={TextField}
+                          name={`inputFields[${index}].field2`}
+                          label="Field 2"
+                        />
+                        <Button type="button" onClick={() => remove(index)}>
+                          Remove
+                        </Button>
+                      </div>
+                    ))}
+                    <Button type="button" onClick={() => push({ field1: '', field2: '' })}>
+                      Add Field
+                    </Button>
+                  </div>
+                )}
+              </FieldArray>
+              <Button type="submit">Submit</Button>
+            </form>
+          )}
+        </Formik>
       </div>
       <div className="flex justify-between items-center px-20">
         <Button
