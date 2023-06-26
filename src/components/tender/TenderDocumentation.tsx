@@ -15,8 +15,8 @@ const TenderDocumentation = () => {
   return (
     <section>
       <h1 className="text-theme font-semibold">Assigned Member</h1>
-      <div className="w-full rounded-md border-2 mt-3 p-4">
-        <div className="w-80 border-[1px] border-theme mt-2 rounded-md p-2 flex gap-4 items-center">
+      <div className="w-80 rounded-md border-theme border-2 mt-3 p-4">
+        <div className="mt-2 rounded-md p-2 flex gap-4 items-center">
           <PhotoViewerSmall
             name="Srinu Reddy"
             size="3.5rem"
