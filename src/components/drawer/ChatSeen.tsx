@@ -7,6 +7,7 @@ import Tab from "@mui/material/Tab";
 import { PhotoViewerSmall } from "components/core";
 import moment from "moment";
 import * as React from "react";
+import { IChatMessages } from "types";
 
 type Props = {
   open?: boolean | any;
@@ -52,7 +53,7 @@ const ChatSeen = ({ open, onClose, chatData }: Props) => {
 export default ChatSeen;
 
 interface ReadProps {
-  chatData?: any;
+  chatData?: IChatMessages;
 }
 
 const ReadBy = ({ chatData }: ReadProps) => {
@@ -94,9 +95,6 @@ const DeliveredTo = ({ chatData }: ReadProps) => {
             />
             <div>
               <h1 className="text-sm font-semibold">{item?.name}</h1>
-              {/* <h1 className="text-xs text-gray-500">
-                {moment(new Date()).format("lll")}
-              </h1> */}
             </div>
           </div>
         </div>
