@@ -63,8 +63,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
 	console.log({ leaveData });
-	const totalLeavesCurrentYear = leaveData?.totalLeavesCurrentYear;
-	const deductedValue = 12 - totalLeavesCurrentYear;
+
 	const handleSubmit = async (values: any, { resetForm }: any) => {
 		const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
 			if (key !== "link" && value) {
@@ -178,7 +177,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
 							<Form className="w-full">
 								<div className="flex gap-4">
 									<p className="font-medium text-gray-700 my-2">Leave Credits Left -</p>
-									<span className="bg-red-500 text-white font-semibold p-2">{deductedValue}</span>
+									<span className="bg-red-500 text-white font-semibold p-2">{leaveData[0]?.leavesData?.carryOver}</span>
 								</div>
 								<p className="font-medium text-gray-700 my-2">Leave Type</p>
 								<div className="w-full">
