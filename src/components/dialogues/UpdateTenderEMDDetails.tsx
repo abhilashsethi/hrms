@@ -39,7 +39,7 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
   };
 
   const validationSchema = Yup.object().shape({
-    exemption: Yup.string().required("Payment Mode is required!"),
+    exemption: Yup.string().required("EMD Exemption is required!"),
     paymentMode: Yup.string().required("Payment Mode is required!"),
     emdAmount: Yup.string().required("END Amount is required!"),
 
