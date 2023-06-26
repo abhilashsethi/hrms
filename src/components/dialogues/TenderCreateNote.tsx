@@ -74,7 +74,7 @@ const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-          <div className="w-full md:px-4 px-2 tracking-wide">
+          <div className="w-1/2 md:px-4 px-2 tracking-wide">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
