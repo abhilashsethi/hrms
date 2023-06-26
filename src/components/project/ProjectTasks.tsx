@@ -1,14 +1,11 @@
-import { Add, CheckBox, Delete, Edit } from "@mui/icons-material";
+import { Add, Delete, Edit } from "@mui/icons-material";
 import {
 	Avatar,
 	AvatarGroup,
 	Button,
-	Checkbox,
 	IconButton,
-	Tooltip,
+	Tooltip
 } from "@mui/material";
-import { DEFAULTPROFILE } from "assets/home";
-import { PhotoViewer } from "components/core";
 import { ProjectCreateTask, UpdateTaskStatus } from "components/dialogues";
 import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";

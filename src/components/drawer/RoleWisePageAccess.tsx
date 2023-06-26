@@ -429,9 +429,9 @@ const PageList = [
   },
   {
     id: 31,
-    value: "/admin/tenders/tender-details",
+    value: "/admin/tenders/my-tenders",
     icon: <ICONS.Tender_Details />,
-    name: "Tender Details",
+    name: "My Tenders",
   },
   {
     id: 32,
