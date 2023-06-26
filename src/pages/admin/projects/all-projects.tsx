@@ -11,8 +11,7 @@ import {
 import { Projects } from "components/Profile";
 import {
 	AdminBreadcrumbs,
-	FiltersContainer,
-	LoaderAnime,
+	LoaderAnime
 } from "components/core";
 import { TechnologiesFilter } from "components/drawer";
 import { useAuth, useFetch } from "hooks";
@@ -40,26 +39,23 @@ const AllProjects = () => {
 		isLoading,
 		pagination,
 	} = useFetch<any>(
-		`projects?page=${pageNumber}&limit=6${
-			projectName ? `&name=${projectName}` : ""
-		}${
-			user?.role?.name === "CEO" ||
+		`projects?page=${pageNumber}&limit=6${projectName ? `&name=${projectName}` : ""
+		}${user?.role?.name === "CEO" ||
 			user?.role?.name === "HR" ||
 			user?.role?.name === "MANAGER"
-				? ""
-				: `&memberId=${user?.id}`
-		}${status ? `&projectStatus=${status}` : ""}${
-			bugStatus ? `&bugs=${bugStatus}` : ""
+			? ""
+			: `&memberId=${user?.id}`
+		}${status ? `&projectStatus=${status}` : ""}${bugStatus ? `&bugs=${bugStatus}` : ""
 		}` +
-			(Technologies?.length
-				? Technologies?.map((item: any) => `&techName=${item}`)?.join("")
-				: "") +
-			(empName?.length
-				? empName?.map((item: any) => `&memberName=${item}`)?.join("")
-				: "") +
-			(clientName?.length
-				? clientName?.map((item: any) => `&clientName=${item}`)?.join("")
-				: "")
+		(Technologies?.length
+			? Technologies?.map((item: any) => `&techName=${item}`)?.join("")
+			: "") +
+		(empName?.length
+			? empName?.map((item: any) => `&memberName=${item}`)?.join("")
+			: "") +
+		(clientName?.length
+			? clientName?.map((item: any) => `&clientName=${item}`)?.join("")
+			: "")
 	);
 
 	return (
@@ -108,23 +104,23 @@ const AllProjects = () => {
 							<Tooltip
 								title={
 									clientName != null ||
-									projectName !== null ||
-									status !== null ||
-									bugStatus !== null ||
-									Technologies != null ||
-									isBug != null ||
-									empName != null
+										projectName !== null ||
+										status !== null ||
+										bugStatus !== null ||
+										Technologies != null ||
+										isBug != null ||
+										empName != null
 										? `Remove Filters`
 										: `Filter`
 								}
 							>
 								{clientName != null ||
-								projectName !== null ||
-								status !== null ||
-								bugStatus !== null ||
-								Technologies != null ||
-								isBug != null ||
-								empName != null ? (
+									projectName !== null ||
+									status !== null ||
+									bugStatus !== null ||
+									Technologies != null ||
+									isBug != null ||
+									empName != null ? (
 									<Close className={"!text-white"} />
 								) : (
 									<FilterListRounded className={"!text-white"} />
@@ -201,7 +197,7 @@ const AllProjects = () => {
 								<Pagination
 									count={Math.ceil(
 										Number(pagination?.total || 1) /
-											Number(pagination?.limit || 1)
+										Number(pagination?.limit || 1)
 									)}
 									onChange={(e, v: number) => {
 										setPageNumber(v);

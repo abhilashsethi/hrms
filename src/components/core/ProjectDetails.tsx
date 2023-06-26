@@ -12,30 +12,26 @@ import {
 	Avatar,
 	AvatarGroup,
 	Button,
-	Chip,
-	Grid,
-	Tooltip,
+	Tooltip
 } from "@mui/material";
-import React from "react";
+import { ProjectBasicDetailsUpdate } from "components/dialogues";
+import {
+	ProjectDocuments,
+	ProjectMembers,
+	ProjectURLS,
+} from "components/drawer";
+import ProjectVideoDrawer from "components/drawer/ProjectVideoDrawer";
 import {
 	ClientDetails,
 	ProjectDescription,
 	ProjectTabs,
 	TechnologyUsed,
 } from "components/project";
-import { DEFAULTPROFILE } from "assets/home";
-import {
-	ProjectDocuments,
-	ProjectMembers,
-	ProjectURLS,
-} from "components/drawer";
-import { useState } from "react";
-import { ProjectBasicDetailsUpdate } from "components/dialogues";
 import { useAuth, useFetch } from "hooks";
-import { useRouter } from "next/router";
-import { Projects } from "types";
 import moment from "moment";
-import ProjectVideoDrawer from "components/drawer/ProjectVideoDrawer";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { Projects } from "types";
 
 const ProjectDetails = () => {
 	const { user } = useAuth();
@@ -85,11 +81,10 @@ const ProjectDetails = () => {
 		{
 			id: 2,
 			title: "Deadline",
-			value: `${
-				projectData?.endDate
+			value: `${projectData?.endDate
 					? moment(projectData?.endDate).format("ll")
 					: `Not specified`
-			}`,
+				}`,
 			icon: <Event fontSize="small" />,
 		},
 		{
@@ -137,8 +132,8 @@ const ProjectDetails = () => {
 								{projectData?.name}
 							</h1>
 							{user?.role?.name == "CEO" ||
-							user?.role?.name == "HR" ||
-							user?.role?.name == "PROJECT MANAGER" ? (
+								user?.role?.name == "HR" ||
+								user?.role?.name == "PROJECT MANAGER" ? (
 								<Button
 									size="small"
 									variant="contained"
@@ -153,17 +148,16 @@ const ProjectDetails = () => {
 						<div className="flex gap-2 items-center mt-2">
 							<span className="text-sm font-semibold">Status : </span>
 							<span
-								className={`px-3 py-1 uppercase rounded-sm shadow-md text-xs tracking-wide font-semibold text-white ${
-									projectData?.status === "Pending"
+								className={`px-3 py-1 uppercase rounded-sm shadow-md text-xs tracking-wide font-semibold text-white ${projectData?.status === "Pending"
 										? `bg-yellow-500`
 										: projectData?.status === "Ongoing"
-										? `bg-blue-500`
-										: projectData?.status === "Onhold"
-										? `bg-red-500`
-										: projectData?.status === "Completed"
-										? `bg-green-500`
-										: `bg-slate-500`
-								}`}
+											? `bg-blue-500`
+											: projectData?.status === "Onhold"
+												? `bg-red-500`
+												: projectData?.status === "Completed"
+													? `bg-green-500`
+													: `bg-slate-500`
+									}`}
 							>
 								{projectData?.status}
 							</span>

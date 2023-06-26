@@ -1,5 +1,5 @@
+import { Check, Close } from "@mui/icons-material";
 import {
-  Autocomplete,
   Button,
   CircularProgress,
   Dialog,
@@ -9,17 +9,14 @@ import {
   InputLabel,
   MenuItem,
   TextField,
-  Tooltip,
+  Tooltip
 } from "@mui/material";
+import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
-import { Formik, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { Check, Close } from "@mui/icons-material";
-import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
-import { uploadFile } from "utils";
-import { Projects } from "types";
+import Swal from "sweetalert2";
+import * as Yup from "yup";
 
 interface Props {
   open?: any;
