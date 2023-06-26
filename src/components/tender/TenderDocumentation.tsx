@@ -5,10 +5,11 @@ import {
   Button,
   Checkbox,
   IconButton,
+  Link,
   TextField,
   Tooltip,
 } from "@mui/material";
-import { Add, Check, Delete, Download } from "@mui/icons-material";
+import { Add, Check, Delete, Download, Person } from "@mui/icons-material";
 
 const TenderDocumentation = () => {
   return (
@@ -25,6 +26,29 @@ const TenderDocumentation = () => {
         <div>
           <h1>Srinu Reddy</h1>
           <h1 className="text-sm text-gray-600">srinu@sy.com</h1>
+        </div>
+        <div className="mt-2 flex justify-center gap-2">
+          <Link
+            href={`/admin/employees/all-employees?id=`}
+          >
+            <Button
+              variant="contained"
+              className="!bg-theme"
+              size="small"
+              startIcon={<Person />}
+            >
+              View Details
+            </Button>
+          </Link>
+          <Button
+            // onClick={() => removeClient()}
+            variant="contained"
+            className="!bg-youtube"
+            size="small"
+            startIcon={<Delete />}
+          >
+            Remove
+          </Button>
         </div>
       </div>
       <div className="mt-14">
