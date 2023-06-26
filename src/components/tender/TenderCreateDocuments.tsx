@@ -4,6 +4,7 @@ import {
   KeyboardArrowRight,
 } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
+import { Form, Formik } from "formik";
 
 interface Props {
   handleBack?: () => void;
@@ -11,10 +12,20 @@ interface Props {
 }
 
 const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
+  const initialValues = {
+    inputFields: [{ value: '' }]
+  };
+
+  const handleSubmit = (values: any) => {
+    // Access the values of all input fields
+    console.log(values);
+    console.log(values.inputFields.map((field: any) => field.value));
+  };
+
   return (
     <section>
       <div className="w-full my-6 py-6 px-20 flex justify-center">
-        <div className="w-1/2">
+        {/* <div className="w-1/2">
           <div className="flex justify-end w-full">
             <Button
               variant="contained"
@@ -33,7 +44,30 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
             name=""
             id=""
           />
-        </div>
+        </div> */}
+        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+          {({ values, handleChange, handleSubmit }) => (
+            <Form onSubmit={handleSubmit}>
+              {values.inputFields.map((field, index) => (
+                <div key={index}>
+                  <input
+                    type="text"
+                    name={`inputFields[${index}].value`}
+                    value={field.value}
+                    onChange={handleChange}
+                  />
+                  <button type="button" onClick={() => values.inputFields.splice(index, 1)}>
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button type="button" onClick={() => values.inputFields.push({ value: '' })}>
+                Add Field
+              </button>
+              <button type="submit">Submit</button>
+            </Form>
+          )}
+        </Formik>
       </div>
       <div className="flex justify-between items-center px-20">
         <Button
