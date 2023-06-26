@@ -562,6 +562,12 @@ const PageList = [
 		icon: <ICONS.Change_Password />,
 		name: "Create Quotation",
 	},
+	{
+		id: 53,
+		value: "/admin/quotation/gst-config",
+		icon: <ICONS.Change_Password />,
+		name: "Gst Configure",
+	},
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 ];

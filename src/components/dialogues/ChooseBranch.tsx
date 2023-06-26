@@ -20,8 +20,8 @@ import * as Yup from "yup";
 
 interface Props {
 	open: boolean;
-	handleClose: any;
-	mutate?: any;
+	handleClose: () => void;
+	mutate: () => void;
 }
 
 const ChooseBranch = ({ open, handleClose, mutate }: Props) => {
@@ -47,6 +47,8 @@ const ChooseBranch = ({ open, handleClose, mutate }: Props) => {
 			// Swal.fire("Success", "Successfully submitted", "success");
 			router?.push(`/admin/assets/create-assets?id=${values.branchId}`);
 			setLoading(false);
+			mutate();
+			handleClose();
 		} catch (error) {
 			console.log(error);
 		}
