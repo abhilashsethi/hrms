@@ -21,7 +21,6 @@ import { CreateDepartment } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
-import { Role } from "types";
 
 const AllDepartment = () => {
   const [isGrid, setIsGrid] = useState(true);

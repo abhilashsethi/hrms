@@ -10,15 +10,15 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
-import * as yup from "yup";
-import { useState } from "react";
 import { useChange } from "hooks";
+import { useState } from "react";
 import Swal from "sweetalert2";
+import * as yup from "yup";
 
 interface Props {
   open: boolean;
-  handleClose: any;
-  mutate?: any;
+  handleClose: () => void;
+  mutate: () => void;
 }
 
 const CreateDepartment = ({ open, handleClose, mutate }: Props) => {
