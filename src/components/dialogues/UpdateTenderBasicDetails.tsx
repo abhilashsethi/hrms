@@ -46,6 +46,8 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
   };
 
   const validationSchema = Yup.object().shape({
+    status: Yup.string().required("Status is required!"),
+    tenderNo: Yup.string().required("Tender Number is required!"),
     tenderTitle: Yup.string()
       .matches(
         /^[A-Za-z ]+$/,
@@ -54,9 +56,11 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
       .min(2, "Asset Name must be at least 2 characters")
       .max(50, "Asset Name must be less than 50 characters")
       .required("Asset Name is required!"),
-    portal: Yup.string().required("Model No is required!"),
-    submissionDate: Yup.string().required("Purchase date is required!"),
-    submissionTime: Yup.string().required("Purchase date is required!"),
+    portal: Yup.string().required("Portal Name is required!"),
+    tenderCategory: Yup.string().required("Tender Category is required!"),
+    submissionDate: Yup.string().required("Submission date is required!"),
+    submissionTime: Yup.string().required("Submission time is required!"),
+    bidValue: Yup.string().required("Bid Value is required!"),
 
   });
 
@@ -80,7 +84,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
           sx={{ p: 2, minWidth: "18rem !important" }}
         >
           <p className="text-center text-xl font-bold text-theme tracking-wide">
-            UPDATE TENDER
+            UPDATE BASIC DETAILS
           </p>
           <IconButton
             aria-label="close"
