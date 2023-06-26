@@ -29,7 +29,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
 
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ values }) => (
-            <form onSubmit={handleSubmit}>
+            <Form>
               <FieldArray name="inputFields">
                 {({ remove, push }) => (
                   <div>
@@ -75,7 +75,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                 )}
               </FieldArray>
               <Button type="submit">Submit</Button>
-            </form>
+            </Form>
           )}
         </Formik>
       </div>
