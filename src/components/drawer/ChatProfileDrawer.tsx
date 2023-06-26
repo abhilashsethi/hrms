@@ -206,17 +206,22 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                 )}
               {!profileData?.isPrivateGroup ? (
                 <div>
-                  <div className="flex items-center justify-between pr-4">
-                    <SectionTitle title="Participants" />
-                    <Button
-                      onClick={() => setIsAdd(true)}
-                      variant="contained"
-                      className="!bg-theme"
-                      size="small"
-                    >
-                      Add Participants
-                    </Button>
-                  </div>
+                  {profileData?.chatMembers?.find(
+                    (item) => item?.user?.id === user?.id
+                  )?.isAdmin && (
+                    <div className="flex items-center justify-between pr-4">
+                      <SectionTitle title="Participants" />
+                      <Button
+                        onClick={() => setIsAdd(true)}
+                        variant="contained"
+                        className="!bg-theme"
+                        size="small"
+                      >
+                        Add Participants
+                      </Button>
+                    </div>
+                  )}
+
                   <div className="px-4 py-3 flex flex-col gap-1">
                     {profileData?.chatMembers
                       ?.filter((item) => !item?.isPastMember)
@@ -250,7 +255,14 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                                 </button>
                               </div>
                             ) : (
-                              <MoreMenu data={item} profileData={profileData} />
+                              profileData?.chatMembers?.find(
+                                (item) => item?.user?.id === user?.id
+                              )?.isAdmin && (
+                                <MoreMenu
+                                  data={item}
+                                  profileData={profileData}
+                                />
+                              )
                             )}
                           </div>
                         </div>

@@ -11,7 +11,7 @@ import {
 import { Badge, IconButton, Menu, MenuItem } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { ChatGroupCreate } from "components/drawer";
-import { useChatData, useFetch, useSocket } from "hooks";
+import { useAuth, useChatData, useFetch, useSocket } from "hooks";
 import moment from "moment";
 import { MouseEvent, useEffect, useState } from "react";
 import { IGroupChatData, User } from "types";
@@ -176,15 +176,17 @@ const PrivateChatCard = ({
   const [isTyping, setIsTyping] = useState(false);
   const { socketRef } = useSocket();
 
+  const { user } = useAuth();
+
   useEffect(() => {
     (() => {
       if (!socketRef || !item?.id) return;
 
       socketRef.on(`USER_IS_TYPING_${item?.id}`, (data) => {
-        setIsTyping(true);
+        data?.userId !== user?.id && setIsTyping(true);
       });
       socketRef.on(`USER_STOP_TYPING_${item?.id}`, (data) => {
-        setIsTyping(false);
+        data?.userId !== user?.id && setIsTyping(false);
       });
     })();
   }, [socketRef, item?.id]);

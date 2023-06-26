@@ -65,6 +65,7 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
             });
             revalidateCurrentChat(currentChatProfileDetails?.id);
             setLoading(false);
+            setIsFile(null);
             return;
           } else {
             const res = await change(`chat/message/${sendId}`, {
@@ -87,6 +88,7 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
             handleClose();
             setLoading(false);
             formik.resetForm();
+            setIsFile(null);
           }
 
           return;
