@@ -58,11 +58,13 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState("one");
-	const { data: leaveData } = useFetch(`leaves/credits?userId=${user?.id}`);
+	const { data: leaveData } = useFetch<any>(`leaves/credits?userId=${user?.id}`);
 	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
 	console.log({ leaveData });
+	const totalLeavesCurrentYear = leaveData?.totalLeavesCurrentYear;
+	const deductedValue = 12 - totalLeavesCurrentYear;
 	const handleSubmit = async (values: any, { resetForm }: any) => {
 		const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
 			if (key !== "link" && value) {
@@ -174,6 +176,10 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
+								<div className="flex">
+									<p className="font-medium text-gray-700 my-2">Leave Credits Left</p>
+									<span>{deductedValue}</span>
+								</div>
 								<p className="font-medium text-gray-700 my-2">Leave Type</p>
 								<div className="w-full">
 									<TextField

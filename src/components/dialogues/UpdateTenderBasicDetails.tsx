@@ -46,7 +46,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
   };
 
   const validationSchema = Yup.object().shape({
-    status: Yup.string().required("Status is required!"),
+    tenderStatus: Yup.string().required("Status is required!"),
     tenderNo: Yup.string().required("Tender Number is required!"),
     tenderTitle: Yup.string()
       .matches(
@@ -58,7 +58,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
       .required("Asset Name is required!"),
     portal: Yup.string().required("Portal Name is required!"),
     tenderCategory: Yup.string().required("Tender Category is required!"),
-    submissionDate: Yup.string().required("Submission date is required!"),
+    submissionDate: Yup.date().required("Submission date is required!"),
     submissionTime: Yup.string().required("Submission time is required!"),
     bidValue: Yup.string().required("Bid Value is required!"),
 
