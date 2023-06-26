@@ -20,6 +20,7 @@ import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
+import { Branch } from "types";
 
 const AllBranch = () => {
   const [isGrid, setIsGrid] = useState(true);
@@ -34,7 +35,7 @@ const AllBranch = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any>(
+  } = useFetch<Branch[]>(
     `branches?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""
     }${location ? `&location=${location}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
