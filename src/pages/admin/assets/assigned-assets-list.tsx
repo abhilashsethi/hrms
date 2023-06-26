@@ -15,18 +15,13 @@ import {
 	Tooltip,
 } from "@mui/material";
 import {
-	AssetsColumn,
-	AssetsGrid,
 	AssignedAssetsColumn,
 	AssignedAssetsGrid,
 } from "components/admin/assets";
-import { AllBranchColumn, AllBranchGrid } from "components/admin/branch";
 import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
-import { CreateDepartment } from "components/dialogues";
 import ChooseBranch from "components/dialogues/ChooseBranch";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import Link from "next/link";
 import { useState } from "react";
 
 const AssignedAssetsLists = () => {

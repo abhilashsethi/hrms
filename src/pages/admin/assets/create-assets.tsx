@@ -81,7 +81,7 @@ const CreateAssets = () => {
 				docsUrls.push({ link: url, docType: docs?.uniId });
 			}
 
-			const res: any = await change(`assets`, {
+			const res = await change(`assets`, {
 				body: {
 					name: values?.assetName,
 					billAmount: Number(values?.billAmount),
@@ -111,7 +111,6 @@ const CreateAssets = () => {
 			Swal.fire(`Success`, `You have successfully Created!`, `success`);
 			resetForm();
 			router.push("/admin/assets/all-assets");
-			console.log(res);
 			return;
 		} catch (error) {
 			console.log(error);
