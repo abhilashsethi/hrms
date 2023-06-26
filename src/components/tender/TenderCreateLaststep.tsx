@@ -20,12 +20,14 @@ interface Props {
 }
 
 const initialValues = {
+  emdFees: "",
   fees: "",
   emdPaymentMode: "",
   paymentMode: "",
 };
 
 const validationSchema = Yup.object().shape({
+  emdFees: Yup.string().required("Required!"),
   fees: Yup.string().required("Required!"),
   paymentMode: Yup.string().required("Required!"),
   emdPaymentMode: Yup.string().required("Required!"),
@@ -118,12 +120,12 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
                       fullWidth
                       size="small"
                       placeholder="EMD amount"
-                      name="fees"
-                      value={values.fees}
+                      name="emdFees"
+                      value={values.emdFees}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.fees && !!errors.fees}
-                      helperText={touched.fees && errors.fees}
+                      error={touched.emdFees && !!errors.emdFees}
+                      helperText={touched.emdFees && errors.emdFees}
                     />
                   </div>
                   <div className="md:py-2 py-1">
