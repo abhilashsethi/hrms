@@ -16,7 +16,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
 
 
   const initialValues = {
-    inputFields: [{ field1: '', field2: '' }]
+    inputFields: [{ docTitle: '', doc: '' }]
   };
 
   const handleSubmit = (values: any) => {
@@ -26,26 +26,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
   return (
     <section>
       <div className="w-full my-6 py-6 px-20 flex justify-center">
-        {/* <div className="w-1/2">
-          <div className="flex justify-end w-full">
-            <Button
-              variant="contained"
-              startIcon={<Add />}
-              className="!bg-blue-600"
-            >
-              ADD MORE
-            </Button>
-          </div>
-          <h1 className="mb-3">Document Title </h1>
-          <TextField placeholder="Document Title" size="small" fullWidth />
-          <h1 className="mb-3 mt-3">Upload file </h1>
-          <input
-            className="border-2 w-full py-4 px-4 rounded-md cursor-pointer"
-            type="file"
-            name=""
-            id=""
-          />
-        </div> */}
+
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ values }) => (
             <form onSubmit={handleSubmit}>
@@ -61,7 +42,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                             fullWidth
                             size="small"
                             type="text"
-                            name={`inputFields[${index}].field1`}
+                            name={`inputFields[${index}].docTitle`}
                           />
                           <h1 className="">Upload file </h1>
                           <Field
@@ -69,7 +50,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                             fullWidth
                             size="small"
                             type="file"
-                            name={`inputFields[${index}].field2`}
+                            name={`inputFields[${index}].doc`}
                           />
                           <div className="flex justify-end w-full">
                             <Button type="button"
@@ -87,8 +68,8 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                       variant="contained"
                       startIcon={<Add />}
                       className="!bg-blue-600"
-                      onClick={() => push({ field1: '', field2: '' })}>
-                      Add Field
+                      onClick={() => push({ docTitle: '', doc: '' })}>
+                      ADD MORE FIELD
                     </Button>
                   </div>
                 )}
