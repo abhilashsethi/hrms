@@ -200,10 +200,10 @@ const CreateQuotation = () => {
 
 										<FieldArray name="inputFields">
 											{({ remove, push }) => (
-												<div>
+												<div className="px-4">
 													{values.inputFields.map((field, index) => (
 														<div
-															className="grid grid-cols-4 gap-2 px-4 items-center"
+															className="grid grid-cols-4 gap-2 items-center"
 															key={index}
 														>
 															<Field
@@ -224,7 +224,7 @@ const CreateQuotation = () => {
 																type="number"
 															/>
 
-															<Tooltip title="Assign Details">
+															<Tooltip title="Remove Field">
 																<div className="text-sm bg-red-500 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
 																	<IconButton>
 																		<Delete
@@ -248,7 +248,7 @@ const CreateQuotation = () => {
 												</div>
 											)}
 										</FieldArray>
-										<div className="my-3">
+										<div className="my-3 px-4">
 											<p className="text-gray-500">
 												Please choose tax option{" "}
 												<span className="text-red-600">*</span>
@@ -256,7 +256,7 @@ const CreateQuotation = () => {
 											<FormControlLabel control={<Checkbox />} label="GST" />
 											<FormControlLabel control={<Checkbox />} label="CGST" />
 										</div>
-										<div className="mt-3 text-gray-500">
+										<div className="mt-3 text-gray-500 px-4">
 											<p>
 												Terms & Conditions{" "}
 												<span className="text-red-600">*</span>
