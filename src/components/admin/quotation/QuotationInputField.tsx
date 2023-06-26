@@ -4,7 +4,7 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import { TextField } from "@mui/material";
 
-const PayrollInputField = ({
+const QuotationInputField = ({
 	name,
 	onChange,
 	onBlur,
@@ -25,7 +25,7 @@ const PayrollInputField = ({
 		<FormControl fullWidth>
 			<div>
 				{/* {inputs.map((input, index) => ( */}
-				<div className="grid grid-cols-2 gap-3 py-3">
+				<div className="grid grid-cols-3 gap-3 py-3">
 					<div className="flex flex-col">
 						<TextField
 							name={name}
@@ -66,6 +66,25 @@ const PayrollInputField = ({
 							</FormHelperText>
 						) : null}
 					</div>
+					<div className="flex flex-col">
+						<TextField
+							name={name}
+							size="small"
+							onChange={(e) => {
+								onChange(title, e?.target?.value);
+							}}
+							onBlur={() => setIsAmountBlur(true)}
+							value={value}
+							className="rounded-md border border-black p-1 py-3"
+							type="number"
+							placeholder="Enter Amount"
+						/>
+						{isAmountBlur && !title ? (
+							<FormHelperText className="!text-red-600">
+								{helperText}
+							</FormHelperText>
+						) : null}
+					</div>
 				</div>
 				{/* ))} */}
 			</div>
@@ -73,4 +92,4 @@ const PayrollInputField = ({
 	);
 };
 
-export default PayrollInputField;
+export default QuotationInputField;
