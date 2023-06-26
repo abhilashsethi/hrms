@@ -1,11 +1,13 @@
-import { Check } from "@mui/icons-material";
+import { Check, Delete } from "@mui/icons-material";
 import {
 	Button,
 	Checkbox,
 	CircularProgress,
 	FormControlLabel,
+	IconButton,
 	InputLabel,
 	TextField,
+	Tooltip,
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { AddMoreField } from "components/dialogues";
@@ -201,7 +203,7 @@ const CreateQuotation = () => {
 												<div>
 													{values.inputFields.map((field, index) => (
 														<div
-															className="grid grid-cols-4 gap-2 place-items-center"
+															className="grid grid-cols-4 gap-2 px-4 items-center"
 															key={index}
 														>
 															<Field
@@ -221,13 +223,17 @@ const CreateQuotation = () => {
 																label="Cost"
 																type="number"
 															/>
-															<button
-																className="w-20 h-8 bg-white text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white border border-theme rounded-lg px-2 py-1 cursor-pointer"
-																type="button"
-																onClick={() => remove(index)}
-															>
-																Remove
-															</button>
+
+															<Tooltip title="Assign Details">
+																<div className="text-sm bg-red-500 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+																	<IconButton>
+																		<Delete
+																			onClick={() => remove(index)}
+																			className="!text-white"
+																		/>
+																	</IconButton>
+																</div>
+															</Tooltip>
 														</div>
 													))}
 													<button
@@ -243,7 +249,7 @@ const CreateQuotation = () => {
 											)}
 										</FieldArray>
 										<div className="my-3">
-											<p>
+											<p className="text-gray-500">
 												Please choose tax option{" "}
 												<span className="text-red-600">*</span>
 											</p>
@@ -290,6 +296,10 @@ const CreateQuotation = () => {
 
 export default CreateQuotation;
 const links = [
-	{ id: 1, page: "Payroll", link: "/admin/payroll" },
-	{ id: 2, page: "Add Salary Info", link: "/admin/payroll/add-salary-info" },
+	// { id: 1, page: "Payroll", link: "/admin/payroll" },
+	{
+		id: 2,
+		page: "Create Quotation",
+		link: "/admin/quotation/create-quotation",
+	},
 ];
