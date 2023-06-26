@@ -13,8 +13,6 @@ interface Props {
 }
 
 const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
-
-
   const initialValues = {
     inputFields: [{ docTitle: '', doc: '' }]
   };
