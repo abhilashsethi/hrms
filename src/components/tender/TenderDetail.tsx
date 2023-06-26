@@ -28,7 +28,9 @@ const TenderDetail = () => {
         <TenderLayout title="Basic Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
-              <IconButton size="small">
+              <IconButton size="small" onClick={() => {
+                setIsUpdate({ dialogue: true, tenderData: tenderFees });
+              }}>
                 <Edit />
               </IconButton>
             </Tooltip>
