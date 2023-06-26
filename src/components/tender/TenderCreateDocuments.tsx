@@ -54,26 +54,30 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                   <div>
                     {values.inputFields.map((field, index) => (
                       <div key={index} className="my-2">
-                        <div className="lg:w-3/4 px-2 py-2 w-full grid gap-2 border-2 border-theme">
+                        <div className="px-8 py-4 w-full grid gap-2 border-2 border-theme">
+                          <h1 className="mb-3">Document Title </h1>
                           <Field
                             as={TextField}
                             type="text"
                             name={`inputFields[${index}].field1`}
-                            label="Document Title"
                           />
+                          <h1 className="mb-3 mt-3">Upload file </h1>
                           <Field
                             as={TextField}
                             type="file"
                             name={`inputFields[${index}].field2`}
-                            label="Upload file"
                           />
-                          <Button type="button"
-                            variant="contained"
-                            startIcon={<Delete />}
-                            className="!bg-red-600"
-                            onClick={() => remove(index)}>
-                            Remove
-                          </Button>
+                          <div className="w-1/2">
+                            <div className="flex justify-end w-full">
+                              <Button type="button"
+                                variant="contained"
+                                startIcon={<Delete />}
+                                className="!bg-red-600"
+                                onClick={() => remove(index)}>
+                                Remove
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     ))}
