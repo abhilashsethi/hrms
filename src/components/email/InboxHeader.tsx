@@ -49,7 +49,7 @@ const InboxHeader = ({
     setPageNo(1);
     setAllClicked(false);
     setSelectedEmails([]);
-    setSortBy("");
+    setSortBy(undefined);
     setSearchText("");
   };
 
@@ -89,7 +89,7 @@ const InboxHeader = ({
         >
           <MenuItem
             onClick={() => {
-              setSortBy("unread");
+              setSortBy(false);
               handleClose();
             }}
           >
@@ -97,7 +97,7 @@ const InboxHeader = ({
           </MenuItem>
           <MenuItem
             onClick={() => {
-              setSortBy("read");
+              setSortBy(true);
               handleClose();
             }}
           >

@@ -32,7 +32,7 @@ const Inbox = () => {
   const [allClicked, setAllClicked] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const [searchText, setSearchText] = useState("");
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState(true);
 
   const { user } = useAuth();
 
@@ -42,9 +42,8 @@ const Inbox = () => {
 
   const { data, isValidating, mutate, error } = useFetch<InboxDataType>(
     `emails/getMyInbox/${user?.id}?page=${pageNo}&limit=20` +
-      (searchText?.trim()?.length ? `&userName=${searchText}` : "")
-    // +
-    // (sortBy ? `&sortBy=${sortBy}` : "")
+      (searchText?.trim()?.length ? `&userName=${searchText}` : "") +
+      (typeof sortBy !== "undefined" ? `&sortBy=${sortBy}` : "")
   );
 
   const handleSelect = (emailId: string) => {
