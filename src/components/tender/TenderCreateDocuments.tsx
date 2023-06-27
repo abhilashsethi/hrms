@@ -38,7 +38,8 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
   const handleSubmit = (values: any) => {
     console.log("before store", tender);
     console.log(values);
-    setTender([...tender, ...values])
+    console.log(...values);
+    setTender(...tender, ...values)
     handleNext()
     console.log("submit", tender);
 
