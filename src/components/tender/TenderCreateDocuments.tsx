@@ -4,31 +4,40 @@ import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from "@mui/icons-material";
-import { Button, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import { FieldArray, Form, Field, Formik } from "formik";
 import useFormStore from "hooks/userFormStore";
+import { useState } from "react";
+import * as Yup from "yup";
 
 interface Props {
   handleBack?: () => void;
   handleNext: () => void;
 }
-
+const validationSchema = Yup.object().shape({
+  inputFields: Yup.array().of(
+    Yup.object().shape({
+      docTitle: Yup.string().required('Document Title is required'),
+      doc: Yup.mixed().required('File is required'),
+    })
+  ),
+});
 const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
-
+  const [loading, setLoading] = useState(false);
   const { setTender, tender } = useFormStore();
   const initialValues = {
     inputFields: [{ docTitle: tender?.docTitle || "", doc: tender?.doc || "" }]
   };
   const handleSubmit = (values: any) => {
     // Access the values of all input fields
-    console.log(values.inputFields);
-    setTender(...tender, ...values.inputFields)
+    console.log(values);
+    setTender(...tender, ...values)
     handleNext()
   };
 
   return (
     <section>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
         {({ values }) => (
           <Form>
             <div className="w-full my-6 py-6 px-20 flex justify-center">
@@ -91,7 +100,9 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
               <Button
                 type="submit"
                 variant="contained"
-                startIcon={<KeyboardArrowRight />}
+                startIcon={
+                  loading ? <CircularProgress size={20} /> : <KeyboardArrowRight />
+                }
                 className="!bg-green-600"
               >
                 NEXT
