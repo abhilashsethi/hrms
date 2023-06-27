@@ -20,7 +20,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
 
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
-    branchId?: string | null;
+    branchId?: any | null;
   }>({ dialogue: false, branchId: null });
   const handleDelete = async (item?: Branch) => {
     Swal.fire({
