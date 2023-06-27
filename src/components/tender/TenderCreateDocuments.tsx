@@ -39,7 +39,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
     // Access the values of all input fields
     console.log("before store", tender);
     console.log(values);
-    setTender(...tender, ...values)
+    setTender([...tender, ...values])
     handleNext()
   };
   console.log("after store", tender);
