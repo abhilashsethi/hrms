@@ -1,64 +1,28 @@
 import MaterialTable from "@material-table/core";
-import { BorderColor, Delete, Edit, PeopleRounded } from "@mui/icons-material";
+import { BorderColor, Delete, PeopleRounded } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { RenderIconRow } from "components/common";
 import { HeadStyle, IOSSwitch } from "components/core";
 import { UpdateBranch } from "components/dialogues";
-import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
-import Slider from "react-slick";
 import Swal from "sweetalert2";
-import { Role } from "types";
+import { Branch } from "types";
 import { MuiTblOptions, clock, deleteFile, getDataWithSL } from "utils";
 interface Props {
-  data?: any;
-  mutate?: any;
+  data?: Branch[];
+  mutate: () => void;
 }
-const settings = {
-  dots: false,
-  infinite: true,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  autoplay: true,
-  speed: 400,
-  cssEase: "linear",
-  autoplaySpeed: 3000,
-  pauseOnHover: false,
-  arrows: false,
-  responsive: [
-    {
-      breakpoint: 940,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        infinite: true,
-        arrows: false,
-      },
-    },
-    {
-      breakpoint: 760,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        infinite: true,
-        arrows: false,
-      },
-    },
-  ],
-};
+
 const AllBranchColumn = ({ data, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { change, isChanging } = useChange();
-  const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
-    dialogue: false,
-    role: null,
-  });
+  const { change } = useChange();
+
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
     branchId?: string | null;
   }>({ dialogue: false, branchId: null });
-  const handleDelete = async (item: any) => {
+  const handleDelete = async (item?: Branch) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete?",
@@ -75,7 +39,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
           const res = await change(`branches/${item?.id}`, { method: "DELETE" });
           const photoPaths = item?.photos;
           if (photoPaths && photoPaths.length > 0) {
-            photoPaths.forEach(async (path: any) => {
+            photoPaths.forEach(async (path) => {
               await deleteFile(String(path));
             });
           }
@@ -135,7 +99,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
       <MaterialTable
         title={<HeadStyle name="All Branch" icon={<PeopleRounded />} />}
         isLoading={!data}
-        data={data ? getDataWithSL<any>(data) : []}
+        data={data ? getDataWithSL(data) : []}
         options={{ ...MuiTblOptions(), selection: false, paging: false }}
         columns={[
           {
@@ -263,7 +227,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
                 <div className="w-full">
                   {rowData?.photos?.length ?
                     <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 px-8 py-4">
-                      {rowData?.photos?.map((pic: any, i: any) => (
+                      {rowData?.photos?.map((pic, i) => (
                         <div key={i} className="bg-white rounded-lg shadow-lg px-2 py-2">
                           <img className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"

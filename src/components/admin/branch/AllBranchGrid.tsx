@@ -1,18 +1,18 @@
+import { DeleteRounded, Edit } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
 import { LOCATION, MANAGER } from "assets/dashboard_Icons";
 import { RenderIconRow } from "components/common";
 import { CountryNameFlag, IOSSwitch } from "components/core";
 import { UpdateBranch } from "components/dialogues";
-import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import { useState } from "react";
-import Swal from "sweetalert2";
 import Slider from "react-slick";
-import { DeleteRounded, Edit } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import { Branch } from "types";
 import { deleteFile } from "utils";
-import { Tooltip } from "@mui/material";
 interface Props {
-  data?: any;
-  mutate?: any;
+  data?: Branch[];
+  mutate: () => void;
 }
 const settings = {
   dots: false,
@@ -52,7 +52,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
     <>
       <section className="py-6 ">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 items-center justify-center">
-          {data?.map((item: any, index: any) => (
+          {data?.map((item, index) => (
             <div key={index}>
               <MoreOption item={item} mutate={mutate} />
             </div>
@@ -64,7 +64,11 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
 };
 
 export default AllBranchGrid;
-const MoreOption = ({ item, mutate }: any) => {
+interface PROPS {
+  item?: Branch;
+  mutate: () => void;
+}
+const MoreOption = ({ item, mutate }: PROPS) => {
 
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
@@ -73,7 +77,7 @@ const MoreOption = ({ item, mutate }: any) => {
     branchId?: string | null;
   }>({ dialogue: false, branchId: null });
 
-  const handleDelete = async (item: any) => {
+  const handleDelete = async (item?: Branch) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete?",
@@ -90,7 +94,7 @@ const MoreOption = ({ item, mutate }: any) => {
           const res = await change(`branches/${item?.id}`, { method: "DELETE" });
           const photoPaths = item?.photos;
           if (photoPaths && photoPaths.length > 0) {
-            photoPaths.forEach(async (path: any) => {
+            photoPaths.forEach(async (path) => {
               await deleteFile(String(path));
             });
           }
@@ -114,7 +118,7 @@ const MoreOption = ({ item, mutate }: any) => {
       }
     });
   };
-  const handleBlock = async (e: any, id: string) => {
+  const handleBlock = async (e: any, id?: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to update status?",
@@ -155,7 +159,7 @@ const MoreOption = ({ item, mutate }: any) => {
             item?.photos?.length > 1 ? (
               <>
                 <Slider {...settings} className="">
-                  {item?.photos?.map((data: any, k: any) => (
+                  {item?.photos?.map((data, k) => (
                     <img key={k} className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
                       src={data} alt="Branch" />
@@ -164,7 +168,7 @@ const MoreOption = ({ item, mutate }: any) => {
               </>
             ) : (
               <>
-                {item?.photos?.map((data: any, k: any) => (
+                {item?.photos?.map((data, k) => (
                   <img key={k} className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
                     src={data} alt="Branch" />
