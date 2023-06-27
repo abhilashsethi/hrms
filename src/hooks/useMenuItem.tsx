@@ -353,6 +353,12 @@ export default () => {
 					icon: <ICONS.All_Clients />,
 					route: "/admin/quotation/gst-config",
 				},
+				{
+					key: "24hh-5",
+					title: "Bank Account Configure",
+					icon: <ICONS.All_Clients />,
+					route: "/admin/quotation/bank-account-config",
+				},
 			],
 		},
 		{
