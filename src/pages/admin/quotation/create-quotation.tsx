@@ -16,6 +16,7 @@ import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import * as Yup from "yup";
 // import PayrollInputField from "./PayrollInputField";
 
 const CreateQuotation = () => {
@@ -34,38 +35,13 @@ const CreateQuotation = () => {
 		quotationTitle: "",
 		text: "",
 	};
-	// const validationSchema = Yup.object().shape({
-	// 	firstName: Yup.string()
-	// 		.matches(
-	// 			/^[A-Za-z ]+$/,
-	// 			"First name must only contain alphabetic characters"
-	// 		)
-	// 		.min(2, "First name must be at least 2 characters")
-	// 		.max(50, "First name must be less than 50 characters")
-	// 		.required("First name is required!"),
-	// 	lastName: Yup.string()
-	// 		.matches(
-	// 			/^[A-Za-z ]+$/,
-	// 			"Last name must only contain alphabetic characters"
-	// 		)
-	// 		.min(2, "Last name must be at least 2 characters")
-	// 		.max(50, "Last name must be less than 50 characters")
-	// 		.required("Last name is required!"),
-	// 	phone: Yup.string()
-	// 		.required("Required!")
-	// 		.matches(
-	// 			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-	// 			"Phone number is not valid"
-	// 		)
-	// 		.min(6)
-	// 		.max(15),
-	// 	email: Yup.string()
-	// 		.email("Invalid email address")
-	// 		.required("Email is required!"),
-	// 	roleId: Yup.string().required("Required!"),
-	// 	departmentId: Yup.string().required("Required!"),
-	// 	employeeOfBranchId: Yup.string().required("Required!"),
-	// });
+	const validationSchema = Yup.object().shape({
+		quotationNumber: Yup.string().required("Quotation Number is required!"),
+		clientName: Yup.string().required("Client name is required!"),
+		clientAddress: Yup.string().required("Client address is required!"),
+		quotationTitle: Yup.string().required("Quotation title is required!"),
+		inputFields: Yup.array().required("Input Fields are required"),
+	});
 
 	const handleSubmit = (values: any) => {
 		// Access the values of all input fields
@@ -91,7 +67,7 @@ const CreateQuotation = () => {
 							<Formik
 								initialValues={initialValues}
 								onSubmit={handleSubmit}
-								// validationSchema={validationSchema}
+								validationSchema={validationSchema}
 								enableReinitialize={true}
 							>
 								{({
