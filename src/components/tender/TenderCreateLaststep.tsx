@@ -1,6 +1,7 @@
 import { Check, KeyboardArrowLeft } from "@mui/icons-material";
 import {
   Button,
+  CircularProgress,
   FormControlLabel,
   MenuItem,
   Radio,
@@ -12,18 +13,14 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 
-interface Props {
-  handleBack?: () => void;
-}
 
 const validationSchema = Yup.object().shape({
   emdFees: Yup.string().required("Required!"),
   fees: Yup.string().required("Required!"),
-  paymentMode: Yup.string().required("Required!"),
-  emdPaymentMode: Yup.string().required("Required!"),
 });
 
-const TenderCreateLaststep = ({ handleBack }: Props) => {
+const TenderCreateLaststep = () => {
+  const [loading, setLoading] = useState(false);
   const [isEmdValue, setIsEmdValue] = useState("no")
   const handleOptionChange = (event: any) => {
     setIsEmdValue(event.target.value);
@@ -151,19 +148,14 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
               )}
 
             </div>
-            <div className="flex justify-between items-center px-20">
-              <Button
-                variant="contained"
-                startIcon={<KeyboardArrowLeft />}
-                className="!bg-red-600"
-                onClick={handleBack}
-              >
-                PREV
-              </Button>
+            <div className="flex justify-end items-center px-20">
               <Button
                 type="submit"
                 variant="contained"
-                startIcon={<Check />}
+                disabled={loading}
+                startIcon={
+                  loading ? <CircularProgress size={20} /> : <Check />
+                }
                 className="!bg-green-600"
               >
                 SUBMIT

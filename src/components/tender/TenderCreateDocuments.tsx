@@ -129,7 +129,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
                 }
                 className="!bg-green-600"
               >
-                Submit
+                Next
               </Button>
             </div>
           </Form>

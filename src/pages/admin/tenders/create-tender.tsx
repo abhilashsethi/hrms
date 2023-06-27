@@ -29,18 +29,16 @@ const CreateTender = () => {
       case 1:
         return (
           <TenderCreateDocuments
-            handleNext={handleNext}
-            handleBack={handleBack}
-          />
+            handleNext={handleNext} />
         );
 
       case 2:
         return (
-          <AssignMembers handleNext={handleNext} handleBack={handleBack} />
+          <AssignMembers handleNext={handleNext} />
         );
 
       case 3:
-        return <TenderCreateLaststep handleBack={handleBack} />;
+        return <TenderCreateLaststep />;
 
       default:
         break;
