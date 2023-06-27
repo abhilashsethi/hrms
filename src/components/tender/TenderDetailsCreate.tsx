@@ -8,19 +8,15 @@ import * as Yup from "yup";
 interface Props {
   handleNext: () => void;
 }
-
-
-
 const validationSchema = Yup.object().shape({
-  tenderNo: Yup.string().required("Required!"),
-  title: Yup.string().required("Required!"),
-  portal: Yup.string().required("Required!"),
-  category: Yup.string().required("Required!"),
-  date: Yup.string().required("Required!"),
-  time: Yup.string().required("Required!"),
-  bid: Yup.string().required("Required!"),
+  tenderNo: Yup.string().required("Tender number is required!"),
+  title: Yup.string().required("Title is required!"),
+  portal: Yup.string().required("Portal is required!"),
+  category: Yup.string().required("Category is required!"),
+  date: Yup.string().required("Date is required!"),
+  time: Yup.string().required("Time is required!"),
+  bid: Yup.number().required('Bid value is required!').positive('Bid value must be positive').nullable(),
 });
-
 const TenderDetailsCreate = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const { setTender, tender } = useFormStore();
@@ -33,6 +29,10 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
     time: tender?.time || "",
     bid: tender?.bid || "",
   };
+  const today = new Date();
+  today.setDate(today.getDate() + 1); // Get the next day's date
+
+
   const handleSubmit = async (values: any) => {
     console.log(values);
     setTender(values)
@@ -74,7 +74,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.tenderNo && !!errors.tenderNo}
-                    helperText={Boolean(touched?.tenderNo) && String(errors?.tenderNo)}
+                    helperText={Boolean(touched?.tenderNo) && errors?.tenderNo as string}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -93,7 +93,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.title && !!errors.title}
-                    helperText={Boolean(touched.title) && String(errors.title)}
+                    helperText={Boolean(touched.title) && errors.title as string}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -112,7 +112,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.portal && !!errors.portal}
-                    helperText={Boolean(touched.portal) && String(errors.portal)}
+                    helperText={Boolean(touched.portal) && errors.portal as string}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -131,7 +131,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.category && !!errors.category}
-                    helperText={Boolean(touched.category) && String(errors.category)}
+                    helperText={Boolean(touched.category) && errors.category as string}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -147,11 +147,15 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     placeholder="Submission Date"
                     name="date"
                     type="date"
+                    inputProps={{
+                      min: today.toISOString().split("T")[0],
+                      max: "9999-12-31",
+                    }}
                     value={values.date}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.date && !!errors.date}
-                    helperText={Boolean(touched.date) && String(errors.date)}
+                    helperText={Boolean(touched.date) && errors.date as string}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -171,7 +175,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.time && !!errors.time}
-                    helperText={Boolean(touched.time) && String(errors.time)}
+                    helperText={Boolean(touched.time) && errors.time as string}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -190,7 +194,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.bid && !!errors.bid}
-                    helperText={Boolean(touched.bid) && String(errors.bid)}
+                    helperText={Boolean(touched.bid) && errors.bid as string}
                   />
                 </div>
               </div>

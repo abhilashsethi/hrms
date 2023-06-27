@@ -4,34 +4,59 @@ import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from "@mui/icons-material";
-import { Button, TextField } from "@mui/material";
-import { FieldArray, Form, Field, Formik } from "formik";
+import { Button, CircularProgress, TextField } from "@mui/material";
+import { FieldArray, Form, Field, Formik, FormikErrors } from "formik";
 import useFormStore from "hooks/userFormStore";
+import { useState } from "react";
+import * as Yup from "yup";
+
+interface InputField {
+  docTitle: string;
+  doc: string;
+}
 
 interface Props {
   handleBack?: () => void;
   handleNext: () => void;
 }
 
-const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
+// const validationSchema = Yup.object().shape({
+//   inputFields: Yup.array().of(
+//     Yup.object().shape({
+//       docTitle: Yup.string().required('Document Title is required'),
+//       doc: Yup.mixed().required('File is required'),
+//     })
+//   ),
+// });
 
+const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
+  const [loading, setLoading] = useState(false);
   const { setTender, tender } = useFormStore();
   const initialValues = {
-    inputFields: [{ docTitle: tender?.docTitle || "", doc: tender?.doc || "" }]
+    inputFields: [{ docTitle: "", doc: "" }]
   };
   const handleSubmit = (values: any) => {
     // Access the values of all input fields
-    console.log(values.inputFields);
-    setTender(...tender, ...values.inputFields)
+    console.log("before store", tender);
+    console.log(values);
+    setTender([...tender, ...values])
     handleNext()
   };
+  console.log("after store", tender);
 
   return (
     <section>
-      <div className="w-full my-6 py-6 px-20 flex justify-center">
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ values }) => (
-            <Form>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}
+      // validationSchema={validationSchema}
+      >
+        {({ values, errors, handleBlur, touched }: {
+          values: { inputFields: InputField[] },
+          errors: FormikErrors<{ inputFields: InputField[] }>,
+          handleBlur: (eventOrString: any) => void,
+          touched: any
+        }) => (
+          <Form>
+            <div className="w-full my-6 py-6 px-20 flex justify-center">
               <FieldArray name="inputFields">
                 {({ remove, push }) => (
                   <div>
@@ -44,6 +69,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                             fullWidth
                             size="small"
                             type="text"
+                            onBlur={handleBlur}
                             name={`inputFields[${index}].docTitle`}
                           />
                           <h1 className="">Upload file </h1>
@@ -53,6 +79,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                             size="small"
                             type="file"
                             name={`inputFields[${index}].doc`}
+                            onBlur={handleBlur}
                           />
                           <div className="flex justify-end w-full">
                             <Button type="button"
@@ -76,29 +103,30 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                   </div>
                 )}
               </FieldArray>
-              {/* <Button type="submit">Submit</Button> */}
-            </Form>
-          )}
-        </Formik>
-      </div>
-      <div className="flex justify-between items-center px-20">
-        <Button
-          variant="contained"
-          startIcon={<KeyboardArrowLeft />}
-          className="!bg-red-600"
-          onClick={handleBack}
-        >
-          PREV
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          startIcon={<KeyboardArrowRight />}
-          className="!bg-green-600"
-        >
-          NEXT
-        </Button>
-      </div>
+            </div>
+            <div className="flex justify-between items-center px-20">
+              <Button
+                variant="contained"
+                startIcon={<KeyboardArrowLeft />}
+                className="!bg-red-600"
+                onClick={handleBack}
+              >
+                PREV
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                startIcon={
+                  loading ? <CircularProgress size={20} /> : <KeyboardArrowRight />
+                }
+                className="!bg-green-600"
+              >
+                NEXT
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </section>
   );
 };
