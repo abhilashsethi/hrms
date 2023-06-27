@@ -12,13 +12,13 @@ interface Props {
 
 
 const validationSchema = Yup.object().shape({
-  tenderNo: Yup.string().required("Required!"),
-  title: Yup.string().required("Required!"),
-  portal: Yup.string().required("Required!"),
-  category: Yup.string().required("Required!"),
-  date: Yup.string().required("Required!"),
-  time: Yup.string().required("Required!"),
-  bid: Yup.string().required("Required!"),
+  tenderNo: Yup.string().required("Tender number is required!"),
+  title: Yup.string().required("Title is required!"),
+  portal: Yup.string().required("Portal is required!"),
+  category: Yup.string().required("Category is required!"),
+  date: Yup.string().required("Date is required!"),
+  time: Yup.string().required("Time is required!"),
+  bid: Yup.number().required('Bid value is required!').positive('Bid value must be positive').nullable(),
 });
 
 const TenderDetailsCreate = ({ handleNext }: Props) => {
