@@ -1,14 +1,11 @@
 import { Check, KeyboardArrowLeft } from "@mui/icons-material";
 import {
   Button,
-  Checkbox,
-  FormControl,
   FormControlLabel,
-  FormLabel,
   MenuItem,
   Radio,
   RadioGroup,
-  TextField,
+  TextField
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
@@ -18,13 +15,6 @@ import * as Yup from "yup";
 interface Props {
   handleBack?: () => void;
 }
-
-const initialValues = {
-  emdFees: "",
-  fees: "",
-  emdPaymentMode: "",
-  paymentMode: "",
-};
 
 const validationSchema = Yup.object().shape({
   emdFees: Yup.string().required("Required!"),
@@ -38,28 +28,35 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
   const handleOptionChange = (event: any) => {
     setIsEmdValue(event.target.value);
   };
+  const initialValues = {
+    emdFees: "",
+    fees: "",
+    emdPaymentMode: "",
+    paymentMode: "",
+  };
   const handleSubmit = async (values: any) => {
     console.log(values);
     Swal.fire("Success", "Tender created successfully!", "success");
   };
   return (
     <section>
-      <div className="px-20 my-8">
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          enableReinitialize={true}
-          onSubmit={handleSubmit}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            setFieldValue,
-          }) => (
-            <Form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        enableReinitialize={true}
+        onSubmit={handleSubmit}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          setFieldValue,
+        }) => (
+          <Form>
+            <div className="px-20 my-8">
+
               <h1 className="text-theme font-semibold">Tender Fee Details</h1>
               <div className="grid lg:grid-cols-2 gap-4">
                 <div className="md:py-2 py-1">
@@ -73,7 +70,7 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.fees && !!errors.fees}
-                    helperText={touched.fees && errors.fees}
+                    helperText={Boolean(touched.fees) && errors.fees as string}
                   />
                 </div>
                 <div className="md:py-2 py-1">
@@ -89,7 +86,7 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.paymentMode && !!errors.paymentMode}
-                    helperText={touched.paymentMode && errors.paymentMode}
+                    helperText={Boolean(touched.paymentMode) && errors.paymentMode as string}
                   >
                     {paymentModes.map((option) => (
                       <MenuItem key={option.id} value={option.title}>
@@ -125,7 +122,7 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       error={touched.emdFees && !!errors.emdFees}
-                      helperText={touched.emdFees && errors.emdFees}
+                      helperText={Boolean(touched.emdFees) && errors.emdFees as string}
                     />
                   </div>
                   <div className="md:py-2 py-1">
@@ -141,7 +138,7 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       error={touched.emdPaymentMode && !!errors.emdPaymentMode}
-                      helperText={touched.emdPaymentMode && errors.emdPaymentMode}
+                      helperText={Boolean(touched.emdPaymentMode) && errors.emdPaymentMode as string}
                     >
                       {paymentModes.map((option) => (
                         <MenuItem key={option.id} value={option.title}>
@@ -152,28 +149,30 @@ const TenderCreateLaststep = ({ handleBack }: Props) => {
                   </div>
                 </div>
               )}
-            </Form>
-          )}
-        </Formik>
-      </div>
-      <div className="flex justify-between items-center px-20">
-        <Button
-          variant="contained"
-          startIcon={<KeyboardArrowLeft />}
-          className="!bg-red-600"
-          onClick={handleBack}
-        >
-          PREV
-        </Button>
-        <Button
-          variant="contained"
-          startIcon={<Check />}
-          className="!bg-green-600"
-          onClick={handleSubmit}
-        >
-          SUBMIT
-        </Button>
-      </div>
+
+            </div>
+            <div className="flex justify-between items-center px-20">
+              <Button
+                variant="contained"
+                startIcon={<KeyboardArrowLeft />}
+                className="!bg-red-600"
+                onClick={handleBack}
+              >
+                PREV
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                startIcon={<Check />}
+                className="!bg-green-600"
+              >
+                SUBMIT
+              </Button>
+
+            </div>
+          </Form>
+        )}
+      </Formik>
     </section>
   );
 };

@@ -1,8 +1,9 @@
 import { Check } from "@mui/icons-material";
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { Form, Formik } from "formik";
-import useFormStore from "hooks/userFormStore";
+import { useChange } from "hooks";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 interface Props {
@@ -13,31 +14,63 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required!"),
   portal: Yup.string().required("Portal is required!"),
   category: Yup.string().required("Category is required!"),
-  date: Yup.string().required("Date is required!"),
-  time: Yup.string().required("Time is required!"),
-  bid: Yup.number().required('Bid value is required!').positive('Bid value must be positive').nullable(),
+  submissionDate: Yup.string().required("Date is required!"),
+  submissionTime: Yup.string().required("Time is required!"),
+  bidValue: Yup.number().required('Bid value is required!').positive('Bid value must be positive').nullable(),
 });
 const TenderDetailsCreate = ({ handleNext }: Props) => {
+  const { change } = useChange();
   const [loading, setLoading] = useState(false);
-  const { setTender, tender } = useFormStore();
   const initialValues = {
-    tenderNo: tender?.tenderNo || "",
-    title: tender?.title || "",
-    portal: tender?.portal || "",
-    category: tender?.category || "",
-    date: tender?.date || "",
-    time: tender?.time || "",
-    bid: tender?.bid || "",
+    tenderNo: "",
+    title: "",
+    portal: "",
+    category: "",
+    submissionDate: "",
+    submissionTime: "",
+    bidValue: "",
   };
   const today = new Date();
   today.setDate(today.getDate() + 1); // Get the next day's date
 
-
   const handleSubmit = async (values: any) => {
-    console.log(values);
-    setTender(values)
-    handleNext()
+    setLoading(true);
+    try {
+      const res = await change(`tenders`, {
+        body: {
+          tenderNo: values?.tenderNo,
+          title: values?.title,
+          portal: values?.portal,
+          category: values?.category,
+          submissionDate: new Date(values?.submissionDate).toISOString(),
+          submissionTime: values?.submissionTime,
+          bidValue: Number(values?.bidValue),
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.message || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        console.log(res);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      handleNext()
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
+  // const handleSubmit = async (values: any) => {
+  //   console.log(values);
+  // };
 
   return (
     <section className="w-full flex justify-center items-center mt-6">
@@ -143,19 +176,19 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                   <TextField
                     fullWidth
                     size="small"
-                    id="date"
+                    id="submissionDate"
                     placeholder="Submission Date"
-                    name="date"
+                    name="submissionDate"
                     type="date"
                     inputProps={{
                       min: today.toISOString().split("T")[0],
                       max: "9999-12-31",
                     }}
-                    value={values.date}
+                    value={values.submissionDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.date && !!errors.date}
-                    helperText={Boolean(touched.date) && errors.date as string}
+                    error={touched.submissionDate && !!errors.submissionDate}
+                    helperText={Boolean(touched.submissionDate) && errors.submissionDate as string}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -167,15 +200,15 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                   <TextField
                     fullWidth
                     size="small"
-                    id="time"
+                    id="submissionTime"
                     placeholder="Submission Time"
-                    name="time"
+                    name="submissionTime"
                     type="time"
-                    value={values.time}
+                    value={values.submissionTime}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.time && !!errors.time}
-                    helperText={Boolean(touched.time) && errors.time as string}
+                    error={touched.submissionTime && !!errors.submissionTime}
+                    helperText={Boolean(touched.submissionTime) && errors.submissionTime as string}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -187,14 +220,14 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                   <TextField
                     fullWidth
                     size="small"
-                    id="bid"
+                    id="bidValue"
                     placeholder="Bid Value"
-                    name="bid"
-                    value={values.bid}
+                    name="bidValue"
+                    value={values.bidValue}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.bid && !!errors.bid}
-                    helperText={Boolean(touched.bid) && errors.bid as string}
+                    error={touched.bidValue && !!errors.bidValue}
+                    helperText={Boolean(touched.bidValue) && errors.bidValue as string}
                   />
                 </div>
               </div>
@@ -208,7 +241,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     loading ? <CircularProgress size={20} /> : <Check />
                   }
                 >
-                  NEXT
+                  Submit
                 </Button>
               </div>
             </Form>

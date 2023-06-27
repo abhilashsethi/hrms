@@ -1,22 +1,18 @@
 import {
   Add,
   Delete,
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
+  KeyboardArrowRight
 } from "@mui/icons-material";
 import { Button, CircularProgress, TextField } from "@mui/material";
-import { FieldArray, Form, Field, Formik, FormikErrors } from "formik";
-import useFormStore from "hooks/userFormStore";
+import { Field, FieldArray, Form, Formik, FormikErrors } from "formik";
 import { useState } from "react";
-import * as Yup from "yup";
+import { uploadFile } from "utils";
 
 interface InputField {
   docTitle: string;
   doc: string;
 }
-
 interface Props {
-  handleBack?: () => void;
   handleNext: () => void;
 }
 
@@ -29,26 +25,43 @@ interface Props {
 //   ),
 // });
 
-const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
+const TenderCreateDocuments = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { setTender, tender } = useFormStore();
   const initialValues = {
     inputFields: [{ docTitle: "", doc: "" }]
   };
-  const handleSubmit = (values: any) => {
-    console.log("before store", tender);
-    console.log(values);
-    console.log(...values);
-    setTender(...tender, ...values)
-    handleNext()
-    console.log("submit", tender);
+  const handleSubmit = async (values: any) => {
+    setLoading(true);
+    try {
+      console.log(values);
+      const docsUrls = [];
+      for (const docs of values?.inputFields) {
+        console.log(docs);
+        const uniId = docs?.doc.split('.').pop();
+        const url = await uploadFile(
+          docs?.file,
+          `${Date.now()}.${uniId}`
+        );
+        console.log(url);
+        docsUrls.push({ docTitle: docs?.docTitle, doc: url });
+      }
+      console.log(docsUrls);
+      setLoading(false);
+      handleNext()
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
 
   };
-  console.log("after store", tender);
 
   return (
     <section>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}
+        enableReinitialize={true}
       // validationSchema={validationSchema}
       >
         {({ values, errors, handleBlur, touched }: {
@@ -106,24 +119,17 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                 )}
               </FieldArray>
             </div>
-            <div className="flex justify-between items-center px-20">
-              <Button
-                variant="contained"
-                startIcon={<KeyboardArrowLeft />}
-                className="!bg-red-600"
-                onClick={handleBack}
-              >
-                PREV
-              </Button>
+            <div className="flex justify-end items-center px-20">
               <Button
                 type="submit"
                 variant="contained"
+                disabled={loading}
                 startIcon={
                   loading ? <CircularProgress size={20} /> : <KeyboardArrowRight />
                 }
                 className="!bg-green-600"
               >
-                NEXT
+                Submit
               </Button>
             </div>
           </Form>

@@ -1,17 +1,15 @@
 import {
   FileCopy,
   FindInPage,
-  KeyboardArrowLeft,
   KeyboardArrowRight,
   Search,
   Task,
-  Timeline,
+  Timeline
 } from "@mui/icons-material";
 import { Autocomplete, Button, TextField } from "@mui/material";
-import { useFetch } from "hooks";
 import { Form, Formik } from "formik";
+import { useFetch } from "hooks";
 import * as Yup from "yup";
-import useFormStore from "hooks/userFormStore";
 
 interface Props {
   handleBack?: () => void;
@@ -23,23 +21,19 @@ const validationSchema = Yup.object().shape({
   reviewUserId: Yup.string().required("Required!"),
   submissionUserId: Yup.string().required("Required!"),
   trackUserId: Yup.string().required("Required!"),
-  time: Yup.string().required("Required!"),
-  bid: Yup.string().required("Required!"),
 });
 const AssignMembers = ({ handleBack, handleNext }: Props) => {
   const { data: employees } = useFetch<any>(`users`);
-  const { setTender, tender } = useFormStore();
   const initialValues = {
-    documentUserId: tender?.documentUserId || "",
-    searchUserId: tender?.searchUserId || "",
-    reviewUserId: tender?.reviewUserId || "",
-    submissionUserId: tender?.submissionUserId || "",
-    trackUserId: tender?.trackUserId || "",
+    documentUserId: "",
+    searchUserId: "",
+    reviewUserId: "",
+    submissionUserId: "",
+    trackUserId: "",
   };
   const handleSubmit = async (values: any) => {
     console.log(values);
-    setTender(values)
-    handleNext()
+
   };
   return (
     <section>
@@ -70,9 +64,16 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                   </h1>
                   <div className="w-1/2">
                     <Autocomplete
-                      options={employees}
+                      options={employees || []}
                       fullWidth
-                      getOptionLabel={(option: any) => option.name}
+                      value={
+                        values?.searchUserId
+                          ? employees?.find(
+                            (option: any) => option.id === values.searchUserId
+                          )
+                          : ""
+                      }
+                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
                       isOptionEqualToValue={(option, value) =>
                         option.id === value.searchUserId
                       }
@@ -84,7 +85,6 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                         <TextField
                           {...params}
                           name="searchUserId"
-                          value={values.searchUserId}
                           placeholder="Select Member"
                           onBlur={handleBlur}
                           error={
@@ -104,9 +104,16 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                   </h1>
                   <div className="w-1/2">
                     <Autocomplete
-                      options={employees}
+                      options={employees || []}
                       fullWidth
-                      getOptionLabel={(option: any) => option.name}
+                      value={
+                        values?.documentUserId
+                          ? employees?.find(
+                            (option: any) => option.id === values.documentUserId
+                          )
+                          : ""
+                      }
+                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
                       isOptionEqualToValue={(option, value) =>
                         option.id === value.documentUserId
                       }
@@ -118,7 +125,6 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                         <TextField
                           {...params}
                           name="documentUserId"
-                          value={values.documentUserId}
                           placeholder="Select Member"
                           onBlur={handleBlur}
                           error={
@@ -138,9 +144,16 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                   </h1>
                   <div className="w-1/2">
                     <Autocomplete
-                      options={employees}
+                      options={employees || []}
                       fullWidth
-                      getOptionLabel={(option: any) => option.name}
+                      value={
+                        values?.reviewUserId
+                          ? employees?.find(
+                            (option: any) => option.id === values.reviewUserId
+                          )
+                          : ""
+                      }
+                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
                       isOptionEqualToValue={(option, value) =>
                         option.id === value.reviewUserId
                       }
@@ -152,7 +165,6 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                         <TextField
                           {...params}
                           name="reviewUserId"
-                          value={values.reviewUserId}
                           placeholder="Select Member"
                           onBlur={handleBlur}
                           error={
@@ -172,11 +184,18 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                   </h1>
                   <div className="w-1/2">
                     <Autocomplete
-                      options={employees}
+                      options={employees || []}
                       fullWidth
-                      getOptionLabel={(option: any) => option.name}
+                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
                       isOptionEqualToValue={(option, value) =>
                         option.id === value.submissionUserId
+                      }
+                      value={
+                        values?.submissionUserId
+                          ? employees?.find(
+                            (option: any) => option.id === values.submissionUserId
+                          )
+                          : ""
                       }
                       size="small"
                       onChange={(e, r) =>
@@ -186,7 +205,6 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                         <TextField
                           {...params}
                           name="submissionUserId"
-                          value={values.submissionUserId}
                           placeholder="Select Member"
                           onBlur={handleBlur}
                           error={
@@ -206,9 +224,9 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                   </h1>
                   <div className="w-1/2">
                     <Autocomplete
-                      options={employees}
+                      options={employees || []}
                       fullWidth
-                      getOptionLabel={(option: any) => option.name}
+                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
                       isOptionEqualToValue={(option, value) =>
                         option.id === value.trackUserId
                       }
@@ -216,11 +234,17 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                       onChange={(e, r) =>
                         setFieldValue("trackUserId", r?.id)
                       }
+                      value={
+                        values?.trackUserId
+                          ? employees?.find(
+                            (option: any) => option.id === values.trackUserId
+                          )
+                          : ""
+                      }
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           name="trackUserId"
-                          value={values.trackUserId}
                           placeholder="Select Member"
                           onBlur={handleBlur}
                           error={
@@ -236,20 +260,12 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between items-center px-20">
+            <div className="flex justify-end items-center px-20">
               <Button
-                variant="contained"
-                startIcon={<KeyboardArrowLeft />}
-                className="!bg-red-600"
-                onClick={handleBack}
-              >
-                PREV
-              </Button>
-              <Button
+                type="submit"
                 variant="contained"
                 startIcon={<KeyboardArrowRight />}
                 className="!bg-green-600"
-                onClick={handleNext}
               >
                 NEXT
               </Button>
