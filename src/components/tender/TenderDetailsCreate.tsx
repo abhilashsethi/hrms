@@ -147,6 +147,9 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     placeholder="Submission Date"
                     name="date"
                     type="date"
+                    inputProps={{
+                      max: new Date().toISOString().split("T")[0],
+                    }}
                     value={values.date}
                     onChange={handleChange}
                     onBlur={handleBlur}
