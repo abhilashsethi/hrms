@@ -8,18 +8,24 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 const initialValues = {
-	gst: "",
-	cgst: "",
-	sgst: "",
+	bankName: "",
+	branchName: "",
+	acNo: "",
+	companyName: "",
+	ifscCode: "",
+	swiftCode: "",
 };
 
 const validationSchema = Yup.object().shape({
-	gst: Yup.number().required("% For GST is required !"),
-	cgst: Yup.number().required("% For CGST is required !"),
-	sgst: Yup.number().required("% For SGST is required !"),
+	bankName: Yup.string().required("Bank name is required"),
+	branchName: Yup.string().required("Branch name is required"),
+	acNo: Yup.string().required("Account Number is required"),
+	companyName: Yup.string().required("Company name is required"),
+	ifscCode: Yup.string().required("IFSC Code is required"),
+	swiftCode: Yup.string().required("SWIFT Code is required"),
 });
 
-const GstConfig = () => {
+const BankAccountConfig = () => {
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
 	const handleSubmit = async (values: any, { resetForm }: any) => {
@@ -80,68 +86,123 @@ const GstConfig = () => {
 							}) => (
 								<Form>
 									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
-										GST Configuration
+										Account Config
 									</h1>
 
 									<div className="grid lg:grid-cols-1">
 										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="lg:py-2 py-1">
-												<InputLabel htmlFor="gst">
-													GST % <span className="text-red-600">*</span>
+												<InputLabel htmlFor="bankName">
+													Bank Name <span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
 												fullWidth
 												size="small"
-												id="gst"
-												type="number"
+												id="bankName"
 												// placeholder="% for basic salary"
-												name="gst"
-												value={values.gst}
+												name="bankName"
+												value={values.bankName}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.gst && !!errors.gst}
-												helperText={touched.gst && errors.gst}
+												error={touched.bankName && !!errors.bankName}
+												helperText={touched.bankName && errors.bankName}
 											/>
 										</div>
 										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="cgst">
-													CGST % <span className="text-red-600">*</span>
+												<InputLabel htmlFor="branchName">
+													Branch Name <span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for cgst"
-												id="cgst"
-												name="cgst"
-												value={values.cgst}
+												id="branchName"
+												name="branchName"
+												value={values.branchName}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.cgst && !!errors.cgst}
-												helperText={touched.cgst && errors.cgst}
+												error={touched.branchName && !!errors.branchName}
+												helperText={touched.branchName && errors.branchName}
 											/>
 										</div>
 										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="sgst">
-													SGST % <span className="text-red-600">*</span>
+												<InputLabel htmlFor="acNo">
+													Account Number <span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField
 												size="small"
 												fullWidth
-												type="number"
 												// placeholder="% for PF"
-												id="sgst"
-												name="sgst"
-												value={values.sgst}
+												id="acNo"
+												name="acNo"
+												value={values.acNo}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.sgst && !!errors.sgst}
-												helperText={touched.sgst && errors.sgst}
+												error={touched.acNo && !!errors.acNo}
+												helperText={touched.acNo && errors.acNo}
+											/>
+										</div>
+
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="companyName">
+													Company Name <span className="text-red-600">*</span>
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												// placeholder="% for PF"
+												id="companyName"
+												name="companyName"
+												value={values.companyName}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.companyName && !!errors.companyName}
+												helperText={touched.companyName && errors.companyName}
+											/>
+										</div>
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="ifscCode">
+													IFSC Code <span className="text-red-600">*</span>
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												// placeholder="% for PF"
+												id="ifscCode"
+												name="ifscCode"
+												value={values.ifscCode}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.ifscCode && !!errors.ifscCode}
+												helperText={touched.ifscCode && errors.ifscCode}
+											/>
+										</div>
+										<div className="lg:px-4 px-2 lg:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="swiftCode">
+													SWIFT Code <span className="text-red-600">*</span>
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												// placeholder="% for PF"
+												id="swiftCode"
+												name="swiftCode"
+												value={values.swiftCode}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.swiftCode && !!errors.swiftCode}
+												helperText={touched.swiftCode && errors.swiftCode}
 											/>
 										</div>
 									</div>
@@ -172,7 +233,7 @@ const GstConfig = () => {
 	);
 };
 
-export default GstConfig;
+export default BankAccountConfig;
 
 const links = [
 	// { id: 1, page: "Payroll", link: "/admin/payroll" },

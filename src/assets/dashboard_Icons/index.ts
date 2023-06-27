@@ -42,3 +42,7 @@ export { default as UNBLOCK } from "./unlock.png";
 export { default as TENDERICONS1 } from "./tendericons1.png";
 export { default as TENDERICONS2 } from "./tendericons2.png";
 export { default as TENDERICONS3 } from "./tendericons3.png";
+export { default as TOTAL_QUOTATION } from "./totalQuotation.png";
+export { default as ACCEPTED_QUOTATION } from "./acceptedQuotation.png";
+export { default as REJECTED_QUOTATION } from "./rejectedQuotation.png";
+export { default as MODIFIED_QUOTATION } from "./modifiedQuotation.png";
