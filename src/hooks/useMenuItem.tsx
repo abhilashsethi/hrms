@@ -342,6 +342,12 @@ export default () => {
 					route: "/admin/quotation/create-quotation",
 				},
 				{
+					key: "24hh-4",
+					title: "View All Quotation",
+					icon: <ICONS.All_Clients />,
+					route: "/admin/quotation/all-quotation",
+				},
+				{
 					key: "24hh-3",
 					title: "Gst Configure",
 					icon: <ICONS.All_Clients />,
