@@ -32,6 +32,7 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
     // Access the values of all input fields
     console.log(values);
     setTender(...tender, ...values)
+    console.log(tender);
     handleNext()
   };
 
