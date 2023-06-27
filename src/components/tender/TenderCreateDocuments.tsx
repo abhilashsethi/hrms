@@ -36,11 +36,12 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
     inputFields: [{ docTitle: "", doc: "" }]
   };
   const handleSubmit = (values: any) => {
-    // Access the values of all input fields
     console.log("before store", tender);
     console.log(values);
     setTender([...tender, ...values])
     handleNext()
+    console.log("submit", tender);
+
   };
   console.log("after store", tender);
 
