@@ -1,6 +1,7 @@
 import { Check } from "@mui/icons-material";
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { Form, Formik } from "formik";
+import useFormStore from "hooks/userFormStore";
 import { useState } from "react";
 import * as Yup from "yup";
 
@@ -30,8 +31,11 @@ const validationSchema = Yup.object().shape({
 
 const TenderDetailsCreate = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
+  const { setTender } = useFormStore();
   const handleSubmit = async (values: any) => {
     console.log(values);
+    setTender(values)
+
   };
   return (
     <section className="w-full flex justify-center items-center mt-6">

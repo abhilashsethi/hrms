@@ -252,6 +252,14 @@ export type Branch = {
   updatedAt: Date;
   country: string;
 };
+export type Tender = {
+  id: string;
+  name: string;
+  employees: User [];
+  isBlocked: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 export interface MeetingTypes {
   meetings?: MeetingProps[];

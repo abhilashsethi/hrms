@@ -19,14 +19,9 @@ import { useState } from "react";
 const CreateTender = () => {
   const steps = ["BASIC DETAILS", "DOCUMENTS", "ASSIGN MEMBERS", "LAST STEP"];
   const [activeStep, setActiveStep] = useState(0);
-  const [studyLevel, setStudyLevel] = useState(null);
 
   const handleNext = () => setActiveStep((prev) => prev + 1);
   const handleBack = () => setActiveStep((prev) => prev - 1);
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
   const handleSteps = (step: any) => {
     switch (step) {
       case 0:
