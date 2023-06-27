@@ -74,7 +74,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.tenderNo && !!errors.tenderNo}
-                    helperText={Boolean(touched?.tenderNo) && String(errors?.tenderNo)}
+                    helperText={Boolean(touched?.tenderNo) && !!errors?.tenderNo}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -93,7 +93,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.title && !!errors.title}
-                    helperText={Boolean(touched.title) && String(errors.title)}
+                    helperText={Boolean(touched.title) && !!errors.title}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -112,7 +112,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.portal && !!errors.portal}
-                    helperText={Boolean(touched.portal) && String(errors.portal)}
+                    helperText={Boolean(touched.portal) && !!errors.portal}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -131,7 +131,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.category && !!errors.category}
-                    helperText={Boolean(touched.category) && String(errors.category)}
+                    helperText={Boolean(touched.category) && !!errors.category}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -151,7 +151,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.date && !!errors.date}
-                    helperText={Boolean(touched.date) && String(errors.date)}
+                    helperText={Boolean(touched.date) && !!errors.date}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -171,7 +171,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.time && !!errors.time}
-                    helperText={Boolean(touched.time) && String(errors.time)}
+                    helperText={Boolean(touched.time) && !!errors.time}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -190,7 +190,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.bid && !!errors.bid}
-                    helperText={Boolean(touched.bid) && String(errors.bid)}
+                    helperText={Boolean(touched.bid) && !!errors.bid}
                   />
                 </div>
               </div>
