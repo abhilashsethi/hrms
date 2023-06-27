@@ -20,20 +20,20 @@ interface Props {
   handleNext: () => void;
 }
 
-const validationSchema = Yup.object().shape({
-  inputFields: Yup.array().of(
-    Yup.object().shape({
-      docTitle: Yup.string().required('Document Title is required'),
-      doc: Yup.mixed().required('File is required'),
-    })
-  ),
-});
+// const validationSchema = Yup.object().shape({
+//   inputFields: Yup.array().of(
+//     Yup.object().shape({
+//       docTitle: Yup.string().required('Document Title is required'),
+//       doc: Yup.mixed().required('File is required'),
+//     })
+//   ),
+// });
 
 const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const { setTender, tender } = useFormStore();
   const initialValues = {
-    inputFields: [{ docTitle: tender?.docTitle || "", doc: tender?.doc || "" }]
+    inputFields: [{ docTitle: "", doc: "" }]
   };
   const handleSubmit = (values: any) => {
     // Access the values of all input fields
