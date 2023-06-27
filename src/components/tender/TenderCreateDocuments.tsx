@@ -5,8 +5,9 @@ import {
 } from "@mui/icons-material";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { Field, FieldArray, Form, Formik, FormikErrors } from "formik";
-import { useForm } from "hooks";
+import { useChange, useForm } from "hooks";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import { uploadFile } from "utils";
 
 interface InputField {
@@ -28,6 +29,7 @@ interface Props {
 
 const TenderCreateDocuments = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
+  const { change } = useChange();
   const { tender } = useForm();
   const initialValues = {
     inputFields: [{ docTitle: "", doc: "" }]
@@ -46,10 +48,28 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
           `${Date.now()}.${uniId}`
         );
         console.log(url);
-        docsUrls.push({ docTitle: docs?.docTitle, doc: url });
+        docsUrls.push({ title: docs?.docTitle, link: url, tenderId: tender?.id });
       }
+      const res = await change(`tenders/add-doc/to-tender`, {
+        body:
+          docsUrls
+        ,
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.message || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      // setTender(res?.results?.data?.id)
+      Swal.fire(`Success`, `You have successfully submit!`, `success`);
       console.log(docsUrls);
       setLoading(false);
+      return
       handleNext()
       return;
     } catch (error) {
