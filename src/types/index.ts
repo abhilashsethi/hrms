@@ -259,6 +259,13 @@ export type Tender = {
   isBlocked: boolean;
   createdAt: Date;
   updatedAt: Date;
+  tenderNo: string,
+  title: string,
+  portal: string,
+  category: string,
+  date: Date,
+  time: string,
+  bid: string
 };
 
 export interface MeetingTypes {

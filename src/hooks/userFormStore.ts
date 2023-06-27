@@ -8,7 +8,7 @@ type FormStoreState = {
 const useFormStore = create<FormStoreState>((set) => ({
   tender: {},
  
-  setTender: async (data: Tender) => set({ tender: {...data} }),
+  setTender: async (data: FormStoreState) => set({ tender: {...data} }),
 }));
 
 export default useFormStore;

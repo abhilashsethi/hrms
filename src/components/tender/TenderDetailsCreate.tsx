@@ -6,18 +6,10 @@ import { useState } from "react";
 import * as Yup from "yup";
 
 interface Props {
-  handleNext?: () => void;
+  handleNext: () => void;
 }
 
-const initialValues = {
-  tenderNo: "",
-  title: "",
-  portal: "",
-  category: "",
-  date: "",
-  time: "",
-  bid: "",
-};
+
 
 const validationSchema = Yup.object().shape({
   tenderNo: Yup.string().required("Required!"),
@@ -31,11 +23,20 @@ const validationSchema = Yup.object().shape({
 
 const TenderDetailsCreate = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { setTender } = useFormStore();
+  const { setTender, tender } = useFormStore();
   const handleSubmit = async (values: any) => {
     console.log(values);
     setTender(values)
-
+    handleNext()
+  };
+  const initialValues = {
+    tenderNo: tender?.tenderNo || "",
+    title: tender?.title || "",
+    portal: tender?.portal || "",
+    category: tender?.category || "",
+    date: tender?.date || "",
+    time: tender?.time || "",
+    bid: tender?.bid || "",
   };
   return (
     <section className="w-full flex justify-center items-center mt-6">
@@ -72,7 +73,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.tenderNo && !!errors.tenderNo}
-                    helperText={touched.tenderNo && errors.tenderNo}
+                    helperText={Boolean(touched?.tenderNo) && String(errors?.tenderNo)}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -91,7 +92,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.title && !!errors.title}
-                    helperText={touched.title && errors.title}
+                    helperText={Boolean(touched.title) && String(errors.title)}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -110,7 +111,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.portal && !!errors.portal}
-                    helperText={touched.portal && errors.portal}
+                    helperText={Boolean(touched.portal) && String(errors.portal)}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -129,7 +130,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.category && !!errors.category}
-                    helperText={touched.category && errors.category}
+                    helperText={Boolean(touched.category) && String(errors.category)}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -149,7 +150,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.date && !!errors.date}
-                    helperText={touched.date && errors.date}
+                    helperText={Boolean(touched.date) && String(errors.date)}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -169,7 +170,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.time && !!errors.time}
-                    helperText={touched.time && errors.time}
+                    helperText={Boolean(touched.time) && String(errors.time)}
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -188,16 +189,15 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.bid && !!errors.bid}
-                    helperText={touched.bid && errors.bid}
+                    helperText={Boolean(touched.bid) && String(errors.bid)}
                   />
                 </div>
               </div>
               <div className="flex justify-end md:py-4 py-2">
                 <Button
-                  // type="submit"
+                  type="submit"
                   variant="contained"
                   className="!bg-theme"
-                  onClick={handleNext}
                   disabled={loading}
                   startIcon={
                     loading ? <CircularProgress size={20} /> : <Check />

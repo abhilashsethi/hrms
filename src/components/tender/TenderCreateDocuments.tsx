@@ -6,25 +6,27 @@ import {
 } from "@mui/icons-material";
 import { Button, TextField } from "@mui/material";
 import { FieldArray, Form, Field, Formik } from "formik";
+import useFormStore from "hooks/userFormStore";
 
 interface Props {
   handleBack?: () => void;
-  handleNext?: () => void;
+  handleNext: () => void;
 }
 
 const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
   const initialValues = {
     inputFields: [{ docTitle: '', doc: '' }]
   };
-
+  const { setTender, tender } = useFormStore();
   const handleSubmit = (values: any) => {
     // Access the values of all input fields
     console.log(values.inputFields);
+    setTender(...tender, ...values.inputFields)
+    handleNext()
   };
   return (
     <section>
       <div className="w-full my-6 py-6 px-20 flex justify-center">
-
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           {({ values }) => (
             <Form>
@@ -87,10 +89,10 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
           PREV
         </Button>
         <Button
+          type="submit"
           variant="contained"
           startIcon={<KeyboardArrowRight />}
           className="!bg-green-600"
-          onClick={handleNext}
         >
           NEXT
         </Button>
