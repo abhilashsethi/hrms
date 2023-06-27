@@ -38,9 +38,8 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
     setLoading(true);
     try {
       console.log(values);
-      console.log(tender);
+      console.log("tender log", tender);
       for (const docs of values?.inputFields) {
-        console.log(docs);
         const uniId = docs?.doc.split('.').pop();
         const url = await uploadFile(
           docs?.file,
