@@ -6,13 +6,13 @@ import {
   Task,
   Timeline
 } from "@mui/icons-material";
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Autocomplete, Button, CircularProgress, TextField } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useFetch } from "hooks";
+import { useState } from "react";
 import * as Yup from "yup";
 
 interface Props {
-  handleBack?: () => void;
   handleNext: () => void;
 }
 const validationSchema = Yup.object().shape({
@@ -22,7 +22,8 @@ const validationSchema = Yup.object().shape({
   submissionUserId: Yup.string().required("Required!"),
   trackUserId: Yup.string().required("Required!"),
 });
-const AssignMembers = ({ handleBack, handleNext }: Props) => {
+const AssignMembers = ({ handleNext }: Props) => {
+  const [loading, setLoading] = useState(false);
   const { data: employees } = useFetch<any>(`users`);
   const initialValues = {
     documentUserId: "",
@@ -264,7 +265,10 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
               <Button
                 type="submit"
                 variant="contained"
-                startIcon={<KeyboardArrowRight />}
+                disabled={loading}
+                startIcon={
+                  loading ? <CircularProgress size={20} /> : <KeyboardArrowRight />
+                }
                 className="!bg-green-600"
               >
                 NEXT
