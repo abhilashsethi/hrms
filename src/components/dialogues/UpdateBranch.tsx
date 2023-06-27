@@ -24,9 +24,9 @@ import UploadBranchImage from "./UploadBranchImage";
 
 interface Props {
   open: any;
-  handleClose: any;
-  MainMutate?: any;
-  branchId?: any;
+  handleClose: () => void;
+  MainMutate: () => void;
+  branchId?: string;
 }
 
 const UpdateBranch = ({

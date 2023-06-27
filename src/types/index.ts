@@ -244,7 +244,7 @@ export type Branch = {
   email: string;
   employees: User [];
   photos: string [];
-  manager: string;
+  manager: {name:string, id:string};
   managerId: string;
   isBlocked: boolean;
   phone: number;
