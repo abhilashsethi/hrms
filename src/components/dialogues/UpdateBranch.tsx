@@ -1,4 +1,4 @@
-import { Check, Close, CloudUpload } from "@mui/icons-material";
+import { Check, Close } from "@mui/icons-material";
 import {
   Autocomplete,
   Box,
@@ -8,18 +8,17 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  InputLabel,
   TextField,
-  Tooltip,
+  Tooltip
 } from "@mui/material";
-import { ErrorMessage, useFormik } from "formik";
-import * as yup from "yup";
-import { useRef, useState } from "react";
+import { useFormik } from "formik";
 import { useChange, useFetch } from "hooks";
-import Swal from "sweetalert2";
+import { useRef, useState } from "react";
 import { countries } from "schemas/Countries";
-import UpdateBranchImage from "./UpdateBranchImage";
+import Swal from "sweetalert2";
 import { deleteFile } from "utils";
+import * as yup from "yup";
+import UpdateBranchImage from "./UpdateBranchImage";
 import UploadBranchImage from "./UploadBranchImage";
 
 interface Props {
