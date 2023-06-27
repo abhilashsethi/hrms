@@ -39,7 +39,6 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
     try {
       console.log(values);
       console.log(tender);
-      const docsUrls = [];
       for (const docs of values?.inputFields) {
         console.log(docs);
         const uniId = docs?.doc.split('.').pop();
@@ -47,27 +46,28 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
           docs?.file,
           `${Date.now()}.${uniId}`
         );
+        const docsUrls = await change(`tenders/add-doc/to-tender`, {
+          body:
+            { title: docs?.docTitle, link: url, tenderId: tender?.id }
+          ,
+        });
         console.log(url);
-        docsUrls.push({ title: docs?.docTitle, link: url, tenderId: tender?.id });
+        console.log(docsUrls);
       }
-      const res = await change(`tenders/add-doc/to-tender`, {
-        body:
-          docsUrls
-        ,
-      });
+
       setLoading(false);
-      if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.message || "Unable to Submit",
-          "error"
-        );
-        setLoading(false);
-        return;
-      }
+      // if (res?.status !== 200) {
+      //   Swal.fire(
+      //     "Error",
+      //     res?.results?.message || "Unable to Submit",
+      //     "error"
+      //   );
+      //   setLoading(false);
+      //   return;
+      // }
       // setTender(res?.results?.data?.id)
       Swal.fire(`Success`, `You have successfully submit!`, `success`);
-      console.log(docsUrls);
+      // console.log(docsUrls);
       setLoading(false);
       return
       handleNext()
