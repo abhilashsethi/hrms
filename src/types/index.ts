@@ -255,7 +255,6 @@ export type Branch = {
 export type Tender = {
   id: string;
   name: string;
-  employees: User [];
   isBlocked: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -263,9 +262,9 @@ export type Tender = {
   title: string,
   portal: string,
   category: string,
-  date: Date,
-  time: string,
-  bid: string
+  submissionDate: Date,
+  submissionTime: string,
+  bidValue: string
 };
 
 export interface MeetingTypes {
