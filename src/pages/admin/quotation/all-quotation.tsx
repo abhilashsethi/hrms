@@ -83,7 +83,6 @@ const AllQuotation = () => {
 			currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
 		}`
 	);
-	console.log(currentRange);
 	return (
 		<>
 			<PanelLayout title="Meetings - Admin Panel">
