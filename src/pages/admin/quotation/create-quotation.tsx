@@ -229,8 +229,9 @@ const CreateQuotation = () => {
 												Please choose tax option{" "}
 												<span className="text-red-600">*</span>
 											</p>
-											<FormControlLabel control={<Checkbox />} label="GST" />
 											<FormControlLabel control={<Checkbox />} label="IGST" />
+											<FormControlLabel control={<Checkbox />} label="SGST" />
+											<FormControlLabel control={<Checkbox />} label="CGST" />
 										</div>
 										<div className="mt-3 text-gray-500 px-4">
 											<p>
