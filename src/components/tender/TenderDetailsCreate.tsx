@@ -8,9 +8,6 @@ import * as Yup from "yup";
 interface Props {
   handleNext: () => void;
 }
-
-
-
 const validationSchema = Yup.object().shape({
   tenderNo: Yup.string().required("Tender number is required!"),
   title: Yup.string().required("Title is required!"),
@@ -20,7 +17,6 @@ const validationSchema = Yup.object().shape({
   time: Yup.string().required("Time is required!"),
   bid: Yup.number().required('Bid value is required!').positive('Bid value must be positive').nullable(),
 });
-
 const TenderDetailsCreate = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const { setTender, tender } = useFormStore();
