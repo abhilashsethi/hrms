@@ -148,7 +148,8 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     name="date"
                     type="date"
                     inputProps={{
-                      max: new Date().toISOString().split("T")[0],
+                      min: new Date().toISOString().split("T")[0],
+                      max: "9999-12-31",
                     }}
                     value={values.date}
                     onChange={handleChange}
