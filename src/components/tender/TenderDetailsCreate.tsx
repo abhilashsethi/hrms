@@ -1,9 +1,10 @@
 import { Check } from "@mui/icons-material";
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange } from "hooks";
+import { useChange, useForm } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { Tender } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -19,6 +20,7 @@ const validationSchema = Yup.object().shape({
   bidValue: Yup.number().required('Bid value is required!').positive('Bid value must be positive').nullable(),
 });
 const TenderDetailsCreate = ({ handleNext }: Props) => {
+  const { setTender } = useForm();
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
   const initialValues = {
@@ -26,9 +28,9 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
     title: "",
     portal: "",
     category: "",
-    submissionDate: "",
+    submissionDate: null,
     submissionTime: "",
-    bidValue: "",
+    bidValue: null,
   };
   const today = new Date();
   today.setDate(today.getDate() + 1); // Get the next day's date
@@ -55,9 +57,10 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
           "error"
         );
         setLoading(false);
-        console.log(res);
         return;
       }
+      console.log(res);
+      setTender(res)
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       handleNext()
       return;

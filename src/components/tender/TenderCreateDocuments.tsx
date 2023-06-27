@@ -5,6 +5,7 @@ import {
 } from "@mui/icons-material";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { Field, FieldArray, Form, Formik, FormikErrors } from "formik";
+import { useForm } from "hooks";
 import { useState } from "react";
 import { uploadFile } from "utils";
 
@@ -27,6 +28,7 @@ interface Props {
 
 const TenderCreateDocuments = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
+  const { tender } = useForm();
   const initialValues = {
     inputFields: [{ docTitle: "", doc: "" }]
   };
@@ -34,6 +36,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
     setLoading(true);
     try {
       console.log(values);
+      console.log(tender);
       const docsUrls = [];
       for (const docs of values?.inputFields) {
         console.log(docs);

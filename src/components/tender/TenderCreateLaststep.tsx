@@ -1,4 +1,4 @@
-import { Check, KeyboardArrowLeft } from "@mui/icons-material";
+import { Check } from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
