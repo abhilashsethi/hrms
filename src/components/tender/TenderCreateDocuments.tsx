@@ -39,7 +39,10 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
   return (
     <section>
       <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
-        {({ values }) => (
+        {({ values,
+          errors,
+          handleBlur,
+          touched }) => (
           <Form>
             <div className="w-full my-6 py-6 px-20 flex justify-center">
               <FieldArray name="inputFields">
@@ -54,7 +57,10 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                             fullWidth
                             size="small"
                             type="text"
+                            onBlur={handleBlur}
                             name={`inputFields[${index}].docTitle`}
+                            error={touched.inputFields?.[index]?.docTitle && !!errors?.inputFields?.[index]?.docTitle}
+                            helperText={touched.inputFields?.[index]?.docTitle && errors?.inputFields?.[index]?.docTitle}
                           />
                           <h1 className="">Upload file </h1>
                           <Field
@@ -63,6 +69,9 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                             size="small"
                             type="file"
                             name={`inputFields[${index}].doc`}
+                            onBlur={handleBlur}
+                            error={touched.inputFields?.[index]?.doc && !!errors?.inputFields?.[index]?.doc}
+                            helperText={touched.inputFields?.[index]?.doc && errors?.inputFields?.[index]?.doc}
                           />
                           <div className="flex justify-end w-full">
                             <Button type="button"
