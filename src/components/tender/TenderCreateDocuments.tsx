@@ -14,16 +14,18 @@ interface Props {
 }
 
 const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
-  const initialValues = {
-    inputFields: [{ docTitle: '', doc: '' }]
-  };
+
   const { setTender, tender } = useFormStore();
+  const initialValues = {
+    inputFields: [{ docTitle: tender?.docTitle || "", doc: tender?.doc || "" }]
+  };
   const handleSubmit = (values: any) => {
     // Access the values of all input fields
     console.log(values.inputFields);
     setTender(...tender, ...values.inputFields)
     handleNext()
   };
+
   return (
     <section>
       <div className="w-full my-6 py-6 px-20 flex justify-center">

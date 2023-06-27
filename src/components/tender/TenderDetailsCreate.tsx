@@ -24,11 +24,6 @@ const validationSchema = Yup.object().shape({
 const TenderDetailsCreate = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const { setTender, tender } = useFormStore();
-  const handleSubmit = async (values: any) => {
-    console.log(values);
-    setTender(values)
-    handleNext()
-  };
   const initialValues = {
     tenderNo: tender?.tenderNo || "",
     title: tender?.title || "",
@@ -38,6 +33,12 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
     time: tender?.time || "",
     bid: tender?.bid || "",
   };
+  const handleSubmit = async (values: any) => {
+    console.log(values);
+    setTender(values)
+    handleNext()
+  };
+
   return (
     <section className="w-full flex justify-center items-center mt-6">
       <div className="px-12 w-full">
