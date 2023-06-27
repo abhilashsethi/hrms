@@ -2,27 +2,12 @@ import {
 	BorderColor,
 	Business,
 	Delete,
-	DeleteRounded,
 	Email,
-	Home,
-	Info,
-	MoreVertRounded,
 	Person,
-	Place,
 } from "@mui/icons-material";
-import {
-	Avatar,
-	IconButton,
-	ListItemIcon,
-	Menu,
-	MenuItem,
-	Tooltip,
-} from "@mui/material";
-import { SAMPLEDP } from "assets/home";
+import { Avatar, Tooltip } from "@mui/material";
 import { PhotoViewerGuests } from "components/core";
-import { useChange, useFetch } from "hooks";
-import moment from "moment";
-import Link from "next/link";
+import { useChange } from "hooks";
 import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
 
