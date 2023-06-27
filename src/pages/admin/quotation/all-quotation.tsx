@@ -3,6 +3,7 @@ import {
 	Button,
 	Card,
 	IconButton,
+	MenuItem,
 	Modal,
 	TextField,
 	Tooltip,
@@ -188,7 +189,7 @@ const AllQuotation = () => {
 								</Tooltip>
 							</IconButton>
 						</div>
-						<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+						<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
 							<TextField
 								fullWidth
 								size="small"
@@ -213,10 +214,38 @@ const AllQuotation = () => {
 								fullWidth
 								size="small"
 								id="clientName"
-								placeholder="Client Name"
+								placeholder="Quotation Title"
 								value={meetingPerson ? meetingPerson : null}
 								name="clientName"
 								onChange={(e) => setMeetingPerson(e.target.value)}
+							/>
+							<TextField
+								fullWidth
+								select
+								label="Select Status"
+								size="small"
+								value={meetingStatus ? meetingStatus : null}
+								onChange={(e) => setMeetingStatus(e?.target?.value)}
+							>
+								{status.map((option) => (
+									<MenuItem key={option.id} value={option.value}>
+										{option.value}
+									</MenuItem>
+								))}
+							</TextField>
+							<TextField
+								fullWidth
+								size="small"
+								id="date"
+								placeholder="Select Date"
+								name="date"
+								type="date"
+								value={
+									selectDate ? moment(selectDate).format("YYYY-MM-DD") : null
+								}
+								onChange={(e) => {
+									setSelectDate(new Date(e.target.value).toISOString());
+								}}
 							/>
 						</div>
 					</div>
@@ -244,10 +273,9 @@ const AllQuotation = () => {
 export default AllQuotation;
 
 const status = [
-	{ id: 1, value: "Ongoing" },
-	{ id: 2, value: "InPipeline" },
-	{ id: 3, value: "QuotationSent" },
-	{ id: 3, value: "Closed" },
+	{ id: 1, value: "Accepted" },
+	{ id: 2, value: "Rejected" },
+	{ id: 3, value: "Modified" },
 ];
 
 const links = [

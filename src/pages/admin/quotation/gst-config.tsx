@@ -87,7 +87,7 @@ const GstConfig = () => {
 										<div className="lg:px-4 px-2 lg:py-2 py-1">
 											<div className="lg:py-2 py-1">
 												<InputLabel htmlFor="gst">
-													GST % <span className="text-red-600">*</span>
+													IGST % <span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 											<TextField

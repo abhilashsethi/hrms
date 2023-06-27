@@ -2,27 +2,12 @@ import {
 	BorderColor,
 	Business,
 	Delete,
-	DeleteRounded,
 	Email,
-	Home,
-	Info,
-	MoreVertRounded,
 	Person,
-	Place,
 } from "@mui/icons-material";
-import {
-	Avatar,
-	IconButton,
-	ListItemIcon,
-	Menu,
-	MenuItem,
-	Tooltip,
-} from "@mui/material";
-import { SAMPLEDP } from "assets/home";
+import { Avatar, Tooltip } from "@mui/material";
 import { PhotoViewerGuests } from "components/core";
-import { useChange, useFetch } from "hooks";
-import moment from "moment";
-import Link from "next/link";
+import { useChange } from "hooks";
 import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
 
@@ -303,31 +288,31 @@ const projectData = [
 		member: "Srinu Ready",
 		status: "Completed",
 	},
-	// {
-	// 	name: "Trident Academy",
-	// 	startLine: "10:00 AM - 12:00 PM",
-	// 	description:
-	// 		" Lorem ipsum dolor sit, amet consectetur ipsum dolor sit, amet consectetur adipisicing elit. ",
-	// 	mode: "Virtual",
-	// 	photo: "https://source.unsplash.com/100x100/?portrait?20",
-	// 	memberPhoto: "https://source.unsplash.com/100x100/?portrait?200",
-	// 	client: "John Done",
-	// 	member: "Srinu Ready",
-	// 	longitude: "https://source.unsplash.com/100x100/?portrait?300",
-	// 	latitude: "https://source.unsplash.com/100x100/?portrait?300",
-	// 	status: "On Progress",
-	// },
-	// {
-	// 	name: "KIIT University",
-	// 	startLine: "10:00 AM - 12:00 PM",
-	// 	description: " Lorem ipsum dolor sit, amet consectetur adipisicing elit. ",
-	// 	mode: "Physical",
-	// 	photo: "https://source.unsplash.com/100x100/?portrait?10",
-	// 	memberPhoto: "https://source.unsplash.com/100x100/?portrait?28",
-	// 	client: "John Done",
-	// 	member: "Srinu Ready",
-	// 	longitude: "https://source.unsplash.com/100x100/?portrait?300",
-	// 	latitude: "https://source.unsplash.com/100x100/?portrait?300",
-	// 	status: "Cancelled",
-	// },
+	{
+		name: "Trident Academy",
+		startLine: "10:00 AM - 12:00 PM",
+		description:
+			" Lorem ipsum dolor sit, amet consectetur ipsum dolor sit, amet consectetur adipisicing elit. ",
+		mode: "Virtual",
+		photo: "https://source.unsplash.com/100x100/?portrait?20",
+		memberPhoto: "https://source.unsplash.com/100x100/?portrait?200",
+		client: "John Done",
+		member: "Srinu Ready",
+		longitude: "https://source.unsplash.com/100x100/?portrait?300",
+		latitude: "https://source.unsplash.com/100x100/?portrait?300",
+		status: "On Progress",
+	},
+	{
+		name: "KIIT University",
+		startLine: "10:00 AM - 12:00 PM",
+		description: " Lorem ipsum dolor sit, amet consectetur adipisicing elit. ",
+		mode: "Physical",
+		photo: "https://source.unsplash.com/100x100/?portrait?10",
+		memberPhoto: "https://source.unsplash.com/100x100/?portrait?28",
+		client: "John Done",
+		member: "Srinu Ready",
+		longitude: "https://source.unsplash.com/100x100/?portrait?300",
+		latitude: "https://source.unsplash.com/100x100/?portrait?300",
+		status: "Cancelled",
+	},
 ];
