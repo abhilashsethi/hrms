@@ -5,15 +5,21 @@ import {
   KeyboardArrowRight,
 } from "@mui/icons-material";
 import { Button, CircularProgress, TextField } from "@mui/material";
-import { FieldArray, Form, Field, Formik } from "formik";
+import { FieldArray, Form, Field, Formik, FormikErrors } from "formik";
 import useFormStore from "hooks/userFormStore";
 import { useState } from "react";
 import * as Yup from "yup";
+
+interface InputField {
+  docTitle: string;
+  doc: string;
+}
 
 interface Props {
   handleBack?: () => void;
   handleNext: () => void;
 }
+
 const validationSchema = Yup.object().shape({
   inputFields: Yup.array().of(
     Yup.object().shape({
@@ -22,6 +28,7 @@ const validationSchema = Yup.object().shape({
     })
   ),
 });
+
 const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const { setTender, tender } = useFormStore();
@@ -30,19 +37,22 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
   };
   const handleSubmit = (values: any) => {
     // Access the values of all input fields
+    console.log("before store", tender);
     console.log(values);
     setTender(...tender, ...values)
-    console.log(tender);
+    console.log("after store", tender);
     handleNext()
   };
 
   return (
     <section>
       <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
-        {({ values,
-          errors,
-          handleBlur,
-          touched }) => (
+        {({ values, errors, handleBlur, touched }: {
+          values: { inputFields: InputField[] },
+          errors: FormikErrors<{ inputFields: InputField[] }>,
+          handleBlur: (eventOrString: any) => void,
+          touched: any
+        }) => (
           <Form>
             <div className="w-full my-6 py-6 px-20 flex justify-center">
               <FieldArray name="inputFields">
@@ -59,8 +69,8 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                             type="text"
                             onBlur={handleBlur}
                             name={`inputFields[${index}].docTitle`}
-                            error={touched.inputFields?.[index]?.docTitle && !!errors?.inputFields?.[index]?.docTitle}
-                            helperText={touched.inputFields?.[index]?.docTitle && errors?.inputFields?.[index]?.docTitle}
+                          // error={touched.inputFields?.[index]?.docTitle && !!errors?.inputFields?.[index]?.docTitle}
+                          // helperText={touched.inputFields?.[index]?.docTitle && errors?.inputFields?.[index]?.docTitle}
                           />
                           <h1 className="">Upload file </h1>
                           <Field
@@ -70,8 +80,8 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                             type="file"
                             name={`inputFields[${index}].doc`}
                             onBlur={handleBlur}
-                            error={touched.inputFields?.[index]?.doc && !!errors?.inputFields?.[index]?.doc}
-                            helperText={touched.inputFields?.[index]?.doc && errors?.inputFields?.[index]?.doc}
+                          // error={touched.inputFields?.[index]?.doc && !!errors?.inputFields?.[index]?.doc}
+                          // helperText={touched.inputFields?.[index]?.doc && errors?.inputFields?.[index]?.doc}
                           />
                           <div className="flex justify-end w-full">
                             <Button type="button"
@@ -95,8 +105,6 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                   </div>
                 )}
               </FieldArray>
-              {/* <Button type="submit">Submit</Button> */}
-
             </div>
             <div className="flex justify-between items-center px-20">
               <Button
