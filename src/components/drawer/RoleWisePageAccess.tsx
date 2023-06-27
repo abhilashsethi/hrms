@@ -563,6 +563,12 @@ const PageList = [
 		name: "Create Quotation",
 	},
 	{
+		id: 54,
+		value: "/admin/quotation/all-quotation",
+		icon: <ICONS.Change_Password />,
+		name: "View All Quotation",
+	},
+	{
 		id: 53,
 		value: "/admin/quotation/gst-config",
 		icon: <ICONS.Change_Password />,
