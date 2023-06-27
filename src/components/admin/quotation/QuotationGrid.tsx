@@ -1,10 +1,17 @@
 import {
+	BorderColor,
+	Business,
+	Delete,
 	DeleteRounded,
+	Email,
+	Home,
 	Info,
 	MoreVertRounded,
+	Person,
 	Place,
 } from "@mui/icons-material";
 import {
+	Avatar,
 	IconButton,
 	ListItemIcon,
 	Menu,
@@ -12,6 +19,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { SAMPLEDP } from "assets/home";
+import { PhotoViewerGuests } from "components/core";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
@@ -46,101 +54,130 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 	return (
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
-				{data?.map((items: any) => (
-					<div className="relative py-4 bg-white w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
+				{projectData?.map((items: any) => (
+					<div className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
 						<CardComponent items={items} mutate={mutate} />
-						<div className="md:px-4 px-2">
-							<div className="flex justify-between items-center">
-								<span className="py-1 pr-4 text-xl font-semibold capitalize tracking-wide">
-									{items?.title}
-								</span>
-							</div>
-							<div className="relative mb-3 py-1 group flex items-center gap-x-2 tracking-wide">
-								<div
-									className={`absolute -top-5 right-3 text-xs ${
-										items?.status === "Completed"
-											? "bg-[#44bd44]"
-											: items?.status === "Ongoing"
-											? "bg-amber-500"
-											: "bg-red-500"
-									} text-white p-1 rounded-md font-semibold px-2 ml-10`}
-								>
-									{items?.status}
+						<div className="relative">
+							<p className="absolute top-2 z-50 rounded-r-xl bg-green-500 text-white text-sm px-2 pr-3 py-1 font-semibold">
+								Accepted
+							</p>
+							<div className="absolute right-0 rounded-tl-lg top-24 z-50 bg-gradient-to-r from-rose-100 to-teal-100 p-2">
+								<div className="flex">
+									<Tooltip title="Edit">
+										<Avatar
+											variant="rounded"
+											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-yellow-500 !p-0"
+											sx={{
+												mr: ".1vw",
+												padding: "0px !important",
+												backgroundColor: "Highlight",
+												cursor: "pointer",
+												color: "",
+											}}
+										>
+											<BorderColor sx={{ padding: "0px !important" }} />
+										</Avatar>
+									</Tooltip>
+									<Tooltip title="Delete">
+										<Avatar
+											variant="rounded"
+											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-500 !p-0"
+											sx={{
+												mr: "0.1vw",
+												padding: "0px !important",
+												backgroundColor: "Highlight",
+												cursor: "pointer",
+												color: "",
+											}}
+										>
+											<Delete sx={{ padding: "0px !important" }} />
+										</Avatar>
+									</Tooltip>
 								</div>
-								{/* <Chip label={items?.status} onClick={handleClick} /> */}
 							</div>
-							<div className="flex py-2 md:py-0">
-								<p className="font-semibold text-sm md:text-base">
-									Meeting Start Dt :{" "}
-								</p>
-								{/* <AccessTime /> */}
-								<span className="text-sm md:text-base">{`${moment(
-									items?.meetingDate
-								).format("LL")}, ${moment(items?.meetingStartTime).format(
-									"LT"
-								)}`}</span>
+							<div className="flex justify-center bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-sky-400 to-blue-800 py-3 rounded-t-lg w-full">
+								<PhotoViewerGuests
+									size="7rem"
+									className="border-[3px]"
+									// name={item?.name}
+									photo={
+										"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRsRrs9slJ_Q4n5BgwUv2BCwR-VQ9WENkydSABVEzoxA&s"
+									}
+								/>
 							</div>
+							<div className="px-4 bg-gradient-to-r from-rose-100 to-teal-100">
+								<div className="flex gap-2 py-2 md:py-0 justify-center">
+									<p className="text-sm md:text-sm text-gray-700">
+										<span>
+											<Person className=" text-gray-500 mr-1" />
+										</span>
+										Bernard Ellison
+									</p>
+								</div>
+								<div className="flex gap-2 py-2 md:py-0 justify-center">
+									<p className="text-sm md:text-sm text-gray-700">
+										<span>
+											<Email className=" text-gray-500 mr-1" fontSize="small" />
+										</span>
+										bernard@gmail.com
+									</p>
+								</div>
+								<div className="flex gap-2 py-2 md:py-0 justify-center">
+									<p className="text-sm md:text-sm text-gray-700">
+										<span>
+											<Business className="text-gray-500 mr-1" />
+										</span>
+										33 Malcolm Rd, Llanfihangel-nant-melan
+									</p>
+								</div>
+								<div className="mt-3 flex flex-col items-center justify-center">
+									<div className="flex items-center gap-2 py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											Quotation Title :
+										</p>
+										<p className="text-sm md:text-base text-gray-700">
+											Yard ERP
+										</p>
+									</div>
+									<div className="flex items-center gap-2 py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											Date :
+										</p>
+										<p className="text-sm md:text-base text-gray-700">
+											20/06/2023
+										</p>
+									</div>
+									<div className="flex items-center gap-2 py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											Quotation Number :
+										</p>
+										<p className="text-sm md:text-base text-gray-700">
+											SY202306043QU{" "}
+										</p>
+									</div>
 
-							<div className="flex py-2 md:py-0">
-								<p className="font-semibold text-sm md:text-base">
-									Meeting End Dt :{" "}
-								</p>
-								{/* <AccessTime /> */}
-								<span className="text-sm md:text-base">
-									{`${moment(items?.meetingDate).format("LL")}, ${moment(
-										items?.meetingEndTime
-									).format("LT")}`}
-								</span>
+									<div className="flex flex-col items-center justify-center py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											Description{" "}
+										</p>
+										<p className="text-sm text-gray-700">
+											Android App & Admin Panel Development
+										</p>
+									</div>
+									<div className="flex items-center justify-center gap-2 py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											Qty{" "}
+										</p>
+										<p className="text-sm text-gray-700">01</p>
+									</div>
+									<div className="flex items-center justify-center gap-2 py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											Cost (IN INR){" "}
+										</p>
+										<p className="text-sm text-gray-700">1,20,000/-</p>
+									</div>
+								</div>
 							</div>
-							<div className="py-2 text-lg tracking-wide">
-								<span className="font-semibold text-sm md:text-base">
-									Purpose :
-								</span>
-								<p className="text-sm md:text-base">{items?.purpose}</p>
-							</div>
-							<div className="flex gap-2 py-2 md:py-0">
-								<p className="font-semibold text-sm md:text-base">
-									Client Name :
-								</p>
-								<p className="text-sm md:text-base">{items?.clientName}</p>
-							</div>
-							<div className="flex gap-2 py-2 md:py-0">
-								<p className="font-semibold text-sm md:text-base">
-									Client Email :
-								</p>
-								<p className="text-sm md:text-base">{items?.clientEmail}</p>
-							</div>
-							<div className="flex gap-2 py-2 md:py-0">
-								<p className="font-semibold text-sm md:text-base">
-									Client Phone :
-								</p>
-								<p className="text-sm md:text-base">{items?.clientPhone}</p>
-							</div>
-							<div className="flex gap-2 py-2 md:py-0">
-								<p className="font-semibold text-sm md:text-base">
-									Member Name :
-								</p>
-								<p className="text-sm md:text-base">
-									{items?.meetingPersonName}
-								</p>
-							</div>
-							<div className="py-2 text-lg tracking-wide">
-								<span className=" font-semibold text-sm md:text-base">
-									Address :
-								</span>
-								<p className="text-sm md:text-base">{items?.address}</p>
-							</div>
-
-							<div className=" group flex items-center py-2 text-md tracking-wide text-lg">
-								<Place />
-								<span className="text-md font-medium">Location :</span>
-							</div>
-							<iframe
-								className="w-full py-2"
-								src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.0498150250405!2d85.77649581162628!3d20.25676868112798!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a740ae304117%3A0x629ce9db127f69ef!2sSearchingYard%20Software%20Group!5e0!3m2!1sen!2sin!4v1682685199057!5m2!1sen!2sin"
-								loading="lazy"
-								referrerPolicy="no-referrer-when-downgrade"
-							></iframe>
 						</div>
 					</div>
 				))}
@@ -190,7 +227,8 @@ const CardComponent = ({ items, mutate }: any) => {
 	};
 
 	return (
-		<div className="absolute right-[10px] top-[10px]">
+		<>
+			{/* <div className="absolute right-[10px] top-[10px]">
 			<Tooltip title="More">
 				<IconButton onClick={handleClick}>
 					<MoreVertRounded />
@@ -246,7 +284,8 @@ const CardComponent = ({ items, mutate }: any) => {
 					Delete
 				</MenuItem>
 			</Menu>
-		</div>
+		</div> */}
+		</>
 	);
 };
 
@@ -264,31 +303,31 @@ const projectData = [
 		member: "Srinu Ready",
 		status: "Completed",
 	},
-	{
-		name: "Trident Academy",
-		startLine: "10:00 AM - 12:00 PM",
-		description:
-			" Lorem ipsum dolor sit, amet consectetur ipsum dolor sit, amet consectetur adipisicing elit. ",
-		mode: "Virtual",
-		photo: "https://source.unsplash.com/100x100/?portrait?20",
-		memberPhoto: "https://source.unsplash.com/100x100/?portrait?200",
-		client: "John Done",
-		member: "Srinu Ready",
-		longitude: "https://source.unsplash.com/100x100/?portrait?300",
-		latitude: "https://source.unsplash.com/100x100/?portrait?300",
-		status: "On Progress",
-	},
-	{
-		name: "KIIT University",
-		startLine: "10:00 AM - 12:00 PM",
-		description: " Lorem ipsum dolor sit, amet consectetur adipisicing elit. ",
-		mode: "Physical",
-		photo: "https://source.unsplash.com/100x100/?portrait?10",
-		memberPhoto: "https://source.unsplash.com/100x100/?portrait?28",
-		client: "John Done",
-		member: "Srinu Ready",
-		longitude: "https://source.unsplash.com/100x100/?portrait?300",
-		latitude: "https://source.unsplash.com/100x100/?portrait?300",
-		status: "Cancelled",
-	},
+	// {
+	// 	name: "Trident Academy",
+	// 	startLine: "10:00 AM - 12:00 PM",
+	// 	description:
+	// 		" Lorem ipsum dolor sit, amet consectetur ipsum dolor sit, amet consectetur adipisicing elit. ",
+	// 	mode: "Virtual",
+	// 	photo: "https://source.unsplash.com/100x100/?portrait?20",
+	// 	memberPhoto: "https://source.unsplash.com/100x100/?portrait?200",
+	// 	client: "John Done",
+	// 	member: "Srinu Ready",
+	// 	longitude: "https://source.unsplash.com/100x100/?portrait?300",
+	// 	latitude: "https://source.unsplash.com/100x100/?portrait?300",
+	// 	status: "On Progress",
+	// },
+	// {
+	// 	name: "KIIT University",
+	// 	startLine: "10:00 AM - 12:00 PM",
+	// 	description: " Lorem ipsum dolor sit, amet consectetur adipisicing elit. ",
+	// 	mode: "Physical",
+	// 	photo: "https://source.unsplash.com/100x100/?portrait?10",
+	// 	memberPhoto: "https://source.unsplash.com/100x100/?portrait?28",
+	// 	client: "John Done",
+	// 	member: "Srinu Ready",
+	// 	longitude: "https://source.unsplash.com/100x100/?portrait?300",
+	// 	latitude: "https://source.unsplash.com/100x100/?portrait?300",
+	// 	status: "Cancelled",
+	// },
 ];

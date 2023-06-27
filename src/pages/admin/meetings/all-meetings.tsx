@@ -80,7 +80,7 @@ const AllMeetings = () => {
 		setSelectedDate(date);
 	}
 
-	const [meetingPerson, setMeetingPerson] = useState<string | null>(null);
+	const [meetingPerson, setMeetingPerson] = useState<string | null>("");
 	const [meetingStatus, setMeetingStatus] = useState<string | null>(null);
 	const [selectDate, setSelectDate] = useState<string | null>(null);
 	const {
@@ -180,21 +180,21 @@ const AllMeetings = () => {
 								onClick={() => {
 									setSelectDate(null);
 									setMeetingStatus(null);
-									setMeetingPerson(null);
+									setMeetingPerson("");
 								}}
 							>
 								<Tooltip
 									title={
 										selectDate != null ||
 										meetingStatus != null ||
-										meetingPerson != null
+										meetingPerson != ""
 											? `Remove Filters`
 											: `Filter`
 									}
 								>
 									{selectDate != null ||
 									meetingStatus != null ||
-									meetingPerson != null ? (
+									meetingPerson != "" ? (
 										<Close className={"!text-white"} />
 									) : (
 										<FilterListRounded className={"!text-white"} />
@@ -206,10 +206,10 @@ const AllMeetings = () => {
 							<TextField
 								fullWidth
 								size="small"
-								id="employeeName"
+								id="meetingPerson"
 								placeholder="Member Name"
-								value={meetingPerson ? meetingPerson : null}
-								name="employeeName"
+								value={meetingPerson ? meetingPerson : ""}
+								name="meetingPerson"
 								onChange={(e) => setMeetingPerson(e.target.value)}
 							/>
 							<TextField
@@ -252,12 +252,6 @@ const AllMeetings = () => {
 							</Button>
 						</div>
 					</div>
-
-					{/* {isGrid ? (
-						<MeetingsGrid data={meetingData?.meetings} mutate={mutate} />
-					) : (
-						<MeetingsColumn />
-					)} */}
 
 					{isGrid ? (
 						<>

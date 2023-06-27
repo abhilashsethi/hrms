@@ -7,6 +7,7 @@ import {
 	MedicalInformationRounded,
 	MeetingRoom,
 	RadioButtonChecked,
+	Receipt,
 } from "@mui/icons-material";
 import {
 	Avatar,
@@ -88,7 +89,7 @@ const QuotationColumn = ({ data, mutate }: Props) => {
 					components={{
 						Container: (props) => <Paper {...props} elevation={5} />,
 					}}
-					title={<HeadStyle name="Meetings" icon={<MeetingRoom />} />}
+					title={<HeadStyle name="Quotations" icon={<Receipt />} />}
 					isLoading={!data}
 					data={
 						!data?.length
@@ -106,16 +107,10 @@ const QuotationColumn = ({ data, mutate }: Props) => {
 							width: "2%",
 						},
 						{
-							title: "Meeting Title",
-							tooltip: "Meeting Title",
+							title: "Quotation Number",
+							tooltip: "Quotation Number",
 							searchable: true,
-							field: "title",
-						},
-						{
-							title: "Client Email",
-							tooltip: "Client Email",
-							searchable: true,
-							field: "clientEmail",
+							field: "quotationNumber",
 						},
 						{
 							title: "Client Name",
@@ -124,14 +119,20 @@ const QuotationColumn = ({ data, mutate }: Props) => {
 							field: "clientName",
 						},
 						{
+							title: "Client Address",
+							tooltip: "Client Address",
+							searchable: true,
+							field: "clientAddress",
+						},
+						{
 							title: "Client Phone",
 							tooltip: "Client Phone",
 							searchable: true,
 							field: "clientPhone",
 						},
 						{
-							title: "Meeting Date",
-							tooltip: "Meeting Date",
+							title: "Date",
+							tooltip: "Date",
 							searchable: true,
 							field: "meetingDate",
 							render: (data) => moment(data?.meetingDate).format("ll"),
