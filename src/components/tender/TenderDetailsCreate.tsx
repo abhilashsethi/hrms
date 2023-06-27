@@ -33,6 +33,10 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
     time: tender?.time || "",
     bid: tender?.bid || "",
   };
+  const today = new Date();
+  today.setDate(today.getDate() + 1); // Get the next day's date
+
+
   const handleSubmit = async (values: any) => {
     console.log(values);
     setTender(values)
@@ -148,7 +152,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     name="date"
                     type="date"
                     inputProps={{
-                      min: new Date().toISOString().split("T")[0],
+                      min: today.toISOString().split("T")[0],
                       max: "9999-12-31",
                     }}
                     value={values.date}
