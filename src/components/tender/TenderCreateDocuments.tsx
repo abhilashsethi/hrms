@@ -46,7 +46,9 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
 
   return (
     <section>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}
+      // validationSchema={validationSchema}
+      >
         {({ values, errors, handleBlur, touched }: {
           values: { inputFields: InputField[] },
           errors: FormikErrors<{ inputFields: InputField[] }>,
