@@ -1,13 +1,9 @@
-import {
-	AssetsDashboardCard,
-	AssetsDashboardCharts,
-	DashboardSkeletonLoading,
-} from "components/admin/assets";
+import { DashboardSkeletonLoading } from "components/admin/assets";
 import {
 	QuotationDashboardCard,
 	QuotationDashboardCharts,
 } from "components/admin/quotation";
-import { AdminBreadcrumbs, Loader } from "components/core";
+import { AdminBreadcrumbs } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
@@ -15,9 +11,7 @@ const index = () => {
 	const { data: branchDashboard, isLoading } = useFetch<any>(
 		`branches/dashboardInfo/data`
 	);
-	const { data: dashboardData, isLoading: dashboardDataLoading } =
-		useFetch<any>(`assets/dashboard/details`);
-	console.log(dashboardData);
+	const { data: dashboardData } = useFetch<any>(`assets/dashboard/details`);
 	return (
 		<PanelLayout title="All Branches - Admin Panel">
 			<>
@@ -41,4 +35,4 @@ const index = () => {
 };
 
 export default index;
-const links = [{ id: 1, page: "Assets", link: "/admin/assets" }];
+const links = [{ id: 1, page: "Quotation", link: "/admin/quotation" }];
