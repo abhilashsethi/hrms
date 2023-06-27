@@ -91,7 +91,7 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                             touched.searchUserId && !!errors.searchUserId
                           }
                           helperText={
-                            Boolean(touched.searchUserId) && !!errors.searchUserId
+                            Boolean(touched.searchUserId) && errors.searchUserId as string
                           }
                         />
                       )}
@@ -125,7 +125,7 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                             touched.documentUserId && !!errors.documentUserId
                           }
                           helperText={
-                            Boolean(touched.documentUserId) && !!errors.documentUserId
+                            Boolean(touched.documentUserId) && errors.documentUserId as string
                           }
                         />
                       )}
@@ -159,7 +159,7 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                             touched.reviewUserId && !!errors.reviewUserId
                           }
                           helperText={
-                            Boolean(touched.reviewUserId) && !!errors.reviewUserId
+                            Boolean(touched.reviewUserId) && errors.reviewUserId as string
                           }
                         />
                       )}
@@ -193,7 +193,7 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                             touched.submissionUserId && !!errors.submissionUserId
                           }
                           helperText={
-                            Boolean(touched.submissionUserId) && !!errors.submissionUserId
+                            Boolean(touched.submissionUserId) && errors.submissionUserId as string
                           }
                         />
                       )}
@@ -227,7 +227,7 @@ const AssignMembers = ({ handleBack, handleNext }: Props) => {
                             touched.trackUserId && !!errors.trackUserId
                           }
                           helperText={
-                            Boolean(touched.trackUserId) && !!errors.trackUserId
+                            Boolean(touched.trackUserId) && errors.trackUserId as string
                           }
                         />
                       )}

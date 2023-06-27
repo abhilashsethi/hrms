@@ -28,10 +28,10 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
 
   return (
     <section>
-      <div className="w-full my-6 py-6 px-20 flex justify-center">
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          {({ values }) => (
-            <Form>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        {({ values }) => (
+          <Form>
+            <div className="w-full my-6 py-6 px-20 flex justify-center">
               <FieldArray name="inputFields">
                 {({ remove, push }) => (
                   <div>
@@ -77,28 +77,29 @@ const TenderCreateDocuments = ({ handleBack, handleNext }: Props) => {
                 )}
               </FieldArray>
               {/* <Button type="submit">Submit</Button> */}
-            </Form>
-          )}
-        </Formik>
-      </div>
-      <div className="flex justify-between items-center px-20">
-        <Button
-          variant="contained"
-          startIcon={<KeyboardArrowLeft />}
-          className="!bg-red-600"
-          onClick={handleBack}
-        >
-          PREV
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          startIcon={<KeyboardArrowRight />}
-          className="!bg-green-600"
-        >
-          NEXT
-        </Button>
-      </div>
+
+            </div>
+            <div className="flex justify-between items-center px-20">
+              <Button
+                variant="contained"
+                startIcon={<KeyboardArrowLeft />}
+                className="!bg-red-600"
+                onClick={handleBack}
+              >
+                PREV
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                startIcon={<KeyboardArrowRight />}
+                className="!bg-green-600"
+              >
+                NEXT
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </section>
   );
 };
