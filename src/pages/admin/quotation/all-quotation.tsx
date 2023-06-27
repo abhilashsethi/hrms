@@ -1,37 +1,21 @@
-import {
-	Close,
-	DateRange,
-	FilterListRounded,
-	GridViewRounded,
-	Send,
-	TableRowsRounded,
-} from "@mui/icons-material";
+import { Close, FilterListRounded, Send } from "@mui/icons-material";
 import {
 	Button,
 	Card,
 	IconButton,
-	MenuItem,
 	Modal,
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { MeetingsColumn, MeetingsGrid } from "components/admin";
-import {
-	AdminBreadcrumbs,
-	Loader,
-	LoaderAnime,
-	SkeletonLoader,
-} from "components/core";
+import { QuotationGrid } from "components/admin/quotation";
+import { AdminBreadcrumbs, LoaderAnime } from "components/core";
 import { UploadEmployData } from "components/dialogues";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import { DateRangePicker } from "materialui-daterange-picker";
 import moment from "moment";
 import { useRef, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { DateRangePicker } from "materialui-daterange-picker";
-import { useFetch } from "hooks";
-import { MeetingTypes } from "types";
-import { QuotationGrid } from "components/admin/quotation";
-import QuotationColumn from "components/admin/quotation/QuotationColumn";
 
 const style = {
 	position: "absolute" as "absolute",
@@ -148,7 +132,7 @@ const AllQuotation = () => {
 					/>
 					<div className="flex justify-between items-center py-4">
 						<AdminBreadcrumbs links={links} />
-						<div className="flex gap-4 items-center">
+						{/* <div className="flex gap-4 items-center">
 							<div className="flex gap-1">
 								<IconButton onClick={() => setIsGrid(true)} size="small">
 									<div
@@ -171,7 +155,7 @@ const AllQuotation = () => {
 									</div>
 								</IconButton>
 							</div>
-						</div>
+						</div> */}
 					</div>
 					<div className="md:flex gap-4 justify-between w-full py-2">
 						<div
@@ -236,7 +220,8 @@ const AllQuotation = () => {
 							/>
 						</div>
 					</div>
-					{isGrid ? (
+					<QuotationGrid data={meetingData?.meetings} mutate={mutate} />
+					{/* {isGrid ? (
 						<>
 							{isLoading && <SkeletonLoader />}
 							<QuotationGrid data={meetingData?.meetings} mutate={mutate} />
@@ -246,7 +231,7 @@ const AllQuotation = () => {
 							{isLoading && <Loader />}
 							<QuotationColumn data={meetingData?.meetings} mutate={mutate} />
 						</>
-					)}
+					)} */}
 					{meetingData?.meetings?.length === 0 ? (
 						<LoaderAnime text="No Meetings Available" />
 					) : null}
