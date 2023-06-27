@@ -208,59 +208,34 @@ const AllQuotation = () => {
 							<TextField
 								fullWidth
 								size="small"
-								id="employeeName"
-								placeholder="Member Name"
+								id="quotationNumber"
+								placeholder="Quotation Number"
 								value={meetingPerson ? meetingPerson : null}
-								name="employeeName"
+								name="quotationNumber"
 								onChange={(e) => setMeetingPerson(e.target.value)}
 							/>
-							<TextField
-								fullWidth
-								select
-								label="Select Status"
-								size="small"
-								value={meetingStatus ? meetingStatus : null}
-								onChange={(e) => setMeetingStatus(e?.target?.value)}
-							>
-								{status.map((option) => (
-									<MenuItem key={option.id} value={option.value}>
-										{option.value}
-									</MenuItem>
-								))}
-							</TextField>
+
 							<TextField
 								fullWidth
 								size="small"
-								id="date"
-								placeholder="Select Date"
-								name="date"
-								type="date"
-								value={
-									selectDate ? moment(selectDate).format("YYYY-MM-DD") : null
-								}
-								onChange={(e) => {
-									setSelectDate(new Date(e.target.value).toISOString());
-								}}
+								id="clientName"
+								placeholder="Client Name"
+								value={meetingPerson ? meetingPerson : null}
+								name="clientName"
+								onChange={(e) => setMeetingPerson(e.target.value)}
 							/>
 
-							<Button
-								onClick={() => handleInfoOpen()}
+							<TextField
 								fullWidth
-								startIcon={<DateRange />}
-								variant="contained"
-								className="!bg-theme"
-							>
-								Select Date Range
-							</Button>
+								size="small"
+								id="clientName"
+								placeholder="Client Name"
+								value={meetingPerson ? meetingPerson : null}
+								name="clientName"
+								onChange={(e) => setMeetingPerson(e.target.value)}
+							/>
 						</div>
 					</div>
-
-					{/* {isGrid ? (
-						<MeetingsGrid data={meetingData?.meetings} mutate={mutate} />
-					) : (
-						<MeetingsColumn />
-					)} */}
-
 					{isGrid ? (
 						<>
 							{isLoading && <SkeletonLoader />}
@@ -291,6 +266,6 @@ const status = [
 ];
 
 const links = [
-	{ id: 1, page: "Meetings", link: "/admin/meetings" },
-	{ id: 2, page: "All Meetings", link: "/admin/meetings/all-meetings" },
+	{ id: 1, page: "Quotation", link: "/admin/quotation" },
+	{ id: 2, page: "All Quotation", link: "/admin/quotation/all-quotation" },
 ];
