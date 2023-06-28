@@ -2,6 +2,7 @@ import {
 	BorderColor,
 	Business,
 	Delete,
+	Download,
 	Email,
 	Person,
 } from "@mui/icons-material";
@@ -161,6 +162,14 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 										</p>
 										<p className="text-sm text-gray-700">1,20,000/-</p>
 									</div>
+								</div>
+								<div className="flex items-center justify-center py-4">
+									<button className="border border-blue-600 hover:first-letter:bg-blue-600 text-sm font-semibold text-white px-3 py-1 rounded-md">
+										<span>
+											<Download />
+										</span>
+										Download Quotation
+									</button>
 								</div>
 							</div>
 						</div>

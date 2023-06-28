@@ -47,15 +47,11 @@ const style = {
 
 const ViewAssetDetailsDrawer = ({ open, onClose, assetId, mutate }: Props) => {
 	// console.log(assetId);
-	const router = useRouter();
-	const [searchTerm, setSearchTerm] = useState("");
-	const [selectedUser, setSelectedUser] = useState<string | null>(null);
-	const [searchedUser, setSearchedUser] = useState<any>([]);
 	const classes = useStyles();
 	const { data: assignId } = useFetch<any>(
 		`assets/asset/assign-asset/${assetId}`
 	);
-	console.log(assignId);
+	// console.log(assignId);
 	const { data: users, isLoading } = useFetch<User[]>(`users`);
 
 	const settings = {
