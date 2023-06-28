@@ -7,9 +7,9 @@ import {
   Timeline
 } from "@mui/icons-material";
 import { Autocomplete, Button, CircularProgress, TextField } from "@mui/material";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikValues } from "formik";
 import { useChange, useFetch, useForm } from "hooks";
-import { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { User } from "react-email-editor";
 import Swal from "sweetalert2";
 import { Tender } from "types";
@@ -34,6 +34,7 @@ const validationSchema = Yup.object().shape({
   // submissionUserId: Yup.string().required("Required!"),
   // trackUserId: Yup.string().required("Required!"),
 });
+
 const AssignMembers = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
@@ -116,19 +117,10 @@ const AssignMembers = ({ handleNext }: Props) => {
                     <Autocomplete
                       options={employees || []}
                       fullWidth
-                      value={
-                        values?.documentUserId
-                          ? employees?.find(
-                            (option: any) => option.id === values.documentUserId
-                          )
-                          : ""
-                      }
-                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option: any, value: any) =>
-                        option.id === value.documentUserId
-                      }
-                      size="small"
-                      onChange={(e, r: any) =>
+
+                      getOptionLabel={(option) => option.name ? option?.name : ""}
+
+                      onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
                         setFieldValue("documentUserId", r?.id)
                       }
                       renderInput={(params) => (
@@ -156,19 +148,9 @@ const AssignMembers = ({ handleNext }: Props) => {
                     <Autocomplete
                       options={employees || []}
                       fullWidth
-                      value={
-                        values?.reviewUserId
-                          ? employees?.find(
-                            (option: any) => option.id === values.reviewUserId
-                          )
-                          : ""
-                      }
-                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option: any, value: any) =>
-                        option.id === value.reviewUserId
-                      }
+                      getOptionLabel={(option) => option.name ? option?.name : ""}
                       size="small"
-                      onChange={(e, r: any) =>
+                      onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
                         setFieldValue("reviewUserId", r?.id)
                       }
                       renderInput={(params) => (
@@ -196,19 +178,10 @@ const AssignMembers = ({ handleNext }: Props) => {
                     <Autocomplete
                       options={employees || []}
                       fullWidth
-                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option: any, value: any) =>
-                        option.id === value.submissionUserId
-                      }
-                      value={
-                        values?.submissionUserId
-                          ? employees?.find(
-                            (option: any) => option.id === values.submissionUserId
-                          )
-                          : ""
-                      }
+                      getOptionLabel={(option) => option.name ? option?.name : ""}
+
                       size="small"
-                      onChange={(e, r: any) =>
+                      onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
                         setFieldValue("submissionUserId", r?.id)
                       }
                       renderInput={(params) => (
@@ -236,20 +209,11 @@ const AssignMembers = ({ handleNext }: Props) => {
                     <Autocomplete
                       options={employees || []}
                       fullWidth
-                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option: any, value: any) =>
-                        option.id === value.trackUserId
-                      }
+                      getOptionLabel={(option) => option.name ? option?.name : ""}
+
                       size="small"
-                      onChange={(e, r: any) =>
+                      onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
                         setFieldValue("trackUserId", r?.id)
-                      }
-                      value={
-                        values?.trackUserId
-                          ? employees?.find(
-                            (option: any) => option.id === values.trackUserId
-                          )
-                          : ""
                       }
                       renderInput={(params) => (
                         <TextField

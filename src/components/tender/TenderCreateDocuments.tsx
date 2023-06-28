@@ -13,9 +13,13 @@ import { uploadFile } from "utils";
 interface InputField {
   docTitle: string;
   doc: string;
+  file?: File;
 }
 interface Props {
   handleNext: () => void;
+}
+interface FormValues {
+  inputFields: InputField[];
 }
 
 // const validationSchema = Yup.object().shape({
@@ -34,15 +38,15 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
   const initialValues = {
     inputFields: [{ docTitle: "", doc: "" }]
   };
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: FormValues) => {
     setLoading(true);
     try {
       for (const docs of values?.inputFields) {
         const uniId = docs?.doc.split('.').pop();
-        const url = await uploadFile(
+        const url = docs?.file ? await uploadFile(
           docs?.file,
           `${Date.now()}.${uniId}`
-        );
+        ) : undefined
         const res = await change(`tenders/add-doc/to-tender`, {
           body:
             { title: docs?.docTitle, link: url, tenderId: tender?.id },
@@ -78,8 +82,8 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
       // validationSchema={validationSchema}
       >
         {({ values, errors, handleBlur, touched }: {
-          values: { inputFields: InputField[] },
-          errors: FormikErrors<{ inputFields: InputField[] }>,
+          values: FormValues,
+          errors: FormikErrors<FormValues>,
           handleBlur: (eventOrString: any) => void,
           touched: any
         }) => (

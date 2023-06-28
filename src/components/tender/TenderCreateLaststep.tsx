@@ -9,10 +9,16 @@ import {
   TextField
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 
+interface Props {
+  emdFees?: string,
+  fees?: string,
+  emdPaymentMode?: string,
+  paymentMode?: string,
+}
 
 const validationSchema = Yup.object().shape({
   emdFees: Yup.string().required("Required!"),
@@ -22,7 +28,7 @@ const validationSchema = Yup.object().shape({
 const TenderCreateLaststep = () => {
   const [loading, setLoading] = useState(false);
   const [isEmdValue, setIsEmdValue] = useState("no")
-  const handleOptionChange = (event: any) => {
+  const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsEmdValue(event.target.value);
   };
   const initialValues = {
@@ -31,7 +37,7 @@ const TenderCreateLaststep = () => {
     emdPaymentMode: "",
     paymentMode: "",
   };
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: Props) => {
     console.log(values);
     Swal.fire("Success", "Tender created successfully!", "success");
   };

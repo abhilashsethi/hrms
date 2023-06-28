@@ -22,7 +22,7 @@ const CreateTender = () => {
 
   const handleNext = () => setActiveStep((prev) => prev + 1);
   const handleBack = () => setActiveStep((prev) => prev - 1);
-  const handleSteps = (step: any) => {
+  const handleSteps = (step: number) => {
     switch (step) {
       case 0:
         return <TenderDetailsCreate handleNext={handleNext} />;
