@@ -1,6 +1,6 @@
 import {
 	Close,
-	DateRange,
+	DateRange as DateRangeIcon,
 	FilterListRounded,
 	GridViewRounded,
 	Send,
@@ -29,7 +29,8 @@ import { useRef, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateRangePicker } from "materialui-daterange-picker";
 import { useFetch } from "hooks";
-import { MeetingTypes } from "types";
+import { MEETING_DATA, MeetingTypes } from "types";
+import { DateRange } from "@fullcalendar/core/internal";
 
 const style = {
 	position: "absolute" as "absolute",
@@ -57,7 +58,6 @@ const AllMeetings = () => {
 	const [pageNumber, setPageNumber] = useState<number | null>(1);
 	const [dateRange, setDateRange] = useState({
 		startDate: moment().toDate(),
-
 		endDate: moment().toDate(),
 	});
 	const [open, setOpen] = useState(true);
@@ -87,7 +87,7 @@ const AllMeetings = () => {
 		data: meetingData,
 		mutate,
 		isLoading,
-	} = useFetch<any>(
+	} = useFetch<MEETING_DATA>(
 		`meetings?page=${pageNumber}&limit=8${
 			meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
 		}${meetingStatus ? `&status=${meetingStatus}` : ""}${
@@ -120,7 +120,14 @@ const AllMeetings = () => {
 								closeOnClickOutside={true}
 								open={open}
 								toggle={toggle}
-								onChange={(range: any) => setDateRange(range)}
+								onChange={(range) =>
+									range.endDate &&
+									range.startDate &&
+									setDateRange({
+										endDate: range.endDate,
+										startDate: range.startDate,
+									})
+								}
 							/>
 							<div className="flex justify-end mt-3 ">
 								<Button
@@ -245,7 +252,7 @@ const AllMeetings = () => {
 							<Button
 								onClick={() => handleInfoOpen()}
 								fullWidth
-								startIcon={<DateRange />}
+								startIcon={<DateRangeIcon />}
 								variant="contained"
 								className="!bg-theme"
 							>
