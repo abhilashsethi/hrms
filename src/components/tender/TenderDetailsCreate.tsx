@@ -10,6 +10,15 @@ import * as Yup from "yup";
 interface Props {
   handleNext: () => void;
 }
+interface TenderCreate {
+  tenderNo: string,
+  title: string,
+  portal: string,
+  category: string,
+  submissionDate: Date,
+  submissionTime: string,
+  bidValue: number,
+}
 const validationSchema = Yup.object().shape({
   tenderNo: Yup.string().required("Tender number is required!"),
   title: Yup.string().required("Title is required!"),
@@ -17,7 +26,9 @@ const validationSchema = Yup.object().shape({
   category: Yup.string().required("Category is required!"),
   submissionDate: Yup.string().required("Date is required!"),
   submissionTime: Yup.string().required("Time is required!"),
-  bidValue: Yup.number().required('Bid value is required!').positive('Bid value must be positive').nullable(),
+  bidValue: Yup.number().required('Bid value is required!')
+    .positive('Bid value must be positive')
+    .nullable(),
 });
 const TenderDetailsCreate = ({ handleNext }: Props) => {
   const { setTender } = useForm();
@@ -28,14 +39,14 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
     title: "",
     portal: "",
     category: "",
-    submissionDate: null,
+    submissionDate: new Date(),
     submissionTime: "",
-    bidValue: null,
+    bidValue: 0,
   };
   const today = new Date();
   today.setDate(today.getDate() + 1); // Get the next day's date
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: TenderCreate) => {
     setLoading(true);
     try {
       const res = await change(`tenders`, {
@@ -71,9 +82,6 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
       setLoading(false);
     }
   };
-  // const handleSubmit = async (values: any) => {
-  //   console.log(values);
-  // };
 
   return (
     <section className="w-full flex justify-center items-center mt-6">
@@ -222,6 +230,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                   </div>
                   <TextField
                     fullWidth
+                    type="number"
                     size="small"
                     id="bidValue"
                     placeholder="Bid Value"

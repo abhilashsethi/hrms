@@ -38,7 +38,7 @@ const CreateTender = () => {
         );
 
       case 3:
-        return <TenderCreateLaststep handleBack={handleBack} />;
+        return <TenderCreateLaststep />;
 
       default:
         break;
