@@ -20,6 +20,7 @@ import { deleteFile } from "utils";
 import * as yup from "yup";
 import UpdateBranchImage from "./UpdateBranchImage";
 import UploadBranchImage from "./UploadBranchImage";
+import { Branch, User } from "types";
 
 interface Props {
   open: any;
@@ -46,7 +47,7 @@ const UpdateBranch = ({
     branchData?: any;
   }>({ dialogue: false, branchData: null });
   const { data: branchData, mutate } = useFetch<any>(`branches/${branchId}`);
-  const { data: userData } = useFetch<any>(`users`);
+  const { data: userData } = useFetch<User[]>(`users`);
   const formik = useFormik({
     initialValues: {
       name: `${branchData?.name ? branchData?.name : ""}`,

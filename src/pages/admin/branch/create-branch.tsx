@@ -20,6 +20,7 @@ import * as Yup from "yup";
 import { countries } from "schemas/Countries";
 import { uploadFile } from "utils";
 import router from "next/router";
+import { User } from "types";
 const initialValues = {
   name: "",
   phone: "",
@@ -53,7 +54,7 @@ const validationSchema = Yup.object().shape({
 const CreateBranch = () => {
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
-  const { data: userData } = useFetch<any>(`users`);
+  const { data: userData } = useFetch<User[]>(`users`);
   const { change } = useChange();
   const handleSubmit = async (values: any) => {
     setLoading(true);

@@ -237,20 +237,26 @@ export type Client = {
 	completedProjectCount: number;
 	resolvedTicketCount: number;
 };
+export type Photos = {
+	file?: File;
+	previewURL?: string;
+	uniId?: string;
+	
+}
 export type Branch = {
-	id: string;
-	name: string;
-	location: string;
-	email: string;
-	employees: User[];
-	photos: string[];
-	manager: { name: string; id: string };
-	managerId: string;
-	isBlocked: boolean;
-	phone: number;
-	createdAt: Date;
-	updatedAt: Date;
-	country: string;
+	id?: string;
+	name?: string;
+	location?: string;
+	email?: string;
+	employees?: User[];
+	photos?: Photos[];
+	manager?: { name?: string; id?: string };
+	managerId?: string;
+	isBlocked?: boolean;
+	phone?: number;
+	createdAt?: Date;
+	updatedAt?: Date;
+	country?: string;
 	count?: number;
 	employeesCount?: number;
 	branchName?: string;
