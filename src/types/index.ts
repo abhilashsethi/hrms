@@ -252,6 +252,8 @@ export type Branch = {
 	updatedAt: Date;
 	country: string;
 	count?: number;
+	employeesCount?: number;
+	branchName?: string;
 };
 export type BranchDashboard = {
 	totalBranchCount: number;

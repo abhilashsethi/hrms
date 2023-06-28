@@ -34,13 +34,13 @@ const BranchDashboardCharts = ({ data }: Props) => {
 					<BranchBarChartDetails
 						labels={
 							data?.branchWiseEmployeeCount?.length
-								? data?.branchWiseEmployeeCount?.map((item: any) => item.branchName)
+								? data?.branchWiseEmployeeCount?.map((item) => item.branchName)
 								: []
 						}
 						data={
 							data?.branchWiseEmployeeCount?.length
 								? data?.branchWiseEmployeeCount?.map(
-									(item: any) => item.employeesCount
+									(item) => item.employeesCount
 								)
 								: []
 						}
