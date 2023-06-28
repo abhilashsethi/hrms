@@ -92,7 +92,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 									</Tooltip>
 								</div>
 							</div>
-							<div className="flex justify-center bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-sky-400 to-blue-800 py-3 rounded-t-lg w-full">
+							<div className="flex justify-center bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-sky-400 to-blue-800 py-3 rounded-t-lg w-full border">
 								<img src={QUOTATION.src} alt="" className="w-24" />
 							</div>
 							<div className="px-4 bg-gradient-to-r from-rose-100 to-teal-100">
