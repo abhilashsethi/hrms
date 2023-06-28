@@ -9,11 +9,17 @@ import {
 import { PDF } from "assets/home";
 import { AdminBreadcrumbs, LoaderAnime } from "components/core";
 import ChooseBranchToViewAssets from "components/dialogues/ChooseBranchToViewAssets";
-import { ErrorMessage, Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import {
+	ChangeEvent,
+	SyntheticEvent,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import Swal from "sweetalert2";
 import { uploadFile } from "utils";
 import * as Yup from "yup";
@@ -25,11 +31,35 @@ const initialValues = {
 	brandName: "",
 	marketPrice: 0,
 	serialNo: "",
-	uploadDoc: [],
-	images: [],
+	uploadDoc: [] as IMAGES_TYPES[],
+	images: [] as IMAGES_TYPES[],
 	notes: "",
 	assetType: "",
 };
+
+type IMAGES_TYPES = {
+	file: File;
+	uniId: string;
+	previewURL: string;
+};
+interface SELECT_ASSET {
+	id: string;
+	name: string;
+}
+
+interface CREATE_ASSET {
+	assetName: string;
+	modelNo: string;
+	purchaseDate: string;
+	billAmount: number;
+	brandName: string;
+	marketPrice: number;
+	serialNo: string;
+	uploadDoc: IMAGES_TYPES[];
+	images: IMAGES_TYPES[];
+	notes: string;
+	assetType: string;
+}
 
 const validationSchema = Yup.object().shape({
 	assetName: Yup.string()
@@ -59,7 +89,10 @@ const CreateAssets = () => {
 			setIsView(true);
 		}, 2000);
 	}, []);
-	const handleSubmit = async (values: any, { resetForm }: any) => {
+	const handleSubmit = async (
+		values: CREATE_ASSET,
+		{ resetForm }: FormikHelpers<CREATE_ASSET>
+	) => {
 		setLoading(true);
 		try {
 			const photoUrls = [];
@@ -333,10 +366,13 @@ const CreateAssets = () => {
 														size="small"
 														id="assetType"
 														options={assetType || []}
-														onChange={(e: any, r: any) => {
-															setFieldValue("assetType", r?.name);
+														onChange={(
+															e: SyntheticEvent<Element, Event>,
+															value: SELECT_ASSET | null
+														) => {
+															setFieldValue("assetType", value?.name);
 														}}
-														getOptionLabel={(option: any) => option.name}
+														getOptionLabel={(option) => option.name}
 														renderInput={(params) => (
 															<TextField
 																{...params}
@@ -364,9 +400,13 @@ const CreateAssets = () => {
 															ref={imageRef}
 															type="file"
 															multiple
-															onChange={(event: any) => {
-																const files = Array.from(event.target.files);
-																const fileObjects = files.map((file: any) => {
+															onChange={(
+																event: ChangeEvent<HTMLInputElement>
+															) => {
+																const files: File[] = Array.from(
+																	event.target.files!
+																);
+																const fileObjects = files.map((file: File) => {
 																	const uniId = file.type
 																		.split("/")[1]
 																		.split("+")[0]; // Get unique ID of the image
@@ -380,7 +420,7 @@ const CreateAssets = () => {
 															}}
 														/>
 														<div className="flex justify-center items-center gap-2 flex-wrap">
-															{values.images.map((image: any, index) => (
+															{values.images.map((image, index) => (
 																<div className="" key={index}>
 																	<img
 																		className="w-40 object-contain"
@@ -411,9 +451,11 @@ const CreateAssets = () => {
 															ref={docsRef}
 															type="file"
 															multiple
-															onChange={(event: any) => {
-																const files = Array.from(event.target.files);
-																const fileObjects = files.map((file: any) => {
+															onChange={(event) => {
+																const files: File[] = Array.from(
+																	event.target.files!
+																);
+																const fileObjects = files.map((file: File) => {
 																	const uniId = file.type
 																		.split("/")[1]
 																		.split("+")[0]; // Get unique ID of the image
@@ -427,7 +469,7 @@ const CreateAssets = () => {
 															}}
 														/>
 														<div className="flex justify-center items-center gap-2 flex-wrap">
-															{values.uploadDoc.map((image: any, index) => (
+															{values.uploadDoc.map((image, index) => (
 																<div className="" key={index}>
 																	<img
 																		className="w-20 object-contain"
@@ -492,23 +534,23 @@ const links = [
 ];
 const assetType = [
 	{
-		id: 1,
+		id: "1",
 		name: "Laptop",
 	},
 	{
-		id: 2,
+		id: "2",
 		name: "Mouse",
 	},
 	{
-		id: 3,
+		id: "3",
 		name: "Key Board",
 	},
 	{
-		id: 4,
+		id: "4",
 		name: "Computer",
 	},
 	{
-		id: 5,
+		id: "5",
 		name: "Other",
 	},
 ];

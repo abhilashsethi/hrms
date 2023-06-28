@@ -6,13 +6,16 @@ import {
 import { AdminBreadcrumbs, Loader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import { ASSET_DASHBOARD, BRANCH_DASHBOARD } from "types";
 
 const index = () => {
-	const { data: branchDashboard, isLoading } = useFetch<any>(
+	const { data: branchDashboard, isLoading } = useFetch<BRANCH_DASHBOARD>(
 		`branches/dashboardInfo/data`
 	);
+	// console.log(branchDashboard);
+
 	const { data: dashboardData, isLoading: dashboardDataLoading } =
-		useFetch<any>(`assets/dashboard/details`);
+		useFetch<ASSET_DASHBOARD>(`assets/dashboard/details`);
 	console.log(dashboardData);
 	return (
 		<PanelLayout title="All Branches - Admin Panel">

@@ -69,16 +69,16 @@ const AllMeetings = () => {
 	const handleInfoCloseModal = () => setOpenInfoModal(false);
 
 	const toggle = () => setOpen(!open);
-	const [selectedDate, setSelectedDate] = useState<any>(new Date());
+	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [isGrid, setIsGrid] = useState(true);
 	const [isUpload, setIsUpload] = useState(false);
 	const [value, setValue] = useState("Web Developer");
-	const handleChange = (event: any) => {
-		setValue(event.target.value);
-	};
-	function handleDateChange(date: any) {
-		setSelectedDate(date);
-	}
+	// const handleChange = (event: any) => {
+	// 	setValue(event.target.value);
+	// };
+	// function handleDateChange(date: any) {
+	// 	setSelectedDate(date);
+	// }
 
 	const [meetingPerson, setMeetingPerson] = useState<string | null>("");
 	const [meetingStatus, setMeetingStatus] = useState<string | null>(null);
@@ -96,7 +96,8 @@ const AllMeetings = () => {
 			currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
 		}`
 	);
-	console.log(currentRange);
+	console.log(meetingData);
+	// console.log(currentRange);
 	return (
 		<>
 			<PanelLayout title="Meetings - Admin Panel">

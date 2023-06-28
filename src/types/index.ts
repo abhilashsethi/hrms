@@ -462,3 +462,67 @@ export type ASSET = {
 	];
 	photos: string[];
 };
+
+export interface ASSET_DASHBOARD {
+	countryWiseAssetCount: [{ count: number; country: string }];
+	totalAsset: number;
+	totalAssignAsset: number;
+	totalNotAssignedAsset: number;
+}
+
+export interface BRANCH_DASHBOARD {
+	branchWiseEmployeeCount: [
+		{
+			branchId: string;
+			branchName: string;
+			employeesCount: number;
+		}
+	];
+	countryWiseBranchCount: [
+		{
+			count: number;
+			country: string;
+		}
+	];
+	totalActiveBranch: number;
+	totalBranchCount: number;
+	totalCountryCount: number;
+	totalInActiveBranch: number;
+	totalLocationCount: [totalLocations: number];
+}
+
+export interface MEETING_DATA {
+	meetings: [
+		address: string,
+		clientEmail: string,
+		clientName: string,
+		clientPhone: string,
+		createdAt: string,
+		id: string,
+		lat: number,
+		lng: number,
+		meetingDate: string,
+		meetingEndTime: string,
+		meetingPersonName: string,
+		meetingStartTime: string,
+		notes: [
+			{
+				id: string;
+				text: string;
+				link: string;
+				docType: string;
+				createdAt: string;
+				addedById: string;
+				addedBy: string;
+				meetingId: string;
+				updatedAt: string;
+			}
+		],
+		purpose: string,
+		status: string,
+		title: string,
+		updatedAt: string,
+		user: User,
+		userId: string
+	];
+}

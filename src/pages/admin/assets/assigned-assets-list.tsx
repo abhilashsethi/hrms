@@ -16,13 +16,14 @@ import {
 } from "@mui/material";
 import {
 	AssignedAssetsColumn,
-	AssignedAssetsGrid
+	AssignedAssetsGrid,
 } from "components/admin/assets";
 import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
 import ChooseBranch from "components/dialogues/ChooseBranch";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
+import { ASSET } from "types";
 
 const AssignedAssetsLists = () => {
 	const [isGrid, setIsGrid] = useState(true);
@@ -34,19 +35,26 @@ const AssignedAssetsLists = () => {
 	const [isBranch, setIsBranch] = useState<string | null>(null);
 	const [isModel, setIsModel] = useState<string | null>(null);
 
-	const {
-		data: departmentData,
-		mutate,
-		isLoading,
-		pagination,
-	} = useFetch<any>(
-		`departments?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
-		}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
-	);
+	// const {
+	// 	data: departmentData,
+	// 	mutate,
+	// 	isLoading,
+	// 	pagination,
+	// } = useFetch<any>(
+	// 	`departments?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
+	// 	}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
+	// );
 
-	const { data: assetsData, mutate: assetMutate } = useFetch<any>(
-		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
-		}${isBrand ? `&brandName=${isBrand}` : ""}${isBranch ? `&branchName=${isBranch}` : ""
+	const {
+		data: assetsData,
+		isLoading,
+		mutate: assetMutate,
+		pagination,
+	} = useFetch<ASSET[]>(
+		`assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+			isOrderBy ? `&orderBy=${isOrderBy}` : ""
+		}${isBrand ? `&brandName=${isBrand}` : ""}${
+			isBranch ? `&branchName=${isBranch}` : ""
 		}${isModel ? `&modelName=${isModel}` : ""}`
 	);
 	// console.log(assetsData);
@@ -57,7 +65,7 @@ const AssignedAssetsLists = () => {
 				<ChooseBranch
 					open={isChoose}
 					handleClose={() => setIsChoose(false)}
-					mutate={mutate}
+					mutate={assetMutate}
 				/>
 
 				<div className="lg:flex justify-between items-center py-4">
@@ -66,16 +74,18 @@ const AssignedAssetsLists = () => {
 						<div className="flex gap-1">
 							<IconButton onClick={() => setIsGrid(true)} size="small">
 								<div
-									className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${isGrid && `border-2 border-theme`
-										}`}
+									className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+										isGrid && `border-2 border-theme`
+									}`}
 								>
 									<GridViewRounded className={`${isGrid && `!text-theme`}`} />
 								</div>
 							</IconButton>
 							<IconButton onClick={() => setIsGrid(false)} size="small">
 								<div
-									className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${!isGrid && `border-2 border-theme`
-										}`}
+									className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+										!isGrid && `border-2 border-theme`
+									}`}
 								>
 									<TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
 								</div>
@@ -111,19 +121,19 @@ const AssignedAssetsLists = () => {
 								<Tooltip
 									title={
 										isOrderBy != null ||
-											userName != null ||
-											isBrand != null ||
-											isBranch != null ||
-											isModel != null
+										userName != null ||
+										isBrand != null ||
+										isBranch != null ||
+										isModel != null
 											? `Remove Filters`
 											: `Filter`
 									}
 								>
 									{isOrderBy != null ||
-										userName != null ||
-										isBrand != null ||
-										isBranch != null ||
-										isModel != null ? (
+									userName != null ||
+									isBrand != null ||
+									isBranch != null ||
+									isModel != null ? (
 										<Close className={"!text-white"} />
 									) : (
 										<FilterListRounded className={"!text-white"} />
@@ -216,7 +226,7 @@ const AssignedAssetsLists = () => {
 							<Pagination
 								count={Math.ceil(
 									Number(pagination?.total || 1) /
-									Number(pagination?.limit || 1)
+										Number(pagination?.limit || 1)
 								)}
 								onChange={(e, v: number) => {
 									setPageNumber(v);

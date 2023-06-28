@@ -25,17 +25,24 @@ import moment from "moment";
 import { useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+interface MyDateRef {
+	current: HTMLInputElement | null;
+	setOpen: (value: boolean) => void;
+}
 
 const MyAttendance = () => {
 	const [isGrid, setIsGrid] = useState(true);
 	const [pageNumber, setPageNumber] = useState<number>(1);
-	const [selectedDate, setSelectedDate] = useState<any>(new Date());
+	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [status, setStatus] = useState("all");
 	const [order, setOrder] = useState<string | null>(null);
 	const [userName, setUsername] = useState<string | null>(null);
 	const [empId, setEmpId] = useState<string | null>(null);
 	const { user } = useAuth();
-	const dateRef = useRef<any>();
+	const dateRef = useRef<MyDateRef>({
+		current: null,
+		setOpen: (value: boolean) => {},
+	});
 	function handleDateChange(date: any) {
 		setSelectedDate(date);
 	}
@@ -82,12 +89,12 @@ const MyAttendance = () => {
 							{/* <ChevronLeftRounded /> */}
 							<div className="tracking-wide flex gap-4 items-center font-semibold">
 								{moment(selectedDate).format("ll")}
-								<IconButton onClick={() => dateRef.current.setOpen(true)}>
+								<IconButton onClick={() => dateRef?.current?.setOpen(true)}>
 									<InsertInvitationRounded className="!cursor-pointer" />
 								</IconButton>
 								<div className="">
 									<DatePicker
-										ref={dateRef}
+										ref={dateRef as any}
 										selected={selectedDate}
 										onChange={handleDateChange}
 										dateFormat="dd/MM/yyyy"
