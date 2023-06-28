@@ -7,6 +7,7 @@ import {
 	Person,
 } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
+import { QUOTATION } from "assets/home";
 import { PhotoViewerGuests } from "components/core";
 import { useChange } from "hooks";
 import { MouseEvent, useState } from "react";
@@ -59,9 +60,14 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 												backgroundColor: "Highlight",
 												cursor: "pointer",
 												color: "",
+												width: 30,
+												height: 30,
 											}}
 										>
-											<BorderColor sx={{ padding: "0px !important" }} />
+											<BorderColor
+												sx={{ padding: "0px !important" }}
+												fontSize="small"
+											/>
 										</Avatar>
 									</Tooltip>
 									<Tooltip title="Delete">
@@ -74,22 +80,20 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 												backgroundColor: "Highlight",
 												cursor: "pointer",
 												color: "",
+												width: 30,
+												height: 30,
 											}}
 										>
-											<Delete sx={{ padding: "0px !important" }} />
+											<Delete
+												sx={{ padding: "0px !important" }}
+												fontSize="small"
+											/>
 										</Avatar>
 									</Tooltip>
 								</div>
 							</div>
 							<div className="flex justify-center bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-sky-400 to-blue-800 py-3 rounded-t-lg w-full">
-								<PhotoViewerGuests
-									size="7rem"
-									className="border-[3px]"
-									// name={item?.name}
-									photo={
-										"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRsRrs9slJ_Q4n5BgwUv2BCwR-VQ9WENkydSABVEzoxA&s"
-									}
-								/>
+								<img src={QUOTATION.src} alt="" className="w-24" />
 							</div>
 							<div className="px-4 bg-gradient-to-r from-rose-100 to-teal-100">
 								<div className="flex gap-2 py-2 md:py-0 justify-center">
@@ -142,20 +146,6 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 										</p>
 									</div>
 
-									<div className="flex flex-col items-center justify-center py-2 md:py-0">
-										<p className="font-semibold text-base text-blue-600">
-											Description{" "}
-										</p>
-										<p className="text-sm text-gray-700">
-											Android App & Admin Panel Development
-										</p>
-									</div>
-									<div className="flex items-center justify-center gap-2 py-2 md:py-0">
-										<p className="font-semibold text-base text-blue-600">
-											Qty{" "}
-										</p>
-										<p className="text-sm text-gray-700">01</p>
-									</div>
 									<div className="flex items-center justify-center gap-2 py-2 md:py-0">
 										<p className="font-semibold text-base text-blue-600">
 											Cost (IN INR){" "}
@@ -164,7 +154,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 									</div>
 								</div>
 								<div className="flex items-center justify-center py-4">
-									<button className="border border-blue-600 hover:first-letter:bg-blue-600 text-sm font-semibold text-white px-3 py-1 rounded-md">
+									<button className="border border-blue-600 hover:bg-blue-600 hover:text-white text-sm hover:font-semibold text-blue-600 px-7 py-1 rounded-md ease-in-out transition-all duration-300">
 										<span>
 											<Download />
 										</span>
