@@ -37,8 +37,6 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      console.log(values);
-      console.log("tender log", tender);
       for (const docs of values?.inputFields) {
         const uniId = docs?.doc.split('.').pop();
         const url = await uploadFile(
@@ -58,13 +56,10 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
           setLoading(false);
           return;
         }
-        console.log(url);
       }
       setLoading(false);
       Swal.fire(`Success`, `You have successfully submit!`, `success`);
-      // console.log(docsUrls);
       setLoading(false);
-      return
       handleNext()
       return;
     } catch (error) {

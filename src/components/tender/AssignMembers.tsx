@@ -8,23 +8,27 @@ import {
 } from "@mui/icons-material";
 import { Autocomplete, Button, CircularProgress, TextField } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useFetch } from "hooks";
+import { useChange, useFetch, useForm } from "hooks";
 import { useState } from "react";
+import { User } from "react-email-editor";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 interface Props {
   handleNext: () => void;
 }
 const validationSchema = Yup.object().shape({
-  documentUserId: Yup.string().required("Required!"),
-  searchUserId: Yup.string().required("Required!"),
-  reviewUserId: Yup.string().required("Required!"),
-  submissionUserId: Yup.string().required("Required!"),
-  trackUserId: Yup.string().required("Required!"),
+  // documentUserId: Yup.string().required("Required!"),
+  // searchUserId: Yup.string().required("Required!"),
+  // reviewUserId: Yup.string().required("Required!"),
+  // submissionUserId: Yup.string().required("Required!"),
+  // trackUserId: Yup.string().required("Required!"),
 });
 const AssignMembers = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { data: employees } = useFetch<any>(`users`);
+  const { change } = useChange();
+  const { tender } = useForm();
+  const { data: employees } = useFetch<User[]>(`users`);
   const initialValues = {
     documentUserId: "",
     searchUserId: "",
@@ -34,8 +38,34 @@ const AssignMembers = ({ handleNext }: Props) => {
   };
   const handleSubmit = async (values: any) => {
     console.log(values);
-
+    // setLoading(true);
+    try {
+      // const res = await change(`tenders/assign-user-to-tender`, {
+      //   body: { userId: values, tenderId: tender?.id },
+      // });
+      // setLoading(false);
+      // if (res?.status !== 200) {
+      //   Swal.fire(
+      //     "Error",
+      //     res?.results?.message || "Unable to Submit",
+      //     "error"
+      //   );
+      //   setLoading(false);
+      //   return;
+      // }
+      // console.log("res data", res?.results?.data?.id);
+      // Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      // return
+      handleNext()
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <section>
       <Formik
@@ -75,11 +105,11 @@ const AssignMembers = ({ handleNext }: Props) => {
                           : ""
                       }
                       getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option, value) =>
+                      isOptionEqualToValue={(option: any, value: any) =>
                         option.id === value.searchUserId
                       }
                       size="small"
-                      onChange={(e, r) =>
+                      onChange={(e, r: any) =>
                         setFieldValue("searchUserId", r?.id)
                       }
                       renderInput={(params) => (
@@ -115,11 +145,11 @@ const AssignMembers = ({ handleNext }: Props) => {
                           : ""
                       }
                       getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option, value) =>
+                      isOptionEqualToValue={(option: any, value: any) =>
                         option.id === value.documentUserId
                       }
                       size="small"
-                      onChange={(e, r) =>
+                      onChange={(e, r: any) =>
                         setFieldValue("documentUserId", r?.id)
                       }
                       renderInput={(params) => (
@@ -155,11 +185,11 @@ const AssignMembers = ({ handleNext }: Props) => {
                           : ""
                       }
                       getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option, value) =>
+                      isOptionEqualToValue={(option: any, value: any) =>
                         option.id === value.reviewUserId
                       }
                       size="small"
-                      onChange={(e, r) =>
+                      onChange={(e, r: any) =>
                         setFieldValue("reviewUserId", r?.id)
                       }
                       renderInput={(params) => (
@@ -188,7 +218,7 @@ const AssignMembers = ({ handleNext }: Props) => {
                       options={employees || []}
                       fullWidth
                       getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option, value) =>
+                      isOptionEqualToValue={(option: any, value: any) =>
                         option.id === value.submissionUserId
                       }
                       value={
@@ -199,7 +229,7 @@ const AssignMembers = ({ handleNext }: Props) => {
                           : ""
                       }
                       size="small"
-                      onChange={(e, r) =>
+                      onChange={(e, r: any) =>
                         setFieldValue("submissionUserId", r?.id)
                       }
                       renderInput={(params) => (
@@ -228,11 +258,11 @@ const AssignMembers = ({ handleNext }: Props) => {
                       options={employees || []}
                       fullWidth
                       getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option, value) =>
+                      isOptionEqualToValue={(option: any, value: any) =>
                         option.id === value.trackUserId
                       }
                       size="small"
-                      onChange={(e, r) =>
+                      onChange={(e, r: any) =>
                         setFieldValue("trackUserId", r?.id)
                       }
                       value={
