@@ -47,8 +47,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
         );
         const res = await change(`tenders/add-doc/to-tender`, {
           body:
-            { title: docs?.docTitle, link: url, tenderId: tender?.id }
-          ,
+            { title: docs?.docTitle, link: url, tenderId: tender?.id },
         });
         if (res?.status !== 200) {
           Swal.fire(
