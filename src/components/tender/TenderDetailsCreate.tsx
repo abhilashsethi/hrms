@@ -59,8 +59,8 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
         setLoading(false);
         return;
       }
-      console.log(res);
-      setTender(res)
+      console.log("res data", res?.results?.data?.id);
+      setTender(res?.results?.data)
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       handleNext()
       return;
