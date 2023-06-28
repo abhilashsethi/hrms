@@ -85,7 +85,7 @@ const ViewAssetHistoryDrawer = ({
 }: Props) => {
 	const [history, setHistory] = useState(false);
 	const classes = useStyles();
-	console.log(data);
+	// console.log(data);
 	const [isReturn, setIsReturn] = useState<{
 		dialogue?: boolean;
 		item?: string | null;
