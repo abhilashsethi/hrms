@@ -45,26 +45,23 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
           docs?.file,
           `${Date.now()}.${uniId}`
         );
-        const docsUrls = await change(`tenders/add-doc/to-tender`, {
+        const res = await change(`tenders/add-doc/to-tender`, {
           body:
             { title: docs?.docTitle, link: url, tenderId: tender?.id }
           ,
         });
+        if (res?.status !== 200) {
+          Swal.fire(
+            "Error",
+            res?.results?.message || "Unable to Submit",
+            "error"
+          );
+          setLoading(false);
+          return;
+        }
         console.log(url);
-        console.log(docsUrls);
       }
-
       setLoading(false);
-      // if (res?.status !== 200) {
-      //   Swal.fire(
-      //     "Error",
-      //     res?.results?.message || "Unable to Submit",
-      //     "error"
-      //   );
-      //   setLoading(false);
-      //   return;
-      // }
-      // setTender(res?.results?.data?.id)
       Swal.fire(`Success`, `You have successfully submit!`, `success`);
       // console.log(docsUrls);
       setLoading(false);
