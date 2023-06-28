@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
   fees: Yup.string().required("Required!"),
 });
 
-const TenderCreateLaststep = () => {
+const TenderCreateLaststep = (handleBack: any) => {
   const [loading, setLoading] = useState(false);
   const [isEmdValue, setIsEmdValue] = useState("no")
   const handleOptionChange = (event: any) => {
@@ -148,7 +148,14 @@ const TenderCreateLaststep = () => {
               )}
 
             </div>
-            <div className="flex justify-end items-center px-20">
+            <div className="flex justify-between items-center px-20">
+              <Button
+                variant="contained"
+                className="!bg-green-600"
+                onClick={handleBack()}
+              >
+                Back
+              </Button>
               <Button
                 type="submit"
                 variant="contained"
