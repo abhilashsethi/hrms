@@ -7,9 +7,10 @@ import {
 	UNBLOCK,
 } from "assets/dashboard_Icons";
 import Link from "next/link";
+import { BranchDashboard } from "types";
 
 interface Props {
-	data?: any;
+	data?: BranchDashboard;
 }
 const BranchDashboardCards = ({ data }: Props) => {
 	const cards = [

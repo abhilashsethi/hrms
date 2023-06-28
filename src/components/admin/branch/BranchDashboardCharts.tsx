@@ -1,7 +1,8 @@
 import { BranchBarChart, BranchBarChartDetails } from "components/analytics";
 import React from "react";
+import { BranchDashboard } from "types";
 interface Props {
-	data?: any;
+	data?: BranchDashboard;
 }
 const BranchDashboardCharts = ({ data }: Props) => {
 	return (
@@ -14,12 +15,12 @@ const BranchDashboardCharts = ({ data }: Props) => {
 					<BranchBarChart
 						labels={
 							data?.countryWiseBranchCount?.length
-								? data?.countryWiseBranchCount?.map((item: any) => item.country)
+								? data?.countryWiseBranchCount?.map((item) => item.country)
 								: []
 						}
 						data={
 							data?.countryWiseBranchCount?.length
-								? data?.countryWiseBranchCount?.map((item: any) => item.count)
+								? data?.countryWiseBranchCount?.map((item) => item.count)
 								: []
 						}
 						type="bar"

@@ -5,7 +5,7 @@ import { RenderIconRow } from "components/common";
 import { CountryNameFlag, IOSSwitch } from "components/core";
 import { UpdateBranch } from "components/dialogues";
 import { useChange } from "hooks";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Slider from "react-slick";
 import Swal from "sweetalert2";
 import { Branch } from "types";
@@ -74,8 +74,8 @@ const MoreOption = ({ item, mutate }: PROPS) => {
   const { change } = useChange();
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
-    branchId?: any | null;
-  }>({ dialogue: false, branchId: null });
+    branchId?: string;
+  }>({ dialogue: false, branchId: "" });
 
   const handleDelete = async (item?: Branch) => {
     Swal.fire({
@@ -118,7 +118,7 @@ const MoreOption = ({ item, mutate }: PROPS) => {
       }
     });
   };
-  const handleBlock = async (e: any, id?: string) => {
+  const handleBlock = async (e: ChangeEvent<HTMLInputElement>, id?: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to update status?",

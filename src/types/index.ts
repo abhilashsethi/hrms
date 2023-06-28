@@ -251,7 +251,15 @@ export type Branch = {
 	createdAt: Date;
 	updatedAt: Date;
 	country: string;
+	count?: number;
 };
+export type BranchDashboard = {
+	totalBranchCount: number;
+	countryWiseBranchCount: Branch[];
+	totalInActiveBranch: number;
+	totalActiveBranch: number;
+	branchWiseEmployeeCount: Branch[];
+}
 export type Tender = {
 	id: string;
 	name: string;
