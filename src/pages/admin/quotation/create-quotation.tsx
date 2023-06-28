@@ -31,6 +31,7 @@ const CreateQuotation = () => {
 		inputFields: [{ field1: "", field2: "", field3: "" }],
 		quotationNumber: "",
 		clientName: "",
+		clientEmail: "",
 		clientAddress: "",
 		quotationTitle: "",
 		text: "",
@@ -38,6 +39,7 @@ const CreateQuotation = () => {
 	const validationSchema = Yup.object().shape({
 		quotationNumber: Yup.string().required("Quotation Number is required!"),
 		clientName: Yup.string().required("Client name is required!"),
+		clientEmail: Yup.string().email().required("Client Email is required!"),
 		clientAddress: Yup.string().required("Client address is required!"),
 		quotationTitle: Yup.string().required("Quotation title is required!"),
 		inputFields: Yup.array().required("Input Fields are required"),
@@ -121,6 +123,26 @@ const CreateQuotation = () => {
 													onBlur={handleBlur}
 													error={touched.clientName && !!errors.clientName}
 													helperText={touched.clientName && errors.clientName}
+												/>
+											</div>
+
+											<div className="md:px-4 px-2 md:py-2 py-1">
+												<div className="py-2">
+													<InputLabel htmlFor="clientEmail">
+														Client Email <span className="text-red-600">*</span>
+													</InputLabel>
+												</div>
+												<TextField
+													size="small"
+													fullWidth
+													// placeholder="Client Address"
+													id="clientEmail"
+													name="clientEmail"
+													value={values.clientEmail}
+													onChange={handleChange}
+													onBlur={handleBlur}
+													error={touched.clientEmail && !!errors.clientEmail}
+													helperText={touched.clientEmail && errors.clientEmail}
 												/>
 											</div>
 											<div className="md:px-4 px-2 md:py-2 py-1">
@@ -257,7 +279,7 @@ const CreateQuotation = () => {
 													loading ? <CircularProgress size={20} /> : <Check />
 												}
 											>
-												SUBMIT
+												CREATE
 											</Button>
 										</div>
 									</form>
