@@ -7,23 +7,34 @@ import {
   Timeline
 } from "@mui/icons-material";
 import { Autocomplete, Button, CircularProgress, TextField } from "@mui/material";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikValues } from "formik";
 import { useChange, useFetch, useForm } from "hooks";
-import { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { User } from "react-email-editor";
 import Swal from "sweetalert2";
+import { Tender } from "types";
 import * as Yup from "yup";
-
 interface Props {
   handleNext: () => void;
 }
+interface TenderData {
+  documentUserId?: string,
+  reviewUserId?: string,
+  submissionUserId?: string,
+  trackUserId?: string,
+  isAllowedToAddDoc?: Boolean,
+  isAllowedToReviewTender?: Boolean,
+  isAllowedToSubmitTender?: Boolean,
+  isAllowedToTrackTender?: Boolean,
+}
+
 const validationSchema = Yup.object().shape({
   // documentUserId: Yup.string().required("Required!"),
-  // searchUserId: Yup.string().required("Required!"),
   // reviewUserId: Yup.string().required("Required!"),
   // submissionUserId: Yup.string().required("Required!"),
   // trackUserId: Yup.string().required("Required!"),
 });
+
 const AssignMembers = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
@@ -31,39 +42,47 @@ const AssignMembers = ({ handleNext }: Props) => {
   const { data: employees } = useFetch<User[]>(`users`);
   const initialValues = {
     documentUserId: "",
-    searchUserId: "",
     reviewUserId: "",
     submissionUserId: "",
     trackUserId: "",
   };
-  const handleSubmit = async (values: any) => {
-    console.log(values);
-    // setLoading(true);
+  const postData = async (item: TenderData) => {
     try {
-      // const res = await change(`tenders/assign-user-to-tender`, {
-      //   body: { userId: values, tenderId: tender?.id },
-      // });
-      // setLoading(false);
-      // if (res?.status !== 200) {
-      //   Swal.fire(
-      //     "Error",
-      //     res?.results?.message || "Unable to Submit",
-      //     "error"
-      //   );
-      //   setLoading(false);
-      //   return;
-      // }
-      // console.log("res data", res?.results?.data?.id);
-      // Swal.fire(`Success`, `You have successfully Created!`, `success`);
-      // return
-      handleNext()
-      return;
+      const res = await change(`tenders/assign-user-to-tender`, {
+        body: item,
+      });
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.message || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
     } catch (error) {
       console.log(error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
     }
+
+  }
+
+  const handleSubmit = async (values: TenderData) => {
+    console.log(values);
+    setLoading(true);
+    const reqData = Object.entries(values)?.map(([key, value], index) => {
+      return {
+        memberId: value, tenderId: tender?.id,
+        isAllowedToAddDoc: key === "documentUserId",
+        isAllowedToReviewTender: key === "reviewUserId",
+        isAllowedToSubmitTender: key === "submissionUserId",
+        isAllowedToTrackTender: key === "trackUserId"
+      }
+    });
+    console.log(reqData);
+    reqData?.forEach((data) => postData(data))
+    Swal.fire(`Success`, `You have successfully Created!`, `success`);
+    handleNext()
+
   };
 
   return (
@@ -89,46 +108,7 @@ const AssignMembers = ({ handleNext }: Props) => {
                 <h1>Select the members for tender management.</h1>
               </div>
               <div className="w-4/5">
-                <div className="mt-6 flex justify-between">
-                  <h1 className="flex gap-3 items-center">
-                    <Search fontSize="small" /> Search and filter
-                  </h1>
-                  <div className="w-1/2">
-                    <Autocomplete
-                      options={employees || []}
-                      fullWidth
-                      value={
-                        values?.searchUserId
-                          ? employees?.find(
-                            (option: any) => option.id === values.searchUserId
-                          )
-                          : ""
-                      }
-                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option: any, value: any) =>
-                        option.id === value.searchUserId
-                      }
-                      size="small"
-                      onChange={(e, r: any) =>
-                        setFieldValue("searchUserId", r?.id)
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          name="searchUserId"
-                          placeholder="Select Member"
-                          onBlur={handleBlur}
-                          error={
-                            touched.searchUserId && !!errors.searchUserId
-                          }
-                          helperText={
-                            Boolean(touched.searchUserId) && errors.searchUserId as string
-                          }
-                        />
-                      )}
-                    />
-                  </div>
-                </div>
+
                 <div className="mt-6 flex justify-between">
                   <h1 className="flex gap-3 items-center">
                     <FileCopy fontSize="small" /> Documentation
@@ -137,19 +117,10 @@ const AssignMembers = ({ handleNext }: Props) => {
                     <Autocomplete
                       options={employees || []}
                       fullWidth
-                      value={
-                        values?.documentUserId
-                          ? employees?.find(
-                            (option: any) => option.id === values.documentUserId
-                          )
-                          : ""
-                      }
-                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option: any, value: any) =>
-                        option.id === value.documentUserId
-                      }
-                      size="small"
-                      onChange={(e, r: any) =>
+
+                      getOptionLabel={(option) => option.name ? option?.name : ""}
+
+                      onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
                         setFieldValue("documentUserId", r?.id)
                       }
                       renderInput={(params) => (
@@ -177,19 +148,9 @@ const AssignMembers = ({ handleNext }: Props) => {
                     <Autocomplete
                       options={employees || []}
                       fullWidth
-                      value={
-                        values?.reviewUserId
-                          ? employees?.find(
-                            (option: any) => option.id === values.reviewUserId
-                          )
-                          : ""
-                      }
-                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option: any, value: any) =>
-                        option.id === value.reviewUserId
-                      }
+                      getOptionLabel={(option) => option.name ? option?.name : ""}
                       size="small"
-                      onChange={(e, r: any) =>
+                      onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
                         setFieldValue("reviewUserId", r?.id)
                       }
                       renderInput={(params) => (
@@ -217,19 +178,10 @@ const AssignMembers = ({ handleNext }: Props) => {
                     <Autocomplete
                       options={employees || []}
                       fullWidth
-                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option: any, value: any) =>
-                        option.id === value.submissionUserId
-                      }
-                      value={
-                        values?.submissionUserId
-                          ? employees?.find(
-                            (option: any) => option.id === values.submissionUserId
-                          )
-                          : ""
-                      }
+                      getOptionLabel={(option) => option.name ? option?.name : ""}
+
                       size="small"
-                      onChange={(e, r: any) =>
+                      onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
                         setFieldValue("submissionUserId", r?.id)
                       }
                       renderInput={(params) => (
@@ -257,20 +209,11 @@ const AssignMembers = ({ handleNext }: Props) => {
                     <Autocomplete
                       options={employees || []}
                       fullWidth
-                      getOptionLabel={(option: any) => option.name ? option?.name : ""}
-                      isOptionEqualToValue={(option: any, value: any) =>
-                        option.id === value.trackUserId
-                      }
+                      getOptionLabel={(option) => option.name ? option?.name : ""}
+
                       size="small"
-                      onChange={(e, r: any) =>
+                      onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
                         setFieldValue("trackUserId", r?.id)
-                      }
-                      value={
-                        values?.trackUserId
-                          ? employees?.find(
-                            (option: any) => option.id === values.trackUserId
-                          )
-                          : ""
                       }
                       renderInput={(params) => (
                         <TextField

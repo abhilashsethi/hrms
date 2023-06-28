@@ -9,20 +9,26 @@ import {
   TextField
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 
+interface Props {
+  emdFees?: string,
+  fees?: string,
+  emdPaymentMode?: string,
+  paymentMode?: string,
+}
 
 const validationSchema = Yup.object().shape({
   emdFees: Yup.string().required("Required!"),
   fees: Yup.string().required("Required!"),
 });
 
-const TenderCreateLaststep = (handleBack: any) => {
+const TenderCreateLaststep = () => {
   const [loading, setLoading] = useState(false);
   const [isEmdValue, setIsEmdValue] = useState("no")
-  const handleOptionChange = (event: any) => {
+  const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsEmdValue(event.target.value);
   };
   const initialValues = {
@@ -31,7 +37,7 @@ const TenderCreateLaststep = (handleBack: any) => {
     emdPaymentMode: "",
     paymentMode: "",
   };
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: Props) => {
     console.log(values);
     Swal.fire("Success", "Tender created successfully!", "success");
   };
@@ -148,14 +154,8 @@ const TenderCreateLaststep = (handleBack: any) => {
               )}
 
             </div>
-            <div className="flex justify-between items-center px-20">
-              <Button
-                variant="contained"
-                className="!bg-green-600"
-                onClick={handleBack()}
-              >
-                Back
-              </Button>
+            <div className="flex justify-end items-center px-20">
+
               <Button
                 type="submit"
                 variant="contained"

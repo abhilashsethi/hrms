@@ -15,7 +15,6 @@ import {
   LoaderAnime,
   SkeletonLoader,
 } from "components/core";
-import { CreateDepartment } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
@@ -24,7 +23,6 @@ import { Branch } from "types";
 
 const AllBranch = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const [isCreate, setIsCreate] = useState(false);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [userName, setUsername] = useState<string | null>(null);
   const [location, setLocation] = useState<string | null>(null);
@@ -44,12 +42,6 @@ const AllBranch = () => {
   return (
     <PanelLayout title="All Branches - Admin Panel">
       <section className="lg:px-8 px-2 py-4">
-        <CreateDepartment
-          open={isCreate}
-          handleClose={() => setIsCreate(false)}
-          mutate={mutate}
-        />
-
         <div className="lg:flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
           <div className="md:flex gap-4 items-center">
