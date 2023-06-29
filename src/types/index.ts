@@ -123,6 +123,7 @@ export type User = {
 	ChatMember: {
 		chatGroupId: string;
 	}[];
+	isClient?: boolean;
 };
 
 interface urlTypes {

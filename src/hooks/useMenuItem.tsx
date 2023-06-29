@@ -556,7 +556,15 @@ export default () => {
 			],
 		},
 	];
+	const clientData = [
+		{
+			key: "1",
+			title: "Dashboard",
+			icon: <ICONS.Dashboard_1 />,
+			route: "/admin",
+		},
 
+	]
 	useEffect(() => {
 		if (isLoading || !roleData?.accessPages?.length) return;
 
@@ -592,6 +600,7 @@ export default () => {
 	}, [isLoading, roleData?.accessPages?.length]);
 
 	if (user?.role?.name) return activeMenu;
+	else if (user?.isClient) return clientData;
 
 	return [];
 };
