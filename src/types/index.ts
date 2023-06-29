@@ -241,8 +241,7 @@ export type Photos = {
 	file?: File;
 	previewURL?: string;
 	uniId?: string;
-	
-}
+};
 export type Branch = {
 	id?: string;
 	name?: string;
@@ -267,7 +266,7 @@ export type BranchDashboard = {
 	totalInActiveBranch: number;
 	totalActiveBranch: number;
 	branchWiseEmployeeCount: Branch[];
-}
+};
 export type Tender = {
 	id: string;
 	name: string;
@@ -507,38 +506,38 @@ export interface BRANCH_DASHBOARD {
 	totalLocationCount: [totalLocations: number];
 }
 
+type Note = {
+	id: string;
+	text: string;
+	link: string;
+	docType: string;
+	createdAt: string;
+	addedById: string;
+	addedBy: string;
+	meetingId: string;
+	updatedAt: string;
+};
+
 export interface MEETING_DATA {
-	meetings: [
-		address: string,
-		clientEmail: string,
-		clientName: string,
-		clientPhone: string,
-		createdAt: string,
-		id: string,
-		lat: number,
-		lng: number,
-		meetingDate: string,
-		meetingEndTime: string,
-		meetingPersonName: string,
-		meetingStartTime: string,
-		notes: [
-			{
-				id: string;
-				text: string;
-				link: string;
-				docType: string;
-				createdAt: string;
-				addedById: string;
-				addedBy: string;
-				meetingId: string;
-				updatedAt: string;
-			}
-		],
-		purpose: string,
-		status: string,
-		title: string,
-		updatedAt: string,
-		user: User,
-		userId: string
-	];
+	meetings: {
+		address: string;
+		clientEmail: string;
+		clientName: string;
+		clientPhone: string;
+		createdAt: string;
+		id: string;
+		lat: number;
+		lng: number;
+		meetingDate: string;
+		meetingEndTime: string;
+		meetingPersonName: string;
+		meetingStartTime: string;
+		notes: Note[];
+		purpose: string;
+		status: string;
+		title: string;
+		updatedAt: string;
+		user: User;
+		userId: string;
+	}[];
 }
