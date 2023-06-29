@@ -15,8 +15,8 @@ import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 interface Props {
-  emdAmount?: string,
-  tenderFees?: string,
+  EmdAmount?: number,
+  tenderFees?: number,
   tenderPaymentMode?: string,
   EmdPaymentMode?: string,
 }
@@ -35,8 +35,8 @@ const TenderCreateLaststep = () => {
     setIsEmdValue(event.target.value === 'yes');
   };
   const initialValues = {
-    emdAmount: "",
-    tenderFees: "",
+    EmdAmount: 0,
+    tenderFees: 0,
     tenderPaymentMode: "",
     EmdPaymentMode: "",
   };
@@ -48,10 +48,10 @@ const TenderCreateLaststep = () => {
       const res = await change(`tenders/update/${tender?.id}`, {
         method: "PATCH",
         body: {
-          emdAmount: values?.emdAmount,
-          tenderFees: values?.tenderFees,
+          EmdAmount: Number(values?.EmdAmount),
+          tenderFees: Number(values?.tenderFees),
           isEmdExemption: isEmdValue,
-          tenderPaymentMode: values?.tenderPaymentMode,
+          feesPaymentMode: values?.tenderPaymentMode,
           EmdPaymentMode: values?.EmdPaymentMode,
         },
       });
@@ -59,7 +59,7 @@ const TenderCreateLaststep = () => {
       if (res?.status !== 200) {
         Swal.fire(
           "Error",
-          res?.results?.message || "Unable to Submit",
+          res?.results?.msg || "Unable to Submit",
           "error"
         );
         setLoading(false);
@@ -100,6 +100,7 @@ const TenderCreateLaststep = () => {
                   <h1 className="mb-2">Tender Fees in ₹</h1>
                   <TextField
                     fullWidth
+                    type="number"
                     size="small"
                     placeholder="Tender Fees"
                     name="tenderFees"
@@ -153,14 +154,15 @@ const TenderCreateLaststep = () => {
                     <h1 className="mb-2">EMD Amount in ₹</h1>
                     <TextField
                       fullWidth
+                      type="number"
                       size="small"
                       placeholder="EMD amount"
-                      name="emdAmount"
-                      value={values.emdAmount}
+                      name="EmdAmount"
+                      value={values.EmdAmount}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.emdAmount && !!errors.emdAmount}
-                      helperText={Boolean(touched.emdAmount) && errors.emdAmount as string}
+                      error={touched.EmdAmount && !!errors.EmdAmount}
+                      helperText={Boolean(touched.EmdAmount) && errors.EmdAmount as string}
                     />
                   </div>
                   <div className="md:py-2 py-1">
