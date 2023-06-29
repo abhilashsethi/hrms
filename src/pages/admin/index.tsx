@@ -28,6 +28,7 @@ const AdminHome = () => {
   const { data: hrDetails, isLoading: hrIsLoading } = useFetch<any>(
     `dashboards/hr-dashInfo?branchId=${user?.employeeOfBranchId}`
   );
+  console.log(user);
   return (
     <PanelLayout title={`Dashboard - ${user?.role?.name}`}>
       <>
