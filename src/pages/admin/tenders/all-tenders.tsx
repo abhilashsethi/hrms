@@ -27,7 +27,6 @@ const AllTenders = () => {
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
         <div className="flex justify-between items-center">
-          <h1 className="text-theme font-semibold mt-4">All Tenders</h1>
           <Link href="/admin/tenders/create-tender">
             <Button
               size="small"
@@ -62,16 +61,14 @@ const AllTenders = () => {
               <Grid key={item?.id} item lg={3}>
                 <div className="w-full h-full rounded-lg overflow-hidden shadow-sleek">
                   <div
-                    className={`h-28 w-full flex justify-center items-center relative ${
-                      item?.bg ? item?.bg : "bg-[#76DCC7]"
-                    }`}
+                    className={`h-28 w-full flex justify-center items-center relative ${item?.bg ? item?.bg : "bg-[#76DCC7]"
+                      }`}
                   >
                     <div
-                      className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${
-                        item?.status === "OPEN"
+                      className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${item?.status === "OPEN"
                           ? `bg-yellow-400`
                           : `bg-green-500`
-                      }`}
+                        }`}
                     >
                       <span className="text-xs text-white tracking-wide">
                         {item?.status}
