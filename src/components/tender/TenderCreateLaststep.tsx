@@ -13,6 +13,7 @@ import { useChange, useForm } from "hooks";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
+import router from "next/router";
 
 interface Props {
   EmdAmount?: number,
@@ -65,7 +66,7 @@ const TenderCreateLaststep = () => {
         setLoading(false);
         return;
       }
-      console.log("res data", res?.results?.data?.id);
+      router?.push("/admin/tenders / all - tenders");
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
