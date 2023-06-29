@@ -9,37 +9,68 @@ import {
   TextField
 } from "@mui/material";
 import { Form, Formik } from "formik";
+import { useChange } from "hooks";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 interface Props {
-  emdFees?: string,
-  fees?: string,
-  emdPaymentMode?: string,
-  paymentMode?: string,
+  emdAmount?: string,
+  tenderFees?: string,
+  tenderPaymentMode?: string,
+  EmdPaymentMode?: string,
 }
 
 const validationSchema = Yup.object().shape({
-  emdFees: Yup.string().required("Required!"),
-  fees: Yup.string().required("Required!"),
+  tenderPaymentMode: Yup.string().required("Required!"),
+  tenderFees: Yup.string().required("Required!"),
 });
 
 const TenderCreateLaststep = () => {
   const [loading, setLoading] = useState(false);
-  const [isEmdValue, setIsEmdValue] = useState("no")
+  const { change } = useChange();
+  const [isEmdValue, setIsEmdValue] = useState(false)
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsEmdValue(event.target.value);
+    setIsEmdValue(event.target.value === 'yes');
   };
   const initialValues = {
-    emdFees: "",
-    fees: "",
-    emdPaymentMode: "",
-    paymentMode: "",
+    emdAmount: "",
+    tenderFees: "",
+    tenderPaymentMode: "",
+    EmdPaymentMode: "",
   };
   const handleSubmit = async (values: Props) => {
     console.log(values);
-    Swal.fire("Success", "Tender created successfully!", "success");
+    setLoading(true);
+    try {
+      const res = await change(`tenders`, {
+        body: {
+          emdAmount: values?.emdAmount,
+          tenderFees: values?.tenderFees,
+          isEmdExemption: isEmdValue,
+          tenderPaymentMode: values?.tenderPaymentMode,
+          EmdPaymentMode: values?.EmdPaymentMode,
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.message || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      console.log("res data", res?.results?.data?.id);
+      Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <section>
@@ -68,12 +99,12 @@ const TenderCreateLaststep = () => {
                     fullWidth
                     size="small"
                     placeholder="Tender Fees"
-                    name="fees"
-                    value={values.fees}
+                    name="tenderFees"
+                    value={values.tenderFees}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.fees && !!errors.fees}
-                    helperText={Boolean(touched.fees) && errors.fees as string}
+                    error={touched.tenderFees && !!errors.tenderFees}
+                    helperText={Boolean(touched.tenderFees) && errors.tenderFees as string}
                   />
                 </div>
                 <div className="md:py-2 py-1">
@@ -82,14 +113,14 @@ const TenderCreateLaststep = () => {
                     fullWidth
                     size="small"
                     select
-                    name="paymentMode"
+                    name="tenderPaymentMode"
                     placeholder="Payment Mode"
                     label="Select payment mode"
-                    value={values.paymentMode}
+                    value={values.tenderPaymentMode}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.paymentMode && !!errors.paymentMode}
-                    helperText={Boolean(touched.paymentMode) && errors.paymentMode as string}
+                    error={touched.tenderPaymentMode && !!errors.tenderPaymentMode}
+                    helperText={Boolean(touched.tenderPaymentMode) && errors.tenderPaymentMode as string}
                   >
                     {paymentModes.map((option) => (
                       <MenuItem key={option.id} value={option.title}>
@@ -112,7 +143,7 @@ const TenderCreateLaststep = () => {
                   <FormControlLabel value="no" control={<Radio />} label="No" />
                 </RadioGroup>
               </div>
-              {isEmdValue === "no" && (
+              {!isEmdValue && (
                 <div className="grid lg:grid-cols-2 gap-4">
                   <div className="md:py-2 py-1">
                     <h1 className="mb-2">EMD Amount in ₹</h1>
@@ -120,12 +151,12 @@ const TenderCreateLaststep = () => {
                       fullWidth
                       size="small"
                       placeholder="EMD amount"
-                      name="emdFees"
-                      value={values.emdFees}
+                      name="emdAmount"
+                      value={values.emdAmount}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.emdFees && !!errors.emdFees}
-                      helperText={Boolean(touched.emdFees) && errors.emdFees as string}
+                      error={touched.emdAmount && !!errors.emdAmount}
+                      helperText={Boolean(touched.emdAmount) && errors.emdAmount as string}
                     />
                   </div>
                   <div className="md:py-2 py-1">
@@ -134,14 +165,14 @@ const TenderCreateLaststep = () => {
                       fullWidth
                       size="small"
                       select
-                      name="emdPaymentMode"
+                      name="EmdPaymentMode"
                       placeholder="Payment Mode"
                       label="Select payment mode"
-                      value={values.emdPaymentMode}
+                      value={values.EmdPaymentMode}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.emdPaymentMode && !!errors.emdPaymentMode}
-                      helperText={Boolean(touched.emdPaymentMode) && errors.emdPaymentMode as string}
+                      error={touched.EmdPaymentMode && !!errors.EmdPaymentMode}
+                      helperText={Boolean(touched.EmdPaymentMode) && errors.EmdPaymentMode as string}
                     >
                       {paymentModes.map((option) => (
                         <MenuItem key={option.id} value={option.title}>
