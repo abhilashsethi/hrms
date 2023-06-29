@@ -1,5 +1,6 @@
 import MaterialTable from "@material-table/core";
 import { PeopleRounded } from "@mui/icons-material";
+import { RenderIconRow } from "components/common";
 import { CopyClipboard, HeadStyle } from "components/core";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -35,14 +36,14 @@ const Leads = () => {
               tooltip: "Email",
               field: "email",
               editable: "never",
-              render: ({ email }) => <CopyClipboard value={email} />,
+              render: ({ email }) => <RenderIconRow value={email || "---"} isEmail />,
             },
             {
               title: "Phone",
               tooltip: "Phone",
               field: "phone",
               editable: "never",
-              render: ({ phone }) => <CopyClipboard value={phone} />,
+              render: ({ phone }) => <RenderIconRow value={phone} isPhone />,
             },
             {
               title: "Description",
