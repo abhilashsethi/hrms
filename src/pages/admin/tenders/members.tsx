@@ -1,32 +1,14 @@
-import { Add, Delete, Info } from "@mui/icons-material";
-import { Button, Grid } from "@mui/material";
+import { Delete, Info } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import { AdminBreadcrumbs, PhotoViewer } from "components/core";
-import { CreateTenderMember } from "components/dialogues";
 import PanelLayout from "layouts/panel";
-import { useState } from "react";
 
 const Members = () => {
-  const [isChoose, setIsChoose] = useState(false);
 
   return (
     <PanelLayout title="Tender Members">
-      <CreateTenderMember
-        open={isChoose}
-        handleClose={() => setIsChoose(false)}
-      />
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
-        <div className="flex justify-end w-full">
-          <Button
-            size="small"
-            className="!bg-theme"
-            variant="contained"
-            startIcon={<Add />}
-            onClick={() => setIsChoose(true)}
-          >
-            ADD MEMBERS
-          </Button>
-        </div>
         <section className="my-4">
           <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
             {members?.map((item) => (

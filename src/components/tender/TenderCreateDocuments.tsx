@@ -12,8 +12,7 @@ import { uploadFile } from "utils";
 
 interface InputField {
   docTitle: string;
-  doc: string;
-  file?: File;
+  doc: any;
 }
 interface Props {
   handleNext: () => void;
@@ -42,11 +41,13 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
     setLoading(true);
     try {
       for (const docs of values?.inputFields) {
-        const uniId = docs?.doc.split('.').pop();
-        const url = docs?.file ? await uploadFile(
-          docs?.file,
+        console.log(docs);
+        const uniId = docs?.doc?.split('.').pop();
+        const url = docs?.doc ? await uploadFile(
+          docs?.doc,
           `${Date.now()}.${uniId}`
-        ) : undefined
+        ) : undefined;
+        console.log(url);
         const res = await change(`tenders/add-doc/to-tender`, {
           body:
             { title: docs?.docTitle, link: url, tenderId: tender?.id },
@@ -64,6 +65,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
       setLoading(false);
       Swal.fire(`Success`, `You have successfully submit!`, `success`);
       setLoading(false);
+      return;
       handleNext()
       return;
     } catch (error) {
