@@ -11,7 +11,7 @@ const Leads = () => {
   const { change, isChanging } = useChange();
   return (
     <PanelLayout title="Leads - Admin Panel">
-      <section className="lg:px-8 px-4 my-8">
+      <section className="lg:px-8 px-4 py-8">
         <MaterialTable
           title={<HeadStyle name="All Leads" icon={<PeopleRounded />} />}
           isLoading={!leadData}
