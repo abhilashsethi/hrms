@@ -9,7 +9,7 @@ import {
   TextField
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange } from "hooks";
+import { useChange, useForm } from "hooks";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
@@ -29,6 +29,7 @@ const validationSchema = Yup.object().shape({
 const TenderCreateLaststep = () => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const { tender } = useForm();
   const [isEmdValue, setIsEmdValue] = useState(false)
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsEmdValue(event.target.value === 'yes');
@@ -40,10 +41,11 @@ const TenderCreateLaststep = () => {
     EmdPaymentMode: "",
   };
   const handleSubmit = async (values: Props) => {
+    console.log(isEmdValue);
     console.log(values);
     setLoading(true);
     try {
-      const res = await change(`tenders`, {
+      const res = await change(`tenders/update?tenderId${tender?.id}`, {
         body: {
           emdAmount: values?.emdAmount,
           tenderFees: values?.tenderFees,
@@ -137,6 +139,7 @@ const TenderCreateLaststep = () => {
                 <RadioGroup
                   defaultValue={isEmdValue}
                   row
+                  name="isEmdValue"
                   onChange={handleOptionChange}
                 >
                   <FormControlLabel value="yes" control={<Radio />} label="Yes" />
