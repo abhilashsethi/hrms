@@ -65,7 +65,6 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
       setLoading(false);
       Swal.fire(`Success`, `You have successfully submit!`, `success`);
       setLoading(false);
-      return;
       handleNext()
       return;
     } catch (error) {
