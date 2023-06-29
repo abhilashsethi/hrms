@@ -59,7 +59,6 @@ const LoginAuth = () => {
 	const { setUser, setToken, user } = useAuth();
 	const handleLogin = async (values: any, submitProps: any) => {
 		try {
-			console.log(isChecked);
 			const res = await trigger(values);
 			if (!res.success) return Swal.fire("Error", res.msg, "error");
 			const user: User = { ...res.data.user };
