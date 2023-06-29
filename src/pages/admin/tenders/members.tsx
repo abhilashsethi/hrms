@@ -1,14 +1,48 @@
 import { Delete, Info } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { AdminBreadcrumbs, PhotoViewer } from "components/core";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
+import Swal from "sweetalert2";
 import { User } from "types";
+import { deleteFile } from "utils";
 
 const Members = () => {
-  const { data: employees } = useFetch<User[]>(`users?departmentName=BID`);
-
+  const { data: employees, mutate } = useFetch<User[]>(`users?departmentName=BID`);
+  const { change } = useChange();
+  const handleDelete = async (user: User) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to delete user?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          const res = await change(`users/${user?.id}`, {
+            method: "DELETE",
+          });
+          if (user?.photo) {
+            await deleteFile(String(user?.photo?.split("/").reverse()[0]));
+          }
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <PanelLayout title="Tender Members">
       <section className="px-8 py-4">
@@ -37,6 +71,7 @@ const Members = () => {
                       className="!bg-youtube"
                       variant="contained"
                       startIcon={<Delete />}
+                      onClick={() => handleDelete(item)}
                     >
                       REMOVE
                     </Button>
