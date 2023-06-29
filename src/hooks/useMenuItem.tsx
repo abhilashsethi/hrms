@@ -1,4 +1,4 @@
-import { MedicalInformationRounded, Receipt, Send } from "@mui/icons-material";
+import { Leaderboard, MedicalInformationRounded, Receipt, Send } from "@mui/icons-material";
 import ICONS from "assets/icons";
 import { useEffect, useState } from "react";
 import { useFetch } from "./useAPI";
@@ -529,6 +529,12 @@ export default () => {
 			title: "Support",
 			icon: <ICONS.Support />,
 			route: "/admin/support",
+		},
+		{
+			key: "15",
+			title: "Leads",
+			icon: <Leaderboard />,
+			route: "/admin/leads",
 		},
 		{
 			key: "11wfewfwfwe",
