@@ -110,14 +110,14 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
     (() => {
       if (!user?.id || !socketRef) return;
 
-      syncUserState("ONLINE", user?.id);
+      syncUserState("ONLINE", user?.id, user?.isClient);
 
       socketRef?.emit("USER_CONNECT", {
         userId: user?.id,
       });
 
       window.addEventListener("beforeunload", () => {
-        syncUserState("OFFLINE", user?.id as any);
+        syncUserState("OFFLINE", user?.id as any, user?.isClient as any);
       });
     })();
   }, [user?.id, socketRef]);

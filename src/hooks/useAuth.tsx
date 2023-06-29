@@ -9,7 +9,7 @@ type AuthState = {
   token: string | null;
   validateUser: () => Promise<User | undefined>;
   logout: () => void;
-  syncUserState: (state: "ONLINE" | "OFFLINE", userId: string) => void;
+  syncUserState: (state: "ONLINE" | "OFFLINE", userId: string, isClient?: boolean) => void;
 };
 const useAuth = create<AuthState>((set) => ({
   setUser: async (user: Partial<User>) => {
