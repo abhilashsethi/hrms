@@ -1,10 +1,8 @@
-import PanelLayout from "layouts/panel";
 import MaterialTable from "@material-table/core";
-import { PeopleRounded, PersonRounded } from "@mui/icons-material";
-import { Tooltip } from "@mui/material";
+import { PeopleRounded } from "@mui/icons-material";
 import { CopyClipboard, HeadStyle } from "components/core";
 import { useChange } from "hooks";
-import Link from "next/link";
+import PanelLayout from "layouts/panel";
 import Swal from "sweetalert2";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 
@@ -13,9 +11,9 @@ const Leads = () => {
   const { change, isChanging } = useChange();
   return (
     <PanelLayout title="Leads - Admin Panel">
-      <section className="mt-8">
+      <section className="lg:px-8 px-4 my-8">
         <MaterialTable
-          title={<HeadStyle name="All Clients" icon={<PeopleRounded />} />}
+          title={<HeadStyle name="All Leads" icon={<PeopleRounded />} />}
           isLoading={!leadData}
           data={leadData ? getDataWithSL<any>(leadData) : []}
           options={{ ...MuiTblOptions(), selection: false, paging: false }}
