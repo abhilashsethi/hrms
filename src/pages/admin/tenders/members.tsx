@@ -1,9 +1,13 @@
 import { Delete, Info } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { AdminBreadcrumbs, PhotoViewer } from "components/core";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
+import { User } from "types";
 
 const Members = () => {
+  const { data: employees } = useFetch<User[]>(`users?departmentName=BID`);
 
   return (
     <PanelLayout title="Tender Members">
@@ -11,21 +15,23 @@ const Members = () => {
         <AdminBreadcrumbs links={links} />
         <section className="my-4">
           <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
-            {members?.map((item) => (
+            {employees?.map((item) => (
               <div key={item?.id}>
                 <div className="w-full border-[1px] border-blue-400 bg-gradient-to-b from-blue-50 to-blue-200 gap-2 rounded-md flex flex-col items-center py-4">
                   <PhotoViewer name={item?.name} photo={item?.photo} />
                   <h1 className="text-sm font-semibold">{item?.name}</h1>
                   <h1 className="text-sm text-gray-600">{item?.email}</h1>
                   <div className="flex gap-2 items-center">
-                    <Button
-                      size="small"
-                      className="!bg-blue-500"
-                      variant="contained"
-                      startIcon={<Info />}
-                    >
-                      INFO
-                    </Button>
+                    <Link href={`/admin/employees/profile/${item?.id}`}>
+                      <Button
+                        size="small"
+                        className="!bg-blue-500"
+                        variant="contained"
+                        startIcon={<Info />}
+                      >
+                        INFO
+                      </Button>
+                    </Link>
                     <Button
                       size="small"
                       className="!bg-youtube"

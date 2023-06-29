@@ -45,7 +45,8 @@ const TenderCreateLaststep = () => {
     console.log(values);
     setLoading(true);
     try {
-      const res = await change(`tenders/update?tenderId${tender?.id}`, {
+      const res = await change(`tenders/update/${tender?.id}`, {
+        method: "PATCH",
         body: {
           emdAmount: values?.emdAmount,
           tenderFees: values?.tenderFees,
@@ -137,7 +138,7 @@ const TenderCreateLaststep = () => {
                 <h1 className="mb-2">EMD Exemption</h1>
 
                 <RadioGroup
-                  defaultValue={isEmdValue}
+                  defaultValue={isEmdValue ? 'yes' : 'no'}
                   row
                   name="isEmdValue"
                   onChange={handleOptionChange}

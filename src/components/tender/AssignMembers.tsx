@@ -37,7 +37,7 @@ const AssignMembers = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { tender } = useForm();
-  const { data: employees } = useFetch<User[]>(`users`);
+  const { data: employees } = useFetch<User[]>(`users?departmentName=BID`);
   const initialValues = {
     documentUserId: "",
     reviewUserId: "",
