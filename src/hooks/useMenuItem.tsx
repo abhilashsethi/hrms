@@ -563,6 +563,12 @@ export default () => {
 			icon: <ICONS.Dashboard_1 />,
 			route: "/admin",
 		},
+		{
+			key: "24",
+			title: "Chats",
+			icon: <ICONS.All_Chat />,
+			route: "/admin/chat",
+		},
 
 	]
 	useEffect(() => {

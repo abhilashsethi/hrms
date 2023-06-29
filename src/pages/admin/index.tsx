@@ -32,7 +32,7 @@ const AdminHome = () => {
   return (
     <PanelLayout title={`Dashboard - ${user?.role?.name}`}>
       <>
-        {user?.role?.name == "CEO" ? (
+        {user?.role?.name === "CEO" ? (
           <>
             {isLoading ? (
               <DashboardSkeletonLoading />
@@ -43,7 +43,7 @@ const AdminHome = () => {
               </>
             )}
           </>
-        ) : user?.role?.name == "DEVELOPER" || user?.role?.name === "TESTER" ? (
+        ) : user?.role?.name === "DEVELOPER" || user?.role?.name === "TESTER" ? (
           <>
             {isLoading ? (
               <DashboardSkeletonLoading />
@@ -57,7 +57,7 @@ const AdminHome = () => {
               </>
             )}
           </>
-        ) : user?.role?.name == "HR" ? (
+        ) : user?.role?.name === "HR" ? (
           <>
             {hrIsLoading ? (
               <DashboardSkeletonLoading />
@@ -71,7 +71,7 @@ const AdminHome = () => {
               </>
             )}
           </>
-        ) : user?.role?.name == "MANAGER" ? (
+        ) : user?.role?.name === "MANAGER" ? (
           <>
             {isLoading ? (
               <DashboardSkeletonLoading />
@@ -85,7 +85,7 @@ const AdminHome = () => {
               </>
             )}
           </>
-        ) : user?.role?.name == "DIRECTOR" ? (
+        ) : user?.role?.name === "DIRECTOR" ? (
           <>
             {isLoading ? (
               <DashboardSkeletonLoading />
@@ -98,7 +98,7 @@ const AdminHome = () => {
               </>
             )}
           </>
-        ) : user?.role?.name == "PROJECT MANAGER" ? (
+        ) : user?.role?.name === "PROJECT MANAGER" ? (
           <>
             {isLoading ? (
               <DashboardSkeletonLoading />
@@ -112,7 +112,7 @@ const AdminHome = () => {
               </>
             )}
           </>
-        ) : user?.role?.name == "ACCOUNTANT" ? (
+        ) : user?.role?.name === "ACCOUNTANT" ? (
           <>
             {isLoading ? (
               <DashboardSkeletonLoading />
