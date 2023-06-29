@@ -599,8 +599,10 @@ export default () => {
 		setActiveMenu(withSubmenuData);
 	}, [isLoading, roleData?.accessPages?.length]);
 
-	if (user?.role?.name) return activeMenu;
-	else if (user?.isClient) return clientData;
-
+	if (user?.role?.name) {
+		return activeMenu;
+	} else if (user?.isClient) {
+		return clientData;
+	}
 	return [];
 };
