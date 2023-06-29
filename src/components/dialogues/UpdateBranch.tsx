@@ -217,7 +217,7 @@ const UpdateBranch = ({
                       getOptionLabel={(option: any) =>
                         option.name ? option.name : ""
                       }
-                      isOptionEqualToValue={(option, value) =>
+                      isOptionEqualToValue={(option: any, value: any) =>
                         option.id === value.userId
                       }
                       value={
