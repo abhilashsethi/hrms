@@ -9,9 +9,11 @@ interface Props {
 
 const CopyClipboard = ({ value, isCut = true }: Props) => {
   const [isSnackbar, setIsSnackbar] = React.useState(false);
+
   const handleClick = () => {
     setIsSnackbar(true);
   };
+
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -22,6 +24,16 @@ const CopyClipboard = ({ value, isCut = true }: Props) => {
 
     setIsSnackbar(false);
   };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      handleClick();
+    } catch (error) {
+      console.error("Failed to copy to clipboard:", error);
+    }
+  };
+
   return (
     <>
       <Snackbar open={isSnackbar} autoHideDuration={5000} onClose={handleClose}>
@@ -42,10 +54,9 @@ const CopyClipboard = ({ value, isCut = true }: Props) => {
           <span
             onClick={(e) => {
               e.stopPropagation();
-              navigator.clipboard.writeText(value);
-              handleClick();
+              handleCopy();
             }}
-            className="scale-0 rounded cursor-pointer p-1 transition hover:bg-indigo-100 active:bg-green-100 group-hover:scale-100 "
+            className="scale-0 rounded cursor-pointer p-1 transition hover:bg-indigo-100 active:bg-green-100 group-hover:scale-100"
           >
             <ICONS.Copy />
           </span>
@@ -54,4 +65,5 @@ const CopyClipboard = ({ value, isCut = true }: Props) => {
     </>
   );
 };
+
 export default CopyClipboard;
