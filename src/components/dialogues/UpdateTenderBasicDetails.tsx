@@ -15,6 +15,7 @@ import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRef, useState } from "react";
+import Swal from "sweetalert2";
 import { Tender } from "types";
 import * as Yup from "yup";
 
@@ -24,32 +25,38 @@ interface Props {
   mutate: () => void;
   tenderData?: Tender;
 }
+interface TenderUpdate {
+  status: string;
+  tenderNo: string;
+  title: string;
+  portal: string;
+  bidValue: string | number;
+  category: string;
+  submissionTime: string;
+  submissionDate: string | Date;
+}
 
 const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { data: branchData } = useFetch<any>(`branches`);
-  const imageRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
-
   const initialValues = {
-    tenderStatus: `${tenderData?.id ? tenderData?.id : ""}`,
+    status: `${tenderData?.status ? tenderData?.status : ""}`,
     tenderNo: `${tenderData?.tenderNo ? tenderData?.tenderNo : ""}`,
-    tenderTitle: `${tenderData?.name ? tenderData?.name : ""}`,
+    title: `${tenderData?.title ? tenderData?.title : ""}`,
     portal: `${tenderData?.portal ? tenderData?.portal : ""}`,
-    bidValue: `${tenderData?.bidValue ? tenderData?.bidValue : ""}`,
-    tenderCategory: `${tenderData?.category ? tenderData?.category : ""}`,
+    bidValue: tenderData?.bidValue ? tenderData?.bidValue : 0,
+    category: `${tenderData?.category ? tenderData?.category : ""}`,
     submissionTime: `${tenderData?.submissionTime ? tenderData?.submissionTime : ""}`,
-    submissionDate: `${tenderData?.submissionDate
+    submissionDate: tenderData?.submissionDate
       ? moment(tenderData?.submissionDate).format("YYYY-MM-DD")
-      : ""
-      }`,
+      : new Date(),
 
   };
 
   const validationSchema = Yup.object().shape({
-    tenderStatus: Yup.string().required("Status is required!"),
+    status: Yup.string().required("Status is required!"),
     tenderNo: Yup.string().required("Tender Number is required!"),
-    tenderTitle: Yup.string()
+    title: Yup.string()
       .matches(
         /^[A-Za-z ]+$/,
         "Asset Name must only contain alphabetic characters"
@@ -58,17 +65,50 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
       .max(50, "Asset Name must be less than 50 characters")
       .required("Asset Name is required!"),
     portal: Yup.string().required("Portal Name is required!"),
-    tenderCategory: Yup.string().required("Tender Category is required!"),
+    category: Yup.string().required("Tender Category is required!"),
     submissionDate: Yup.date().required("Submission date is required!"),
     submissionTime: Yup.string().required("Submission time is required!"),
     bidValue: Yup.string().required("Bid Value is required!"),
 
   });
 
-  const handleSubmit = async (values: any) => {
-    setLoading(true);
+  const handleSubmit = async (values: TenderUpdate) => {
     console.log(values);
-    return
+    setLoading(true);
+    try {
+      const res = await change(`tenders/update/${tenderData?.id}`, {
+        method: "PATCH",
+        body: {
+          status: values?.status,
+          tenderNo: values?.tenderNo,
+          title: values?.title,
+          portal: values?.portal,
+          bidValue: Number(values?.bidValue),
+          category: values?.category,
+          submissionTime: values?.submissionTime,
+          submissionDate: new Date(values?.submissionDate)?.toISOString(),
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.msg || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      mutate()
+      handleClose()
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -127,15 +167,15 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         fullWidth
                         size="small"
                         select
-                        name="tenderStatus"
+                        name="status"
                         label="Select Status"
-                        value={values.tenderStatus}
+                        value={values.status}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.tenderStatus && !!errors.tenderStatus}
-                        helperText={touched.tenderStatus && errors.tenderStatus}
+                        error={touched.status && !!errors.status}
+                        helperText={touched.status && errors.status}
                       >
-                        {tenderStatus.map((option) => (
+                        {status.map((option) => (
                           <MenuItem key={option.id} value={option.title}>
                             {option.title}
                           </MenuItem>
@@ -163,21 +203,21 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="tenderTitle">
+                        <InputLabel htmlFor="title">
                           Tender Title <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         fullWidth
                         size="small"
-                        id="tenderTitle"
+                        id="title"
                         // placeholder="Name"
-                        name="tenderTitle"
-                        value={values.tenderTitle}
+                        name="title"
+                        value={values.title}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.tenderTitle && !!errors.tenderTitle}
-                        helperText={touched.tenderTitle && errors.tenderTitle}
+                        error={touched.title && !!errors.title}
+                        helperText={touched.title && errors.title}
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
@@ -209,15 +249,15 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         fullWidth
                         size="small"
                         select
-                        name="tenderCategory"
+                        name="category"
                         label="Select Tender Category"
-                        value={values.tenderCategory}
+                        value={values?.category}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.tenderCategory && !!errors.tenderCategory}
-                        helperText={touched.tenderCategory && errors.tenderCategory}
+                        error={touched?.category && !!errors?.category}
+                        helperText={touched?.category && errors?.category}
                       >
-                        {tenderCategory.map((option) => (
+                        {category.map((option) => (
                           <MenuItem key={option.id} value={option.title}>
                             {option.title}
                           </MenuItem>
@@ -242,7 +282,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={touched.submissionDate && !!errors.submissionDate}
-                        helperText={touched.submissionDate && errors.submissionDate}
+                        helperText={String(touched.submissionDate) && errors.submissionDate}
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
@@ -312,11 +352,11 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
 };
 
 export default UpdateTenderBasicDetails;
-const tenderCategory = [
+const category = [
   { id: 1, title: "Online" },
   { id: 2, title: "Offline" },
 ];
-const tenderStatus = [
+const status = [
   { id: 1, title: "Open" },
   { id: 2, title: "Pending" },
   { id: 3, title: "Closed" },

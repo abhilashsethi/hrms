@@ -13,17 +13,12 @@ import {
 import { useFetch } from "hooks";
 import { Tender } from "types";
 import { useRouter } from "next/router";
+interface Props {
+  tenderData?: Tender;
+  mutate: () => void;
+}
+const TenderDetail = ({ tenderData, mutate }: Props) => {
 
-const TenderDetail = () => {
-  const router = useRouter();
-  const {
-    data: tenderData,
-    mutate,
-    isLoading,
-    pagination,
-  } = useFetch<Tender>(
-    `tenders/${router?.query?.id}`
-  );
   console.log("Get by Id", { tenderData });
   const basicDetails = [
     {

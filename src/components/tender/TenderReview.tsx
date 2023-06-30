@@ -15,10 +15,14 @@ import { PhotoViewerSmall } from "components/core";
 import { AddTenderDocument } from "components/dialogues";
 import { useState } from "react";
 import TenderLayout from "./TenderLayout";
-
-const TenderReview = () => {
+import { Tender } from "types";
+interface Props {
+  tenderData?: Tender;
+  mutate: () => void;
+}
+const TenderReview = ({ mutate, tenderData }: Props) => {
   const [isDocument, setIsDocument] = useState<{
-    dialogue?: boolean;
+    dialogue: boolean;
     tenderData?: any | null;
   }>({ dialogue: false, tenderData: null });
   return (
@@ -27,7 +31,7 @@ const TenderReview = () => {
         tenderData={isDocument?.tenderData}
         open={isDocument?.dialogue}
         handleClose={() => setIsDocument({ dialogue: false })}
-      // mutate={mutate}
+        mutate={mutate}
       />
       <h1 className="text-theme font-semibold">Assigned Member</h1>
       <div className="w-80 rounded-md border-theme border-2 mt-3 p-4">
