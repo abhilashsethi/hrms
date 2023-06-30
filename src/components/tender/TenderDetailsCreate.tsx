@@ -4,7 +4,6 @@ import { Form, Formik } from "formik";
 import { useChange, useForm } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { Tender } from "types";
 import * as Yup from "yup";
 
 interface Props {

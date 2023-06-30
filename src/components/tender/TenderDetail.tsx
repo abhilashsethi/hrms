@@ -1,20 +1,19 @@
 import { Add, Delete, Download, Edit, Print } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import { CHATDOC } from "assets/home";
-import moment from "moment";
-import TenderLayout from "./TenderLayout";
-import { useState } from "react";
 import {
-  UpdateTenderBasicDetails,
   AddTenderDocument,
+  UpdateTenderBasicDetails,
   UpdateTenderEMDDetails,
   UpdateTenderFeeDetails
 } from "components/dialogues";
-import { useAuth, useChange, useFetch } from "hooks";
-import { Tender } from "types";
-import { useRouter } from "next/router";
+import { useAuth, useChange } from "hooks";
+import moment from "moment";
+import { useState } from "react";
 import Swal from "sweetalert2";
+import { Tender } from "types";
 import { deleteFile } from "utils";
+import TenderLayout from "./TenderLayout";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;

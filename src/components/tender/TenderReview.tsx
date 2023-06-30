@@ -1,7 +1,6 @@
 import { Add, Check, Delete, Download, Person } from "@mui/icons-material";
 import {
   Button,
-  Checkbox,
   CircularProgress,
   FormControlLabel,
   IconButton,
@@ -9,18 +8,18 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  Tooltip,
+  Tooltip
 } from "@mui/material";
 import { CHATDOC } from "assets/home";
 import { PhotoViewerSmall } from "components/core";
 import { AddTenderDocument, AddTenderReviewMember } from "components/dialogues";
-import { ChangeEvent, useEffect, useState } from "react";
-import TenderLayout from "./TenderLayout";
-import { Tender } from "types";
-import Swal from "sweetalert2";
-import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
+import { ChangeEvent, useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { Tender } from "types";
+import * as Yup from "yup";
+import TenderLayout from "./TenderLayout";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;

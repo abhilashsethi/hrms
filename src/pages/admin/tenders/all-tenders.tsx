@@ -1,6 +1,6 @@
 import { Add, Close, Delete, FilterListRounded, Info } from "@mui/icons-material";
-import { Button, Grid, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
-import { TENDERCARD, TENDERCARD2, TENDERCARD3, TENDERCARD4 } from "assets/home";
+import { Button, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
+import { TENDERCARD } from "assets/home";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -23,7 +23,6 @@ const AllTenders = () => {
     `tenders?page=${pageNumber}&limit=8${tenderName ? `&title=${tenderName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   // & tenderNo=1 & category= & portal
-  console.log("tenderData", { tenderData });
 
   return (
     <PanelLayout title="All Tenders - Admin Panel">
