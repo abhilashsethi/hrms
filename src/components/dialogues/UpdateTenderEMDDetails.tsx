@@ -152,6 +152,7 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
                           <TextField
                             size="small"
                             fullWidth
+                            type="number"
                             // placeholder="Email"
                             id="EmdAmount"
                             name="EmdAmount"

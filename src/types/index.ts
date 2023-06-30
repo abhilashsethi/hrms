@@ -274,6 +274,14 @@ export interface TenderDocumentType {
 	title?: string;
 	createdAt?: string;
 }
+export interface TenderMember {
+	id?: string;
+	isAllowedToAddDoc: boolean;
+	isAllowedToReviewTender:boolean;
+	isAllowedToSubmitTender: boolean;
+	isAllowedToTrackTender: boolean;
+	member: User;
+}
 export type Tender = {
 	id?: string;
 	name?: string;
@@ -287,6 +295,7 @@ export type Tender = {
 	submissionDate?: Date;
 	submissionTime?: string;
 	bidValue?: string;
+	members?: TenderMember[];
 	status?: string;
 	EmdAmount?: number,
 	tenderFees?: number,

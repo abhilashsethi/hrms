@@ -55,7 +55,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
         if (res?.status !== 200) {
           Swal.fire(
             "Error",
-            res?.results?.message || "Unable to Submit",
+            res?.results?.msg || "Unable to Submit",
             "error"
           );
           setLoading(false);

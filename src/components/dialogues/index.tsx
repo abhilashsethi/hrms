@@ -54,3 +54,4 @@ export { default as AddTenderDocument } from "./AddTenderDocument";
 export { default as CreateTenderMember } from "./CreateTenderMember";
 export { default as TenderCreateNote } from "./TenderCreateNote";
 export { default as UpdateTenderNote } from "./UpdateTenderNote";
+export { default as AddTenderDocumentationMember } from "./AddTenderDocumentationMember";

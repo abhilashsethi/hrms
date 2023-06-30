@@ -66,7 +66,7 @@ const TenderCreateLaststep = () => {
         setLoading(false);
         return;
       }
-      router?.push("/admin/tenders / all - tenders");
+      router?.push("/admin/tenders/all-tenders");
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {

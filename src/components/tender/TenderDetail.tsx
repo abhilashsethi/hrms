@@ -10,15 +10,22 @@ import {
   UpdateTenderEMDDetails,
   UpdateTenderFeeDetails
 } from "components/dialogues";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import { Tender } from "types";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
+import { deleteFile } from "utils";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;
 }
+interface DeleteDoc {
+  link?: any;
+  title?: string;
+  id?: string;
+}
 const TenderDetail = ({ tenderData, mutate }: Props) => {
-
+  const { change } = useChange();
   console.log("Get by Id", { tenderData });
   const basicDetails = [
     {
@@ -101,6 +108,38 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
     dialogue: boolean;
     tenderData?: Tender;
   }>({ dialogue: false, tenderData: {} });
+  const handleDelete = async (item: DeleteDoc) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: `You want to delete ${item?.title}?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          const res = await change(`tenders/remove-document?tenderId=${tenderData?.id}&docId=${item?.id}`, {
+            method: "DELETE",
+          });
+          if (item?.id) {
+            await deleteFile(String(item?.link?.split("/").reverse()[0]));
+          }
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <section className="">
       <UpdateTenderBasicDetails
@@ -271,7 +310,6 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
                               src={CHATDOC.src}
                               alt=""
                             />
-                            <span>{item?.link}</span>
                           </div>
                         </td>
                         <td align="center" className="w-[20%] text-sm">
@@ -283,7 +321,9 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
                             </Tooltip>
                             <Tooltip title="Delete Document">
                               <IconButton size="small">
-                                <Delete />
+                                <Delete
+                                  onClick={() => handleDelete(item)}
+                                />
                               </IconButton>
                             </Tooltip>
                           </div>
@@ -291,7 +331,12 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
                       </tr>
                     ))}
                   </>
-                  : <p className="flex justify-center px-2 py-6">No Document</p>
+                  :
+                  <tr>
+                    <td colSpan={4} className="flex justify-center px-2 py-6">
+                      No Document
+                    </td>
+                  </tr>
                 }
               </tbody>
             </table>
