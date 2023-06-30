@@ -15,13 +15,14 @@ import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRef, useState } from "react";
+import { Tender } from "types";
 import * as Yup from "yup";
 
 interface Props {
-  open: any;
-  handleClose: any;
-  mutate?: any;
-  tenderData?: any;
+  open: boolean;
+  handleClose: () => void;
+  mutate: () => void;
+  tenderData?: Tender;
 }
 
 const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => {

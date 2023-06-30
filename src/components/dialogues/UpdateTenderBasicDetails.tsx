@@ -15,13 +15,14 @@ import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRef, useState } from "react";
+import { Tender } from "types";
 import * as Yup from "yup";
 
 interface Props {
-  open: any;
-  handleClose: any;
-  mutate?: any;
-  tenderData?: any;
+  open: boolean;
+  handleClose: () => void;
+  mutate: () => void;
+  tenderData?: Tender;
 }
 
 const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Props) => {
@@ -31,15 +32,15 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
   const { change } = useChange();
 
   const initialValues = {
-    tenderStatus: `${tenderData?.assetOfBranch?.id ? tenderData?.assetOfBranch?.id : ""}`,
+    tenderStatus: `${tenderData?.id ? tenderData?.id : ""}`,
     tenderNo: `${tenderData?.tenderNo ? tenderData?.tenderNo : ""}`,
     tenderTitle: `${tenderData?.name ? tenderData?.name : ""}`,
-    portal: `${tenderData?.modelName ? tenderData?.modelName : ""}`,
+    portal: `${tenderData?.portal ? tenderData?.portal : ""}`,
     bidValue: `${tenderData?.bidValue ? tenderData?.bidValue : ""}`,
-    tenderCategory: `${tenderData?.tenderCategory ? tenderData?.tenderCategory : ""}`,
+    tenderCategory: `${tenderData?.category ? tenderData?.category : ""}`,
     submissionTime: `${tenderData?.submissionTime ? tenderData?.submissionTime : ""}`,
-    submissionDate: `${tenderData?.dateOfPurchase
-      ? moment(tenderData?.dateOfPurchase).format("YYYY-MM-DD")
+    submissionDate: `${tenderData?.submissionDate
+      ? moment(tenderData?.submissionDate).format("YYYY-MM-DD")
       : ""
       }`,
 

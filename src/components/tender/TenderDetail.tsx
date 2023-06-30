@@ -91,46 +91,46 @@ const TenderDetail = () => {
     },
   ];
   const [isUpdate, setIsUpdate] = useState<{
-    dialogue?: boolean;
-    tenderData?: any | null;
-  }>({ dialogue: false, tenderData: null });
+    dialogue: boolean;
+    tenderData?: Tender;
+  }>({ dialogue: false, tenderData: {} });
   const [isFeeDetails, setIsFeeDetails] = useState<{
-    dialogue?: boolean;
-    tenderData?: any | null;
-  }>({ dialogue: false, tenderData: null });
+    dialogue: boolean;
+    tenderData?: Tender;
+  }>({ dialogue: false, tenderData: {} });
   const [isEmdDetails, setIsEmdDetails] = useState<{
-    dialogue?: boolean;
-    tenderData?: any | null;
-  }>({ dialogue: false, tenderData: null });
+    dialogue: boolean;
+    tenderData?: Tender;
+  }>({ dialogue: false, tenderData: {} });
   const [isDocument, setIsDocument] = useState<{
-    dialogue?: boolean;
-    tenderData?: any | null;
-  }>({ dialogue: false, tenderData: null });
+    dialogue: boolean;
+    tenderData?: Tender;
+  }>({ dialogue: false, tenderData: {} });
   return (
     <section className="">
       <UpdateTenderBasicDetails
         tenderData={isUpdate?.tenderData}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
-      // mutate={mutate}
+        mutate={mutate}
       />
       <UpdateTenderFeeDetails
         tenderData={isFeeDetails?.tenderData}
         open={isFeeDetails?.dialogue}
         handleClose={() => setIsFeeDetails({ dialogue: false })}
-      // mutate={mutate}
+        mutate={mutate}
       />
       <UpdateTenderEMDDetails
         tenderData={isEmdDetails?.tenderData}
         open={isEmdDetails?.dialogue}
         handleClose={() => setIsEmdDetails({ dialogue: false })}
-      // mutate={mutate}
+        mutate={mutate}
       />
       <AddTenderDocument
         tenderData={isDocument?.tenderData}
         open={isDocument?.dialogue}
         handleClose={() => setIsDocument({ dialogue: false })}
-      // mutate={mutate}
+        mutate={mutate}
       />
       <div className="flex justify-end">
         <Button startIcon={<Print />} variant="contained" className="!bg-theme">
@@ -142,7 +142,7 @@ const TenderDetail = () => {
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
               <IconButton size="small" onClick={() => {
-                setIsUpdate({ dialogue: true, tenderData: tenderFees });
+                setIsUpdate({ dialogue: true, tenderData: tenderData });
               }}>
                 <Edit />
               </IconButton>
@@ -161,7 +161,7 @@ const TenderDetail = () => {
               {basicDetails?.map((item) => (
                 <tr>
                   <td className="w-1/5 text-sm font-semibold py-2">
-                    {tenderData?.title}
+                    {item?.title}
                   </td>
                   <td className="w-3/5">
                     <span className="text-sm text-gray-600 py-2">
@@ -179,7 +179,7 @@ const TenderDetail = () => {
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
               <IconButton size="small" onClick={() => {
-                setIsFeeDetails({ dialogue: true, tenderData: tenderFees });
+                setIsFeeDetails({ dialogue: true, tenderData: tenderData });
               }}>
                 <Edit />
               </IconButton>
@@ -208,7 +208,7 @@ const TenderDetail = () => {
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
               <IconButton size="small" onClick={() => {
-                setIsEmdDetails({ dialogue: true, tenderData: tenderFees });
+                setIsEmdDetails({ dialogue: true, tenderData: tenderData });
               }}>
                 <Edit />
               </IconButton>
@@ -241,7 +241,7 @@ const TenderDetail = () => {
                 variant="contained"
                 className="!bg-theme"
                 onClick={() => {
-                  setIsDocument({ dialogue: true, tenderData: tenderFees });
+                  setIsDocument({ dialogue: true, tenderData: tenderData });
                 }}>
                 Add Document
               </Button>
@@ -296,7 +296,7 @@ const TenderDetail = () => {
                       </tr>
                     ))}
                   </>
-                  : <p>No Document</p>
+                  : <p className="flex justify-center px-2 py-6">No Document</p>
                 }
               </tbody>
             </table>
