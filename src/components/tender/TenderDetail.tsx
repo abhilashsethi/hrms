@@ -48,7 +48,7 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
     {
       id: 6,
       title: "Submission Time",
-      value: `${moment(tenderData?.submissionTime).format("hh:mm A")}` || "---",
+      value: tenderData?.submissionTime || "---",
     },
     {
       id: 7,

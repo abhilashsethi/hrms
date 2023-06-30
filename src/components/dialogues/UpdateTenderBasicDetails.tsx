@@ -54,24 +54,19 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
   };
 
   const validationSchema = Yup.object().shape({
-    status: Yup.string().required("Status is required!"),
+    status: Yup.string().required("Tender Status is required!"),
     tenderNo: Yup.string().required("Tender Number is required!"),
     title: Yup.string()
-      .matches(
-        /^[A-Za-z ]+$/,
-        "Asset Name must only contain alphabetic characters"
-      )
-      .min(2, "Asset Name must be at least 2 characters")
-      .max(50, "Asset Name must be less than 50 characters")
-      .required("Asset Name is required!"),
+      .min(2, "Tender Name must be at least 2 characters")
+      .max(50, "Tender Name must be less than 50 characters")
+      .required("Tender Name is required!"),
     portal: Yup.string().required("Portal Name is required!"),
     category: Yup.string().required("Tender Category is required!"),
     submissionDate: Yup.date().required("Submission date is required!"),
     submissionTime: Yup.string().required("Submission time is required!"),
-    bidValue: Yup.string().required("Bid Value is required!"),
-
+    bidValue: Yup.number().required('Bid Value is required!')
+      .positive('Must be a positive number'),
   });
-
   const handleSubmit = async (values: TenderUpdate) => {
     console.log(values);
     setLoading(true);
@@ -99,7 +94,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      Swal.fire(`Success`, `You have successfully updated!`, `success`);
       mutate()
       handleClose()
       return;
@@ -248,21 +243,14 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                       <TextField
                         fullWidth
                         size="small"
-                        select
+                        id="category"
                         name="category"
-                        label="Select Tender Category"
                         value={values?.category}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={touched?.category && !!errors?.category}
                         helperText={touched?.category && errors?.category}
-                      >
-                        {category.map((option) => (
-                          <MenuItem key={option.id} value={option.title}>
-                            {option.title}
-                          </MenuItem>
-                        ))}
-                      </TextField>
+                      />
                     </div>
 
                     <div className="md:px-4 px-2 md:py-2 py-1">
@@ -314,6 +302,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                       <TextField
                         size="small"
                         fullWidth
+                        type="number"
                         // placeholder="Email"
                         id="bidValue"
                         name="bidValue"

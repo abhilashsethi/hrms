@@ -15,6 +15,7 @@ import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRef, useState } from "react";
+import Swal from "sweetalert2";
 import { Tender } from "types";
 import * as Yup from "yup";
 
@@ -27,27 +28,49 @@ interface Props {
 
 const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { data: branchData } = useFetch<any>(`branches`);
-  const imageRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
-
   const initialValues = {
-    tenderFees: `${tenderData?.tenderFees ? tenderData?.tenderFees : ""}`,
+    tenderFees: tenderData?.tenderFees ? tenderData?.tenderFees : 0,
     paymentMode: `${tenderData?.tenderPaymentMode ? tenderData?.tenderPaymentMode : ""}`,
-
-
   };
 
   const validationSchema = Yup.object().shape({
     paymentMode: Yup.string().required("Payment Mode is required!"),
-    tenderFees: Yup.string().required("Tender Fees is required!"),
-
+    tenderFees: Yup.number().required('Tender Fees is required!')
+      .positive('Must be a positive number'),
   });
 
   const handleSubmit = async (values: any) => {
     setLoading(true);
     console.log(values);
-    return
+    try {
+      const res = await change(`tenders/update/${tenderData?.id}`, {
+        method: "PATCH",
+        body: {
+          paymentMode: values?.paymentMode,
+          tenderFees: values?.tenderFees,
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.msg || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully updated!`, `success`);
+      mutate()
+      handleClose()
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
