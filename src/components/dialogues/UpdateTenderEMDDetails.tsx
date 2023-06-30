@@ -18,6 +18,7 @@ import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { ChangeEvent, useRef, useState } from "react";
+import Swal from "sweetalert2";
 import { Tender } from "types";
 import * as Yup from "yup";
 
@@ -28,32 +29,57 @@ interface Props {
   tenderData?: Tender;
 }
 
+
 const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { data: branchData } = useFetch<any>(`branches`);
-  const imageRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
   const [isEmdValue, setIsEmdValue] = useState(tenderData?.isEmdExemption)
 
   const initialValues = {
-    exemption: `${tenderData?.isEmdExemption ? tenderData?.isEmdExemption : ""}`,
-    emdAmount: `${tenderData?.EmdAmount ? tenderData?.EmdAmount : ""}`,
-    paymentMode: `${tenderData?.EmdPaymentMode ? tenderData?.EmdPaymentMode : ""}`,
+    EmdAmount: tenderData?.EmdAmount ? tenderData?.EmdAmount : 0,
+    EmdPaymentMode: `${tenderData?.EmdPaymentMode ? tenderData?.EmdPaymentMode : ""}`,
   };
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsEmdValue(event.target.value === 'yes');
   };
   const validationSchema = Yup.object().shape({
-    exemption: Yup.string().required("EMD Exemption is required!"),
-    paymentMode: Yup.string().required("Payment Mode is required!"),
-    emdAmount: Yup.string().required("END Amount is required!"),
+    EmdPaymentMode: Yup.string().required("Payment Mode is required!"),
+    EmdAmount: Yup.string().required("END Amount is required!"),
 
   });
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: Tender) => {
     setLoading(true);
     console.log(values);
-    return
+    try {
+      const res = await change(`tenders/update/${tenderData?.id}`, {
+        method: "PATCH",
+        body: {
+          EmdAmount: Number(values?.EmdAmount),
+          EmdPaymentMode: values?.EmdPaymentMode,
+          isEmdExemption: isEmdValue,
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.msg || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully updated!`, `success`);
+      mutate()
+      handleClose()
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -119,7 +145,7 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
                       <>
                         <div className="md:px-4 px-2 md:py-2 py-1">
                           <div className="py-2">
-                            <InputLabel htmlFor="emdAmount">
+                            <InputLabel htmlFor="EmdAmount">
                               Tender Fees <span className="text-red-600">*</span>
                             </InputLabel>
                           </div>
@@ -127,13 +153,13 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
                             size="small"
                             fullWidth
                             // placeholder="Email"
-                            id="emdAmount"
-                            name="emdAmount"
-                            value={values.emdAmount}
+                            id="EmdAmount"
+                            name="EmdAmount"
+                            value={values.EmdAmount}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            error={touched.emdAmount && !!errors.emdAmount}
-                            helperText={touched.emdAmount && errors.emdAmount}
+                            error={touched.EmdAmount && !!errors.EmdAmount}
+                            helperText={touched.EmdAmount && errors.EmdAmount}
                           />
                         </div>
                         <div className="md:px-4 px-2 md:py-2 py-1">
@@ -146,15 +172,15 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
                             fullWidth
                             size="small"
                             select
-                            name="paymentMode"
+                            name="EmdPaymentMode"
                             label="Select Payment Mode"
-                            value={values.paymentMode}
+                            value={values.EmdPaymentMode}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            error={touched.paymentMode && !!errors.paymentMode}
-                            helperText={touched.paymentMode && errors.paymentMode}
+                            error={touched.EmdPaymentMode && !!errors.EmdPaymentMode}
+                            helperText={touched.EmdPaymentMode && errors.EmdPaymentMode}
                           >
-                            {paymentMode.map((option) => (
+                            {EmdPaymentMode.map((option) => (
                               <MenuItem key={option.id} value={option.title}>
                                 {option.title}
                               </MenuItem>
@@ -190,11 +216,7 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
 };
 
 export default UpdateTenderEMDDetails;
-const paymentMode = [
+const EmdPaymentMode = [
   { id: 1, title: "Online" },
   { id: 2, title: "Offline" },
-];
-const exemption = [
-  { id: 1, title: "Yes" },
-  { id: 2, title: "No" },
 ];

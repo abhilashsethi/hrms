@@ -31,11 +31,11 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
   const { change } = useChange();
   const initialValues = {
     tenderFees: tenderData?.tenderFees ? tenderData?.tenderFees : 0,
-    paymentMode: `${tenderData?.tenderPaymentMode ? tenderData?.tenderPaymentMode : ""}`,
+    tenderPaymentMode: `${tenderData?.tenderPaymentMode ? tenderData?.tenderPaymentMode : ""}`,
   };
 
   const validationSchema = Yup.object().shape({
-    paymentMode: Yup.string().required("Payment Mode is required!"),
+    tenderPaymentMode: Yup.string().required("Payment Mode is required!"),
     tenderFees: Yup.number().required('Tender Fees is required!')
       .positive('Must be a positive number'),
   });
@@ -47,7 +47,7 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
       const res = await change(`tenders/update/${tenderData?.id}`, {
         method: "PATCH",
         body: {
-          paymentMode: values?.paymentMode,
+          tenderPaymentMode: values?.tenderPaymentMode,
           tenderFees: values?.tenderFees,
         },
       });
@@ -129,15 +129,15 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
                         fullWidth
                         size="small"
                         select
-                        name="paymentMode"
+                        name="tenderPaymentMode"
                         label="Select Payment Mode"
-                        value={values.paymentMode}
+                        value={values.tenderPaymentMode}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.paymentMode && !!errors.paymentMode}
-                        helperText={touched.paymentMode && errors.paymentMode}
+                        error={touched.tenderPaymentMode && !!errors.tenderPaymentMode}
+                        helperText={touched.tenderPaymentMode && errors.tenderPaymentMode}
                       >
-                        {paymentMode.map((option) => (
+                        {tenderPaymentMode.map((option) => (
                           <MenuItem key={option.id} value={option.title}>
                             {option.title}
                           </MenuItem>
@@ -190,7 +190,7 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
 };
 
 export default UpdateTenderFeeDetails;
-const paymentMode = [
+const tenderPaymentMode = [
   { id: 1, title: "Online" },
   { id: 2, title: "Offline" },
 ];
