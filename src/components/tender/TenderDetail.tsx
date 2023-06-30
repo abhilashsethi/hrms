@@ -122,7 +122,7 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`tenders/remove/document?tenderId=${tenderData?.id}&docId=${item?.id}`, {
+          const res = await change(`tenders/remove/document?tenderId=${tenderData?.id}&docId=${item?.id}&userId=${user?.id}`, {
             method: "DELETE",
           });
           if (item?.id) {
