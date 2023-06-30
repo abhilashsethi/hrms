@@ -1,4 +1,4 @@
-import { Add, Delete, FilterListRounded, Info } from "@mui/icons-material";
+import { Add, Close, Delete, FilterListRounded, Info } from "@mui/icons-material";
 import { Button, Grid, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
 import { TENDERCARD, TENDERCARD2, TENDERCARD3, TENDERCARD4 } from "assets/home";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
@@ -12,7 +12,7 @@ import { Tender } from "types";
 
 const AllTenders = () => {
   const { change } = useChange();
-  const [userName, setUsername] = useState<string | null>(null);
+  const [tenderName, setTenderName] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const {
@@ -21,7 +21,7 @@ const AllTenders = () => {
     isLoading,
     pagination,
   } = useFetch<Tender[]>(
-    `tenders?page=${pageNumber}&limit=8${userName ? `&title=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
+    `tenders?page=${pageNumber}&limit=8${tenderName ? `&title=${tenderName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   // & tenderNo=1 & category= & portal
   console.log("tenderData", { tenderData });
@@ -79,9 +79,24 @@ const AllTenders = () => {
             className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}
           >
-            <IconButton>
-              <Tooltip title={`Filter`}>
-                <FilterListRounded className={"!text-white"} />
+            <IconButton
+              onClick={() => {
+                setIsOrderBy(null);
+                setTenderName(null);
+              }}
+            >
+              <Tooltip
+                title={
+                  isOrderBy != null || tenderName != null
+                    ? `Remove Filters`
+                    : `Filter`
+                }
+              >
+                {isOrderBy != null || tenderName != null ? (
+                  <Close className={"!text-white"} />
+                ) : (
+                  <FilterListRounded className={"!text-white"} />
+                )}
               </Tooltip>
             </IconButton>
           </div>
@@ -90,9 +105,9 @@ const AllTenders = () => {
               fullWidth
               size="small"
               id="name"
-              value={userName ? userName : ""}
+              value={tenderName ? tenderName : ""}
               onChange={(e) => {
-                setPageNumber(1), setUsername(e.target.value);
+                setPageNumber(1), setTenderName(e.target.value);
               }}
               placeholder="Tender Name"
               name="name"
