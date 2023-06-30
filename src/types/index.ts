@@ -268,6 +268,12 @@ export type BranchDashboard = {
 	totalActiveBranch: number;
 	branchWiseEmployeeCount: Branch[];
 };
+export interface TenderDocumentType {
+	id?: string;
+	link?: string;
+	title?: string;
+	createdAt?: string;
+}
 export type Tender = {
 	id?: string;
 	name?: string;
@@ -282,6 +288,13 @@ export type Tender = {
 	submissionTime?: string;
 	bidValue?: string;
 	status?: string;
+	EmdAmount?: number,
+	tenderFees?: number,
+	tenderPaymentMode?: string,
+	EmdPaymentMode?: string,
+	isEmdExemption?: boolean,
+	documents?: TenderDocumentType[];
+
 };
 
 export interface MeetingTypes {

@@ -10,8 +10,86 @@ import {
   UpdateTenderEMDDetails,
   UpdateTenderFeeDetails
 } from "components/dialogues";
+import { useFetch } from "hooks";
+import { Tender } from "types";
+import { useRouter } from "next/router";
 
 const TenderDetail = () => {
+  const router = useRouter();
+  const {
+    data: tenderData,
+    mutate,
+    isLoading,
+    pagination,
+  } = useFetch<Tender>(
+    `tenders/${router?.query?.id}`
+  );
+  console.log("Get by Id", { tenderData });
+  const basicDetails = [
+    {
+      id: 1, title: "Tender No",
+      value: tenderData?.tenderNo || "---"
+    },
+    {
+      id: 2,
+      title: "Tender Title",
+      value: tenderData?.title || "---",
+    },
+    {
+      id: 3,
+      title: "Portal",
+      value: tenderData?.portal || "---",
+    },
+    {
+      id: 4,
+      title: "Tender Category",
+      value: tenderData?.category || "---",
+    },
+    {
+      id: 5,
+      title: "Submission Date",
+      value: `${moment(tenderData?.submissionDate).format("ll")}` || "---",
+    },
+    {
+      id: 6,
+      title: "Submission Time",
+      value: `${moment(tenderData?.submissionTime).format("hh:mm A")}` || "---",
+    },
+    {
+      id: 7,
+      title: "Bid Value in ₹",
+      value: tenderData?.bidValue || "---",
+    },
+  ];
+  const tenderFees = [
+    {
+      id: 1,
+      title: "Tender Fees in ₹",
+      value: tenderData?.tenderFees || "---",
+    },
+    {
+      id: 2,
+      title: "Payment Mode",
+      value: tenderData?.tenderPaymentMode || "---"
+    },
+  ];
+  const emdFees = [
+    {
+      id: 3,
+      title: "EMD Exemption",
+      value: tenderData?.isEmdExemption ? "Yes" : "No",
+    },
+    {
+      id: 4,
+      title: "EMD Amount in ₹",
+      value: tenderData?.EmdAmount || "---",
+    },
+    {
+      id: 2,
+      title: "Payment Mode",
+      value: tenderData?.EmdPaymentMode || "---",
+    },
+  ];
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
     tenderData?: any | null;
@@ -76,14 +154,14 @@ const TenderDetail = () => {
                 <td className="w-1/5 text-sm font-semibold py-2">Status</td>
                 <td className="w-3/5">
                   <span className="text-sm py-1 px-2 text-white tracking-wide shadow-md bg-yellow-500 rounded-md">
-                    Open
+                    {tenderData?.status}
                   </span>
                 </td>
               </tr>
               {basicDetails?.map((item) => (
                 <tr>
                   <td className="w-1/5 text-sm font-semibold py-2">
-                    {item?.title}
+                    {tenderData?.title}
                   </td>
                   <td className="w-3/5">
                     <span className="text-sm text-gray-600 py-2">
@@ -178,43 +256,48 @@ const TenderDetail = () => {
                   <th className="w-[30%] text-sm border-r-2">Document</th>
                   <th className="w-[20%] text-sm">Actions</th>
                 </tr>
-                {documents?.map((item, index) => (
-                  <tr key={item?.id} className="border-b-2">
-                    <td
-                      align="center"
-                      className="w-[10%] text-sm py-2 border-r-2"
-                    >
-                      {Number(index) + 1}
-                    </td>
-                    <td align="center" className="w-[40%] text-sm border-r-2">
-                      {item?.name}
-                    </td>
-                    <td align="center" className="w-[30%] text-sm border-r-2">
-                      <div className="flex gap-2 items-center justify-center">
-                        <img
-                          className="h-6 object-contain"
-                          src={CHATDOC.src}
-                          alt=""
-                        />
-                        <span>{item?.doc}</span>
-                      </div>
-                    </td>
-                    <td align="center" className="w-[20%] text-sm">
-                      <div className="flex gap-1 py-2 justify-center">
-                        <Tooltip title="Download Document">
-                          <IconButton size="small">
-                            <Download />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete Document">
-                          <IconButton size="small">
-                            <Delete />
-                          </IconButton>
-                        </Tooltip>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {tenderData?.documents?.length ?
+                  <>
+                    {tenderData?.documents?.map((item, index) => (
+                      <tr key={item?.id} className="border-b-2">
+                        <td
+                          align="center"
+                          className="w-[10%] text-sm py-2 border-r-2"
+                        >
+                          {Number(index) + 1}
+                        </td>
+                        <td align="center" className="w-[40%] text-sm border-r-2">
+                          {item?.title}
+                        </td>
+                        <td align="center" className="w-[30%] text-sm border-r-2">
+                          <div className="flex gap-2 items-center justify-center">
+                            <img
+                              className="h-6 object-contain"
+                              src={CHATDOC.src}
+                              alt=""
+                            />
+                            <span>{item?.link}</span>
+                          </div>
+                        </td>
+                        <td align="center" className="w-[20%] text-sm">
+                          <div className="flex gap-1 py-2 justify-center">
+                            <Tooltip title="Download Document">
+                              <IconButton size="small">
+                                <Download />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Delete Document">
+                              <IconButton size="small">
+                                <Delete />
+                              </IconButton>
+                            </Tooltip>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                  : <p>No Document</p>
+                }
               </tbody>
             </table>
           </div>
@@ -226,65 +309,3 @@ const TenderDetail = () => {
 
 export default TenderDetail;
 
-const basicDetails = [
-  { id: 1, title: "Tender No", value: "18/EE/AIIMS/RPR/2023-24" },
-  {
-    id: 2,
-    title: "Tender Title",
-    value: "Administrative Department - AIIMS Raipur",
-  },
-  {
-    id: 3,
-    title: "Portal",
-    value:
-      "https://eprocure.gov.in/eprocure/app?component=%24DirectLink&page=Home&service=direct&session=T&sp=SPL%2BSTi4WzReT4fcrO9UwDw%3D%3D",
-  },
-  { id: 4, title: "Tender Category", value: "Works" },
-  {
-    id: 5,
-    title: "Submission Date",
-    value: `${moment(new Date()).format("ll")}`,
-  },
-  {
-    id: 6,
-    title: "Submission Time",
-    value: `${moment(new Date()).format("hh:mm A")}`,
-  },
-  {
-    id: 7,
-    title: "Bid Value in ₹",
-    value: `50,00,000/-`,
-  },
-];
-
-const tenderFees = [
-  { id: 1, title: "Tender Fees in ₹", value: "150.00" },
-  {
-    id: 2,
-    title: "Payment Mode",
-    value: "Online",
-  },
-];
-
-const emdFees = [
-  {
-    id: 3,
-    title: "EMD Exemption",
-    value: "No",
-  },
-  {
-    id: 4,
-    title: "EMD Amount in ₹",
-    value: "20, 000/-",
-  },
-  {
-    id: 2,
-    title: "Payment Mode",
-    value: "Online",
-  },
-];
-
-const documents = [
-  { id: 1, name: "Financial Document", doc: "alldata.csv" },
-  { id: 2, name: "Tender Agreement", doc: "agreements.csv" },
-];

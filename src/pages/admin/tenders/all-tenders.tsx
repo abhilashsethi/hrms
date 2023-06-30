@@ -11,7 +11,6 @@ import Swal from "sweetalert2";
 import { Tender } from "types";
 
 const AllTenders = () => {
-  const { change } = useChange();
   const [tenderName, setTenderName] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
@@ -25,39 +24,7 @@ const AllTenders = () => {
   );
   // & tenderNo=1 & category= & portal
   console.log("tenderData", { tenderData });
-  const handleDelete = (item: Tender) => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You want to delete!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`tenders/${item?.id}`, {
-            method: "DELETE",
-          });
-          if (res?.status !== 200) {
-            Swal.fire(
-              "Error",
-              res?.results?.msg || "Something went wrong!",
-              "error"
-            );
-            return;
-          }
-          Swal.fire(`Success`, "Deleted Successfully!", "success");
-          mutate();
-          return;
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   return (
     <PanelLayout title="All Tenders - Admin Panel">
       <section className="px-8 py-4">
@@ -132,66 +99,14 @@ const AllTenders = () => {
         </div>
         <section className="mt-4">
           {isLoading && <SkeletonLoader />}
-          <Grid container spacing={2}>
+          <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
             {tenderData?.map((item) => (
-              <Grid key={item?.id} item lg={3}>
-                <div className="w-full h-full rounded-lg overflow-hidden shadow-sleek">
-                  <div
-                    className={`h-28 w-full flex justify-center items-center relative bg-[#76DCC7]`}
-                  >
-                    <div
-                      className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${item?.status === "Open"
-                        ? `bg-yellow-400`
-                        : `bg-green-500`
-                        }`}
-                    >
-                      <span className="text-xs text-white tracking-wide">
-                        {item?.status}
-                      </span>
-                    </div>
-                    <div className=" px-4 py-1 bg-white absolute right-0 bottom-[-15px] rounded-l-md flex gap-2 items-center">
-                      <Link href={`/admin/tenders/tender-details?id=${item?.id}`}>
-                        <Tooltip title="Details">
-                          <IconButton size="small">
-                            <Info />
-                          </IconButton>
-                        </Tooltip>
-                      </Link>
-                      <Tooltip title="Delete">
-                        <IconButton size="small" onClick={() => handleDelete(item)}>
-                          <Delete className="!text-youtube" />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                    <img
-                      className="h-12 object-contain "
-                      src={TENDERCARD.src}
-                      alt="icon"
-                    />
-                  </div>
-                  <div className="bg-white p-4">
-                    <h1 className="font-semibold text-sm">{item?.title}</h1>
-                    <h1 className="mt-2 text-sm font-semibold">Tender No :</h1>
-                    <span className="text-sm text-gray-600">{item?.tenderNo}</span>
-                    <h1 className="mt-2 text-sm font-semibold">Category :</h1>
-                    <span className="text-sm text-gray-600">
-                      {item?.category}
-                    </span>
-                    <h1 className="mt-2 text-sm font-semibold">
-                      Submission Date :
-                    </h1>
-                    <span className="text-sm text-gray-600">
-                      {item?.submissionDate ? (
-                        moment(item?.submissionDate).format("ll")
-                      ) : (
-                        <p className="text-gray-500 font-medium">Not Specified</p>
-                      )}
-                    </span>
-                  </div>
-                </div>
-              </Grid>
+              <div key={item?.id}>
+                <CardContent item={item} mutate={mutate} />
+
+              </div>
             ))}
-          </Grid>
+          </div>
           {tenderData?.length === 0 ? <LoaderAnime /> : null}
           <section className="mb-6">
             {Math.ceil(
@@ -221,6 +136,105 @@ const AllTenders = () => {
 };
 
 export default AllTenders;
+interface Props {
+  item?: Tender;
+  mutate: () => void;
+}
+
+const CardContent = ({ item, mutate }: Props) => {
+  const { change } = useChange();
+  const handleDelete = (id?: string) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to delete!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          const res = await change(`tenders/${id}`, {
+            method: "DELETE",
+          });
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  return (
+    <>
+      <div className="w-full h-full rounded-lg overflow-hidden shadow-sleek">
+        <div
+          className={`h-28 w-full flex justify-center items-center relative bg-[#76DCC7]`}
+        >
+          <div
+            className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${item?.status === "Open"
+              ? `bg-yellow-400`
+              : `bg-green-500`
+              }`}
+          >
+            <span className="text-xs text-white tracking-wide">
+              {item?.status}
+            </span>
+          </div>
+          <div className=" px-4 py-1 bg-white absolute right-0 bottom-[-15px] rounded-l-md flex gap-2 items-center">
+            <Link href={`/admin/tenders/tender-details?id=${item?.id}`}>
+              <Tooltip title="Details">
+                <IconButton size="small">
+                  <Info />
+                </IconButton>
+              </Tooltip>
+            </Link>
+            <Tooltip title="Delete">
+              <IconButton size="small" onClick={() => handleDelete(item?.id)}>
+                <Delete className="!text-youtube" />
+              </IconButton>
+            </Tooltip>
+          </div>
+          <img
+            className="h-12 object-contain "
+            src={TENDERCARD.src}
+            alt="icon"
+          />
+        </div>
+        <div className="bg-white p-4">
+          <h1 className="font-semibold text-sm">{item?.title}</h1>
+          <h1 className="mt-2 text-sm font-semibold">Tender No :</h1>
+          <span className="text-sm text-gray-600">{item?.tenderNo}</span>
+          <h1 className="mt-2 text-sm font-semibold">Category :</h1>
+          <span className="text-sm text-gray-600">
+            {item?.category}
+          </span>
+          <h1 className="mt-2 text-sm font-semibold">
+            Submission Date :
+          </h1>
+          <span className="text-sm text-gray-600">
+            {item?.submissionDate ? (
+              moment(item?.submissionDate).format("ll")
+            ) : (
+              <p className="text-gray-500 font-medium">Not Specified</p>
+            )}
+          </span>
+        </div>
+      </div>
+    </>
+  );
+};
 
 const links = [
   { id: 1, page: "Tenders", link: "/admin/tenders/all-tenders" },
