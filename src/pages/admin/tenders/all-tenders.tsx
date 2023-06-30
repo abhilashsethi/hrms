@@ -134,7 +134,7 @@ const AllTenders = () => {
                       </span>
                     </div>
                     <div className=" px-4 py-1 bg-white absolute right-0 bottom-[-15px] rounded-l-md flex gap-2 items-center">
-                      <Link href="/admin/tenders/tender-details">
+                      <Link href={`/admin/tenders/tender-details?id=${item?.id}`}>
                         <Tooltip title="Details">
                           <IconButton size="small">
                             <Info />
