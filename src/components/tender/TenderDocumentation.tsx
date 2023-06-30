@@ -185,8 +185,6 @@ const TenderDocumentation = ({ mutate, tenderData }: Props) => {
                 </div>
               </div>
             </div>}
-
-
         </> :
         <div className="w-80">
           <div className="grid py-6 justify-center justify-items-center">
