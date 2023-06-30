@@ -269,18 +269,19 @@ export type BranchDashboard = {
 	branchWiseEmployeeCount: Branch[];
 };
 export type Tender = {
-	id: string;
-	name: string;
-	isBlocked: boolean;
-	createdAt: Date;
-	updatedAt: Date;
-	tenderNo: string;
-	title: string;
-	portal: string;
-	category: string;
-	submissionDate: Date;
-	submissionTime: string;
-	bidValue: string;
+	id?: string;
+	name?: string;
+	isBlocked?: boolean;
+	createdAt?: Date;
+	updatedAt?: Date;
+	tenderNo?: string;
+	title?: string;
+	portal?: string;
+	category?: string;
+	submissionDate?: Date;
+	submissionTime?: string;
+	bidValue?: string;
+	status?: string;
 };
 
 export interface MeetingTypes {
