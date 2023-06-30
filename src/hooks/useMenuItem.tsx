@@ -531,12 +531,6 @@ export default () => {
 			route: "/admin/support",
 		},
 		{
-			key: "15",
-			title: "Leads",
-			icon: <Leaderboard />,
-			route: "/admin/leads",
-		},
-		{
 			key: "11wfewfwfwe",
 			title: "Settings",
 			icon: <ICONS.Setting />,
@@ -547,12 +541,6 @@ export default () => {
 					icon: <ICONS.Change_Password />,
 					route: "/admin/change-password",
 				},
-				// {
-				//   key: "9-2",
-				//   title: "Profile Update",
-				//   icon: <PlaylistAddCheckCircleRounded />,
-				//   route: "/admin/",
-				// },
 			],
 		},
 	];

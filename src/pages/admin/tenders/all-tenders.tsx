@@ -2,11 +2,28 @@ import { Add, Delete, FilterListRounded, Info } from "@mui/icons-material";
 import { Button, Grid, IconButton, TextField, Tooltip } from "@mui/material";
 import { TENDERCARD, TENDERCARD2, TENDERCARD3, TENDERCARD4 } from "assets/home";
 import { AdminBreadcrumbs } from "components/core";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
+import { useState } from "react";
 import Swal from "sweetalert2";
+import { Tender } from "types";
 
 const AllTenders = () => {
+  const [isGrid, setIsGrid] = useState(true);
+  const [userName, setUsername] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const {
+    data: tenderData,
+    mutate,
+    isLoading,
+    pagination,
+  } = useFetch<Tender[]>(
+    `tenders?page=${pageNumber}&limit=8${userName ? `&title=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
+  );
+  // & tenderNo=1 & category= & portal
+  console.log("tenderData", { tenderData });
   const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -57,23 +74,22 @@ const AllTenders = () => {
         </div>
         <section className="mt-4">
           <Grid container spacing={2}>
-            {tenders?.map((item) => (
+            {tenderData?.map((item) => (
               <Grid key={item?.id} item lg={3}>
                 <div className="w-full h-full rounded-lg overflow-hidden shadow-sleek">
                   <div
-                    className={`h-28 w-full flex justify-center items-center relative ${item?.bg ? item?.bg : "bg-[#76DCC7]"
-                      }`}
+                    className={`h-28 w-full flex justify-center items-center relative bg-[#76DCC7]`}
                   >
-                    <div
+                    {/* <div
                       className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${item?.status === "OPEN"
-                          ? `bg-yellow-400`
-                          : `bg-green-500`
+                        ? `bg-yellow-400`
+                        : `bg-green-500`
                         }`}
                     >
                       <span className="text-xs text-white tracking-wide">
                         {item?.status}
                       </span>
-                    </div>
+                    </div> */}
                     <div className=" px-4 py-1 bg-white absolute right-0 bottom-[-15px] rounded-l-md flex gap-2 items-center">
                       <Link href="/admin/tenders/tender-details">
                         <Tooltip title="Details">
@@ -90,14 +106,14 @@ const AllTenders = () => {
                     </div>
                     <img
                       className="h-12 object-contain "
-                      src={item?.icon}
+                      src={TENDERCARD.src}
                       alt="icon"
                     />
                   </div>
                   <div className="bg-white p-4">
                     <h1 className="font-semibold text-sm">{item?.title}</h1>
                     <h1 className="mt-2 text-sm font-semibold">Tender No :</h1>
-                    <span className="text-sm text-gray-600">{item?.no}</span>
+                    {/* <span className="text-sm text-gray-600">{item?.no}</span> */}
                     <h1 className="mt-2 text-sm font-semibold">Category :</h1>
                     <span className="text-sm text-gray-600">
                       {item?.category}
@@ -105,9 +121,9 @@ const AllTenders = () => {
                     <h1 className="mt-2 text-sm font-semibold">
                       Submission Date :
                     </h1>
-                    <span className="text-sm text-gray-600">
+                    {/* <span className="text-sm text-gray-600">
                       {item?.submission}
-                    </span>
+                    </span> */}
                   </div>
                 </div>
               </Grid>
@@ -130,45 +146,4 @@ const links = [
   },
 ];
 
-const tenders = [
-  {
-    id: 1,
-    title: "Administrative Department - AIIMS Raipur",
-    no: "18/EE/AIIMS/RPR/2023-24",
-    icon: TENDERCARD.src,
-    category: "IT/ITES",
-    submission: "Jun 8, 2023",
-    bg: "bg-[#76DCC7]",
-    status: "OPEN",
-  },
-  {
-    id: 2,
-    title: "Centre for High Technology",
-    no: "18/EE/AIIMS/RPR/2023-24",
-    icon: TENDERCARD2.src,
-    category: "Manpower",
-    submission: "Jun 8, 2023",
-    bg: "bg-[#FC71A2]",
-    status: "SUBMITTED",
-  },
-  {
-    id: 3,
-    title: "Development Commissioner(MSME)",
-    no: "18/EE/AIIMS/RPR/2023-24",
-    icon: TENDERCARD3.src,
-    category: "Peripheral",
-    submission: "Jun 8, 2023",
-    bg: "bg-[#F9E16B]",
-    status: "SUBMITTED",
-  },
-  {
-    id: 4,
-    title: "Indian Institute of Management Indore",
-    no: "18/EE/AIIMS/RPR/2023-24",
-    icon: TENDERCARD4.src,
-    category: "AMC",
-    submission: "Jun 8, 2023",
-    bg: "bg-[#52C7E0]",
-    status: "SUBMITTED",
-  },
-];
+

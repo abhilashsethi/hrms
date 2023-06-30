@@ -581,7 +581,6 @@ const PageList = [
 		icon: <ICONS.Change_Password />,
 		name: "Bank Account Configure",
 	},
-	{ id: 56, value: "/admin/leads", icon: <Leaderboard />, name: "All Leads" },
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 ];
