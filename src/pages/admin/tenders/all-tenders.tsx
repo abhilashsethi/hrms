@@ -94,7 +94,7 @@ const AllTenders = () => {
               onChange={(e) => {
                 setPageNumber(1), setUsername(e.target.value);
               }}
-              placeholder="Guest Name"
+              placeholder="Tender Name"
               name="name"
             />
             <TextField
