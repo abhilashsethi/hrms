@@ -42,8 +42,6 @@ const TenderCreateLaststep = () => {
     EmdPaymentMode: "",
   };
   const handleSubmit = async (values: Props) => {
-    console.log(isEmdValue);
-    console.log(values);
     setLoading(true);
     try {
       const res = await change(`tenders/update/${tender?.id}`, {

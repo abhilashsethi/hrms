@@ -46,7 +46,6 @@ const AssignMembers = ({ handleNext }: Props) => {
   };
 
   const handleSubmit = async (values: TenderData) => {
-    console.log(values);
     setLoading(true);
     const reqData = Object.entries(values)?.map(([key, value], index) => ({
       memberId: value,
