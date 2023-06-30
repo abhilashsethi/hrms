@@ -48,7 +48,7 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
         method: "PATCH",
         body: {
           tenderPaymentMode: values?.tenderPaymentMode,
-          tenderFees: values?.tenderFees,
+          tenderFees: Number(values?.tenderFees),
         },
       });
       setLoading(false);
