@@ -43,8 +43,8 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
     setIsEmdValue(event.target.value === 'yes');
   };
   const validationSchema = Yup.object().shape({
-    EmdPaymentMode: Yup.string().required("Payment Mode is required!"),
-    EmdAmount: Yup.string().required("END Amount is required!"),
+    EmdAmount: Yup.number()
+      .positive('Must be a positive number'),
 
   });
 

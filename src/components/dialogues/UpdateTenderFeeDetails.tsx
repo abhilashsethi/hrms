@@ -47,7 +47,7 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
       const res = await change(`tenders/update/${tenderData?.id}`, {
         method: "PATCH",
         body: {
-          tenderPaymentMode: values?.tenderPaymentMode,
+          feesPaymentMode: values?.tenderPaymentMode,
           tenderFees: Number(values?.tenderFees),
         },
       });
