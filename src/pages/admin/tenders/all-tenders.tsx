@@ -1,7 +1,7 @@
 import { Add, Delete, FilterListRounded, Info } from "@mui/icons-material";
 import { Button, Grid, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
 import { TENDERCARD, TENDERCARD2, TENDERCARD3, TENDERCARD4 } from "assets/home";
-import { AdminBreadcrumbs, LoaderAnime } from "components/core";
+import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
@@ -116,6 +116,7 @@ const AllTenders = () => {
           </div>
         </div>
         <section className="mt-4">
+          {isLoading && <SkeletonLoader />}
           <Grid container spacing={2}>
             {tenderData?.map((item) => (
               <Grid key={item?.id} item lg={3}>
