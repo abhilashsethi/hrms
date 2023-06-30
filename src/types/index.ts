@@ -299,9 +299,11 @@ export type Tender = {
 	status?: string;
 	EmdAmount?: number,
 	tenderFees?: number,
-	tenderPaymentMode?: string,
+	feesPaymentMode?: string,
 	EmdPaymentMode?: string,
+	documentAddReason?: string,
 	isEmdExemption?: boolean,
+	isAllDocumentsAdded?: boolean,
 	documents?: TenderDocumentType[];
 
 };

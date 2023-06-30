@@ -4,6 +4,7 @@ import { CHATDOC } from "assets/home";
 import {
   Button,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   IconButton,
   Link,
@@ -13,10 +14,12 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Add, Check, Delete, Download, Person } from "@mui/icons-material";
-import { useState } from "react";
+import { Form, Formik } from "formik";
+import { ChangeEvent, useEffect, useState } from "react";
 import { AddTenderDocument, AddTenderDocumentationMember } from "components/dialogues";
 import { Tender } from "types";
 import Swal from "sweetalert2";
+import * as Yup from "yup";
 import { useChange } from "hooks";
 interface Props {
   tenderData?: Tender;
@@ -24,6 +27,23 @@ interface Props {
 }
 const TenderDocumentation = ({ mutate, tenderData }: Props) => {
   const { change } = useChange();
+  const [loading, setLoading] = useState(false);
+  const [isDocumentValue, setIsDocumentValue] = useState(tenderData?.isAllDocumentsAdded)
+  const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsDocumentValue(event.target.value === 'Yes');
+  };
+  const [filteredMember, setFilteredMember] = useState<any | null>(null);
+  tenderData?.members?.length ?
+    useEffect(() => {
+      const filtered = tenderData?.members?.find(member => member.isAllowedToReviewTender);
+      setFilteredMember(filtered || null);
+    }, [tenderData]) : null;
+  const initialValues = {
+    documentAddReason: `${tenderData?.documentAddReason ? tenderData?.documentAddReason : ""}`,
+  };
+
+  const validationSchema = Yup.object().shape({
+  });
   const [isDocument, setIsDocument] = useState<{
     dialogue: boolean;
     tenderData?: any | null;
@@ -62,6 +82,37 @@ const TenderDocumentation = ({ mutate, tenderData }: Props) => {
       console.log(error);
     }
   };
+  const handleSubmit = async (values: Tender) => {
+    setLoading(true);
+    console.log(values);
+    try {
+      const res = await change(`tenders/update/${tenderData?.id}`, {
+        method: "PATCH",
+        body: {
+          documentAddReason: values?.documentAddReason,
+          isAllDocumentsAdded: isDocumentValue,
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.msg || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully updated!`, `success`);
+      mutate()
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <section>
       <AddTenderDocument
@@ -79,65 +130,63 @@ const TenderDocumentation = ({ mutate, tenderData }: Props) => {
       <h1 className="text-theme font-semibold">Assigned Member</h1>
       {tenderData?.members?.length ?
         <>
-          {tenderData?.members?.map((item) => (
-            <>
-              {item?.isAllowedToAddDoc ?
-                <div key={item?.id} className="w-80 rounded-md border-theme border-2 mt-3 p-4">
-                  <div className="mt-2 rounded-md p-2 flex gap-4 items-center">
-                    <PhotoViewerSmall
-                      name={item?.member?.name}
-                      size="3.5rem"
-                      photo={item?.member?.photo}
-                    />
-                    <div>
-                      <h1>{item?.member?.name}</h1>
-                      <h1 className="text-sm text-gray-600">{item?.member?.email}</h1>
-                    </div>
-                  </div>
-                  <div className="mt-2 flex justify-center gap-2">
-                    <Link
-                      href={`/admin/employees/profile/${item?.id}`}
-                    >
-                      <Button
-                        variant="contained"
-                        className="!bg-theme"
-                        size="small"
-                        startIcon={<Person />}
-                      >
-                        View Details
-                      </Button>
-                    </Link>
-                    <Button
-                      onClick={() => handleRemove(item)}
-                      variant="contained"
-                      className="!bg-youtube"
-                      size="small"
-                      startIcon={<Delete />}
-                    >
-                      Remove
-                    </Button>
-                  </div>
+          {filteredMember ?
+            <div className="w-80 rounded-md border-theme border-2 mt-3 p-4">
+              <div className="mt-2 rounded-md p-2 flex gap-4 items-center">
+                <PhotoViewerSmall
+                  name={filteredMember?.member?.name}
+                  size="3.5rem"
+                  photo={filteredMember?.member?.photo}
+                />
+                <div>
+                  <h1>{filteredMember?.member?.name}</h1>
+                  <h1 className="text-sm text-gray-600">{filteredMember?.member?.email}</h1>
                 </div>
-                : <div className="w-80">
-                  <div className="grid py-6 justify-center justify-items-center">
-                    <p className="text-lg font-semibold">
-                      No Member Assigned
-                    </p>
-                    <div className="flex justify-end mb-2">
-                      <Button
-                        startIcon={<Add />}
-                        variant="contained"
-                        className="!bg-theme"
-                        onClick={() => {
-                          setIsMember({ dialogue: true, tenderData: tenderData });
-                        }}>
-                        Add Member
-                      </Button>
-                    </div>
-                  </div>
-                </div>}
-            </>
-          ))}
+              </div>
+              <div className="mt-2 flex justify-center gap-2">
+                <Link
+                  href={`/admin/employees/profile/${filteredMember?.member?.id}`}
+                >
+                  <Button
+                    variant="contained"
+                    className="!bg-theme"
+                    size="small"
+                    startIcon={<Person />}
+                  >
+                    View Details
+                  </Button>
+                </Link>
+                <Button
+                  onClick={() => handleRemove(filteredMember)}
+                  variant="contained"
+                  className="!bg-youtube"
+                  size="small"
+                  startIcon={<Delete />}
+                >
+                  Remove
+                </Button>
+              </div>
+            </div>
+            : <div className="w-80">
+              <div className="grid py-6 justify-center justify-items-center">
+                <p className="text-lg font-semibold">
+                  No Member Assigned
+                </p>
+                <div className="flex justify-end mb-2">
+                  <Button
+                    startIcon={<Add />}
+                    variant="contained"
+                    className="!bg-theme"
+                    onClick={() => {
+                      setIsMember({ dialogue: true, tenderData: tenderData });
+                    }}>
+                    Add Member
+                  </Button>
+                </div>
+              </div>
+            </div>}
+
+
         </> :
         <div className="w-80">
           <div className="grid py-6 justify-center justify-items-center">
@@ -233,46 +282,73 @@ const TenderDocumentation = ({ mutate, tenderData }: Props) => {
           </div>
         </TenderLayout>
       </div>
-      <div className="mt-4">
-        <h1 className="font-semibold">All documents created ? </h1>
-        <div className="flex gap-2 items-center">
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group"
-          >
-            <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-            <FormControlLabel value="No" control={<Radio />} label="No" />
-          </RadioGroup>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        enableReinitialize={true}
+        onSubmit={handleSubmit}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+        }) => (
+          <Form>
+            <div className="mt-4">
+              <h1 className="font-semibold">All documents created ? </h1>
+              <div className="flex gap-2 items-center">
+                <RadioGroup
+                  defaultValue={tenderData?.isAllDocumentsAdded ? 'Yes' : 'No'}
+                  row
+                  name="isAllDocumentsAdded"
+                  onChange={handleOptionChange}
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                >
+                  <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                  <FormControlLabel value="No" control={<Radio />} label="No" />
+                </RadioGroup>
 
-        </div>
-      </div>
-      <div className="w-1/2">
-        <h1 className="font-semibold">Reason </h1>
-        <TextField
-          multiline
-          fullWidth
-          rows={3}
-          placeholder="Reason"
-          className="mt-2"
-        />
-        <div className="flex mt-2 mb-2">
-          <Button
-            startIcon={<Check />}
-            variant="contained"
-            className="!bg-green-500"
-          >
-            Update
-          </Button>
-        </div>
-      </div>
+              </div>
+            </div>
+            <div className="w-1/2">
+              <h1 className="font-semibold">Reason </h1>
+              <TextField
+                multiline
+                fullWidth
+                rows={3}
+                placeholder="Reason"
+                className="mt-2"
+                id="documentAddReason"
+                name="documentAddReason"
+                value={values.documentAddReason}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.documentAddReason && !!errors.documentAddReason}
+                helperText={touched.documentAddReason && errors.documentAddReason}
+              />
+              <div className="flex mt-2 mb-2">
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  startIcon={
+                    loading ? <CircularProgress size={20} /> : <Check />
+                  }
+                  variant="contained"
+                  className="!bg-green-500"
+                >
+                  Update
+                </Button>
+              </div>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </section>
   );
 };
 
 export default TenderDocumentation;
 
-const documents = [
-  { id: 1, name: "Financial Document", doc: "alldata.csv" },
-  { id: 2, name: "Tender Agreement", doc: "agreements.csv" },
-];
+

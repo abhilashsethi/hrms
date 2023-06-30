@@ -10,7 +10,7 @@ import {
   UpdateTenderEMDDetails,
   UpdateTenderFeeDetails
 } from "components/dialogues";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { Tender } from "types";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
@@ -26,6 +26,7 @@ interface DeleteDoc {
 }
 const TenderDetail = ({ tenderData, mutate }: Props) => {
   const { change } = useChange();
+  const { user } = useAuth();
   console.log("Get by Id", { tenderData });
   const basicDetails = [
     {
@@ -72,7 +73,7 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
     {
       id: 2,
       title: "Payment Mode",
-      value: tenderData?.tenderPaymentMode || "---"
+      value: tenderData?.feesPaymentMode || "---"
     },
   ];
   const emdFees = [
