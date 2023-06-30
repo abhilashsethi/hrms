@@ -35,7 +35,7 @@ const TenderDocumentation = ({ mutate, tenderData }: Props) => {
   const [filteredMember, setFilteredMember] = useState<any | null>(null);
   tenderData?.members?.length ?
     useEffect(() => {
-      const filtered = tenderData?.members?.find(member => member.isAllowedToReviewTender);
+      const filtered = tenderData?.members?.find(member => member.isAllowedToAddDoc);
       setFilteredMember(filtered || null);
     }, [tenderData]) : null;
   const initialValues = {
