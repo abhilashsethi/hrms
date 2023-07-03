@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
+import { deleteFile } from "utils";
 
 const AllTenders = () => {
   const [tenderName, setTenderName] = useState<string | null>(null);
@@ -158,6 +159,12 @@ const CardContent = ({ item, mutate }: Props) => {
           const res = await change(`tenders/${id}`, {
             method: "DELETE",
           });
+          const docPaths = item?.documents;
+          if (docPaths && docPaths.length > 0) {
+            docPaths.forEach(async (path) => {
+              await deleteFile(String(path));
+            });
+          }
           if (res?.status !== 200) {
             Swal.fire(
               "Error",
