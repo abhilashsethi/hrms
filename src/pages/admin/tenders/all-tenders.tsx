@@ -257,11 +257,17 @@ const CardContent = ({ item, mutate }: Props) => {
         >
           <div
             className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${item?.status === "Open"
-              ? `bg-yellow-400`
-              : `bg-green-500`
+              ? `bg-yellow-400` :
+              item?.status === "Disqualified" ? `bg-red-500` :
+                item?.status === "L1" ? `bg-blue-500` :
+                  item?.status === "Cancelled" ? `#f97316` :
+                    item?.status === "FinancialEvaluation" ? `#8b5cf6` :
+                      item?.status === "TechnicalEvaluation" ? `#e879f9` :
+                        item?.status === "BidAwarded" ? `#9333ea`
+                          : `bg-green-500`
               }`}
           >
-            <span className="text-xs text-white tracking-wide">
+            <span className="text-xs font-semibold text-white tracking-wide">
               {item?.status}
             </span>
           </div>
