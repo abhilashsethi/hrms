@@ -1,8 +1,12 @@
 import {
 	ACCEPTED_QUOTATION,
+	ADVANCE_BILLS,
 	MODIFIED_QUOTATION,
+	PAID_BILLS,
 	REJECTED_QUOTATION,
+	TOTAL_BILLS,
 	TOTAL_QUOTATION,
+	UNPAID_BILLS,
 } from "assets/dashboard_Icons";
 import Link from "next/link";
 
@@ -14,33 +18,33 @@ const BillsDashboardCard = ({ data, branch }: Props) => {
 	const cards = [
 		{
 			id: 1,
-			name: "Total Quotation",
-			count: data?.totalAsset ? data?.totalAsset : 0,
-			icon: <img src={TOTAL_QUOTATION.src} className="w-16" alt="" />,
+			name: "Total Bills",
+			count: 0,
+			icon: <img src={TOTAL_BILLS.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-blue-600 to-cyan-400",
 			link: "/admin/assets/all-assets",
 		},
 		{
 			id: 2,
-			name: "Total Accepted Quotation",
-			count: data?.totalAssignAsset ? data?.totalAssignAsset : 0,
-			icon: <img src={ACCEPTED_QUOTATION.src} className="w-16" alt="" />,
+			name: "Total Unpaid Bills",
+			count: 0,
+			icon: <img src={UNPAID_BILLS.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-green-500 to-emerald-400",
 			link: "/admin/assets/all-assets",
 		},
 		{
 			id: 3,
-			name: "Total Rejected Quotation",
-			count: data?.totalNotAssignedAsset ? data?.totalNotAssignedAsset : 0,
-			icon: <img src={REJECTED_QUOTATION.src} className="w-16" alt="" />,
+			name: "Total Advance Bills",
+			count: 0,
+			icon: <img src={ADVANCE_BILLS.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-orange-500 to-yellow-400",
 			link: "/admin/assets/all-assets",
 		},
 		{
 			id: 4,
-			name: "Total Modified Quotation",
-			count: branch?.totalBranchCount,
-			icon: <img src={MODIFIED_QUOTATION.src} className="w-16" alt="" />,
+			name: "Total Paid Bills",
+			count: 0,
+			icon: <img src={PAID_BILLS.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
 			link: "/admin/branch/all-branch",
 		},
