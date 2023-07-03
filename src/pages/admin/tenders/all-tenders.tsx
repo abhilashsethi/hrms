@@ -139,6 +139,9 @@ const AllTenders = () => {
               size="small"
               id="submissionDate"
               type="date"
+              InputLabelProps={{
+                shrink: true,
+              }}
               label="Submission Date"
               value={
                 isSubmissionDate ? moment(isSubmissionDate).format("YYYY-MM-DD") : null
