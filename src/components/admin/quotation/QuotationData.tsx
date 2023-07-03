@@ -1,5 +1,11 @@
-import { BorderColor } from "@mui/icons-material";
-import { Button, Grid, Tooltip, useMediaQuery } from "@mui/material";
+import { BorderColor, Edit } from "@mui/icons-material";
+import {
+	Button,
+	Grid,
+	IconButton,
+	Tooltip,
+	useMediaQuery,
+} from "@mui/material";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
 import { Loader, PhotoViewer } from "components/core";
@@ -20,6 +26,7 @@ import EditMeetingDetails from "components/dialogues/EditMeetingDetails";
 import { useTheme } from "@emotion/react";
 import moment from "moment";
 import Swal from "sweetalert2";
+import { TenderLayout } from "components/tender";
 
 const QuotationData = () => {
 	const router = useRouter();
@@ -47,6 +54,43 @@ const QuotationData = () => {
 	if (isLoading) {
 		return <Loader />;
 	}
+	const basicDetails = [
+		{
+			id: 1,
+			title: "Tender No",
+			// value: tenderData?.tenderNo || "---"
+		},
+		{
+			id: 2,
+			title: "Tender Title",
+			// value: tenderData?.title || "---",
+		},
+		{
+			id: 3,
+			title: "Portal",
+			// value: tenderData?.portal || "---",
+		},
+		{
+			id: 4,
+			title: "Tender Category",
+			// value: tenderData?.category || "---",
+		},
+		{
+			id: 5,
+			title: "Submission Date",
+			// value: `${moment(tenderData?.submissionDate).format("ll")}` || "---",
+		},
+		{
+			id: 6,
+			title: "Submission Time",
+			// value: tenderData?.submissionTime || "---",
+		},
+		{
+			id: 7,
+			title: "Bid Value in ₹",
+			// value: tenderData?.bidValue || "---",
+		},
+	];
 
 	return (
 		<section>
@@ -75,152 +119,47 @@ const QuotationData = () => {
 				meetingDetails={meetingDetails}
 				mutate={mutate}
 			/>
-			<section className="mb-12 flex gap-3">
-				<div className="w-full m-auto rounded-lg bg-white shadow-xl lg:p-4 p-1 px-2">
-					<div className="w-full bg-blue-100/50 rounded-lg lg:p-4 p-1">
-						<div className="grid lg:grid-cols-2 gap-5">
-							<div>
-								<div className="flex justify-end">
-									<Button
-										variant="contained"
-										className="!bg-blue-500 "
-										startIcon={<BorderColor />}
-										size="small"
-										onClick={() => setEditDetails((prev) => !prev)}
-									>
-										Edit
-									</Button>
-								</div>
-								<div>
-									<div className="pb-1 lg:text-base text-sm font-semibold md:flex">
-										<p>Meeting Name : </p>
-										<span className="md:text-base text-sm font-normal">
-											{meetingDetails?.title}
-										</span>
-									</div>
-									<div className="py-1 group flex items-center gap-x-2 tracking-wide">
-										{/* <p className=" font-semibold">Time</p> : <AccessTime /> */}
-										<div className="md:flex py-2 md:py-0">
-											<p className="font-semibold text-sm md:text-base">
-												Meeting Start Dt :{" "}
-											</p>
-											{/* <AccessTime /> */}
-											<span className="text-sm md:text-base">{`${moment(
-												meetingDetails?.meetingStartTime
-											).format("LL")}, ${moment(
-												meetingDetails?.meetingStartTime
-											).format("LT")}`}</span>
-										</div>
-									</div>
-									<div className="md:flex py-2 md:py-0">
-										<p className="font-semibold text-sm md:text-base">
-											Meeting End Dt :{" "}
-										</p>
-										{/* <AccessTime /> */}
-										<span className="text-sm md:text-base">
-											{`${moment(meetingDetails?.meetingEndTime).format(
-												"LL"
-											)}, ${moment(meetingDetails?.meetingEndTime).format(
-												"LT"
-											)}`}
-										</span>
-									</div>
-									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">
-										<p className="md:text-base text-sm font-semibold">
-											Client Name:
-										</p>{" "}
-										:{" "}
-										<span className="md:text-base text-sm">
-											{meetingDetails?.clientName}
-										</span>
-									</div>
-									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">
-										<p className="lg:text-base text-sm font-semibold">
-											Client Email
-										</p>{" "}
-										:{" "}
-										<span className="md:text-base text-sm">
-											{meetingDetails?.clientEmail}
-										</span>
-									</div>
-									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">
-										<p className=" font-semibold md:text-base text-sm">
-											Client Phone
-										</p>{" "}
-										:{" "}
-										<span className="md:text-base text-sm">
-											{meetingDetails?.clientPhone}
-										</span>
-									</div>
 
-									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">
-										<p className=" font-semibold md:text-base text-sm">
-											Members Visited
-										</p>{" "}
-										:{" "}
-										<span className="md:text-base text-sm">
-											{meetingDetails?.meetingPersonName}
-										</span>
-									</div>
-									<div className="w-full">
-										<div className="flex justify-end">
-											<Button
-												variant="contained"
-												className="!bg-blue-500 "
-												// startIcon={<Add />}
-												size="small"
-												onClick={() => setTickets(true)}
-											>
-												View Notes
-											</Button>
-										</div>
-										<p className="font-semibold pb-3">Documents :</p>
-										<div className="grid grid-cols-3 w-2/3 gap-6">
-											{meetingDetails?.docs.map((item: any, i: any) => {
-												return (
-													<Tooltip title="Click to Preview">
-														<div key={i} className="cursor-pointer">
-															<a
-																target="_blank"
-																className="cursor-pointer flex flex-col items-center justify-center"
-																href={`${item?.link}`}
-															>
-																<img
-																	className="w-12"
-																	src={
-																		item?.docType === "pdf"
-																			? PDF.src
-																			: item?.docType === "img"
-																			? IMG.src
-																			: DOC.src
-																	}
-																	alt=""
-																/>
-
-																<p className="text-xs">{item?.title}</p>
-															</a>
-														</div>
-													</Tooltip>
-												);
-											})}
-										</div>
-									</div>
-								</div>
-							</div>
-							<Grid item lg={7}>
-								<div className="w-full h-full">
-									<iframe
-										className="w-full h-full"
-										src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.0498150250405!2d85.77649581162628!3d20.25676868112798!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a740ae304117%3A0x629ce9db127f69ef!2sSearchingYard%20Software%20Group!5e0!3m2!1sen!2sin!4v1682685199057!5m2!1sen!2sin"
-										loading="lazy"
-										referrerPolicy="no-referrer-when-downgrade"
-									></iframe>
-								</div>
-							</Grid>
-						</div>
+			<div className="mt-8">
+				<TenderLayout title="Basic Details">
+					<div className="flex justify-end absolute right-[10px] top-[10px]">
+						<Tooltip title="Edit">
+							<IconButton
+								size="small"
+								onClick={() => {
+									// setIsUpdate({ dialogue: true, tenderData: tenderData });
+								}}
+							>
+								<Edit />
+							</IconButton>
+						</Tooltip>
 					</div>
-				</div>
-			</section>
+					<table className="w-full">
+						<tbody>
+							<tr>
+								<td className="w-1/5 text-sm font-semibold py-2">Status</td>
+								<td className="w-3/5">
+									<span className="text-sm py-1 px-2 text-white tracking-wide shadow-md bg-yellow-500 rounded-md">
+										{/* {tenderData?.status} */}
+									</span>
+								</td>
+							</tr>
+							{basicDetails?.map((item) => (
+								<tr>
+									<td className="w-1/5 text-sm font-semibold py-2">
+										{item?.title}
+									</td>
+									<td className="w-3/5">
+										<span className="text-sm text-gray-600 py-2">
+											{/* {item?.value} */}
+										</span>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</TenderLayout>
+			</div>
 		</section>
 	);
 };
