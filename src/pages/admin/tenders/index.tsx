@@ -9,7 +9,6 @@ import { CommonBarChart, CommonDonutChart } from "components/analytics";
 import { AdminBreadcrumbs, DashboardCard } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { useMemo } from "react";
 import { Tender } from "types";
 
 const TenderDashboard = () => {
@@ -19,9 +18,6 @@ const TenderDashboard = () => {
   } = useFetch<any>(
     `tenders/get/dashboard/info`
   );
-  console.log("tenderData", tenderData);
-  console.log("tenderCount", tenderData?.tenderCount);
-  console.log("totalOpenTenderCount", tenderData?.totalOpenTenderCount);
   const cards = [
     {
       id: 1,
