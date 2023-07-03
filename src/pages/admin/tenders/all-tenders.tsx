@@ -134,20 +134,18 @@ const AllTenders = () => {
               placeholder="Portal"
               name="portal"
             />
-            <div>
-              <p className="py-1 text-sm">Submission Date</p>
-              <TextField
-                fullWidth
-                size="small"
-                id="submissionDate"
-                type="date"
-                value={isSubmissionDate ? isSubmissionDate : ""}
-                onChange={(e) => {
-                  setPageNumber(1), setIsSubmissionDate(e.target.value);
-                }}
-                name="submissionDate"
-              />
-            </div>
+            <TextField
+              fullWidth
+              size="small"
+              id="submissionDate"
+              type="date"
+              label="Submission Date"
+              value={isSubmissionDate ? isSubmissionDate : ""}
+              onChange={(e) => {
+                setPageNumber(1), setIsSubmissionDate(e.target.value);
+              }}
+              name="submissionDate"
+            />
             <TextField
               fullWidth
               select
