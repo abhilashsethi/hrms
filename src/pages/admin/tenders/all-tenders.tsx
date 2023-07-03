@@ -25,13 +25,12 @@ const AllTenders = () => {
     isLoading,
     pagination,
   } = useFetch<Tender[]>(
-    `tenders?page=${pageNumber}&limit=8
-    ${tenderName ? `&title=${tenderName}` : ""}
-    ${tenderNo ? `&tenderNo=${tenderNo}` : ""}
-    ${isOrderBy ? `&orderBy=${isOrderBy}` : ""}
-    ${isCategory ? `&category=${isCategory}` : ""}
-    ${isSubmissionDate ? `&submissionDate=${isSubmissionDate}` : ""}
-    ${isPortal ? `&portal=${isPortal}` : ""}`
+    `tenders?page=${pageNumber}&limit=8${tenderName ? `&title=${tenderName}` : ""
+    }${tenderNo ? `&tenderNo=${tenderNo}` : ""
+    }${isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    }${isCategory ? `&category=${isCategory}` : ""
+    }${isSubmissionDate ? `&submissionDate=${isSubmissionDate}` : ""
+    }${isPortal ? `&portal=${isPortal}` : ""}`
   );
 
   return (
@@ -135,6 +134,9 @@ const AllTenders = () => {
               placeholder="Portal"
               name="portal"
             />
+            <div className="py-1 text-sm">
+              <p>Submission Date</p>
+            </div>
             <TextField
               fullWidth
               size="small"
