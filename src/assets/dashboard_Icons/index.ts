@@ -46,3 +46,7 @@ export { default as TOTAL_QUOTATION } from "./totalQuotation.png";
 export { default as ACCEPTED_QUOTATION } from "./acceptedQuotation.png";
 export { default as REJECTED_QUOTATION } from "./rejectedQuotation.png";
 export { default as MODIFIED_QUOTATION } from "./modifiedQuotation.png";
+export { default as TOTAL_BILLS } from "./total_bills.png";
+export { default as UNPAID_BILLS } from "./unpaid_bill.png";
+export { default as PAID_BILLS } from "./paid_bill.png";
+export { default as ADVANCE_BILLS } from "./advance_bill.png";
