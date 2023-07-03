@@ -29,7 +29,7 @@ const AllTenders = () => {
     }${tenderNo ? `&tenderNo=${tenderNo}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }${isCategory ? `&category=${isCategory}` : ""
-    }${isSubmissionDate ? `&submissionDate=${isSubmissionDate.toISOString().slice(0, 10)}` : null
+    }${isSubmissionDate ? `&submissionDate=${isSubmissionDate}` : ""
     }${isPortal ? `&portal=${isPortal}` : ""}`
   );
 
@@ -140,9 +140,11 @@ const AllTenders = () => {
               id="submissionDate"
               type="date"
               label="Submission Date"
-              value={isSubmissionDate ? isSubmissionDate : ""}
+              value={
+                isSubmissionDate ? moment(isSubmissionDate).format("YYYY-MM-DD") : null
+              }
               onChange={(e) => {
-                setPageNumber(1), setIsSubmissionDate(e.target.value);
+                setPageNumber(1), setIsSubmissionDate(new Date(e.target.value).toISOString());
               }}
               name="submissionDate"
             />
