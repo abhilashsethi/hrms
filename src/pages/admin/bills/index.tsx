@@ -1,4 +1,5 @@
 import { DashboardSkeletonLoading } from "components/admin/assets";
+import { BillsDashboardCard } from "components/admin/bills";
 import {
 	QuotationDashboardCard,
 	QuotationDashboardCharts,
@@ -13,7 +14,7 @@ const index = () => {
 	);
 	const { data: dashboardData } = useFetch<any>(`assets/dashboard/details`);
 	return (
-		<PanelLayout title="All Branches - Admin Panel">
+		<PanelLayout title="All Bills - Admin Panel">
 			<>
 				<section className="lg:px-8 px-4 py-4">
 					<AdminBreadcrumbs links={links} />
@@ -21,7 +22,7 @@ const index = () => {
 						<DashboardSkeletonLoading />
 					) : (
 						<>
-							<QuotationDashboardCard
+							<BillsDashboardCard
 								data={dashboardData}
 								branch={branchDashboard}
 							/>
@@ -35,4 +36,4 @@ const index = () => {
 };
 
 export default index;
-const links = [{ id: 1, page: "Quotation", link: "/admin/quotation" }];
+const links = [{ id: 1, page: "Bills", link: "/admin/bills" }];
