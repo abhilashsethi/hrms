@@ -13,35 +13,61 @@ import {
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import { useRef, useState } from "react";
+import Swal from "sweetalert2";
+import { Tender } from "types";
 import * as Yup from "yup";
 
 interface Props {
-  open: any;
-  handleClose: any;
-  mutate?: any;
-  tenderData?: any;
+  open: boolean;
+  handleClose: () => void;
+  mutate: () => void;
+  tenderData?: Tender;
 }
 
 const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { data: branchData } = useFetch<any>(`branches`);
-  const imageRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
 
   const initialValues = {
-    note: "",
+    description: "",
   };
 
   const validationSchema = Yup.object().shape({
-    note: Yup.string().required("Note is required!"),
-
+    description: Yup.string().required("Note is required!"),
   });
 
   const handleSubmit = async (values: any) => {
     setLoading(true);
     console.log(values);
-    return
+    try {
+      const res = await change(`tenders/add/note/to/tender?tenderId=${tenderData?.id}`, {
+        method: "PATCH",
+        body: {
+          description: values?.description,
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.msg || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully created!`, `success`);
+      mutate()
+      handleClose()
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <>
       <Dialog
@@ -100,13 +126,13 @@ const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
                         multiline
                         rows={4}
                         placeholder="Add Some Note"
-                        id="note"
-                        name="note"
-                        value={values.note}
+                        id="description"
+                        name="description"
+                        value={values.description}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.note && !!errors.note}
-                        helperText={touched.note && errors.note}
+                        error={touched.description && !!errors.description}
+                        helperText={touched.description && errors.description}
                       />
                     </div>
 

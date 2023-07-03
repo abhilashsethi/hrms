@@ -26,6 +26,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
 import * as Yup from "yup";
+import { clock } from "utils";
 import TenderLayout from "./TenderLayout";
 interface Props {
   tenderData?: Tender;
@@ -56,13 +57,10 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
     tenderData?: Tender;
   }>({ dialogue: false, tenderData: {} });
   const [isCreateNote, setIsCreateNote] = useState<{
-    dialogue?: boolean;
-    tenderData?: any | null;
-  }>({ dialogue: false, tenderData: null });
-  const [isUpdateNote, setIsUpdateNote] = useState<{
-    dialogue?: boolean;
-    tenderData?: any | null;
-  }>({ dialogue: false, tenderData: null });
+    dialogue: boolean;
+    tenderData?: Tender;
+  }>({ dialogue: false, tenderData: {} });
+
   const handleRemove = async (item: Tender) => {
     try {
       Swal.fire({
@@ -124,6 +122,39 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
       setLoading(false);
     }
   };
+  const handleDelete = async (item: Tender) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: `You want to delete ${item?.title}?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          const res = await change(`tenders/remove/note/from/tender?tenderId=${tenderData?.id}`, {
+            method: "DELETE",
+            body: {
+              noteId: item?.id,
+            }
+          });
+
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, `${res?.results?.msg}`, "error");
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <section>
       <AddTenderTrackMember
@@ -142,14 +173,9 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
         tenderData={isCreateNote?.tenderData}
         open={isCreateNote?.dialogue}
         handleClose={() => setIsCreateNote({ dialogue: false })}
-      // mutate={mutate}
+        mutate={mutate}
       />
-      <UpdateTenderNote
-        tenderData={isUpdateNote?.tenderData}
-        open={isUpdateNote?.dialogue}
-        handleClose={() => setIsUpdateNote({ dialogue: false })}
-      // mutate={mutate}
-      />
+
       <h1 className="text-theme font-semibold">Assigned Member</h1>
       {tenderData?.members?.length ?
         <>
@@ -366,39 +392,43 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
             variant="contained"
             className="!bg-theme"
             onClick={() => {
-              setIsCreateNote({ dialogue: true, tenderData: documents });
+              setIsCreateNote({ dialogue: true, tenderData: tenderData });
             }}>
             Create Note
           </Button>
         </div>
-        <div className="border-2 w-full rounded-md p-2">
-          <div className="w-full p-4 border-[1px] border-theme rounded-md">
-            <p className="text-sm tracking-wide">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Consequatur magni, quos libero necessitatibus saepe quidem totam
-              obcaecati sint nemo nam in doloribus voluptate adipisci
-              accusantium?
-            </p>
-            <div className="flex justify-between items-end">
-              <div className="flex gap-1 justify-start">
-                <Tooltip title="Edit">
-                  <IconButton size="small" onClick={() => {
-                    setIsUpdateNote({ dialogue: true, tenderData: documents });
-                  }}>
-                    <Edit />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Delete">
-                  <IconButton size="small">
-                    <Delete />
-                  </IconButton>
-                </Tooltip>
-              </div>
-              <span className="text-xs">
-                {moment(new Date()).format("lll")}
-              </span>
-            </div>
-          </div>
+        <div className="border-2 py-4 px-2 grid gap-2 h-[60vh] overflow-scroll w-full rounded-md p-2">
+          {tenderData?.notes?.length ?
+            <>
+              {tenderData?.notes?.sort(
+                (a: any, b: any) =>
+                  (new Date(b?.createdAt) as any) -
+                  (new Date(a?.createdAt) as any)
+              )?.map((item) => (
+                <>
+                  <div className="w-full p-4 border-[1px] border-theme rounded-md">
+                    <p className="text-sm tracking-wide">
+                      {item?.description}
+                    </p>
+                    <div className="flex justify-between items-end">
+                      <div className="flex gap-1 justify-start">
+                        <Tooltip title="Delete">
+                          <IconButton size="small">
+                            <Delete
+                              onClick={() => handleDelete(item)}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                      <span className="text-xs">
+                        {clock(item?.createdAt).fromNow()}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              ))}
+            </>
+            : <p>No Note Available</p>}
         </div>
       </div>
     </section>

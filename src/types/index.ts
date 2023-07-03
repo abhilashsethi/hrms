@@ -282,6 +282,12 @@ export interface TenderMember {
 	isAllowedToTrackTender: boolean;
 	member: User;
 }
+export interface TenderNote {
+	id?: string;
+	createdAt: Date;
+	title?: string;
+	description?: string;
+}
 export type Tender = {
 	id?: string;
 	name?: string;
@@ -297,6 +303,7 @@ export type Tender = {
 	bidValue?: string;
 	members?: TenderMember[];
 	status?: string;
+	notes?: TenderNote[];
 	EmdAmount?: number,
 	tenderFees?: number,
 	feesPaymentMode?: string,
