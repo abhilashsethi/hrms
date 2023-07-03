@@ -32,20 +32,13 @@ const BillsDashboardCharts = ({ data }: Props) => {
 					/>
 				</div>
 				<div className="px-2 py-4 pt-9 bg-white w-full gap-5 !border-grey-500 rounded-xl !shadow-xl">
-					<p className="text-center text-lg font-bold">Quotation Overview</p>
+					<p className="text-center text-lg font-bold">Bill Overview</p>
 					<ClientLineCharts
-						labels={["Accepted", "Rejected", "Modified"]}
+						labels={["Unpaid Bills", "Advance Bills", "Paid Bills"]}
 						series={[55, 20, 25]}
 						text=""
 						type="donut"
-						colors={[
-							"#106EAD",
-							"#C33C5E",
-							"#25d366",
-							"#BD33B5",
-							"#E60023",
-							"#005d32",
-						]}
+						colors={["#106EAD", "#C33C5E", "#25d366"]}
 					/>
 				</div>
 			</div>

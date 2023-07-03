@@ -1,11 +1,7 @@
 import {
-	ACCEPTED_QUOTATION,
 	ADVANCE_BILLS,
-	MODIFIED_QUOTATION,
 	PAID_BILLS,
-	REJECTED_QUOTATION,
 	TOTAL_BILLS,
-	TOTAL_QUOTATION,
 	UNPAID_BILLS,
 } from "assets/dashboard_Icons";
 import Link from "next/link";

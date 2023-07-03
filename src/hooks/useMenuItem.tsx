@@ -1,4 +1,5 @@
 import {
+	Add,
 	Leaderboard,
 	MedicalInformationRounded,
 	Receipt,
@@ -372,10 +373,16 @@ export default () => {
 			icon: <ICONS.Technology />,
 			submenus: [
 				{
-					key: "12-1",
+					key: "17ABH-1",
 					title: "Dashboard",
 					icon: <ICONS.Dashboard_1 />,
 					route: "/admin/bills",
+				},
+				{
+					key: "17ABH-2",
+					title: "Create Bill",
+					icon: <Add />,
+					route: "/admin/bills/create-bill",
 				},
 			],
 		},
