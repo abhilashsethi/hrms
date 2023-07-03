@@ -16,7 +16,7 @@ const AllTenders = () => {
   const [isCategory, setIsCategory] = useState<string | null>(null);
   const [tenderNo, setTenderNo] = useState<string | null>(null);
   const [tenderName, setTenderName] = useState<string | null>(null);
-  const [isSubmissionDate, setIsSubmissionDate] = useState<string | null>(null);
+  const [isSubmissionDate, setIsSubmissionDate] = useState<any>(new Date());
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const {
@@ -29,7 +29,7 @@ const AllTenders = () => {
     }${tenderNo ? `&tenderNo=${tenderNo}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }${isCategory ? `&category=${isCategory}` : ""
-    }${isSubmissionDate ? `&submissionDate=${isSubmissionDate}` : ""
+    }${isSubmissionDate ? `&submissionDate=${isSubmissionDate.toISOString().slice(0, 10)}` : null
     }${isPortal ? `&portal=${isPortal}` : ""}`
   );
 
@@ -134,20 +134,20 @@ const AllTenders = () => {
               placeholder="Portal"
               name="portal"
             />
-            <div className="py-1 text-sm">
-              <p>Submission Date</p>
+            <div>
+              <p className="py-1 text-sm">Submission Date</p>
+              <TextField
+                fullWidth
+                size="small"
+                id="submissionDate"
+                type="date"
+                value={isSubmissionDate ? isSubmissionDate : ""}
+                onChange={(e) => {
+                  setPageNumber(1), setIsSubmissionDate(e.target.value);
+                }}
+                name="submissionDate"
+              />
             </div>
-            <TextField
-              fullWidth
-              size="small"
-              id="submissionDate"
-              type="date"
-              value={isSubmissionDate ? isSubmissionDate : ""}
-              onChange={(e) => {
-                setPageNumber(1), setIsSubmissionDate(e.target.value);
-              }}
-              name="submissionDate"
-            />
             <TextField
               fullWidth
               select
