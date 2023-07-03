@@ -270,7 +270,7 @@ export type BranchDashboard = {
 };
 export interface TenderDocumentType {
 	id?: string;
-	link?: string;
+	link: string;
 	title?: string;
 	createdAt?: string;
 }

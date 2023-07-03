@@ -4,6 +4,7 @@ import { CHATDOC } from "assets/home";
 import {
   AddTenderDocument,
   UpdateTenderBasicDetails,
+  UpdateTenderDocument,
   UpdateTenderEMDDetails,
   UpdateTenderFeeDetails
 } from "components/dialogues";
@@ -18,14 +19,13 @@ interface Props {
   tenderData?: Tender;
   mutate: () => void;
 }
-interface DeleteDoc {
+interface TenderDoc {
   link?: any;
   title?: string;
   id?: string;
 }
 const TenderDetail = ({ tenderData, mutate }: Props) => {
   const { change } = useChange();
-  const { user } = useAuth();
   console.log("Get by Id", { tenderData });
   const basicDetails = [
     {
@@ -108,7 +108,11 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
     dialogue: boolean;
     tenderData?: Tender;
   }>({ dialogue: false, tenderData: {} });
-  const handleDelete = async (item: DeleteDoc) => {
+  const [isUpdateDocument, setIsUpdateDocument] = useState<{
+    dialogue: boolean;
+    tenderData?: TenderDoc;
+  }>({ dialogue: false, tenderData: {} });
+  const handleDelete = async (item: TenderDoc) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -164,6 +168,12 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
         tenderData={isDocument?.tenderData}
         open={isDocument?.dialogue}
         handleClose={() => setIsDocument({ dialogue: false })}
+        mutate={mutate}
+      />
+      <UpdateTenderDocument
+        tenderData={isUpdateDocument?.tenderData}
+        open={isUpdateDocument?.dialogue}
+        handleClose={() => setIsUpdateDocument({ dialogue: false })}
         mutate={mutate}
       />
       <div className="flex justify-end">
@@ -310,13 +320,30 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
                               src={CHATDOC.src}
                               alt=""
                             />
+                            <p className="text-xs">
+                              {item?.link?.slice(0, 9)}
+                              {item?.link?.length > 9 ? "..." : null}
+                            </p>
                           </div>
                         </td>
                         <td align="center" className="w-[20%] text-sm">
                           <div className="flex gap-1 py-2 justify-center">
                             <Tooltip title="Download Document">
-                              <IconButton size="small">
-                                <Download />
+                              <a
+                                className="cursor-pointer flex flex-col items-center justify-center"
+                                href={`${item?.link}`}
+                              >
+                                <IconButton size="small">
+                                  <Download />
+                                </IconButton>
+                              </a>
+                            </Tooltip>
+                            <Tooltip title="Edit Document">
+                              <IconButton size="small"
+                                onClick={() => {
+                                  setIsUpdateDocument({ dialogue: true, tenderData: item });
+                                }}>
+                                <Edit />
                               </IconButton>
                             </Tooltip>
                             <Tooltip title="Delete Document">

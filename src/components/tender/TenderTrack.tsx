@@ -4,7 +4,6 @@ import {
   Create,
   Delete,
   Download,
-  Edit,
   Person
 } from "@mui/icons-material";
 import {
@@ -18,15 +17,14 @@ import {
 } from "@mui/material";
 import { CHATDOC } from "assets/home";
 import { PhotoViewerSmall } from "components/core";
-import { AddTenderDocument, AddTenderTrackMember, TenderCreateNote, UpdateTenderNote } from "components/dialogues";
+import { AddTenderDocument, AddTenderTrackMember, TenderCreateNote } from "components/dialogues";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
-import * as Yup from "yup";
 import { clock } from "utils";
+import * as Yup from "yup";
 import TenderLayout from "./TenderLayout";
 interface Props {
   tenderData?: Tender;
@@ -428,7 +426,11 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
                 </>
               ))}
             </>
-            : <p>No Note Available</p>}
+            :
+            <div className="grid justify-center justify-items-center px-4 py-4">
+              <p>No Note Available</p>
+            </div>
+          }
         </div>
       </div>
     </section>

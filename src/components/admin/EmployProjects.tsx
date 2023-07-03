@@ -1,9 +1,7 @@
-import { HeadText, NoDatas } from "components/core";
-import moment from "moment";
 import { AccountTreeRounded } from "@mui/icons-material";
-import { status } from "nprogress";
+import { HeadText, NoDatas } from "components/core";
 import { useFetch } from "hooks";
-import { useState } from "react";
+import moment from "moment";
 
 type Props = {
 	projectDetails?: any;
@@ -14,7 +12,6 @@ const EmployProjects = ({ projectDetails, userName }: Props) => {
 	const { data: projectData } = useFetch<any>(
 		`projects?memberName=${userName}`
 	);
-	console.log(projectData);
 	return (
 		<section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
 			<HeadText title="Latest Projects" />
@@ -37,13 +34,12 @@ const EmployProjects = ({ projectDetails, userName }: Props) => {
 										: item?.name}
 								</p>
 								<span
-									className={`py-1 px-3 rounded-md  ${
-										item?.status === "Rejected"
-											? "bg-red-500"
-											: item?.status === "Pending"
+									className={`py-1 px-3 rounded-md  ${item?.status === "Rejected"
+										? "bg-red-500"
+										: item?.status === "Pending"
 											? "bg-yellow-500"
 											: "bg-green-500"
-									} tracking-wide text-white text-xs font-semibold`}
+										} tracking-wide text-white text-xs font-semibold`}
 								>
 									{item?.status}
 								</span>
@@ -64,23 +60,4 @@ const EmployProjects = ({ projectDetails, userName }: Props) => {
 
 export default EmployProjects;
 
-const cards = [
-	{
-		id: 1,
-		title: "HRMS for SY",
-		deadline: "May 10, 2023",
-		status: "COMPLETED",
-	},
-	{
-		id: 2,
-		title: "Yard ERP",
-		deadline: "May 10, 2023",
-		status: "COMPLETED",
-	},
-	{
-		id: 3,
-		title: "Yard CRM",
-		deadline: "May 10, 2023",
-		status: "COMPLETED",
-	},
-];
+
