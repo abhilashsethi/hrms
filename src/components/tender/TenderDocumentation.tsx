@@ -1,4 +1,4 @@
-import { Add, Check, Delete, Download, Person } from "@mui/icons-material";
+import { Add, Check, Delete, Download, Edit, Person } from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { CHATDOC } from "assets/home";
 import { Loader, PhotoViewerSmall } from "components/core";
-import { AddTenderDocument, AddTenderDocumentationMember } from "components/dialogues";
+import { AddTenderDocument, AddTenderDocumentationMember, UpdateTenderDocument } from "components/dialogues";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -20,10 +20,16 @@ import Swal from "sweetalert2";
 import { Tender } from "types";
 import * as Yup from "yup";
 import TenderLayout from "./TenderLayout";
+import { deleteFile } from "utils";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;
   isLoading?: boolean;
+}
+interface TenderDoc {
+  link?: any;
+  title?: string;
+  id?: string;
 }
 const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
   const { change } = useChange();
@@ -51,6 +57,10 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
   const [isMember, setIsMember] = useState<{
     dialogue: boolean;
     tenderData?: Tender;
+  }>({ dialogue: false, tenderData: {} });
+  const [isUpdateDocument, setIsUpdateDocument] = useState<{
+    dialogue: boolean;
+    tenderData?: TenderDoc;
   }>({ dialogue: false, tenderData: {} });
   const handleRemove = async (item: Tender) => {
     try {
@@ -112,6 +122,38 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
       setLoading(false);
     }
   };
+  const handleDelete = async (item: TenderDoc) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: `You want to delete ${item?.title}?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          const res = await change(`tenders/remove/document?tenderId=${tenderData?.id}&docId=${item?.id}`, {
+            method: "DELETE",
+          });
+          if (item?.id) {
+            await deleteFile(String(item?.link?.split("/").reverse()[0]));
+          }
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (isLoading) {
     return (
       <section className="min-h-screen">
@@ -121,6 +163,12 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
   }
   return (
     <section>
+      <UpdateTenderDocument
+        tenderData={isUpdateDocument?.tenderData}
+        open={isUpdateDocument?.dialogue}
+        handleClose={() => setIsUpdateDocument({ dialogue: false })}
+        mutate={mutate}
+      />
       <AddTenderDocument
         tenderData={isDocument?.tenderData}
         open={isDocument?.dialogue}
@@ -255,18 +303,37 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                               src={CHATDOC.src}
                               alt=""
                             />
+                            <p className="text-xs">
+                              {item?.link?.slice(0, 9)}
+                              {item?.link?.length > 9 ? "..." : null}
+                            </p>
                           </div>
                         </td>
                         <td align="center" className="w-[20%] text-sm">
                           <div className="flex gap-1 py-2 justify-center">
                             <Tooltip title="Download Document">
-                              <IconButton size="small">
-                                <Download />
+                              <a
+                                className="cursor-pointer flex flex-col items-center justify-center"
+                                href={`${item?.link}`}
+                              >
+                                <IconButton size="small">
+                                  <Download />
+                                </IconButton>
+                              </a>
+                            </Tooltip>
+                            <Tooltip title="Edit Document">
+                              <IconButton size="small"
+                                onClick={() => {
+                                  setIsUpdateDocument({ dialogue: true, tenderData: item });
+                                }}>
+                                <Edit />
                               </IconButton>
                             </Tooltip>
                             <Tooltip title="Delete Document">
                               <IconButton size="small">
-                                <Delete />
+                                <Delete
+                                  onClick={() => handleDelete(item)}
+                                />
                               </IconButton>
                             </Tooltip>
                           </div>
