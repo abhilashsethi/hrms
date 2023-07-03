@@ -3,6 +3,7 @@ import {
 	Leaderboard,
 	MedicalInformationRounded,
 	Receipt,
+	ReceiptLong,
 	Send,
 } from "@mui/icons-material";
 import ICONS from "assets/icons";
@@ -370,7 +371,7 @@ export default () => {
 		{
 			key: "17ABH",
 			title: "Bills",
-			icon: <ICONS.Technology />,
+			icon: <ReceiptLong />,
 			submenus: [
 				{
 					key: "17ABH-1",

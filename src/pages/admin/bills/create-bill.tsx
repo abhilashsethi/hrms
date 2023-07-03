@@ -20,7 +20,7 @@ import * as Yup from "yup";
 // import PayrollInputField from "./PayrollInputField";
 
 const CreateBills = () => {
-	const [fields, setFields] = useState<any>([]);
+	const [fields, setFields] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
 	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
@@ -203,7 +203,7 @@ const CreateBills = () => {
 												</div>
 												<div className="md:px-4 px-2 md:py-2 py-1">
 													<div className="md:py-2 py-1">
-														<InputLabel htmlFor="clientName">
+														<InputLabel htmlFor="invoiceNumber">
 															Invoice Number{" "}
 															<span className="text-red-600">*</span>
 														</InputLabel>
@@ -211,14 +211,18 @@ const CreateBills = () => {
 													<TextField
 														fullWidth
 														size="small"
-														id="clientName"
-														// placeholder="clientName"
-														name="clientName"
-														value={values.clientName}
+														id="invoiceNumber"
+														// placeholder="invoiceNumber"
+														name="invoiceNumber"
+														value={values.invoiceNumber}
 														onChange={handleChange}
 														onBlur={handleBlur}
-														error={touched.clientName && !!errors.clientName}
-														helperText={touched.clientName && errors.clientName}
+														error={
+															touched.invoiceNumber && !!errors.invoiceNumber
+														}
+														helperText={
+															touched.invoiceNumber && errors.invoiceNumber
+														}
 													/>
 												</div>
 
