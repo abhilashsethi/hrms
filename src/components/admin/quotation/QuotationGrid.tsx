@@ -4,12 +4,14 @@ import {
 	Delete,
 	Download,
 	Email,
+	Info,
 	Person,
 } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { QUOTATION } from "assets/home";
 import { PhotoViewerGuests } from "components/core";
 import { useChange } from "hooks";
+import { useRouter } from "next/router";
 import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
 
@@ -38,6 +40,8 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 		id?: string | null;
 	}>({ dialogue: false, id: null });
 
+	const router = useRouter();
+
 	return (
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
@@ -50,8 +54,11 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 							</p>
 							<div className="absolute right-0 rounded-tl-lg top-24 z-50 bg-gradient-to-r from-rose-100 to-teal-100 p-2">
 								<div className="flex">
-									<Tooltip title="Edit">
+									<Tooltip title="Details">
 										<Avatar
+											onClick={() =>
+												router.push("/admin/quotation/quotation-details")
+											}
 											variant="rounded"
 											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-yellow-500 !p-0"
 											sx={{
@@ -64,7 +71,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 												height: 30,
 											}}
 										>
-											<BorderColor
+											<Info
 												sx={{ padding: "0px !important" }}
 												fontSize="small"
 											/>

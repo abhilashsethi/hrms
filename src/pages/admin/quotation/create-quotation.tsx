@@ -61,11 +61,11 @@ const CreateQuotation = () => {
 					<AdminBreadcrumbs links={links} />
 				</div>
 				<section className="w-full px-0 md:py-4 py-2 flex justify-center items-center">
-					<div className="md:w-[70rem] w-full bg-white md:px-4 py-4 px-2 tracking-wide rounded-lg shadow-xl">
+					<div className="md:w-[60rem] w-full bg-white md:px-4 py-4 px-2 tracking-wide rounded-lg shadow-xl">
 						<p className="text-center text-2xl font-bold text-theme tracking-wide">
 							Create Quotation
 						</p>
-						<div className="w-full my-6 py-6 px-20 flex justify-center">
+						<div className="w-full my-6 py-6 px-20">
 							<Formik
 								initialValues={initialValues}
 								onSubmit={handleSubmit}
