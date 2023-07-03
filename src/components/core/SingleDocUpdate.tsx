@@ -18,7 +18,6 @@ const SingleDocUpdate = ({ values, setImageValue, children }: Props) => {
     }
   };
   //
-  console.log(values.docs)
   return (
     <div className="w-full">
       {/* <p className="text-theme font-semibold my-2">Upload Image</p> */}

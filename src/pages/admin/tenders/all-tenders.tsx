@@ -9,9 +9,14 @@ import Link from "next/link";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
+import { deleteFile } from "utils";
 
 const AllTenders = () => {
+  const [isPortal, setIsPortal] = useState<string | null>(null);
+  const [isCategory, setIsCategory] = useState<string | null>(null);
+  const [tenderNo, setTenderNo] = useState<string | null>(null);
   const [tenderName, setTenderName] = useState<string | null>(null);
+  const [isSubmissionDate, setIsSubmissionDate] = useState<any>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const {
@@ -20,9 +25,13 @@ const AllTenders = () => {
     isLoading,
     pagination,
   } = useFetch<Tender[]>(
-    `tenders?page=${pageNumber}&limit=8${tenderName ? `&title=${tenderName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
+    `tenders?page=${pageNumber}&limit=8${tenderName ? `&title=${tenderName}` : ""
+    }${tenderNo ? `&tenderNo=${tenderNo}` : ""
+    }${isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    }${isCategory ? `&category=${isCategory}` : ""
+    }${isSubmissionDate ? `&submissionDate=${isSubmissionDate.toISOString().slice(0, 10)}` : null
+    }${isPortal ? `&portal=${isPortal}` : ""}`
   );
-  // & tenderNo=1 & category= & portal
 
   return (
     <PanelLayout title="All Tenders - Admin Panel">
@@ -49,16 +58,30 @@ const AllTenders = () => {
               onClick={() => {
                 setIsOrderBy(null);
                 setTenderName(null);
+                setTenderNo(null);
+                setIsPortal(null);
+                setIsSubmissionDate(null);
+                setIsCategory(null);
               }}
             >
               <Tooltip
                 title={
-                  isOrderBy != null || tenderName != null
+                  isSubmissionDate != null ||
+                    isPortal != null ||
+                    isCategory != null ||
+                    isOrderBy != null ||
+                    tenderName != null ||
+                    tenderNo != null
                     ? `Remove Filters`
                     : `Filter`
                 }
               >
-                {isOrderBy != null || tenderName != null ? (
+                {isPortal != null ||
+                  isSubmissionDate != null ||
+                  isCategory != null ||
+                  isOrderBy != null ||
+                  tenderName != null ||
+                  tenderNo != null ? (
                   <Close className={"!text-white"} />
                 ) : (
                   <FilterListRounded className={"!text-white"} />
@@ -77,6 +100,51 @@ const AllTenders = () => {
               }}
               placeholder="Tender Name"
               name="name"
+            />
+            <TextField
+              fullWidth
+              size="small"
+              id="tenderNo"
+              value={tenderNo ? tenderNo : ""}
+              onChange={(e) => {
+                setPageNumber(1), setTenderNo(e.target.value);
+              }}
+              placeholder="Tender Number"
+              name="tenderNo"
+            />
+            <TextField
+              fullWidth
+              size="small"
+              id="Category"
+              value={isCategory ? isCategory : ""}
+              onChange={(e) => {
+                setPageNumber(1), setIsCategory(e.target.value);
+              }}
+              placeholder="Category"
+              name="Category"
+            />
+            <TextField
+              fullWidth
+              size="small"
+              id="portal"
+              value={isPortal ? isPortal : ""}
+              onChange={(e) => {
+                setPageNumber(1), setIsPortal(e.target.value);
+              }}
+              placeholder="Portal"
+              name="portal"
+            />
+            <TextField
+              fullWidth
+              size="small"
+              id="submissionDate"
+              type="date"
+              label="Submission Date"
+              value={isSubmissionDate ? isSubmissionDate : ""}
+              onChange={(e) => {
+                setPageNumber(1), setIsSubmissionDate(e.target.value);
+              }}
+              name="submissionDate"
             />
             <TextField
               fullWidth
@@ -158,6 +226,12 @@ const CardContent = ({ item, mutate }: Props) => {
           const res = await change(`tenders/${id}`, {
             method: "DELETE",
           });
+          const docPaths = item?.documents;
+          if (docPaths && docPaths.length > 0) {
+            docPaths.forEach(async (path) => {
+              await deleteFile(String(path));
+            });
+          }
           if (res?.status !== 200) {
             Swal.fire(
               "Error",
@@ -183,11 +257,17 @@ const CardContent = ({ item, mutate }: Props) => {
         >
           <div
             className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${item?.status === "Open"
-              ? `bg-yellow-400`
-              : `bg-green-500`
+              ? `bg-yellow-400` :
+              item?.status === "Disqualified" ? `bg-red-500` :
+                item?.status === "L1" ? `bg-blue-500` :
+                  item?.status === "Cancelled" ? `#f97316` :
+                    item?.status === "FinancialEvaluation" ? `#8b5cf6` :
+                      item?.status === "TechnicalEvaluation" ? `#e879f9` :
+                        item?.status === "BidAwarded" ? `#9333ea`
+                          : `bg-green-500`
               }`}
           >
-            <span className="text-xs text-white tracking-wide">
+            <span className="text-xs font-semibold text-white tracking-wide">
               {item?.status}
             </span>
           </div>
@@ -236,7 +316,7 @@ const CardContent = ({ item, mutate }: Props) => {
 };
 
 const links = [
-  { id: 1, page: "Tenders", link: "/admin/tenders/all-tenders" },
+  { id: 1, page: "Tenders", link: "/admin/tenders" },
   {
     id: 2,
     page: "All Tenders",

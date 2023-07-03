@@ -17,22 +17,27 @@ import {
   Tooltip
 } from "@mui/material";
 import { CHATDOC } from "assets/home";
-import { PhotoViewerSmall } from "components/core";
-import { AddTenderDocument, AddTenderTrackMember, TenderCreateNote, UpdateTenderNote } from "components/dialogues";
+import { Loader, PhotoViewerSmall } from "components/core";
+import { AddTenderDocument, AddTenderTrackMember, TenderCreateNote, UpdateTenderDocument } from "components/dialogues";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
+import { clock, deleteFile } from "utils";
 import * as Yup from "yup";
-import { clock } from "utils";
 import TenderLayout from "./TenderLayout";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;
+  isLoading?: boolean;
 }
-const TenderTrack = ({ mutate, tenderData }: Props) => {
+interface TenderDoc {
+  link?: any;
+  title?: string;
+  id?: string;
+}
+const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
   const [isDocumentValue, setIsDocumentValue] = useState(tenderData?.isAllDocumentsAdded)
@@ -60,7 +65,10 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
     dialogue: boolean;
     tenderData?: Tender;
   }>({ dialogue: false, tenderData: {} });
-
+  const [isUpdateDocument, setIsUpdateDocument] = useState<{
+    dialogue: boolean;
+    tenderData?: TenderDoc;
+  }>({ dialogue: false, tenderData: {} });
   const handleRemove = async (item: Tender) => {
     try {
       Swal.fire({
@@ -93,7 +101,6 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
   };
   const handleSubmit = async (values: Tender) => {
     setLoading(true);
-    console.log(values);
     try {
       const res = await change(`tenders/update/${tenderData?.id}`, {
         method: "PATCH",
@@ -112,7 +119,7 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully updated!`, `success`);
+      Swal.fire(`Success`, `Status change successfully`, `success`);
       mutate()
       return;
     } catch (error) {
@@ -126,7 +133,7 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
     try {
       Swal.fire({
         title: "Are you sure?",
-        text: `You want to delete ${item?.title}?`,
+        text: `You want to delete the note?`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -155,8 +162,53 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
       console.log(error);
     }
   };
+  const handleDeleteDoc = async (item: TenderDoc) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: `You want to delete ${item?.title}?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          const res = await change(`tenders/remove/document?tenderId=${tenderData?.id}&docId=${item?.id}`, {
+            method: "DELETE",
+          });
+          if (item?.id) {
+            await deleteFile(String(item?.link?.split("/").reverse()[0]));
+          }
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  if (isLoading) {
+    return (
+      <section className="min-h-screen">
+        <Loader />
+      </section>
+    );
+  }
   return (
     <section>
+      <UpdateTenderDocument
+        tenderData={isUpdateDocument?.tenderData}
+        open={isUpdateDocument?.dialogue}
+        handleClose={() => setIsUpdateDocument({ dialogue: false })}
+        mutate={mutate}
+      />
       <AddTenderTrackMember
         tenderData={isMember?.tenderData}
         open={isMember?.dialogue}
@@ -300,18 +352,37 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
                               src={CHATDOC.src}
                               alt=""
                             />
+                            <p className="text-xs">
+                              {item?.link?.slice(0, 9)}
+                              {item?.link?.length > 9 ? "..." : null}
+                            </p>
                           </div>
                         </td>
                         <td align="center" className="w-[20%] text-sm">
                           <div className="flex gap-1 py-2 justify-center">
                             <Tooltip title="Download Document">
-                              <IconButton size="small">
-                                <Download />
+                              <a
+                                className="cursor-pointer flex flex-col items-center justify-center"
+                                href={`${item?.link}`}
+                              >
+                                <IconButton size="small">
+                                  <Download />
+                                </IconButton>
+                              </a>
+                            </Tooltip>
+                            <Tooltip title="Edit Document">
+                              <IconButton size="small"
+                                onClick={() => {
+                                  setIsUpdateDocument({ dialogue: true, tenderData: item });
+                                }}>
+                                <Edit />
                               </IconButton>
                             </Tooltip>
                             <Tooltip title="Delete Document">
                               <IconButton size="small">
-                                <Delete />
+                                <Delete
+                                  onClick={() => handleDeleteDoc(item)}
+                                />
                               </IconButton>
                             </Tooltip>
                           </div>
@@ -428,7 +499,11 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
                 </>
               ))}
             </>
-            : <p>No Note Available</p>}
+            :
+            <div className="grid justify-center justify-items-center px-4 py-4">
+              <p>No Note Available</p>
+            </div>
+          }
         </div>
       </div>
     </section>
@@ -436,12 +511,6 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
 };
 
 export default TenderTrack;
-
-const documents = [
-  { id: 1, name: "Financial Document", doc: "alldata.csv" },
-  { id: 2, name: "Tender Agreement", doc: "agreements.csv" },
-];
-
 const statuses = [
   {
     value: "Submitted",
@@ -460,15 +529,15 @@ const statuses = [
     label: "Closed",
   },
   {
-    value: "Technical Evaluation",
+    value: "TechnicalEvaluation",
     label: "Technical Evaluation",
   },
   {
-    value: "Financial Evaluation",
+    value: "FinancialEvaluation",
     label: "Financial Evaluation",
   },
   {
-    value: "Bid Awarded",
+    value: "BidAwarded",
     label: "Bid Awarded",
   },
   {

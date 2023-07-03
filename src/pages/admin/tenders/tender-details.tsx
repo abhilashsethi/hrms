@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
-import { AdminBreadcrumbs } from "components/core";
+import { AdminBreadcrumbs, Loader } from "components/core";
 import {
   TenderDetail,
   TenderDocumentation,
@@ -31,6 +31,7 @@ const TenderDetails = () => {
   const {
     data: tenderData,
     mutate,
+    isLoading,
   } = useFetch<Tender>(
     `tenders/${router?.query?.id}`
   );
@@ -39,33 +40,34 @@ const TenderDetails = () => {
       id: "1",
       title: "Details",
       icon: <Article />,
-      component: <TenderDetail mutate={mutate} tenderData={tenderData} />,
+      component: <TenderDetail mutate={mutate} isLoading={isLoading} tenderData={tenderData} />,
     },
     {
       id: "2",
       title: "Documentation",
       icon: <FileCopy />,
-      component: <TenderDocumentation mutate={mutate} tenderData={tenderData} />,
+      component: <TenderDocumentation mutate={mutate} isLoading={isLoading} tenderData={tenderData} />,
     },
     {
       id: "3",
       title: "Review",
       icon: <FindInPage />,
-      component: <TenderReview mutate={mutate} tenderData={tenderData} />,
+      component: <TenderReview mutate={mutate} isLoading={isLoading} tenderData={tenderData} />,
     },
     {
       id: "4",
       title: "Submission",
       icon: <Task />,
-      component: <TenderSubmission mutate={mutate} tenderData={tenderData} />,
+      component: <TenderSubmission mutate={mutate} isLoading={isLoading} tenderData={tenderData} />,
     },
     {
       id: "5",
       title: "Track",
       icon: <Timeline />,
-      component: <TenderTrack mutate={mutate} tenderData={tenderData} />,
+      component: <TenderTrack mutate={mutate} isLoading={isLoading} tenderData={tenderData} />,
     },
   ];
+
   return (
     <PanelLayout title="Tender Details - Admin Panel">
       <section className="px-8 py-4">

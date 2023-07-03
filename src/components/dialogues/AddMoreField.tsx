@@ -39,7 +39,6 @@ const AddMoreField = ({ open, handleClose, setFields }: Props) => {
 
 	const [loading, setLoading] = useState(false);
 	const handleSubmit = async (values: any) => {
-		console.log(values);
 		setFields((prevFields: any) => [...prevFields, values]);
 		Swal.fire(`Success`, `New Field Add Successfully`, `success`);
 		handleClose();

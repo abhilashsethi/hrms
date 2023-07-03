@@ -5,10 +5,19 @@ import {
 } from "assets/dashboard_Icons";
 import { CommonBarChart, CommonDonutChart } from "components/analytics";
 import { AdminBreadcrumbs, DashboardCard } from "components/core";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useMemo } from "react";
+import { Tender } from "types";
 
 const TenderDashboard = () => {
+  const {
+    data: tenderData,
+    isLoading,
+  } = useFetch<Tender>(
+    `tenders/get/dashboard/info`
+  );
+  console.log(tenderData);
   const cards = useMemo(
     () => [
       {

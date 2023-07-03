@@ -23,7 +23,7 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required!"),
   portal: Yup.string().required("Portal is required!"),
   category: Yup.string().required("Category is required!"),
-  submissionDate: Yup.string().required("Date is required!"),
+  submissionDate: Yup.date().required("Date is required!"),
   submissionTime: Yup.string().required("Time is required!"),
   bidValue: Yup.number().required('Bid value is required!')
     .positive('Bid value must be positive')
@@ -70,7 +70,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
         return;
       }
       setTender(res?.results?.data)
-      Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      Swal.fire(`Success`, `Tender details created successfully!`, `success`);
       handleNext()
       return;
     } catch (error) {

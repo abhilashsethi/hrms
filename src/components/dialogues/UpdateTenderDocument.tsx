@@ -11,49 +11,84 @@ import {
   TextField,
   Tooltip
 } from "@mui/material";
-import { Form, Formik } from "formik";
+import { SingleDocUpdate } from "components/core";
+import { ErrorMessage, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
-import { uploadFile } from "utils";
+import { deleteFile, uploadFile } from "utils";
 import * as Yup from "yup";
 
+interface TenderDoc {
+  link?: any;
+  title?: string;
+  id?: string;
+}
 interface Props {
   open: boolean;
   handleClose: () => void;
   mutate: () => void;
-  tenderData?: Tender;
+  tenderData?: TenderDoc;
 }
 
-const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => {
+const UpdateTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const { change } = useChange();
   interface InputField {
     title: string;
-    link: any;
+    docs: any;
   }
   const initialValues = {
-    title: "",
-    link: "",
+    title: `${tenderData?.title ? tenderData?.title : ""}`,
+    docs: `${tenderData?.link ? tenderData?.link : ""}`,
   };
 
   const validationSchema = Yup.object().shape({
-    link: Yup.string().required("Document is required!"),
+    // docs: Yup.string().required("Document is required!"),
     title: Yup.string().required("Document Name is required!"),
   });
   const handleSubmit = async (values: InputField) => {
     setLoading(true);
     try {
-      const uniId = values?.link?.split('.').pop();
-      const url = values?.link ? await uploadFile(
-        values?.link,
-        `${Date.now()}.${uniId}`
-      ) : undefined;
-      const res = await change(`tenders/add-doc/to-tender`, {
+      if (tenderData?.link !== values?.docs) {
+        const uniId = values?.docs?.name?.split('.').pop();
+        const url = values?.docs ? await uploadFile(
+          values?.docs,
+          `${Date.now()}.${uniId}`
+        ) : undefined;
+        if (tenderData?.id) {
+          await deleteFile(String(tenderData?.link?.split("/").reverse()[0]));
+        }
+        const res = await change(`tenders/update-doc/of-tender/${tenderData?.id}`, {
+          method: "PATCH",
+          body:
+            { title: values?.title, link: url, tenderId: router?.query?.id },
+        });
+        if (res?.status !== 200) {
+          Swal.fire(
+            "Error",
+            res?.results?.msg || "Unable to Submit",
+            "error"
+          );
+          setLoading(false);
+          return;
+        }
+        setLoading(false);
+        Swal.fire(`Success`, `Tender document updated successfully!`, `success`);
+        mutate()
+        handleClose()
+        setLoading(false);
+        return;
+      }
+
+      const res = await change(`tenders/update-doc/of-tender/${tenderData?.id}`, {
+        method: "PATCH",
         body:
-          { title: values?.title, link: url, tenderId: tenderData?.id },
+          { title: values?.title, link: values?.docs, tenderId: router?.query?.id },
       });
       if (res?.status !== 200) {
         Swal.fire(
@@ -65,7 +100,7 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
         return;
       }
       setLoading(false);
-      Swal.fire(`Success`, `Document created successfully!`, `success`);
+      Swal.fire(`Success`, `Tender document updated successfully!`, `success`);
       mutate()
       handleClose()
       setLoading(false);
@@ -90,7 +125,7 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
           sx={{ p: 2, minWidth: "18rem !important" }}
         >
           <p className="text-center text-xl font-bold text-theme tracking-wide">
-            ADD DOCUMENT
+            UPDATE DOCUMENT
           </p>
           <IconButton
             aria-label="close"
@@ -108,7 +143,7 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-          <div className="md:px-4 px-2 tracking-wide">
+          <div className="px-2 md:w-[25rem] w-full tracking-wide">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -129,7 +164,7 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="title">
-                          Document Title <span className="text-red-600">*</span>
+                          Document Title
                         </InputLabel>
                       </div>
                       <TextField
@@ -147,22 +182,18 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="portal">
-                          Upload file <span className="text-red-600">*</span>
+                        <InputLabel htmlFor="title">
+                          Document
                         </InputLabel>
                       </div>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        type="file"
-                        name="link"
-                        value={values.link}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.link && !!errors.link}
-                        helperText={touched.link && errors.link}
-                      />
-
+                      <SingleDocUpdate
+                        values={values}
+                        setImageValue={(event: any) => {
+                          setFieldValue("docs", event.currentTarget.files[0]);
+                        }}
+                      >
+                        <ErrorMessage name="docs" />
+                      </SingleDocUpdate>
                     </div>
                   </div>
                   <div className="flex justify-center md:py-4 py-2">
@@ -190,12 +221,4 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
   );
 };
 
-export default AddTenderDocument;
-const link = [
-  { id: 1, title: "Online" },
-  { id: 2, title: "Offline" },
-];
-const exemption = [
-  { id: 1, title: "Yes" },
-  { id: 2, title: "No" },
-];
+export default UpdateTenderDocument;

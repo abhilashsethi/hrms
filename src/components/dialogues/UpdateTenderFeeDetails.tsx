@@ -41,7 +41,6 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
 
   const handleSubmit = async (values: any) => {
     setLoading(true);
-    console.log(values);
     try {
       const res = await change(`tenders/update/${tenderData?.id}`, {
         method: "PATCH",
@@ -60,7 +59,7 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully updated!`, `success`);
+      Swal.fire(`Success`, `Tender fee details updated successfully!`, `success`);
       mutate()
       handleClose()
       return;

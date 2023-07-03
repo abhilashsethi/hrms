@@ -49,7 +49,6 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
 
   const handleSubmit = async (values: Tender) => {
     setLoading(true);
-    console.log(values);
     try {
       const res = await change(`tenders/update/${tenderData?.id}`, {
         method: "PATCH",
@@ -69,7 +68,7 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully updated!`, `success`);
+      Swal.fire(`Success`, `EMD Details updated successfully!`, `success`);
       mutate()
       handleClose()
       return;
@@ -92,7 +91,7 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
           sx={{ p: 2, minWidth: "18rem !important" }}
         >
           <p className="text-center text-xl font-bold text-theme tracking-wide">
-            UPDATE EMD
+            UPDATE EMD DETAILS
           </p>
           <IconButton
             aria-label="close"

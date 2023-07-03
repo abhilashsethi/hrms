@@ -5,7 +5,6 @@ import { useFetch } from "hooks";
 
 const UpcomingLeaves = ({ data, employeeDetails }: any) => {
 	const { data: leaveDetails } = useFetch<any>(`leaves/dashboard/details`);
-	console.log(employeeDetails?.allAbsentUsers);
 	const [progress, setProgress] = useState(80);
 
 	return (

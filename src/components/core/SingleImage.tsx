@@ -9,7 +9,6 @@ interface Props {
 }
 
 const SingleImage = ({ values, setImageValue, children }: Props) => {
-	console.log(values);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const handleClick = () => {
 		if (inputRef.current) {
@@ -18,7 +17,6 @@ const SingleImage = ({ values, setImageValue, children }: Props) => {
 	};
 
 	const [imagePreviewUrls, setImagePreviewUrls] = useState([]);
-	console.log(imagePreviewUrls);
 
 	// const handleImageChange = (event: any, setFieldValue: any) => {
 	// 	const files = event.currentTarget.files;

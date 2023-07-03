@@ -65,7 +65,6 @@ const AddDocumentDialogue = ({ open, handleClose, mutate }: Props) => {
 						docType: values.type,
 					},
 				});
-				console.log(res);
 				if (res?.status !== 200) {
 					Swal.fire(`Error`, "Something went wrong!", "error");
 					return;

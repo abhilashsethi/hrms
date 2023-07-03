@@ -59,3 +59,4 @@ export { default as AddTenderReviewMember } from "./AddTenderReviewMember";
 export { default as AddTenderSubmissionMember } from "./AddTenderSubmissionMember";
 export { default as AddTenderTrackMember } from "./AddTenderTrackMember";
 export { default as AddQuotationClientDialogue } from "./AddQuotationClientDialogue";
+export { default as UpdateTenderDocument } from "./UpdateTenderDocument";

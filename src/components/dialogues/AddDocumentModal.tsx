@@ -84,7 +84,6 @@ const AddDocumentModal = ({ open, handleClose, mutate }: Props) => {
 				mutate();
 				Swal.fire(`Success`, "Status Added successfully!!", "success");
 				handleClose();
-				console.log(res);
 				return;
 			}
 		});
