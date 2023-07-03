@@ -19,33 +19,35 @@ const TenderDashboard = () => {
   } = useFetch<any>(
     `tenders/get/dashboard/info`
   );
-  console.log(tenderData);
+  console.log("tenderData", tenderData);
+  console.log("tenderCount", tenderData?.tenderCount);
+  console.log("totalOpenTenderCount", tenderData?.totalOpenTenderCount);
   const cards = useMemo(
     () => [
       {
         id: 1,
-        count: tenderData?.tenderCount || 0,
+        count: tenderData?.tenderCount ? tenderData?.tenderCount : 0,
         title: "Total Tenders",
         bg: "from-blue-500 to-blue-300",
         img: TENDERICONS1.src,
       },
       {
         id: 2,
-        count: tenderData?.totalOpenTenderCount || 0,
+        count: tenderData?.totalOpenTenderCount ? tenderData?.totalOpenTenderCount : 0,
         title: "Opened Tenders",
         bg: "from-green-500 to-green-300",
         img: TENDERICONS2.src,
       },
       {
         id: 4,
-        count: tenderData?.totalClosedTenderCount || 0,
+        count: tenderData?.totalClosedTenderCount ? tenderData?.totalClosedTenderCount : 0,
         title: "Closed Tenders",
         bg: "from-green-500 to-green-300",
         img: CLOSE.src,
       },
       {
         id: 3,
-        count: tenderData?.totalSubmittedTenderCount || 0,
+        count: tenderData?.totalSubmittedTenderCount ? tenderData?.totalSubmittedTenderCount : 0,
         title: "Submitted Tenders",
         bg: "from-yellow-500 to-yellow-300",
         img: TENDERICONS3.src,
