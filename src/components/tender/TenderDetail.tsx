@@ -15,16 +15,18 @@ import Swal from "sweetalert2";
 import { Tender } from "types";
 import { deleteFile } from "utils";
 import TenderLayout from "./TenderLayout";
+import { Loader } from "components/core";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;
+  isLoading?: boolean
 }
 interface TenderDoc {
   link?: any;
   title?: string;
   id?: string;
 }
-const TenderDetail = ({ tenderData, mutate }: Props) => {
+const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
   const { change } = useChange();
   const basicDetails = [
     {
@@ -143,6 +145,13 @@ const TenderDetail = ({ tenderData, mutate }: Props) => {
       console.log(error);
     }
   };
+  if (isLoading) {
+    return (
+      <section className="min-h-screen">
+        <Loader />
+      </section>
+    );
+  }
   return (
     <section className="">
       <UpdateTenderBasicDetails

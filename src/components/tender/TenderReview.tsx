@@ -11,7 +11,7 @@ import {
   Tooltip
 } from "@mui/material";
 import { CHATDOC } from "assets/home";
-import { PhotoViewerSmall } from "components/core";
+import { Loader, PhotoViewerSmall } from "components/core";
 import { AddTenderDocument, AddTenderReviewMember } from "components/dialogues";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
@@ -23,9 +23,10 @@ import TenderLayout from "./TenderLayout";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;
+  isLoading?: boolean;
 }
 
-const TenderReview = ({ mutate, tenderData }: Props) => {
+const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
   const [isDocumentValue, setIsDocumentValue] = useState(tenderData?.isAllDocumentsAdded)
@@ -112,6 +113,13 @@ const TenderReview = ({ mutate, tenderData }: Props) => {
       setLoading(false);
     }
   };
+  if (isLoading) {
+    return (
+      <section className="min-h-screen">
+        <Loader />
+      </section>
+    );
+  }
   return (
     <section>
       <AddTenderDocument

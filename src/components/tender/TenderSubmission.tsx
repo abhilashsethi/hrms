@@ -1,4 +1,4 @@
-import { PhotoViewerSmall, TextTitles } from "components/core";
+import { Loader, PhotoViewerSmall, TextTitles } from "components/core";
 import TenderLayout from "./TenderLayout";
 import { CHATDOC } from "assets/home";
 import {
@@ -22,8 +22,9 @@ import * as Yup from "yup";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;
+  isLoading?: boolean;
 }
-const TenderSubmission = ({ mutate, tenderData }: Props) => {
+const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
   const [isDocumentValue, setIsDocumentValue] = useState(tenderData?.isAllDocumentsAdded)
@@ -107,6 +108,13 @@ const TenderSubmission = ({ mutate, tenderData }: Props) => {
       setLoading(false);
     }
   };
+  if (isLoading) {
+    return (
+      <section className="min-h-screen">
+        <Loader />
+      </section>
+    );
+  }
   return (
     <section>
       <AddTenderDocument
