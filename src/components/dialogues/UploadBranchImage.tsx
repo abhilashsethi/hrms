@@ -17,13 +17,14 @@ import { useChange } from "hooks";
 import Swal from "sweetalert2";
 import { uploadFile } from "utils";
 import router from "next/router";
+import { Branch } from "types";
 
 interface Props {
   open: any;
-  handleClose: any;
-  mutate?: any;
+  handleClose: () => void;
+  mutate: () => void;
   branchData?: any;
-  MainMutate?: any;
+  MainMutate: () => void;
 }
 
 const UploadBranchImage = ({
@@ -47,6 +48,7 @@ const UploadBranchImage = ({
         const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
         photoUrls.push(url);
       }
+
       const newPhotoArray = [...branchData?.photos, ...photoUrls];
 
       const res: any = await change(`branches/${branchData?.id}`, {

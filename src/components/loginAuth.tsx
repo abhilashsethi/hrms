@@ -59,22 +59,13 @@ const LoginAuth = () => {
 	const { setUser, setToken, user } = useAuth();
 	const handleLogin = async (values: any, submitProps: any) => {
 		try {
-			console.log(isChecked);
 			const res = await trigger(values);
 			if (!res.success) return Swal.fire("Error", res.msg, "error");
 			const user: User = { ...res.data.user };
 			setUser(user);
 			setToken(res.data.accessToken);
 			router.push(`/admin`);
-			// if (user?.role?.name === "CEO")
-			//   return Swal.fire("Welcome Back!", "Login Successful!", "success").then(
-			//     () => router.push(`/admin`)
-			//   );
-			// if (user?.role?.name === "HR")
-			//   return Swal.fire("Welcome Back!", "Login Successful!", "success").then(
-			//     () => router.push(`/admin/hr`)
-			//   );
-			// return Swal.fire("Error", "You Don't Have Access To This Page", "error");
+
 		} catch (err) {
 			submitProps.setSubmitting(false);
 			Swal.fire(

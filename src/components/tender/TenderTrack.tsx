@@ -20,11 +20,15 @@ import { PhotoViewerSmall } from "components/core";
 import { AddTenderDocument, TenderCreateNote, UpdateTenderNote } from "components/dialogues";
 import moment from "moment";
 import { useState } from "react";
+import { Tender } from "types";
 import TenderLayout from "./TenderLayout";
-
-const TenderTrack = () => {
+interface Props {
+  tenderData?: Tender;
+  mutate: () => void;
+}
+const TenderTrack = ({ mutate, tenderData }: Props) => {
   const [isDocument, setIsDocument] = useState<{
-    dialogue?: boolean;
+    dialogue: boolean;
     tenderData?: any | null;
   }>({ dialogue: false, tenderData: null });
   const [isCreateNote, setIsCreateNote] = useState<{
@@ -41,7 +45,7 @@ const TenderTrack = () => {
         tenderData={isDocument?.tenderData}
         open={isDocument?.dialogue}
         handleClose={() => setIsDocument({ dialogue: false })}
-      // mutate={mutate}
+        mutate={mutate}
       />
       <TenderCreateNote
         tenderData={isCreateNote?.tenderData}

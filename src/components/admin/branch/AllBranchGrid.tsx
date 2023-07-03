@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 import { Branch } from "types";
 import { deleteFile } from "utils";
 interface Props {
-  data?: Branch[];
+  data?: any[];
   mutate: () => void;
 }
 const settings = {
@@ -65,7 +65,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
 
 export default AllBranchGrid;
 interface PROPS {
-  item?: Branch;
+  item?: any;
   mutate: () => void;
 }
 const MoreOption = ({ item, mutate }: PROPS) => {
@@ -159,7 +159,7 @@ const MoreOption = ({ item, mutate }: PROPS) => {
             item?.photos?.length > 1 ? (
               <>
                 <Slider {...settings} className="">
-                  {item?.photos?.map((data, k) => (
+                  {item?.photos?.map((data: any, k: any) => (
                     <img key={k} className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
                       src={data} alt="Branch" />
@@ -168,7 +168,7 @@ const MoreOption = ({ item, mutate }: PROPS) => {
               </>
             ) : (
               <>
-                {item?.photos?.map((data, k) => (
+                {item?.photos?.map((data: any, k: any) => (
                   <img key={k} className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
                     src={data} alt="Branch" />

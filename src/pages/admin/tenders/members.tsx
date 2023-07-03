@@ -1,54 +1,77 @@
-import { Add, Delete, Info } from "@mui/icons-material";
-import { Button, Grid } from "@mui/material";
+import { Delete, Info } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import { AdminBreadcrumbs, PhotoViewer } from "components/core";
-import { CreateTenderMember } from "components/dialogues";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { useState } from "react";
+import Link from "next/link";
+import Swal from "sweetalert2";
+import { User } from "types";
+import { deleteFile } from "utils";
 
 const Members = () => {
-  const [isChoose, setIsChoose] = useState(false);
-
+  const { data: employees, mutate } = useFetch<User[]>(`users?departmentName=BID`);
+  const { change } = useChange();
+  const handleDelete = async (user: User) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to delete user?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          const res = await change(`users/${user?.id}`, {
+            method: "DELETE",
+          });
+          if (user?.photo) {
+            await deleteFile(String(user?.photo?.split("/").reverse()[0]));
+          }
+          if (res?.status !== 200) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <PanelLayout title="Tender Members">
-      <CreateTenderMember
-        open={isChoose}
-        handleClose={() => setIsChoose(false)}
-      />
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
-        <div className="flex justify-end w-full">
-          <Button
-            size="small"
-            className="!bg-theme"
-            variant="contained"
-            startIcon={<Add />}
-            onClick={() => setIsChoose(true)}
-          >
-            ADD MEMBERS
-          </Button>
-        </div>
         <section className="my-4">
           <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2">
-            {members?.map((item) => (
+            {employees?.map((item) => (
               <div key={item?.id}>
                 <div className="w-full border-[1px] border-blue-400 bg-gradient-to-b from-blue-50 to-blue-200 gap-2 rounded-md flex flex-col items-center py-4">
                   <PhotoViewer name={item?.name} photo={item?.photo} />
                   <h1 className="text-sm font-semibold">{item?.name}</h1>
                   <h1 className="text-sm text-gray-600">{item?.email}</h1>
                   <div className="flex gap-2 items-center">
-                    <Button
-                      size="small"
-                      className="!bg-blue-500"
-                      variant="contained"
-                      startIcon={<Info />}
-                    >
-                      INFO
-                    </Button>
+                    <Link href={`/admin/employees/profile/${item?.id}`}>
+                      <Button
+                        size="small"
+                        className="!bg-blue-500"
+                        variant="contained"
+                        startIcon={<Info />}
+                      >
+                        INFO
+                      </Button>
+                    </Link>
                     <Button
                       size="small"
                       className="!bg-youtube"
                       variant="contained"
                       startIcon={<Delete />}
+                      onClick={() => handleDelete(item)}
                     >
                       REMOVE
                     </Button>

@@ -12,8 +12,7 @@ import { uploadFile } from "utils";
 
 interface InputField {
   docTitle: string;
-  doc: string;
-  file?: File;
+  doc: any;
 }
 interface Props {
   handleNext: () => void;
@@ -21,15 +20,6 @@ interface Props {
 interface FormValues {
   inputFields: InputField[];
 }
-
-// const validationSchema = Yup.object().shape({
-//   inputFields: Yup.array().of(
-//     Yup.object().shape({
-//       docTitle: Yup.string().required('Document Title is required'),
-//       doc: Yup.mixed().required('File is required'),
-//     })
-//   ),
-// });
 
 const TenderCreateDocuments = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
@@ -42,11 +32,11 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
     setLoading(true);
     try {
       for (const docs of values?.inputFields) {
-        const uniId = docs?.doc.split('.').pop();
-        const url = docs?.file ? await uploadFile(
-          docs?.file,
+        const uniId = docs?.doc?.split('.').pop();
+        const url = docs?.doc ? await uploadFile(
+          docs?.doc,
           `${Date.now()}.${uniId}`
-        ) : undefined
+        ) : undefined;
         const res = await change(`tenders/add-doc/to-tender`, {
           body:
             { title: docs?.docTitle, link: url, tenderId: tender?.id },
@@ -54,7 +44,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
         if (res?.status !== 200) {
           Swal.fire(
             "Error",
-            res?.results?.message || "Unable to Submit",
+            res?.results?.msg || "Unable to Submit",
             "error"
           );
           setLoading(false);
@@ -79,8 +69,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
     <section>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}
         enableReinitialize={true}
-      // validationSchema={validationSchema}
-      >
+        O      >
         {({ values, errors, handleBlur, touched }: {
           values: FormValues,
           errors: FormikErrors<FormValues>,

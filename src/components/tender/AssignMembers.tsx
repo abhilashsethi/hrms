@@ -2,17 +2,15 @@ import {
   FileCopy,
   FindInPage,
   KeyboardArrowRight,
-  Search,
   Task,
   Timeline
 } from "@mui/icons-material";
 import { Autocomplete, Button, CircularProgress, TextField } from "@mui/material";
-import { Form, Formik, FormikValues } from "formik";
+import { Form, Formik } from "formik";
 import { useChange, useFetch, useForm } from "hooks";
-import React, { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { User } from "react-email-editor";
 import Swal from "sweetalert2";
-import { Tender } from "types";
 import * as Yup from "yup";
 interface Props {
   handleNext: () => void;
@@ -29,60 +27,61 @@ interface TenderData {
 }
 
 const validationSchema = Yup.object().shape({
-  // documentUserId: Yup.string().required("Required!"),
-  // reviewUserId: Yup.string().required("Required!"),
-  // submissionUserId: Yup.string().required("Required!"),
-  // trackUserId: Yup.string().required("Required!"),
+  documentUserId: Yup.string().required("Required!"),
+  reviewUserId: Yup.string().required("Required!"),
+  submissionUserId: Yup.string().required("Required!"),
+  trackUserId: Yup.string().required("Required!"),
 });
 
 const AssignMembers = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { tender } = useForm();
-  const { data: employees } = useFetch<User[]>(`users`);
+  const { data: employees } = useFetch<User[]>(`users?departmentName=BID`);
   const initialValues = {
     documentUserId: "",
     reviewUserId: "",
     submissionUserId: "",
     trackUserId: "",
   };
-  const postData = async (item: TenderData) => {
-    try {
-      const res = await change(`tenders/assign-user-to-tender`, {
-        body: item,
-      });
-      if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.message || "Unable to Submit",
-          "error"
-        );
-        setLoading(false);
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-  }
 
   const handleSubmit = async (values: TenderData) => {
-    console.log(values);
     setLoading(true);
-    const reqData = Object.entries(values)?.map(([key, value], index) => {
-      return {
-        memberId: value, tenderId: tender?.id,
-        isAllowedToAddDoc: key === "documentUserId",
-        isAllowedToReviewTender: key === "reviewUserId",
-        isAllowedToSubmitTender: key === "submissionUserId",
-        isAllowedToTrackTender: key === "trackUserId"
-      }
-    });
-    console.log(reqData);
-    reqData?.forEach((data) => postData(data))
-    Swal.fire(`Success`, `You have successfully Created!`, `success`);
-    handleNext()
+    const reqData = Object.entries(values)?.map(([key, value], index) => ({
+      memberId: value,
+      tenderId: tender?.id,
+      isAllowedToAddDoc: key === "documentUserId",
+      isAllowedToReviewTender: key === "reviewUserId",
+      isAllowedToSubmitTender: key === "submissionUserId",
+      isAllowedToTrackTender: key === "trackUserId"
+    }));
+    try {
+      const promises = reqData?.map(async (data) => {
+        try {
+          const res = await change(`tenders/assign-user-to-tender`, {
+            body: data,
+          });
+          if (res?.status !== 200) {
+            throw new Error(res?.results?.msg || "Unable to Submit");
+          }
+        } catch (error) {
+          throw new Error(String(error));
+        }
+      });
 
+      await Promise.all(promises).then(() => {
+        Swal.fire("Success", "You have successfully Created!", "success");
+        handleNext();
+        setLoading(false);
+      })
+    } catch (error: any) {
+      console.log(error);
+      Swal.fire("Error", (error?.message), "error");
+      setLoading(false);
+      return
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -117,7 +116,7 @@ const AssignMembers = ({ handleNext }: Props) => {
                     <Autocomplete
                       options={employees || []}
                       fullWidth
-
+                      size="small"
                       getOptionLabel={(option) => option.name ? option?.name : ""}
 
                       onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>

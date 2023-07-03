@@ -4,7 +4,6 @@ import { Form, Formik } from "formik";
 import { useChange, useForm } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { Tender } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -64,13 +63,12 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
       if (res?.status !== 200) {
         Swal.fire(
           "Error",
-          res?.results?.message || "Unable to Submit",
+          res?.results?.msg || "Unable to Submit",
           "error"
         );
         setLoading(false);
         return;
       }
-      console.log("res data", res?.results?.data?.id);
       setTender(res?.results?.data)
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       handleNext()

@@ -1,4 +1,4 @@
-import { MedicalInformationRounded, Receipt, Send } from "@mui/icons-material";
+import { Leaderboard, MedicalInformationRounded, Receipt, Send } from "@mui/icons-material";
 import ICONS from "assets/icons";
 import { useEffect, useState } from "react";
 import { useFetch } from "./useAPI";
@@ -541,16 +541,24 @@ export default () => {
 					icon: <ICONS.Change_Password />,
 					route: "/admin/change-password",
 				},
-				// {
-				//   key: "9-2",
-				//   title: "Profile Update",
-				//   icon: <PlaylistAddCheckCircleRounded />,
-				//   route: "/admin/",
-				// },
 			],
 		},
 	];
+	const clientData = [
+		{
+			key: "1",
+			title: "Dashboard",
+			icon: <ICONS.Dashboard_1 />,
+			route: "/admin",
+		},
+		{
+			key: "24",
+			title: "Chats",
+			icon: <ICONS.All_Chat />,
+			route: "/admin/chat",
+		},
 
+	]
 	useEffect(() => {
 		if (isLoading || !roleData?.accessPages?.length) return;
 
@@ -585,7 +593,10 @@ export default () => {
 		setActiveMenu(withSubmenuData);
 	}, [isLoading, roleData?.accessPages?.length]);
 
-	if (user?.role?.name) return activeMenu;
-
+	if (user?.role?.name) {
+		return activeMenu;
+	} else if (user?.isClient) {
+		return clientData;
+	}
 	return [];
 };

@@ -9,7 +9,7 @@ type AuthState = {
   token: string | null;
   validateUser: () => Promise<User | undefined>;
   logout: () => void;
-  syncUserState: (state: "ONLINE" | "OFFLINE", userId: string) => void;
+  syncUserState: (state: "ONLINE" | "OFFLINE", userId: string, isClient?: boolean) => void;
 };
 const useAuth = create<AuthState>((set) => ({
   setUser: async (user: Partial<User>) => {
@@ -48,7 +48,7 @@ const useAuth = create<AuthState>((set) => ({
       set({ user: undefined });
     }
   },
-  async syncUserState(state: "ONLINE" | "OFFLINE", userId: string) {
+  async syncUserState(state: "ONLINE" | "OFFLINE", userId: string, isClient?: boolean) {
     try {
       if (typeof window === "undefined") {
         throw new Error("Window is undefined");
@@ -57,7 +57,7 @@ const useAuth = create<AuthState>((set) => ({
       if (!token) {
         throw new Error("No Access Token Found");
       }
-      await fetch(`${BASE_URL}/users/${userId}`, {
+      await fetch(`${BASE_URL}/users/${userId}${isClient ? "?isClient=true" : ""}`, {
         method: "PATCH",
         headers: {
           "x-access-token": JSON.parse(token),

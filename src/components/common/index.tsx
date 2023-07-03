@@ -1,6 +1,7 @@
 import { Flag, HomeRepairServiceRounded } from "@mui/icons-material";
 import { EMAIL, PHONE } from "assets/dashboard_Icons";
 import ICONS from "assets/icons";
+import { useState } from "react";
 
 export function RenderIconRow({
   value,
@@ -17,6 +18,15 @@ export function RenderIconRow({
   longText?: boolean;
   isCountry?: boolean;
 }) {
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(value);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 5000); // Set isCopied back to false after 5 seconds
+  };
+
   return (
     <>
       <div className="group flex items-center justify-center gap-2">
@@ -49,7 +59,7 @@ export function RenderIconRow({
           <span className="text-sm font-medium">{value}</span>
         )}
 
-        <button
+        {/* <button
           onClick={(e) => {
             e.stopPropagation();
             navigator.clipboard.writeText(value);
@@ -57,8 +67,18 @@ export function RenderIconRow({
           className="scale-0 rounded p-1 transition hover:bg-indigo-100 active:bg-green-100 group-hover:scale-100 "
         >
           <ICONS.Copy />
+        </button> */}
+        <button
+          onClick={handleCopyClick}
+          className="scale-0 rounded p-1 transition hover:bg-indigo-100 active:bg-green-100 group-hover:scale-100"
+        >
+          <ICONS.Copy />
         </button>
       </div>
+
+      {isCopied && (
+        <div className="bg-green-500 text-sm rounded-lg text-white font-semibold p-1">Copied!</div>
+      )}
     </>
   );
 }

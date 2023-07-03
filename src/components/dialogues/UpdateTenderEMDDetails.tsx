@@ -5,50 +5,80 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   IconButton,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   TextField,
   Tooltip
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
-import moment from "moment";
-import { useRef, useState } from "react";
+import { useChange } from "hooks";
+import { ChangeEvent, useState } from "react";
+import Swal from "sweetalert2";
+import { Tender } from "types";
 import * as Yup from "yup";
 
 interface Props {
-  open: any;
-  handleClose: any;
-  mutate?: any;
-  tenderData?: any;
+  open: boolean;
+  handleClose: () => void;
+  mutate: () => void;
+  tenderData?: Tender;
 }
+
 
 const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { data: branchData } = useFetch<any>(`branches`);
-  const imageRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
+  const [isEmdValue, setIsEmdValue] = useState(tenderData?.isEmdExemption)
 
   const initialValues = {
-    exemption: `${tenderData?.exemption ? tenderData?.exemption : ""}`,
-    emdAmount: `${tenderData?.emdAmount ? tenderData?.emdAmount : ""}`,
-    paymentMode: `${tenderData?.paymentMode ? tenderData?.paymentMode : ""}`,
-
-
+    EmdAmount: tenderData?.EmdAmount ? tenderData?.EmdAmount : 0,
+    EmdPaymentMode: `${tenderData?.EmdPaymentMode ? tenderData?.EmdPaymentMode : ""}`,
   };
-
+  const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsEmdValue(event.target.value === 'yes');
+  };
   const validationSchema = Yup.object().shape({
-    exemption: Yup.string().required("EMD Exemption is required!"),
-    paymentMode: Yup.string().required("Payment Mode is required!"),
-    emdAmount: Yup.string().required("END Amount is required!"),
+    EmdAmount: Yup.number()
+      .positive('Must be a positive number'),
 
   });
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: Tender) => {
     setLoading(true);
     console.log(values);
-    return
+    try {
+      const res = await change(`tenders/update/${tenderData?.id}`, {
+        method: "PATCH",
+        body: {
+          EmdAmount: Number(values?.EmdAmount),
+          EmdPaymentMode: values?.EmdPaymentMode,
+          isEmdExemption: isEmdValue,
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.msg || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `You have successfully updated!`, `success`);
+      mutate()
+      handleClose()
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -98,74 +128,67 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
                 <Form>
                   <div className="grid">
                     <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="portal">
-                          EMD Exemption <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        select
-                        name="exemption"
-                        label="Select EMD Exemption"
-                        value={values.exemption}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.exemption && !!errors.exemption}
-                        helperText={touched.exemption && errors.exemption}
+                      <h1 className="mb-2">EMD Exemption</h1>
+
+                      <RadioGroup
+                        defaultValue={tenderData?.isEmdExemption ? 'yes' : 'no'}
+                        row
+                        name="isEmdValue"
+                        onChange={handleOptionChange}
                       >
-                        {exemption.map((option) => (
-                          <MenuItem key={option.id} value={option.title}>
-                            {option.title}
-                          </MenuItem>
-                        ))}
-                      </TextField>
+                        <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                        <FormControlLabel value="no" control={<Radio />} label="No" />
+                      </RadioGroup>
                     </div>
-                    <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="emdAmount">
-                          Tender Fees <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        // placeholder="Email"
-                        id="emdAmount"
-                        name="emdAmount"
-                        value={values.emdAmount}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.emdAmount && !!errors.emdAmount}
-                        helperText={touched.emdAmount && errors.emdAmount}
-                      />
-                    </div>
-                    <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="portal">
-                          Payment Mode <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        select
-                        name="paymentMode"
-                        label="Select Payment Mode"
-                        value={values.paymentMode}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.paymentMode && !!errors.paymentMode}
-                        helperText={touched.paymentMode && errors.paymentMode}
-                      >
-                        {paymentMode.map((option) => (
-                          <MenuItem key={option.id} value={option.title}>
-                            {option.title}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </div>
+                    {!isEmdValue &&
+                      <>
+                        <div className="md:px-4 px-2 md:py-2 py-1">
+                          <div className="py-2">
+                            <InputLabel htmlFor="EmdAmount">
+                              Tender Fees <span className="text-red-600">*</span>
+                            </InputLabel>
+                          </div>
+                          <TextField
+                            size="small"
+                            fullWidth
+                            type="number"
+                            // placeholder="Email"
+                            id="EmdAmount"
+                            name="EmdAmount"
+                            value={values.EmdAmount}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.EmdAmount && !!errors.EmdAmount}
+                            helperText={touched.EmdAmount && errors.EmdAmount}
+                          />
+                        </div>
+                        <div className="md:px-4 px-2 md:py-2 py-1">
+                          <div className="py-2">
+                            <InputLabel htmlFor="portal">
+                              Payment Mode <span className="text-red-600">*</span>
+                            </InputLabel>
+                          </div>
+                          <TextField
+                            fullWidth
+                            size="small"
+                            select
+                            name="EmdPaymentMode"
+                            label="Select Payment Mode"
+                            value={values.EmdPaymentMode}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.EmdPaymentMode && !!errors.EmdPaymentMode}
+                            helperText={touched.EmdPaymentMode && errors.EmdPaymentMode}
+                          >
+                            {EmdPaymentMode.map((option) => (
+                              <MenuItem key={option.id} value={option.title}>
+                                {option.title}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </div>
+                      </>
+                    }
                   </div>
                   <div className="flex justify-center md:py-4 py-2">
                     <Button
@@ -193,11 +216,7 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
 };
 
 export default UpdateTenderEMDDetails;
-const paymentMode = [
+const EmdPaymentMode = [
   { id: 1, title: "Online" },
   { id: 2, title: "Offline" },
-];
-const exemption = [
-  { id: 1, title: "Yes" },
-  { id: 2, title: "No" },
 ];

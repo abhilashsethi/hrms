@@ -1,5 +1,6 @@
 import { Check, Close } from "@mui/icons-material";
 import {
+  Autocomplete,
   Button,
   CircularProgress,
   Dialog,
@@ -7,17 +8,14 @@ import {
   DialogTitle,
   IconButton,
   InputLabel,
-  MenuItem,
   TextField,
   Tooltip
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
-import moment from "moment";
-import { useRef, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { Tender } from "types";
-import { uploadFile } from "utils";
+import { Tender, User } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -26,37 +24,33 @@ interface Props {
   mutate: () => void;
   tenderData?: Tender;
 }
-
-const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => {
+interface Input {
+  memberId?: string;
+}
+const AddTenderDocumentationMember = ({ open, handleClose, mutate, tenderData }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  interface InputField {
-    title: string;
-    link: any;
-  }
+  const { data: employees } = useFetch<User[]>(`users?departmentName=BID`);
+
   const initialValues = {
-    title: "",
-    link: "",
+    memberId: "",
   };
 
   const validationSchema = Yup.object().shape({
-    link: Yup.string().required("Document is required!"),
-    title: Yup.string().required("Document Name is required!"),
+    memberId: Yup.string().required("Member is required!"),
   });
-  const handleSubmit = async (values: InputField) => {
+
+  const handleSubmit = async (values: Input) => {
     setLoading(true);
     try {
-      console.log(values);
-      const uniId = values?.link?.split('.').pop();
-      const url = values?.link ? await uploadFile(
-        values?.link,
-        `${Date.now()}.${uniId}`
-      ) : undefined;
-      console.log(url);
-      const res = await change(`tenders/add-doc/to-tender`, {
-        body:
-          { title: values?.title, link: url, tenderId: tenderData?.id },
+      const res = await change(`tenders/assign-user-to-tender`, {
+        body: {
+          memberId: values?.memberId,
+          tenderId: tenderData?.id,
+          isAllowedToAddDoc: true,
+        },
       });
+      setLoading(false);
       if (res?.status !== 200) {
         Swal.fire(
           "Error",
@@ -66,11 +60,9 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
         setLoading(false);
         return;
       }
-      setLoading(false);
-      Swal.fire(`Success`, `You have successfully created!`, `success`);
+      Swal.fire(`Success`, `You have successfully Created Member!`, `success`);
       mutate()
       handleClose()
-      setLoading(false);
       return;
     } catch (error) {
       console.log(error);
@@ -78,7 +70,6 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
     } finally {
       setLoading(false);
     }
-
   };
   return (
     <>
@@ -89,10 +80,9 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
       >
         <DialogTitle
           id="customized-dialog-title"
-          sx={{ p: 2, minWidth: "18rem !important" }}
         >
           <p className="text-center text-xl font-bold text-theme tracking-wide">
-            ADD DOCUMENT
+            ADD MEMBER
           </p>
           <IconButton
             aria-label="close"
@@ -110,7 +100,7 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-          <div className="md:px-4 px-2 tracking-wide">
+          <div className="md:w-[25rem] w-full md:px-4 px-2 tracking-wide">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -122,49 +112,41 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
                 errors,
                 touched,
                 handleChange,
-                handleBlur,
                 setFieldValue,
+                handleBlur,
               }) => (
                 <Form>
-                  <div className="grid">
-
-                    <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="title">
-                          Document Title <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        // placeholder="Email"
-                        id="title"
-                        name="title"
-                        value={values.title}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.title && !!errors.title}
-                        helperText={touched.title && errors.title}
-                      />
+                  <div className="md:px-4 px-2 md:py-2 py-1">
+                    <div className="py-2">
+                      <InputLabel htmlFor="note">
+                        Documentation Member <span className="text-red-600">*</span>
+                      </InputLabel>
                     </div>
-                    <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="portal">
-                          Upload file <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
+                    <div className="">
+                      <Autocomplete
+                        options={employees || []}
                         fullWidth
                         size="small"
-                        type="file"
-                        name="link"
-                        value={values.link}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.link && !!errors.link}
-                        helperText={touched.link && errors.link}
-                      />
+                        getOptionLabel={(option) => option.name ? option?.name : ""}
 
+                        onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
+                          setFieldValue("memberId", r?.id)
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            name="memberId"
+                            placeholder="Select Member"
+                            onBlur={handleBlur}
+                            error={
+                              touched.memberId && !!errors.memberId
+                            }
+                            helperText={
+                              Boolean(touched.memberId) && errors.memberId as string
+                            }
+                          />
+                        )}
+                      />
                     </div>
                   </div>
                   <div className="flex justify-center md:py-4 py-2">
@@ -192,12 +174,4 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
   );
 };
 
-export default AddTenderDocument;
-const link = [
-  { id: 1, title: "Online" },
-  { id: 2, title: "Offline" },
-];
-const exemption = [
-  { id: 1, title: "Yes" },
-  { id: 2, title: "No" },
-];
+export default AddTenderDocumentationMember;

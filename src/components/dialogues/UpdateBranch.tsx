@@ -217,7 +217,7 @@ const UpdateBranch = ({
                       getOptionLabel={(option: any) =>
                         option.name ? option.name : ""
                       }
-                      isOptionEqualToValue={(option, value) =>
+                      isOptionEqualToValue={(option: any, value: any) =>
                         option.id === value.userId
                       }
                       value={
@@ -230,7 +230,7 @@ const UpdateBranch = ({
                       onChange={(e: any, r: any) => {
                         formik.setFieldValue("managerId", r?.id);
                       }}
-                      renderOption={(props, option) => (
+                      renderOption={(props, option: any) => (
                         <Box
                           component="li"
                           sx={{ "& > img": { mr: 2, flexShrink: 0 } }}

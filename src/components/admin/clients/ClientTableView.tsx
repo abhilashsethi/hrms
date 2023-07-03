@@ -18,7 +18,7 @@ const ClientTableView = ({ data, mutate }: Props) => {
 
 
   return (
-    <section className="mt-8">
+    <section className="lg:px-8 px-2 my-8">
       <MaterialTable
         title={<HeadStyle name="All Clients" icon={<PeopleRounded />} />}
         isLoading={!data}

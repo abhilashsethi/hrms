@@ -123,6 +123,7 @@ export type User = {
 	ChatMember: {
 		chatGroupId: string;
 	}[];
+	isClient?: boolean;
 };
 
 interface urlTypes {
@@ -267,19 +268,44 @@ export type BranchDashboard = {
 	totalActiveBranch: number;
 	branchWiseEmployeeCount: Branch[];
 };
+export interface TenderDocumentType {
+	id?: string;
+	link?: string;
+	title?: string;
+	createdAt?: string;
+}
+export interface TenderMember {
+	id?: string;
+	isAllowedToAddDoc: boolean;
+	isAllowedToReviewTender:boolean;
+	isAllowedToSubmitTender: boolean;
+	isAllowedToTrackTender: boolean;
+	member: User;
+}
 export type Tender = {
-	id: string;
-	name: string;
-	isBlocked: boolean;
-	createdAt: Date;
-	updatedAt: Date;
-	tenderNo: string;
-	title: string;
-	portal: string;
-	category: string;
-	submissionDate: Date;
-	submissionTime: string;
-	bidValue: string;
+	id?: string;
+	name?: string;
+	isBlocked?: boolean;
+	createdAt?: Date;
+	updatedAt?: Date;
+	tenderNo?: string;
+	title?: string;
+	portal?: string;
+	category?: string;
+	submissionDate?: Date;
+	submissionTime?: string;
+	bidValue?: string;
+	members?: TenderMember[];
+	status?: string;
+	EmdAmount?: number,
+	tenderFees?: number,
+	feesPaymentMode?: string,
+	EmdPaymentMode?: string,
+	documentAddReason?: string,
+	isEmdExemption?: boolean,
+	isAllDocumentsAdded?: boolean,
+	documents?: TenderDocumentType[];
+
 };
 
 export interface MeetingTypes {

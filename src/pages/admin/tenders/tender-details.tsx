@@ -15,45 +15,55 @@ import {
   TenderSubmission,
   TenderTrack,
 } from "components/tender";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import React from "react";
+import { useRouter } from "next/router";
+import { SyntheticEvent, useState } from "react";
+import { Tender } from "types";
 
 const TenderDetails = () => {
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = useState("1");
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+  const router = useRouter();
+  const {
+    data: tenderData,
+    mutate,
+  } = useFetch<Tender>(
+    `tenders/${router?.query?.id}`
+  );
   const tenderSections = [
     {
       id: "1",
       title: "Details",
       icon: <Article />,
-      component: <TenderDetail />,
+      component: <TenderDetail mutate={mutate} tenderData={tenderData} />,
     },
     {
       id: "2",
       title: "Documentation",
       icon: <FileCopy />,
-      component: <TenderDocumentation />,
+      component: <TenderDocumentation mutate={mutate} tenderData={tenderData} />,
     },
     {
       id: "3",
       title: "Review",
       icon: <FindInPage />,
-      component: <TenderReview />,
+      component: <TenderReview mutate={mutate} tenderData={tenderData} />,
     },
     {
       id: "4",
       title: "Submission",
       icon: <Task />,
-      component: <TenderSubmission />,
+      component: <TenderSubmission mutate={mutate} tenderData={tenderData} />,
     },
     {
       id: "5",
       title: "Track",
       icon: <Timeline />,
-      component: <TenderTrack />,
+      component: <TenderTrack mutate={mutate} tenderData={tenderData} />,
     },
   ];
   return (

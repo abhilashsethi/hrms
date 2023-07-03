@@ -33,7 +33,7 @@ const AllBranch = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<Branch[]>(
+  } = useFetch<any[]>(
     `branches?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""
     }${location ? `&location=${location}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`

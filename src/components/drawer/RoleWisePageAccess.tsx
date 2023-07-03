@@ -3,6 +3,7 @@ import {
 	Add,
 	Close,
 	Delete,
+	Leaderboard,
 	MedicalInformationRounded,
 } from "@mui/icons-material";
 import { Container, Drawer, IconButton, Tooltip } from "@mui/material";

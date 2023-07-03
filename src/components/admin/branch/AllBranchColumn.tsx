@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { Branch } from "types";
 import { MuiTblOptions, clock, deleteFile, getDataWithSL } from "utils";
 interface Props {
-  data?: Branch[];
+  data?: any[];
   mutate: () => void;
 }
 
@@ -22,7 +22,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
     dialogue?: boolean;
     branchId?: any | null;
   }>({ dialogue: false, branchId: null });
-  const handleDelete = async (item?: Branch) => {
+  const handleDelete = async (item?: any) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete?",
@@ -39,7 +39,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
           const res = await change(`branches/${item?.id}`, { method: "DELETE" });
           const photoPaths = item?.photos;
           if (photoPaths && photoPaths.length > 0) {
-            photoPaths.forEach(async (path) => {
+            photoPaths.forEach(async (path: any) => {
               await deleteFile(String(path));
             });
           }
@@ -227,7 +227,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
                 <div className="w-full">
                   {rowData?.photos?.length ?
                     <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 px-8 py-4">
-                      {rowData?.photos?.map((pic, i) => (
+                      {rowData?.photos?.map((pic: any, i: any) => (
                         <div key={i} className="bg-white rounded-lg shadow-lg px-2 py-2">
                           <img className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
