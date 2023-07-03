@@ -18,13 +18,13 @@ import {
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
-import React from "react";
+import { SyntheticEvent, useState } from "react";
 import { Tender } from "types";
 
 const TenderDetails = () => {
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = useState("1");
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
   const router = useRouter();
