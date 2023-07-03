@@ -1,4 +1,9 @@
-import { Leaderboard, MedicalInformationRounded, Receipt, Send } from "@mui/icons-material";
+import {
+	Leaderboard,
+	MedicalInformationRounded,
+	Receipt,
+	Send,
+} from "@mui/icons-material";
 import ICONS from "assets/icons";
 import { useEffect, useState } from "react";
 import { useFetch } from "./useAPI";
@@ -362,6 +367,19 @@ export default () => {
 			],
 		},
 		{
+			key: "17ABH",
+			title: "Bills",
+			icon: <ICONS.Technology />,
+			submenus: [
+				{
+					key: "12-1",
+					title: "Dashboard",
+					icon: <ICONS.Dashboard_1 />,
+					route: "/admin/bills",
+				},
+			],
+		},
+		{
 			key: "28",
 			title: "Assets",
 			icon: <ICONS.Assets />,
@@ -557,8 +575,7 @@ export default () => {
 			icon: <ICONS.All_Chat />,
 			route: "/admin/chat",
 		},
-
-	]
+	];
 	useEffect(() => {
 		if (isLoading || !roleData?.accessPages?.length) return;
 
