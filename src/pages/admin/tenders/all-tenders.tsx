@@ -16,7 +16,7 @@ const AllTenders = () => {
   const [isCategory, setIsCategory] = useState<string | null>(null);
   const [tenderNo, setTenderNo] = useState<string | null>(null);
   const [tenderName, setTenderName] = useState<string | null>(null);
-  const [isSubmissionDate, setIsSubmissionDate] = useState<any>(new Date());
+  const [isSubmissionDate, setIsSubmissionDate] = useState<any>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const {
