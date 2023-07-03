@@ -1,5 +1,8 @@
 import { DashboardSkeletonLoading } from "components/admin/assets";
-import { BillsDashboardCard } from "components/admin/bills";
+import {
+	BillsDashboardCard,
+	BillsDashboardCharts,
+} from "components/admin/bills";
 import {
 	QuotationDashboardCard,
 	QuotationDashboardCharts,
@@ -26,7 +29,7 @@ const index = () => {
 								data={dashboardData}
 								branch={branchDashboard}
 							/>
-							<QuotationDashboardCharts data={dashboardData} />
+							<BillsDashboardCharts data={dashboardData} />
 						</>
 					)}
 				</section>

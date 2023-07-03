@@ -587,6 +587,12 @@ const PageList = [
 		icon: <ICONS.Change_Password />,
 		name: "Bill Dashboard",
 	},
+	{
+		id: 57,
+		value: "/admin/bills/create-bill",
+		icon: <ICONS.Change_Password />,
+		name: "Create Bill",
+	},
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 ];
