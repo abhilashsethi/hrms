@@ -3,6 +3,7 @@ import {
   TENDERICONS2,
   TENDERICONS3,
 } from "assets/dashboard_Icons";
+import { CLOSE } from "assets/home";
 import { CommonBarChart, CommonDonutChart } from "components/analytics";
 import { AdminBreadcrumbs, DashboardCard } from "components/core";
 import { useFetch } from "hooks";
@@ -14,7 +15,7 @@ const TenderDashboard = () => {
   const {
     data: tenderData,
     isLoading,
-  } = useFetch<Tender>(
+  } = useFetch<any>(
     `tenders/get/dashboard/info`
   );
   console.log(tenderData);
@@ -22,21 +23,28 @@ const TenderDashboard = () => {
     () => [
       {
         id: 1,
-        count: 0,
+        count: tenderData?.tenderCount,
         title: "Total Tenders",
         bg: "from-blue-500 to-blue-300",
         img: TENDERICONS1.src,
       },
       {
         id: 2,
-        count: 0,
+        count: tenderData?.totalOpenTenderCount,
         title: "Opened Tenders",
         bg: "from-green-500 to-green-300",
         img: TENDERICONS2.src,
       },
       {
+        id: 4,
+        count: tenderData?.totalClosedTenderCount,
+        title: "Closed Tenders",
+        bg: "from-green-500 to-green-300",
+        img: CLOSE.src,
+      },
+      {
         id: 3,
-        count: 0,
+        count: tenderData?.totalSubmittedTenderCount,
         title: "Submitted Tenders",
         bg: "from-yellow-500 to-yellow-300",
         img: TENDERICONS3.src,
@@ -55,9 +63,13 @@ const TenderDashboard = () => {
           <div className="p-6 rounded-md shadow-lg bg-white">
             <h1 className="font-bold">Tender Ratio</h1>
             <CommonDonutChart
-              labels={["Successful", "failed"]}
+              labels={tenderData?.allTenderCountStatusWise?.length ?
+                tenderData?.allTenderCountStatusWise?.map((item: any) => item?.status)
+                : []}
               text="Tender Ratio"
-              series={[12, 2]}
+              series={tenderData?.allTenderCountStatusWise?.length ?
+                tenderData?.allTenderCountStatusWise?.map((item: any) => item?._count)
+                : []}
               type="pie"
               colors={[
                 "#106EAD",
@@ -72,8 +84,13 @@ const TenderDashboard = () => {
           <div className="p-6 rounded-md shadow-lg bg-white">
             <h1 className="font-bold">Recent month status</h1>
             <CommonBarChart
-              labels={["Jan", "Feb", "Mar", "Apr", "May"]}
-              data={[4, 12, 8, 20, 22]}
+              labels={tenderData?.allTenderCountMonthWiseOfCurrentYear?.length ?
+                tenderData?.allTenderCountMonthWiseOfCurrentYear?.map((item: any) => item?.monthAbbreviation)
+                : null}
+              data={tenderData?.allTenderCountMonthWiseOfCurrentYear?.length ?
+                tenderData?.allTenderCountMonthWiseOfCurrentYear?.map((item: any) => item?.count)
+                : null
+              }
               type="bar"
               text=""
             />

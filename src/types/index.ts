@@ -288,6 +288,13 @@ export interface TenderNote {
 	title?: string;
 	description?: string;
 }
+export interface TenderDashboard {
+	monthAbbreviation: string;
+	status: string | null;
+	count: number;
+	_count: number | null;
+	month: number;
+}
 export type Tender = {
 	id?: string;
 	name?: string;
@@ -305,6 +312,10 @@ export type Tender = {
 	status?: string;
 	notes?: TenderNote[];
 	EmdAmount?: number,
+	totalOpenTenderCount?: number,
+	totalClosedTenderCount?: number,
+	totalSubmittedTenderCount?: number,
+	tenderCount?: number,
 	tenderFees?: number,
 	feesPaymentMode?: string,
 	EmdPaymentMode?: string,
@@ -312,6 +323,8 @@ export type Tender = {
 	isEmdExemption?: boolean,
 	isAllDocumentsAdded?: boolean,
 	documents?: TenderDocumentType[];
+	allTenderCountMonthWiseOfCurrentYear?: TenderDashboard[];
+	allTenderCountStatusWise?: TenderDashboard[];
 
 };
 
