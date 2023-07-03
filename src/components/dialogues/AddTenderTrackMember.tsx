@@ -27,7 +27,7 @@ interface Props {
 interface Input {
   memberId?: string;
 }
-const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Props) => {
+const AddTenderTrackMember = ({ open, handleClose, mutate, tenderData }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { data: employees } = useFetch<User[]>(`users?departmentName=BID`);
@@ -47,7 +47,7 @@ const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Pr
         body: {
           memberId: values?.memberId,
           tenderId: tenderData?.id,
-          isAllowedToSubmitTender: true,
+          isAllowedToReviewTender: true,
         },
       });
       setLoading(false);
@@ -119,7 +119,7 @@ const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Pr
                   <div className="md:px-4 px-2 md:py-2 py-1">
                     <div className="py-2">
                       <InputLabel htmlFor="note">
-                        Submission Member <span className="text-red-600">*</span>
+                        Review Member <span className="text-red-600">*</span>
                       </InputLabel>
                     </div>
                     <div className="">
@@ -174,4 +174,4 @@ const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Pr
   );
 };
 
-export default AddTenderSubmissionMember;
+export default AddTenderTrackMember;
