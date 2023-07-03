@@ -5052,5 +5052,267 @@ const ICONS = {
 			</svg>
 		);
 	},
+	Quotation: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<path
+					d="M304 496L112 496C99.2696 496 87.0606 490.943 78.0589 481.941C69.0571 472.939 64 460.73 64 448L64 64C64 51.2696 69.0571 39.0606 78.0589 30.0589C87.0606 21.0571 99.2696 16 112 16L400 16C412.73 16 424.939 21.0571 433.941 30.0589C442.943 39.0606 448 51.2696 448 64L448 352L304 496Z"
+					fill="url(#paint0_linear_2080_2)"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path d="M304 496V352H448" fill="url(#paint1_linear_2080_2)" />
+				<path
+					d="M304 496V352H448"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<circle cx="160" cy="412" r="42.5" stroke="black" stroke-width="5" />
+				<circle cx="160.005" cy="412" r="34.0909" fill="black" />
+				<path
+					d="M352 229H160"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path d="M208 133H184H160" fill="url(#paint2_linear_2080_2)" />
+				<path
+					d="M208 133H184H160"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<defs>
+					<linearGradient
+						id="paint0_linear_2080_2"
+						x1="256"
+						y1="496"
+						x2="256"
+						y2="16"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="white" />
+						<stop offset="1" stop-color="#C6C0E9" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_2080_2"
+						x1="376"
+						y1="496"
+						x2="376"
+						y2="352"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint2_linear_2080_2"
+						x1="184"
+						y1="133"
+						x2="184"
+						y2="134"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+				</defs>
+			</svg>
+		);
+	},
+	Create_Quotation: (
+		props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+	) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<path
+					d="M304 496L112 496C99.2696 496 87.0606 490.943 78.0589 481.941C69.0571 472.939 64 460.73 64 448L64 64C64 51.2696 69.0571 39.0606 78.0589 30.0589C87.0606 21.0571 99.2696 16 112 16L400 16C412.73 16 424.939 21.0571 433.941 30.0589C442.943 39.0606 448 51.2696 448 64L448 352L304 496Z"
+					fill="url(#paint0_linear_2087_16)"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path d="M304 496V352H448" fill="url(#paint1_linear_2087_16)" />
+				<path
+					d="M304 496V352H448"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M256 256V112"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M184 184H328"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<defs>
+					<linearGradient
+						id="paint0_linear_2087_16"
+						x1="256"
+						y1="496"
+						x2="256"
+						y2="16"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="white" />
+						<stop offset="1" stop-color="#C6C0E9" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_2087_16"
+						x1="376"
+						y1="496"
+						x2="376"
+						y2="352"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+				</defs>
+			</svg>
+		);
+	},
+	GST_Configure: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<path
+					d="M353.299 151.91H153.749C3.2785 274.337 31.3228 452.854 111.142 496H403.457C498.916 407.551 484.354 266.787 353.299 151.91Z"
+					fill="url(#paint0_linear_2089_30)"
+					stroke="black"
+					stroke-width="20"
+				/>
+				<path
+					d="M349.752 147.719H160.449C160.449 133.251 160.449 71.9295 141.934 39.4024C141.694 38.981 141.509 38.5264 141.408 38.0522C138.355 23.6976 150.334 19.1991 159.281 18.8438C160.05 18.8132 160.808 18.9982 161.498 19.3399L218.157 47.4047L246.202 18.8204C251.434 14.6948 258.702 15.5291 263.563 18.5398C263.856 18.7216 264.121 18.9446 264.363 19.191L292.044 47.4047L348.703 19.3399C349.393 18.9982 350.165 18.8134 350.935 18.8425C366.761 19.4411 368.85 32.0757 369.126 37.0871C369.186 38.1833 368.804 39.2286 368.191 40.1393C354.894 59.8933 349.752 117.176 349.752 147.719Z"
+					fill="url(#paint1_linear_2089_30)"
+					stroke="black"
+					stroke-width="20"
+				/>
+				<path
+					d="M144.8 360V303.2H122.4V290H183.4V303.2H161V360H144.8ZM211.237 360L242.437 290H258.437L289.737 360H272.737L247.137 298.2H253.537L227.837 360H211.237ZM226.837 345L231.137 332.7H267.137L271.537 345H226.837ZM317.32 360L347.42 318.5V330.3L318.62 290H337.02L356.92 318.1L349.22 318.2L368.82 290H386.42L357.82 329.6V318L388.12 360H369.42L348.82 330.3H356.22L335.92 360H317.32Z"
+					fill="black"
+				/>
+				<defs>
+					<linearGradient
+						id="paint0_linear_2089_30"
+						x1="255.528"
+						y1="151.91"
+						x2="255.528"
+						y2="496"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_2089_30"
+						x1="255.045"
+						y1="16"
+						x2="255.045"
+						y2="147.719"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+				</defs>
+			</svg>
+		);
+	},
+	View_All_Quotation: (
+		props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+	) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<path
+					d="M304 496L112 496C99.2696 496 87.0606 490.943 78.0589 481.941C69.0571 472.939 64 460.73 64 448L64 64C64 51.2696 69.0571 39.0606 78.0589 30.0589C87.0606 21.0571 99.2696 16 112 16L400 16C412.73 16 424.939 21.0571 433.941 30.0589C442.943 39.0606 448 51.2696 448 64L448 352L304 496Z"
+					fill="url(#paint0_linear_2090_41)"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path d="M304 496V352H448" fill="url(#paint1_linear_2090_41)" />
+				<path
+					d="M304 496V352H448"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M307.338 152.081C306.641 151.383 305.75 151.035 304.666 151.035H284.789C283.471 144.605 280.991 139.024 277.349 134.297H304.432C305.519 134.297 306.408 133.948 307.107 133.253C307.801 132.556 308.15 131.663 308.15 130.579V118.72C308.15 117.634 307.801 116.744 307.107 116.046C306.407 115.35 305.518 115 304.432 115H207.719C206.634 115 205.743 115.35 205.046 116.046C204.35 116.743 204 117.634 204 118.719V134.179C204 135.186 204.368 136.058 205.104 136.794C205.84 137.53 206.712 137.898 207.719 137.898H224.574C240.925 137.898 251.309 142.276 255.726 151.033H207.719C206.634 151.033 205.742 151.381 205.046 152.079C204.35 152.777 204 153.667 204 154.752V166.61C204 167.695 204.348 168.586 205.046 169.282C205.743 169.98 206.635 170.328 207.719 170.328H257.356C255.651 176.684 251.679 181.526 245.44 184.859C239.2 188.192 230.968 189.858 220.738 189.858H207.719C206.712 189.858 205.84 190.227 205.104 190.962C204.368 191.699 204 192.571 204 193.577V208.342C204 209.35 204.348 210.203 205.046 210.899C219.924 226.708 239.221 248.831 262.934 277.273C263.632 278.204 264.6 278.668 265.84 278.668H288.507C290.136 278.668 291.26 277.973 291.878 276.575C292.653 275.18 292.501 273.863 291.413 272.623C268.787 244.879 251.001 224.111 238.059 210.317C251.233 208.767 261.928 204.504 270.143 197.531C278.356 190.557 283.354 181.489 285.138 170.33H304.666C305.75 170.33 306.642 169.982 307.338 169.284C308.036 168.588 308.386 167.697 308.386 166.612V154.756C308.386 153.669 308.036 152.779 307.338 152.081Z"
+					fill="black"
+				/>
+				<defs>
+					<linearGradient
+						id="paint0_linear_2090_41"
+						x1="256"
+						y1="496"
+						x2="256"
+						y2="16"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="white" />
+						<stop offset="1" stop-color="#C6C0E9" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_2090_41"
+						x1="376"
+						y1="496"
+						x2="376"
+						y2="352"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+				</defs>
+			</svg>
+		);
+	},
 };
 export default ICONS;

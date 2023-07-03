@@ -554,13 +554,13 @@ const PageList = [
 	{
 		id: 53,
 		value: "/admin/quotation",
-		icon: <ICONS.Change_Password />,
+		icon: <ICONS.Quotation />,
 		name: "Quotation Dashboard",
 	},
 	{
 		id: 52,
 		value: "/admin/quotation/create-quotation",
-		icon: <ICONS.Change_Password />,
+		icon: <ICONS.Create_Quotation />,
 		name: "Create Quotation",
 	},
 	{
@@ -572,7 +572,7 @@ const PageList = [
 	{
 		id: 53,
 		value: "/admin/quotation/gst-config",
-		icon: <ICONS.Change_Password />,
+		icon: <ICONS.GST_Configure />,
 		name: "Gst Configure",
 	},
 	{
