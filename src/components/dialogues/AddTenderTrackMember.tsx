@@ -47,7 +47,7 @@ const AddTenderTrackMember = ({ open, handleClose, mutate, tenderData }: Props) 
         body: {
           memberId: values?.memberId,
           tenderId: tenderData?.id,
-          isAllowedToReviewTender: true,
+          isAllowedToTrackTender: true,
         },
       });
       setLoading(false);
@@ -119,7 +119,7 @@ const AddTenderTrackMember = ({ open, handleClose, mutate, tenderData }: Props) 
                   <div className="md:px-4 px-2 md:py-2 py-1">
                     <div className="py-2">
                       <InputLabel htmlFor="note">
-                        Review Member <span className="text-red-600">*</span>
+                        Track Member <span className="text-red-600">*</span>
                       </InputLabel>
                     </div>
                     <div className="">
