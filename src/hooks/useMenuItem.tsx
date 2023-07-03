@@ -327,7 +327,7 @@ export default () => {
 		{
 			key: "24hh",
 			title: "Quotation",
-			icon: <Receipt />,
+			icon: <ICONS.Quotation />,
 			submenus: [
 				{
 					key: "24hh-1",
@@ -338,7 +338,7 @@ export default () => {
 				{
 					key: "24hh-2",
 					title: "Create Quotation",
-					icon: <ICONS.All_Clients />,
+					icon: <ICONS.Create_Quotation />,
 					route: "/admin/quotation/create-quotation",
 				},
 				{
@@ -350,7 +350,7 @@ export default () => {
 				{
 					key: "24hh-3",
 					title: "Gst Configure",
-					icon: <ICONS.All_Clients />,
+					icon: <ICONS.GST_Configure />,
 					route: "/admin/quotation/gst-config",
 				},
 				{
