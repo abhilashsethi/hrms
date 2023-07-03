@@ -265,10 +265,10 @@ const CardContent = ({ item, mutate }: Props) => {
               ? `bg-yellow-400` :
               item?.status === "Disqualified" ? `bg-red-500` :
                 item?.status === "L1" ? `bg-blue-500` :
-                  item?.status === "Cancelled" ? `#f97316` :
-                    item?.status === "FinancialEvaluation" ? `#8b5cf6` :
-                      item?.status === "TechnicalEvaluation" ? `#e879f9` :
-                        item?.status === "BidAwarded" ? `#9333ea`
+                  item?.status === "Cancelled" ? `bg-[#f97316]` :
+                    item?.status === "FinancialEvaluation" ? `bg-[#8b5cf6]` :
+                      item?.status === "TechnicalEvaluation" ? `bg-[#e879f9]` :
+                        item?.status === "BidAwarded" ? `bg-[#9333ea]`
                           : `bg-green-500`
               }`}
           >

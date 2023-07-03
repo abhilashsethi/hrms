@@ -106,7 +106,7 @@ const TenderDetails = () => {
 export default TenderDetails;
 
 const links = [
-  { id: 1, page: "Tenders", link: "/admin/tenders/all-tenders" },
+  { id: 1, page: "Tenders", link: "/admin/tenders" },
   {
     id: 2,
     page: "All Tenders",
