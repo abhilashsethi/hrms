@@ -4,6 +4,7 @@ import { CHATDOC } from "assets/home";
 import {
   Button,
   Checkbox,
+  CircularProgress,
   IconButton,
   Link,
   MenuItem,
@@ -11,7 +12,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Add, Check, Delete, Download, Person } from "@mui/icons-material";
-import { AddTenderDocument, AddTenderReviewMember } from "components/dialogues";
+import { AddTenderDocument, AddTenderReviewMember, AddTenderSubmissionMember } from "components/dialogues";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -26,9 +27,7 @@ const TenderSubmission = ({ mutate, tenderData }: Props) => {
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
   const [isDocumentValue, setIsDocumentValue] = useState(tenderData?.isAllDocumentsAdded)
-  const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsDocumentValue(event.target.value === 'Yes');
-  };
+
   const [filteredMember, setFilteredMember] = useState<any | null>(null);
   tenderData?.members?.length ?
     useEffect(() => {
@@ -36,7 +35,7 @@ const TenderSubmission = ({ mutate, tenderData }: Props) => {
       setFilteredMember(filtered || null);
     }, [tenderData]) : null;
   const initialValues = {
-    documentAddReason: `${tenderData?.documentAddReason ? tenderData?.documentAddReason : ""}`,
+    status: `${tenderData?.status ? tenderData?.status : ""}`,
   };
 
   const validationSchema = Yup.object().shape({
@@ -86,8 +85,7 @@ const TenderSubmission = ({ mutate, tenderData }: Props) => {
       const res = await change(`tenders/update/${tenderData?.id}`, {
         method: "PATCH",
         body: {
-          documentAddReason: values?.documentAddReason,
-          isAllDocumentsAdded: isDocumentValue,
+          status: values?.status,
         },
       });
       setLoading(false);
@@ -118,7 +116,7 @@ const TenderSubmission = ({ mutate, tenderData }: Props) => {
         handleClose={() => setIsDocument({ dialogue: false })}
         mutate={mutate}
       />
-      <AddTenderReviewMember
+      <AddTenderSubmissionMember
         tenderData={isMember?.tenderData}
         open={isMember?.dialogue}
         handleClose={() => setIsMember({ dialogue: false })}
@@ -182,8 +180,6 @@ const TenderSubmission = ({ mutate, tenderData }: Props) => {
                 </div>
               </div>
             </div>}
-
-
         </> :
         <div className="w-80">
           <div className="grid py-6 justify-center justify-items-center">
@@ -281,39 +277,61 @@ const TenderSubmission = ({ mutate, tenderData }: Props) => {
       </div>
 
       <div className="w-1/2 mt-4">
-        <h1 className="font-semibold">Update Status </h1>
-        <TextField
-          className="!mt-4"
-          select
-          fullWidth
-          defaultValue="Disqualified"
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
         >
-          {statuses.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <div className="flex mt-2 mb-2">
-          <Button
-            startIcon={<Check />}
-            variant="contained"
-            className="!bg-green-500"
-          >
-            Update
-          </Button>
-        </div>
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+          }) => (
+            <Form>
+              <h1 className="font-semibold">Update Status </h1>
+              <TextField
+                className="!mt-4"
+                select
+                fullWidth
+                id="status"
+                name="status"
+                value={values.status}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.status && !!errors.status}
+                helperText={touched.status && errors.status}
+              >
+                {statuses.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <div className="flex mt-2 mb-2">
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  startIcon={
+                    loading ? <CircularProgress size={20} /> : <Check />
+                  }
+                  variant="contained"
+                  className="!bg-green-500"
+                >
+                  Update
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
     </section>
   );
 };
 
 export default TenderSubmission;
-
-const documents = [
-  { id: 1, name: "Financial Document", doc: "alldata.csv" },
-  { id: 2, name: "Tender Agreement", doc: "agreements.csv" },
-];
 
 const statuses = [
   {
