@@ -26,7 +26,6 @@ interface TenderDoc {
 }
 const TenderDetail = ({ tenderData, mutate }: Props) => {
   const { change } = useChange();
-  console.log("Get by Id", { tenderData });
   const basicDetails = [
     {
       id: 1, title: "Tender No",

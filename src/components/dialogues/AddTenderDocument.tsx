@@ -46,13 +46,11 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
   const handleSubmit = async (values: InputField) => {
     setLoading(true);
     try {
-      console.log(values);
       const uniId = values?.link?.split('.').pop();
       const url = values?.link ? await uploadFile(
         values?.link,
         `${Date.now()}.${uniId}`
       ) : undefined;
-      console.log(url);
       const res = await change(`tenders/add-doc/to-tender`, {
         body:
           { title: values?.title, link: url, tenderId: tenderData?.id },

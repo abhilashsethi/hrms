@@ -32,11 +32,9 @@ const AllGuests = () => {
     isLoading,
     pagination,
   } = useFetch<any[]>(
-    `guests?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
-      isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    `guests?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }`
   );
-  console.log(pagination);
   return (
     <PanelLayout title="All Guests - Admin Panel">
       <section className="lg:px-8 px-4 py-4">
@@ -134,7 +132,7 @@ const AllGuests = () => {
                 <Pagination
                   count={Math.ceil(
                     Number(pagination?.total || 1) /
-                      Number(pagination?.limit || 1)
+                    Number(pagination?.limit || 1)
                   )}
                   onChange={(e, v: number) => {
                     setPageNumber(v);

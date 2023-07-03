@@ -91,7 +91,6 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
   };
   const handleSubmit = async (values: Tender) => {
     setLoading(true);
-    console.log(values);
     try {
       const res = await change(`tenders/update/${tenderData?.id}`, {
         method: "PATCH",
@@ -110,7 +109,7 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully updated!`, `success`);
+      Swal.fire(`Success`, `Status change successfully`, `success`);
       mutate()
       return;
     } catch (error) {
@@ -124,7 +123,7 @@ const TenderTrack = ({ mutate, tenderData }: Props) => {
     try {
       Swal.fire({
         title: "Are you sure?",
-        text: `You want to delete ${item?.title}?`,
+        text: `You want to delete the note?`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",

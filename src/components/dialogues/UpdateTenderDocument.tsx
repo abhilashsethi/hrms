@@ -90,7 +90,6 @@ const UpdateTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) 
         body:
           { title: values?.title, link: values?.docs, tenderId: router?.query?.id },
       });
-      console.log(res);
       if (res?.status !== 200) {
         Swal.fire(
           "Error",

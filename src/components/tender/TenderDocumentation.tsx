@@ -83,7 +83,6 @@ const TenderDocumentation = ({ mutate, tenderData }: Props) => {
   };
   const handleSubmit = async (values: Tender) => {
     setLoading(true);
-    console.log(values);
     try {
       const res = await change(`tenders/update/${tenderData?.id}`, {
         method: "PATCH",

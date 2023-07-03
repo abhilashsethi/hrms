@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab } from "@mui/material";
-import { AdminBreadcrumbs } from "components/core";
+import { AdminBreadcrumbs, Loader } from "components/core";
 import {
   TenderDetail,
   TenderDocumentation,
@@ -31,6 +31,7 @@ const TenderDetails = () => {
   const {
     data: tenderData,
     mutate,
+    isLoading,
   } = useFetch<Tender>(
     `tenders/${router?.query?.id}`
   );
@@ -66,6 +67,13 @@ const TenderDetails = () => {
       component: <TenderTrack mutate={mutate} tenderData={tenderData} />,
     },
   ];
+  if (isLoading) {
+    return (
+      <section className="min-h-screen">
+        <Loader />
+      </section>
+    );
+  }
   return (
     <PanelLayout title="Tender Details - Admin Panel">
       <section className="px-8 py-4">
