@@ -11,9 +11,15 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Add, Check, Delete, Download, Person } from "@mui/icons-material";
-import { useState } from "react";
+import { PhotoViewerSmall } from "components/core";
+import { AddTenderDocument, AddTenderReviewMember } from "components/dialogues";
+import { Form, Formik } from "formik";
+import { useChange } from "hooks";
+import { ChangeEvent, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { Tender } from "types";
-import { AddTenderDocument } from "components/dialogues";
+import * as Yup from "yup";
+import TenderLayout from "./TenderLayout";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;
