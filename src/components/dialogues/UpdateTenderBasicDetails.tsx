@@ -12,9 +12,9 @@ import {
   Tooltip
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useChange } from "hooks";
 import moment from "moment";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
 import * as Yup from "yup";
@@ -68,7 +68,6 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
       .positive('Must be a positive number'),
   });
   const handleSubmit = async (values: TenderUpdate) => {
-    console.log(values);
     setLoading(true);
     try {
       const res = await change(`tenders/update/${tenderData?.id}`, {
@@ -94,7 +93,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully updated!`, `success`);
+      Swal.fire(`Success`, `Basic details updated successfully!`, `success`);
       mutate()
       handleClose()
       return;

@@ -112,7 +112,7 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully updated!`, `success`);
+      Swal.fire(`Success`, `Review updated successfully!`, `success`);
       mutate()
       return;
     } catch (error) {

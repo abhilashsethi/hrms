@@ -12,7 +12,11 @@ import { Tender } from "types";
 import { deleteFile } from "utils";
 
 const AllTenders = () => {
+  const [isPortal, setIsPortal] = useState<string | null>(null);
+  const [isCategory, setIsCategory] = useState<string | null>(null);
+  const [tenderNo, setTenderNo] = useState<string | null>(null);
   const [tenderName, setTenderName] = useState<string | null>(null);
+  const [isSubmissionDate, setIsSubmissionDate] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const {
@@ -21,9 +25,14 @@ const AllTenders = () => {
     isLoading,
     pagination,
   } = useFetch<Tender[]>(
-    `tenders?page=${pageNumber}&limit=8${tenderName ? `&title=${tenderName}` : ""}${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
+    `tenders?page=${pageNumber}&limit=8
+    ${tenderName ? `&title=${tenderName}` : ""}
+    ${tenderNo ? `&tenderNo=${tenderNo}` : ""}
+    ${isOrderBy ? `&orderBy=${isOrderBy}` : ""}
+    ${isCategory ? `&category=${isCategory}` : ""}
+    ${isSubmissionDate ? `&submissionDate=${isSubmissionDate}` : ""}
+    ${isPortal ? `&portal=${isPortal}` : ""}`
   );
-  // & tenderNo=1 & category= & portal
 
   return (
     <PanelLayout title="All Tenders - Admin Panel">
@@ -50,16 +59,30 @@ const AllTenders = () => {
               onClick={() => {
                 setIsOrderBy(null);
                 setTenderName(null);
+                setTenderNo(null);
+                setIsPortal(null);
+                setIsSubmissionDate(null);
+                setIsCategory(null);
               }}
             >
               <Tooltip
                 title={
-                  isOrderBy != null || tenderName != null
+                  isSubmissionDate != null ||
+                    isPortal != null ||
+                    isCategory != null ||
+                    isOrderBy != null ||
+                    tenderName != null ||
+                    tenderNo != null
                     ? `Remove Filters`
                     : `Filter`
                 }
               >
-                {isOrderBy != null || tenderName != null ? (
+                {isPortal != null ||
+                  isSubmissionDate != null ||
+                  isCategory != null ||
+                  isOrderBy != null ||
+                  tenderName != null ||
+                  tenderNo != null ? (
                   <Close className={"!text-white"} />
                 ) : (
                   <FilterListRounded className={"!text-white"} />
@@ -78,6 +101,50 @@ const AllTenders = () => {
               }}
               placeholder="Tender Name"
               name="name"
+            />
+            <TextField
+              fullWidth
+              size="small"
+              id="tenderNo"
+              value={tenderNo ? tenderNo : ""}
+              onChange={(e) => {
+                setPageNumber(1), setTenderNo(e.target.value);
+              }}
+              placeholder="Tender Number"
+              name="tenderNo"
+            />
+            <TextField
+              fullWidth
+              size="small"
+              id="Category"
+              value={isCategory ? isCategory : ""}
+              onChange={(e) => {
+                setPageNumber(1), setIsCategory(e.target.value);
+              }}
+              placeholder="Category"
+              name="Category"
+            />
+            <TextField
+              fullWidth
+              size="small"
+              id="portal"
+              value={isPortal ? isPortal : ""}
+              onChange={(e) => {
+                setPageNumber(1), setIsPortal(e.target.value);
+              }}
+              placeholder="Portal"
+              name="portal"
+            />
+            <TextField
+              fullWidth
+              size="small"
+              id="submissionDate"
+              type="date"
+              value={isSubmissionDate ? isSubmissionDate : ""}
+              onChange={(e) => {
+                setPageNumber(1), setIsSubmissionDate(e.target.value);
+              }}
+              name="submissionDate"
             />
             <TextField
               fullWidth

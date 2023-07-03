@@ -70,7 +70,7 @@ const AssignMembers = ({ handleNext }: Props) => {
       });
 
       await Promise.all(promises).then(() => {
-        Swal.fire("Success", "You have successfully Created!", "success");
+        Swal.fire("Success", "Assign member successfully Submitted!", "success");
         handleNext();
         setLoading(false);
       })

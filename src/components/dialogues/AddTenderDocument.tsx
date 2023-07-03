@@ -65,7 +65,7 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
         return;
       }
       setLoading(false);
-      Swal.fire(`Success`, `You have successfully created!`, `success`);
+      Swal.fire(`Success`, `Document created successfully!`, `success`);
       mutate()
       handleClose()
       setLoading(false);

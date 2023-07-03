@@ -425,15 +425,15 @@ const statuses = [
     label: "Closed",
   },
   {
-    value: "Technical Evaluation",
+    value: "TechnicalEvaluation",
     label: "Technical Evaluation",
   },
   {
-    value: "Financial Evaluation",
+    value: "FinancialEvaluation",
     label: "Financial Evaluation",
   },
   {
-    value: "Bid Awarded",
+    value: "BidAwarded",
     label: "Bid Awarded",
   },
   {

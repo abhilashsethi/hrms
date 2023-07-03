@@ -78,7 +78,7 @@ const UpdateTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) 
           return;
         }
         setLoading(false);
-        Swal.fire(`Success`, `You have successfully created!`, `success`);
+        Swal.fire(`Success`, `Tender document updated successfully!`, `success`);
         mutate()
         handleClose()
         setLoading(false);
@@ -100,7 +100,7 @@ const UpdateTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) 
         return;
       }
       setLoading(false);
-      Swal.fire(`Success`, `You have successfully created!`, `success`);
+      Swal.fire(`Success`, `Tender document updated successfully!`, `success`);
       mutate()
       handleClose()
       setLoading(false);
