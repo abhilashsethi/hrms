@@ -19,6 +19,15 @@ import { useState } from "react";
 import * as Yup from "yup";
 // import PayrollInputField from "./PayrollInputField";
 
+interface InputField {
+	field1: string;
+	field2: number;
+	field3: number;
+}
+interface FormValues {
+	inputFields: InputField[];
+}
+
 const CreateBills = () => {
 	const [fields, setFields] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -30,7 +39,7 @@ const CreateBills = () => {
 
 	const initialValues = {
 		billType: "",
-		inputFields: [{ field1: "", field2: "", field3: "" }],
+		inputFields: [{ field1: "", field2: 0, field3: 0 }],
 		quotationNumber: "",
 		clientName: "",
 		clientEmail: "",
@@ -48,6 +57,15 @@ const CreateBills = () => {
 		invoiceNumber: Yup.string().required("invoice number is required!"),
 		invoiceDate: Yup.string().required("invoice date is required!"),
 		dueDate: Yup.string().required("Due date is required!"),
+		inputFields: Yup.array().of(
+			Yup.object()
+				.shape({
+					field1: Yup.string().required("Description is required"),
+					field2: Yup.mixed().required("Qty is required"),
+					field3: Yup.mixed().required("Cost is required"),
+				})
+				.nullable()
+		),
 	});
 
 	const Bill_Type = [
@@ -444,20 +462,45 @@ const CreateBills = () => {
 																>
 																	<Field
 																		as={TextField}
-																		name={`inputFields[${index}].field1`}
 																		label="Description"
+																		fullWidth
+																		size="small"
+																		name={`inputFields[${index}].field1`}
+																		onBlur={handleBlur}
+																		// error={
+																		// 	touched.inputFields?.[index]?.field1 &&
+																		// 	!!(
+																		// 		errors.inputFields?.[
+																		// 			index
+																		// 		] as InputField
+																		// 	)?.field1
+																		// }
+																		// helperText={
+																		// 	touched.inputFields?.[index]?.field1 &&
+																		// 	(
+																		// 		errors.inputFields?.[
+																		// 			index
+																		// 		] as InputField
+																		// 	)?.field1
+																		// }
 																	/>
 																	<Field
 																		as={TextField}
 																		name={`inputFields[${index}].field2`}
 																		type="number"
 																		label="SAC Code"
+																		fullWidth
+																		size="small"
+																		onBlur={handleBlur}
 																	/>
 																	<Field
 																		as={TextField}
 																		name={`inputFields[${index}].field3`}
 																		label="Amount"
 																		type="number"
+																		fullWidth
+																		size="small"
+																		onBlur={handleBlur}
 																	/>
 
 																	<Tooltip title="Remove Field">
