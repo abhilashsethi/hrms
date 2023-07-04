@@ -51,16 +51,14 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
     setLoading(true);
     try {
       let updatedEmdAmount = Number(values?.EmdAmount);
-      let updatedEmdPaymentMode = values?.EmdPaymentMode;
       if (isEmdValue) {
         updatedEmdAmount = 0;
-        updatedEmdPaymentMode = "";
       }
       const res = await change(`tenders/update/${tenderData?.id}`, {
         method: "PATCH",
         body: {
           EmdAmount: updatedEmdAmount,
-          EmdPaymentMode: updatedEmdPaymentMode,
+          EmdPaymentMode: values?.EmdPaymentMode,
           isEmdExemption: isEmdValue,
         },
       });
@@ -115,7 +113,7 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-          <div className="md:px-4 px-2 tracking-wide">
+          <div className="md:px-4 px-2 md:w-[25rem] w-full tracking-wide">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}

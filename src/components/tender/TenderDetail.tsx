@@ -85,12 +85,12 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
     {
       id: 4,
       title: "EMD Amount in ₹",
-      value: tenderData?.EmdAmount || "---",
+      value: tenderData?.isEmdExemption ? "Not available" : tenderData?.EmdAmount || "---",
     },
     {
       id: 2,
       title: "Payment Mode",
-      value: tenderData?.EmdPaymentMode || "---",
+      value: tenderData?.isEmdExemption ? "Not available" : tenderData?.EmdPaymentMode || "---",
     },
   ];
   const [isUpdate, setIsUpdate] = useState<{

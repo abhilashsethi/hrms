@@ -28,7 +28,7 @@ const CreateQuotation = () => {
 	const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 	const initialValues = {
-		inputFields: [{ field1: "", field2: "", field3: "" }],
+		inputFields: [{ field1: "", field2: 0, field3: 0 }],
 		clientName: "",
 		clientEmail: "",
 		clientAddress: "",
@@ -40,7 +40,15 @@ const CreateQuotation = () => {
 		clientEmail: Yup.string().email().required("Client Email is required!"),
 		clientAddress: Yup.string().required("Client address is required!"),
 		quotationTitle: Yup.string().required("Quotation title is required!"),
-		inputFields: Yup.array().required("Input Fields are required"),
+		inputFields: Yup.array().of(
+			Yup.object()
+				.shape({
+					field1: Yup.string().required("Description is required"),
+					field2: Yup.mixed().required("Qty is required"),
+					field3: Yup.mixed().required("Cost is required"),
+				})
+				.nullable()
+		),
 	});
 
 	const handleSubmit = (values: any) => {
@@ -181,20 +189,45 @@ const CreateQuotation = () => {
 														>
 															<Field
 																as={TextField}
-																name={`inputFields[${index}].field1`}
 																label="Description"
+																fullWidth
+																size="small"
+																name={`inputFields[${index}].field1`}
+																onBlur={handleBlur}
+															// error={
+															// 	touched.inputFields?.[index]?.field1 &&
+															// 	!!(
+															// 		errors.inputFields?.[
+															// 			index
+															// 		] as InputField
+															// 	)?.field1
+															// }
+															// helperText={
+															// 	touched.inputFields?.[index]?.field1 &&
+															// 	(
+															// 		errors.inputFields?.[
+															// 			index
+															// 		] as InputField
+															// 	)?.field1
+															// }
 															/>
 															<Field
 																as={TextField}
 																name={`inputFields[${index}].field2`}
 																type="number"
 																label="Qty"
+																fullWidth
+																size="small"
+																onBlur={handleBlur}
 															/>
 															<Field
 																as={TextField}
 																name={`inputFields[${index}].field3`}
 																label="Cost"
 																type="number"
+																fullWidth
+																size="small"
+																onBlur={handleBlur}
 															/>
 
 															<Tooltip title="Remove Field">
