@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { AddMoreField } from "components/dialogues";
-import { Field, FieldArray, Formik } from "formik";
+import { Field, FieldArray, Form, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import dynamic from "next/dynamic";
@@ -29,7 +29,6 @@ const CreateQuotation = () => {
 
 	const initialValues = {
 		inputFields: [{ field1: "", field2: "", field3: "" }],
-		quotationNumber: "",
 		clientName: "",
 		clientEmail: "",
 		clientAddress: "",
@@ -37,7 +36,6 @@ const CreateQuotation = () => {
 		text: "",
 	};
 	const validationSchema = Yup.object().shape({
-		quotationNumber: Yup.string().required("Quotation Number is required!"),
 		clientName: Yup.string().required("Client name is required!"),
 		clientEmail: Yup.string().email().required("Client Email is required!"),
 		clientAddress: Yup.string().required("Client address is required!"),
@@ -80,32 +78,9 @@ const CreateQuotation = () => {
 									handleBlur,
 									setFieldValue,
 								}) => (
-									<form onSubmit={handleSubmit}>
+									<Form>
 										<div className="grid lg:grid-cols-2">
-											<div className="md:px-4 px-2 md:py-2 py-1">
-												<div className="md:py-2 py-1">
-													<InputLabel htmlFor="quotationNumber">
-														Quotation Number{" "}
-														<span className="text-red-600">*</span>
-													</InputLabel>
-												</div>
-												<TextField
-													fullWidth
-													size="small"
-													id="quotationNumber"
-													// placeholder="First Name"
-													name="quotationNumber"
-													value={values.quotationNumber}
-													onChange={handleChange}
-													onBlur={handleBlur}
-													error={
-														touched.quotationNumber && !!errors.quotationNumber
-													}
-													helperText={
-														touched.quotationNumber && errors.quotationNumber
-													}
-												/>
-											</div>
+
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="md:py-2 py-1">
 													<InputLabel htmlFor="clientName">
@@ -282,7 +257,7 @@ const CreateQuotation = () => {
 												CREATE
 											</Button>
 										</div>
-									</form>
+									</Form>
 								)}
 							</Formik>
 						</div>
