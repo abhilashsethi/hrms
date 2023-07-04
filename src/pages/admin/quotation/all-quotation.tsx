@@ -71,18 +71,13 @@ const AllQuotation = () => {
 	const [meetingStatus, setMeetingStatus] = useState<string | null>(null);
 	const [selectDate, setSelectDate] = useState<string | null>(null);
 	const {
-		data: meetingData,
+		data: quotationData,
 		mutate,
 		isLoading,
 	} = useFetch<any>(
-		`meetings?page=${pageNumber}&limit=8${
-			meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
-		}${meetingStatus ? `&status=${meetingStatus}` : ""}${
-			selectDate ? `&date=${selectDate}` : ""
-		}${currentRange?.startDate ? `&startDate=${currentRange?.startDate}` : ""}${
-			currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
-		}`
+		`quotations?page=${pageNumber}&limit=8`
 	);
+	console.log(quotationData);
 	return (
 		<>
 			<PanelLayout title="Meetings - Admin Panel">
@@ -172,15 +167,15 @@ const AllQuotation = () => {
 								<Tooltip
 									title={
 										selectDate != null ||
-										meetingStatus != null ||
-										meetingPerson != null
+											meetingStatus != null ||
+											meetingPerson != null
 											? `Remove Filters`
 											: `Filter`
 									}
 								>
 									{selectDate != null ||
-									meetingStatus != null ||
-									meetingPerson != null ? (
+										meetingStatus != null ||
+										meetingPerson != null ? (
 										<Close className={"!text-white"} />
 									) : (
 										<FilterListRounded className={"!text-white"} />
@@ -248,7 +243,7 @@ const AllQuotation = () => {
 							/>
 						</div>
 					</div>
-					<QuotationGrid data={meetingData?.meetings} mutate={mutate} />
+					<QuotationGrid data={quotationData} mutate={mutate} />
 					{/* {isGrid ? (
 						<>
 							{isLoading && <SkeletonLoader />}
@@ -260,7 +255,7 @@ const AllQuotation = () => {
 							<QuotationColumn data={meetingData?.meetings} mutate={mutate} />
 						</>
 					)} */}
-					{meetingData?.meetings?.length === 0 ? (
+					{quotationData.length === 0 ? (
 						<LoaderAnime text="No Meetings Available" />
 					) : null}
 				</section>

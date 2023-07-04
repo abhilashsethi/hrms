@@ -582,6 +582,12 @@ const PageList = [
 		name: "Bank Account Configure",
 	},
 	{
+		id: 55,
+		value: "/admin/quotation/all-bank-account",
+		icon: <ICONS.Change_Password />,
+		name: "Quotation All Bank Accounts",
+	},
+	{
 		id: 56,
 		value: "/admin/bills",
 		icon: <ICONS.Change_Password />,

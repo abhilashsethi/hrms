@@ -290,6 +290,12 @@ export default () => {
 					icon: <ICONS.All_Projects />,
 					route: "/admin/projects/my-projects",
 				},
+				{
+					key: "7-5",
+					title: "All Technologies",
+					icon: <ICONS.All_Tech />,
+					route: "/admin/technologies/all-technologies",
+				},
 			],
 		},
 
@@ -361,6 +367,12 @@ export default () => {
 					route: "/admin/quotation/gst-config",
 				},
 				{
+					key: "24hh-4",
+					title: "All Bank Accounts",
+					icon: <ICONS.All_Clients />,
+					route: "/admin/quotation/all-bank-account",
+				},
+				{
 					key: "24hh-5",
 					title: "Bank Account Configure",
 					icon: <ICONS.All_Clients />,
@@ -419,25 +431,25 @@ export default () => {
 			],
 		},
 
-		{
-			key: "12",
-			title: "Technologies",
-			icon: <ICONS.Technology />,
-			submenus: [
-				{
-					key: "12-1",
-					title: "Dashboard",
-					icon: <ICONS.Dashboard_1 />,
-					route: "/admin/technologies",
-				},
-				{
-					key: "12-2",
-					title: "All Technologies",
-					icon: <ICONS.All_Tech />,
-					route: "/admin/technologies/all-technologies",
-				},
-			],
-		},
+		// {
+		// 	key: "12",
+		// 	title: "Technologies",
+		// 	icon: <ICONS.Technology />,
+		// 	submenus: [
+		// 		{
+		// 			key: "12-1",
+		// 			title: "Dashboard",
+		// 			icon: <ICONS.Dashboard_1 />,
+		// 			route: "/admin/technologies",
+		// 		},
+		// 		{
+		// 			key: "12-2",
+		// 			title: "All Technologies",
+		// 			icon: <ICONS.All_Tech />,
+		// 			route: "/admin/technologies/all-technologies",
+		// 		},
+		// 	],
+		// },
 		{
 			key: "8",
 			title: "Roles",

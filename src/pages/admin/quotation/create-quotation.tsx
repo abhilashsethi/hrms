@@ -4,6 +4,7 @@ import {
   Checkbox,
   CircularProgress,
   FormControlLabel,
+  FormHelperText,
   IconButton,
   InputLabel,
   Radio,
@@ -17,27 +18,34 @@ import { Field, FieldArray, Form, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import dynamic from "next/dynamic";
+import router from "next/router";
 import { ChangeEvent, useState } from "react";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 // import PayrollInputField from "./PayrollInputField";
 interface InputField {
-  field1?: string;
-  field2?: number;
-  field3?: number;
+  description?: string;
+  qty?: number;
+  cost?: number;
 }
 interface FormValues {
   inputFields: InputField[];
+  clientName: string,
+  clientEmail: string,
+  clientAddress: string,
+  quotationTitle: string,
+  text: string,
 }
 const CreateQuotation = () => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const ReactQuill = dynamic(import("react-quill"), { ssr: false });
-  const [isEmdValue, setIsEmdValue] = useState(false)
+  const [isGstValue, setIsGstValue] = useState(false)
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsEmdValue(event.target.value === 'IGST');
+    setIsGstValue(event.target.value === 'IGST');
   };
   const initialValues = {
-    inputFields: [{ field1: "", field2: 0, field3: 0 }],
+    inputFields: [{ description: "", qty: 0, cost: 0 }],
     clientName: "",
     clientEmail: "",
     clientAddress: "",
@@ -49,21 +57,60 @@ const CreateQuotation = () => {
     clientEmail: Yup.string().email().required("Client Email is required!"),
     clientAddress: Yup.string().required("Client address is required!"),
     quotationTitle: Yup.string().required("Quotation title is required!"),
+    text: Yup.string().required("Terms & Conditions is required!"),
     inputFields: Yup.array().of(
       Yup.object()
         .shape({
-          field1: Yup.string().required("Description is required"),
-          field2: Yup.mixed().required("Qty is required"),
-          field3: Yup.mixed().required("Cost is required"),
+          description: Yup.string().required("Description is required"),
+          qty: Yup.mixed().required("Qty is required"),
+          cost: Yup.mixed().required("Cost is required"),
         })
         .nullable()
     ),
   });
 
-  const handleSubmit = (values: any) => {
-    // Access the values of all input fields
-    console.log("isEmdValue", isEmdValue);
+  const handleSubmit = async (values: FormValues) => {
     console.log(values);
+    setLoading(true);
+    try {
+      const transformedArray = values?.inputFields.map((item, index: number) => {
+        const timestamp = Date.now() + index; // Add the index to make the timestamp unique
+        const id = (timestamp % 100000).toString().padStart(6, '0'); // Limit to 6 digits
+        const description = item.description;
+        const quantity = item.qty;
+        const cost = item.cost;
+        return { id, description, quantity, cost };
+      });
+      const res = await change(`quotations`, {
+        body: {
+          clientName: values?.clientName,
+          clientEmail: values?.clientEmail,
+          clientAddress: values?.clientAddress,
+          quotationTitle: values?.quotationTitle,
+          termsAndConditions: values?.text,
+          isIgst: isGstValue,
+          works: transformedArray,
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.msg || "Unable to Submit",
+          "error"
+        );
+        setLoading(false);
+        return;
+      }
+      router?.push("/admin/quotation/all-quotation");
+      Swal.fire(`Success`, `Quotation created successfully!`, `success`);
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <PanelLayout title="Create Quotation - Admin Panel">
@@ -90,6 +137,7 @@ const CreateQuotation = () => {
                   handleChange,
                   handleBlur,
                   setFieldValue,
+                  setFieldTouched,
                 }) => (
                   <Form>
                     <div className="grid lg:grid-cols-2">
@@ -197,73 +245,73 @@ const CreateQuotation = () => {
                                 label="Description"
                                 fullWidth
                                 size="small"
-                                name={`inputFields[${index}].field1`}
+                                name={`inputFields[${index}].description`}
                                 onBlur={handleBlur}
                                 error={
-                                  touched.inputFields?.[index]?.field1 &&
+                                  touched.inputFields?.[index]?.description &&
                                   !!(
                                     errors.inputFields?.[
                                     index
                                     ] as InputField
-                                  )?.field1
+                                  )?.description
                                 }
                                 helperText={
-                                  touched.inputFields?.[index]?.field1 &&
+                                  touched.inputFields?.[index]?.description &&
                                   (
                                     errors.inputFields?.[
                                     index
                                     ] as InputField
-                                  )?.field1
+                                  )?.description
                                 }
                               />
                               <Field
                                 as={TextField}
-                                name={`inputFields[${index}].field2`}
+                                name={`inputFields[${index}].qty`}
                                 type="number"
                                 label="Qty"
                                 fullWidth
                                 size="small"
                                 onBlur={handleBlur}
                                 error={
-                                  touched.inputFields?.[index]?.field2 &&
+                                  touched.inputFields?.[index]?.qty &&
                                   !!(
                                     errors.inputFields?.[
                                     index
                                     ] as InputField
-                                  )?.field2
+                                  )?.qty
                                 }
                                 helperText={
-                                  touched.inputFields?.[index]?.field2 &&
+                                  touched.inputFields?.[index]?.qty &&
                                   (
                                     errors.inputFields?.[
                                     index
                                     ] as InputField
-                                  )?.field2
+                                  )?.qty
                                 }
                               />
                               <Field
                                 as={TextField}
-                                name={`inputFields[${index}].field3`}
+                                name={`inputFields[${index}].cost`}
                                 label="Cost"
                                 type="number"
                                 fullWidth
                                 size="small"
                                 onBlur={handleBlur}
                                 error={
-                                  touched.inputFields?.[index]?.field3 &&
+                                  touched.inputFields?.[index]?.cost &&
                                   !!(
                                     errors.inputFields?.[
                                     index
                                     ] as InputField
-                                  )?.field3
+                                  )?.cost
                                 }
                                 helperText={
-                                  touched.inputFields?.[index]?.field3 &&
+                                  touched.inputFields?.[index]?.cost &&
                                   (
                                     errors.inputFields?.[
                                     index
                                     ] as InputField
-                                  )?.field3
+                                  )?.cost
                                 }
                               />
 
@@ -283,7 +331,7 @@ const CreateQuotation = () => {
                             className="w-32 mt-2 bg-white text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white border border-theme rounded-lg px-2 py-1"
                             type="button"
                             onClick={() =>
-                              push({ field1: "", field2: "", field3: "" })
+                              push({ description: "", qty: "", cost: "" })
                             }
                           >
                             Add Field
@@ -297,9 +345,9 @@ const CreateQuotation = () => {
                         <span className="text-red-600">*</span>
                       </p>
                       <RadioGroup
-                        defaultValue={isEmdValue ? 'IGST' : 'SGST'}
+                        defaultValue={isGstValue ? 'IGST' : 'SGST'}
                         row
-                        name="isEmdValue"
+                        name="isGstValue"
                         onChange={handleOptionChange}
                       >
                         <FormControlLabel value="IGST" control={<Radio />} label="IGST" />
@@ -312,13 +360,19 @@ const CreateQuotation = () => {
                         <span className="text-red-600">*</span>
                       </p>
                       <ReactQuill
+                        id="text"
                         placeholder="Terms & Conditions ..."
                         theme="snow"
                         value={values.text}
+                        onBlur={() => setFieldTouched("text", true)}
                         onChange={(value) => setFieldValue("text", value)}
-                        onBlur={handleBlur("text")}
                         className="lg:h-[150px] w-full bg-white"
                       />
+                      {Boolean(touched?.text && errors?.text) && (
+                        <FormHelperText error={true}>
+                          {touched?.text && errors?.text}
+                        </FormHelperText>
+                      )}
                     </div>
                     <div className="flex justify-center md:py-4 py-2 mt-10">
                       <Button
