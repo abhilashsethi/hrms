@@ -1,58 +1,12 @@
-import { Add, BorderColor, Delete, Download, Edit } from "@mui/icons-material";
-import {
-	Button,
-	Grid,
-	IconButton,
-	Tooltip,
-	useMediaQuery,
-} from "@mui/material";
-import ICONS from "assets/icons";
-import { RenderIconRow } from "components/common";
-import { Loader, PhotoViewer } from "components/core";
-import {
-	ChangeProfile,
-	CreateLeave,
-	DocPreview,
-	EditQuotationDetails,
-	UpdateClient,
-} from "components/dialogues";
-import { useChange, useFetch } from "hooks";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { Client, MeetingProps, MeetingTypes } from "types";
-import { ViewNotesDrawer, ViewTicketsDrawer } from "components/drawer";
-import {
-	CHATDOC,
-	DEFAULTPROFILE,
-	DOC,
-	IMG,
-	PDF,
-	Video,
-	XLS,
-} from "assets/home";
-import AddDocument from "components/dialogues/AddDocument";
-import EditMeetingDetails from "components/dialogues/EditMeetingDetails";
-import { useTheme } from "@emotion/react";
-import moment from "moment";
-import Swal from "sweetalert2";
+import { Delete, Edit } from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
+import { EditQuotationDetails } from "components/dialogues";
 import { TenderLayout } from "components/tender";
+import { useState } from "react";
 
 const QuotationData = () => {
-	const router = useRouter();
-
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 
-	const {
-		data: meetingDetails,
-		mutate,
-		isLoading,
-	} = useFetch<any>(`meetings/${router?.query?.id}`);
-
-	// console.log(meetingDetails);
-
-	if (isLoading) {
-		return <Loader />;
-	}
 	const basicDetails = [
 		{
 			id: 1,
@@ -87,7 +41,6 @@ const QuotationData = () => {
 			<EditQuotationDetails
 				open={editDetails}
 				handleClose={() => setEditDetails(false)}
-				mutate={mutate}
 			/>
 
 			<div className="mt-8">
@@ -151,7 +104,7 @@ const QuotationData = () => {
 											align="center"
 											className="w-[10%] text-sm py-2 border-r-2"
 										>
-											{/* {Number(index) + 1} */}1
+											1
 										</td>
 										<td align="center" className="w-[40%] text-sm border-r-2">
 											{/* {item?.title} */}Android App & Admin Panel Development
