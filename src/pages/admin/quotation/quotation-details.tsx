@@ -19,11 +19,11 @@ const QuotationDetails = () => {
 export default QuotationDetails;
 
 const links = [
-	{ id: 1, page: "Meetings", link: "/admin/meetings" },
+	{ id: 1, page: "Quotation", link: "/admin/quotation" },
 	{
 		id: 2,
-		page: "Meeting Details",
-		link: "/admin/meetings/meeting-details",
+		page: "Quotation Details",
+		link: "/admin/meetings/quotation-details",
 	},
 ];
 

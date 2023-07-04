@@ -1,11 +1,15 @@
 import { Delete, Edit } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
-import { EditQuotationDetails } from "components/dialogues";
+import {
+	EditAdditionalQuotationDetails,
+	EditQuotationDetails,
+} from "components/dialogues";
 import { TenderLayout } from "components/tender";
 import { useState } from "react";
 
 const QuotationData = () => {
 	const [editDetails, setEditDetails] = useState<boolean>(false);
+	const [additionDetails, setAdditionDetails] = useState<boolean>(false);
 
 	const basicDetails = [
 		{
@@ -41,6 +45,10 @@ const QuotationData = () => {
 			<EditQuotationDetails
 				open={editDetails}
 				handleClose={() => setEditDetails(false)}
+			/>
+			<EditAdditionalQuotationDetails
+				open={additionDetails}
+				handleClose={() => setAdditionDetails(false)}
 			/>
 
 			<div className="mt-8">
@@ -125,7 +133,7 @@ const QuotationData = () => {
 													<IconButton
 														size="small"
 														onClick={() => {
-															// setIsUpdateDocument({ dialogue: true, tenderData: item });
+															setAdditionDetails(true);
 														}}
 													>
 														<Edit />

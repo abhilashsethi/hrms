@@ -7,6 +7,8 @@ import {
 	FormControlLabel,
 	IconButton,
 	InputLabel,
+	Radio,
+	RadioGroup,
 	TextField,
 	Tooltip,
 } from "@mui/material";
@@ -15,7 +17,8 @@ import { AddMoreField, AddQuotationClientDialogue } from "components/dialogues";
 import { Field, FieldArray, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import dynamic from "next/dynamic";
 import * as Yup from "yup";
 // import PayrollInputField from "./PayrollInputField";
 
@@ -31,11 +34,16 @@ interface FormValues {
 const CreateBills = () => {
 	const [fields, setFields] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 	const { change } = useChange();
 	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
 	const [isBillType, setIsBillType] = useState<string>("");
 	const [isUnpaid, setIsUnpaid] = useState(false);
 	const [editDetails, setEditDetails] = useState<boolean>(false);
+	const [isEmdValue, setIsEmdValue] = useState(false);
+	const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setIsEmdValue(event.target.value === "IGST");
+	};
 
 	const initialValues = {
 		billType: "",
@@ -47,6 +55,8 @@ const CreateBills = () => {
 		invoiceNumber: "",
 		invoiceDate: "",
 		dueDate: "",
+		clientGSTNumber: "",
+		text: "",
 	};
 	const validationSchema = Yup.object().shape({
 		billType: Yup.string().required("Bill type is required!"),
@@ -106,6 +116,7 @@ const CreateBills = () => {
 
 	const handleSubmit = (values: any) => {
 		// Access the values of all input fields
+		console.log("isEmdValue", isEmdValue);
 		console.log(values);
 	};
 	return (
@@ -219,30 +230,6 @@ const CreateBills = () => {
 														)}
 													/>
 												</div>
-												<div className="md:px-4 px-2 md:py-2 py-1">
-													<div className="md:py-2 py-1">
-														<InputLabel htmlFor="invoiceNumber">
-															Invoice Number{" "}
-															<span className="text-red-600">*</span>
-														</InputLabel>
-													</div>
-													<TextField
-														fullWidth
-														size="small"
-														id="invoiceNumber"
-														// placeholder="invoiceNumber"
-														name="invoiceNumber"
-														value={values.invoiceNumber}
-														onChange={handleChange}
-														onBlur={handleBlur}
-														error={
-															touched.invoiceNumber && !!errors.invoiceNumber
-														}
-														helperText={
-															touched.invoiceNumber && errors.invoiceNumber
-														}
-													/>
-												</div>
 
 												<div className="grid grid-cols-2">
 													<div className="md:px-4 px-2 md:py-2 py-1">
@@ -348,23 +335,26 @@ const CreateBills = () => {
 														Please choose tax option{" "}
 														<span className="text-red-600">*</span>
 													</p>
-													<FormControlLabel
-														control={<Checkbox />}
-														label="IGST"
-													/>
-													<FormControlLabel
-														control={<Checkbox />}
-														label="SGST"
-													/>
-													<FormControlLabel
-														control={<Checkbox />}
-														label="CGST"
-													/>
+													<RadioGroup
+														defaultValue={isEmdValue ? "IGST" : "SGST"}
+														row
+														name="isEmdValue"
+														onChange={handleOptionChange}
+													>
+														<FormControlLabel
+															value="IGST"
+															control={<Radio />}
+															label="IGST"
+														/>
+														<FormControlLabel
+															value="SGST"
+															control={<Radio />}
+															label="SGST & CGST"
+														/>
+													</RadioGroup>
 												</div>
 											</div>
 										) : isBillType === "paidBill" ? (
-											<p>paid Bill</p>
-										) : isBillType === "advanceBill" ? (
 											<div className="grid">
 												<div className="md:px-4 px-2 md:py-2 py-1">
 													<div className="md:py-2 py-1">
@@ -402,29 +392,183 @@ const CreateBills = () => {
 												<div className="grid grid-cols-2">
 													<div className="md:px-4 px-2 md:py-2 py-1">
 														<div className="md:py-2 py-1">
-															<InputLabel htmlFor="invoiceNumber">
-																Advance Invoice Number{" "}
+															<InputLabel htmlFor="invoiceDate">
+																Invoice Date{" "}
 																<span className="text-red-600">*</span>
 															</InputLabel>
 														</div>
 														<TextField
 															fullWidth
 															size="small"
-															id="invoiceNumber"
-															// placeholder="invoiceNumber"
-															name="invoiceNumber"
-															value={values.invoiceNumber}
+															id="invoiceDate"
+															type="date"
+															// placeholder="invoiceDate"
+															name="invoiceDate"
+															value={values.invoiceDate}
 															onChange={handleChange}
 															onBlur={handleBlur}
 															error={
-																touched.invoiceNumber && !!errors.invoiceNumber
+																touched.invoiceDate && !!errors.invoiceDate
 															}
 															helperText={
-																touched.invoiceNumber && errors.invoiceNumber
+																touched.invoiceDate && errors.invoiceDate
 															}
 														/>
 													</div>
+													<div className="md:px-4 px-2 md:py-2 py-1">
+														<div className="md:py-2 py-1">
+															<InputLabel htmlFor="clientGSTNumber">
+																Client GST Number{" "}
+																<span className="text-red-600">*</span>
+															</InputLabel>
+														</div>
+														<TextField
+															fullWidth
+															size="small"
+															id="clientGSTNumber"
+															// placeholder="clientGSTNumber"
+															name="clientGSTNumber"
+															value={values.clientGSTNumber}
+															onChange={handleChange}
+															onBlur={handleBlur}
+															error={
+																touched.clientGSTNumber &&
+																!!errors.clientGSTNumber
+															}
+															helperText={
+																touched.clientGSTNumber &&
+																errors.clientGSTNumber
+															}
+														/>
+													</div>
+												</div>
 
+												<FieldArray name="inputFields">
+													{({ remove, push }) => (
+														<div className="px-4 my-2">
+															{values.inputFields.map((field, index) => (
+																<div
+																	className="grid grid-cols-4 gap-2 items-center"
+																	key={index}
+																>
+																	<Field
+																		as={TextField}
+																		label="Description"
+																		fullWidth
+																		size="small"
+																		name={`inputFields[${index}].field1`}
+																		onBlur={handleBlur}
+																		// error={
+																		// 	touched.inputFields?.[index]?.field1 &&
+																		// 	!!(
+																		// 		errors.inputFields?.[
+																		// 			index
+																		// 		] as InputField
+																		// 	)?.field1
+																		// }
+																		// helperText={
+																		// 	touched.inputFields?.[index]?.field1 &&
+																		// 	(
+																		// 		errors.inputFields?.[
+																		// 			index
+																		// 		] as InputField
+																		// 	)?.field1
+																		// }
+																	/>
+																	<Field
+																		as={TextField}
+																		name={`inputFields[${index}].field2`}
+																		type="number"
+																		label="SAC Code"
+																		fullWidth
+																		size="small"
+																		onBlur={handleBlur}
+																	/>
+																	<Field
+																		as={TextField}
+																		name={`inputFields[${index}].field3`}
+																		label="Amount"
+																		type="number"
+																		fullWidth
+																		size="small"
+																		onBlur={handleBlur}
+																	/>
+
+																	<Tooltip title="Remove Field">
+																		<div className="text-sm bg-red-500 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+																			<IconButton>
+																				<Delete
+																					onClick={() => remove(index)}
+																					className="!text-white"
+																				/>
+																			</IconButton>
+																		</div>
+																	</Tooltip>
+																</div>
+															))}
+															<button
+																className="w-32 mt-2 bg-white text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white border border-theme rounded-lg px-2 py-1"
+																type="button"
+																onClick={() =>
+																	push({ field1: "", field2: "", field3: "" })
+																}
+															>
+																Add Field
+															</button>
+														</div>
+													)}
+												</FieldArray>
+												<div className="mt-3 text-gray-500 px-4">
+													<p>
+														Terms & Conditions{" "}
+														<span className="text-red-600">*</span>
+													</p>
+													<ReactQuill
+														placeholder="Terms & Conditions ..."
+														theme="snow"
+														value={values.text}
+														onChange={(value) => setFieldValue("text", value)}
+														onBlur={handleBlur("text")}
+														className="lg:h-[150px] w-full bg-white"
+													/>
+												</div>
+											</div>
+										) : isBillType === "advanceBill" ? (
+											<div className="grid">
+												<div className="md:px-4 px-2 md:py-2 py-1">
+													<div className="md:py-2 py-1">
+														<InputLabel htmlFor="clientName">
+															Choose Client{" "}
+															<span className="text-red-600">*</span>
+														</InputLabel>
+													</div>
+
+													<Autocomplete
+														fullWidth
+														size="small"
+														id="clientName"
+														options={Client_Name || []}
+														onChange={(e: any, r: any) => {
+															setFieldValue("clientName", r?.name);
+														}}
+														getOptionLabel={(option: any) => option.name}
+														renderInput={(params) => (
+															<TextField
+																{...params}
+																label="Client Name"
+																// placeholder="Selected Gender"
+																onBlur={handleBlur}
+																error={
+																	touched.clientName && !!errors.clientName
+																}
+																helperText={
+																	touched.clientName && errors.clientName
+																}
+															/>
+														)}
+													/>
+												</div>
+												<div className="grid grid-cols-2">
 													<div className="md:px-4 px-2 md:py-2 py-1">
 														<div className="md:py-2 py-1">
 															<InputLabel htmlFor="invoiceDate">

@@ -599,6 +599,12 @@ const PageList = [
 		icon: <ICONS.Change_Password />,
 		name: "Create Bill",
 	},
+	{
+		id: 58,
+		value: "/admin/bills/signature-config",
+		icon: <ICONS.Change_Password />,
+		name: "Signature config",
+	},
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 ];

@@ -397,6 +397,12 @@ export default () => {
 					icon: <Add />,
 					route: "/admin/bills/create-bill",
 				},
+				{
+					key: "17ABH-3",
+					title: "Signature Config",
+					icon: <Add />,
+					route: "/admin/bills/signature-config",
+				},
 			],
 		},
 		{
