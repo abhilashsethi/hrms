@@ -45,7 +45,8 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 	return (
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
-				{projectData?.map((items: any) => (
+				All Qutation
+				{/* {projectData?.map((items: any) => (
 					<div className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
 						<CardComponent items={items} mutate={mutate} />
 						<div className="relative">
@@ -171,7 +172,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 							</div>
 						</div>
 					</div>
-				))}
+				))} */}
 			</div>
 		</>
 	);
