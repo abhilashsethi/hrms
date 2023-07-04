@@ -244,17 +244,7 @@ const AllQuotation = () => {
 						</div>
 					</div>
 					<QuotationGrid data={quotationData} mutate={mutate} />
-					{/* {isGrid ? (
-						<>
-							{isLoading && <SkeletonLoader />}
-							<QuotationGrid data={meetingData?.meetings} mutate={mutate} />
-						</>
-					) : (
-						<>
-							{isLoading && <Loader />}
-							<QuotationColumn data={meetingData?.meetings} mutate={mutate} />
-						</>
-					)} */}
+
 					{quotationData.length === 0 ? (
 						<LoaderAnime text="No Meetings Available" />
 					) : null}
