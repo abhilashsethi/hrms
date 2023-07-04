@@ -184,11 +184,7 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
         handleClose={() => setIsUpdateDocument({ dialogue: false })}
         mutate={mutate}
       />
-      <div className="flex justify-end">
-        <Button startIcon={<Print />} variant="contained" className="!bg-theme">
-          View Details
-        </Button>
-      </div>
+
       <div className="mt-8">
         <TenderLayout title="Basic Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
