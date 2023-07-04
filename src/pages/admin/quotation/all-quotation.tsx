@@ -82,75 +82,10 @@ const AllQuotation = () => {
 		<>
 			<PanelLayout title="Meetings - Admin Panel">
 				<section className="px-8">
-					<Modal
-						open={openInfoModal}
-						onClose={handleInfoCloseModal}
-						aria-labelledby="modal-modal-title"
-						aria-describedby="modal-modal-description"
-					>
-						<Card
-							sx={style}
-							className="dashboard-card-shadow w-[60%] border-t-4 border-b-4 border-t-theme border-b-theme !p-6"
-						>
-							<p className="text-center text-lg font-semibold pb-2">
-								Select Date Range
-							</p>
-							<DateRangePicker
-								wrapperClassName="date-range-picker-wrapper"
-								closeOnClickOutside={true}
-								open={open}
-								toggle={toggle}
-								onChange={(range: any) => setDateRange(range)}
-							/>
-							<div className="flex justify-end mt-3 ">
-								<Button
-									endIcon={<Send />}
-									variant="contained"
-									className="!bg-emerald-500 hover:scale-95 transition duration-200"
-									onClick={() => {
-										setcurrentRange({
-											startDate: new Date(dateRange.startDate).toISOString(),
-											endDate: new Date(dateRange.endDate).toISOString(),
-										});
-										handleInfoCloseModal();
-									}}
-								>
-									Submit
-								</Button>
-							</div>
-						</Card>
-					</Modal>
 
-					<UploadEmployData
-						open={isUpload}
-						handleClose={() => setIsUpload(false)}
-					/>
 					<div className="flex justify-between items-center py-4">
 						<AdminBreadcrumbs links={links} />
-						{/* <div className="flex gap-4 items-center">
-							<div className="flex gap-1">
-								<IconButton onClick={() => setIsGrid(true)} size="small">
-									<div
-										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-											isGrid && `border-2 border-theme`
-										}`}
-									>
-										<GridViewRounded className={`${isGrid && `!text-theme`}`} />
-									</div>
-								</IconButton>
-								<IconButton onClick={() => setIsGrid(false)} size="small">
-									<div
-										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-											!isGrid && `border-2 border-theme`
-										}`}
-									>
-										<TableRowsRounded
-											className={`${!isGrid && `!text-theme`}`}
-										/>
-									</div>
-								</IconButton>
-							</div>
-						</div> */}
+
 					</div>
 					<div className="md:flex gap-4 justify-between w-full py-2">
 						<div
@@ -244,10 +179,6 @@ const AllQuotation = () => {
 						</div>
 					</div>
 					<QuotationGrid data={quotationData} mutate={mutate} />
-
-					{quotationData.length === 0 ? (
-						<LoaderAnime text="No Meetings Available" />
-					) : null}
 				</section>
 			</PanelLayout>
 		</>
