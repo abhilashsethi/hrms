@@ -1,4 +1,4 @@
-import { BorderColor, Edit } from "@mui/icons-material";
+import { Add, BorderColor, Delete, Download, Edit } from "@mui/icons-material";
 import {
 	Button,
 	Grid,
@@ -21,7 +21,15 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Client, MeetingProps, MeetingTypes } from "types";
 import { ViewNotesDrawer, ViewTicketsDrawer } from "components/drawer";
-import { DEFAULTPROFILE, DOC, IMG, PDF, Video, XLS } from "assets/home";
+import {
+	CHATDOC,
+	DEFAULTPROFILE,
+	DOC,
+	IMG,
+	PDF,
+	Video,
+	XLS,
+} from "assets/home";
 import AddDocument from "components/dialogues/AddDocument";
 import EditMeetingDetails from "components/dialogues/EditMeetingDetails";
 import { useTheme } from "@emotion/react";
@@ -120,6 +128,70 @@ const QuotationData = () => {
 							))}
 						</tbody>
 					</table>
+				</TenderLayout>
+			</div>
+			<div className="mt-14">
+				<TenderLayout title="Additional Details">
+					<div>
+						<table className="w-full">
+							<tbody className="border-2">
+								<tr className="border-b-2">
+									<th className="w-[10%] text-sm font-semibold py-2 border-r-2">
+										S.No
+									</th>
+									<th className="w-[40%] text-sm border-r-2">Description</th>
+									<th className="w-[30%] text-sm border-r-2">Qty</th>
+									<th className="w-[30%] text-sm border-r-2">Cost</th>
+									<th className="w-[30%] text-sm">Actions</th>
+								</tr>
+
+								<>
+									<tr className="border-b-2">
+										<td
+											align="center"
+											className="w-[10%] text-sm py-2 border-r-2"
+										>
+											{/* {Number(index) + 1} */}1
+										</td>
+										<td align="center" className="w-[40%] text-sm border-r-2">
+											{/* {item?.title} */}Android App & Admin Panel Development
+										</td>
+										<td align="center" className="w-[30%] text-sm border-r-2">
+											<div className="flex gap-2 items-center justify-center">
+												<p className="text-xs">1</p>
+											</div>
+										</td>
+										<td align="center" className="w-[30%] text-sm border-r-2">
+											<div className="flex gap-2 items-center justify-center">
+												<p className="text-xs">1,20,000</p>
+											</div>
+										</td>
+										<td align="center" className="w-[20%] text-sm">
+											<div className="flex gap-1 py-2 justify-center">
+												<Tooltip title="Edit Document">
+													<IconButton
+														size="small"
+														onClick={() => {
+															// setIsUpdateDocument({ dialogue: true, tenderData: item });
+														}}
+													>
+														<Edit />
+													</IconButton>
+												</Tooltip>
+												<Tooltip title="Delete Document">
+													<IconButton size="small">
+														<Delete
+														// onClick={() => handleDelete(item)}
+														/>
+													</IconButton>
+												</Tooltip>
+											</div>
+										</td>
+									</tr>
+								</>
+							</tbody>
+						</table>
+					</div>
 				</TenderLayout>
 			</div>
 		</section>
