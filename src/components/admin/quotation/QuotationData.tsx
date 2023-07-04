@@ -13,6 +13,7 @@ import {
 	ChangeProfile,
 	CreateLeave,
 	DocPreview,
+	EditQuotationDetails,
 	UpdateClient,
 } from "components/dialogues";
 import { useChange, useFetch } from "hooks";
@@ -30,19 +31,9 @@ import { TenderLayout } from "components/tender";
 
 const QuotationData = () => {
 	const router = useRouter();
-	const [isDialogue, setIsDialogue] = useState(false);
-	const [tickets, setTickets] = useState(false);
-	const [viewTickets, setViewTickets] = useState<any>(null);
-	const [isLeave, setIsLeave] = useState<boolean>(false);
+
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 
-	const [isPreview, setIsPreview] = useState<{
-		dialogue?: boolean;
-		title?: string;
-	}>({
-		dialogue: false,
-		title: "Preview",
-	});
 	const {
 		data: meetingDetails,
 		mutate,
@@ -57,66 +48,37 @@ const QuotationData = () => {
 	const basicDetails = [
 		{
 			id: 1,
-			title: "Tender No",
-			// value: tenderData?.tenderNo || "---"
+			title: "Client Name",
+			value: "Piyush Agrawal",
 		},
 		{
 			id: 2,
-			title: "Tender Title",
-			// value: tenderData?.title || "---",
+			title: "Client Email",
+			value: "piyush@gmail.com",
 		},
 		{
 			id: 3,
-			title: "Portal",
-			// value: tenderData?.portal || "---",
+			title: "Client Address",
+			value:
+				"Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016",
 		},
 		{
 			id: 4,
-			title: "Tender Category",
-			// value: tenderData?.category || "---",
+			title: "Quotation Title",
+			value: "YardERP",
 		},
 		{
 			id: 5,
-			title: "Submission Date",
-			// value: `${moment(tenderData?.submissionDate).format("ll")}` || "---",
-		},
-		{
-			id: 6,
-			title: "Submission Time",
-			// value: tenderData?.submissionTime || "---",
-		},
-		{
-			id: 7,
-			title: "Bid Value in ₹",
-			// value: tenderData?.bidValue || "---",
+			title: "Quotation Number",
+			value: "SY202306043QU",
 		},
 	];
 
 	return (
 		<section>
-			<DocPreview
-				open={isPreview?.dialogue}
-				handleClose={() => setIsPreview({ dialogue: false })}
-				title={isPreview?.title}
-			/>
-			<AddDocument open={isLeave} handleClose={() => setIsLeave(false)} />
-			<EditMeetingDetails
+			<EditQuotationDetails
 				open={editDetails}
 				handleClose={() => setEditDetails(false)}
-				meetingId={router?.query?.id}
-				mutate={mutate}
-			/>
-
-			<UpdateClient
-				mutate={mutate}
-				open={isDialogue}
-				handleClose={() => setIsDialogue(false)}
-			/>
-			<ViewNotesDrawer
-				open={tickets}
-				onClose={() => setTickets(false)}
-				setViewTickets={setViewTickets}
-				meetingDetails={meetingDetails}
 				mutate={mutate}
 			/>
 
@@ -127,7 +89,7 @@ const QuotationData = () => {
 							<IconButton
 								size="small"
 								onClick={() => {
-									// setIsUpdate({ dialogue: true, tenderData: tenderData });
+									setEditDetails(true);
 								}}
 							>
 								<Edit />
@@ -139,8 +101,8 @@ const QuotationData = () => {
 							<tr>
 								<td className="w-1/5 text-sm font-semibold py-2">Status</td>
 								<td className="w-3/5">
-									<span className="text-sm py-1 px-2 text-white tracking-wide shadow-md bg-yellow-500 rounded-md">
-										{/* {tenderData?.status} */}
+									<span className="text-sm py-1 px-2 text-white tracking-wide shadow-md bg-green-500 rounded-md">
+										{/* {tenderData?.status} */}Accepted
 									</span>
 								</td>
 							</tr>
@@ -151,7 +113,7 @@ const QuotationData = () => {
 									</td>
 									<td className="w-3/5">
 										<span className="text-sm text-gray-600 py-2">
-											{/* {item?.value} */}
+											{item?.value}
 										</span>
 									</td>
 								</tr>
