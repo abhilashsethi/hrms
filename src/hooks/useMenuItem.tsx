@@ -1,10 +1,6 @@
 import {
 	Add,
-	Leaderboard,
-	MedicalInformationRounded,
-	Receipt,
-	ReceiptLong,
-	Send,
+	ReceiptLong
 } from "@mui/icons-material";
 import ICONS from "assets/icons";
 import { useEffect, useState } from "react";

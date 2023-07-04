@@ -109,7 +109,7 @@ const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
   useEffect(() => {
     (() => {
       if (!user?.id || !socketRef) return;
-
+      console.log(user?.isClient);
       syncUserState("ONLINE", user?.id, user?.isClient);
 
       socketRef?.emit("USER_CONNECT", {
