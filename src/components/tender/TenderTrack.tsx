@@ -541,10 +541,6 @@ const statuses = [
     label: "Bid Awarded",
   },
   {
-    value: "Closed",
-    label: "Closed",
-  },
-  {
     value: "L1",
     label: "L1",
   },
