@@ -9,7 +9,7 @@ const BillsDashboardCharts = ({ data }: Props) => {
 			<div className="grid lg:grid-cols-2 content-between gap-6">
 				<div className="px-2 py-4 w-full flex bg-white flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="font-bold text-lg text-center">
-						Month-Wise Accepted Quotation Overview
+						Month-Wise Paid Bills Overview
 					</p>
 					<BranchBarChart
 						labels={[

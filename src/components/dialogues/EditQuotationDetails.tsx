@@ -1,5 +1,6 @@
 import { Check, Close } from "@mui/icons-material";
 import {
+	Autocomplete,
 	Button,
 	CircularProgress,
 	Dialog,
@@ -22,11 +23,14 @@ interface Props {
 }
 
 const validationSchema = Yup.object().shape({
+	statusType: Yup.string().required("Select status"),
 	clientName: Yup.string().required("Client name is required!"),
 	clientEmail: Yup.string().email().required("Client Email is required!"),
 	clientAddress: Yup.string().required("Client address is required!"),
+	quotationTitle: Yup.string().required("Quotation Title is required!"),
+	quotationNumber: Yup.string().required("Quotation Number is required!"),
 });
-const AddQuotationClientDialogue = ({
+const EditQuotationDetails = ({
 	open,
 	handleClose,
 	details,
@@ -38,19 +42,41 @@ const AddQuotationClientDialogue = ({
 	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
+	const [isStatusType, setIsStatusType] = useState<string>("");
 	const { user } = useAuth();
 	// console.log(user);
 	// console.log(details);
 	const initialValues = {
+		statusType: "",
 		clientName: "",
 		clientEmail: "",
 		clientAddress: "",
+		quotationTitle: "",
+		quotationNumber: "",
 	};
 
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
 		console.log(values);
 	};
+
+	const Status_Type = [
+		{
+			id: 1,
+			name: "Accepted",
+			value: "accepted",
+		},
+		{
+			id: 2,
+			name: "Rejected",
+			value: "rejected",
+		},
+		{
+			id: 3,
+			name: "Modified",
+			value: "modified",
+		},
+	];
 
 	return (
 		<Dialog
@@ -64,7 +90,7 @@ const AddQuotationClientDialogue = ({
 				sx={{ p: 2, minWidth: "40rem !important" }}
 			>
 				<p className="text-center text-xl font-bold text-theme tracking-wide">
-					Add Client
+					Edit Quotation Details
 				</p>
 				<IconButton
 					aria-label="close"
@@ -98,6 +124,32 @@ const AddQuotationClientDialogue = ({
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
+								<p className="font-medium text-gray-700 mt-2">
+									Select Quotation Status
+									<span className="text-red-600">*</span>
+								</p>
+								<Autocomplete
+									fullWidth
+									size="small"
+									id="statusType"
+									options={Status_Type || []}
+									onChange={(e: any, r: any) => {
+										setFieldValue("statusType", r?.name);
+										setIsStatusType(r?.value);
+									}}
+									getOptionLabel={(option: any) => option.name}
+									renderInput={(params) => (
+										<TextField
+											{...params}
+											label="Bill Type"
+											// placeholder="Selected Gender"
+											onBlur={handleBlur}
+											error={touched.statusType && !!errors.statusType}
+											helperText={touched.statusType && errors.statusType}
+										/>
+									)}
+								/>
+
 								<p className="font-medium text-gray-700">
 									Enter Client Name<span className="text-red-600">*</span>
 								</p>
@@ -141,6 +193,34 @@ const AddQuotationClientDialogue = ({
 									error={touched.clientAddress && !!errors.clientAddress}
 									helperText={touched.clientAddress && errors.clientAddress}
 								/>
+								<p className="font-medium text-gray-700 mt-2">
+									Enter Quotation Title<span className="text-red-600">*</span>
+								</p>
+								<TextField
+									size="small"
+									fullWidth
+									placeholder="Quotation Title"
+									name="quotationTitle"
+									value={values.quotationTitle}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									error={touched.quotationTitle && !!errors.quotationTitle}
+									helperText={touched.quotationTitle && errors.quotationTitle}
+								/>
+								<p className="font-medium text-gray-700 mt-2">
+									Enter Quotation Number<span className="text-red-600">*</span>
+								</p>
+								<TextField
+									size="small"
+									fullWidth
+									placeholder="Quotation Number"
+									name="quotationNumber"
+									value={values.quotationNumber}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									error={touched.quotationNumber && !!errors.quotationNumber}
+									helperText={touched.quotationNumber && errors.quotationNumber}
+								/>
 								<div className="flex justify-center mt-4">
 									<Button
 										type="submit"
@@ -163,8 +243,4 @@ const AddQuotationClientDialogue = ({
 	);
 };
 
-export default AddQuotationClientDialogue;
-const leavesType = [
-	{ id: 1, value: "First_Half" },
-	{ id: 2, value: "Second_Half" },
-];
+export default EditQuotationDetails;

@@ -1,4 +1,4 @@
-import { BorderColor, Edit } from "@mui/icons-material";
+import { Add, BorderColor, Delete, Download, Edit } from "@mui/icons-material";
 import {
 	Button,
 	Grid,
@@ -13,6 +13,7 @@ import {
 	ChangeProfile,
 	CreateLeave,
 	DocPreview,
+	EditQuotationDetails,
 	UpdateClient,
 } from "components/dialogues";
 import { useChange, useFetch } from "hooks";
@@ -20,7 +21,15 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Client, MeetingProps, MeetingTypes } from "types";
 import { ViewNotesDrawer, ViewTicketsDrawer } from "components/drawer";
-import { DEFAULTPROFILE, DOC, IMG, PDF, Video, XLS } from "assets/home";
+import {
+	CHATDOC,
+	DEFAULTPROFILE,
+	DOC,
+	IMG,
+	PDF,
+	Video,
+	XLS,
+} from "assets/home";
 import AddDocument from "components/dialogues/AddDocument";
 import EditMeetingDetails from "components/dialogues/EditMeetingDetails";
 import { useTheme } from "@emotion/react";
@@ -30,19 +39,9 @@ import { TenderLayout } from "components/tender";
 
 const QuotationData = () => {
 	const router = useRouter();
-	const [isDialogue, setIsDialogue] = useState(false);
-	const [tickets, setTickets] = useState(false);
-	const [viewTickets, setViewTickets] = useState<any>(null);
-	const [isLeave, setIsLeave] = useState<boolean>(false);
+
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 
-	const [isPreview, setIsPreview] = useState<{
-		dialogue?: boolean;
-		title?: string;
-	}>({
-		dialogue: false,
-		title: "Preview",
-	});
 	const {
 		data: meetingDetails,
 		mutate,
@@ -57,66 +56,37 @@ const QuotationData = () => {
 	const basicDetails = [
 		{
 			id: 1,
-			title: "Tender No",
-			// value: tenderData?.tenderNo || "---"
+			title: "Client Name",
+			value: "Piyush Agrawal",
 		},
 		{
 			id: 2,
-			title: "Tender Title",
-			// value: tenderData?.title || "---",
+			title: "Client Email",
+			value: "piyush@gmail.com",
 		},
 		{
 			id: 3,
-			title: "Portal",
-			// value: tenderData?.portal || "---",
+			title: "Client Address",
+			value:
+				"Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016",
 		},
 		{
 			id: 4,
-			title: "Tender Category",
-			// value: tenderData?.category || "---",
+			title: "Quotation Title",
+			value: "YardERP",
 		},
 		{
 			id: 5,
-			title: "Submission Date",
-			// value: `${moment(tenderData?.submissionDate).format("ll")}` || "---",
-		},
-		{
-			id: 6,
-			title: "Submission Time",
-			// value: tenderData?.submissionTime || "---",
-		},
-		{
-			id: 7,
-			title: "Bid Value in ₹",
-			// value: tenderData?.bidValue || "---",
+			title: "Quotation Number",
+			value: "SY202306043QU",
 		},
 	];
 
 	return (
 		<section>
-			<DocPreview
-				open={isPreview?.dialogue}
-				handleClose={() => setIsPreview({ dialogue: false })}
-				title={isPreview?.title}
-			/>
-			<AddDocument open={isLeave} handleClose={() => setIsLeave(false)} />
-			<EditMeetingDetails
+			<EditQuotationDetails
 				open={editDetails}
 				handleClose={() => setEditDetails(false)}
-				meetingId={router?.query?.id}
-				mutate={mutate}
-			/>
-
-			<UpdateClient
-				mutate={mutate}
-				open={isDialogue}
-				handleClose={() => setIsDialogue(false)}
-			/>
-			<ViewNotesDrawer
-				open={tickets}
-				onClose={() => setTickets(false)}
-				setViewTickets={setViewTickets}
-				meetingDetails={meetingDetails}
 				mutate={mutate}
 			/>
 
@@ -127,7 +97,7 @@ const QuotationData = () => {
 							<IconButton
 								size="small"
 								onClick={() => {
-									// setIsUpdate({ dialogue: true, tenderData: tenderData });
+									setEditDetails(true);
 								}}
 							>
 								<Edit />
@@ -139,8 +109,8 @@ const QuotationData = () => {
 							<tr>
 								<td className="w-1/5 text-sm font-semibold py-2">Status</td>
 								<td className="w-3/5">
-									<span className="text-sm py-1 px-2 text-white tracking-wide shadow-md bg-yellow-500 rounded-md">
-										{/* {tenderData?.status} */}
+									<span className="text-sm py-1 px-2 text-white tracking-wide shadow-md bg-green-500 rounded-md">
+										{/* {tenderData?.status} */}Accepted
 									</span>
 								</td>
 							</tr>
@@ -151,13 +121,77 @@ const QuotationData = () => {
 									</td>
 									<td className="w-3/5">
 										<span className="text-sm text-gray-600 py-2">
-											{/* {item?.value} */}
+											{item?.value}
 										</span>
 									</td>
 								</tr>
 							))}
 						</tbody>
 					</table>
+				</TenderLayout>
+			</div>
+			<div className="mt-14">
+				<TenderLayout title="Additional Details">
+					<div>
+						<table className="w-full">
+							<tbody className="border-2">
+								<tr className="border-b-2">
+									<th className="w-[10%] text-sm font-semibold py-2 border-r-2">
+										S.No
+									</th>
+									<th className="w-[40%] text-sm border-r-2">Description</th>
+									<th className="w-[30%] text-sm border-r-2">Qty</th>
+									<th className="w-[30%] text-sm border-r-2">Cost</th>
+									<th className="w-[30%] text-sm">Actions</th>
+								</tr>
+
+								<>
+									<tr className="border-b-2">
+										<td
+											align="center"
+											className="w-[10%] text-sm py-2 border-r-2"
+										>
+											{/* {Number(index) + 1} */}1
+										</td>
+										<td align="center" className="w-[40%] text-sm border-r-2">
+											{/* {item?.title} */}Android App & Admin Panel Development
+										</td>
+										<td align="center" className="w-[30%] text-sm border-r-2">
+											<div className="flex gap-2 items-center justify-center">
+												<p className="text-xs">1</p>
+											</div>
+										</td>
+										<td align="center" className="w-[30%] text-sm border-r-2">
+											<div className="flex gap-2 items-center justify-center">
+												<p className="text-xs">1,20,000</p>
+											</div>
+										</td>
+										<td align="center" className="w-[20%] text-sm">
+											<div className="flex gap-1 py-2 justify-center">
+												<Tooltip title="Edit Document">
+													<IconButton
+														size="small"
+														onClick={() => {
+															// setIsUpdateDocument({ dialogue: true, tenderData: item });
+														}}
+													>
+														<Edit />
+													</IconButton>
+												</Tooltip>
+												<Tooltip title="Delete Document">
+													<IconButton size="small">
+														<Delete
+														// onClick={() => handleDelete(item)}
+														/>
+													</IconButton>
+												</Tooltip>
+											</div>
+										</td>
+									</tr>
+								</>
+							</tbody>
+						</table>
+					</div>
 				</TenderLayout>
 			</div>
 		</section>
