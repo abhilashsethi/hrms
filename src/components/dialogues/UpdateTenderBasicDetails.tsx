@@ -170,8 +170,8 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         helperText={touched.status && errors.status}
                       >
                         {status.map((option) => (
-                          <MenuItem key={option.id} value={option.title}>
-                            {option.title}
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
                           </MenuItem>
                         ))}
                       </TextField>
@@ -340,12 +340,42 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
 };
 
 export default UpdateTenderBasicDetails;
-const category = [
-  { id: 1, title: "Online" },
-  { id: 2, title: "Offline" },
-];
+
 const status = [
-  { id: 1, title: "Open" },
-  { id: 2, title: "Pending" },
-  { id: 3, title: "Closed" },
+  {
+    value: "Submitted",
+    label: "Submitted",
+  },
+  {
+    value: "Cancelled",
+    label: "Cancelled",
+  },
+  {
+    value: "Open",
+    label: "Open",
+  },
+  {
+    value: "Closed",
+    label: "Closed",
+  },
+  {
+    value: "TechnicalEvaluation",
+    label: "Technical Evaluation",
+  },
+  {
+    value: "FinancialEvaluation",
+    label: "Financial Evaluation",
+  },
+  {
+    value: "BidAwarded",
+    label: "Bid Awarded",
+  },
+  {
+    value: "L1",
+    label: "L1",
+  },
+  {
+    value: "Disqualified",
+    label: "Disqualified",
+  },
 ];
