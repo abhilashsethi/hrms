@@ -9,25 +9,38 @@ import { useChange, useForm } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { uploadFile } from "utils";
+import * as Yup from "yup";
 
 interface InputField {
   docTitle: string;
   doc: any;
 }
+
 interface Props {
   handleNext: () => void;
 }
+
 interface FormValues {
   inputFields: InputField[];
 }
+
+const validationSchema = Yup.object().shape({
+  inputFields: Yup.array().of(
+    Yup.object().shape({
+      docTitle: Yup.string().required('Document Title is required'),
+      doc: Yup.mixed().required('File is required'),
+    }).nullable()
+  ),
+});
 
 const TenderCreateDocuments = ({ handleNext }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { tender } = useForm();
   const initialValues = {
-    inputFields: [{ docTitle: "", doc: "" }]
+    inputFields: [{ docTitle: "", doc: null }]
   };
+
   const handleSubmit = async (values: FormValues) => {
     setLoading(true);
     try {
@@ -38,8 +51,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
           `${Date.now()}.${uniId}`
         ) : undefined;
         const res = await change(`tenders/add-doc/to-tender`, {
-          body:
-            { title: docs?.docTitle, link: url, tenderId: tender?.id },
+          body: { title: docs?.docTitle, link: url, tenderId: tender?.id },
         });
         if (res?.status !== 200) {
           Swal.fire(
@@ -53,8 +65,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
       }
       setLoading(false);
       Swal.fire(`Success`, `Document created successfully!`, `success`);
-      setLoading(false);
-      handleNext()
+      handleNext();
       return;
     } catch (error) {
       console.log(error);
@@ -62,20 +73,17 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
     } finally {
       setLoading(false);
     }
-
   };
 
   return (
     <section>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
         enableReinitialize={true}
-        O      >
-        {({ values, errors, handleBlur, touched }: {
-          values: FormValues,
-          errors: FormikErrors<FormValues>,
-          handleBlur: (eventOrString: any) => void,
-          touched: any
-        }) => (
+        validationSchema={validationSchema}
+      >
+        {({ values, errors, handleBlur, touched }) => (
           <Form>
             <div className="w-full my-6 py-6 px-20 flex justify-center">
               <FieldArray name="inputFields">
@@ -92,6 +100,9 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
                             type="text"
                             onBlur={handleBlur}
                             name={`inputFields[${index}].docTitle`}
+                            error={touched.inputFields?.[index]?.docTitle && !!(errors.inputFields?.[index] as InputField)?.docTitle}
+                            helperText={touched.inputFields?.[index]?.docTitle && (errors.inputFields?.[index] as InputField)?.docTitle}
+
                           />
                           <h1 className="">Upload file </h1>
                           <Field
@@ -101,24 +112,30 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
                             type="file"
                             name={`inputFields[${index}].doc`}
                             onBlur={handleBlur}
+                            error={touched.inputFields?.[index]?.doc && !!(errors.inputFields?.[index] as InputField)?.doc}
+                            helperText={touched.inputFields?.[index]?.doc && (errors.inputFields?.[index] as InputField)?.doc}
                           />
                           <div className="flex justify-end w-full">
-                            <Button type="button"
+                            <Button
+                              type="button"
                               variant="contained"
                               startIcon={<Delete />}
                               className="!bg-red-600"
-                              onClick={() => remove(index)}>
+                              onClick={() => remove(index)}
+                            >
                               Remove
                             </Button>
                           </div>
                         </div>
                       </div>
                     ))}
-                    <Button type="button"
+                    <Button
+                      type="button"
                       variant="contained"
                       startIcon={<Add />}
                       className="!bg-blue-600"
-                      onClick={() => push({ docTitle: '', doc: '' })}>
+                      onClick={() => push({ docTitle: '', doc: null })}
+                    >
                       ADD MORE FIELD
                     </Button>
                   </div>
