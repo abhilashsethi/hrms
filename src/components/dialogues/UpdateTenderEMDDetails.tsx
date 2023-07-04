@@ -50,11 +50,35 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
   const handleSubmit = async (values: Tender) => {
     setLoading(true);
     try {
+      if (!isEmdValue) {
+        const res = await change(`tenders/update/${tenderData?.id}`, {
+          method: "PATCH",
+          body: {
+            EmdAmount: Number(values?.EmdAmount),
+            EmdPaymentMode: values?.EmdPaymentMode,
+            isEmdExemption: isEmdValue,
+          },
+        });
+        setLoading(false);
+        if (res?.status !== 200) {
+          Swal.fire(
+            "Error",
+            res?.results?.msg || "Unable to Submit",
+            "error"
+          );
+          setLoading(false);
+          return;
+        }
+        Swal.fire(`Success`, `EMD Details updated successfully!`, `success`);
+        mutate()
+        handleClose()
+        return;
+      }
       const res = await change(`tenders/update/${tenderData?.id}`, {
         method: "PATCH",
         body: {
-          EmdAmount: Number(values?.EmdAmount),
-          EmdPaymentMode: values?.EmdPaymentMode,
+          EmdAmount: 0,
+          EmdPaymentMode: "",
           isEmdExemption: isEmdValue,
         },
       });
