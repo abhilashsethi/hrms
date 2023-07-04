@@ -347,7 +347,144 @@ const CreateBills = () => {
 										) : isBillType === "paidBill" ? (
 											<p>paid Bill</p>
 										) : isBillType === "advanceBill" ? (
-											<p>Advance Bill</p>
+											<div className="grid">
+												<div className="md:px-4 px-2 md:py-2 py-1">
+													<div className="md:py-2 py-1">
+														<InputLabel htmlFor="clientName">
+															Choose Client{" "}
+															<span className="text-red-600">*</span>
+														</InputLabel>
+													</div>
+
+													<Autocomplete
+														fullWidth
+														size="small"
+														id="clientName"
+														options={Client_Name || []}
+														onChange={(e: any, r: any) => {
+															setFieldValue("clientName", r?.name);
+														}}
+														getOptionLabel={(option: any) => option.name}
+														renderInput={(params) => (
+															<TextField
+																{...params}
+																label="Client Name"
+																// placeholder="Selected Gender"
+																onBlur={handleBlur}
+																error={
+																	touched.clientName && !!errors.clientName
+																}
+																helperText={
+																	touched.clientName && errors.clientName
+																}
+															/>
+														)}
+													/>
+												</div>
+												<div className="grid grid-cols-2">
+													<div className="md:px-4 px-2 md:py-2 py-1">
+														<div className="md:py-2 py-1">
+															<InputLabel htmlFor="invoiceNumber">
+																Advance Invoice Number{" "}
+																<span className="text-red-600">*</span>
+															</InputLabel>
+														</div>
+														<TextField
+															fullWidth
+															size="small"
+															id="invoiceNumber"
+															// placeholder="invoiceNumber"
+															name="invoiceNumber"
+															value={values.invoiceNumber}
+															onChange={handleChange}
+															onBlur={handleBlur}
+															error={
+																touched.invoiceNumber && !!errors.invoiceNumber
+															}
+															helperText={
+																touched.invoiceNumber && errors.invoiceNumber
+															}
+														/>
+													</div>
+
+													<div className="md:px-4 px-2 md:py-2 py-1">
+														<div className="md:py-2 py-1">
+															<InputLabel htmlFor="invoiceDate">
+																Invoice Date{" "}
+																<span className="text-red-600">*</span>
+															</InputLabel>
+														</div>
+														<TextField
+															fullWidth
+															size="small"
+															id="invoiceDate"
+															type="date"
+															// placeholder="invoiceDate"
+															name="invoiceDate"
+															value={values.invoiceDate}
+															onChange={handleChange}
+															onBlur={handleBlur}
+															error={
+																touched.invoiceDate && !!errors.invoiceDate
+															}
+															helperText={
+																touched.invoiceDate && errors.invoiceDate
+															}
+														/>
+													</div>
+												</div>
+
+												<FieldArray name="inputFields">
+													{({ remove, push }) => (
+														<div className="px-4 my-2">
+															{values.inputFields.map((field, index) => (
+																<div
+																	className="grid grid-cols-4 gap-2 items-center"
+																	key={index}
+																>
+																	<Field
+																		as={TextField}
+																		name={`inputFields[${index}].field1`}
+																		label="Description"
+																	/>
+																	<Field
+																		as={TextField}
+																		name={`inputFields[${index}].field2`}
+																		type="number"
+																		label="SAC Code"
+																	/>
+																	<Field
+																		as={TextField}
+																		name={`inputFields[${index}].field3`}
+																		label="Amount"
+																		type="number"
+																	/>
+
+																	<Tooltip title="Remove Field">
+																		<div className="text-sm bg-red-500 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+																			<IconButton>
+																				<Delete
+																					onClick={() => remove(index)}
+																					className="!text-white"
+																				/>
+																			</IconButton>
+																		</div>
+																	</Tooltip>
+																</div>
+															))}
+															<button
+																className="w-32 mt-2 bg-white text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white border border-theme rounded-lg px-2 py-1"
+																type="button"
+																onClick={() =>
+																	push({ field1: "", field2: "", field3: "" })
+																}
+															>
+																Add Field
+															</button>
+														</div>
+													)}
+												</FieldArray>
+											</div>
 										) : null}
 
 										<div className="flex justify-center md:py-4 py-2 mt-10">
