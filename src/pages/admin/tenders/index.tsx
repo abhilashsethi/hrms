@@ -25,6 +25,7 @@ const TenderDashboard = () => {
       title: "Total Tenders",
       bg: "from-blue-500 to-blue-300",
       img: TENDERICONS1.src,
+      link: "/admin/tenders/all-tenders",
     },
     {
       id: 2,
@@ -32,6 +33,7 @@ const TenderDashboard = () => {
       title: "Opened Tenders",
       bg: "from-green-500 to-green-300",
       img: TENDERICONS2.src,
+      link: "/admin/tenders/all-tenders",
     },
     {
       id: 4,
@@ -39,6 +41,7 @@ const TenderDashboard = () => {
       title: "Closed Tenders",
       bg: "from-green-500 to-green-300",
       img: CLOSE.src,
+      link: "/admin/tenders/all-tenders",
     },
     {
       id: 3,
@@ -46,6 +49,7 @@ const TenderDashboard = () => {
       title: "Submitted Tenders",
       bg: "from-yellow-500 to-yellow-300",
       img: TENDERICONS3.src,
+      link: "/admin/tenders/all-tenders",
     },
   ];
   return (

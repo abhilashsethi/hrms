@@ -81,7 +81,12 @@ const CreateTender = () => {
 export default CreateTender;
 
 const links = [
-  { id: 1, page: "Tenders", link: "/admin/tenders/all-tenders" },
+  { id: 1, page: "Tenders", link: "/admin/tenders" },
+  {
+    id: 2,
+    page: "All Tender",
+    link: "/admin/tenders/all-tenders",
+  },
   {
     id: 2,
     page: "Create Tender",
