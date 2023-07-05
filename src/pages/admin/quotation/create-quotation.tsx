@@ -37,12 +37,16 @@ interface FormValues {
   text: string,
 }
 const CreateQuotation = () => {
+  const [isCgst, setIsCgst] = useState(true);
+  const [isSgst, setIsSgst] = useState(true);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const ReactQuill = dynamic(import("react-quill"), { ssr: false });
   const [isGstValue, setIsGstValue] = useState(false)
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsGstValue(event.target.value === 'IGST');
+    setIsCgst(event.target.value !== 'IGST');
+    setIsSgst(event.target.value !== 'IGST');
   };
   const initialValues = {
     inputFields: [{ description: "", qty: 0, cost: 0 }],
@@ -89,6 +93,8 @@ const CreateQuotation = () => {
           quotationTitle: values?.quotationTitle,
           termsAndConditions: values?.text,
           isIgst: isGstValue,
+          isCgst: isCgst,
+          isSgst: isSgst,
           works: transformedArray,
         },
       });

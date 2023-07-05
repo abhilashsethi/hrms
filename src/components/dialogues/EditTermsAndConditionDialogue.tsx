@@ -59,7 +59,7 @@ const EditTermsAndConditionDialogue = ({ open, data, handleClose, mutate }: Prop
 				setLoading(false);
 				return;
 			}
-			Swal.fire(`Success`, `Quotation terms and condition updated successfully!`, `success`);
+			Swal.fire(`Success`, `Terms and condition updated successfully!`, `success`);
 			mutate()
 			handleClose()
 			return;
