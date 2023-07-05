@@ -1,21 +1,12 @@
-import { Close, FilterListRounded, Send } from "@mui/icons-material";
-import {
-	Button,
-	Card,
-	IconButton,
-	MenuItem,
-	Modal,
-	TextField,
-	Tooltip,
-} from "@mui/material";
+import { Close, FilterListRounded } from "@mui/icons-material";
+import { IconButton, MenuItem, TextField, Tooltip } from "@mui/material";
+import { BillGrid } from "components/admin/bills";
 import { QuotationGrid } from "components/admin/quotation";
 import { AdminBreadcrumbs, LoaderAnime } from "components/core";
-import { UploadEmployData } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { DateRangePicker } from "materialui-daterange-picker";
 import moment from "moment";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Quotation } from "types";
 
@@ -33,7 +24,7 @@ const AllBills = () => {
 	console.log(quotationData);
 	return (
 		<>
-			<PanelLayout title="Meetings - Admin Panel">
+			<PanelLayout title="Bills - Admin Panel">
 				<section className="px-8">
 					<div className="flex justify-between items-center py-4">
 						<AdminBreadcrumbs links={links} />
@@ -73,10 +64,10 @@ const AllBills = () => {
 							<TextField
 								fullWidth
 								size="small"
-								id="quotationNumber"
-								placeholder="Quotation Number"
+								id="invoiceNumber"
+								placeholder="Invoice Number"
 								value={meetingPerson ? meetingPerson : null}
-								name="quotationNumber"
+								name="invoiceNumber"
 								onChange={(e) => setMeetingPerson(e.target.value)}
 							/>
 
@@ -92,17 +83,8 @@ const AllBills = () => {
 
 							<TextField
 								fullWidth
-								size="small"
-								id="clientName"
-								placeholder="Quotation Title"
-								value={meetingPerson ? meetingPerson : null}
-								name="clientName"
-								onChange={(e) => setMeetingPerson(e.target.value)}
-							/>
-							<TextField
-								fullWidth
 								select
-								label="Select Status"
+								label="Bill Type"
 								size="small"
 								value={meetingStatus ? meetingStatus : null}
 								onChange={(e) => setMeetingStatus(e?.target?.value)}
@@ -130,7 +112,7 @@ const AllBills = () => {
 						</div>
 					</div>
 					{quotationData?.length ? (
-						<QuotationGrid data={quotationData} mutate={mutate} />
+						<BillGrid data={quotationData} mutate={mutate} />
 					) : (
 						<LoaderAnime text="No data" />
 					)}
@@ -143,12 +125,12 @@ const AllBills = () => {
 export default AllBills;
 
 const status = [
-	{ id: 1, value: "Accepted" },
-	{ id: 2, value: "Rejected" },
-	{ id: 3, value: "Modified" },
+	{ id: 1, value: "Unpaid" },
+	{ id: 2, value: "Advance" },
+	{ id: 3, value: "Paid" },
 ];
 
 const links = [
-	{ id: 1, page: "Quotation", link: "/admin/quotation" },
-	{ id: 2, page: "All Quotation", link: "/admin/quotation/all-quotation" },
+	{ id: 1, page: "Bills", link: "/admin/bills" },
+	{ id: 2, page: "All Bills", link: "/admin/bills/all-bills" },
 ];
