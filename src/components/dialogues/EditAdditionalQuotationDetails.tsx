@@ -43,15 +43,19 @@ const EditAdditionalQuotationDetails = ({ open, data, handleClose, mutate, quota
 		console.log(values);
 		setLoading(true);
 		try {
+			const resData = {
+				description: values?.description,
+				cost: Number(values?.cost),
+				quantity: Number(values?.qty),
+			}
 			const res = await change(`quotations/update-work/${data?.id}`, {
 				method: "PATCH",
 				body: {
-					description: values?.description,
-					cost: Number(values?.cost),
-					quantity: Number(values?.qty),
+					data: resData,
 					quotationId: quotationData?.id,
 				},
 			});
+			console.log("after submit", res);
 			setLoading(false);
 			if (res?.status !== 200) {
 				Swal.fire(
