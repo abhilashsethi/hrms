@@ -1,3 +1,4 @@
+import { BillData } from "components/admin/bills";
 import { QuotationData } from "components/admin/quotation";
 import { AdminBreadcrumbs } from "components/core";
 import { useFetch } from "hooks";
@@ -18,7 +19,7 @@ const BillDetails = () => {
 				<div className="pb-4">
 					<AdminBreadcrumbs links={links} />
 				</div>
-				<QuotationData
+				<BillData
 					quotationData={quotationData}
 					mutate={mutate}
 					isLoading={isLoading}
@@ -31,10 +32,10 @@ const BillDetails = () => {
 export default BillDetails;
 
 const links = [
-	{ id: 1, page: "Quotation", link: "/admin/quotation" },
+	{ id: 1, page: "Bill", link: "/admin/bills" },
 	{
 		id: 2,
-		page: "Quotation Details",
-		link: "/admin/meetings/quotation-details",
+		page: "Bill Details",
+		link: "/admin/bills/bill-details",
 	},
 ];
