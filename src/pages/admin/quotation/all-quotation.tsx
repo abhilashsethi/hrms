@@ -5,11 +5,13 @@ import {
   IconButton,
   MenuItem,
   Modal,
+  Pagination,
+  Stack,
   TextField,
   Tooltip,
 } from "@mui/material";
 import { QuotationGrid } from "components/admin/quotation";
-import { AdminBreadcrumbs, LoaderAnime } from "components/core";
+import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { UploadEmployData } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -22,7 +24,7 @@ import { Quotation } from "types";
 
 
 const AllQuotation = () => {
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [open, setOpen] = useState(true);
   const [meetingPerson, setMeetingPerson] = useState<string | null>(null);
   const [meetingStatus, setMeetingStatus] = useState<string | null>(null);
@@ -30,6 +32,7 @@ const AllQuotation = () => {
   const {
     data: quotationData,
     mutate,
+    pagination,
     isLoading,
   } = useFetch<Quotation[]>(
     `quotations?page=${pageNumber}&limit=8`
@@ -135,9 +138,37 @@ const AllQuotation = () => {
               />
             </div>
           </div>
-          {quotationData?.length ?
-            <QuotationGrid data={quotationData} mutate={mutate} />
-            : <LoaderAnime text="No data" />}
+          <section className="mt-4">
+            {isLoading && <SkeletonLoader />}
+            <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
+              {quotationData?.length ?
+                <QuotationGrid data={quotationData} mutate={mutate} />
+                : <LoaderAnime text="No data" />}
+            </div>
+            {quotationData?.length === 0 ? <LoaderAnime /> : null}
+            <section className="mb-6">
+              {Math.ceil(
+                Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+              ) > 1 ? (
+                <div className="flex justify-center md:py-8 py-4">
+                  <Stack spacing={2}>
+                    <Pagination
+                      count={Math.ceil(
+                        Number(pagination?.total || 1) /
+                        Number(pagination?.limit || 1)
+                      )}
+                      onChange={(e, v: number) => {
+                        setPageNumber(v);
+                      }}
+                      page={pageNumber}
+                      variant="outlined"
+                    />
+                  </Stack>
+                </div>
+              ) : null}
+            </section>
+          </section>
+
         </section>
       </PanelLayout>
     </>

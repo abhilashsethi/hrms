@@ -42,7 +42,7 @@ const BankAccountConfig = () => {
     setLoading(true);
     console.log(values);
     try {
-      const res = await change(`create-bank-account`, {
+      const res = await change(`quotations/create-bank-account`, {
         body: {
           bankName: values?.bankName,
           branchName: values?.branchName,

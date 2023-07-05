@@ -53,9 +53,7 @@ const AddAdditionalQuotationDetails = ({ open, data, handleClose, mutate }: Prop
 				quantity: Number(values?.qty),
 			}
 			const res = await change(`quotations/add-work/${data?.id}`, {
-				body: {
-					data: resData,
-				},
+				body: resData,
 			});
 			console.log("after submit", res);
 			setLoading(false);
