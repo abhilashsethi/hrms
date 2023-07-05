@@ -145,6 +145,13 @@ const EditQuotationDetails = ({
 									onChange={(e: any, r: any) => {
 										setFieldValue("status", r?.name);
 									}}
+									value={
+										values?.status
+											? Status_Type?.find(
+												(option: any) => option.value === values.status
+											)
+											: {}
+									}
 									getOptionLabel={(option: any) => option.name}
 									renderInput={(params) => (
 										<TextField
