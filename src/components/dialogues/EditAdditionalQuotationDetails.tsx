@@ -23,8 +23,8 @@ interface Props {
 
 const validationSchema = Yup.object().shape({
 	description: Yup.string().required("Description is required"),
-	qty: Yup.string().required("Qty is required!"),
-	cost: Yup.string().email().required("Cost is required!"),
+	qty: Yup.string().required("Quantity is required!"),
+	cost: Yup.string().required("Cost is required!"),
 });
 const EditAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
 	console.log(data);
