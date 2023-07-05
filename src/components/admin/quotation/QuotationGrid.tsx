@@ -19,7 +19,6 @@ interface Props {
 }
 
 const QuotationGrid = ({ data, mutate }: Props) => {
-  console.log(data);
   const { change } = useChange();
   const router = useRouter();
   const handleDelete = (id?: string) => {
