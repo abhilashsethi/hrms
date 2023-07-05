@@ -327,7 +327,35 @@ export type Tender = {
 	allTenderCountStatusWise?: TenderDashboard[];
 
 };
-
+export interface Quotation {
+	id?: string;
+	cgstVal?: number;
+	grandTotal?: number;
+	gst?: number;
+	total?: number;
+	sgstVal?: number;
+	igstVal?: number;
+	isCgst: boolean;
+	isIgst: boolean;
+	isSgst: boolean;
+	clientAddress?: string;
+	clientEmail?: string;
+	clientName?: string;
+	quotationNumber?: string;
+	quotationTitle?: string;
+	status?: string;
+	termsAndConditions?: string;
+	updatedAt?: Date;
+	createdAt?: Date;
+	works?: QuotationWork[];
+}
+export interface QuotationWork {
+	id?: string;
+	cost?: number;
+	quantity?: number;
+	description?: string;
+	createdAt?: Date;
+}
 export interface MeetingTypes {
 	meetings?: MeetingProps[];
 }
