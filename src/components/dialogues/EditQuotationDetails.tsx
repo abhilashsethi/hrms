@@ -56,7 +56,7 @@ const EditQuotationDetails = ({
 		console.log(values);
 		setLoading(true);
 		try {
-			const res = await change(`quotation/${data?.id}`, {
+			const res = await change(`quotations/${data?.id}`, {
 				method: "PATCH",
 				body: {
 					status: values?.status,
