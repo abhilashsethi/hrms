@@ -17,7 +17,6 @@ import * as Yup from "yup";
 interface Props {
 	open: boolean;
 	handleClose: any;
-	details?: any;
 	mutate?: any;
 	data?: Quotation;
 }

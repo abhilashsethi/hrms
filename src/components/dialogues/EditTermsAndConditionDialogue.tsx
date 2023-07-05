@@ -19,12 +19,9 @@ import { Quotation } from "types";
 interface Props {
 	open: boolean;
 	handleClose: any;
-	details?: any;
 	mutate?: any;
 	data?: Quotation;
-
 }
-
 
 const validationSchema = Yup.object().shape({
 	text: Yup.string().required("Text is required!"),
@@ -39,7 +36,7 @@ const EditTermsAndConditionDialogue = ({ open, data, handleClose }: Props) => {
 	};
 
 	const initialValues = {
-		text: "",
+		text: `${data?.termsAndConditions ? data?.termsAndConditions : ""}`,
 	};
 
 	const handleSubmit = async (values: any) => {

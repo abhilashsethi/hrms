@@ -19,7 +19,6 @@ import * as Yup from "yup";
 interface Props {
 	open: boolean;
 	handleClose: any;
-	details?: any;
 	mutate?: any;
 	data?: Quotation;
 }
@@ -34,51 +33,24 @@ const validationSchema = Yup.object().shape({
 const EditQuotationDetails = ({
 	open,
 	handleClose,
-	details,
 	mutate,
 	data,
 }: Props) => {
 	// console.log(details);
 	const [loading, setLoading] = useState(false);
-	const [value, setValue] = useState("one");
-	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue((event.target as HTMLInputElement).value);
-	};
-	const [isStatusType, setIsStatusType] = useState<string>("");
-	const { user } = useAuth();
-	// console.log(user);
-	// console.log(details);
+
 	const initialValues = {
-		statusType: "",
-		clientName: "",
-		clientEmail: "",
-		clientAddress: "",
-		quotationTitle: "",
+		statusType: `${data?.status ? data?.status : ""}`,
+		clientName: `${data?.clientName ? data?.clientName : ""}`,
+		clientEmail: `${data?.clientEmail ? data?.clientEmail : ""}`,
+		clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,
+		quotationTitle: `${data?.quotationTitle ? data?.quotationTitle : ""}`,
 	};
 
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
 		console.log(values);
 	};
-
-	const Status_Type = [
-		{
-			id: 1,
-			name: "Accepted",
-			value: "accepted",
-		},
-		{
-			id: 2,
-			name: "Rejected",
-			value: "rejected",
-		},
-		{
-			id: 3,
-			name: "Modified",
-			value: "modified",
-		},
-	];
-
 	return (
 		<Dialog
 			onClose={handleClose}
@@ -136,13 +108,11 @@ const EditQuotationDetails = ({
 									options={Status_Type || []}
 									onChange={(e: any, r: any) => {
 										setFieldValue("statusType", r?.name);
-										setIsStatusType(r?.value);
 									}}
 									getOptionLabel={(option: any) => option.name}
 									renderInput={(params) => (
 										<TextField
 											{...params}
-											label="Bill Type"
 											// placeholder="Selected Gender"
 											onBlur={handleBlur}
 											error={touched.statusType && !!errors.statusType}
@@ -240,3 +210,20 @@ const EditQuotationDetails = ({
 };
 
 export default EditQuotationDetails;
+const Status_Type = [
+	{
+		id: 1,
+		name: "Accepted",
+		value: "accepted",
+	},
+	{
+		id: 2,
+		name: "Rejected",
+		value: "rejected",
+	},
+	{
+		id: 3,
+		name: "Modified",
+		value: "modified",
+	},
+];
