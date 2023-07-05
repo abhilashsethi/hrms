@@ -103,7 +103,7 @@ const EmployDashboard = () => {
 					<div className="grid grid-cols-12 content-between gap-10 m-5 !mb-6">
 						<div className="col-span-12 bg-white pt-20 w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
 							<DailyAttendance
-								text="Employee's Report"
+								text="Last Week Employee's Report"
 								type="area"
 								data={employeeDetails?.lastWeekAttendanceArr}
 								totalUsers={employeeDetails?.totalUsers}
@@ -126,7 +126,7 @@ const EmployDashboard = () => {
 							<span className="text-lg font-semibold text-theme">
 								{projectData?.length
 									? projectData?.filter((item) => item?.status === "Ongoing")
-											?.length
+										?.length
 									: 0}
 							</span>
 							<span className="w-1/2 text-center font-semibold">
@@ -147,22 +147,22 @@ const EmployDashboard = () => {
 						series={
 							roleData?.length
 								? [
-										{
-											name: "Strength",
-											data: roleData?.length
-												? roleData?.map((item: any) =>
-														item?._count ? item?._count : 0
-												  )
-												: [],
-										},
-								  ]
+									{
+										name: "Strength",
+										data: roleData?.length
+											? roleData?.map((item: any) =>
+												item?._count ? item?._count : 0
+											)
+											: [],
+									},
+								]
 								: []
 						}
 						categories={
 							roleData?.length
 								? roleData?.map((item: any) =>
-										item?.name ? item?.name : "Not Specified"
-								  )
+									item?.name ? item?.name : "Not Specified"
+								)
 								: []
 						}
 						text=""
@@ -177,15 +177,15 @@ const EmployDashboard = () => {
 						series={
 							employeeDetails?.groupByGender?.length
 								? employeeDetails?.groupByGender?.map(
-										(item: any) => item?._count
-								  )
+									(item: any) => item?._count
+								)
 								: []
 						}
 						labels={
 							employeeDetails?.groupByGender?.length
 								? employeeDetails?.groupByGender?.map((item: any) =>
-										item?.gender ? item?.gender : "Not specified"
-								  )
+									item?.gender ? item?.gender : "Not specified"
+								)
 								: []
 						}
 						text=""
