@@ -143,19 +143,16 @@ const BillGrid = ({ data, mutate }: Props) => {
 										{item?.clientAddress}
 									</p>
 								</div>
-								<div className="flex gap-2 py-2 md:py-0 justify-start">
+								<div className="flex gap-2 py-2 md:py-0 -ml-1 justify-start items-center">
+									<img className="w-7" src={BAG.src} alt="" />
 									<p className="text-sm md:text-sm text-gray-700">
-										{/* <span>
-											<Business className="text-gray-500 mr-1" />
-										</span> */}
-										<img className="w-8" src={BAG.src} alt="" />
-										{item?.clientAddress}
+										GST Number 06AAKFD9709P2ZP.
 									</p>
 								</div>
 								<div className="mt-3 flex flex-col  justify-start">
 									<div className="flex items-center gap-2 py-2 md:py-0">
 										<p className="font-semibold text-base text-blue-600">
-											Quotation Title :
+											Invoice Number :
 										</p>
 										<p className="text-sm md:text-base text-gray-700">
 											{item?.quotationTitle}
@@ -163,7 +160,7 @@ const BillGrid = ({ data, mutate }: Props) => {
 									</div>
 									<div className="flex items-center gap-2 py-2 md:py-0">
 										<p className="font-semibold text-base text-blue-600">
-											Date :
+											Invoice Date :
 										</p>
 										<p className="text-sm md:text-base text-gray-700">
 											{item?.createdAt
@@ -173,19 +170,10 @@ const BillGrid = ({ data, mutate }: Props) => {
 									</div>
 									<div className="flex items-center gap-2 py-2 md:py-0">
 										<p className="font-semibold text-base text-blue-600">
-											Quotation Number :
+											Invoice Due Date :
 										</p>
 										<p className="text-sm md:text-base text-gray-700">
 											{item?.quotationNumber}
-										</p>
-									</div>
-
-									<div className="flex items-center justify-start gap-2 py-2 md:py-0">
-										<p className="font-semibold text-base text-blue-600">
-											Cost (IN INR){" "}
-										</p>
-										<p className="text-sm text-gray-700">
-											{item?.grandTotal ? item?.grandTotal : "0"}/-
 										</p>
 									</div>
 								</div>
@@ -194,7 +182,7 @@ const BillGrid = ({ data, mutate }: Props) => {
 										<span>
 											<Download />
 										</span>
-										Download Quotation
+										Download Bill
 									</button>
 								</div>
 							</div>
