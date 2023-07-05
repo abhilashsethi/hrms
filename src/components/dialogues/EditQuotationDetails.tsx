@@ -11,24 +11,31 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useAuth, useChange } from "hooks";
-import { ChangeEvent, useState } from "react";
+import { useChange } from "hooks";
+import { useState } from "react";
+import Swal from "sweetalert2";
 import { Quotation } from "types";
 import * as Yup from "yup";
 
 interface Props {
 	open: boolean;
-	handleClose: any;
-	mutate?: any;
+	handleClose: () => void;
+	mutate: () => void;
 	data?: Quotation;
 }
-
+interface QuotationInput {
+	status: string;
+	clientName: string;
+	clientEmail: string;
+	clientAddress: string;
+	quotationTitle: string;
+}
 const validationSchema = Yup.object().shape({
-	statusType: Yup.string().required("Select status"),
+	status: Yup.string().required("Select status"),
 	clientName: Yup.string().required("Client name is required!"),
-	clientEmail: Yup.string().email().required("Client Email is required!"),
+	clientEmail: Yup.string().email().required("Client email is required!"),
 	clientAddress: Yup.string().required("Client address is required!"),
-	quotationTitle: Yup.string().required("Quotation Title is required!"),
+	quotationTitle: Yup.string().required("Quotation title is required!"),
 });
 const EditQuotationDetails = ({
 	open,
@@ -36,20 +43,49 @@ const EditQuotationDetails = ({
 	mutate,
 	data,
 }: Props) => {
-	// console.log(details);
 	const [loading, setLoading] = useState(false);
-
 	const initialValues = {
-		statusType: `${data?.status ? data?.status : ""}`,
+		status: `${data?.status ? data?.status : ""}`,
 		clientName: `${data?.clientName ? data?.clientName : ""}`,
 		clientEmail: `${data?.clientEmail ? data?.clientEmail : ""}`,
 		clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,
 		quotationTitle: `${data?.quotationTitle ? data?.quotationTitle : ""}`,
 	};
-
 	const { change } = useChange();
-	const handleSubmit = async (values: any) => {
+	const handleSubmit = async (values: QuotationInput) => {
 		console.log(values);
+		setLoading(true);
+		try {
+			const res = await change(`quotation/update/${data?.id}`, {
+				method: "PATCH",
+				body: {
+					status: values?.status,
+					clientName: values?.clientName,
+					clientEmail: values?.clientEmail,
+					clientAddress: values?.clientAddress,
+					quotationTitle: values?.quotationTitle,
+				},
+			});
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire(
+					"Error",
+					res?.results?.msg || "Unable to Submit",
+					"error"
+				);
+				setLoading(false);
+				return;
+			}
+			Swal.fire(`Success`, `Quotation basic details updated successfully!`, `success`);
+			mutate()
+			handleClose()
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 	return (
 		<Dialog
@@ -104,10 +140,10 @@ const EditQuotationDetails = ({
 								<Autocomplete
 									fullWidth
 									size="small"
-									id="statusType"
+									id="status"
 									options={Status_Type || []}
 									onChange={(e: any, r: any) => {
-										setFieldValue("statusType", r?.name);
+										setFieldValue("status", r?.name);
 									}}
 									getOptionLabel={(option: any) => option.name}
 									renderInput={(params) => (
@@ -115,8 +151,8 @@ const EditQuotationDetails = ({
 											{...params}
 											// placeholder="Selected Gender"
 											onBlur={handleBlur}
-											error={touched.statusType && !!errors.statusType}
-											helperText={touched.statusType && errors.statusType}
+											error={touched.status && !!errors.status}
+											helperText={touched.status && errors.status}
 										/>
 									)}
 								/>
