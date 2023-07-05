@@ -41,10 +41,14 @@ const validationSchema = Yup.object().shape({
 	quotationTitle: Yup.string().required("Quotation title is required!"),
 });
 const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
+	const [isCgst, setIsCgst] = useState(true);
+	const [isSgst, setIsSgst] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const [isGstValue, setIsGstValue] = useState(false);
 	const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setIsGstValue(event.target.value === "IGST");
+		setIsCgst(event.target.value !== 'IGST');
+		setIsSgst(event.target.value !== 'IGST');
 	};
 	const initialValues = {
 		status: `${data?.status ? data?.status : ""}`,
@@ -66,6 +70,9 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
 					clientEmail: values?.clientEmail,
 					clientAddress: values?.clientAddress,
 					quotationTitle: values?.quotationTitle,
+					isIgst: isGstValue,
+					isCgst: isCgst,
+					isSgst: isSgst,
 				},
 			});
 			setLoading(false);
@@ -150,8 +157,8 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
 									value={
 										values?.status
 											? Status_Type?.find(
-													(option: any) => option.value === values.status
-											  )
+												(option: any) => option.value === values.status
+											)
 											: {}
 									}
 									getOptionLabel={(option: any) => option.name}
@@ -237,7 +244,7 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
 										<span className="text-red-600">*</span>
 									</p>
 									<RadioGroup
-										defaultValue={isGstValue ? "IGST" : "SGST"}
+										defaultValue={data?.isIgst ? "IGST" : "SGST"}
 										row
 										name="isGstValue"
 										onChange={handleOptionChange}
