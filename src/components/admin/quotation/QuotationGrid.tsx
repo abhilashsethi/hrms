@@ -8,8 +8,10 @@ import {
 } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { QUOTATION } from "assets/home";
+import { useChange } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 import { Quotation } from "types";
 interface Props {
   data: Quotation[];
@@ -18,7 +20,42 @@ interface Props {
 
 const QuotationGrid = ({ data, mutate }: Props) => {
   console.log(data);
+  const { change } = useChange();
   const router = useRouter();
+  const handleDelete = (id?: string) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to delete!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          const res = await change(`quotations/${id}`, {
+            method: "DELETE",
+          });
+
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="grid py-4 gap-6 lg:grid-cols-3">
@@ -70,6 +107,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                       <Delete
                         sx={{ padding: "0px !important" }}
                         fontSize="small"
+                        onClick={() => handleDelete(item?.id)}
                       />
                     </Avatar>
                   </Tooltip>
@@ -117,7 +155,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                       Date :
                     </p>
                     <p className="text-sm md:text-base text-gray-700">
-                      {item?.quotationData ? moment(item?.quotationData).format("lll") : "Not Specified"}
+                      {item?.createdAt ? moment(item?.createdAt).format("lll") : "Not Specified"}
                     </p>
                   </div>
                   <div className="flex items-center gap-2 py-2 md:py-0">
@@ -133,7 +171,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                     <p className="font-semibold text-base text-blue-600">
                       Cost (IN INR){" "}
                     </p>
-                    <p className="text-sm text-gray-700">{item?.grandTotal}/-</p>
+                    <p className="text-sm text-gray-700">{item?.grandTotal ? item?.grandTotal : "0"}/-</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-center py-4">
