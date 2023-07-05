@@ -68,6 +68,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
 				handleClose={() => setAdditionDetails(false)}
 				mutate={mutate}
 				data={isQuotationWorkData}
+				quotationData={quotationData}
 			/>
 			<EditTermsAndConditionDialogue
 				open={termsAndConditionDetails}

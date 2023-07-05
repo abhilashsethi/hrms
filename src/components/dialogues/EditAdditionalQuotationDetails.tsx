@@ -10,7 +10,9 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { ChangeEvent, useState } from "react";
+import { useChange } from "hooks";
+import { useState } from "react";
+import Swal from "sweetalert2";
 import { Quotation, QuotationWork } from "types";
 import * as Yup from "yup";
 
@@ -19,6 +21,7 @@ interface Props {
 	handleClose: () => void;
 	mutate: () => void;
 	data?: QuotationWork;
+	quotationData?: Quotation;
 }
 
 const validationSchema = Yup.object().shape({
@@ -26,13 +29,9 @@ const validationSchema = Yup.object().shape({
 	qty: Yup.string().required("Quantity is required!"),
 	cost: Yup.string().required("Cost is required!"),
 });
-const EditAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
-	console.log(data);
+const EditAdditionalQuotationDetails = ({ open, data, handleClose, mutate, quotationData }: Props) => {
+	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
-	const [value, setValue] = useState("one");
-	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue((event.target as HTMLInputElement).value);
-	};
 	console.log("update data", data);
 	const initialValues = {
 		description: `${data?.description ? data?.description : ""}`,
@@ -42,6 +41,41 @@ const EditAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
 
 	const handleSubmit = async (values: any) => {
 		console.log(values);
+		setLoading(true);
+		try {
+			const resData = {
+				description: values?.description,
+				cost: Number(values?.cost),
+				quantity: Number(values?.qty),
+			}
+			const res = await change(`quotations/update-work/${data?.id}`, {
+				method: "PATCH",
+				body: {
+					data: resData,
+					quotationId: quotationData?.id,
+				},
+			});
+			console.log("after submit", res);
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire(
+					"Error",
+					res?.results?.msg || "Unable to Submit",
+					"error"
+				);
+				setLoading(false);
+				return;
+			}
+			Swal.fire(`Success`, `Quotation updated successfully!`, `success`);
+			mutate()
+			handleClose()
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -87,7 +121,6 @@ const EditAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
 							touched,
 							handleChange,
 							handleBlur,
-							setFieldValue,
 						}) => (
 							<Form className="w-full">
 								<div className="my-4">
@@ -114,6 +147,7 @@ const EditAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
 									<TextField
 										size="small"
 										fullWidth
+										type="number"
 										placeholder="Qty"
 										name="qty"
 										value={values.qty}
@@ -131,6 +165,7 @@ const EditAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
 									<TextField
 										size="small"
 										fullWidth
+										type="number"
 										placeholder="Cost"
 										name="cost"
 										value={values.cost}

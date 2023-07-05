@@ -43,10 +43,10 @@ const EditTermsAndConditionDialogue = ({ open, data, handleClose, mutate }: Prop
 		console.log(values);
 		setLoading(true);
 		try {
-			const res = await change(`quotation/update/${data?.id}`, {
+			const res = await change(`quotations/${data?.id}`, {
 				method: "PATCH",
 				body: {
-					text: values?.text,
+					termsAndConditions: values?.text,
 				},
 			});
 			setLoading(false);
