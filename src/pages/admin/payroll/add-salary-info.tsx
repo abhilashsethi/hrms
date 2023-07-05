@@ -8,7 +8,7 @@ import TextInput from "components/core/TextInput";
 import AdminAutocomplete from "components/core/AdminAutocomplete";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { AdminBreadcrumbs } from "components/core";
+import { AdminBreadcrumbs, LoaderAnime } from "components/core";
 import { AddMoreField } from "components/dialogues";
 import PayrollInputField from "./PayrollInputField";
 
@@ -142,7 +142,7 @@ const AddPrescription = () => {
 					? [...formik?.values[name], { title: "", value: "" }]
 					: [{ title: "", value: "" }]
 			);
-		} catch (error) { }
+		} catch (error) {}
 	};
 
 	const handleFormikOnChange = (
@@ -165,7 +165,7 @@ const AddPrescription = () => {
 					return item;
 				})
 			);
-		} catch (error) { }
+		} catch (error) {}
 	};
 	return (
 		<PanelLayout title="Add Salary Info - Admin Panel">
@@ -174,6 +174,7 @@ const AddPrescription = () => {
 				open={salaryInfoModal}
 				handleClose={() => setSalaryInfoModal(false)}
 			/>
+			{/* {isLoading ? <LoaderAnime text="Loading..." /> : null} */}
 			<section className="md:px-8 px-2 md:py-4 py-2">
 				<div className="px-2 md:px-0">
 					<AdminBreadcrumbs links={links} />
@@ -206,7 +207,7 @@ const AddPrescription = () => {
 															}
 															error={Boolean(
 																formik?.touched[inputItem?.name] &&
-																formik?.errors[inputItem?.name]
+																	formik?.errors[inputItem?.name]
 															)}
 															helperText={
 																formik?.touched[inputItem?.name] &&
@@ -239,7 +240,7 @@ const AddPrescription = () => {
 																			name="item"
 																			error={Boolean(
 																				formik?.touched?.salaryInfoNewFields &&
-																				formik?.errors?.salaryInfoNewFields
+																					formik?.errors?.salaryInfoNewFields
 																			)}
 																			value={item.value}
 																			title={item?.title}
@@ -282,7 +283,7 @@ const AddPrescription = () => {
 															styleContact={inputItem?.styleContact}
 															error={Boolean(
 																formik?.touched[inputItem.name] &&
-																formik?.errors[inputItem.name]
+																	formik?.errors[inputItem.name]
 															)}
 															helperText={
 																formik?.touched[inputItem.name] &&
