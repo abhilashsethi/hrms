@@ -37,14 +37,17 @@ const AddAdditionalQuotationDetails = ({ open, data, handleClose, mutate }: Prop
 	};
 	const initialValues = {
 		description: "",
-		qty: "",
-		cost: "",
+		qty: 0,
+		cost: 0,
 	};
 
 	const handleSubmit = async (values: any) => {
 		setLoading(true);
 		try {
+			const timestamp = Date.now();
+			const id = (timestamp % 100000).toString().padStart(6, '0');
 			const resData = {
+				id: id,
 				description: values?.description,
 				cost: Number(values?.cost),
 				quantity: Number(values?.qty),
@@ -52,7 +55,6 @@ const AddAdditionalQuotationDetails = ({ open, data, handleClose, mutate }: Prop
 			const res = await change(`quotations/update-work/${data?.id}`, {
 				body: {
 					data: resData,
-					quotationId: data?.id,
 				},
 			});
 			console.log("after submit", res);
@@ -148,6 +150,7 @@ const AddAdditionalQuotationDetails = ({ open, data, handleClose, mutate }: Prop
 									<TextField
 										size="small"
 										fullWidth
+										type="number"
 										placeholder="Qty"
 										name="qty"
 										value={values.qty}
@@ -166,6 +169,7 @@ const AddAdditionalQuotationDetails = ({ open, data, handleClose, mutate }: Prop
 										size="small"
 										fullWidth
 										placeholder="Cost"
+										type="number"
 										name="cost"
 										value={values.cost}
 										onChange={handleChange}
