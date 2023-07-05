@@ -123,51 +123,61 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
                   <th className="w-[30%] text-sm border-r-2">Cost</th>
                   <th className="w-[30%] text-sm">Actions</th>
                 </tr>
-
-                <>
-                  <tr className="border-b-2">
-                    <td
-                      align="center"
-                      className="w-[10%] text-sm py-2 border-r-2"
-                    >
-                      1
-                    </td>
-                    <td align="center" className="w-[40%] text-sm border-r-2">
-                      {/* {item?.title} */}Android App & Admin Panel Development
-                    </td>
-                    <td align="center" className="w-[30%] text-sm border-r-2">
-                      <div className="flex gap-2 items-center justify-center">
-                        <p className="text-xs">1</p>
-                      </div>
-                    </td>
-                    <td align="center" className="w-[30%] text-sm border-r-2">
-                      <div className="flex gap-2 items-center justify-center">
-                        <p className="text-xs">1,20,000</p>
-                      </div>
-                    </td>
-                    <td align="center" className="w-[20%] text-sm">
-                      <div className="flex gap-1 py-2 justify-center">
-                        <Tooltip title="Edit Document">
-                          <IconButton
-                            size="small"
-                            onClick={() => {
-                              setAdditionDetails(true);
-                            }}
-                          >
-                            <Edit />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete Document">
-                          <IconButton size="small">
-                            <Delete
-                            // onClick={() => handleDelete(item)}
-                            />
-                          </IconButton>
-                        </Tooltip>
-                      </div>
-                    </td>
+                {quotationData?.works?.length ?
+                  <>
+                    {quotationData?.works?.map((item) =>
+                      <tr className="border-b-2">
+                        <td
+                          align="center"
+                          className="w-[10%] text-sm py-2 border-r-2"
+                        >
+                          1
+                        </td>
+                        <td align="center" className="w-[40%] text-sm border-r-2">
+                          {item?.description}
+                        </td>
+                        <td align="center" className="w-[30%] text-sm border-r-2">
+                          <div className="flex gap-2 items-center justify-center">
+                            <p className="text-xs">
+                              {item?.quantity}
+                            </p>
+                          </div>
+                        </td>
+                        <td align="center" className="w-[30%] text-sm border-r-2">
+                          <div className="flex gap-2 items-center justify-center">
+                            <p className="text-xs">
+                              {item?.cost}
+                            </p>
+                          </div>
+                        </td>
+                        <td align="center" className="w-[20%] text-sm">
+                          <div className="flex gap-1 py-2 justify-center">
+                            <Tooltip title="Edit Document">
+                              <IconButton
+                                size="small"
+                                onClick={() => {
+                                  setAdditionDetails(true);
+                                }}
+                              >
+                                <Edit />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Delete Document">
+                              <IconButton size="small">
+                                <Delete
+                                // onClick={() => handleDelete(item)}
+                                />
+                              </IconButton>
+                            </Tooltip>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                  : <tr>
+                    <td colSpan={4}>No Data</td>
                   </tr>
-                </>
+                }
               </tbody>
             </table>
           </div>
