@@ -111,9 +111,8 @@ const QuotationGrid = ({ mutate }: Props) => {
                 <img src={QUOTATION.src} alt="" className="w-24" />
               </div>
               <div className="px-4 bg-gradient-to-r from-rose-100 to-teal-100">
-
-                <div className="mt-3 flex flex-col items-center justify-center">
-                  <div className="flex items-center gap-2 py-2 md:py-0">
+                <div className="mt-3 flex flex-col">
+                  <div className="flex  gap-2 py-2 md:py-0">
                     <p className="font-semibold text-base text-blue-600">
                       Bank Name :
                     </p>
@@ -121,7 +120,7 @@ const QuotationGrid = ({ mutate }: Props) => {
                       State Bank Of india
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 py-2 md:py-0">
+                  <div className="flex  gap-2 py-2 md:py-0">
                     <p className="font-semibold text-base text-blue-600">
                       Branch Name :
                     </p>
@@ -129,7 +128,7 @@ const QuotationGrid = ({ mutate }: Props) => {
                       Banki
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 py-2 md:py-0">
+                  <div className="flex  gap-2 py-2 md:py-0">
                     <p className="font-semibold text-base text-blue-600">
                       Account Number :
                     </p>
@@ -137,7 +136,7 @@ const QuotationGrid = ({ mutate }: Props) => {
                       1216154156415641564
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 py-2 md:py-0">
+                  <div className="flex  gap-2 py-2 md:py-0">
                     <p className="font-semibold text-base text-blue-600">
                       Company Name :
                     </p>
@@ -145,7 +144,7 @@ const QuotationGrid = ({ mutate }: Props) => {
                       RBI
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 py-2 md:py-0">
+                  <div className="flex  gap-2 py-2 md:py-0">
                     <p className="font-semibold text-base text-blue-600">
                       IFSC Code :
                     </p>
@@ -153,7 +152,7 @@ const QuotationGrid = ({ mutate }: Props) => {
                       SBINF0002533
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 py-2 md:py-0">
+                  <div className="flex  gap-2 py-2 md:py-0">
                     <p className="font-semibold text-base text-blue-600">
                       SWIFT Code :
                     </p>
