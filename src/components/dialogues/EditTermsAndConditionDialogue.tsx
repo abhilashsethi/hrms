@@ -15,35 +15,60 @@ import { ChangeEvent, useState } from "react";
 import * as Yup from "yup";
 import dynamic from "next/dynamic";
 import { Quotation } from "types";
+import Swal from "sweetalert2";
+import { useChange } from "hooks";
 
 interface Props {
 	open: boolean;
-	handleClose: any;
-	details?: any;
-	mutate?: any;
+	handleClose: () => void;
+	mutate: () => void;
 	data?: Quotation;
-
 }
-
 
 const validationSchema = Yup.object().shape({
 	text: Yup.string().required("Text is required!"),
 });
-const EditTermsAndConditionDialogue = ({ open, data, handleClose }: Props) => {
+const EditTermsAndConditionDialogue = ({ open, data, handleClose, mutate }: Props) => {
 	// console.log(details);
 	const ReactQuill = dynamic(import("react-quill"), { ssr: false });
+	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
-	const [value, setValue] = useState("one");
-	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue((event.target as HTMLInputElement).value);
-	};
+
 
 	const initialValues = {
-		text: "",
+		text: `${data?.termsAndConditions ? data?.termsAndConditions : ""}`,
 	};
 
 	const handleSubmit = async (values: any) => {
 		console.log(values);
+		setLoading(true);
+		try {
+			const res = await change(`quotation/update/${data?.id}`, {
+				method: "PATCH",
+				body: {
+					text: values?.text,
+				},
+			});
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire(
+					"Error",
+					res?.results?.msg || "Unable to Submit",
+					"error"
+				);
+				setLoading(false);
+				return;
+			}
+			Swal.fire(`Success`, `Quotation terms and condition updated successfully!`, `success`);
+			mutate()
+			handleClose()
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
