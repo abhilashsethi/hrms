@@ -14,6 +14,7 @@ interface Props {
   isLoading?: any;
 }
 const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
+  const [isQuotationWorkData, setQuotationWorkData] = useState<Quotation>({});
   const [editDetails, setEditDetails] = useState<boolean>(false);
   const [additionDetails, setAdditionDetails] = useState<boolean>(false);
   const [termsAndConditionDetails, setTermsAndConditionDetails] =
@@ -60,7 +61,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
         open={additionDetails}
         handleClose={() => setAdditionDetails(false)}
         mutate={mutate}
-        data={quotationData}
+        data={isQuotationWorkData}
       />
       <EditTermsAndConditionDialogue
         open={termsAndConditionDetails}
@@ -115,59 +116,63 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
             <table className="w-full">
               <tbody className="border-2">
                 <tr className="border-b-2">
-                  <th className="w-[10%] text-sm font-semibold py-2 border-r-2">
-                    S.No
-                  </th>
+
                   <th className="w-[40%] text-sm border-r-2">Description</th>
                   <th className="w-[30%] text-sm border-r-2">Qty</th>
                   <th className="w-[30%] text-sm border-r-2">Cost</th>
                   <th className="w-[30%] text-sm">Actions</th>
                 </tr>
+                {quotationData?.works?.length ?
+                  <>
+                    {quotationData?.works?.map((item) =>
+                      <tr className="border-b-2">
 
-                <>
-                  <tr className="border-b-2">
-                    <td
-                      align="center"
-                      className="w-[10%] text-sm py-2 border-r-2"
-                    >
-                      1
-                    </td>
-                    <td align="center" className="w-[40%] text-sm border-r-2">
-                      {/* {item?.title} */}Android App & Admin Panel Development
-                    </td>
-                    <td align="center" className="w-[30%] text-sm border-r-2">
-                      <div className="flex gap-2 items-center justify-center">
-                        <p className="text-xs">1</p>
-                      </div>
-                    </td>
-                    <td align="center" className="w-[30%] text-sm border-r-2">
-                      <div className="flex gap-2 items-center justify-center">
-                        <p className="text-xs">1,20,000</p>
-                      </div>
-                    </td>
-                    <td align="center" className="w-[20%] text-sm">
-                      <div className="flex gap-1 py-2 justify-center">
-                        <Tooltip title="Edit Document">
-                          <IconButton
-                            size="small"
-                            onClick={() => {
-                              setAdditionDetails(true);
-                            }}
-                          >
-                            <Edit />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete Document">
-                          <IconButton size="small">
-                            <Delete
-                            // onClick={() => handleDelete(item)}
-                            />
-                          </IconButton>
-                        </Tooltip>
-                      </div>
-                    </td>
+                        <td align="center" className="w-[40%] text-sm border-r-2">
+                          {item?.description}
+                        </td>
+                        <td align="center" className="w-[30%] text-sm border-r-2">
+                          <div className="flex gap-2 items-center justify-center">
+                            <p className="text-xs">
+                              {item?.quantity}
+                            </p>
+                          </div>
+                        </td>
+                        <td align="center" className="w-[30%] text-sm border-r-2">
+                          <div className="flex gap-2 items-center justify-center">
+                            <p className="text-xs">
+                              {item?.cost}
+                            </p>
+                          </div>
+                        </td>
+                        <td align="center" className="w-[20%] text-sm">
+                          <div className="flex gap-1 py-2 justify-center">
+                            <Tooltip title="Edit Document">
+                              <IconButton
+                                size="small"
+                                onClick={() => {
+                                  setQuotationWorkData(item),
+                                    setAdditionDetails(true)
+                                }}
+                              >
+                                <Edit />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Delete Document">
+                              <IconButton size="small">
+                                <Delete
+                                // onClick={() => handleDelete(item)}
+                                />
+                              </IconButton>
+                            </Tooltip>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                  : <tr>
+                    <td colSpan={4}>No Data</td>
                   </tr>
-                </>
+                }
               </tbody>
             </table>
           </div>
@@ -189,33 +194,9 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
               </Tooltip>
             </div>
             <p className="text-gray-500 text-justify text-sm">
-              Welcome to SearchingYard! These terms and conditions outline the
-              rules and regulations for the use of SearchingYard's Website,
-              located at https://searchingyard.com/. By accessing this website
-              we assume you accept these terms and conditions. Do not continue
-              to use SearchingYard if you do not agree to take all of the terms
-              and conditions stated on this page. The following terminology
-              applies to these Terms and Conditions, Privacy Statement and
-              Disclaimer Notice and all Agreements: "Client", "You" and "Your"
-              refers to you, the person log on this website and compliant to the
-              Company’s terms and conditions. "The Company", "Ourselves", "We",
-              "Our" and "Us", refers to our Company. "Party", "Parties", or
-              "Us", refers to both the Client and ourselves. All terms refer to
-              the offer, acceptance and consideration of payment necessary to
-              undertake the process of our assistance to the Client in the most
-              appropriate manner for the express purpose of meeting the Client’s
-              needs in respect of provision of the Company’s stated services, in
-              accordance with and subject to, prevailing law of Netherlands. Any
-              use of the above terminology or other words in the singular,
-              plural, capitalization and/or he/she or they, are taken as
-              interchangeable and therefore as referring to same. Cookies We
-              employ the use of cookies. By accessing SearchingYard, you agreed
-              to use cookies in agreement with the SearchingYard's Privacy
-              Policy. Most interactive websites use cookies to let us retrieve
-              the user’s details for each visit. Cookies are used by our website
-              to enable the functionality of certain areas to make it easier for
-              people visiting our website. Some of our affiliate/advertising
-              partners may also use cookies.
+              {quotationData?.termsAndConditions ?
+                <div dangerouslySetInnerHTML={{ __html: `${quotationData?.termsAndConditions}` }}></div>
+                : "No Terms And Conditions"}
             </p>
           </div>
         </TenderLayout>
