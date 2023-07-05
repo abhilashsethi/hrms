@@ -47,8 +47,8 @@ const EditAdditionalQuotationDetails = ({ open, data, handleClose, mutate, quota
 				method: "PATCH",
 				body: {
 					description: values?.description,
-					cost: values?.cost,
-					quantity: values?.quantity,
+					cost: Number(values?.cost),
+					quantity: Number(values?.qty),
 					quotationId: quotationData?.id,
 				},
 			});
