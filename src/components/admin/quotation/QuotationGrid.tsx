@@ -8,6 +8,7 @@ import {
 } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { QUOTATION } from "assets/home";
+import moment from "moment";
 import { useRouter } from "next/router";
 import { Quotation } from "types";
 interface Props {
@@ -32,7 +33,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                   <Tooltip title="Details">
                     <Avatar
                       onClick={() =>
-                        router.push("/admin/quotation/quotation-details")
+                        router.push(`/admin/quotation/quotation-details?id=${item?.id}`)
                       }
                       variant="rounded"
                       className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-yellow-500 !p-0"
@@ -116,7 +117,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                       Date :
                     </p>
                     <p className="text-sm md:text-base text-gray-700">
-                      20/06/2023
+                      {item?.quotationData ? moment(item?.quotationData).format("lll") : "Not Specified"}
                     </p>
                   </div>
                   <div className="flex items-center gap-2 py-2 md:py-0">
@@ -124,7 +125,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                       Quotation Number :
                     </p>
                     <p className="text-sm md:text-base text-gray-700">
-                      SY202306043QU{" "}
+                      {item?.quotationNumber}
                     </p>
                   </div>
 
@@ -132,7 +133,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                     <p className="font-semibold text-base text-blue-600">
                       Cost (IN INR){" "}
                     </p>
-                    <p className="text-sm text-gray-700">1,20,000/-</p>
+                    <p className="text-sm text-gray-700">{item?.grandTotal}/-</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-center py-4">
