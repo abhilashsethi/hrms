@@ -23,28 +23,28 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
     {
       id: 1,
       title: "Client Name",
-      value: "Piyush Agrawal",
+      value: quotationData?.clientName,
     },
     {
       id: 2,
       title: "Client Email",
-      value: "piyush@gmail.com",
+      value: quotationData?.clientEmail,
     },
     {
       id: 3,
       title: "Client Address",
       value:
-        "Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016",
+        quotationData?.clientAddress,
     },
     {
       id: 4,
       title: "Quotation Title",
-      value: "YardERP",
+      value: quotationData?.clientName,
     },
     {
       id: 5,
       title: "Quotation Number",
-      value: "SY202306043QU",
+      value: quotationData?.quotationNumber,
     },
   ];
 
@@ -53,14 +53,20 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
       <EditQuotationDetails
         open={editDetails}
         handleClose={() => setEditDetails(false)}
+        mutate={mutate}
+        data={quotationData}
       />
       <EditAdditionalQuotationDetails
         open={additionDetails}
         handleClose={() => setAdditionDetails(false)}
+        mutate={mutate}
+        data={quotationData}
       />
       <EditTermsAndConditionDialogue
         open={termsAndConditionDetails}
         handleClose={() => setTermsAndConditionDetails(false)}
+        mutate={mutate}
+        data={quotationData}
       />
 
       <div className="mt-8">
