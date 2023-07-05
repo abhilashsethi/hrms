@@ -7,7 +7,7 @@ import {
 	Person,
 } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
-import { QUOTATION } from "assets/home";
+import { INVOICE, QUOTATION } from "assets/home";
 import { useChange } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -115,11 +115,11 @@ const BillGrid = ({ data, mutate }: Props) => {
 									</Tooltip>
 								</div>
 							</div>
-							<div className="flex justify-center bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-sky-400 to-blue-800 py-3 rounded-t-lg w-full border">
-								<img src={QUOTATION.src} alt="" className="w-24" />
+							<div className="flex justify-center bg-gradient-to-bl from-indigo-900 via-indigo-400 to-indigo-900 py-3 rounded-t-lg w-full border">
+								<img src={INVOICE.src} alt="" className="w-24" />
 							</div>
 							<div className="px-4 bg-gradient-to-r from-rose-100 to-teal-100">
-								<div className="flex gap-2 py-2 md:py-0 justify-center">
+								<div className="flex gap-2 py-2 md:py-0 justify-start">
 									<p className="text-sm md:text-sm text-gray-700">
 										<span>
 											<Person className=" text-gray-500 mr-1" />
@@ -127,7 +127,7 @@ const BillGrid = ({ data, mutate }: Props) => {
 										{item?.clientName}
 									</p>
 								</div>
-								<div className="flex gap-2 py-2 md:py-0 justify-center">
+								<div className="flex gap-2 py-2 md:py-0 justify-start">
 									<p className="text-sm md:text-sm text-gray-700">
 										<span>
 											<Email className=" text-gray-500 mr-1" fontSize="small" />
@@ -135,7 +135,7 @@ const BillGrid = ({ data, mutate }: Props) => {
 										{item?.clientEmail}
 									</p>
 								</div>
-								<div className="flex gap-2 py-2 md:py-0 justify-center">
+								<div className="flex gap-2 py-2 md:py-0 justify-start">
 									<p className="text-sm md:text-sm text-gray-700">
 										<span>
 											<Business className="text-gray-500 mr-1" />
@@ -143,7 +143,15 @@ const BillGrid = ({ data, mutate }: Props) => {
 										{item?.clientAddress}
 									</p>
 								</div>
-								<div className="mt-3 flex flex-col items-center justify-center">
+								<div className="flex gap-2 py-2 md:py-0 justify-start">
+									<p className="text-sm md:text-sm text-gray-700">
+										<span>
+											<Business className="text-gray-500 mr-1" />
+										</span>
+										{item?.clientAddress}
+									</p>
+								</div>
+								<div className="mt-3 flex flex-col  justify-start">
 									<div className="flex items-center gap-2 py-2 md:py-0">
 										<p className="font-semibold text-base text-blue-600">
 											Quotation Title :
@@ -171,7 +179,7 @@ const BillGrid = ({ data, mutate }: Props) => {
 										</p>
 									</div>
 
-									<div className="flex items-center justify-center gap-2 py-2 md:py-0">
+									<div className="flex items-center justify-start gap-2 py-2 md:py-0">
 										<p className="font-semibold text-base text-blue-600">
 											Cost (IN INR){" "}
 										</p>
