@@ -163,7 +163,7 @@ const QuotationData = () => {
 				</TenderLayout>
 			</div>
 			<div className="mt-14">
-				<TenderLayout title="Terms & Condition">
+				<TenderLayout title="Terms & Conditions">
 					<div className="">
 						<div className="flex justify-end ">
 							<Tooltip title="Edit">
