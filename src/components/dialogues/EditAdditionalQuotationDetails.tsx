@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { ChangeEvent, useState } from "react";
+import { Quotation } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -18,6 +19,7 @@ interface Props {
 	handleClose: any;
 	details?: any;
 	mutate?: any;
+	data?: Quotation;
 }
 
 const validationSchema = Yup.object().shape({
@@ -25,7 +27,7 @@ const validationSchema = Yup.object().shape({
 	qty: Yup.string().required("Qty is required!"),
 	cost: Yup.string().email().required("Cost is required!"),
 });
-const EditAdditionalQuotationDetails = ({ open, handleClose }: Props) => {
+const EditAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
 	// console.log(details);
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState("one");

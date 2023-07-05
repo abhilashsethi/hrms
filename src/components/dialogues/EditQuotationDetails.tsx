@@ -13,6 +13,7 @@ import {
 import { Form, Formik } from "formik";
 import { useAuth, useChange } from "hooks";
 import { ChangeEvent, useState } from "react";
+import { Quotation } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
 	handleClose: any;
 	details?: any;
 	mutate?: any;
+	data?: Quotation;
 }
 
 const validationSchema = Yup.object().shape({
@@ -34,6 +36,7 @@ const EditQuotationDetails = ({
 	handleClose,
 	details,
 	mutate,
+	data,
 }: Props) => {
 	// console.log(details);
 	const [loading, setLoading] = useState(false);

@@ -14,18 +14,22 @@ import { Form, Formik } from "formik";
 import { ChangeEvent, useState } from "react";
 import * as Yup from "yup";
 import dynamic from "next/dynamic";
+import { Quotation } from "types";
 
 interface Props {
 	open: boolean;
 	handleClose: any;
 	details?: any;
 	mutate?: any;
+	data?: Quotation;
+
 }
+
 
 const validationSchema = Yup.object().shape({
 	text: Yup.string().required("Text is required!"),
 });
-const EditTermsAndConditionDialogue = ({ open, handleClose }: Props) => {
+const EditTermsAndConditionDialogue = ({ open, data, handleClose }: Props) => {
 	// console.log(details);
 	const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 	const [loading, setLoading] = useState(false);
