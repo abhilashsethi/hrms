@@ -62,7 +62,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
         {data?.map((item: any) => (
           <div className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
             <div className="relative">
-              <p className="absolute top-2 z-50 rounded-r-xl bg-green-500 text-white text-sm px-2 pr-3 py-1 font-semibold">
+              <p className={`absolute top-2 z-50 rounded-r-xl ${item?.status === " Rejected" ? "bg-red-500" : item?.status === "Accepted" ? "bg-green-500" : "bg-yellow-500"} text-white text-sm px-2 pr-3 py-1 font-semibold`}>
                 {item?.status}
               </p>
               <div className="absolute right-0 rounded-tl-lg top-24 z-50 bg-gradient-to-r from-rose-100 to-teal-100 p-2">
