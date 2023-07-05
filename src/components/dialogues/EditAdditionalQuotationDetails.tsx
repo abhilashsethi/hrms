@@ -32,7 +32,6 @@ const validationSchema = Yup.object().shape({
 const EditAdditionalQuotationDetails = ({ open, data, handleClose, mutate, quotationData }: Props) => {
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
-	console.log("update data", data);
 	const initialValues = {
 		description: `${data?.description ? data?.description : ""}`,
 		qty: `${data?.quantity ? data?.quantity : 0}`,
@@ -40,7 +39,6 @@ const EditAdditionalQuotationDetails = ({ open, data, handleClose, mutate, quota
 	};
 
 	const handleSubmit = async (values: any) => {
-		console.log(values);
 		setLoading(true);
 		try {
 			const resData = {
