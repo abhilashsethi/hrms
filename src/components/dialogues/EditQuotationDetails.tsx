@@ -6,13 +6,16 @@ import {
 	Dialog,
 	DialogContent,
 	DialogTitle,
+	FormControlLabel,
 	IconButton,
+	Radio,
+	RadioGroup,
 	TextField,
 	Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { Quotation } from "types";
 import * as Yup from "yup";
@@ -37,13 +40,12 @@ const validationSchema = Yup.object().shape({
 	clientAddress: Yup.string().required("Client address is required!"),
 	quotationTitle: Yup.string().required("Quotation title is required!"),
 });
-const EditQuotationDetails = ({
-	open,
-	handleClose,
-	mutate,
-	data,
-}: Props) => {
+const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
 	const [loading, setLoading] = useState(false);
+	const [isGstValue, setIsGstValue] = useState(false);
+	const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setIsGstValue(event.target.value === "IGST");
+	};
 	const initialValues = {
 		status: `${data?.status ? data?.status : ""}`,
 		clientName: `${data?.clientName ? data?.clientName : ""}`,
@@ -68,17 +70,17 @@ const EditQuotationDetails = ({
 			});
 			setLoading(false);
 			if (res?.status !== 200) {
-				Swal.fire(
-					"Error",
-					res?.results?.msg || "Unable to Submit",
-					"error"
-				);
+				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
 				setLoading(false);
 				return;
 			}
-			Swal.fire(`Success`, `Quotation basic details updated successfully!`, `success`);
-			mutate()
-			handleClose()
+			Swal.fire(
+				`Success`,
+				`Quotation basic details updated successfully!`,
+				`success`
+			);
+			mutate();
+			handleClose();
 			return;
 		} catch (error) {
 			console.log(error);
@@ -148,8 +150,8 @@ const EditQuotationDetails = ({
 									value={
 										values?.status
 											? Status_Type?.find(
-												(option: any) => option.value === values.status
-											)
+													(option: any) => option.value === values.status
+											  )
 											: {}
 									}
 									getOptionLabel={(option: any) => option.name}
@@ -228,6 +230,29 @@ const EditQuotationDetails = ({
 										error={touched.quotationTitle && !!errors.quotationTitle}
 										helperText={touched.quotationTitle && errors.quotationTitle}
 									/>
+								</div>
+								<div className="my-3 px-4">
+									<p className="text-gray-500">
+										Please choose tax option{" "}
+										<span className="text-red-600">*</span>
+									</p>
+									<RadioGroup
+										defaultValue={isGstValue ? "IGST" : "SGST"}
+										row
+										name="isGstValue"
+										onChange={handleOptionChange}
+									>
+										<FormControlLabel
+											value="IGST"
+											control={<Radio />}
+											label="IGST"
+										/>
+										<FormControlLabel
+											value="SGST"
+											control={<Radio />}
+											label="SGST & CGST"
+										/>
+									</RadioGroup>
 								</div>
 
 								<div className="flex justify-center mt-4">

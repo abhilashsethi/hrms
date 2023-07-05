@@ -7,7 +7,7 @@ import {
 	Person,
 } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
-import { INVOICE, QUOTATION } from "assets/home";
+import { BAG, INVOICE, QUOTATION } from "assets/home";
 import { useChange } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -145,9 +145,10 @@ const BillGrid = ({ data, mutate }: Props) => {
 								</div>
 								<div className="flex gap-2 py-2 md:py-0 justify-start">
 									<p className="text-sm md:text-sm text-gray-700">
-										<span>
+										{/* <span>
 											<Business className="text-gray-500 mr-1" />
-										</span>
+										</span> */}
+										<img className="w-8" src={BAG.src} alt="" />
 										{item?.clientAddress}
 									</p>
 								</div>
