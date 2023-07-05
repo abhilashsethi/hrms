@@ -63,17 +63,13 @@ const BillGrid = ({ data, mutate }: Props) => {
 					<div className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
 						<div className="relative">
 							<p className="absolute top-2 z-50 rounded-r-xl bg-green-500 text-white text-sm px-2 pr-3 py-1 font-semibold">
-								{item?.status}
+								Paid
 							</p>
 							<div className="absolute right-0 rounded-tl-lg top-24 z-50 bg-gradient-to-r from-rose-100 to-teal-100 p-2">
 								<div className="flex">
 									<Tooltip title="Details">
 										<Avatar
-											onClick={() =>
-												router.push(
-													`/admin/quotation/quotation-details?id=${item?.id}`
-												)
-											}
+											onClick={() => router.push(`/admin/bills/bill-details`)}
 											variant="rounded"
 											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-yellow-500 !p-0"
 											sx={{
@@ -150,6 +146,22 @@ const BillGrid = ({ data, mutate }: Props) => {
 									</p>
 								</div>
 								<div className="mt-3 flex flex-col  justify-start">
+									<div className="flex items-center gap-2 py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											Bill Type :
+										</p>
+										<p className="text-sm md:text-base text-red-600 font-semibold">
+											Unpaid
+										</p>
+									</div>
+									<div className="flex items-center gap-2 py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											Bill Amount :
+										</p>
+										<p className="text-sm md:text-base text-gray-700 font-semibold">
+											Rs 1,20,000/-
+										</p>
+									</div>
 									<div className="flex items-center gap-2 py-2 md:py-0">
 										<p className="font-semibold text-base text-blue-600">
 											Invoice Number :
