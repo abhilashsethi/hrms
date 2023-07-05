@@ -14,7 +14,7 @@ const AllQuotation = () => {
     mutate,
     isLoading,
   } = useFetch<Quotation[]>(
-    `get-all-accounts`
+    `quotations/get-all-accounts`
   );
   console.log(bankData);
   return (
