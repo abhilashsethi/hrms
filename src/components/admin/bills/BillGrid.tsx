@@ -167,7 +167,7 @@ const BillGrid = ({ data, mutate }: Props) => {
 											Invoice Number :
 										</p>
 										<p className="text-sm md:text-base text-gray-700">
-											{item?.quotationTitle}
+											SY0017sjdh45
 										</p>
 									</div>
 									<div className="flex items-center gap-2 py-2 md:py-0">
