@@ -102,7 +102,10 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
               <tr>
                 <td className="w-1/5 text-sm font-semibold py-2">Status</td>
                 <td className="w-3/5">
-                  <span className={`text-sm py-1 px-2 text-white tracking-wide shadow-md ${quotationData?.status === "Rejected" ? "bg-red-500" : quotationData?.status === "Accepted" ? "bg-green-500" : "bg-yellow-500"} rounded-md`}>
+                  <span className={`text-sm py-1 px-2 text-white tracking-wide shadow-md 
+                  ${quotationData?.status === "Rejected" ? "bg-red-500" :
+                      quotationData?.status === "Accepted" ? "bg-green-500" :
+                        "bg-yellow-500"} rounded-md`}>
                     {quotationData?.status}
                   </span>
                 </td>
