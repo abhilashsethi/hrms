@@ -25,9 +25,11 @@ const AllQuotation = () => {
             <AdminBreadcrumbs links={links} />
           </div>
 
-          {bankData?.length ?
-            <BankAccountGrid data={bankData} mutate={mutate} />
-            : <LoaderAnime text="No data" />}
+          {/* {bankData?.length ? */}
+          <BankAccountGrid mutate={mutate} />
+          {/* :
+            <LoaderAnime text="No data" />
+          } */}
         </section>
       </PanelLayout>
     </>
@@ -36,13 +38,8 @@ const AllQuotation = () => {
 
 export default AllQuotation;
 
-const status = [
-  { id: 1, value: "Accepted" },
-  { id: 2, value: "Rejected" },
-  { id: 3, value: "Modified" },
-];
 
 const links = [
   { id: 1, page: "Quotation", link: "/admin/quotation" },
-  { id: 2, page: "All Quotation", link: "/admin/quotation/all-quotation" },
+  { id: 2, page: "All Bank Account", link: "/admin/quotation/all-bank-account" },
 ];
