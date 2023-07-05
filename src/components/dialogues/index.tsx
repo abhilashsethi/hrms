@@ -62,3 +62,4 @@ export { default as AddQuotationClientDialogue } from "./AddQuotationClientDialo
 export { default as UpdateTenderDocument } from "./UpdateTenderDocument";
 export { default as EditQuotationDetails } from "./EditQuotationDetails";
 export { default as EditAdditionalQuotationDetails } from "./EditAdditionalQuotationDetails";
+export { default as EditTermsAndConditionDialogue } from "./EditTermsAndConditionDialogue";
