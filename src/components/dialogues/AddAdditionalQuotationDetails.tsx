@@ -10,7 +10,9 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
+import { useChange } from "hooks";
 import { ChangeEvent, useState } from "react";
+import Swal from "sweetalert2";
 import { Quotation, QuotationWork } from "types";
 import * as Yup from "yup";
 
@@ -26,22 +28,56 @@ const validationSchema = Yup.object().shape({
 	qty: Yup.string().required("Quantity is required!"),
 	cost: Yup.string().required("Cost is required!"),
 });
-const AddAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
-	console.log(data);
+const AddAdditionalQuotationDetails = ({ open, data, handleClose, mutate }: Props) => {
+	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState("one");
 	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
-	console.log("update data", data);
 	const initialValues = {
 		description: "",
-		qty: "",
-		cost: "",
+		qty: 0,
+		cost: 0,
 	};
 
 	const handleSubmit = async (values: any) => {
-		console.log(values);
+		setLoading(true);
+		try {
+			const timestamp = Date.now();
+			const id = (timestamp % 100000).toString().padStart(6, '0');
+			const resData = {
+				id: id,
+				description: values?.description,
+				cost: Number(values?.cost),
+				quantity: Number(values?.qty),
+			}
+			const res = await change(`quotations/add-work/${data?.id}`, {
+				body: {
+					data: resData,
+				},
+			});
+			console.log("after submit", res);
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire(
+					"Error",
+					res?.results?.msg || "Unable to Submit",
+					"error"
+				);
+				setLoading(false);
+				return;
+			}
+			Swal.fire(`Success`, `Additional details add successfully!`, `success`);
+			mutate()
+			handleClose()
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -114,6 +150,7 @@ const AddAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
 									<TextField
 										size="small"
 										fullWidth
+										type="number"
 										placeholder="Qty"
 										name="qty"
 										value={values.qty}
@@ -132,6 +169,7 @@ const AddAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
 										size="small"
 										fullWidth
 										placeholder="Cost"
+										type="number"
 										name="cost"
 										value={values.cost}
 										onChange={handleChange}

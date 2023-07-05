@@ -7,7 +7,9 @@ import {
 	EditTermsAndConditionDialogue,
 } from "components/dialogues";
 import { TenderLayout } from "components/tender";
+import { useChange } from "hooks";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import { Quotation } from "types";
 interface Props {
 	quotationData?: Quotation;
@@ -16,6 +18,7 @@ interface Props {
 }
 const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
 	const [isQuotationWorkData, setQuotationWorkData] = useState<Quotation>({});
+	const { change } = useChange();
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 	const [additionDetails, setAdditionDetails] = useState<boolean>(false);
 	const [AddadditionDetails, setAddAdditionDetails] = useState<boolean>(false);
@@ -54,7 +57,40 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
 			value: quotationData?.isIgst ? "IGST" : "CGST & SGST",
 		},
 	];
+	const handleDelete = (item?: Quotation) => {
+		try {
+			Swal.fire({
+				title: "Are you sure?",
+				text: "You want to delete!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, delete it!",
+			}).then(async (result) => {
+				if (result.isConfirmed) {
+					Swal.fire(`Info`, "It will take some time", "info");
+					const res = await change(`quotations/remove-work/${item?.id}`, {
+						method: "DELETE",
+					});
 
+					if (res?.status !== 200) {
+						Swal.fire(
+							"Error",
+							res?.results?.msg || "Something went wrong!",
+							"error"
+						);
+						return;
+					}
+					Swal.fire(`Success`, "Deleted Successfully!", "success");
+					mutate();
+					return;
+				}
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<section>
 			<EditQuotationDetails
@@ -103,13 +139,14 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
 								<td className="w-1/5 text-sm font-semibold py-2">Status</td>
 								<td className="w-3/5">
 									<span
-										className={`text-sm py-1 px-2 text-white tracking-wide shadow-md ${
-											quotationData?.status === "Rejected"
-												? "bg-red-500"
-												: quotationData?.status === "Accepted"
-												? "bg-green-500"
-												: "bg-yellow-500"
-										} rounded-md`}
+										className={`text-sm py-1 px-2 text-white tracking-wide shadow-md 
+                  ${
+										quotationData?.status === "Rejected"
+											? "bg-red-500"
+											: quotationData?.status === "Accepted"
+											? "bg-green-500"
+											: "bg-yellow-500"
+									} rounded-md`}
 									>
 										{quotationData?.status}
 									</span>
@@ -196,9 +233,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
 														</Tooltip>
 														<Tooltip title="Delete Document">
 															<IconButton size="small">
-																<Delete
-																// onClick={() => handleDelete(item)}
-																/>
+																<Delete onClick={() => handleDelete(item)} />
 															</IconButton>
 														</Tooltip>
 													</div>
