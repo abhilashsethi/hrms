@@ -70,8 +70,11 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`quotations/remove-work/${quotationData?.id}`, {
+          const res = await change(`quotations/remove-work/${item?.id}`, {
             method: "DELETE",
+            body: {
+              quotationId: quotationData?.id
+            }
           });
 
           if (res?.status !== 200) {
