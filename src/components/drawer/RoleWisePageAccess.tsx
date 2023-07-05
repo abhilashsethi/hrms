@@ -573,13 +573,13 @@ const PageList = [
 		id: 53,
 		value: "/admin/quotation/gst-config",
 		icon: <ICONS.GST_Configure />,
-		name: "Gst Configure",
+		name: "Quotation Gst Configure",
 	},
 	{
 		id: 55,
 		value: "/admin/quotation/bank-account-config",
 		icon: <ICONS.Change_Password />,
-		name: "Bank Account Configure",
+		name: "Quotation Bank Account Configure",
 	},
 	{
 		id: 55,

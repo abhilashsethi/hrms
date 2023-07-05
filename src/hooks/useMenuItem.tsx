@@ -1,7 +1,4 @@
-import {
-	Add,
-	ReceiptLong
-} from "@mui/icons-material";
+import { Add, ReceiptLong } from "@mui/icons-material";
 import ICONS from "assets/icons";
 import { useEffect, useState } from "react";
 import { useFetch } from "./useAPI";
@@ -398,6 +395,12 @@ export default () => {
 					title: "Signature Config",
 					icon: <Add />,
 					route: "/admin/bills/signature-config",
+				},
+				{
+					key: "17ABH-4",
+					title: "View All Bills",
+					icon: <Add />,
+					route: "/admin/bills/all-bills",
 				},
 			],
 		},
