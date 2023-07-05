@@ -155,7 +155,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                       Date :
                     </p>
                     <p className="text-sm md:text-base text-gray-700">
-                      {item?.quotationData ? moment(item?.quotationData).format("lll") : "Not Specified"}
+                      {item?.createdAt ? moment(item?.createdAt).format("lll") : "Not Specified"}
                     </p>
                   </div>
                   <div className="flex items-center gap-2 py-2 md:py-0">
@@ -171,7 +171,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                     <p className="font-semibold text-base text-blue-600">
                       Cost (IN INR){" "}
                     </p>
-                    <p className="text-sm text-gray-700">{item?.grandTotal}/-</p>
+                    <p className="text-sm text-gray-700">{item?.grandTotal ? item?.grandTotal : "0"}/-</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-center py-4">
