@@ -56,7 +56,7 @@ const EditQuotationDetails = ({
 		console.log(values);
 		setLoading(true);
 		try {
-			const res = await change(`quotation/update/${data?.id}`, {
+			const res = await change(`quotation/${data?.id}`, {
 				method: "PATCH",
 				body: {
 					status: values?.status,
@@ -257,16 +257,16 @@ const Status_Type = [
 	{
 		id: 1,
 		name: "Accepted",
-		value: "accepted",
+		value: "Accepted",
 	},
 	{
 		id: 2,
 		name: "Rejected",
-		value: "rejected",
+		value: "Rejected",
 	},
 	{
 		id: 3,
 		name: "Modified",
-		value: "modified",
+		value: "Modified",
 	},
 ];
