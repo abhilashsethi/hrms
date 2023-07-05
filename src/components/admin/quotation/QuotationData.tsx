@@ -14,6 +14,7 @@ interface Props {
   isLoading?: any;
 }
 const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
+  const [isQuotationWorkData, setQuotationWorkData] = useState<Quotation>({});
   const [editDetails, setEditDetails] = useState<boolean>(false);
   const [additionDetails, setAdditionDetails] = useState<boolean>(false);
   const [termsAndConditionDetails, setTermsAndConditionDetails] =
@@ -60,7 +61,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
         open={additionDetails}
         handleClose={() => setAdditionDetails(false)}
         mutate={mutate}
-        data={quotationData}
+        data={isQuotationWorkData}
       />
       <EditTermsAndConditionDialogue
         open={termsAndConditionDetails}
@@ -115,9 +116,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
             <table className="w-full">
               <tbody className="border-2">
                 <tr className="border-b-2">
-                  <th className="w-[10%] text-sm font-semibold py-2 border-r-2">
-                    S.No
-                  </th>
+
                   <th className="w-[40%] text-sm border-r-2">Description</th>
                   <th className="w-[30%] text-sm border-r-2">Qty</th>
                   <th className="w-[30%] text-sm border-r-2">Cost</th>
@@ -127,12 +126,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
                   <>
                     {quotationData?.works?.map((item) =>
                       <tr className="border-b-2">
-                        <td
-                          align="center"
-                          className="w-[10%] text-sm py-2 border-r-2"
-                        >
-                          1
-                        </td>
+
                         <td align="center" className="w-[40%] text-sm border-r-2">
                           {item?.description}
                         </td>
@@ -156,7 +150,8 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
                               <IconButton
                                 size="small"
                                 onClick={() => {
-                                  setAdditionDetails(true);
+                                  setQuotationWorkData(item),
+                                    setAdditionDetails(true)
                                 }}
                               >
                                 <Edit />

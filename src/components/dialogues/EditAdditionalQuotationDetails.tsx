@@ -11,14 +11,14 @@ import {
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { ChangeEvent, useState } from "react";
-import { Quotation } from "types";
+import { Quotation, QuotationWork } from "types";
 import * as Yup from "yup";
 
 interface Props {
 	open: boolean;
-	handleClose: any;
-	mutate?: any;
-	data?: Quotation;
+	handleClose: () => void;
+	mutate: () => void;
+	data?: QuotationWork;
 }
 
 const validationSchema = Yup.object().shape({
@@ -27,17 +27,17 @@ const validationSchema = Yup.object().shape({
 	cost: Yup.string().email().required("Cost is required!"),
 });
 const EditAdditionalQuotationDetails = ({ open, data, handleClose }: Props) => {
-	// console.log(details);
+	console.log(data);
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState("one");
 	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setValue((event.target as HTMLInputElement).value);
 	};
-
+	console.log("update data", data);
 	const initialValues = {
-		description: "",
-		qty: "",
-		cost: "",
+		description: `${data?.description ? data?.description : ""}`,
+		qty: `${data?.quantity ? data?.quantity : 0}`,
+		cost: `${data?.cost ? data?.cost : 0}`,
 	};
 
 	const handleSubmit = async (values: any) => {
