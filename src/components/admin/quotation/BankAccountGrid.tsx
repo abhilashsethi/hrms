@@ -2,6 +2,7 @@ import {
   Business,
   Delete,
   Download,
+  Edit,
   Email,
   Info,
   Person,
@@ -104,6 +105,27 @@ const QuotationGrid = ({ mutate, data }: Props) => {
                       }}
                     >
                       <Delete
+                        sx={{ padding: "0px !important" }}
+                        fontSize="small"
+                        onClick={() => handleDelete(item?.id)}
+                      />
+                    </Avatar>
+                  </Tooltip>
+                  <Tooltip title="Edit">
+                    <Avatar
+                      variant="rounded"
+                      className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-500 !p-0"
+                      sx={{
+                        mr: "0.1vw",
+                        padding: "0px !important",
+                        backgroundColor: "Highlight",
+                        cursor: "pointer",
+                        color: "",
+                        width: 30,
+                        height: 33,
+                      }}
+                    >
+                      <Edit
                         sx={{ padding: "0px !important" }}
                         fontSize="small"
                         onClick={() => handleDelete(item?.id)}
