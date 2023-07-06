@@ -66,3 +66,4 @@ export { default as EditTermsAndConditionDialogue } from "./EditTermsAndConditio
 export { default as AddAdditionalQuotationDetails } from "./AddAdditionalQuotationDetails";
 export { default as EditBasicBillDetails } from "./EditBasicBillDetails";
 export { default as AddAdditionalBillDetails } from "./AddAdditionalBillDetails";
+export { default as EditBillTermsAndCondition } from "./EditBillTermsAndCondition";

@@ -5,6 +5,7 @@ import {
 	AddAdditionalQuotationDetails,
 	EditAdditionalQuotationDetails,
 	EditBasicBillDetails,
+	EditBillTermsAndCondition,
 	EditQuotationDetails,
 	EditTermsAndConditionDialogue,
 } from "components/dialogues";
@@ -118,7 +119,7 @@ const BillData = ({ quotationData, mutate, isLoading }: Props) => {
 				data={isQuotationWorkData}
 				quotationData={quotationData}
 			/>
-			<EditTermsAndConditionDialogue
+			<EditBillTermsAndCondition
 				open={termsAndConditionDetails}
 				handleClose={() => setTermsAndConditionDetails(false)}
 				mutate={mutate}
