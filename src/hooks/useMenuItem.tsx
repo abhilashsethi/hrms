@@ -84,7 +84,7 @@ export default () => {
 				{
 					key: "3-5",
 					title: "My Profile",
-					icon: <ICONS.Upload_Employee_Data />,
+					icon: <ICONS.All_Employee />,
 					route: `/admin/employees/my-profile`,
 				},
 			],
@@ -568,31 +568,6 @@ export default () => {
 			route: "/admin/chat",
 		},
 		{
-			key: "11re3afhg5ay532",
-			title: "Config",
-			icon: <ICONS.Setting />,
-			submenus: [
-				{
-					key: "121-1",
-					title: "GST Config",
-					icon: <ICONS.Dashboard_1 />,
-					route: "/admin/config/gst-config",
-				},
-				{
-					key: "121-2",
-					title: "Bank Account Config",
-					icon: <ICONS.Dashboard_1 />,
-					route: "/admin/config/bank-account-config",
-				},
-				{
-					key: "121-3",
-					title: "All Bank Accounts",
-					icon: <ICONS.All_Clients />,
-					route: "/admin/config/all-bank-account",
-				},
-			],
-		},
-		{
 			key: "15",
 			title: "Support",
 			icon: <ICONS.Support />,
@@ -621,9 +596,83 @@ export default () => {
 		},
 		{
 			key: "24",
+			title: "My Profile",
+			icon: <ICONS.All_Employee />,
+			route: `/admin/clients/client-profile?id=${user?.id}`,
+		},
+		{
+			key: "24",
 			title: "Chats",
 			icon: <ICONS.All_Chat />,
 			route: "/admin/chat",
+		},
+		{
+			key: "867",
+			title: "All Projects",
+			icon: <ICONS.All_Projects />,
+			route: "/admin/projects/my-projects",
+		},
+		{
+			key: "20",
+			title: "Email",
+			icon: <ICONS.Email />,
+			submenus: [
+				{
+					key: "20-1",
+					title: "Create Email",
+					icon: <ICONS.Create className="!text-6xl" />,
+					route: "/admin/email/create",
+				},
+				{
+					key: "20-2",
+					title: "Inbox",
+					icon: <ICONS.Inbox />,
+					route: "/admin/email",
+				},
+				{
+					key: "20-6",
+					title: "Sent",
+					icon: <ICONS.Sent />,
+					route: "/admin/email/sent",
+				},
+				{
+					key: "20-3",
+					title: "Drafts",
+					icon: <ICONS.Draft />,
+					route: "/admin/email/drafts",
+				},
+				{
+					key: "20-4",
+					title: "Create Template",
+					icon: <ICONS.Create_Template />,
+					route: "/admin/templates/create-template",
+				},
+				{
+					key: "20-5",
+					title: "Saved Templates",
+					icon: <ICONS.Saved_Template />,
+					route: "/admin/templates/saved-templates",
+				},
+			],
+		},
+		{
+			key: "15",
+			title: "Support",
+			icon: <ICONS.Support />,
+			route: "/admin/support",
+		},
+		{
+			key: "11wfewfwfwe",
+			title: "Settings",
+			icon: <ICONS.Setting />,
+			submenus: [
+				{
+					key: "11-1",
+					title: "Change Password",
+					icon: <ICONS.Change_Password />,
+					route: "/admin/change-password",
+				},
+			],
 		},
 	];
 	useEffect(() => {
