@@ -12,7 +12,6 @@ const index = () => {
   const { data: dashboardData, isLoading } = useFetch<Quotation>(
     `quotations/dashboard/info`
   );
-  console.log({ dashboardData });
   return (
     <PanelLayout title="All Branches - Admin Panel">
       <>

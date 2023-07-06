@@ -7,7 +7,7 @@ import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { Quotation } from "types";
+import { QuotationGst } from "types";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
@@ -23,22 +23,21 @@ const GstConfig = () => {
     data: gstData,
     mutate,
     isLoading,
-  } = useFetch<any>(`quotations/get/gst/info`);
-  console.log({ gstData });
+  } = useFetch<QuotationGst>(`quotations/get/gst/info`);
   const initialValues = {
-    gst: `${gstData?.Igst ? gstData?.Igst : 0}`,
-    cgst: `${gstData?.Cgst ? gstData?.Cgst : 0}`,
-    sgst: `${gstData?.Sgst ? gstData?.Sgst : 0}`,
+    Igst: gstData?.Igst ? gstData?.Igst : 0,
+    Cgst: gstData?.Cgst ? gstData?.Cgst : 0,
+    Sgst: gstData?.Sgst ? gstData?.Sgst : 0,
   };
-  const handleSubmit = async (values: any, { resetForm }: any) => {
+  const handleSubmit = async (values: QuotationGst) => {
     setLoading(true);
     try {
       const res = await change(`quotations/gst-info/${gstData?.id}`, {
         method: "PATCH",
         body: {
-          Igst: Number(values?.gst),
-          Cgst: Number(values?.cgst),
-          Sgst: Number(values?.sgst),
+          Igst: Number(values?.Igst),
+          Cgst: Number(values?.Cgst),
+          Sgst: Number(values?.Sgst),
         },
       });
       setLoading(false);
@@ -51,6 +50,7 @@ const GstConfig = () => {
         setLoading(false);
         return;
       }
+      mutate();
       Swal.fire(
         `Success`,
         `Gst Configuration Update Successfully !`,
@@ -98,27 +98,27 @@ const GstConfig = () => {
                     <div className="grid lg:grid-cols-1">
                       <div className="lg:px-4 px-2 lg:py-2 py-1">
                         <div className="lg:py-2 py-1">
-                          <InputLabel htmlFor="gst">
+                          <InputLabel htmlFor="Igst">
                             IGST % <span className="text-red-600">*</span>
                           </InputLabel>
                         </div>
                         <TextField
                           fullWidth
                           size="small"
-                          id="gst"
+                          id="Igst"
                           type="number"
                           // placeholder="% for basic salary"
-                          name="gst"
-                          value={values.gst}
+                          name="Igst"
+                          value={values.Igst}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.gst && !!errors.gst}
-                          helperText={touched.gst && errors.gst}
+                          error={touched.Igst && !!errors.Igst}
+                          helperText={touched.Igst && errors.Igst}
                         />
                       </div>
                       <div className="lg:px-4 px-2 lg:py-2 py-1">
                         <div className="py-2">
-                          <InputLabel htmlFor="cgst">
+                          <InputLabel htmlFor="Cgst">
                             CGST % <span className="text-red-600">*</span>
                           </InputLabel>
                         </div>
@@ -127,18 +127,18 @@ const GstConfig = () => {
                           fullWidth
                           type="number"
                           // placeholder="% for cgst"
-                          id="cgst"
-                          name="cgst"
-                          value={values.cgst}
+                          id="Cgst"
+                          name="Cgst"
+                          value={values.Cgst}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.cgst && !!errors.cgst}
-                          helperText={touched.cgst && errors.cgst}
+                          error={touched.Cgst && !!errors.Cgst}
+                          helperText={touched.Cgst && errors.Cgst}
                         />
                       </div>
                       <div className="lg:px-4 px-2 lg:py-2 py-1">
                         <div className="py-2">
-                          <InputLabel htmlFor="sgst">
+                          <InputLabel htmlFor="Sgst">
                             SGST % <span className="text-red-600">*</span>
                           </InputLabel>
                         </div>
@@ -147,13 +147,13 @@ const GstConfig = () => {
                           fullWidth
                           type="number"
                           // placeholder="% for PF"
-                          id="sgst"
-                          name="sgst"
-                          value={values.sgst}
+                          id="Sgst"
+                          name="Sgst"
+                          value={values.Sgst}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={touched.sgst && !!errors.sgst}
-                          helperText={touched.sgst && errors.sgst}
+                          error={touched.Sgst && !!errors.Sgst}
+                          helperText={touched.Sgst && errors.Sgst}
                         />
                       </div>
                     </div>

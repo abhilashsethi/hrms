@@ -40,7 +40,6 @@ const BankAccountConfig = () => {
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (values: any, { resetForm }: any) => {
     setLoading(true);
-    console.log(values);
     try {
       const res = await change(`quotations/create-bank-account`, {
         body: {

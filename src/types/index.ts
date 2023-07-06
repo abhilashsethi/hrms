@@ -333,6 +333,12 @@ export interface QuotationDashboard {
 	_count?: number | null;
 	month?: string;
 }
+export interface QuotationGst {
+	id?: string;
+	Igst: number;
+	Sgst: number;
+	Cgst: number;
+}
 export interface Quotation {
 	id?: string;
 	cgstVal?: number;

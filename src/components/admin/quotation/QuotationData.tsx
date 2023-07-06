@@ -1,5 +1,6 @@
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
+import { Loader } from "components/core";
 import {
   AddAdditionalQuotationDetails,
   EditAdditionalQuotationDetails,
@@ -24,7 +25,6 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
   const [AddadditionDetails, setAddAdditionDetails] = useState<boolean>(false);
   const [termsAndConditionDetails, setTermsAndConditionDetails] =
     useState<boolean>(false);
-  console.log("Details=>", { quotationData });
   const basicDetails = [
     {
       id: 1,
@@ -73,8 +73,8 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
           const res = await change(`quotations/remove-work/${item?.id}`, {
             method: "DELETE",
             body: {
-              quotationId: quotationData?.id
-            }
+              quotationId: quotationData?.id,
+            },
           });
 
           if (res?.status !== 200) {
@@ -94,6 +94,13 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
       console.log(error);
     }
   };
+  if (isLoading) {
+    return (
+      <section className="min-h-screen">
+        <Loader />
+      </section>
+    );
+  }
   return (
     <section>
       <EditQuotationDetails
@@ -143,12 +150,13 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
                 <td className="w-3/5">
                   <span
                     className={`text-sm py-1 px-2 text-white tracking-wide shadow-md 
-                  ${quotationData?.status === "Rejected"
-                        ? "bg-red-500"
-                        : quotationData?.status === "Accepted"
-                          ? "bg-green-500"
-                          : "bg-yellow-500"
-                      } rounded-md`}
+                  ${
+                    quotationData?.status === "Rejected"
+                      ? "bg-red-500"
+                      : quotationData?.status === "Accepted"
+                      ? "bg-green-500"
+                      : "bg-yellow-500"
+                  } rounded-md`}
                   >
                     {quotationData?.status}
                   </span>

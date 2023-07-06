@@ -11,7 +11,6 @@ const AllQuotation = () => {
     mutate,
     isLoading,
   } = useFetch<QuotationBank[]>(`quotations/get-all/accounts`);
-  console.log(bankData);
   return (
     <>
       <PanelLayout title="All Bank Account - Admin Panel">

@@ -5,12 +5,12 @@ import {
   TOTAL_QUOTATION,
 } from "assets/dashboard_Icons";
 import Link from "next/link";
+import { Quotation } from "types";
 
 interface Props {
-  data?: any;
-  branch?: any;
+  data?: Quotation;
 }
-const QuotationDashboardCard = ({ data, branch }: Props) => {
+const QuotationDashboardCard = ({ data }: Props) => {
   const cards = [
     {
       id: 1,
@@ -39,9 +39,7 @@ const QuotationDashboardCard = ({ data, branch }: Props) => {
     {
       id: 4,
       name: "Total Modified Quotation",
-      count: branch?.totalModifiedQuotations
-        ? branch?.totalModifiedQuotations
-        : 0,
+      count: data?.totalModifiedQuotations ? data?.totalModifiedQuotations : 0,
       icon: <img src={MODIFIED_QUOTATION.src} className="w-16" alt="" />,
       color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
       link: "/admin/branch/all-branch",

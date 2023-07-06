@@ -1,7 +1,6 @@
 import { Check, Delete } from "@mui/icons-material";
 import {
   Button,
-  Checkbox,
   CircularProgress,
   FormControlLabel,
   FormHelperText,
@@ -13,7 +12,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
-import { AddMoreField } from "components/dialogues";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -30,11 +28,11 @@ interface InputField {
 }
 interface FormValues {
   inputFields: InputField[];
-  clientName: string,
-  clientEmail: string,
-  clientAddress: string,
-  quotationTitle: string,
-  text: string,
+  clientName: string;
+  clientEmail: string;
+  clientAddress: string;
+  quotationTitle: string;
+  text: string;
 }
 const CreateQuotation = () => {
   const [isCgst, setIsCgst] = useState(true);
@@ -42,11 +40,11 @@ const CreateQuotation = () => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const ReactQuill = dynamic(import("react-quill"), { ssr: false });
-  const [isGstValue, setIsGstValue] = useState(false)
+  const [isGstValue, setIsGstValue] = useState(false);
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsGstValue(event.target.value === 'IGST');
-    setIsCgst(event.target.value !== 'IGST');
-    setIsSgst(event.target.value !== 'IGST');
+    setIsGstValue(event.target.value === "IGST");
+    setIsCgst(event.target.value !== "IGST");
+    setIsSgst(event.target.value !== "IGST");
   };
   const initialValues = {
     inputFields: [{ description: "", qty: 0, cost: 0 }],
@@ -74,17 +72,18 @@ const CreateQuotation = () => {
   });
 
   const handleSubmit = async (values: FormValues) => {
-    console.log(values);
     setLoading(true);
     try {
-      const transformedArray = values?.inputFields.map((item, index: number) => {
-        const timestamp = Date.now() + index; // Add the index to make the timestamp unique
-        const id = (timestamp % 100000).toString().padStart(6, '0'); // Limit to 6 digits
-        const description = item.description;
-        const quantity = item.qty;
-        const cost = item.cost;
-        return { id, description, quantity, cost };
-      });
+      const transformedArray = values?.inputFields.map(
+        (item, index: number) => {
+          const timestamp = Date.now() + index; // Add the index to make the timestamp unique
+          const id = (timestamp % 100000).toString().padStart(6, "0"); // Limit to 6 digits
+          const description = item.description;
+          const quantity = item.qty;
+          const cost = item.cost;
+          return { id, description, quantity, cost };
+        }
+      );
       const res = await change(`quotations`, {
         body: {
           clientName: values?.clientName,
@@ -100,11 +99,7 @@ const CreateQuotation = () => {
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
@@ -147,7 +142,6 @@ const CreateQuotation = () => {
                 }) => (
                   <Form>
                     <div className="grid lg:grid-cols-2">
-
                       <div className="md:px-4 px-2 md:py-2 py-1">
                         <div className="md:py-2 py-1">
                           <InputLabel htmlFor="clientName">
@@ -255,19 +249,13 @@ const CreateQuotation = () => {
                                 onBlur={handleBlur}
                                 error={
                                   touched.inputFields?.[index]?.description &&
-                                  !!(
-                                    errors.inputFields?.[
-                                    index
-                                    ] as InputField
-                                  )?.description
+                                  !!(errors.inputFields?.[index] as InputField)
+                                    ?.description
                                 }
                                 helperText={
                                   touched.inputFields?.[index]?.description &&
-                                  (
-                                    errors.inputFields?.[
-                                    index
-                                    ] as InputField
-                                  )?.description
+                                  (errors.inputFields?.[index] as InputField)
+                                    ?.description
                                 }
                               />
                               <Field
@@ -280,19 +268,13 @@ const CreateQuotation = () => {
                                 onBlur={handleBlur}
                                 error={
                                   touched.inputFields?.[index]?.qty &&
-                                  !!(
-                                    errors.inputFields?.[
-                                    index
-                                    ] as InputField
-                                  )?.qty
+                                  !!(errors.inputFields?.[index] as InputField)
+                                    ?.qty
                                 }
                                 helperText={
                                   touched.inputFields?.[index]?.qty &&
-                                  (
-                                    errors.inputFields?.[
-                                    index
-                                    ] as InputField
-                                  )?.qty
+                                  (errors.inputFields?.[index] as InputField)
+                                    ?.qty
                                 }
                               />
                               <Field
@@ -305,19 +287,13 @@ const CreateQuotation = () => {
                                 onBlur={handleBlur}
                                 error={
                                   touched.inputFields?.[index]?.cost &&
-                                  !!(
-                                    errors.inputFields?.[
-                                    index
-                                    ] as InputField
-                                  )?.cost
+                                  !!(errors.inputFields?.[index] as InputField)
+                                    ?.cost
                                 }
                                 helperText={
                                   touched.inputFields?.[index]?.cost &&
-                                  (
-                                    errors.inputFields?.[
-                                    index
-                                    ] as InputField
-                                  )?.cost
+                                  (errors.inputFields?.[index] as InputField)
+                                    ?.cost
                                 }
                               />
 
@@ -351,13 +327,21 @@ const CreateQuotation = () => {
                         <span className="text-red-600">*</span>
                       </p>
                       <RadioGroup
-                        defaultValue={isGstValue ? 'IGST' : 'SGST'}
+                        defaultValue={isGstValue ? "IGST" : "SGST"}
                         row
                         name="isGstValue"
                         onChange={handleOptionChange}
                       >
-                        <FormControlLabel value="IGST" control={<Radio />} label="IGST" />
-                        <FormControlLabel value="SGST" control={<Radio />} label="SGST & CGST" />
+                        <FormControlLabel
+                          value="IGST"
+                          control={<Radio />}
+                          label="IGST"
+                        />
+                        <FormControlLabel
+                          value="SGST"
+                          control={<Radio />}
+                          label="SGST & CGST"
+                        />
                       </RadioGroup>
                     </div>
                     <div className="mt-3 text-gray-500 px-4">

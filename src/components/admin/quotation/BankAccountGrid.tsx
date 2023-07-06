@@ -2,12 +2,8 @@ import { Delete, Edit } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { BANK } from "assets/home";
 import { IOSSwitch } from "components/core";
-import {
-  UpdateBankDetails,
-  UpdateTenderBasicDetails,
-} from "components/dialogues";
+import { UpdateBankDetails } from "components/dialogues";
 import { useChange } from "hooks";
-import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { QuotationBank } from "types";
@@ -18,7 +14,6 @@ interface Props {
 
 const QuotationGrid = ({ mutate, data }: Props) => {
   const { change } = useChange();
-  const router = useRouter();
   const [isUpdate, setIsUpdate] = useState<{
     dialogue: boolean;
     bankData?: QuotationBank;
