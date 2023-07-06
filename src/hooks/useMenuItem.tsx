@@ -568,6 +568,31 @@ export default () => {
 			route: "/admin/chat",
 		},
 		{
+			key: "11re3afhg5ay532",
+			title: "Config",
+			icon: <ICONS.Setting />,
+			submenus: [
+				{
+					key: "121-1",
+					title: "GST Config",
+					icon: <ICONS.Dashboard_1 />,
+					route: "/admin/config/gst-config",
+				},
+				{
+					key: "121-2",
+					title: "Bank Account Config",
+					icon: <ICONS.Dashboard_1 />,
+					route: "/admin/config/bank-account-config",
+				},
+				{
+					key: "121-3",
+					title: "All Bank Accounts",
+					icon: <ICONS.All_Clients />,
+					route: "/admin/config/all-bank-account",
+				},
+			],
+		},
+		{
 			key: "15",
 			title: "Support",
 			icon: <ICONS.Support />,
