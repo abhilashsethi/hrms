@@ -327,6 +327,12 @@ export type Tender = {
 	allTenderCountStatusWise?: TenderDashboard[];
 
 };
+export interface QuotationDashboard {
+	status?: string | null;
+	count?: number;
+	_count?: number | null;
+	month?: string;
+}
 export interface Quotation {
 	id?: string;
 	cgstVal?: number;
@@ -348,6 +354,12 @@ export interface Quotation {
 	updatedAt?: Date;
 	createdAt?: Date;
 	works?: QuotationWork[];
+	allQuotationStatus?: QuotationDashboard[];
+	acceptedQuotationOfCurrentYear?: QuotationDashboard[];
+	totalAcceptedQuotation?: number;
+	totalModifiedQuotations?: number;
+	totalQuotation?: number;
+	totalRejectedQuotations?: number;
 }
 export interface QuotationBank {
 	id?: string;            
