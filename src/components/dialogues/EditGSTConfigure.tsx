@@ -20,9 +20,6 @@ import * as Yup from "yup";
 interface Props {
 	open: boolean;
 	handleClose: () => void;
-	mutate: () => void;
-	data?: QuotationWork;
-	quotationData?: Quotation;
 }
 
 const validationSchema = Yup.object().shape({
@@ -30,12 +27,10 @@ const validationSchema = Yup.object().shape({
 	cgst: Yup.number().required("% For CGST is required !"),
 	sgst: Yup.number().required("% For SGST is required !"),
 });
-const EditAdditionalQuotationDetails = ({
+const EditGSTConfigure = ({
 	open,
-	data,
+
 	handleClose,
-	mutate,
-	quotationData,
 }: Props) => {
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
@@ -60,9 +55,6 @@ const EditAdditionalQuotationDetails = ({
 				id="customized-dialog-title"
 				sx={{ p: 2, minWidth: "40rem !important" }}
 			>
-				<p className="text-center text-xl font-bold text-theme tracking-wide">
-					Edit Additional Details
-				</p>
 				<IconButton
 					aria-label="close"
 					onClick={handleClose}
@@ -187,4 +179,4 @@ const EditAdditionalQuotationDetails = ({
 	);
 };
 
-export default EditAdditionalQuotationDetails;
+export default EditGSTConfigure;
