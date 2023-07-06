@@ -2,7 +2,6 @@ import { BankAccountGrid } from "components/admin/quotation";
 import { AdminBreadcrumbs, LoaderAnime } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { QuotationBank } from "types";
 

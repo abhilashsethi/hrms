@@ -1,20 +1,16 @@
-import {
-  Business,
-  Delete,
-  Download,
-  Edit,
-  Email,
-  Info,
-  Person,
-} from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
-import { QUOTATION } from "assets/home";
+import { BANK } from "assets/home";
 import { IOSSwitch } from "components/core";
+import {
+  UpdateBankDetails,
+  UpdateTenderBasicDetails,
+} from "components/dialogues";
 import { useChange } from "hooks";
-import moment from "moment";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Swal from "sweetalert2";
-import { Quotation, QuotationBank } from "types";
+import { QuotationBank } from "types";
 interface Props {
   mutate?: any;
   data?: QuotationBank[];
@@ -23,6 +19,10 @@ interface Props {
 const QuotationGrid = ({ mutate, data }: Props) => {
   const { change } = useChange();
   const router = useRouter();
+  const [isUpdate, setIsUpdate] = useState<{
+    dialogue: boolean;
+    bankData?: QuotationBank;
+  }>({ dialogue: false, bankData: {} });
   const handleDelete = (id?: string) => {
     try {
       Swal.fire({
@@ -58,6 +58,12 @@ const QuotationGrid = ({ mutate, data }: Props) => {
   };
   return (
     <>
+      <UpdateBankDetails
+        tenderData={isUpdate?.bankData}
+        open={isUpdate?.dialogue}
+        handleClose={() => setIsUpdate({ dialogue: false })}
+        mutate={mutate}
+      />
       <div className="grid py-4 gap-6 lg:grid-cols-3">
         {data?.map((item) => (
           <div
@@ -114,7 +120,7 @@ const QuotationGrid = ({ mutate, data }: Props) => {
                   <Tooltip title="Edit">
                     <Avatar
                       variant="rounded"
-                      className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-500 !p-0"
+                      className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-theme-500 !p-0"
                       sx={{
                         mr: "0.1vw",
                         padding: "0px !important",
@@ -128,14 +134,19 @@ const QuotationGrid = ({ mutate, data }: Props) => {
                       <Edit
                         sx={{ padding: "0px !important" }}
                         fontSize="small"
-                        onClick={() => handleDelete(item?.id)}
+                        onClick={() => {
+                          setIsUpdate({
+                            dialogue: true,
+                            bankData: item,
+                          });
+                        }}
                       />
                     </Avatar>
                   </Tooltip>
                 </div>
               </div>
               <div className="flex justify-center bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-sky-400 to-blue-800 py-3 rounded-t-lg w-full border">
-                <img src={QUOTATION.src} alt="" className="w-24" />
+                <img src={BANK.src} alt="" className="w-24" />
               </div>
               <div className="px-4 py-2 bg-gradient-to-r from-rose-100 to-teal-100">
                 <div className="pt-3 flex flex-col">

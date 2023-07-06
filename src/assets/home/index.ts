@@ -27,3 +27,4 @@ export { default as QUOTATION } from "./quotation.png";
 export { default as CLOSE } from "./close.png";
 export { default as INVOICE } from "./invoice.png";
 export { default as BAG } from "./bag.png";
+export { default as BANK } from "./bank.png";
