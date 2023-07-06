@@ -159,7 +159,7 @@ const GstConfig = () => {
 												)
 											}
 										>
-											CONFIGURE
+											UPDATE CONFIGURE
 										</Button>
 									</div>
 								</Form>
