@@ -578,7 +578,7 @@ const PageList = [
 	{
 		id: 55,
 		value: "/admin/quotation/bank-account-config",
-		icon: <ICONS.Change_Password />,
+		icon: <ICONS.Bank_Account_Config />,
 		name: "Quotation Bank Account Configure",
 	},
 	{
@@ -590,19 +590,19 @@ const PageList = [
 	{
 		id: 56,
 		value: "/admin/bills",
-		icon: <ICONS.Change_Password />,
+		icon: <ICONS.Bill />,
 		name: "Bill Dashboard",
 	},
 	{
 		id: 57,
 		value: "/admin/bills/create-bill",
-		icon: <ICONS.Change_Password />,
+		icon: <ICONS.Create_Bill />,
 		name: "Create Bill",
 	},
 	{
 		id: 58,
 		value: "/admin/bills/signature-config",
-		icon: <ICONS.Change_Password />,
+		icon: <ICONS.Signature_Config />,
 		name: "Signature config",
 	},
 	{

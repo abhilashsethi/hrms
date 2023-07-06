@@ -368,7 +368,7 @@ export default () => {
 				{
 					key: "24hh-5",
 					title: "Bank Account Configure",
-					icon: <ICONS.All_Clients />,
+					icon: <ICONS.Bank_Account_Config />,
 					route: "/admin/quotation/bank-account-config",
 				},
 			],
@@ -376,7 +376,7 @@ export default () => {
 		{
 			key: "17ABH",
 			title: "Bills",
-			icon: <ReceiptLong />,
+			icon: <ICONS.Bill />,
 			submenus: [
 				{
 					key: "17ABH-1",
@@ -387,13 +387,13 @@ export default () => {
 				{
 					key: "17ABH-2",
 					title: "Create Bill",
-					icon: <Add />,
+					icon: <ICONS.Create_Bill />,
 					route: "/admin/bills/create-bill",
 				},
 				{
 					key: "17ABH-3",
 					title: "Signature Config",
-					icon: <Add />,
+					icon: <ICONS.Signature_Config />,
 					route: "/admin/bills/signature-config",
 				},
 				{
