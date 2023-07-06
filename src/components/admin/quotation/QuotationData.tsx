@@ -56,6 +56,11 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
       title: "Tax",
       value: quotationData?.isIgst ? "IGST" : "CGST & SGST",
     },
+    {
+      id: 7,
+      title: "Reason",
+      value: quotationData?.isIgst ? "No Reason" : "Reason is something",
+    },
   ];
   const handleDelete = (item?: Quotation) => {
     try {
