@@ -52,12 +52,14 @@ const AllQuotation = () => {
                 onClick={() => {
                   setClientName(null);
                   setQuotationTitle(null);
+                  setIsOrderBy(null);
                   setQuotationNumber(null);
                   setQuotationStatus(null);
                 }}
               >
                 <Tooltip
                   title={
+                    isOrderBy != null ||
                     clientName != null ||
                     quotationNumber != null ||
                     quotationStatus != null ||
@@ -67,6 +69,7 @@ const AllQuotation = () => {
                   }
                 >
                   {clientName != null ||
+                  isOrderBy != null ||
                   quotationNumber != null ||
                   quotationStatus != null ||
                   quotationTitle != null ? (
