@@ -23,37 +23,37 @@ const QuotationGrid = ({ mutate, data }: Props) => {
   const { change } = useChange();
   const router = useRouter();
   const handleDelete = (id?: string) => {
-    // try {
-    //   Swal.fire({
-    //     title: "Are you sure?",
-    //     text: "You want to delete!",
-    //     icon: "warning",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3085d6",
-    //     cancelButtonColor: "#d33",
-    //     confirmButtonText: "Yes, delete it!",
-    //   }).then(async (result) => {
-    //     if (result.isConfirmed) {
-    //       Swal.fire(`Info`, "It will take some time", "info");
-    //       const res = await change(`quotations/${id}`, {
-    //         method: "DELETE",
-    //       });
-    //       if (res?.status !== 200) {
-    //         Swal.fire(
-    //           "Error",
-    //           res?.results?.msg || "Something went wrong!",
-    //           "error"
-    //         );
-    //         return;
-    //       }
-    //       Swal.fire(`Success`, "Deleted Successfully!", "success");
-    //       mutate();
-    //       return;
-    //     }
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to delete!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          const res = await change(`quotations/delete/account/${id}`, {
+            method: "DELETE",
+          });
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -106,7 +106,7 @@ const QuotationGrid = ({ mutate, data }: Props) => {
                       <Delete
                         sx={{ padding: "0px !important" }}
                         fontSize="small"
-                        // onClick={() => handleDelete(item?.id)}
+                        onClick={() => handleDelete(item?.id)}
                       />
                     </Avatar>
                   </Tooltip>
