@@ -424,7 +424,7 @@ export default () => {
 				{
 					key: "28-3",
 					title: "Add Asset",
-					icon: <ICONS.All_Assets />,
+					icon: <ICONS.Add_Assets />,
 					route: "/admin/assets/create-assets",
 				},
 				{

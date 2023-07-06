@@ -450,7 +450,7 @@ const PageList = [
 	{
 		id: 34,
 		value: "/admin/assets/create-assets",
-		icon: <ICONS.All_Assets />,
+		icon: <ICONS.Add_Assets />,
 		name: "Add Asset",
 	},
 	{
