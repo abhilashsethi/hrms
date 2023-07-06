@@ -56,36 +56,51 @@ const AllQuotation = () => {
 						<div
 							className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}
-						>
-							<IconButton
-								onClick={() => {
-									setClientName(null);
-									setQuotationTitle(null);
-									setQuotationNumber(null);
-									setQuotationStatus(null);
-								}}
-							>
-								<Tooltip
-									title={
-										clientName != null ||
-										quotationNumber != null ||
-										quotationStatus != null ||
-										quotationTitle != null
-											? `Remove Filters`
-											: `Filter`
-									}
-								>
-									{clientName != null ||
-									quotationNumber != null ||
-									quotationStatus != null ||
-									quotationTitle != null ? (
-										<Close className={"!text-white"} />
-									) : (
-										<FilterListRounded className={"!text-white"} />
-									)}
-								</Tooltip>
-							</IconButton>
-						</div>
+            >
+              <IconButton
+                onClick={() => {
+                  setClientName(null);
+                  setQuotationTitle(null);
+                  setIsOrderBy(null);
+                  setQuotationNumber(null);
+                  setQuotationStatus(null);
+                }}
+              >
+                <Tooltip
+                  title={
+                    isOrderBy != null ||
+                    clientName != null ||
+                    quotationNumber != null ||
+                    quotationStatus != null ||
+                    quotationTitle != null
+                      ? `Remove Filters`
+                      : `Filter`
+                  }
+                >
+                  {clientName != null ||
+                  isOrderBy != null ||
+                  quotationNumber != null ||
+                  quotationStatus != null ||
+                  quotationTitle != null ? (
+                    <Close className={"!text-white"} />
+                  ) : (
+                    <FilterListRounded className={"!text-white"} />
+                  )}
+                </Tooltip>
+              </IconButton>
+            </div>
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              <TextField
+                fullWidth
+                size="small"
+                id="quotationNumber"
+                placeholder="Quotation Number"
+                value={quotationNumber ? quotationNumber : ""}
+                name="quotationNumber"
+                onChange={(e) => {
+                  setPageNumber(1), setQuotationNumber(e.target.value);
+                }}
+              />
 
 						<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
 							<TextField

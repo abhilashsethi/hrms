@@ -17,22 +17,22 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  // bankName: Yup.string()
-  // 	.required("Bank name is required")
-  // 	.min(2, "Bank name is too short")
-  // 	.max(50, "Bank name is too long")
-  // 	.matches(/^[a-zA-Z\s]+$/, "Bank name can only contain letters and spaces"),
-  // branchName: Yup.string().required("Branch name is required"),
-  // acNo: Yup.string()
-  // 	.required("Account number is required")
-  // 	.matches(/^[0-9]{9,18}$/, "Invalid account number"),
-  // companyName: Yup.string().required("Company name is required"),
-  // ifscCode: Yup.string()
-  // 	.required("IFSC code is required")
-  // 	.matches(/^[A-Z]{4}[0][A-Z0-9]{6}$/, "Invalid IFSC code"),
-  // swiftCode: Yup.string()
-  // 	.matches(/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/, "Invalid Swift code")
-  // 	.required("Swift code is required"),
+  bankName: Yup.string()
+    .required("Bank name is required")
+    .min(2, "Bank name is too short")
+    .max(50, "Bank name is too long")
+    .matches(/^[a-zA-Z\s]+$/, "Bank name can only contain letters and spaces"),
+  branchName: Yup.string().required("Branch name is required"),
+  acNo: Yup.string()
+    .required("Account number is required")
+    .matches(/^[0-9]{9,18}$/, "Invalid account number"),
+  companyName: Yup.string().required("Company name is required"),
+  ifscCode: Yup.string()
+    .required("IFSC code is required")
+    .matches(/^[A-Z]{4}[0][A-Z0-9]{6}$/, "Invalid IFSC code"),
+  swiftCode: Yup.string()
+    .matches(/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/, "Invalid Swift code")
+    .required("Swift code is required"),
 });
 
 const BankAccountConfig = () => {
@@ -62,11 +62,7 @@ const BankAccountConfig = () => {
         setLoading(false);
         return;
       }
-      Swal.fire(
-        `Success`,
-        `Bank account created Successfully !`,
-        `success`
-      );
+      Swal.fire(`Success`, `Bank account created Successfully !`, `success`);
       return;
     } catch (error) {
       console.log(error);

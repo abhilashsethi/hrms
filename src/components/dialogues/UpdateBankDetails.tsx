@@ -16,78 +16,71 @@ import { useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { Tender } from "types";
+import { QuotationBank, Tender } from "types";
 import * as Yup from "yup";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
   mutate: () => void;
-  tenderData?: Tender;
+  bankData?: QuotationBank;
 }
 interface TenderUpdate {
-  status: string;
+  bankName: string;
   tenderNo: string;
   title: string;
-  portal: string;
-  bidValue: string | number;
-  category: string;
-  submissionTime: string;
+  accountNumber: string;
+  companyName: string | number;
+  ifscCode: string;
+  swiftCode: string;
   submissionDate: string | Date;
 }
 
-const UpdateBankDetails = ({
-  open,
-  handleClose,
-  mutate,
-  tenderData,
-}: Props) => {
+const UpdateBankDetails = ({ open, handleClose, mutate, bankData }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const initialValues = {
-    status: `${tenderData?.status ? tenderData?.status : ""}`,
-    tenderNo: `${tenderData?.tenderNo ? tenderData?.tenderNo : ""}`,
-    title: `${tenderData?.title ? tenderData?.title : ""}`,
-    portal: `${tenderData?.portal ? tenderData?.portal : ""}`,
-    bidValue: tenderData?.bidValue ? tenderData?.bidValue : 0,
-    category: `${tenderData?.category ? tenderData?.category : ""}`,
-    submissionTime: `${
-      tenderData?.submissionTime ? tenderData?.submissionTime : ""
-    }`,
-    submissionDate: tenderData?.submissionDate
-      ? moment(tenderData?.submissionDate).format("YYYY-MM-DD")
-      : new Date(),
+    bankName: `${bankData?.bankName ? bankData?.bankName : ""}`,
+    branchName: `${bankData?.branchName ? bankData?.branchName : ""}`,
+    accountNumber: `${bankData?.accountNumber ? bankData?.accountNumber : ""}`,
+    companyName: `${bankData?.companyName ? bankData?.companyName : ""}`,
+    ifscCode: `${bankData?.ifscCode ? bankData?.ifscCode : ""}`,
+    swiftCode: `${bankData?.swiftCode ? bankData?.swiftCode : ""}`,
   };
 
   const validationSchema = Yup.object().shape({
-    status: Yup.string().required("Tender Status is required!"),
-    tenderNo: Yup.string().required("Tender Number is required!"),
-    title: Yup.string()
-      .min(2, "Tender Name must be at least 2 characters")
-      .max(50, "Tender Name must be less than 50 characters")
-      .required("Tender Name is required!"),
-    portal: Yup.string().required("Portal Name is required!"),
-    category: Yup.string().required("Tender Category is required!"),
-    submissionDate: Yup.date().required("Submission date is required!"),
-    submissionTime: Yup.string().required("Submission time is required!"),
-    bidValue: Yup.number()
-      .required("Bid Value is required!")
-      .positive("Must be a positive number"),
+    bankName: Yup.string()
+      .required("Bank name is required")
+      .min(2, "Bank name is too short")
+      .max(50, "Bank name is too long")
+      .matches(
+        /^[a-zA-Z\s]+$/,
+        "Bank name can only contain letters and spaces"
+      ),
+    branchName: Yup.string().required("Branch name is required"),
+    accountNumber: Yup.string()
+      .required("Account number is required")
+      .matches(/^[0-9]{9,18}$/, "Invalid account number"),
+    companyName: Yup.string().required("Company name is required"),
+    ifscCode: Yup.string()
+      .required("IFSC code is required")
+      .matches(/^[A-Z]{4}[0][A-Z0-9]{6}$/, "Invalid IFSC code"),
+    swiftCode: Yup.string()
+      .matches(/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/, "Invalid Swift code")
+      .required("Swift code is required"),
   });
-  const handleSubmit = async (values: TenderUpdate) => {
+  const handleSubmit = async (values: QuotationBank) => {
     setLoading(true);
     try {
-      const res = await change(`tenders/update/${tenderData?.id}`, {
+      const res = await change(`quotations/update/account/${bankData?.id}`, {
         method: "PATCH",
         body: {
-          status: values?.status,
-          tenderNo: values?.tenderNo,
-          title: values?.title,
-          portal: values?.portal,
-          bidValue: Number(values?.bidValue),
-          category: values?.category,
-          submissionTime: values?.submissionTime,
-          submissionDate: new Date(values?.submissionDate)?.toISOString(),
+          bankName: values?.bankName,
+          branchName: values?.branchName,
+          accountNumber: values?.accountNumber,
+          companyName: values?.companyName,
+          ifscCode: values?.ifscCode,
+          swiftCode: values?.swiftCode,
         },
       });
       setLoading(false);
@@ -119,7 +112,7 @@ const UpdateBankDetails = ({
           sx={{ p: 2, minWidth: "18rem !important" }}
         >
           <p className="text-center text-xl font-bold text-theme tracking-wide">
-            UPDATE BASIC DETAILS
+            UPDATE BANK DETAILS
           </p>
           <IconButton
             aria-label="close"
@@ -156,150 +149,118 @@ const UpdateBankDetails = ({
                   <div className="grid lg:grid-cols-2">
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="tenderNo">
-                          Tender No. <span className="text-red-600">*</span>
+                        <InputLabel htmlFor="title">
+                          Bank name <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         fullWidth
                         size="small"
-                        id="tenderNo"
+                        id="bankName"
                         // placeholder="Name"
-                        name="tenderNo"
-                        value={values.tenderNo}
+                        name="bankName"
+                        value={values.bankName}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.tenderNo && !!errors.tenderNo}
-                        helperText={touched.tenderNo && errors.tenderNo}
+                        error={touched.bankName && !!errors.bankName}
+                        helperText={touched.bankName && errors.bankName}
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="title">
-                          Tender Title <span className="text-red-600">*</span>
+                          Branch name <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         fullWidth
                         size="small"
-                        id="title"
+                        id="branchName"
                         // placeholder="Name"
-                        name="title"
-                        value={values.title}
+                        name="branchName"
+                        value={values.branchName}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.title && !!errors.title}
-                        helperText={touched.title && errors.title}
+                        error={touched.branchName && !!errors.branchName}
+                        helperText={touched.branchName && errors.bankName}
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="portal">
-                          Portal Name <span className="text-red-600">*</span>
+                        <InputLabel htmlFor="accountNumber">
+                          Account Number <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         size="small"
                         fullWidth
                         // placeholder="Email"
-                        id="portal"
-                        name="portal"
-                        value={values.portal}
+                        id="accountNumber"
+                        name="accountNumber"
+                        value={values.accountNumber}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.portal && !!errors.portal}
-                        helperText={touched.portal && errors.portal}
+                        error={touched.accountNumber && !!errors.accountNumber}
+                        helperText={
+                          touched.accountNumber && errors.accountNumber
+                        }
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="portal">
-                          Tender Category{" "}
-                          <span className="text-red-600">*</span>
+                        <InputLabel htmlFor="accountNumber">
+                          IFSC Code <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         fullWidth
                         size="small"
-                        id="category"
-                        name="category"
-                        value={values?.category}
+                        id="ifscCode"
+                        name="ifscCode"
+                        value={values?.ifscCode}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched?.category && !!errors?.category}
-                        helperText={touched?.category && errors?.category}
+                        error={touched?.ifscCode && !!errors?.ifscCode}
+                        helperText={touched?.ifscCode && errors?.ifscCode}
                       />
                     </div>
 
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="submissionDate">
-                          Date Of Submission{" "}
-                          <span className="text-red-600">*</span>
+                          SWIFT Code <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         size="small"
                         fullWidth
-                        type="date"
                         // placeholder="Employee ID"
-                        id="submissionDate"
-                        name="submissionDate"
-                        value={values.submissionDate}
+                        id="swiftCode"
+                        name="swiftCode"
+                        value={values.swiftCode}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={
-                          touched.submissionDate && !!errors.submissionDate
-                        }
-                        helperText={
-                          String(touched.submissionDate) &&
-                          errors.submissionDate
-                        }
+                        error={touched.swiftCode && !!errors.swiftCode}
+                        helperText={touched.swiftCode && errors.swiftCode}
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="submissionDate">
-                          Time Of Submission{" "}
-                          <span className="text-red-600">*</span>
+                        <InputLabel htmlFor="companyName">
+                          Company Name <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
                         size="small"
                         fullWidth
-                        type="time"
-                        // placeholder="Employee ID"
-                        id="submissionTime"
-                        name="submissionTime"
-                        value={values.submissionTime}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={
-                          touched.submissionTime && !!errors.submissionTime
-                        }
-                        helperText={
-                          touched.submissionTime && errors.submissionTime
-                        }
-                      />
-                    </div>
-                    <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="bidValue">
-                          Bid Value <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        type="number"
                         // placeholder="Email"
-                        id="bidValue"
-                        name="bidValue"
-                        value={values.bidValue}
+                        id="companyName"
+                        name="companyName"
+                        value={values.companyName}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.bidValue && !!errors.bidValue}
-                        helperText={touched.bidValue && errors.bidValue}
+                        error={touched.companyName && !!errors.companyName}
+                        helperText={touched.companyName && errors.companyName}
                       />
                     </div>
                   </div>

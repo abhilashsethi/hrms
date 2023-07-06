@@ -8,7 +8,7 @@ import {
 } from "components/dialogues";
 import { useChange } from "hooks";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { QuotationBank } from "types";
 interface Props {
@@ -23,6 +23,32 @@ const QuotationGrid = ({ mutate, data }: Props) => {
     dialogue: boolean;
     bankData?: QuotationBank;
   }>({ dialogue: false, bankData: {} });
+
+  const handleBlock = async (e: ChangeEvent<HTMLInputElement>, id?: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to update status?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await change(`quotations/update/account/${id}`, {
+          method: "PATCH",
+          body: { isBlock: !e.target?.checked },
+        });
+        mutate();
+        if (res?.status !== 200) {
+          Swal.fire(`Error`, "Something went wrong!", "error");
+          return;
+        }
+        Swal.fire(`Success`, "Bank status update successfully!!", "success");
+        return;
+      }
+    });
+  };
   const handleDelete = (id?: string) => {
     try {
       Swal.fire({
@@ -59,7 +85,7 @@ const QuotationGrid = ({ mutate, data }: Props) => {
   return (
     <>
       <UpdateBankDetails
-        tenderData={isUpdate?.bankData}
+        bankData={isUpdate?.bankData}
         open={isUpdate?.dialogue}
         handleClose={() => setIsUpdate({ dialogue: false })}
         mutate={mutate}
@@ -73,9 +99,11 @@ const QuotationGrid = ({ mutate, data }: Props) => {
             <div className="relative">
               <p
                 className={`absolute top-2 z-50 rounded-r-xl 
-             bg-green-500 text-white text-sm px-2 pr-3 py-1 font-semibold`}
+             ${
+               item?.isBlock ? `bg-red-500` : `bg-green-500`
+             } text-white text-sm px-2 pr-3 py-1 font-semibold`}
               >
-                Active
+                {item?.isBlock ? "Blocked" : "Active"}
               </p>
               <div className="absolute right-0 rounded-tl-lg top-24 z-50 bg-gradient-to-r from-rose-100 to-teal-100 p-2">
                 <div className="flex">
@@ -93,7 +121,11 @@ const QuotationGrid = ({ mutate, data }: Props) => {
                         height: 33,
                       }}
                     >
-                      <IOSSwitch />
+                      <IOSSwitch
+                        size="small"
+                        checked={item?.isBlock}
+                        onChange={(e) => handleBlock(e, item?.id)}
+                      />
                     </Avatar>
                   </Tooltip>
                   <Tooltip title="Delete">
@@ -130,16 +162,16 @@ const QuotationGrid = ({ mutate, data }: Props) => {
                         width: 30,
                         height: 33,
                       }}
+                      onClick={() => {
+                        setIsUpdate({
+                          dialogue: true,
+                          bankData: item,
+                        });
+                      }}
                     >
                       <Edit
                         sx={{ padding: "0px !important" }}
                         fontSize="small"
-                        onClick={() => {
-                          setIsUpdate({
-                            dialogue: true,
-                            bankData: item,
-                          });
-                        }}
                       />
                     </Avatar>
                   </Tooltip>
