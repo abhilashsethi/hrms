@@ -1,8 +1,10 @@
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import {
+	AddAdditionalBillDetails,
 	AddAdditionalQuotationDetails,
 	EditAdditionalQuotationDetails,
+	EditBasicBillDetails,
 	EditQuotationDetails,
 	EditTermsAndConditionDialogue,
 } from "components/dialogues";
@@ -103,7 +105,7 @@ const BillData = ({ quotationData, mutate, isLoading }: Props) => {
 	};
 	return (
 		<section>
-			<EditQuotationDetails
+			<EditBasicBillDetails
 				open={editDetails}
 				handleClose={() => setEditDetails(false)}
 				mutate={mutate}
@@ -122,7 +124,7 @@ const BillData = ({ quotationData, mutate, isLoading }: Props) => {
 				mutate={mutate}
 				data={quotationData}
 			/>
-			<AddAdditionalQuotationDetails
+			<AddAdditionalBillDetails
 				open={AddadditionDetails}
 				handleClose={() => setAddAdditionDetails(false)}
 				mutate={mutate}
