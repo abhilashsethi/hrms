@@ -1,5 +1,5 @@
 import { BankAccountGrid } from "components/admin/quotation";
-import { AdminBreadcrumbs, LoaderAnime } from "components/core";
+import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,11 +19,16 @@ const AllQuotation = () => {
           <div className="flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
           </div>
-
-          {bankData?.length ? (
-            <BankAccountGrid data={bankData} mutate={mutate} />
+          {isLoading ? (
+            <SkeletonLoader />
           ) : (
-            <LoaderAnime text="No data" />
+            <>
+              {bankData?.length ? (
+                <BankAccountGrid data={bankData} mutate={mutate} />
+              ) : (
+                <LoaderAnime text="No data" />
+              )}
+            </>
           )}
         </section>
       </PanelLayout>

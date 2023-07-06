@@ -68,4 +68,3 @@ export { default as EditBasicBillDetails } from "./EditBasicBillDetails";
 export { default as AddAdditionalBillDetails } from "./AddAdditionalBillDetails";
 export { default as EditBillTermsAndCondition } from "./EditBillTermsAndCondition";
 export { default as UpdateBankDetails } from "./UpdateBankDetails";
-export { default as EditGSTConfigure } from "./EditGSTConfigure";

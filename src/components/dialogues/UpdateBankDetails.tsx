@@ -7,16 +7,14 @@ import {
   DialogTitle,
   IconButton,
   InputLabel,
-  MenuItem,
   TextField,
   Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
-import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { QuotationBank, Tender } from "types";
+import { QuotationBank } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -24,16 +22,6 @@ interface Props {
   handleClose: () => void;
   mutate: () => void;
   bankData?: QuotationBank;
-}
-interface TenderUpdate {
-  bankName: string;
-  tenderNo: string;
-  title: string;
-  accountNumber: string;
-  companyName: string | number;
-  ifscCode: string;
-  swiftCode: string;
-  submissionDate: string | Date;
 }
 
 const UpdateBankDetails = ({ open, handleClose, mutate, bankData }: Props) => {
@@ -89,7 +77,7 @@ const UpdateBankDetails = ({ open, handleClose, mutate, bankData }: Props) => {
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `Basic details updated successfully!`, `success`);
+      Swal.fire(`Success`, `Bank details updated successfully!`, `success`);
       mutate();
       handleClose();
       return;
