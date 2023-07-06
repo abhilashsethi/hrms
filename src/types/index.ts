@@ -349,6 +349,20 @@ export interface Quotation {
 	createdAt?: Date;
 	works?: QuotationWork[];
 }
+export interface QuotationBank {
+	id?: string;            
+	bankName?: string;      
+	branchName?: string;   
+	accountNumber?: string; 
+	companyName?: string;  
+	ifscCode?: string;    
+	swiftCode?: string;    
+	isBlock?: boolean;      
+  	updatedAt?: Date;
+	createdAt?: Date;  
+  	Quotation?: Quotation[]    
+	quotationId?: string;
+}
 export interface QuotationWork {
 	id?: string;
 	cost?: number;

@@ -5,7 +5,7 @@ import {
   Pagination,
   Stack,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { QuotationGrid } from "components/admin/quotation";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
@@ -16,31 +16,33 @@ import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Quotation } from "types";
 
-
-
 const AllQuotation = () => {
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [open, setOpen] = useState(true);
-  const [meetingPerson, setMeetingPerson] = useState<string | null>(null);
-  const [meetingStatus, setMeetingStatus] = useState<string | null>(null);
-  const [selectDate, setSelectDate] = useState<string | null>(null);
+  const [clientName, setClientName] = useState<string | null>(null);
+  const [quotationTitle, setQuotationTitle] = useState<string | null>(null);
+  const [quotationNumber, setQuotationNumber] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
+  const [quotationStatus, setQuotationStatus] = useState<string | null>(null);
   const {
     data: quotationData,
     mutate,
     pagination,
     isLoading,
   } = useFetch<Quotation[]>(
-    `quotations?page=${pageNumber}&limit=8`
+    `quotations?page=${pageNumber}&limit=6${
+      clientName ? `&clientName=${clientName}` : ""
+    }${quotationTitle ? `&quotationTitle=${quotationTitle}` : ""}${
+      quotationNumber ? `&quotationNumber=${quotationNumber}` : ""
+    }${quotationStatus ? `&status=${quotationStatus}` : ""}${
+      isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    }`
   );
-  console.log(quotationData);
   return (
     <>
-      <PanelLayout title="Meetings - Admin Panel">
+      <PanelLayout title="All Quotation - Admin Panel">
         <section className="px-8">
-
           <div className="flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
-
           </div>
           <div className="md:flex gap-4 justify-between w-full py-2">
             <div
@@ -49,23 +51,26 @@ const AllQuotation = () => {
             >
               <IconButton
                 onClick={() => {
-                  setSelectDate(null);
-                  setMeetingStatus(null);
-                  setMeetingPerson(null);
+                  setClientName(null);
+                  setQuotationTitle(null);
+                  setQuotationNumber(null);
+                  setQuotationStatus(null);
                 }}
               >
                 <Tooltip
                   title={
-                    selectDate != null ||
-                      meetingStatus != null ||
-                      meetingPerson != null
+                    clientName != null ||
+                    quotationNumber != null ||
+                    quotationStatus != null ||
+                    quotationTitle != null
                       ? `Remove Filters`
                       : `Filter`
                   }
                 >
-                  {selectDate != null ||
-                    meetingStatus != null ||
-                    meetingPerson != null ? (
+                  {clientName != null ||
+                  quotationNumber != null ||
+                  quotationStatus != null ||
+                  quotationTitle != null ? (
                     <Close className={"!text-white"} />
                   ) : (
                     <FilterListRounded className={"!text-white"} />
@@ -79,9 +84,11 @@ const AllQuotation = () => {
                 size="small"
                 id="quotationNumber"
                 placeholder="Quotation Number"
-                value={meetingPerson ? meetingPerson : null}
+                value={quotationNumber ? quotationNumber : ""}
                 name="quotationNumber"
-                onChange={(e) => setMeetingPerson(e.target.value)}
+                onChange={(e) => {
+                  setPageNumber(1), setQuotationNumber(e.target.value);
+                }}
               />
 
               <TextField
@@ -89,27 +96,33 @@ const AllQuotation = () => {
                 size="small"
                 id="clientName"
                 placeholder="Client Name"
-                value={meetingPerson ? meetingPerson : null}
+                value={clientName ? clientName : ""}
                 name="clientName"
-                onChange={(e) => setMeetingPerson(e.target.value)}
+                onChange={(e) => {
+                  setPageNumber(1), setClientName(e.target.value);
+                }}
               />
 
               <TextField
                 fullWidth
                 size="small"
-                id="clientName"
+                id="quotationTitle"
                 placeholder="Quotation Title"
-                value={meetingPerson ? meetingPerson : null}
-                name="clientName"
-                onChange={(e) => setMeetingPerson(e.target.value)}
+                value={quotationTitle ? quotationTitle : ""}
+                name="quotationTitle"
+                onChange={(e) => {
+                  setPageNumber(1), setQuotationTitle(e.target.value);
+                }}
               />
               <TextField
                 fullWidth
                 select
                 label="Select Status"
                 size="small"
-                value={meetingStatus ? meetingStatus : null}
-                onChange={(e) => setMeetingStatus(e?.target?.value)}
+                value={quotationStatus ? quotationStatus : null}
+                onChange={(e) => {
+                  setPageNumber(1), setQuotationStatus(e?.target?.value);
+                }}
               >
                 {status.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -119,28 +132,34 @@ const AllQuotation = () => {
               </TextField>
               <TextField
                 fullWidth
+                select
+                label="Ascending/Descending"
                 size="small"
-                id="date"
-                placeholder="Select Date"
-                name="date"
-                type="date"
-                value={
-                  selectDate ? moment(selectDate).format("YYYY-MM-DD") : null
-                }
+                value={isOrderBy ? isOrderBy : ""}
                 onChange={(e) => {
-                  setSelectDate(new Date(e.target.value).toISOString());
+                  setPageNumber(1), setIsOrderBy(e?.target?.value);
                 }}
-              />
+              >
+                {short.map((option) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </div>
           </div>
           <section className="mt-4">
-            {isLoading && <SkeletonLoader />}
-            <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
-              {quotationData?.length ?
-                <QuotationGrid data={quotationData} mutate={mutate} />
-                : <LoaderAnime text="No data" />}
-            </div>
-            {quotationData?.length === 0 ? <LoaderAnime /> : null}
+            {isLoading ? (
+              <SkeletonLoader />
+            ) : (
+              <>
+                {quotationData?.length ? (
+                  <QuotationGrid data={quotationData} mutate={mutate} />
+                ) : (
+                  <LoaderAnime text="No data" />
+                )}
+              </>
+            )}
             <section className="mb-6">
               {Math.ceil(
                 Number(pagination?.total || 1) / Number(pagination?.limit || 1)
@@ -150,7 +169,7 @@ const AllQuotation = () => {
                     <Pagination
                       count={Math.ceil(
                         Number(pagination?.total || 1) /
-                        Number(pagination?.limit || 1)
+                          Number(pagination?.limit || 1)
                       )}
                       onChange={(e, v: number) => {
                         setPageNumber(v);
@@ -163,7 +182,6 @@ const AllQuotation = () => {
               ) : null}
             </section>
           </section>
-
         </section>
       </PanelLayout>
     </>
@@ -177,7 +195,12 @@ const status = [
   { id: 2, value: "Rejected" },
   { id: 3, value: "Modified" },
 ];
-
+const short = [
+  { id: 1, value: "quotationTitle:asc", name: "Name Ascending" },
+  { id: 2, value: "quotationTitle:desc", name: "Name Descending" },
+  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
+  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
+];
 const links = [
   { id: 1, page: "Quotation", link: "/admin/quotation" },
   { id: 2, page: "All Quotation", link: "/admin/quotation/all-quotation" },

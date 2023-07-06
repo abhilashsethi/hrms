@@ -29,7 +29,6 @@ const AdminHome = () => {
   const { data: hrDetails, isLoading: hrIsLoading } = useFetch<any>(
     `dashboards/hr-dashInfo?branchId=${user?.employeeOfBranchId}`
   );
-  console.log("useAuth", user);
   return (
     <PanelLayout title={`Dashboard - ${user?.role?.name}`}>
       <>
@@ -44,7 +43,8 @@ const AdminHome = () => {
               </>
             )}
           </>
-        ) : user?.role?.name === "DEVELOPER" || user?.role?.name === "TESTER" ? (
+        ) : user?.role?.name === "DEVELOPER" ||
+          user?.role?.name === "TESTER" ? (
           <>
             {isLoading ? (
               <DashboardSkeletonLoading />
@@ -172,7 +172,7 @@ const AdminHome = () => {
           </>
         )}
       </>
-    </PanelLayout >
+    </PanelLayout>
   );
 };
 
