@@ -1,7 +1,8 @@
-import { Settings } from "@mui/icons-material";
-import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
+import { Avatar, Tooltip } from "@mui/material";
+import { INVOICE } from "assets/home";
 import { AdminBreadcrumbs } from "components/core";
-import { Form, Formik } from "formik";
+import { EditGSTConfigure } from "components/dialogues";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
@@ -22,6 +23,7 @@ const validationSchema = Yup.object().shape({
 const GstConfig = () => {
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
+	const [additionDetails, setAdditionDetails] = useState<boolean>(false);
 	const handleSubmit = async (values: any, { resetForm }: any) => {
 		setLoading(true);
 		try {
@@ -58,115 +60,93 @@ const GstConfig = () => {
 
 	return (
 		<PanelLayout title="GST configure - Admin Panel">
+			<EditGSTConfigure
+				open={additionDetails}
+				handleClose={() => setAdditionDetails(false)}
+			/>
 			<section className="lg:px-8 px-2 lg:py-4 py-2">
 				<div className="px-2 lg:px-0">
 					<AdminBreadcrumbs links={links} />
 				</div>
-				<section className="w-full px-0 lg:py-4 py-2 flex justify-center items-center">
-					<div className="lg:p-6 p-2 lg:w-2/4 w-full rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
-						<Formik
-							initialValues={initialValues}
-							validationSchema={validationSchema}
-							enableReinitialize={true}
-							onSubmit={handleSubmit}
-						>
-							{({
-								values,
-								errors,
-								touched,
-								handleChange,
-								handleBlur,
-								setFieldValue,
-							}) => (
-								<Form>
-									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
-										GST Configuration
-									</h1>
-
-									<div className="grid lg:grid-cols-1">
-										<div className="lg:px-4 px-2 lg:py-2 py-1">
-											<div className="lg:py-2 py-1">
-												<InputLabel htmlFor="gst">
-													IGST % <span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
-											<TextField
-												fullWidth
-												size="small"
-												id="gst"
-												type="number"
-												// placeholder="% for basic salary"
-												name="gst"
-												value={values.gst}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.gst && !!errors.gst}
-												helperText={touched.gst && errors.gst}
-											/>
-										</div>
-										<div className="lg:px-4 px-2 lg:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="cgst">
-													CGST % <span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												type="number"
-												// placeholder="% for cgst"
-												id="cgst"
-												name="cgst"
-												value={values.cgst}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.cgst && !!errors.cgst}
-												helperText={touched.cgst && errors.cgst}
-											/>
-										</div>
-										<div className="lg:px-4 px-2 lg:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="sgst">
-													SGST % <span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												type="number"
-												// placeholder="% for PF"
-												id="sgst"
-												name="sgst"
-												value={values.sgst}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.sgst && !!errors.sgst}
-												helperText={touched.sgst && errors.sgst}
-											/>
-										</div>
-									</div>
-									<div className="flex justify-center lg:py-4 py-2">
-										<Button
-											type="submit"
-											variant="contained"
-											className="!bg-theme"
-											disabled={loading}
-											startIcon={
-												loading ? (
-													<CircularProgress size={20} color="warning" />
-												) : (
-													<Settings />
-												)
-											}
+				<div className="w-full h-full flex justify-center items-center">
+					<div className="relative w-72 rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
+						<div className="relative">
+							<div className="absolute right-0 rounded-tl-lg top-24 z-50 bg-gradient-to-r from-rose-100 to-teal-100 p-2">
+								<div className="flex">
+									<Tooltip title="Edit">
+										<Avatar
+											onClick={() => setAdditionDetails(true)}
+											variant="rounded"
+											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-yellow-500 !p-0"
+											sx={{
+												mr: ".1vw",
+												padding: "0px !important",
+												backgroundColor: "Highlight",
+												cursor: "pointer",
+												color: "",
+												width: 30,
+												height: 30,
+											}}
 										>
-											CONFIGURE
-										</Button>
+											<Edit
+												sx={{ padding: "0px !important" }}
+												fontSize="small"
+											/>
+										</Avatar>
+									</Tooltip>
+									<Tooltip title="Delete">
+										<Avatar
+											variant="rounded"
+											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-500 !p-0"
+											sx={{
+												mr: "0.1vw",
+												padding: "0px !important",
+												backgroundColor: "Highlight",
+												cursor: "pointer",
+												color: "",
+												width: 30,
+												height: 30,
+											}}
+										>
+											<Delete
+												sx={{ padding: "0px !important" }}
+												fontSize="small"
+												// onClick={() => handleDelete(item?.id)}
+											/>
+										</Avatar>
+									</Tooltip>
+								</div>
+							</div>
+							<div className="flex justify-center bg-gradient-to-bl from-indigo-900 via-indigo-400 to-indigo-900 py-3 rounded-t-lg w-full border">
+								<img src={INVOICE.src} alt="" className="w-24" />
+							</div>
+							<div className="px-4 bg-gradient-to-r from-rose-100 to-teal-100">
+								<div className="mt-3 flex flex-col  justify-start">
+									<div className="flex items-center gap-2 py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											IGST :
+										</p>
+										<p className="text-sm md:text-base font-semibold">18%</p>
 									</div>
-								</Form>
-							)}
-						</Formik>
+									<div className="flex items-center gap-2 py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											CGST :
+										</p>
+										<p className="text-sm md:text-base text-gray-700 font-semibold">
+											9%
+										</p>
+									</div>
+									<div className="flex items-center gap-2 py-2 md:py-0">
+										<p className="font-semibold text-base text-blue-600">
+											SGST :
+										</p>
+										<p className="text-sm md:text-base text-gray-700">9%</p>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-				</section>
+				</div>
 			</section>
 		</PanelLayout>
 	);
