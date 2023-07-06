@@ -11,17 +11,18 @@ const QuotationDetails = () => {
     data: quotationData,
     mutate,
     isLoading,
-  } = useFetch<Quotation>(
-    `quotations/${router?.query?.id}`
-  );
+  } = useFetch<Quotation>(`quotations/${router?.query?.id}`);
   return (
     <PanelLayout title="Quotation Details - Admin Panel">
       <section className="px-8 mx-auto p-4">
         <div className="pb-4">
           <AdminBreadcrumbs links={links} />
         </div>
-        <QuotationData quotationData={quotationData} mutate={mutate}
-          isLoading={isLoading} />
+        <QuotationData
+          quotationData={quotationData}
+          mutate={mutate}
+          isLoading={isLoading}
+        />
       </section>
     </PanelLayout>
   );
@@ -33,8 +34,7 @@ const links = [
   { id: 1, page: "Quotation", link: "/admin/quotation" },
   {
     id: 2,
-    page: "Quotation Details",
-    link: "/admin/meetings/quotation-details",
+    page: "All Quotation",
+    link: "/admin/quotation/all-quotation",
   },
 ];
-
