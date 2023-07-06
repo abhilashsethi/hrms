@@ -54,6 +54,10 @@ const CreateProjects = () => {
     }, {});
     setLoading(true);
     try {
+      if (selectedMembers?.length == 0) {
+        Swal.fire(`Info`, `Please Add Team Members`, `info`);
+        return;
+      }
       Swal.fire(`Info`, `Please Wait..., It will take Some time!`, `info`);
       const res = await change(`projects`, {
         body: {
@@ -224,7 +228,10 @@ const CreateProjects = () => {
                       </div>
                       <div className="w-1/2">
                         <div className="py-2 flex gap-2 items-center">
-                          <InputLabel htmlFor="name">Team Members </InputLabel>
+                          <InputLabel htmlFor="name">
+                            Team Members{" "}
+                            <span className="text-red-600 px-1">*</span>
+                          </InputLabel>
                           {membersData?.length ? (
                             <div
                               onClick={() => setIsMembers(true)}
