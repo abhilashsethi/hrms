@@ -611,6 +611,30 @@ const PageList = [
 		icon: <ICONS.Change_Password />,
 		name: "View All Bills",
 	},
+	{
+		id: 60,
+		value: "/admin/config",
+		icon: <ICONS.Change_Password />,
+		name: "Config",
+	},
+	{
+		id: 61,
+		value: "/admin/config/gst-config",
+		icon: <ICONS.Change_Password />,
+		name: "GST Config",
+	},
+	{
+		id: 62,
+		value: "/admin/config/bank-account-config",
+		icon: <ICONS.Change_Password />,
+		name: "BAnk Account Config",
+	},
+	{
+		id: 63,
+		value: "/admin/config/all-bank-account",
+		icon: <ICONS.Change_Password />,
+		name: "BAnk Account Config",
+	},
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 ];

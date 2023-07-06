@@ -191,14 +191,6 @@ const CreateBills = () => {
 											<div className="grid">
 												<div className="md:px-4 px-2 md:py-2 py-1">
 													<div className="md:py-2 py-1">
-														<div className="flex justify-end">
-															<div
-																onClick={() => setEditDetails((prev) => !prev)}
-																className="text-sm cursor-pointer bg-white text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white border border-theme rounded-lg px-2 py-1"
-															>
-																Enter Client Details
-															</div>
-														</div>
 														<InputLabel htmlFor="clientName">
 															Choose Client{" "}
 															<span className="text-red-600">*</span>
