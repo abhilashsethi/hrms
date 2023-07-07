@@ -5,7 +5,7 @@ import PanelLayout from "layouts/panel";
 import "react-datepicker/dist/react-datepicker.css";
 import { QuotationBank } from "types";
 
-const AllQuotation = () => {
+const AllBankAccounts = () => {
 	const {
 		data: bankData,
 		mutate,
@@ -35,7 +35,7 @@ const AllQuotation = () => {
 	);
 };
 
-export default AllQuotation;
+export default AllBankAccounts;
 
 const links = [
 	{ id: 1, page: "Quotation", link: "/admin/quotation" },
