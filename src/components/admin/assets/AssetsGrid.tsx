@@ -258,6 +258,7 @@ const MoreOption = ({ item, mutate }: any) => {
               Not Assigned
             </p>
           )}
+
           {item?.photos?.length ? (
             item?.photos?.length > 1 ? (
               <>
