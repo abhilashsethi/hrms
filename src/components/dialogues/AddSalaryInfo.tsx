@@ -12,8 +12,10 @@ import PayrollInputField from "components/admin/PayrollInputField";
 import TextInput from "components/core/TextInput";
 import { Form, Formik, FormikProps } from "formik";
 import { useChange, useFetch } from "hooks";
+import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import Swal from "sweetalert2";
+import { User } from "types";
 import * as Yup from "yup";
 interface Props {
 	open: boolean;
@@ -25,6 +27,13 @@ interface Props {
 const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
+	const router = useRouter();
+
+	const {
+		data: employData,
+		mutate: empMutate,
+		isLoading,
+	} = useFetch<User>(`users/${router?.query?.id}`);
 
 	const payrollSchema = useMemo(() => {
 		return [
@@ -57,7 +66,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 
 			{
 				key: "4",
-				label: "TDS",
+				label: "TDS (in %)",
 				size: "small",
 				name: "tds",
 				type: "number",
@@ -132,7 +141,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 					? [...formik?.values[name], { title: "", value: "" }]
 					: [{ title: "", value: "" }]
 			);
-		} catch (error) { }
+		} catch (error) {}
 	};
 
 	const handleFormikOnChange = (
@@ -155,7 +164,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 					return item;
 				})
 			);
-		} catch (error) { }
+		} catch (error) {}
 	};
 
 	const handleSubmit = async (values: any, { resetForm }: any) => {
@@ -210,7 +219,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 																name="item"
 																error={Boolean(
 																	formik?.touched?.salaryInfoNewFields &&
-																	formik?.errors?.salaryInfoNewFields
+																		formik?.errors?.salaryInfoNewFields
 																)}
 																value={item.value}
 																title={item?.title}
@@ -250,7 +259,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 													styleContact={inputItem?.styleContact}
 													error={Boolean(
 														formik?.touched[inputItem.name] &&
-														formik?.errors[inputItem.name]
+															formik?.errors[inputItem.name]
 													)}
 													helperText={
 														formik?.touched[inputItem.name] &&

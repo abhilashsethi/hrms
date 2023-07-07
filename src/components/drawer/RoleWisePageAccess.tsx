@@ -627,13 +627,14 @@ const PageList = [
 		id: 62,
 		value: "/admin/config/bank-account-config",
 		icon: <ICONS.Change_Password />,
-		name: "BAnk Account Config",
+		name: "Bank Account Config",
 	},
+
 	{
 		id: 63,
 		value: "/admin/config/all-bank-account",
 		icon: <ICONS.Change_Password />,
-		name: "BAnk Account Config",
+		name: "All Bank Account",
 	},
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },

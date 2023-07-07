@@ -1,4 +1,4 @@
-import { BorderColor, Close, Settings } from "@mui/icons-material";
+import { BorderColor, Close } from "@mui/icons-material";
 import {
 	Button,
 	CircularProgress,
@@ -122,6 +122,8 @@ const UpdateProfileHead = ({
 				return;
 			}
 			Swal.fire(`Success`, `Updated Successfully !`, `success`);
+			mutate();
+			handleClose();
 			return;
 		} catch (error) {}
 	};

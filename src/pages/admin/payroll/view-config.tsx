@@ -29,6 +29,7 @@ const ViewConfig = () => {
 						handleClose={() => setIsInfo(false)}
 						data={configData}
 						ptTax={configData?.length && configData[0]?.ptTaxes}
+						mutate={mutate}
 					/>
 					<div className="mt-4">
 						<div className="text-xl pb-2 flex justify-between items-center">
