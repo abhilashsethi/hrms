@@ -59,7 +59,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
     {
       id: 7,
       title: "Reason",
-      value: quotationData?.isIgst ? "No Reason" : "Reason is something",
+      value: quotationData?.reason ? quotationData?.reason : "---",
     },
   ];
   const handleDelete = (item?: Quotation) => {

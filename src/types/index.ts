@@ -366,6 +366,7 @@ export interface Quotation {
 	totalModifiedQuotations?: number;
 	totalQuotation?: number;
 	totalRejectedQuotations?: number;
+	reason?: string;
 }
 export interface QuotationBank {
 	id?: string;            
