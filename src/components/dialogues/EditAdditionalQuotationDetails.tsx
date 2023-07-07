@@ -26,9 +26,15 @@ interface Props {
 }
 
 const validationSchema = Yup.object().shape({
-	gst: Yup.number().required("% For GST is required !"),
-	cgst: Yup.number().required("% For CGST is required !"),
-	sgst: Yup.number().required("% For SGST is required !"),
+	gst: Yup.number()
+		.positive("Must be a positive number")
+		.required("% For GST is required !"),
+	cgst: Yup.number()
+		.positive("Must be a positive number")
+		.required("% For CGST is required !"),
+	sgst: Yup.number()
+		.positive("Must be a positive number")
+		.required("% For SGST is required !"),
 });
 const EditAdditionalQuotationDetails = ({
 	open,
@@ -95,10 +101,6 @@ const EditAdditionalQuotationDetails = ({
 							setFieldValue,
 						}) => (
 							<Form>
-								<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
-									GST Configuration
-								</h1>
-
 								<div className="grid lg:grid-cols-1">
 									<div className="lg:px-4 px-2 lg:py-2 py-1">
 										<div className="lg:py-2 py-1">

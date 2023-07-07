@@ -17,7 +17,7 @@ const ViewPayrollDetails = () => {
 	const { data: employData, mutate } = useFetch<User>(
 		`users/${router?.query?.id}`
 	);
-	console.log(employData?.salaryInfoNewFields);
+	// console.log(employData?.salaryInfoNewFields);
 
 	const Gross_Salary: any = employData?.grossSalary;
 	const New_Fields: any = employData?.salaryInfoNewFields;
@@ -57,7 +57,7 @@ const ViewPayrollDetails = () => {
 		  Configs?.conveyanceAllowances +
 		  Configs?.medicalAllowances
 		: "---";
-	console.log(All_Allowances);
+	// console.log(All_Allowances);
 
 	const Special_Allowance =
 		Gross_Salary > All_Allowances ? Gross_Salary - All_Allowances : 0;
