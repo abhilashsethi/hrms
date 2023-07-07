@@ -1,7 +1,10 @@
+import { Add } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import { BankAccountGrid } from "components/admin/quotation";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
 import "react-datepicker/dist/react-datepicker.css";
 import { QuotationBank } from "types";
 
@@ -17,6 +20,15 @@ const AllQuotation = () => {
         <section className="px-8">
           <div className="flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
+            <Link href={"/admin/quotation/bank-account-config"}>
+              <Button
+                variant="contained"
+                className="!bg-theme"
+                startIcon={<Add />}
+              >
+                ADD BANK CONFIG
+              </Button>
+            </Link>
           </div>
           {isLoading ? (
             <SkeletonLoader />
@@ -25,7 +37,9 @@ const AllQuotation = () => {
               {bankData?.length ? (
                 <BankAccountGrid data={bankData} mutate={mutate} />
               ) : (
-                <LoaderAnime text="No data" />
+                <>
+                  <LoaderAnime text="No data" />
+                </>
               )}
             </>
           )}
