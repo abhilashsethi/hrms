@@ -177,7 +177,7 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
                     />
                   )}
                 />
-                {isStatus === "Rejected" ? (
+                {isStatus === "Rejected" || data?.status === "Rejected" ? (
                   <div className="my-4">
                     <p className="font-medium text-gray-700">Reason</p>
                     <TextField
