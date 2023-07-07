@@ -31,7 +31,6 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
 	const { change } = useChange();
 	const { data: users } = useFetch<User[]>(`users`);
 	const { data: guests } = useFetch<any[]>(`guests`);
-	console.log(guests);
 	useEffect(() => {
 		if (isAccess) {
 			const filtered = users?.filter((user) => {
