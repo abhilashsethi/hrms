@@ -70,7 +70,7 @@ const CreateBills = () => {
     clientAddress: `${isClientAddress ? isClientAddress : ""}`,
     invoiceNumber: "",
     invoiceDate: "",
-    dueDate: "",
+    dueDate: null,
     clientGSTNumber: "",
     text: "",
   };
@@ -103,41 +103,51 @@ const CreateBills = () => {
           return { id, description, SACcode, Amount };
         }
       );
-
-      //   status             BillStatus?
-      //   quotation          Quotation?  @relation(fields: [quotationId], references: [id])
-      //   quotationId        String?     @db.ObjectId
-      //   invoiceDate        DateTime
-      //   dueDate            DateTime?
-      //   works              BillWork[]
-      //   isIgst             Boolean     @default(false)
-      //   isCgst             Boolean     @default(false)
-      //   isSgst             Boolean     @default(false)
-      //   total              Float?
-      //   grandTotal         Float?
-      //   termsAndConditions String?
-      //   clientGstNumber    String?
-      if (isCgst) {
-        const resData = await change(`bills`, {
+      if (isBillType === "Unpaid") {
+        if (isCgst) {
+          const resData = await change(`bills`, {
+            body: {
+              billType: values?.billType,
+              clientEmail: values?.clientEmail,
+              dueDate: new Date(values?.dueDate).toISOString(),
+              clientAddress: values?.clientAddress,
+              quotationTitle: values?.quotationTitle,
+              isCgst: isCgst,
+              isSgst: isSgst,
+              works: transformedArray,
+              invoiceDate: values?.invoiceDate,
+            },
+          });
+          setLoading(false);
+          if (resData?.status !== 200) {
+            Swal.fire(
+              "Error",
+              resData?.results?.msg || "Unable to Submit",
+              "error"
+            );
+            setLoading(false);
+            return;
+          }
+          //   router?.push("/admin/quotation/all-quotation");
+          Swal.fire(`Success`, `Quotation created successfully!`, `success`);
+          return;
+        }
+        const res = await change(`bills`, {
           body: {
             billType: values?.billType,
+            quotationId: isQuotationId,
             clientEmail: values?.clientEmail,
             dueDate: new Date(values?.dueDate).toISOString(),
             clientAddress: values?.clientAddress,
             quotationTitle: values?.quotationTitle,
-            isCgst: isCgst,
-            isSgst: isSgst,
+            isIgst: isGstValue,
             works: transformedArray,
             invoiceDate: values?.invoiceDate,
           },
         });
         setLoading(false);
-        if (resData?.status !== 200) {
-          Swal.fire(
-            "Error",
-            resData?.results?.msg || "Unable to Submit",
-            "error"
-          );
+        if (res?.status !== 200) {
+          Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
           setLoading(false);
           return;
         }
@@ -145,30 +155,112 @@ const CreateBills = () => {
         Swal.fire(`Success`, `Quotation created successfully!`, `success`);
         return;
       }
-      const res = await change(`bills`, {
-        body: {
-          billType: values?.billType,
-          quotationId: isQuotationId,
-          clientEmail: values?.clientEmail,
-          dueDate: new Date(values?.dueDate).toISOString(),
-          clientAddress: values?.clientAddress,
-          quotationTitle: values?.quotationTitle,
-          isIgst: isGstValue,
-          //   isCgst: isCgst,
-          //   isSgst: isSgst,
-          works: transformedArray,
-          invoiceDate: values?.invoiceDate,
-        },
-      });
-      setLoading(false);
-      if (res?.status !== 200) {
-        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+      if (isBillType === "Paid") {
+        if (isCgst) {
+          const resData = await change(`bills`, {
+            body: {
+              billType: values?.billType,
+              quotationId: isQuotationId,
+              dueDate: null,
+              clientEmail: values?.clientEmail,
+              clientAddress: values?.clientAddress,
+              works: transformedArray,
+              termsAndConditions: values?.text,
+              clientGstNumber: values?.clientGSTNumber,
+              invoiceDate: values?.invoiceDate,
+              isCgst: isCgst,
+              isSgst: isSgst,
+            },
+          });
+          setLoading(false);
+          if (resData?.status !== 200) {
+            Swal.fire(
+              "Error",
+              resData?.results?.msg || "Unable to Submit",
+              "error"
+            );
+            setLoading(false);
+            return;
+          }
+          //   router?.push("/admin/quotation/all-quotation");
+          Swal.fire(`Success`, `Quotation created successfully!`, `success`);
+          return;
+        }
+        const res = await change(`bills`, {
+          body: {
+            billType: values?.billType,
+            quotationId: isQuotationId,
+            dueDate: null,
+            clientEmail: values?.clientEmail,
+            clientAddress: values?.clientAddress,
+            works: transformedArray,
+            termsAndConditions: values?.text,
+            isIgst: isGstValue,
+            clientGstNumber: values?.clientGSTNumber,
+            invoiceDate: values?.invoiceDate,
+          },
+        });
         setLoading(false);
+        if (res?.status !== 200) {
+          Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+          setLoading(false);
+          return;
+        }
+        //   router?.push("/admin/quotation/all-quotation");
+        Swal.fire(`Success`, `Quotation created successfully!`, `success`);
         return;
       }
-      //   router?.push("/admin/quotation/all-quotation");
-      Swal.fire(`Success`, `Quotation created successfully!`, `success`);
-      return;
+      if (isBillType === "Advance") {
+        if (isCgst) {
+          const resData = await change(`bills`, {
+            body: {
+              billType: values?.billType,
+              quotationId: isQuotationId,
+              dueDate: null,
+              clientEmail: values?.clientEmail,
+              clientAddress: values?.clientAddress,
+              works: transformedArray,
+              invoiceDate: values?.invoiceDate,
+              isCgst: isCgst,
+              isSgst: isSgst,
+            },
+          });
+          setLoading(false);
+          if (resData?.status !== 200) {
+            Swal.fire(
+              "Error",
+              resData?.results?.msg || "Unable to Submit",
+              "error"
+            );
+            setLoading(false);
+            return;
+          }
+          //   router?.push("/admin/quotation/all-quotation");
+          Swal.fire(`Success`, `Quotation created successfully!`, `success`);
+          return;
+        }
+        const res = await change(`bills`, {
+          body: {
+            billType: values?.billType,
+            dueDate: null,
+            quotationId: isQuotationId,
+            clientEmail: values?.clientEmail,
+            clientAddress: values?.clientAddress,
+            works: transformedArray,
+            invoiceDate: values?.invoiceDate,
+            isIgst: isGstValue,
+          },
+        });
+        setLoading(false);
+        if (res?.status !== 200) {
+          Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+          setLoading(false);
+          return;
+        }
+        //   router?.push("/admin/quotation/all-quotation");
+        Swal.fire(`Success`, `Quotation created successfully!`, `success`);
+        return;
+      }
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -176,8 +268,6 @@ const CreateBills = () => {
       setLoading(false);
     }
   };
-  //   console.log({ isClientAddress });
-  //   console.log({ isClientEmail });
   return (
     <PanelLayout title="Create Bill - Admin Panel">
       <AddQuotationClientDialogue
@@ -349,9 +439,6 @@ const CreateBills = () => {
                             name="dueDate"
                             value={values.dueDate}
                             onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.dueDate && !!errors.dueDate}
-                            helperText={touched.dueDate && errors.dueDate}
                           />
                         </div>
 
