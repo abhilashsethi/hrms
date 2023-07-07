@@ -169,7 +169,7 @@ const CreateGuest = () => {
                     <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="designation">
-                          designation
+                          Designation <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField

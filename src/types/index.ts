@@ -368,6 +368,26 @@ export interface Quotation {
 	totalRejectedQuotations?: number;
 	reason?: string;
 }
+export interface Bills {
+	id?: string;
+	cgstVal?: number;
+	grandTotal?: number;
+	gst?: number;
+	total?: number;
+	sgstVal?: number;
+	igstVal?: number;
+	isCgst?: boolean;
+	isIgst?: boolean;
+	isSgst?: boolean;
+	clientAddress?: string;
+	clientEmail?: string;
+	clientName?: string;
+	status?: string;
+	termsAndConditions?: string;
+	updatedAt?: Date;
+	createdAt?: Date;
+	works?: QuotationWork[];
+}
 export interface QuotationBank {
 	id?: string;            
 	bankName?: string;      
