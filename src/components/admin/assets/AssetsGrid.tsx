@@ -1,6 +1,7 @@
 import {
   AssignmentInd,
   AssignmentReturn,
+  Delete,
   DeleteRounded,
   Download,
   Edit,
@@ -22,10 +23,19 @@ import ViewAssetHistoryDrawer from "components/drawer/ViewAssetHistoryDrawer";
 import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import { useState } from "react";
+import { RefObject, createRef, useRef, useState } from "react";
 import Slider from "react-slick";
 import Swal from "sweetalert2";
 import { deleteFile } from "utils";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import DownloadYet from "yet-another-react-lightbox/plugins/download";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+
 interface Props {
   data?: any;
   mutate?: any;
@@ -79,7 +89,13 @@ const AssetsGrid = ({ data, mutate }: Props) => {
 };
 
 export default AssetsGrid;
+
 const MoreOption = ({ item, mutate }: any) => {
+  type ThumbnailsRefType = {
+    visible?: boolean;
+    show?: () => void;
+    hide?: () => void;
+  };
   const [assetHistory, setAssetHistory] = useState(false);
   const [assetDetails, setAssetDetails] = useState(false);
   const [isView, setIsView] = useState(false);
@@ -103,7 +119,14 @@ const MoreOption = ({ item, mutate }: any) => {
     assetData?: string | null;
   }>({ dialogue: false, assetData: null });
   const { user } = useAuth();
-
+  const [open, setOpen] = useState(false);
+  const [isData, setIsData] = useState("");
+  const thumbnailsRef = useRef(null);
+  const thumbnailsRefType: RefObject<ThumbnailsRefType> = createRef();
+  const zoomRef: any = useRef(null);
+  const fullscreenRef: any = useRef(null);
+  const [autoplay, setAutoplay] = useState(false);
+  const [delay, setDelay] = useState(2000);
   const {
     data: assignId,
     isLoading: returnLoading,
@@ -246,7 +269,7 @@ const MoreOption = ({ item, mutate }: any) => {
 
       <div key={item?.id} className="mb-4 w-full">
         <div
-          className="relative group h-full w-full border-2 border-gray-200 
+          className="relative h-full w-full border-2 border-gray-200 
                 border-opacity-60 rounded-lg overflow-hidden shadow-lg"
         >
           {item?.isAssign ? (
@@ -264,26 +287,50 @@ const MoreOption = ({ item, mutate }: any) => {
               <>
                 <Slider {...settings} className="">
                   {item?.photos?.map((data: any, k: any) => (
-                    <img
-                      key={k}
-                      className="lg:h-56 md:h-36 w-full object-cover object-center 
+                    <>
+                      <span
+                        onClick={() => {
+                          setOpen(true), setIsData(data);
+                        }}
+                        className="lg:h-56 group md:h-36 w-full cursor-pointer relative"
+                      >
+                        <img
+                          key={k}
+                          className="lg:h-56 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                      src={data}
-                      alt="Branch"
-                    />
+                          src={data}
+                          alt="Branch"
+                        />
+                        <span className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 bg-zinc-500 bg-transparent transition-opacity duration-300 group-hover:opacity-70">
+                          <Visibility className=" !text-white" />
+                        </span>
+                      </span>
+                    </>
                   ))}
                 </Slider>
               </>
             ) : (
               <>
                 {item?.photos?.map((data: any, k: any) => (
-                  <img
-                    key={k}
-                    className="lg:h-56 md:h-36 w-full object-cover object-center 
+                  <>
+                    <span
+                      onClick={() => {
+                        setOpen(true), setIsData(data);
+                      }}
+                      className="lg:h-56 group md:h-36 w-full cursor-pointer relative"
+                    >
+                      <img
+                        key={k}
+                        className="lg:h-56 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                    src={data}
-                    alt="Branch"
-                  />
+                        src={data}
+                        alt="Branch"
+                      />
+                      <span className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 bg-zinc-500 bg-transparent transition-opacity duration-300 group-hover:opacity-70">
+                        <Visibility className=" !text-white" />
+                      </span>
+                    </span>
+                  </>
                 ))}
               </>
             )
@@ -295,6 +342,56 @@ const MoreOption = ({ item, mutate }: any) => {
               alt="Branch"
             />
           )}
+
+          {item?.photos?.length ? (
+            item?.photos?.length > 1 ? (
+              <>
+                <Lightbox
+                  open={open}
+                  close={() => setOpen(false)}
+                  thumbnails={{ ref: thumbnailsRef }}
+                  zoom={{ ref: zoomRef }}
+                  slideshow={{ autoplay, delay }}
+                  on={{
+                    click: () => {
+                      fullscreenRef.current?.enter();
+                      zoomRef.current?.zoomIn()(
+                        thumbnailsRefType.current?.visible
+                          ? thumbnailsRefType.current?.hide
+                          : thumbnailsRefType.current?.show
+                      )?.();
+                    },
+                  }}
+                  slides={item?.photos?.map((data: any, k: any) => {
+                    return { src: data, download: `${data}?DownloadYet` };
+                  })}
+                  plugins={[DownloadYet, Thumbnails, Zoom, Fullscreen]}
+                />
+              </>
+            ) : (
+              <Lightbox
+                open={open}
+                close={() => setOpen(false)}
+                thumbnails={{ ref: thumbnailsRef }}
+                zoom={{ ref: zoomRef }}
+                slideshow={{ autoplay, delay }}
+                on={{
+                  click: () => {
+                    fullscreenRef.current?.enter();
+                    zoomRef.current?.zoomIn()(
+                      thumbnailsRefType.current?.visible
+                        ? thumbnailsRefType.current?.hide
+                        : thumbnailsRefType.current?.show
+                    )?.();
+                  },
+                }}
+                slides={item?.photos?.map((data: any, k: any) => {
+                  return { src: data, download: `${data}?DownloadYet` };
+                })}
+                plugins={[DownloadYet, Thumbnails, Zoom, Fullscreen]}
+              />
+            )
+          ) : null}
           <div className="py-1 pt-2 px-4">
             <h1
               className="inline-block py-1 title-font text-xl font-extrabold 
