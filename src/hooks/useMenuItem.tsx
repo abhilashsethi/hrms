@@ -399,7 +399,7 @@ export default () => {
 				{
 					key: "17ABH-4",
 					title: "View All Bills",
-					icon: <Add />,
+					icon: <ICONS.View_Bill />,
 					route: "/admin/bills/all-bills",
 				},
 			],
@@ -575,19 +575,19 @@ export default () => {
 				{
 					key: "121-1",
 					title: "GST Config",
-					icon: <ICONS.Dashboard_1 />,
+					icon: <ICONS.GST_Configure />,
 					route: "/admin/config/gst-config",
 				},
 				{
 					key: "121-2",
 					title: "Bank Account Config",
-					icon: <ICONS.Dashboard_1 />,
+					icon: <ICONS.Bank_Account_Config />,
 					route: "/admin/config/bank-account-config",
 				},
 				{
 					key: "121-3",
 					title: "All Bank Accounts",
-					icon: <ICONS.All_Clients />,
+					icon: <ICONS.All_Bank_Accounts />,
 					route: "/admin/config/all-bank-account",
 				},
 			],

@@ -5586,5 +5586,165 @@ const ICONS = {
 			</svg>
 		);
 	},
+	View_Bill: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<path
+					d="M295.438 61H21C18.2386 61 16 63.2386 16 66V409.826C16 411.021 16.4281 412.177 17.2066 413.084L46.4323 447.119C48.4193 449.433 51.9973 449.444 53.9987 447.142L81.087 415.99C83.072 413.708 86.6137 413.697 88.6128 415.967L116.219 447.323C118.186 449.557 121.657 449.588 123.665 447.39L152.622 415.675C154.589 413.521 157.975 413.501 159.967 415.632L189.807 447.555C191.8 449.686 195.186 449.666 197.153 447.512L226.11 415.797C228.117 413.598 231.588 413.63 233.555 415.864L261.208 447.272C263.191 449.524 266.697 449.535 268.693 447.295L299.171 413.1C299.987 412.184 300.438 411 300.438 409.773V66C300.438 63.2386 298.2 61 295.438 61Z"
+					fill="url(#paint0_linear_2171_2)"
+					stroke="black"
+					stroke-width="20"
+				/>
+				<path
+					d="M105.492 255.884C105.492 255.884 176.494 113.881 300.746 113.881C424.999 113.881 496.001 255.884 496.001 255.884C496.001 255.884 424.999 397.888 300.746 397.888C176.494 397.888 105.492 255.884 105.492 255.884Z"
+					fill="url(#paint1_linear_2171_2)"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M300.747 309.136C330.157 309.136 353.998 285.294 353.998 255.884C353.998 226.475 330.157 202.633 300.747 202.633C271.337 202.633 247.496 226.475 247.496 255.884C247.496 285.294 271.337 309.136 300.747 309.136Z"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<defs>
+					<linearGradient
+						id="paint0_linear_2171_2"
+						x1="158.219"
+						y1="61"
+						x2="158.219"
+						y2="451.508"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_2171_2"
+						x1="300.746"
+						y1="113.881"
+						x2="300.746"
+						y2="397.888"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+				</defs>
+			</svg>
+		);
+	},
+	All_Bank_Accounts: (
+		props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+	) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<g clip-path="url(#clip0_2176_6)">
+					<rect
+						x="44.5352"
+						y="173.998"
+						width="417.306"
+						height="254.012"
+						fill="url(#paint0_linear_2176_6)"
+					/>
+					<path
+						d="M250.956 50.5765C253.926 48.969 257.506 48.969 260.476 50.5765L463.234 160.322C472.36 165.262 468.851 179.117 458.474 179.117H52.9579C42.5805 179.117 39.0716 165.262 48.1978 160.322L250.956 50.5765Z"
+						fill="url(#paint1_linear_2176_6)"
+						stroke="black"
+						stroke-width="20"
+					/>
+					<rect
+						x="14.3164"
+						y="463.29"
+						width="35.2795"
+						height="483.833"
+						rx="17.6398"
+						transform="rotate(-90 14.3164 463.29)"
+						fill="black"
+					/>
+					<path
+						d="M256.42 403.425H256.35C247.849 403.425 239.905 401.784 233.146 398.938C206.109 405.548 186.668 423.45 186.668 444.441H325.963C325.963 423.45 306.522 405.548 279.345 398.938C272.586 401.784 264.782 403.377 256.42 403.425Z"
+						fill="url(#paint2_linear_2176_6)"
+						stroke="black"
+						stroke-width="15"
+					/>
+					<path
+						d="M216.067 352.43C205.074 331.899 209.344 310.834 223.391 296.606C235.761 284.077 251.451 280.047 268.942 284.788C298.341 292.757 312.072 327.57 295.716 354.054C281.687 376.77 249.858 383.042 228.634 366.127C223.949 362.394 220.367 357.276 216.067 352.43Z"
+						fill="url(#paint3_linear_2176_6)"
+						stroke="black"
+						stroke-width="15"
+					/>
+				</g>
+				<defs>
+					<linearGradient
+						id="paint0_linear_2176_6"
+						x1="253.188"
+						y1="173.998"
+						x2="253.188"
+						y2="428.01"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_2176_6"
+						x1="255.716"
+						y1="48"
+						x2="255.716"
+						y2="222.822"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint2_linear_2176_6"
+						x1="256.315"
+						y1="398.938"
+						x2="256.315"
+						y2="444.441"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" stop-opacity="0" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint3_linear_2176_6"
+						x1="256.275"
+						y1="282.861"
+						x2="256.275"
+						y2="375.738"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" stop-opacity="0" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<clipPath id="clip0_2176_6">
+						<rect width="512" height="512" fill="white" />
+					</clipPath>
+				</defs>
+			</svg>
+		);
+	},
 };
 export default ICONS;

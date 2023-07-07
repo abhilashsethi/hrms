@@ -13,7 +13,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useFetch } from "hooks";
 import { useState } from "react";
 import * as Yup from "yup";
 
@@ -32,6 +32,9 @@ const ChooseBranchToViewAssets = ({
 }: Props) => {
 	const [loading, setLoading] = useState(false);
 	const { data: branchData } = useFetch<any>(`branches`);
+
+	console.log(branchData);
+
 	const validationSchema = Yup.object().shape({
 		branchId: Yup.string().required("Branch is required!"),
 	});
@@ -104,7 +107,10 @@ const ChooseBranchToViewAssets = ({
 											fullWidth
 											size="small"
 											id="branchId"
-											options={branchData || []}
+											options={
+												branchData?.filter((item: any) => !item?.isBlocked) ||
+												[]
+											}
 											getOptionLabel={(option: any) =>
 												option.name ? option.name : ""
 											}
@@ -114,8 +120,8 @@ const ChooseBranchToViewAssets = ({
 											value={
 												values?.branchId
 													? branchData?.find(
-														(option: any) => option.id === values.branchId
-													)
+															(option: any) => option.id === values.branchId
+													  )
 													: {}
 											}
 											onChange={(e: any, r: any) => {
