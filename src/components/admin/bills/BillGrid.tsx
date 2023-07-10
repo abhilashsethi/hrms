@@ -35,7 +35,7 @@ const BillGrid = ({ data, mutate }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`quotations/${id}`, {
+          const res = await change(`bills/${id}`, {
             method: "DELETE",
           });
 

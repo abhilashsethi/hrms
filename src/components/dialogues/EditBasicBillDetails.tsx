@@ -28,7 +28,7 @@ interface Props {
   data?: Bills;
 }
 interface BillsInput {
-  status?: string;
+  status?: string | null;
   clientName?: string;
   clientEmail?: string;
   clientAddress?: string;
@@ -37,7 +37,7 @@ interface BillsInput {
   invoiceDueDate: string | Date;
 }
 const validationSchema = Yup.object().shape({
-  status: Yup.string().required("Select status"),
+  // status: Yup.string().required("Select status"),
   clientName: Yup.string().required("Client name is required!"),
   clientEmail: Yup.string().email().required("Client email is required!"),
   clientAddress: Yup.string().required("Client address is required!"),
@@ -55,7 +55,7 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
     setIsSgst(event.target.value !== "IGST");
   };
   const initialValues = {
-    status: `${data?.status ? data?.status : null}`,
+    status: data?.status ? data?.status : null,
     clientName: `${data?.clientName ? data?.clientName : ""}`,
     clientEmail: `${data?.clientEmail ? data?.clientEmail : ""}`,
     clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,
@@ -79,7 +79,7 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
             clientName: values?.clientName,
             clientEmail: values?.clientEmail,
             clientAddress: values?.clientAddress,
-            invoiceDate: moment(values?.invoiceDate).format("DD-MM-YYYY"),
+            invoiceDate: new Date(values?.invoiceDate)?.toISOString(),
             invoiceDueDate: new Date(values?.invoiceDueDate)?.toISOString(),
             isCgst: isCgst,
             isSgst: isSgst,
@@ -107,7 +107,7 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
           clientName: values?.clientName,
           clientEmail: values?.clientEmail,
           clientAddress: values?.clientAddress,
-          invoiceDate: moment(values?.invoiceDate).format("DD-MM-YYYY"),
+          invoiceDate: new Date(values?.invoiceDate)?.toISOString(),
           invoiceDueDate: new Date(values?.invoiceDueDate)?.toISOString(),
           isIgst: isGstValue,
         },

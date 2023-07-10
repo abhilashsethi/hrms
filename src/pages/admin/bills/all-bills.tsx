@@ -1,6 +1,8 @@
-import { Close, FilterListRounded } from "@mui/icons-material";
+import { Add, Close, FilterListRounded } from "@mui/icons-material";
 import {
+  Button,
   IconButton,
+  Link,
   MenuItem,
   Pagination,
   Stack,
@@ -35,6 +37,16 @@ const AllBills = () => {
         <section className="px-8">
           <div className="flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
+            <Link href="/admin/bills/create-bill">
+              <Button
+                size="small"
+                className="!bg-theme"
+                variant="contained"
+                startIcon={<Add />}
+              >
+                CREATE BILL
+              </Button>
+            </Link>
           </div>
           <div className="md:flex gap-4 justify-between w-full py-2">
             <div

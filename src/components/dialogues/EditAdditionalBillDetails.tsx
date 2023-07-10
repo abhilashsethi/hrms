@@ -51,8 +51,8 @@ const EditAdditionalBillDetails = ({
     try {
       const resData = {
         description: values?.description,
-        cost: Number(values?.cost),
-        quantity: Number(values?.qty),
+        SACcode: values?.sacCode,
+        Amount: Number(values?.Amount),
       };
       const res = await change(`bills/update-work/${data?.id}`, {
         method: "PATCH",

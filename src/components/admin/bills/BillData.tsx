@@ -2,12 +2,8 @@ import { Add, Delete, Edit } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import {
   AddAdditionalBillDetails,
-  AddAdditionalQuotationDetails,
-  EditAdditionalQuotationDetails,
   EditBasicBillDetails,
   EditBillTermsAndCondition,
-  EditQuotationDetails,
-  EditTermsAndConditionDialogue,
 } from "components/dialogues";
 import EditAdditionalBillDetails from "components/dialogues/EditAdditionalBillDetails";
 import { TenderLayout } from "components/tender";
@@ -76,7 +72,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
       value: billData?.isIgst ? "IGST" : "CGST & SGST",
     },
   ];
-  const handleDelete = (item?: Quotation) => {
+  const handleDelete = (item?: Bills) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -89,8 +85,9 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`quotations/remove-work/${item?.id}`, {
+          const res = await change(`bills/remove-work/${item?.id}`, {
             method: "DELETE",
+            body: { billId: billData?.id },
           });
 
           if (res?.status !== 200) {

@@ -22,6 +22,7 @@ import dynamic from "next/dynamic";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import { Client, Quotation } from "types";
+import router from "next/router";
 // import PayrollInputField from "./PayrollInputField";
 
 interface InputField {
@@ -141,7 +142,8 @@ const CreateBills = () => {
             setLoading(false);
             return;
           }
-          //   router?.push("/admin/quotation/all-quotation");
+          router?.push("/admin/bills/all-bills");
+
           Swal.fire(`Success`, `Quotation created successfully!`, `success`);
           return;
         }
@@ -165,7 +167,8 @@ const CreateBills = () => {
           setLoading(false);
           return;
         }
-        //   router?.push("/admin/quotation/all-quotation");
+        router?.push("/admin/bills/all-bills");
+
         Swal.fire(`Success`, `Quotation created successfully!`, `success`);
         return;
       }
@@ -205,7 +208,8 @@ const CreateBills = () => {
             setLoading(false);
             return;
           }
-          //   router?.push("/admin/quotation/all-quotation");
+          router?.push("/admin/bills/all-bills");
+
           Swal.fire(`Success`, `Quotation created successfully!`, `success`);
           return;
         }
@@ -230,7 +234,8 @@ const CreateBills = () => {
           setLoading(false);
           return;
         }
-        //   router?.push("/admin/quotation/all-quotation");
+        router?.push("/admin/bills/all-bills");
+
         Swal.fire(`Success`, `Quotation created successfully!`, `success`);
         return;
       }
@@ -268,7 +273,7 @@ const CreateBills = () => {
             setLoading(false);
             return;
           }
-          //   router?.push("/admin/quotation/all-quotation");
+          router?.push("/admin/bills/all-bills");
           Swal.fire(`Success`, `Bill created successfully!`, `success`);
           return;
         }
@@ -291,7 +296,7 @@ const CreateBills = () => {
           setLoading(false);
           return;
         }
-        //   router?.push("/admin/quotation/all-quotation");
+        router?.push("/admin/bills/all-bills");
         Swal.fire(`Success`, `Quotation created successfully!`, `success`);
         return;
       }
