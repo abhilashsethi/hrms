@@ -49,15 +49,25 @@ const AccountantDashboardCharts = ({ data }: Props) => {
 		<div className="w-full">
 			<div className="grid lg:grid-cols-2 content-between gap-6">
 				<div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
-					<p className="font-bold text-lg text-center">Attendance Overview</p>
+					<p className="font-bold text-lg text-center">
+						Month-Wise Paid Bills Overview
+					</p>
 					<GuestBarChart
 						labels={[
-							"Jhone",
-							"Dinesh",
-							"Prasad",
-							"Chiku",
+							"Jan",
+							"Feb",
+							"Mar",
+							"Apr",
+							"May",
+							"Jun",
+							"Jul",
+							"Aug",
+							"Sep",
+							"Oct",
+							"Nov",
+							"Dec",
 						]}
-						data={[5, 5, 10, 12]}
+						data={[10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]}
 						type="bar"
 						text=""
 					/>
@@ -73,26 +83,24 @@ const AccountantDashboardCharts = ({ data }: Props) => {
 					/>
 				</div> */}
 				<div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold text-center">
-						Current Month Projects Overview
-					</p>
+					<p className="text-lg font-bold text-center">Quotations Overview</p>
 					<GuestDonutChart
-						labels={["On Going Projects", "Finished Projects", "Total Bugs"]}
+						labels={["Accepted", "Rejected", "Modified"]}
 						series={[45, 25, 30]}
 						text=""
 						type="donut"
-						colors={["#25d366", "#E60023", "#BD33B5"]}
+						colors={["#3d5afe", "#9c27b0", "#eeff41"]}
 					/>
 				</div>
 				<div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold text-center">Recent Projects</p>
+					<p className="text-lg font-bold text-center">Recent Quotations</p>
 					<div className="grid lg:grid-cols-2 grid-cols-1 lg:px-8 px-2 py-4 gap-4">
 						{cards?.map((item) => (
 							<Link href={item?.link} key={item?.id}>
 								<div
 									className={`h-full w-full bg-slate-200 py-4 lg:px-5 px-2 flex flex-col gap-2 rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
 								>
-									<Tooltip title="Project Manager">
+									<Tooltip title="Client Name">
 										<span className="flex w-full justify-center justify-items-center">
 											<PhotoViewer />
 										</span>

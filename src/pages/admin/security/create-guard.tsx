@@ -25,6 +25,7 @@ const initialValues = {
 	address: "",
 	agencyAddress: "",
 	agencyName: "",
+	shift: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -60,6 +61,7 @@ const validationSchema = Yup.object().shape({
 	agencyAddress: Yup.string().required("Required!"),
 	agencyName: Yup.string().required("Required!"),
 	joiningDate: Yup.string().required("Required!"),
+	shift: Yup.string().required("Required!"),
 });
 
 const CreateGuard = () => {
@@ -332,34 +334,28 @@ const CreateGuard = () => {
 
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="employeeOfBranchId">
-													Branch <span className="text-red-600">*</span>
+												<InputLabel htmlFor="shift">
+													Shift <span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 
 											<Autocomplete
 												fullWidth
 												size="small"
-												id="employeeOfBranchId"
-												options={branchData || []}
+												id="shift"
+												options={Shift_Type || []}
 												onChange={(e: any, r: any) => {
-													setFieldValue("employeeOfBranchId", r?.id);
+													setFieldValue("shift", r?.id);
 												}}
 												getOptionLabel={(option: any) => option.name}
 												renderInput={(params) => (
 													<TextField
 														{...params}
 														// label="Role"
-														placeholder="Branch"
+														placeholder="Shift"
 														onBlur={handleBlur}
-														error={
-															touched.employeeOfBranchId &&
-															!!errors.employeeOfBranchId
-														}
-														helperText={
-															touched.employeeOfBranchId &&
-															errors.employeeOfBranchId
-														}
+														error={touched.shift && !!errors.shift}
+														helperText={touched.shift && errors.shift}
 													/>
 												)}
 											/>
@@ -393,4 +389,21 @@ export default CreateGuard;
 const links = [
 	{ id: 1, page: "Security", link: "/admin/security" },
 	{ id: 2, page: "Create Guard", link: "/admin/security/create-guard" },
+];
+const Shift_Type = [
+	{
+		id: 1,
+		name: "First Shift",
+		value: "first",
+	},
+	{
+		id: 2,
+		name: "Second Shift",
+		value: "second",
+	},
+	{
+		id: 3,
+		name: "Night Shift",
+		value: "night",
+	},
 ];

@@ -1,4 +1,4 @@
-import { Add, ReceiptLong } from "@mui/icons-material";
+import { Add, ReceiptLong, Security } from "@mui/icons-material";
 import ICONS from "assets/icons";
 import { useEffect, useState } from "react";
 import { useFetch } from "./useAPI";
@@ -143,7 +143,7 @@ export default () => {
 		{
 			key: "13AS",
 			title: "Security",
-			icon: <ICONS.Guest />,
+			icon: <Security />,
 			submenus: [
 				{
 					key: "13AS-1",
