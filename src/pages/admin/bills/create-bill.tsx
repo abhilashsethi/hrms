@@ -2,7 +2,6 @@ import { Check, Delete } from "@mui/icons-material";
 import {
   Autocomplete,
   Button,
-  Checkbox,
   CircularProgress,
   FormControlLabel,
   IconButton,
@@ -17,13 +16,12 @@ import { AddMoreField, AddQuotationClientDialogue } from "components/dialogues";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { ChangeEvent, useState } from "react";
 import dynamic from "next/dynamic";
-import * as Yup from "yup";
+import router from "next/router";
+import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { Client, Quotation } from "types";
-import router from "next/router";
-// import PayrollInputField from "./PayrollInputField";
+import * as Yup from "yup";
 
 interface InputField {
   description?: string;
@@ -94,7 +92,6 @@ const CreateBills = () => {
   const { data: clients } = useFetch<Client[]>(`clients`);
   const { data: quotation } = useFetch<Quotation[]>(`quotations`);
   const handleSubmit = async (values: any) => {
-    console.log(values);
     setLoading(true);
     try {
       const transformedArray = values?.inputFields.map(

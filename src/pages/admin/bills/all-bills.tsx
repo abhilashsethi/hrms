@@ -30,7 +30,6 @@ const AllBills = () => {
     isLoading,
     pagination,
   } = useFetch<Bills[]>(`bills?page=${pageNumber}&limit=6`);
-  console.log(billData);
   return (
     <>
       <PanelLayout title="Bills - Admin Panel">

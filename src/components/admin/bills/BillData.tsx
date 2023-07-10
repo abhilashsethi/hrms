@@ -1,5 +1,6 @@
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
+import { Loader } from "components/core";
 import {
   AddAdditionalBillDetails,
   EditBasicBillDetails,
@@ -14,8 +15,8 @@ import Swal from "sweetalert2";
 import { Bills, Quotation } from "types";
 interface Props {
   billData?: Bills;
-  mutate?: any;
-  isLoading?: any;
+  mutate: () => void;
+  isLoading: boolean;
 }
 const BillData = ({ billData, mutate, isLoading }: Props) => {
   const [isQuotationWorkData, setQuotationWorkData] = useState<Quotation>({});
@@ -25,7 +26,6 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
   const [AddadditionDetails, setAddAdditionDetails] = useState<boolean>(false);
   const [termsAndConditionDetails, setTermsAndConditionDetails] =
     useState<boolean>(false);
-  console.log("Details=>", { billData });
   const basicDetails = [
     {
       id: 1,
@@ -107,6 +107,13 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
       console.log(error);
     }
   };
+  if (isLoading) {
+    return (
+      <section className="min-h-screen">
+        <Loader />
+      </section>
+    );
+  }
   return (
     <section>
       <EditBasicBillDetails

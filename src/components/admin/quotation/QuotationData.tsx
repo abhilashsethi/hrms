@@ -14,8 +14,8 @@ import Swal from "sweetalert2";
 import { Quotation } from "types";
 interface Props {
   quotationData?: Quotation;
-  mutate?: any;
-  isLoading?: any;
+  mutate: () => void;
+  isLoading: boolean;
 }
 const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
   const [isQuotationWorkData, setQuotationWorkData] = useState<Quotation>({});

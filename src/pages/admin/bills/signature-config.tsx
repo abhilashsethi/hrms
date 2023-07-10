@@ -27,7 +27,7 @@ const SignatureConfig = () => {
     isLoading,
   } = useFetch<QuotationBank[]>(`quotations/get-all/accounts`);
   console.log(bankData);
-  const handleSubmit = async (values: any, { resetForm }: any) => {
+  const handleSubmit = async (values: any) => {
     console.log(values);
   };
 

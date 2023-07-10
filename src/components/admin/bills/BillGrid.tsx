@@ -7,19 +7,18 @@ import {
   Person,
 } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
-import { BAG, INVOICE, QUOTATION } from "assets/home";
+import { BAG, INVOICE } from "assets/home";
 import { useChange } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import { Bills, Quotation } from "types";
+import { Bills } from "types";
 interface Props {
   data: Bills[];
   mutate?: any;
 }
 
 const BillGrid = ({ data, mutate }: Props) => {
-  console.log(data);
   const { change } = useChange();
   const router = useRouter();
   const handleDelete = (id?: string) => {
