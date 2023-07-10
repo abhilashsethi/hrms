@@ -141,27 +141,21 @@ export default () => {
 			],
 		},
 		{
-			key: "13",
+			key: "13AS",
 			title: "Security",
 			icon: <ICONS.Guest />,
 			submenus: [
 				{
-					key: "13-1",
+					key: "13AS-1",
 					title: "Dashboard",
 					icon: <ICONS.Dashboard_1 />,
 					route: "/admin/gusests",
 				},
 				{
-					key: "13-2",
-					title: "All Guests",
+					key: "13AS-2",
+					title: "Create-Guard",
 					icon: <ICONS.All_Guests />,
-					route: "/admin/guests/all-guests",
-				},
-				{
-					key: "13-3",
-					title: "Add Guest",
-					icon: <ICONS.Add_Guest />,
-					route: "/admin/guests/create-guest",
+					route: "/admin/security/create-guard",
 				},
 			],
 		},

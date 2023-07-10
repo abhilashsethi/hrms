@@ -636,6 +636,18 @@ const PageList = [
 		icon: <ICONS.Change_Password />,
 		name: "All Bank Account",
 	},
+	{
+		id: 64,
+		value: "/admin/security/create-guard",
+		icon: <ICONS.Change_Password />,
+		name: "Create Guard",
+	},
+	{
+		id: 65,
+		value: "/admin/security",
+		icon: <ICONS.Change_Password />,
+		name: "Security Dashboard",
+	},
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 ];
