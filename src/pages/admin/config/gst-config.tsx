@@ -1,5 +1,11 @@
 import { Settings } from "@mui/icons-material";
-import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
+import {
+	Autocomplete,
+	Button,
+	CircularProgress,
+	InputLabel,
+	TextField,
+} from "@mui/material";
 import { GstConfigSkeleton } from "components/admin/skeleton";
 import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
@@ -96,24 +102,32 @@ const GstConfig = () => {
 										</h1>
 
 										<div className="grid lg:grid-cols-1">
-											<div className="lg:px-4 px-2 lg:py-2 py-1">
-												<div className="lg:py-2 py-1">
-													<InputLabel htmlFor="Igst">
-														IGST % <span className="text-red-600">*</span>
+											<div className="md:px-4 px-2 md:py-2 py-1">
+												<div className="py-2">
+													<InputLabel htmlFor="shift">
+														Shift <span className="text-red-600">*</span>
 													</InputLabel>
 												</div>
-												<TextField
+
+												<Autocomplete
 													fullWidth
 													size="small"
-													id="Igst"
-													type="number"
-													// placeholder="% for basic salary"
-													name="Igst"
-													value={values.Igst}
-													onChange={handleChange}
-													onBlur={handleBlur}
-													error={touched.Igst && !!errors.Igst}
-													helperText={touched.Igst && errors.Igst}
+													id="shift"
+													options={Shift_Type || []}
+													onChange={(e: any, r: any) => {
+														setFieldValue("shift", r?.id);
+													}}
+													getOptionLabel={(option: any) => option.name}
+													renderInput={(params) => (
+														<TextField
+															{...params}
+															// label="Role"
+															placeholder="Branch"
+															onBlur={handleBlur}
+															error={touched.shift && !!errors.shift}
+															helperText={touched.shift && errors.shift}
+														/>
+													)}
 												/>
 											</div>
 											<div className="lg:px-4 px-2 lg:py-2 py-1">
