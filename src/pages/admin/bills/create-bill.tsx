@@ -46,6 +46,7 @@ const CreateBills = () => {
   const [isPaidId, setIsPaidId] = useState("");
   const [isAdvanceId, setIsAdvanceId] = useState("");
   const [isQuotationId, setIsQuotationId] = useState("");
+  const [isClientName, setIsClientName] = useState("");
   const [isClientEmail, setIsClientEmail] = useState("");
   const [isClientAddress, setIsClientAddress] = useState("");
   const [isCgst, setIsCgst] = useState(true);
@@ -119,6 +120,7 @@ const CreateBills = () => {
             body: {
               billType: values?.billType,
               quotationId: isQuotationId,
+              clientName: isClientName,
               clientEmail: values?.clientEmail,
               dueDate: new Date(values?.dueDate).toISOString(),
               clientAddress: values?.clientAddress,
@@ -148,6 +150,7 @@ const CreateBills = () => {
             billType: values?.billType,
             quotationId: isQuotationId,
             clientEmail: values?.clientEmail,
+            clientName: isClientName,
             dueDate: new Date(values?.dueDate).toISOString(),
             clientAddress: values?.clientAddress,
             quotationTitle: values?.quotationTitle,
@@ -182,6 +185,7 @@ const CreateBills = () => {
               quotationId: isPaidId,
               dueDate: null,
               clientEmail: values?.clientEmail,
+              clientName: isClientName,
               clientAddress: values?.clientAddress,
               works: transformedArray,
               termsAndConditions: values?.text,
@@ -210,6 +214,7 @@ const CreateBills = () => {
             billType: values?.billType,
             quotationId: isPaidId,
             dueDate: null,
+            clientName: isClientName,
             clientEmail: values?.clientEmail,
             clientAddress: values?.clientAddress,
             works: transformedArray,
@@ -244,6 +249,7 @@ const CreateBills = () => {
               billType: values?.billType,
               quotationId: isAdvanceId,
               dueDate: null,
+              clientName: isClientName,
               clientEmail: values?.clientEmail,
               clientAddress: values?.clientAddress,
               works: transformedArray,
@@ -272,6 +278,7 @@ const CreateBills = () => {
             dueDate: null,
             quotationId: isAdvanceId,
             clientEmail: values?.clientEmail,
+            clientName: isClientName,
             clientAddress: values?.clientAddress,
             works: transformedArray,
             invoiceDate: values?.invoiceDate,
@@ -381,6 +388,7 @@ const CreateBills = () => {
                             onChange={(e: any, r: any) => {
                               setFieldValue("quotationId", r?.id);
                               setIsQuotationId(r?.id);
+                              setIsClientName(r?.clientName);
                               setIsClientEmail(r?.clientEmail);
                               setIsClientAddress(r?.clientAddress);
                             }}
@@ -513,6 +521,7 @@ const CreateBills = () => {
                             onChange={(e: any, r: any) => {
                               setFieldValue("quotationId", r?.id);
                               setIsPaidId(r?.id);
+                              setIsClientName(r?.name);
                               setIsClientEmail(r?.email);
                               setIsClientAddress(r?.address);
                             }}
@@ -643,6 +652,7 @@ const CreateBills = () => {
                             }
                             onChange={(e: any, r: any) => {
                               setIsAdvanceId(r?.id);
+                              setIsClientName(r?.name);
                               setFieldValue("quotationId", r?.id);
                               setIsClientEmail(r?.email);
                               setIsClientAddress(r?.address);

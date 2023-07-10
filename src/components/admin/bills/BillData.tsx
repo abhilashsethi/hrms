@@ -9,6 +9,7 @@ import {
   EditQuotationDetails,
   EditTermsAndConditionDialogue,
 } from "components/dialogues";
+import EditAdditionalBillDetails from "components/dialogues/EditAdditionalBillDetails";
 import { TenderLayout } from "components/tender";
 import { useChange } from "hooks";
 import moment from "moment";
@@ -48,7 +49,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
     {
       id: 4,
       title: "Bill Amount",
-      value: billData?.grandTotal || "---",
+      value: billData?.grandTotal?.toFixed(2) || "---",
     },
     {
       id: 5,
@@ -117,7 +118,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
         mutate={mutate}
         data={billData}
       />
-      <EditAdditionalQuotationDetails
+      <EditAdditionalBillDetails
         open={additionDetails}
         handleClose={() => setAdditionDetails(false)}
         mutate={mutate}
@@ -242,7 +243,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
                         </td>
                         <td align="center" className="w-[20%] text-sm">
                           <div className="flex gap-1 py-2 justify-center">
-                            <Tooltip title="Edit Document">
+                            <Tooltip title="Edit">
                               <IconButton
                                 size="small"
                                 onClick={() => {
@@ -253,7 +254,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
                                 <Edit />
                               </IconButton>
                             </Tooltip>
-                            <Tooltip title="Delete Document">
+                            <Tooltip title="Delete">
                               <IconButton size="small">
                                 <Delete onClick={() => handleDelete(item)} />
                               </IconButton>

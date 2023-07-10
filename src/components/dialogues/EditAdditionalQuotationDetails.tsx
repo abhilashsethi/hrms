@@ -1,4 +1,4 @@
-import { Check, Close, Settings } from "@mui/icons-material";
+import { Check, Close } from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  InputLabel,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -22,37 +21,60 @@ interface Props {
   handleClose: () => void;
   mutate: () => void;
   data?: QuotationWork;
-  billData?: Quotation;
+  quotationData?: Quotation;
 }
 
 const validationSchema = Yup.object().shape({
-  gst: Yup.number()
-    .positive("Must be a positive number")
-    .required("% For GST is required !"),
-  cgst: Yup.number()
-    .positive("Must be a positive number")
-    .required("% For CGST is required !"),
-  sgst: Yup.number()
-    .positive("Must be a positive number")
-    .required("% For SGST is required !"),
+  description: Yup.string().required("Description is required"),
+  qty: Yup.string().required("Quantity is required!"),
+  cost: Yup.string().required("Cost is required!"),
 });
 const EditAdditionalQuotationDetails = ({
   open,
   data,
   handleClose,
   mutate,
-  billData,
+  quotationData,
 }: Props) => {
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
   const initialValues = {
-    gst: "",
-    cgst: "",
-    sgst: "",
+    description: `${data?.description ? data?.description : ""}`,
+    qty: `${data?.quantity ? data?.quantity : 0}`,
+    cost: `${data?.cost ? data?.cost : 0}`,
   };
 
   const handleSubmit = async (values: any) => {
-    console.log(values);
+    setLoading(true);
+    try {
+      const resData = {
+        description: values?.description,
+        cost: Number(values?.cost),
+        quantity: Number(values?.qty),
+      };
+      const res = await change(`quotations/update-work/${data?.id}`, {
+        method: "PATCH",
+        body: {
+          data: resData,
+          quotationId: quotationData?.id,
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `Quotation updated successfully!`, `success`);
+      mutate();
+      handleClose();
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -92,92 +114,72 @@ const EditAdditionalQuotationDetails = ({
             enableReinitialize={true}
             onSubmit={handleSubmit}
           >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              setFieldValue,
-            }) => (
-              <Form>
-                <div className="grid lg:grid-cols-1">
-                  <div className="lg:px-4 px-2 lg:py-2 py-1">
-                    <div className="lg:py-2 py-1">
-                      <InputLabel htmlFor="gst">
-                        IGST % <span className="text-red-600">*</span>
-                      </InputLabel>
-                    </div>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      id="gst"
-                      type="number"
-                      // placeholder="% for basic salary"
-                      name="gst"
-                      value={values.gst}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.gst && !!errors.gst}
-                      helperText={touched.gst && errors.gst}
-                    />
-                  </div>
-                  <div className="lg:px-4 px-2 lg:py-2 py-1">
-                    <div className="py-2">
-                      <InputLabel htmlFor="cgst">
-                        CGST % <span className="text-red-600">*</span>
-                      </InputLabel>
-                    </div>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      type="number"
-                      // placeholder="% for cgst"
-                      id="cgst"
-                      name="cgst"
-                      value={values.cgst}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.cgst && !!errors.cgst}
-                      helperText={touched.cgst && errors.cgst}
-                    />
-                  </div>
-                  <div className="lg:px-4 px-2 lg:py-2 py-1">
-                    <div className="py-2">
-                      <InputLabel htmlFor="sgst">
-                        SGST % <span className="text-red-600">*</span>
-                      </InputLabel>
-                    </div>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      type="number"
-                      // placeholder="% for PF"
-                      id="sgst"
-                      name="sgst"
-                      value={values.sgst}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.sgst && !!errors.sgst}
-                      helperText={touched.sgst && errors.sgst}
-                    />
-                  </div>
+            {({ values, errors, touched, handleChange, handleBlur }) => (
+              <Form className="w-full">
+                <div className="my-4">
+                  <p className="font-medium text-gray-700">
+                    Enter Description<span className="text-red-600">*</span>
+                  </p>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    placeholder="Description"
+                    name="description"
+                    value={values.description}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.description && !!errors.description}
+                    helperText={touched.description && errors.description}
+                  />
                 </div>
-                <div className="flex justify-center lg:py-4 py-2">
+
+                <div className="my-4">
+                  <p className="font-medium text-gray-700 mt-2">
+                    Enter Qty<span className="text-red-600">*</span>
+                  </p>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    type="number"
+                    placeholder="Qty"
+                    name="qty"
+                    value={values.qty}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.qty && !!errors.qty}
+                    helperText={touched.qty && errors.qty}
+                  />
+                </div>
+
+                <div className="my-4">
+                  <p className="font-medium text-gray-700 mt-2">
+                    Enter Cost<span className="text-red-600">*</span>
+                  </p>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    type="number"
+                    placeholder="Cost"
+                    name="cost"
+                    value={values.cost}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.cost && !!errors.cost}
+                    helperText={touched.cost && errors.cost}
+                  />
+                </div>
+
+                <div className="flex justify-center mt-4">
                   <Button
                     type="submit"
-                    variant="contained"
                     className="!bg-theme"
+                    variant="contained"
                     disabled={loading}
                     startIcon={
-                      loading ? (
-                        <CircularProgress size={20} color="warning" />
-                      ) : (
-                        <Settings />
-                      )
+                      loading ? <CircularProgress size={20} /> : <Check />
                     }
                   >
-                    CONFIGURE
+                    SUBMIT
                   </Button>
                 </div>
               </Form>

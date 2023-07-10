@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
+import moment from "moment";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { Bills, Quotation } from "types";
@@ -32,8 +33,8 @@ interface BillsInput {
   clientEmail?: string;
   clientAddress?: string;
   billAmount?: string;
-  invoiceDate?: string;
-  invoiceDueDate?: string;
+  invoiceDate: string | Date;
+  invoiceDueDate: string | Date;
 }
 const validationSchema = Yup.object().shape({
   status: Yup.string().required("Select status"),
@@ -58,12 +59,75 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
     clientName: `${data?.clientName ? data?.clientName : ""}`,
     clientEmail: `${data?.clientEmail ? data?.clientEmail : ""}`,
     clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,
-    invoiceDate: `${data?.invoiceDate ? data?.invoiceDate : ""}`,
-    invoiceDueDate: `${data?.dueDate ? data?.dueDate : ""}`,
+    invoiceDate: data?.invoiceDate
+      ? moment(data?.invoiceDate).format("YYYY-MM-DD")
+      : new Date(),
+    invoiceDueDate: data?.dueDate
+      ? moment(data?.dueDate).format("YYYY-MM-DD")
+      : new Date(),
   };
   const { change } = useChange();
   const handleSubmit = async (values: BillsInput) => {
     console.log(values);
+    setLoading(true);
+    try {
+      if (isCgst) {
+        const resData = await change(`bills/${data?.id}`, {
+          method: "PATCH",
+          body: {
+            status: values?.status,
+            clientName: values?.clientName,
+            clientEmail: values?.clientEmail,
+            clientAddress: values?.clientAddress,
+            invoiceDate: moment(values?.invoiceDate).format("DD-MM-YYYY"),
+            invoiceDueDate: new Date(values?.invoiceDueDate)?.toISOString(),
+            isCgst: isCgst,
+            isSgst: isSgst,
+          },
+        });
+        setLoading(false);
+        if (resData?.status !== 200) {
+          Swal.fire(
+            "Error",
+            resData?.results?.msg || "Unable to Submit",
+            "error"
+          );
+          setLoading(false);
+          return;
+        }
+        Swal.fire(`Success`, `Basic details updated successfully!`, `success`);
+        mutate();
+        handleClose();
+        return;
+      }
+      const res = await change(`bills/${data?.id}`, {
+        method: "PATCH",
+        body: {
+          status: values?.status,
+          clientName: values?.clientName,
+          clientEmail: values?.clientEmail,
+          clientAddress: values?.clientAddress,
+          invoiceDate: moment(values?.invoiceDate).format("DD-MM-YYYY"),
+          invoiceDueDate: new Date(values?.invoiceDueDate)?.toISOString(),
+          isIgst: isGstValue,
+        },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+        setLoading(false);
+        return;
+      }
+      Swal.fire(`Success`, `Basic details updated successfully!`, `success`);
+      mutate();
+      handleClose();
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <Dialog
@@ -111,7 +175,7 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
               setFieldValue,
             }) => (
               <Form className="w-full">
-                {data?.billType === "unpaid" ? (
+                {data?.billType === "Unpaid" ? (
                   <>
                     <p className="font-medium text-gray-700 mt-2">
                       Select Bill Status
