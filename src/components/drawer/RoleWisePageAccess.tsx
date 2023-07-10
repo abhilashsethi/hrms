@@ -5,6 +5,7 @@ import {
 	Delete,
 	Leaderboard,
 	MedicalInformationRounded,
+	Security,
 } from "@mui/icons-material";
 import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
@@ -639,7 +640,7 @@ const PageList = [
 	{
 		id: 64,
 		value: "/admin/security/create-guard",
-		icon: <ICONS.Change_Password />,
+		icon: <Security />,
 		name: "Create Guard",
 	},
 	{
