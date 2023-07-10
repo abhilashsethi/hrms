@@ -23,7 +23,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
   const { change } = useChange();
   const [editDetails, setEditDetails] = useState<boolean>(false);
   const [additionDetails, setAdditionDetails] = useState<boolean>(false);
-  const [AddadditionDetails, setAddAdditionDetails] = useState<boolean>(false);
+  const [AddAdditionDetails, setAddAdditionDetails] = useState<boolean>(false);
   const [termsAndConditionDetails, setTermsAndConditionDetails] =
     useState<boolean>(false);
   const basicDetails = [
@@ -136,7 +136,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
         data={billData}
       />
       <AddAdditionalBillDetails
-        open={AddadditionDetails}
+        open={AddAdditionDetails}
         handleClose={() => setAddAdditionDetails(false)}
         mutate={mutate}
         data={billData}
@@ -169,7 +169,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
                       ? "bg-red-500"
                       : billData?.status === "Paid"
                       ? "bg-green-500"
-                      : "bg-green-500"
+                      : null
                   } rounded-md`}
                     >
                       {billData?.status}
