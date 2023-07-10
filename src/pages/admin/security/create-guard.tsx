@@ -3,25 +3,28 @@ import {
 	Autocomplete,
 	Button,
 	CircularProgress,
+	FormControlLabel,
 	InputLabel,
+	Radio,
+	RadioGroup,
 	TextField,
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import router from "next/router";
-import { useState } from "react";
-import Swal from "sweetalert2";
+import { ChangeEvent, useState } from "react";
 import * as Yup from "yup";
 const initialValues = {
 	firstName: "",
 	lastName: "",
 	phone: "",
 	email: "",
-	roleId: "",
-	departmentId: "",
+	joiningDate: "",
 	employeeOfBranchId: "",
+	address: "",
+	agencyAddress: "",
+	agencyName: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -52,62 +55,29 @@ const validationSchema = Yup.object().shape({
 	email: Yup.string()
 		.email("Invalid email address")
 		.required("Email is required!"),
-	roleId: Yup.string().required("Required!"),
-	departmentId: Yup.string().required("Required!"),
 	employeeOfBranchId: Yup.string().required("Required!"),
-	// password: Yup.string()
-	//   .min(6, "Password should minimum 6 characters!")
-	//   .required("Password is required!"),
-	// confirmPassword: Yup.string()
-	//   .oneOf([Yup.ref("password")], "Password Must Match!")
-	//   .required("Confirm password is required!"),
+	address: Yup.string().required("Required!"),
+	agencyAddress: Yup.string().required("Required!"),
+	agencyName: Yup.string().required("Required!"),
+	joiningDate: Yup.string().required("Required!"),
 });
 
 const CreateGuard = () => {
 	// const theme = useTheme();
-	// const [showPassword, setShowPassword] = useState(false);
-	// const [showConPassword, setShowConPassword] = useState(false);
 	const [loading, setLoading] = useState(false);
-	const { data: departmentsData } = useFetch<any>(`departments`);
-	const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
+	const [isSecurityAgency, setIsSecurityAgency] = useState(true);
+
 	const { data: branchData } = useFetch<any>(`branches`);
 	const { change, isChanging } = useChange();
+	const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setIsSecurityAgency(event.target.value === "YES");
+	};
 	const handleSubmit = async (values: any) => {
-		const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
-			if (value) {
-				acc[key] = value;
-			}
-			return acc;
-		}, {});
-		try {
-			setLoading(true);
-			const res: any = await change(`users`, {
-				body: reqValue,
-			});
-			setLoading(false);
-			console.log(res);
-			if (res?.status !== 201) {
-				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "info");
-				setLoading(false);
-				return;
-			}
-			router?.push("/admin/employees/all-employees");
-			Swal.fire(
-				`Success!`,
-				`${res?.results?.msg || `Employee Created Successfully`}`,
-				`success`
-			);
-			return;
-		} catch (error) {
-			console.log(error);
-			setLoading(false);
-		} finally {
-			setLoading(false);
-		}
+		console.log(values);
 	};
 
 	return (
-		<PanelLayout title="Create Employee - Admin Panel">
+		<PanelLayout title="Create Guard - Admin Panel">
 			<section className="md:px-8 px-2 md:py-4 py-2">
 				<div className="px-2 md:px-0">
 					<AdminBreadcrumbs links={links} />
@@ -130,7 +100,7 @@ const CreateGuard = () => {
 							}) => (
 								<Form>
 									<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-slate-600 flex justify-center font-extrabold py-2">
-										Create Employee
+										Create Guard
 									</h1>
 									<div className="grid lg:grid-cols-2">
 										<div className="md:px-4 px-2 md:py-2 py-1">
@@ -193,7 +163,7 @@ const CreateGuard = () => {
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="employeeOfBranchId">
-													Branch <span className="text-red-600">*</span>
+													Shift <span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 
@@ -224,43 +194,27 @@ const CreateGuard = () => {
 												)}
 											/>
 										</div>
-										{/* <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="password">
-                          Password <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        placeholder="Password"
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.password && !!errors.password}
-                        helperText={touched.password && errors.password}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              {"password" === "password" && (
-                                <IconButton
-                                  onClick={() => setShowPassword(!showPassword)}
-                                >
-                                  {showPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              )}
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div> */}
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="address">
+													Address <span className="text-red-600">*</span>
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												multiline
+												rows={3}
+												placeholder="Address"
+												id="address"
+												name="address"
+												value={values.address}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.address && !!errors.address}
+												helperText={touched.address && errors.address}
+											/>
+										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="phone">
@@ -280,61 +234,131 @@ const CreateGuard = () => {
 												helperText={touched.phone && errors.phone}
 											/>
 										</div>
+										<div className="my-3 px-4">
+											<p className="text-gray-500">
+												Security Agency
+												<span className="text-red-600">*</span>
+											</p>
+											<RadioGroup
+												defaultValue={isSecurityAgency ? "YES" : "NO"}
+												row
+												name="isSecurityAgency"
+												onChange={handleOptionChange}
+											>
+												<FormControlLabel
+													value="YES"
+													control={<Radio />}
+													label="YES"
+												/>
+												<FormControlLabel
+													value="NO"
+													control={<Radio />}
+													label="NO"
+												/>
+											</RadioGroup>
+											{isSecurityAgency ? (
+												<>
+													<div className="md:px-4 px-2 md:py-2 py-1">
+														<div className="py-2">
+															<InputLabel htmlFor="agencyName">
+																Agency Name{" "}
+																<span className="text-red-600">*</span>
+															</InputLabel>
+														</div>
+														<TextField
+															size="small"
+															fullWidth
+															placeholder="Agency"
+															id="agencyName"
+															name="agencyName"
+															value={values.agencyName}
+															onChange={handleChange}
+															onBlur={handleBlur}
+															error={touched.agencyName && !!errors.agencyName}
+															helperText={
+																touched.agencyName && errors.agencyName
+															}
+														/>
+													</div>
+													<div className="md:px-4 px-2 md:py-2 py-1">
+														<div className="py-2">
+															<InputLabel htmlFor="agencyAddress">
+																Agency Address{" "}
+																<span className="text-red-600">*</span>
+															</InputLabel>
+														</div>
+														<TextField
+															size="small"
+															fullWidth
+															multiline
+															rows={3}
+															placeholder="Address"
+															id="agencyAddress"
+															name="agencyAddress"
+															value={values.agencyAddress}
+															onChange={handleChange}
+															onBlur={handleBlur}
+															error={
+																touched.agencyAddress && !!errors.agencyAddress
+															}
+															helperText={
+																touched.agencyAddress && errors.agencyAddress
+															}
+														/>
+													</div>
+												</>
+											) : null}
+										</div>
+
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="role">
-													Role <span className="text-red-600">*</span>
+												<InputLabel htmlFor="joiningDate">
+													Joining Date <span className="text-red-600">*</span>
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												type="date"
+												id="joiningDate"
+												name="joiningDate"
+												value={values.joiningDate}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.joiningDate && !!errors.joiningDate}
+												helperText={touched.joiningDate && errors.joiningDate}
+											/>
+										</div>
+
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="employeeOfBranchId">
+													Branch <span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 
 											<Autocomplete
 												fullWidth
 												size="small"
-												id="roleId"
-												options={roleData || []}
+												id="employeeOfBranchId"
+												options={branchData || []}
 												onChange={(e: any, r: any) => {
-													setFieldValue("roleId", r?.id);
+													setFieldValue("employeeOfBranchId", r?.id);
 												}}
 												getOptionLabel={(option: any) => option.name}
 												renderInput={(params) => (
 													<TextField
 														{...params}
 														// label="Role"
-														placeholder="Role"
-														onBlur={handleBlur}
-														error={touched.roleId && !!errors.roleId}
-														helperText={touched.roleId && errors.roleId}
-													/>
-												)}
-											/>
-										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="departmentId">
-													Department Name{" "}
-													<span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
-											<Autocomplete
-												fullWidth
-												size="small"
-												id="departmentId"
-												options={departmentsData || []}
-												onChange={(e: any, r: any) => {
-													setFieldValue("departmentId", r?.id);
-												}}
-												getOptionLabel={(option: any) => option.name}
-												renderInput={(params) => (
-													<TextField
-														{...params}
-														// label="Department Name"
-														placeholder="Department Name"
+														placeholder="Branch"
 														onBlur={handleBlur}
 														error={
-															touched.departmentId && !!errors.departmentId
+															touched.employeeOfBranchId &&
+															!!errors.employeeOfBranchId
 														}
 														helperText={
-															touched.departmentId && errors.departmentId
+															touched.employeeOfBranchId &&
+															errors.employeeOfBranchId
 														}
 													/>
 												)}
@@ -367,6 +391,6 @@ const CreateGuard = () => {
 export default CreateGuard;
 
 const links = [
-	{ id: 1, page: "Employees", link: "/admin/employees" },
-	{ id: 2, page: "Create Employee", link: "/admin/employees/create-employee" },
+	{ id: 1, page: "Security", link: "/admin/security" },
+	{ id: 2, page: "Create Guard", link: "/admin/security/create-guard" },
 ];
