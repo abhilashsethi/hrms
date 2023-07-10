@@ -143,7 +143,6 @@ const CreateBills = () => {
             return;
           }
           router?.push("/admin/bills/all-bills");
-
           Swal.fire(`Success`, `Quotation created successfully!`, `success`);
           return;
         }
