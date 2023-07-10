@@ -333,6 +333,12 @@ export interface QuotationDashboard {
 	_count?: number | null;
 	month?: string;
 }
+export interface BillsDashboard {
+	billType?: string | null;
+	count?: number;
+	_count?: number | null;
+	month?: string;
+}
 export interface QuotationGst {
 	id?: string;
 	Igst: number;
@@ -393,6 +399,12 @@ export interface Bills {
 	updatedAt?: Date;
 	createdAt?: Date;
 	works?: BillsWork[];
+	currentYearBillCountMonthWise?: BillsDashboard[];
+	totalAdvanceBillCount?: number;
+	totalBillCount?: number;
+	totalPaidBillCount?: number;
+	totalUnpaidBillCount?: number;
+	typeWiseBillCount?: BillsDashboard[];
 }
 export interface QuotationBank {
 	id?: string;            
