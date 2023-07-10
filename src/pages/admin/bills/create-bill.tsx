@@ -2,7 +2,6 @@ import { Check, Delete } from "@mui/icons-material";
 import {
 	Autocomplete,
 	Button,
-	Checkbox,
 	CircularProgress,
 	FormControlLabel,
 	IconButton,
@@ -17,12 +16,12 @@ import { AddMoreField, AddQuotationClientDialogue } from "components/dialogues";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { ChangeEvent, useState } from "react";
 import dynamic from "next/dynamic";
-import * as Yup from "yup";
+import router from "next/router";
+import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { Client, Quotation } from "types";
-// import PayrollInputField from "./PayrollInputField";
+import * as Yup from "yup";
 
 interface InputField {
 	description?: string;
@@ -43,7 +42,10 @@ interface FormValues {
 	invoiceDate?: Date;
 }
 const CreateBills = () => {
+	const [isPaidId, setIsPaidId] = useState("");
+	const [isAdvanceId, setIsAdvanceId] = useState("");
 	const [isQuotationId, setIsQuotationId] = useState("");
+	const [isClientName, setIsClientName] = useState("");
 	const [isClientEmail, setIsClientEmail] = useState("");
 	const [isClientAddress, setIsClientAddress] = useState("");
 	const [isCgst, setIsCgst] = useState(true);
@@ -90,7 +92,6 @@ const CreateBills = () => {
 	const { data: clients } = useFetch<Client[]>(`clients`);
 	const { data: quotation } = useFetch<Quotation[]>(`quotations`);
 	const handleSubmit = async (values: any) => {
-		console.log(values);
 		setLoading(true);
 		try {
 			const transformedArray = values?.inputFields.map(
@@ -104,10 +105,20 @@ const CreateBills = () => {
 				}
 			);
 			if (isBillType === "Unpaid") {
+				if (!isQuotationId) {
+					Swal.fire(`info`, `Client address is required!`, `info`);
+					return;
+				}
+				if (!values?.clientAddress) {
+					Swal.fire(`info`, `Client name is required!`, `info`);
+					return;
+				}
 				if (isCgst) {
 					const resData = await change(`bills`, {
 						body: {
 							billType: values?.billType,
+							quotationId: isQuotationId,
+							clientName: isClientName,
 							clientEmail: values?.clientEmail,
 							dueDate: new Date(values?.dueDate).toISOString(),
 							clientAddress: values?.clientAddress,
@@ -128,7 +139,7 @@ const CreateBills = () => {
 						setLoading(false);
 						return;
 					}
-					//   router?.push("/admin/quotation/all-quotation");
+					router?.push("/admin/bills/all-bills");
 					Swal.fire(`Success`, `Quotation created successfully!`, `success`);
 					return;
 				}
@@ -137,6 +148,7 @@ const CreateBills = () => {
 						billType: values?.billType,
 						quotationId: isQuotationId,
 						clientEmail: values?.clientEmail,
+						clientName: isClientName,
 						dueDate: new Date(values?.dueDate).toISOString(),
 						clientAddress: values?.clientAddress,
 						quotationTitle: values?.quotationTitle,
@@ -151,18 +163,28 @@ const CreateBills = () => {
 					setLoading(false);
 					return;
 				}
-				//   router?.push("/admin/quotation/all-quotation");
+				router?.push("/admin/bills/all-bills");
+
 				Swal.fire(`Success`, `Quotation created successfully!`, `success`);
 				return;
 			}
 			if (isBillType === "Paid") {
+				if (!values?.clientAddress) {
+					Swal.fire(`info`, `Client address is required!`, `info`);
+					return;
+				}
+				if (!isPaidId) {
+					Swal.fire(`info`, `Client name is required!`, `info`);
+					return;
+				}
 				if (isCgst) {
 					const resData = await change(`bills`, {
 						body: {
 							billType: values?.billType,
-							quotationId: isQuotationId,
+							quotationId: isPaidId,
 							dueDate: null,
 							clientEmail: values?.clientEmail,
+							clientName: isClientName,
 							clientAddress: values?.clientAddress,
 							works: transformedArray,
 							termsAndConditions: values?.text,
@@ -182,15 +204,17 @@ const CreateBills = () => {
 						setLoading(false);
 						return;
 					}
-					//   router?.push("/admin/quotation/all-quotation");
+					router?.push("/admin/bills/all-bills");
+
 					Swal.fire(`Success`, `Quotation created successfully!`, `success`);
 					return;
 				}
 				const res = await change(`bills`, {
 					body: {
 						billType: values?.billType,
-						quotationId: isQuotationId,
+						quotationId: isPaidId,
 						dueDate: null,
+						clientName: isClientName,
 						clientEmail: values?.clientEmail,
 						clientAddress: values?.clientAddress,
 						works: transformedArray,
@@ -206,17 +230,27 @@ const CreateBills = () => {
 					setLoading(false);
 					return;
 				}
-				//   router?.push("/admin/quotation/all-quotation");
+				router?.push("/admin/bills/all-bills");
+
 				Swal.fire(`Success`, `Quotation created successfully!`, `success`);
 				return;
 			}
 			if (isBillType === "Advance") {
+				if (!values?.clientAddress) {
+					Swal.fire(`info`, `Client address is required!`, `info`);
+					return;
+				}
+				if (!isAdvanceId) {
+					Swal.fire(`info`, `Client name is required!`, `info`);
+					return;
+				}
 				if (isCgst) {
 					const resData = await change(`bills`, {
 						body: {
 							billType: values?.billType,
-							quotationId: isQuotationId,
+							quotationId: isAdvanceId,
 							dueDate: null,
+							clientName: isClientName,
 							clientEmail: values?.clientEmail,
 							clientAddress: values?.clientAddress,
 							works: transformedArray,
@@ -235,16 +269,17 @@ const CreateBills = () => {
 						setLoading(false);
 						return;
 					}
-					//   router?.push("/admin/quotation/all-quotation");
-					Swal.fire(`Success`, `Quotation created successfully!`, `success`);
+					router?.push("/admin/bills/all-bills");
+					Swal.fire(`Success`, `Bill created successfully!`, `success`);
 					return;
 				}
 				const res = await change(`bills`, {
 					body: {
 						billType: values?.billType,
 						dueDate: null,
-						quotationId: isQuotationId,
+						quotationId: isAdvanceId,
 						clientEmail: values?.clientEmail,
+						clientName: isClientName,
 						clientAddress: values?.clientAddress,
 						works: transformedArray,
 						invoiceDate: values?.invoiceDate,
@@ -257,7 +292,7 @@ const CreateBills = () => {
 					setLoading(false);
 					return;
 				}
-				//   router?.push("/admin/quotation/all-quotation");
+				router?.push("/admin/bills/all-bills");
 				Swal.fire(`Success`, `Quotation created successfully!`, `success`);
 				return;
 			}
@@ -354,6 +389,7 @@ const CreateBills = () => {
 														onChange={(e: any, r: any) => {
 															setFieldValue("quotationId", r?.id);
 															setIsQuotationId(r?.id);
+															setIsClientName(r?.clientName);
 															setIsClientEmail(r?.clientEmail);
 															setIsClientAddress(r?.clientAddress);
 														}}
@@ -485,6 +521,8 @@ const CreateBills = () => {
 														}
 														onChange={(e: any, r: any) => {
 															setFieldValue("quotationId", r?.id);
+															setIsPaidId(r?.id);
+															setIsClientName(r?.name);
 															setIsClientEmail(r?.email);
 															setIsClientAddress(r?.address);
 														}}
@@ -576,8 +614,7 @@ const CreateBills = () => {
 															!!errors.clientGSTNumber
 														}
 														helperText={
-															Boolean(touched.clientGSTNumber) &&
-															errors.clientGSTNumber
+															touched.clientGSTNumber && errors.clientGSTNumber
 														}
 													/>
 												</div>
@@ -615,6 +652,8 @@ const CreateBills = () => {
 															clients?.filter((item) => !item?.isBlocked) || []
 														}
 														onChange={(e: any, r: any) => {
+															setIsAdvanceId(r?.id);
+															setIsClientName(r?.name);
 															setFieldValue("quotationId", r?.id);
 															setIsClientEmail(r?.email);
 															setIsClientAddress(r?.address);
@@ -635,6 +674,56 @@ const CreateBills = () => {
 															/>
 														)}
 													/>
+												</div>
+												<div className="grid md:grid-cols-2">
+													<div className="md:px-4 px-2 md:py-2 py-1">
+														<div className="md:py-2 py-1">
+															<InputLabel htmlFor="clientEmail">
+																Client Email{" "}
+																<span className="text-red-600">*</span>
+															</InputLabel>
+														</div>
+														<TextField
+															fullWidth
+															size="small"
+															id="clientEmail"
+															// placeholder="clientEmail"
+															name="clientEmail"
+															value={values.clientEmail}
+															onChange={handleChange}
+															onBlur={handleBlur}
+															error={
+																touched.clientEmail && !!errors.clientEmail
+															}
+															helperText={
+																touched.clientEmail && errors.clientEmail
+															}
+														/>
+													</div>
+													<div className="md:px-4 px-2 md:py-2 py-1">
+														<div className="md:py-2 py-1">
+															<InputLabel htmlFor="clientAddress">
+																Client Address{" "}
+																<span className="text-red-600">*</span>
+															</InputLabel>
+														</div>
+														<TextField
+															fullWidth
+															size="small"
+															id="clientAddress"
+															// placeholder="clientAddress"
+															name="clientAddress"
+															value={values.clientAddress}
+															onChange={handleChange}
+															onBlur={handleBlur}
+															error={
+																touched.clientAddress && !!errors.clientAddress
+															}
+															helperText={
+																touched.clientAddress && errors.clientAddress
+															}
+														/>
+													</div>
 												</div>
 											</div>
 										) : null}

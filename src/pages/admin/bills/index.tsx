@@ -1,41 +1,33 @@
 import { DashboardSkeletonLoading } from "components/admin/assets";
 import {
-	BillsDashboardCard,
-	BillsDashboardCharts,
+  BillsDashboardCard,
+  BillsDashboardCharts,
 } from "components/admin/bills";
-import {
-	QuotationDashboardCard,
-	QuotationDashboardCharts,
-} from "components/admin/quotation";
 import { AdminBreadcrumbs } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import { Bills, BillsDashboard } from "types";
 
 const index = () => {
-	const { data: branchDashboard, isLoading } = useFetch<any>(
-		`branches/dashboardInfo/data`
-	);
-	const { data: dashboardData } = useFetch<any>(`assets/dashboard/details`);
-	return (
-		<PanelLayout title="All Bills - Admin Panel">
-			<>
-				<section className="lg:px-8 px-4 py-4">
-					<AdminBreadcrumbs links={links} />
-					{isLoading ? (
-						<DashboardSkeletonLoading />
-					) : (
-						<>
-							<BillsDashboardCard
-								data={dashboardData}
-								branch={branchDashboard}
-							/>
-							<BillsDashboardCharts data={dashboardData} />
-						</>
-					)}
-				</section>
-			</>
-		</PanelLayout>
-	);
+  const { data: billDashboard, isLoading } =
+    useFetch<Bills>(`bills/dashboard/info`);
+  return (
+    <PanelLayout title="All Bills - Admin Panel">
+      <>
+        <section className="lg:px-8 px-4 py-4">
+          <AdminBreadcrumbs links={links} />
+          {isLoading ? (
+            <DashboardSkeletonLoading />
+          ) : (
+            <>
+              <BillsDashboardCard data={billDashboard} />
+              <BillsDashboardCharts data={billDashboard} />
+            </>
+          )}
+        </section>
+      </>
+    </PanelLayout>
+  );
 };
 
 export default index;

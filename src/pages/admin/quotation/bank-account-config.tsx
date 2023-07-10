@@ -4,6 +4,7 @@ import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
+import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
@@ -61,6 +62,7 @@ const BankAccountConfig = () => {
         setLoading(false);
         return;
       }
+      router?.push("/admin/quotation/all-bank-account");
       Swal.fire(`Success`, `Bank account created Successfully !`, `success`);
       return;
     } catch (error) {

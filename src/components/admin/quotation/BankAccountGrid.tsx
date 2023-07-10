@@ -8,7 +8,7 @@ import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { QuotationBank } from "types";
 interface Props {
-  mutate?: any;
+  mutate: () => void;
   data?: QuotationBank[];
 }
 
