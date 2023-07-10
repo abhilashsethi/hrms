@@ -649,6 +649,18 @@ const PageList = [
 		icon: <ICONS.Change_Password />,
 		name: "Security Dashboard",
 	},
+	{
+		id: 65,
+		value: "/admin/security",
+		icon: <ICONS.Change_Password />,
+		name: "Security Dashboard",
+	},
+	{
+		id: 66,
+		value: "/admin/security/shift-config",
+		icon: <ICONS.Change_Password />,
+		name: "Security Shift Configuration",
+	},
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 ];

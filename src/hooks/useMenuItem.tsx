@@ -157,6 +157,12 @@ export default () => {
 					icon: <ICONS.All_Guests />,
 					route: "/admin/security/create-guard",
 				},
+				{
+					key: "13AS-3",
+					title: "Shift Configuration",
+					icon: <ICONS.All_Guests />,
+					route: "/admin/security/shift-config",
+				},
 			],
 		},
 		{

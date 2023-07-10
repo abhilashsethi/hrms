@@ -14,9 +14,9 @@ const AccountantDashboardCharts = ({ data }: Props) => {
 	const cards = [
 		{
 			id: 1,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
+			color: "bg-gradient-to-r from-rose-100 to-teal-100",
 
-			name: "Yard Erp",
+			name: "Payal Sharma",
 			count: data?.GuestInfo?.totalGuest || 0,
 			link: "/admin",
 		},
@@ -24,7 +24,7 @@ const AccountantDashboardCharts = ({ data }: Props) => {
 			id: 2,
 			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
 
-			name: "HRMS Yard Iot",
+			name: "Ajay Kumar",
 			count: data?.GuestInfo?.blockedGuestCount || 0,
 			link: "/admin",
 		},
@@ -72,16 +72,7 @@ const AccountantDashboardCharts = ({ data }: Props) => {
 						text=""
 					/>
 				</div>
-				{/* <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold text-center">Leave Details</p>
-					<GuestDonutChart
-						labels={["Casual Leave", "Sick Leave"]}
-						series={[70, 30]}
-						text=""
-						type="pie"
-						colors={["#BD33B5", "#005d32"]}
-					/>
-				</div> */}
+
 				<div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Quotations Overview</p>
 					<GuestDonutChart
