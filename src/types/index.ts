@@ -370,23 +370,29 @@ export interface Quotation {
 }
 export interface Bills {
 	id?: string;
+	billNumber?: string;
+	billType?: string;
+	clientAddress?: string;
+	clientEmail?: string;
+	clientName?: string;
 	cgstVal?: number;
+	dueDate?: Date;
 	grandTotal?: number;
+	clientGstNumber?: string;
 	gst?: number;
+	invoiceDate?: Date;
 	total?: number;
+	quotationId?: string;
 	sgstVal?: number;
 	igstVal?: number;
 	isCgst?: boolean;
 	isIgst?: boolean;
 	isSgst?: boolean;
-	clientAddress?: string;
-	clientEmail?: string;
-	clientName?: string;
 	status?: string;
 	termsAndConditions?: string;
 	updatedAt?: Date;
 	createdAt?: Date;
-	works?: QuotationWork[];
+	works?: BillsWork[];
 }
 export interface QuotationBank {
 	id?: string;            
@@ -406,6 +412,13 @@ export interface QuotationWork {
 	id?: string;
 	cost?: number;
 	quantity?: number;
+	description?: string;
+	createdAt?: Date;
+}
+export interface BillsWork {
+	id?: string;
+	Amount?: number;
+	SACcode?: string;
 	description?: string;
 	createdAt?: Date;
 }

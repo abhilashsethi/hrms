@@ -43,6 +43,8 @@ interface FormValues {
   invoiceDate?: Date;
 }
 const CreateBills = () => {
+  const [isPaidId, setIsPaidId] = useState("");
+  const [isAdvanceId, setIsAdvanceId] = useState("");
   const [isQuotationId, setIsQuotationId] = useState("");
   const [isClientEmail, setIsClientEmail] = useState("");
   const [isClientAddress, setIsClientAddress] = useState("");
@@ -104,10 +106,19 @@ const CreateBills = () => {
         }
       );
       if (isBillType === "Unpaid") {
+        if (!isQuotationId) {
+          Swal.fire(`info`, `Client address is required!`, `info`);
+          return;
+        }
+        if (!values?.clientAddress) {
+          Swal.fire(`info`, `Client name is required!`, `info`);
+          return;
+        }
         if (isCgst) {
           const resData = await change(`bills`, {
             body: {
               billType: values?.billType,
+              quotationId: isQuotationId,
               clientEmail: values?.clientEmail,
               dueDate: new Date(values?.dueDate).toISOString(),
               clientAddress: values?.clientAddress,
@@ -156,11 +167,19 @@ const CreateBills = () => {
         return;
       }
       if (isBillType === "Paid") {
+        if (!values?.clientAddress) {
+          Swal.fire(`info`, `Client address is required!`, `info`);
+          return;
+        }
+        if (!isPaidId) {
+          Swal.fire(`info`, `Client name is required!`, `info`);
+          return;
+        }
         if (isCgst) {
           const resData = await change(`bills`, {
             body: {
               billType: values?.billType,
-              quotationId: isQuotationId,
+              quotationId: isPaidId,
               dueDate: null,
               clientEmail: values?.clientEmail,
               clientAddress: values?.clientAddress,
@@ -189,7 +208,7 @@ const CreateBills = () => {
         const res = await change(`bills`, {
           body: {
             billType: values?.billType,
-            quotationId: isQuotationId,
+            quotationId: isPaidId,
             dueDate: null,
             clientEmail: values?.clientEmail,
             clientAddress: values?.clientAddress,
@@ -211,11 +230,19 @@ const CreateBills = () => {
         return;
       }
       if (isBillType === "Advance") {
+        if (!values?.clientAddress) {
+          Swal.fire(`info`, `Client address is required!`, `info`);
+          return;
+        }
+        if (!isAdvanceId) {
+          Swal.fire(`info`, `Client name is required!`, `info`);
+          return;
+        }
         if (isCgst) {
           const resData = await change(`bills`, {
             body: {
               billType: values?.billType,
-              quotationId: isQuotationId,
+              quotationId: isAdvanceId,
               dueDate: null,
               clientEmail: values?.clientEmail,
               clientAddress: values?.clientAddress,
@@ -236,14 +263,14 @@ const CreateBills = () => {
             return;
           }
           //   router?.push("/admin/quotation/all-quotation");
-          Swal.fire(`Success`, `Quotation created successfully!`, `success`);
+          Swal.fire(`Success`, `Bill created successfully!`, `success`);
           return;
         }
         const res = await change(`bills`, {
           body: {
             billType: values?.billType,
             dueDate: null,
-            quotationId: isQuotationId,
+            quotationId: isAdvanceId,
             clientEmail: values?.clientEmail,
             clientAddress: values?.clientAddress,
             works: transformedArray,
@@ -485,6 +512,7 @@ const CreateBills = () => {
                             }
                             onChange={(e: any, r: any) => {
                               setFieldValue("quotationId", r?.id);
+                              setIsPaidId(r?.id);
                               setIsClientEmail(r?.email);
                               setIsClientAddress(r?.address);
                             }}
@@ -614,6 +642,7 @@ const CreateBills = () => {
                               clients?.filter((item) => !item?.isBlocked) || []
                             }
                             onChange={(e: any, r: any) => {
+                              setIsAdvanceId(r?.id);
                               setFieldValue("quotationId", r?.id);
                               setIsClientEmail(r?.email);
                               setIsClientAddress(r?.address);
@@ -634,6 +663,56 @@ const CreateBills = () => {
                               />
                             )}
                           />
+                        </div>
+                        <div className="grid md:grid-cols-2">
+                          <div className="md:px-4 px-2 md:py-2 py-1">
+                            <div className="md:py-2 py-1">
+                              <InputLabel htmlFor="clientEmail">
+                                Client Email{" "}
+                                <span className="text-red-600">*</span>
+                              </InputLabel>
+                            </div>
+                            <TextField
+                              fullWidth
+                              size="small"
+                              id="clientEmail"
+                              // placeholder="clientEmail"
+                              name="clientEmail"
+                              value={values.clientEmail}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              error={
+                                touched.clientEmail && !!errors.clientEmail
+                              }
+                              helperText={
+                                touched.clientEmail && errors.clientEmail
+                              }
+                            />
+                          </div>
+                          <div className="md:px-4 px-2 md:py-2 py-1">
+                            <div className="md:py-2 py-1">
+                              <InputLabel htmlFor="clientAddress">
+                                Client Address{" "}
+                                <span className="text-red-600">*</span>
+                              </InputLabel>
+                            </div>
+                            <TextField
+                              fullWidth
+                              size="small"
+                              id="clientAddress"
+                              // placeholder="clientAddress"
+                              name="clientAddress"
+                              value={values.clientAddress}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              error={
+                                touched.clientAddress && !!errors.clientAddress
+                              }
+                              helperText={
+                                touched.clientAddress && errors.clientAddress
+                              }
+                            />
+                          </div>
                         </div>
                       </div>
                     ) : null}
