@@ -349,13 +349,13 @@ const PageList = [
 	{
 		id: 21,
 		value: "/admin/leaves/all-leaves",
-		icon: <MedicalInformationRounded />,
+		icon: <ICONS.Employee_Leaves />,
 		name: "Employee Leaves",
 	},
 	{
 		id: 210,
 		value: "/admin/leaves/my-leaves",
-		icon: <MedicalInformationRounded />,
+		icon: <ICONS.Employee_Leaves />,
 		name: "My Leaves",
 	},
 	{

@@ -1,20 +1,17 @@
 import { Check } from "@mui/icons-material";
 import {
 	Autocomplete,
-	Box,
 	Button,
 	CircularProgress,
-	FormControlLabel,
 	InputLabel,
-	Radio,
-	RadioGroup,
 	TextField,
 } from "@mui/material";
 import { AdminBreadcrumbs, FileUpload } from "components/core";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
+import { User } from "types";
 import * as Yup from "yup";
 const initialValues = {
 	name: "",
@@ -63,8 +60,8 @@ const CreateAppointment = () => {
 	const [loading, setLoading] = useState(false);
 
 	const { change, isChanging } = useChange();
-	const { data: userData } = useFetch<any>(`users`);
-
+	const { data: userData } = useFetch<User[]>(`users`);
+	console.log(userData);
 	const handleSubmit = async (values: any) => {
 		console.log(values);
 	};
@@ -177,7 +174,7 @@ const CreateAppointment = () => {
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="address">
+												<InputLabel htmlFor="startDate">
 													Appointment Start Date{" "}
 													<span className="text-red-600">*</span>
 												</InputLabel>
@@ -186,19 +183,18 @@ const CreateAppointment = () => {
 												size="small"
 												fullWidth
 												type="date"
-												placeholder="Address"
-												id="address"
-												name="address"
-												value={values.address}
+												id="startDate"
+												name="startDate"
+												value={values.startDate}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.address && !!errors.address}
-												helperText={touched.address && errors.address}
+												error={touched.startDate && !!errors.startDate}
+												helperText={touched.startDate && errors.startDate}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="address">
+												<InputLabel htmlFor="endDate">
 													Appointment End Date{" "}
 													<span className="text-red-600">*</span>
 												</InputLabel>
@@ -207,19 +203,18 @@ const CreateAppointment = () => {
 												size="small"
 												fullWidth
 												type="date"
-												placeholder="Address"
-												id="address"
-												name="address"
-												value={values.address}
+												id="endDate"
+												name="endDate"
+												value={values.endDate}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.address && !!errors.address}
-												helperText={touched.address && errors.address}
+												error={touched.endDate && !!errors.endDate}
+												helperText={touched.endDate && errors.endDate}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="address">
+												<InputLabel htmlFor="startTime">
 													Appointment Start Time{" "}
 													<span className="text-red-600">*</span>
 												</InputLabel>
@@ -228,19 +223,18 @@ const CreateAppointment = () => {
 												size="small"
 												fullWidth
 												type="time"
-												placeholder="Address"
-												id="address"
-												name="address"
-												value={values.address}
+												id="startTime"
+												name="startTime"
+												value={values.startTime}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.address && !!errors.address}
-												helperText={touched.address && errors.address}
+												error={touched.startTime && !!errors.startTime}
+												helperText={touched.startTime && errors.startTime}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="address">
+												<InputLabel htmlFor="endTime">
 													Appointment End Time{" "}
 													<span className="text-red-600">*</span>
 												</InputLabel>
@@ -249,14 +243,13 @@ const CreateAppointment = () => {
 												size="small"
 												fullWidth
 												type="time"
-												placeholder="Address"
-												id="address"
-												name="address"
-												value={values.address}
+												id="endTime"
+												name="endTime"
+												value={values.endTime}
 												onChange={handleChange}
 												onBlur={handleBlur}
-												error={touched.address && !!errors.address}
-												helperText={touched.address && errors.address}
+												error={touched.endTime && !!errors.endTime}
+												helperText={touched.endTime && errors.endTime}
 											/>
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
@@ -270,35 +263,14 @@ const CreateAppointment = () => {
 												size="small"
 												id="assignedUserId"
 												options={userData || []}
-												getOptionLabel={(option: any) =>
-													option.name ? option.name : ""
-												}
-												isOptionEqualToValue={(option, value) =>
-													option.id === value.userId
-												}
-												value={
-													values?.assignedUserId
-														? userData?.find(
-																(option: any) =>
-																	option.id === values.assignedUserId
-														  )
-														: {}
-												}
-												onChange={(e: any, r: any) => {
+												onChange={(e, r) => {
 													setFieldValue("assignedUserId", r?.id);
 												}}
-												renderOption={(props, option) => (
-													<Box
-														component="li"
-														sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-														{...props}
-													>
-														{option.name}
-													</Box>
-												)}
+												getOptionLabel={(option: any) => option.name}
 												renderInput={(params) => (
 													<TextField
 														{...params}
+														// label="Role"
 														placeholder="Name"
 														onBlur={handleBlur}
 														error={
@@ -324,7 +296,7 @@ const CreateAppointment = () => {
 												size="small"
 												id="status"
 												options={Status_Type || []}
-												onChange={(e: any, r: any) => {
+												onChange={(e, r) => {
 													setFieldValue("status", r?.id);
 												}}
 												getOptionLabel={(option: any) => option.name}
