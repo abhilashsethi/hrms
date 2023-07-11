@@ -13,3 +13,4 @@ export { default as ProjectManagerDashboardCharts } from "./ProjectManagerDashbo
 export { default as AccountantDashboardCards } from "./AccountantDashboardCards";
 export { default as AccountantDashboardCharts } from "./AccountantDashboardCharts";
 export { default as BidManagerDashboardCards } from "./BidManagerDashboardCards";
+export { default as BidManagerDashboardCharts } from "./BidManagerDashboardCharts";

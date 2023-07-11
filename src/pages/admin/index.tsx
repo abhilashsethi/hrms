@@ -4,6 +4,7 @@ import {
   AccountantDashboardCards,
   AccountantDashboardCharts,
   BidManagerDashboardCards,
+  BidManagerDashboardCharts,
   MainClientDashboardCards,
   MainClientDashboardCharts,
   MainEmployeeDashboardCards,
@@ -122,7 +123,7 @@ const AdminHome = () => {
                 <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <section className="lg:px-8 px-4 py-4">
                   <BidManagerDashboardCards data={""} />
-                  <ProjectManagerDashboardCharts data={""} />
+                  <BidManagerDashboardCharts data={""} />
                 </section>
               </>
             )}
