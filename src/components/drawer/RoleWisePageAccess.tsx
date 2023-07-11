@@ -119,42 +119,30 @@ const MoreOption = ({ item, roleId }: any) => {
 		});
 	};
 	const handleDelete = async (data: any, roleData: any) => {
-		Swal.fire({
-			title: "Are you sure?",
-			text: `You want to Remove Access?`,
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, Remove!",
-		}).then(async (result) => {
-			if (result.isConfirmed) {
-				setLoading(true);
-				try {
-					Swal.fire("", "Please Wait...", "info");
-					const res = await change(`roles/removePage/${roleData?.id}`, {
-						method: "DELETE",
-						body: { pageId: data?.pageId },
-					});
-					setLoading(false);
-					if (res?.status !== 200) {
-						Swal.fire(
-							"Error",
-							res?.results?.msg || "Something went wrong!",
-							"error"
-						);
-						setLoading(false);
-						return;
-					}
-					Swal.fire(`Success`, `Access Removed Successfully!`, `success`);
-					mutate();
-					return;
-				} catch (error) {
-					console.log(error);
-					setLoading(false);
-				}
+		setLoading(true);
+		try {
+			Swal.fire("", "Please Wait...", "info");
+			const res = await change(`roles/removePage/${roleData?.id}`, {
+				method: "DELETE",
+				body: { pageId: data?.pageId },
+			});
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire(
+					"Error",
+					res?.results?.msg || "Something went wrong!",
+					"error"
+				);
+				setLoading(false);
+				return;
 			}
-		});
+			Swal.fire(`Success`, `Access Removed Successfully!`, `success`);
+			mutate();
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		}
 	};
 	return (
 		<>
@@ -661,6 +649,12 @@ const PageList = [
 		value: "/admin/security/create-appointment",
 		icon: <ICONS.Change_Password />,
 		name: "Security Create Appointment",
+	},
+	{
+		id: 68,
+		value: "/admin/security/all-appointments",
+		icon: <ICONS.Change_Password />,
+		name: "Security All Appointments",
 	},
 
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
