@@ -1,8 +1,6 @@
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
 
 import { NoDatas } from "components/core";
-import moment from "moment";
-import Link from "next/link";
 interface Props {
   data?: any;
 }
