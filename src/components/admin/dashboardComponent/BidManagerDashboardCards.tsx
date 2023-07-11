@@ -110,32 +110,7 @@ const BidManagerDashboardCards = ({ data }: Props) => {
       link: "/admin/support",
     },
   ];
-  const leave_status = [
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Pending",
-    },
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Approved",
-    },
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Approved",
-    },
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Approved",
-    },
-  ];
+
   return (
     <div className="flex gap-2 py-4">
       <div className="w-3/4 ">

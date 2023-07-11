@@ -55,13 +55,13 @@ const style = {
   p: 4,
 };
 
-const ViewDocumentDrawer = ({ open, onClose, employData, setViewDocument }: Props) => {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [activeId, setActiveId] = useState<any>();
+const ViewDocumentDrawer = ({
+  open,
+  onClose,
+  employData,
+  setViewDocument,
+}: Props) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedUser, setSelectedUser] = useState<string | null>(null);
-  const [searchedUser, setSearchedUser] = useState<any>([]);
   const [activeDocLink, setActiveDocLink] = useState<any>();
 
   const [openInfoModal, setOpenInfoModal] = useState(false);
@@ -71,14 +71,6 @@ const ViewDocumentDrawer = ({ open, onClose, employData, setViewDocument }: Prop
   const handleInfoCloseModal = () => setOpenInfoModal(false);
 
   const { data: users, isLoading } = useFetch<User[]>(`users`);
-  useEffect(() => {
-    if (users) {
-      const filtered = users.filter((user) =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setSearchedUser(filtered);
-    }
-  }, [users, searchTerm]);
 
   const [getDocument, setGetDocument] = useState<boolean>(false);
 
@@ -196,8 +188,8 @@ const ViewDocumentDrawer = ({ open, onClose, employData, setViewDocument }: Prop
                           item?.docType === "pdf"
                             ? PDF.src
                             : item?.docType === "img"
-                              ? IMG.src
-                              : DOC.src
+                            ? IMG.src
+                            : DOC.src
                         }
                         alt=""
                       />
