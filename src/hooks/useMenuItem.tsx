@@ -163,6 +163,12 @@ export default () => {
 					icon: <ICONS.All_Guests />,
 					route: "/admin/security/shift-config",
 				},
+				{
+					key: "13AS-4",
+					title: "Create Appointment",
+					icon: <ICONS.All_Guests />,
+					route: "/admin/security/create-appointment",
+				},
 			],
 		},
 		{
