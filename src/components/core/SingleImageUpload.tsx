@@ -2,12 +2,18 @@ import { CloudUpload } from "@mui/icons-material";
 import React, { useRef } from "react";
 
 interface Props {
+  message?: string;
   values?: any;
   setImageValue?: any;
   children?: JSX.Element;
 }
 
-const SingleImageUpload = ({ values, setImageValue, children }: Props) => {
+const SingleImageUpload = ({
+  values,
+  setImageValue,
+  children,
+  message,
+}: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleClick = () => {
     if (inputRef.current) {
@@ -41,7 +47,7 @@ const SingleImageUpload = ({ values, setImageValue, children }: Props) => {
           )}
         </div>
         <p>Upload Image (200 * 300)</p>
-        <p>Maximum size : 200kb</p>
+        <p>{message ? message : "Maximum size : 200kb"}</p>
         <CloudUpload fontSize="large" color="primary" />
       </div>
     </div>

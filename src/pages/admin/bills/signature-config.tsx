@@ -1,6 +1,7 @@
-import { Settings } from "@mui/icons-material";
+import { Add, Settings } from "@mui/icons-material";
 import { Button, CircularProgress } from "@mui/material";
 import { AdminBreadcrumbs, FileUpload } from "components/core";
+import { AddSignatureConfig } from "components/dialogues";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -20,12 +21,13 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignatureConfig = () => {
+  const [isSignature, setIsSignature] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const {
     data: bankData,
     mutate,
     isLoading,
-  } = useFetch<QuotationBank[]>(`quotations/get-all/accounts`);
+  } = useFetch<QuotationBank[]>(`bills/get-all`);
   console.log(bankData);
   const handleSubmit = async (values: any) => {
     console.log(values);
@@ -33,64 +35,27 @@ const SignatureConfig = () => {
 
   return (
     <PanelLayout title="GST configure - Admin Panel">
+      <AddSignatureConfig
+        open={isSignature}
+        handleClose={() => setIsSignature(false)}
+        mutate={mutate}
+      />
       <section className="lg:px-8 px-2 lg:py-4 py-2">
-        <div className="px-2 lg:px-0">
+        <div className="flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
+          <Button
+            size="small"
+            className="!bg-theme"
+            variant="contained"
+            startIcon={<Add />}
+            onClick={() => {
+              setIsSignature(true);
+            }}
+          >
+            ADD SIGNATURE
+          </Button>
         </div>
-        <section className="w-full px-0 lg:py-4 py-2 flex justify-center items-center">
-          <div className="lg:p-6 p-2 lg:w-2/4 w-full rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              enableReinitialize={true}
-              onSubmit={handleSubmit}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                setFieldValue,
-              }) => (
-                <Form>
-                  <h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
-                    Signature Configuration
-                  </h1>
-
-                  <div className="grid lg:grid-cols-1">
-                    <FileUpload
-                      title="Upload Signature "
-                      values={values}
-                      setImageValue={(event: any) => {
-                        setFieldValue("image", event.currentTarget.files[0]);
-                      }}
-                    >
-                      <ErrorMessage name="image" />
-                    </FileUpload>
-                  </div>
-                  <div className="flex justify-center lg:py-4 py-2">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="!bg-theme"
-                      disabled={loading}
-                      startIcon={
-                        loading ? (
-                          <CircularProgress size={20} color="warning" />
-                        ) : (
-                          <Settings />
-                        )
-                      }
-                    >
-                      CONFIGURE
-                    </Button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </section>
+        <section className="w-full px-0 lg:py-4 py-2 flex justify-center items-center"></section>
       </section>
     </PanelLayout>
   );
