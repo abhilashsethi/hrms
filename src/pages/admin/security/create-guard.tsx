@@ -26,6 +26,8 @@ const initialValues = {
 	agencyAddress: "",
 	agencyName: "",
 	shift: "",
+	roleId: "",
+	departmentId: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -62,14 +64,17 @@ const validationSchema = Yup.object().shape({
 	agencyName: Yup.string().required("Required!"),
 	joiningDate: Yup.string().required("Required!"),
 	shift: Yup.string().required("Required!"),
+	roleId: Yup.string().required("Required!"),
+	departmentId: Yup.string().required("Required!"),
 });
 
 const CreateGuard = () => {
 	// const theme = useTheme();
 	const [loading, setLoading] = useState(false);
 	const [isSecurityAgency, setIsSecurityAgency] = useState(true);
-
 	const { data: branchData } = useFetch<any>(`branches`);
+	const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
+	const { data: departmentsData } = useFetch<any>(`departments`);
 	const { change, isChanging } = useChange();
 	const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setIsSecurityAgency(event.target.value === "YES");
@@ -164,8 +169,27 @@ const CreateGuard = () => {
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
+												<InputLabel htmlFor="joiningDate">
+													Joining Date <span className="text-red-600">*</span>
+												</InputLabel>
+											</div>
+											<TextField
+												size="small"
+												fullWidth
+												type="date"
+												id="joiningDate"
+												name="joiningDate"
+												value={values.joiningDate}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.joiningDate && !!errors.joiningDate}
+												helperText={touched.joiningDate && errors.joiningDate}
+											/>
+										</div>
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
 												<InputLabel htmlFor="employeeOfBranchId">
-													Shift <span className="text-red-600">*</span>
+													Branch <span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
 
@@ -192,6 +216,66 @@ const CreateGuard = () => {
 															touched.employeeOfBranchId &&
 															errors.employeeOfBranchId
 														}
+													/>
+												)}
+											/>
+										</div>
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="departmentId">
+													Department Name{" "}
+													<span className="text-red-600">*</span>
+												</InputLabel>
+											</div>
+											<Autocomplete
+												fullWidth
+												size="small"
+												id="departmentId"
+												options={departmentsData || []}
+												onChange={(e: any, r: any) => {
+													setFieldValue("departmentId", r?.id);
+												}}
+												getOptionLabel={(option: any) => option.name}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														// label="Department Name"
+														placeholder="Department Name"
+														onBlur={handleBlur}
+														error={
+															touched.departmentId && !!errors.departmentId
+														}
+														helperText={
+															touched.departmentId && errors.departmentId
+														}
+													/>
+												)}
+											/>
+										</div>
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="role">
+													Role <span className="text-red-600">*</span>
+												</InputLabel>
+											</div>
+
+											<Autocomplete
+												fullWidth
+												size="small"
+												id="roleId"
+												options={roleData || []}
+												onChange={(e: any, r: any) => {
+													setFieldValue("roleId", r?.id);
+												}}
+												getOptionLabel={(option: any) => option.name}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														// label="Role"
+														placeholder="Role"
+														onBlur={handleBlur}
+														error={touched.roleId && !!errors.roleId}
+														helperText={touched.roleId && errors.roleId}
 													/>
 												)}
 											/>
@@ -236,6 +320,36 @@ const CreateGuard = () => {
 												helperText={touched.phone && errors.phone}
 											/>
 										</div>
+
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<div className="py-2">
+												<InputLabel htmlFor="shift">
+													Shift <span className="text-red-600">*</span>
+												</InputLabel>
+											</div>
+
+											<Autocomplete
+												fullWidth
+												size="small"
+												id="shift"
+												options={Shift_Type || []}
+												onChange={(e: any, r: any) => {
+													setFieldValue("shift", r?.id);
+												}}
+												getOptionLabel={(option: any) => option.name}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														// label="Role"
+														placeholder="Shift"
+														onBlur={handleBlur}
+														error={touched.shift && !!errors.shift}
+														helperText={touched.shift && errors.shift}
+													/>
+												)}
+											/>
+										</div>
+
 										<div className="my-3 px-4">
 											<p className="text-gray-500">
 												Security Agency
@@ -310,55 +424,6 @@ const CreateGuard = () => {
 													</div>
 												</>
 											) : null}
-										</div>
-
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="joiningDate">
-													Joining Date <span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												type="date"
-												id="joiningDate"
-												name="joiningDate"
-												value={values.joiningDate}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.joiningDate && !!errors.joiningDate}
-												helperText={touched.joiningDate && errors.joiningDate}
-											/>
-										</div>
-
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="shift">
-													Shift <span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
-
-											<Autocomplete
-												fullWidth
-												size="small"
-												id="shift"
-												options={Shift_Type || []}
-												onChange={(e: any, r: any) => {
-													setFieldValue("shift", r?.id);
-												}}
-												getOptionLabel={(option: any) => option.name}
-												renderInput={(params) => (
-													<TextField
-														{...params}
-														// label="Role"
-														placeholder="Shift"
-														onBlur={handleBlur}
-														error={touched.shift && !!errors.shift}
-														helperText={touched.shift && errors.shift}
-													/>
-												)}
-											/>
 										</div>
 									</div>
 									<div className="flex justify-center md:py-4 py-2">

@@ -149,7 +149,7 @@ export default () => {
 					key: "13AS-1",
 					title: "Dashboard",
 					icon: <ICONS.Dashboard_1 />,
-					route: "/admin/gusests",
+					route: "/admin/security",
 				},
 				{
 					key: "13AS-2",

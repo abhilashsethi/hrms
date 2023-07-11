@@ -3,6 +3,7 @@ import {
 	QuotationDashboardCard,
 	QuotationDashboardCharts,
 } from "components/admin/quotation";
+import { SecurityDashboardCard } from "components/admin/security";
 import { AdminBreadcrumbs } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -21,7 +22,7 @@ const index = () => {
 						<DashboardSkeletonLoading />
 					) : (
 						<>
-							<QuotationDashboardCard data={dashboardData} />
+							<SecurityDashboardCard data={dashboardData} />
 							<QuotationDashboardCharts data={dashboardData} />
 						</>
 					)}
