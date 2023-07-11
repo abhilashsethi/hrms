@@ -372,7 +372,11 @@ export default CreateAppointment;
 
 const links = [
 	{ id: 1, page: "Security", link: "/admin/security" },
-	{ id: 2, page: "Create Guard", link: "/admin/security/create-guard" },
+	{
+		id: 2,
+		page: "Create Appointment",
+		link: "/admin/security/create-appointment",
+	},
 ];
 const Status_Type = [
 	{

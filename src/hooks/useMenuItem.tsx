@@ -169,6 +169,12 @@ export default () => {
 					icon: <ICONS.All_Guests />,
 					route: "/admin/security/create-appointment",
 				},
+				{
+					key: "13AS-5",
+					title: "All Appointments",
+					icon: <ICONS.All_Guests />,
+					route: "/admin/security/all-appointments",
+				},
 			],
 		},
 		{
