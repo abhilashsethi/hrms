@@ -1,12 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import {
-	Add,
-	Close,
-	Delete,
-	Leaderboard,
-	MedicalInformationRounded,
-	Security,
-} from "@mui/icons-material";
+import { Add, Close, Delete, Security } from "@mui/icons-material";
 import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
 import { PageAccessSkeleton } from "components/admin/roles";

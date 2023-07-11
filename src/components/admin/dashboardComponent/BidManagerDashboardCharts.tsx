@@ -1,7 +1,6 @@
 import { TENDERCARD } from "assets/home";
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
 
-import { NoDatas } from "components/core";
 import { useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
@@ -10,11 +9,6 @@ interface Props {
   data?: any;
 }
 const BidManagerDashboardCharts = ({ data }: Props) => {
-  const getMonthName = (monthNumber: any) => {
-    const date = new Date();
-    date.setMonth(monthNumber - 1);
-    return date.toLocaleString("default", { month: "long" });
-  };
   const { data: tenderData } = useFetch<Tender[]>(`tenders`);
   return (
     <div className="w-full">
@@ -37,7 +31,7 @@ const BidManagerDashboardCharts = ({ data }: Props) => {
           {/* {data?.allLeaveCount?.length ? ( */}
           <GuestDonutChart
             labels={["Approved", "Pending", "Rejected"]}
-            series={["3", "4", "9"]}
+            series={[3, 4, 10]}
             text=""
             type="pie"
             colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
@@ -50,7 +44,7 @@ const BidManagerDashboardCharts = ({ data }: Props) => {
           <p className="text-lg font-bold text-center">This Month Attendance</p>
           <GuestDonutChart
             labels={["Present", "Absent"]}
-            series={["10", "20"]}
+            series={[15, 20]}
             text=""
             type="donut"
             colors={["#25d366", "#E60023"]}

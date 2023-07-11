@@ -15,6 +15,8 @@ import {
   MainManagerDashboardCharts,
   ProjectManagerDashboardCards,
   ProjectManagerDashboardCharts,
+  UserDashboardCards,
+  UserDashboardCharts,
 } from "components/admin/dashboardComponent";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -165,8 +167,8 @@ const AdminHome = () => {
               <>
                 <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <section className="lg:px-8 px-4 py-4">
-                  <MainEmployeeDashboardCards data={developerDetails} />
-                  <MainEmployeeDashboardCharts data={developerDetails} />
+                  <UserDashboardCards data={developerDetails} />
+                  <UserDashboardCharts data={developerDetails} />
                 </section>
               </>
             )}

@@ -7,7 +7,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { AdminBreadcrumbs, LoaderAnime } from "components/core";
+import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import {
   AddSignatureConfig,
   UpdateSignatureConfig,
@@ -30,7 +30,7 @@ const SignatureConfig = () => {
     isLoading,
   } = useFetch<Props[]>(`signatures/get-all`);
   return (
-    <PanelLayout title="GST configure - Admin Panel">
+    <PanelLayout title="Signature configure - Admin Panel">
       <AddSignatureConfig
         open={isSignature}
         handleClose={() => setIsSignature(false)}
@@ -51,22 +51,26 @@ const SignatureConfig = () => {
             ADD SIGNATURE
           </Button>
         </div>
-        <section className="w-full px-0 lg:py-4 py-2">
-          {signature?.length ? (
-            <div className="grid w-full lg:grid-cols-3 gap-4">
-              {signature?.map((item) => (
-                <CardContent
-                  key={item?.id}
-                  item={item}
-                  mutate={mutate}
-                  signature={signature}
-                />
-              ))}
-            </div>
-          ) : (
-            <LoaderAnime text="No Signature" />
-          )}
-        </section>
+        {isLoading ? (
+          <SkeletonLoader />
+        ) : (
+          <section className="w-full px-0 lg:py-4 py-2">
+            {signature?.length ? (
+              <div className="grid w-full lg:grid-cols-3 gap-4">
+                {signature?.map((item) => (
+                  <CardContent
+                    key={item?.id}
+                    item={item}
+                    mutate={mutate}
+                    signature={signature}
+                  />
+                ))}
+              </div>
+            ) : (
+              <LoaderAnime text="No Signature" />
+            )}
+          </section>
+        )}
       </section>
     </PanelLayout>
   );
