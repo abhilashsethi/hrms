@@ -20,16 +20,26 @@ import { Bills } from "types";
 
 const AllBills = () => {
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [open, setOpen] = useState(true);
-  const [meetingPerson, setMeetingPerson] = useState<string | null>(null);
-  const [meetingStatus, setMeetingStatus] = useState<string | null>(null);
+  const [clientName, setClientName] = useState<string | null>(null);
+  const [billNumber, setBillNumber] = useState<string | null>(null);
+  const [BillStatus, setBillStatus] = useState<string | null>(null);
   const [selectDate, setSelectDate] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
+  console.log({ selectDate });
   const {
     data: billData,
     mutate,
     isLoading,
     pagination,
-  } = useFetch<Bills[]>(`bills?page=${pageNumber}&limit=6`);
+  } = useFetch<Bills[]>(
+    `bills?page=${pageNumber}&limit=6${
+      clientName ? `&clientName=${clientName}` : ""
+    }${BillStatus ? `&billType=${BillStatus}` : ""}${
+      billNumber ? `&billNumber=${billNumber}` : ""
+    }${selectDate ? `&dueDate=${selectDate}` : ""}${
+      isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    }`
+  );
   return (
     <>
       <PanelLayout title="Bills - Admin Panel">
@@ -54,23 +64,29 @@ const AllBills = () => {
             >
               <IconButton
                 onClick={() => {
+                  setIsOrderBy(null);
                   setSelectDate(null);
-                  setMeetingStatus(null);
-                  setMeetingPerson(null);
+                  setBillStatus(null);
+                  setBillNumber(null);
+                  setClientName(null);
                 }}
               >
                 <Tooltip
                   title={
                     selectDate != null ||
-                    meetingStatus != null ||
-                    meetingPerson != null
+                    isOrderBy != null ||
+                    BillStatus != null ||
+                    clientName != null ||
+                    billNumber != null
                       ? `Remove Filters`
                       : `Filter`
                   }
                 >
                   {selectDate != null ||
-                  meetingStatus != null ||
-                  meetingPerson != null ? (
+                  isOrderBy != null ||
+                  clientName != null ||
+                  BillStatus != null ||
+                  billNumber != null ? (
                     <Close className={"!text-white"} />
                   ) : (
                     <FilterListRounded className={"!text-white"} />
@@ -84,9 +100,11 @@ const AllBills = () => {
                 size="small"
                 id="invoiceNumber"
                 placeholder="Invoice Number"
-                value={meetingPerson ? meetingPerson : null}
+                value={billNumber ? billNumber : null}
                 name="invoiceNumber"
-                onChange={(e) => setMeetingPerson(e.target.value)}
+                onChange={(e) => {
+                  setPageNumber(1), setBillNumber(e.target.value);
+                }}
               />
 
               <TextField
@@ -94,9 +112,11 @@ const AllBills = () => {
                 size="small"
                 id="clientName"
                 placeholder="Client Name"
-                value={meetingPerson ? meetingPerson : null}
+                value={clientName ? clientName : null}
                 name="clientName"
-                onChange={(e) => setMeetingPerson(e.target.value)}
+                onChange={(e) => {
+                  setPageNumber(1), setClientName(e.target.value);
+                }}
               />
 
               <TextField
@@ -104,8 +124,10 @@ const AllBills = () => {
                 select
                 label="Bill Type"
                 size="small"
-                value={meetingStatus ? meetingStatus : null}
-                onChange={(e) => setMeetingStatus(e?.target?.value)}
+                value={BillStatus ? BillStatus : null}
+                onChange={(e) => {
+                  setPageNumber(1), setBillStatus(e?.target?.value);
+                }}
               >
                 {status.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -117,6 +139,10 @@ const AllBills = () => {
                 fullWidth
                 size="small"
                 id="date"
+                label="Due Date"
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 placeholder="Select Date"
                 name="date"
                 type="date"
@@ -124,9 +150,28 @@ const AllBills = () => {
                   selectDate ? moment(selectDate).format("YYYY-MM-DD") : null
                 }
                 onChange={(e) => {
-                  setSelectDate(new Date(e.target.value).toISOString());
+                  {
+                    setPageNumber(1),
+                      setSelectDate(new Date(e.target.value).toISOString());
+                  }
                 }}
               />
+              <TextField
+                fullWidth
+                select
+                label="Ascending/Descending"
+                size="small"
+                value={isOrderBy ? isOrderBy : ""}
+                onChange={(e) => {
+                  setPageNumber(1), setIsOrderBy(e?.target?.value);
+                }}
+              >
+                {short.map((option) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </div>
           </div>
           {isLoading ? (
@@ -178,4 +223,10 @@ const status = [
 const links = [
   { id: 1, page: "Bills", link: "/admin/bills" },
   { id: 2, page: "All Bills", link: "/admin/bills/all-bills" },
+];
+const short = [
+  { id: 1, value: "name:asc", name: "Client Name Ascending" },
+  { id: 2, value: "name:desc", name: "Client Name Descending" },
+  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
+  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
