@@ -69,3 +69,4 @@ export { default as AddAdditionalBillDetails } from "./AddAdditionalBillDetails"
 export { default as EditBillTermsAndCondition } from "./EditBillTermsAndCondition";
 export { default as UpdateBankDetails } from "./UpdateBankDetails";
 export { default as AddSignatureConfig } from "./AddSignatureConfig";
+export { default as UpdateSignatureConfig } from "./UpdateSignatureConfig";

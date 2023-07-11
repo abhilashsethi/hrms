@@ -24,16 +24,8 @@ const BidManagerDashboardCharts = ({ data }: Props) => {
             This Year Tenders Overview
           </p>
           <GuestBarChart
-            labels={
-              data?.currentYearAttendance?.length
-                ? data?.currentYearAttendance?.map((item: any) => item?.month)
-                : []
-            }
-            data={
-              data?.currentYearAttendance?.length
-                ? data?.currentYearAttendance?.map((item: any) => item?.count)
-                : []
-            }
+            labels={["jan", "feb", "Jul", "mar", "apr"]}
+            data={["10", "2", "15", "2", "5"]}
             type="bar"
             text=""
           />
@@ -42,35 +34,23 @@ const BidManagerDashboardCharts = ({ data }: Props) => {
           <p className="text-lg font-bold text-center">
             This Year Leave Details
           </p>
-          {data?.allLeaveCount?.length ? (
-            <GuestDonutChart
-              labels={["Approved", "Pending", "Rejected"]}
-              series={["3", "4", "9"]}
-              text=""
-              type="pie"
-              colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
-            />
-          ) : (
+          {/* {data?.allLeaveCount?.length ? ( */}
+          <GuestDonutChart
+            labels={["Approved", "Pending", "Rejected"]}
+            series={["3", "4", "9"]}
+            text=""
+            type="pie"
+            colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
+          />
+          {/* ) : (
             <NoDatas title={"No Leave Taken"} />
-          )}
+          )} */}
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">This Month Attendance</p>
           <GuestDonutChart
-            labels={
-              data?.currentMonthPresentAndAbsent?.length
-                ? data?.currentMonthPresentAndAbsent?.map(
-                    (item: any) => item?.name
-                  )
-                : []
-            }
-            series={
-              data?.currentMonthPresentAndAbsent?.length
-                ? data?.currentMonthPresentAndAbsent?.map(
-                    (item: any) => item?.count
-                  )
-                : []
-            }
+            labels={["Present", "Absent"]}
+            series={["10", "20"]}
             text=""
             type="donut"
             colors={["#25d366", "#E60023"]}
@@ -88,7 +68,10 @@ const BidManagerDashboardCharts = ({ data }: Props) => {
                     (new Date(a?.createdAt) as any)
                 )
                 ?.map((item: any) => (
-                  <Link href={""} key={item?.id}>
+                  <Link
+                    href={`/admin/tenders/tender-details?id=${item?.id}`}
+                    key={item?.id}
+                  >
                     <div className="w-full h-full rounded-lg overflow-hidden shadow-sleek">
                       <div
                         className={`h-28 w-full flex justify-center items-center relative bg-[#76DCC7]`}

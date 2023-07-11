@@ -15,57 +15,71 @@ import * as yup from "yup";
 import { useState } from "react";
 import { useChange } from "hooks";
 import Swal from "sweetalert2";
-import { FileUpload, SingleImageUpload } from "components/core";
-import { uploadFile } from "utils";
-
+import {
+  FileUpload,
+  SingleImageUpdateBranch,
+  SingleImageUpload,
+} from "components/core";
+import { deleteFile, uploadFile } from "utils";
+interface Data {
+  id?: string;
+  name?: string;
+  link?: string;
+}
 interface Props {
   open: boolean;
   handleClose: () => void;
   mutate: () => void;
+  data?: Data;
 }
-const initialValues = {
-  name: "",
-  image: null,
-};
+
 const validationSchema = yup.object().shape({
   name: yup.string().required("Required!"),
   //   image: yup.string().required("Required!"),
-  image: yup
-    .mixed()
-    .required("Image is required!")
-    .test("fileSize", "Image size is too large", (value: any) => {
-      if (value) {
-        const maxSize = 5 * 1024 * 1024; // Maximum size in bytes (5MB)
-        return value.size <= maxSize;
-      }
-      return true;
-    })
-    .test("fileType", "Invalid file type", (value: any) => {
-      if (value) {
-        const supportedFormats = [
-          "image/jpeg",
-          "image/jpg",
-          "image/png",
-          "image/gif",
-          "image/svg+xml",
-        ];
-        return supportedFormats.includes(value.type);
-      }
-      return true;
-    }),
+  image: yup.mixed().required("Image is required!"),
 });
-const AddSignatureConfig = ({ open, handleClose, mutate }: Props) => {
+const AddSignatureConfig = ({ open, handleClose, mutate, data }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const handleSubmit = async (values: any) => {
     setLoading(true);
-    const uniId = values?.image?.type.split("/")[1].split("+")[0];
     try {
-      const url = await uploadFile(values?.image, `${Date.now()}.${uniId}`);
-      console.log(values?.image);
-      const name = values.name;
-      const res = await change(`signatures`, {
-        body: { link: url, name: name.charAt(0).toUpperCase() + name.slice(1) },
+      if (values?.image != data?.link) {
+        if (data?.link) {
+          await deleteFile(String(data?.link?.split("/").reverse()[0]));
+        }
+        const uniId = values?.image?.type.split("/")[1].split("+")[0];
+        const url = await uploadFile(values?.image, `${Date.now()}.${uniId}`);
+        console.log(values?.image);
+        const name = values.name;
+        const res = await change(`signatures/${data?.id}`, {
+          method: "PATCH",
+          body: {
+            link: url,
+            name: name,
+          },
+        });
+        setLoading(false);
+        if (res?.status !== 200) {
+          Swal.fire(
+            "Error",
+            res?.results?.msg || "Something went wrong!",
+            "error"
+          );
+          setLoading(false);
+          return;
+        }
+        mutate();
+        handleClose();
+        Swal.fire(`Success`, `Updated Successfully!`, `success`);
+        return;
+      }
+      const res = await change(`signatures/${data?.id}`, {
+        method: "PATCH",
+        body: {
+          link: data?.link,
+          name: values?.name,
+        },
       });
       setLoading(false);
       if (res?.status !== 200) {
@@ -79,7 +93,7 @@ const AddSignatureConfig = ({ open, handleClose, mutate }: Props) => {
       }
       mutate();
       handleClose();
-      Swal.fire(`Success`, `Created Successfully!`, `success`);
+      Swal.fire(`Success`, `Updated Successfully!`, `success`);
       return;
     } catch (error) {
       console.log(error);
@@ -88,7 +102,10 @@ const AddSignatureConfig = ({ open, handleClose, mutate }: Props) => {
       setLoading(false);
     }
   };
-
+  const initialValues = {
+    name: `${data?.name ? data?.name : ""}`,
+    image: data?.link ? data?.link : null,
+  };
   return (
     <Dialog
       onClose={handleClose}
@@ -100,7 +117,7 @@ const AddSignatureConfig = ({ open, handleClose, mutate }: Props) => {
         sx={{ p: 2, minWidth: "20rem !important" }}
       >
         <h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
-          Signature Configuration
+          Update Signature
         </h1>
         <IconButton
           aria-label="close"
@@ -155,15 +172,14 @@ const AddSignatureConfig = ({ open, handleClose, mutate }: Props) => {
                     <div className="md:py-2 py-1">
                       <InputLabel htmlFor="name">Upload Signature</InputLabel>
                     </div>
-                    <SingleImageUpload
+                    <SingleImageUpdateBranch
                       values={values}
-                      message={"Max Size - 5MB"}
                       setImageValue={(event: any) => {
                         setFieldValue("image", event.currentTarget.files[0]);
                       }}
                     >
                       <ErrorMessage name="image" />
-                    </SingleImageUpload>
+                    </SingleImageUpdateBranch>
                   </div>
                 </div>
                 <div className="flex justify-center lg:py-4 py-2">
@@ -176,11 +192,11 @@ const AddSignatureConfig = ({ open, handleClose, mutate }: Props) => {
                       loading ? (
                         <CircularProgress size={20} color="warning" />
                       ) : (
-                        <Settings />
+                        <Check />
                       )
                     }
                   >
-                    CONFIGURE
+                    UPDATE
                   </Button>
                 </div>
               </Form>
