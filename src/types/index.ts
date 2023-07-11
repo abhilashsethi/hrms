@@ -221,7 +221,12 @@ export type Leave = {
 	role?: string | undefined;
 	status?: string | undefined;
 	credit?: number | undefined;
+	user?: User;
+	createdAt?: Date;
+	updatedAt?: Date;
+	type?: string;
 };
+
 
 export type Client = {
 	id: string;
