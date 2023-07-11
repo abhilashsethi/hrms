@@ -1,19 +1,22 @@
-import { CurrencyRupee } from "@mui/icons-material";
+import { Check, CurrencyRupee, Download } from "@mui/icons-material";
+import { Button, CircularProgress } from "@mui/material";
 import { RenderIconRow } from "components/common";
 import {
 	AdminBreadcrumbs,
 	CopyClipboard,
 	HeadText,
 	PhotoViewer,
-	PhotoViewerSmall,
 } from "components/core";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { User } from "types";
 
 const ViewPayrollDetails = () => {
 	const router = useRouter();
+	const [loading, setLoading] = useState(false);
+	const { change } = useChange();
 	const { data: employData, mutate } = useFetch<User>(
 		`users/${router?.query?.id}`
 	);
@@ -277,6 +280,22 @@ const ViewPayrollDetails = () => {
 										))}
 									</div>
 								</div>
+							</div>
+							<div className="flex justify-center items-center w-full">
+								<Button
+									type="submit"
+									variant="contained"
+									className="!bg-theme"
+									disabled={loading}
+									startIcon={
+										loading ? <CircularProgress size={20} /> : <Download />
+									}
+								>
+									Download
+								</Button>
+								{/* <Button className="border !border-blue-600 hover:bg-blue-600 hover:text-white text-sm hover:font-semibold text-blue-600 px-7 py-1 rounded-md ease-in-out transition-all duration-300 w-64">
+									Download
+								</Button> */}
 							</div>
 						</div>
 					</div>
