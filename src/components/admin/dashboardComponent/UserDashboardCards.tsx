@@ -4,6 +4,7 @@ import {
   Email,
   EventAvailable,
   FactCheck,
+  Mail,
   PersonPin,
   QuestionAnswer,
   RecentActors,
@@ -16,15 +17,15 @@ import Link from "next/link";
 interface Props {
   data?: any;
 }
-const MainEmployeeDashboardCards = ({ data }: Props) => {
+const UserDashboardCards = ({ data }: Props) => {
   const cards = [
     {
       id: 1,
       color: "bg-[#bbcbff]",
-      icon: <AccountTree fontSize="medium" className="text-theme" />,
-      name: "Total Projects Involve",
+      icon: <Mail fontSize="medium" className="text-theme" />,
+      name: "Total Email",
       count: data?.totalInvolvedProjects || 0,
-      link: "/admin",
+      link: "/admin/email",
     },
     {
       id: 2,
@@ -38,7 +39,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       id: 3,
       color: "bg-[#f6c8ff]",
       icon: <WebAsset fontSize="medium" className="text-theme" />,
-      name: "Total Assets Assigned",
+      name: "Total Assets",
       count: data?.totalAssignAssetCount || 0,
       link: "/admin",
     },
@@ -46,7 +47,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       id: 4,
       color: "bg-[#feb76f]",
       icon: <QuestionAnswer fontSize="medium" className="text-theme" />,
-      name: "Total Chats",
+      name: "Total Leaves This Year",
       count: data?.totalChatCount || 0,
       link: "/admin",
     },
@@ -234,4 +235,4 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
   );
 };
 
-export default MainEmployeeDashboardCards;
+export default UserDashboardCards;

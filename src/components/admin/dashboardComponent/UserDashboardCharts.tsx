@@ -6,7 +6,7 @@ import Link from "next/link";
 interface Props {
   data?: any;
 }
-const MainEmployeeDashboardCharts = ({ data }: Props) => {
+const UserDashboardCharts = ({ data }: Props) => {
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
@@ -138,4 +138,4 @@ const MainEmployeeDashboardCharts = ({ data }: Props) => {
   );
 };
 
-export default MainEmployeeDashboardCharts;
+export default UserDashboardCharts;
