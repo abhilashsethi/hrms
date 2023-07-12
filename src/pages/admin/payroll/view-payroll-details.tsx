@@ -11,6 +11,7 @@ import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import { User } from "types";
 
 const ViewPayrollDetails = () => {
@@ -20,7 +21,7 @@ const ViewPayrollDetails = () => {
 	const { data: employData, mutate } = useFetch<User>(
 		`users/${router?.query?.id}`
 	);
-	// console.log(employData?.salaryInfoNewFields);
+	console.log(employData);
 
 	const Gross_Salary: any = employData?.grossSalary;
 	const New_Fields: any = employData?.salaryInfoNewFields;
@@ -187,6 +188,68 @@ const ViewPayrollDetails = () => {
 		// },
 	];
 
+	const handleSubmit = async () => {
+		setLoading(true);
+		try {
+			const res = await change(`payrolls/createPdf`, {
+				body: {
+					salaryMonth: new Date().toLocaleString("default", { month: "long" }),
+					companyName: "Searchingyard Software Pvt Ltd.",
+					employeeName: employData?.name,
+					employeeCode: employData?.employeeID,
+					employeeGrade: "A",
+					designation: employData?.role?.name,
+					hiringDate: "17 January 2023",
+					leaveBalance: "5",
+					dateOfSalaryRecieved: "17",
+					noOfWorkingDays: "20",
+					presentDays: "20",
+					PAN: "jkI989jkJK123",
+					bankName: "State Bank of India",
+					bankAcNo: "3245646465",
+					payslipNo: "9",
+					basicSalary: "2561",
+					HRA: "4547",
+					conveyance: "63985",
+					medicalAllowance: "24454",
+					specialAllowance: "565323",
+					employeerPfContribution: "565656",
+					employeerESIContribution: "78454",
+					KeyPerformanceIndex: "0.00",
+					OtherAllowlance: "0.00",
+					LeaveEncashment: "0.00",
+					CityAllowance: "0.00",
+					TrainingIncentive: "0.00",
+					EmployeeReferralBonus: "0.00",
+					Arrear: "0.00",
+					SalaryAdvance: "0.00",
+					InterestOfSalaryAdvance: "0.00",
+					OtherAdvance: "0.00",
+					PFEmployee: "936.00",
+					ESIEmployee: "130.00",
+					ProfessionalTax: "125.00",
+					IncomeTax: "0.00",
+					TotalEarnings: "18906.00",
+					TotalDeductions: "1191.00",
+					NetSalary: "17715.00",
+				},
+			});
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+				setLoading(false);
+				return;
+			}
+			Swal.fire(`Success`, `You have successfully Downloaded!`, `success`);
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
 		<PanelLayout title="PayRoll Details - Admin Panel">
 			<section className="md:px-8 px-2 md:py-4 py-2">
@@ -285,11 +348,12 @@ const ViewPayrollDetails = () => {
 								<Button
 									type="submit"
 									variant="contained"
-									className="!bg-theme"
+									className="!bg-theme hover:!scale-95 ease-in-out transition-all duration-300"
 									disabled={loading}
 									startIcon={
 										loading ? <CircularProgress size={20} /> : <Download />
 									}
+									onClick={() => handleSubmit()}
 								>
 									Download
 								</Button>
