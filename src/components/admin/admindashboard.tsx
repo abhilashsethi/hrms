@@ -97,7 +97,7 @@ const AdminDashboard = () => {
               <div className="flex justify-between px-8 flex-wrap">
                 {Quick_Access?.map((item, index) => {
                   return (
-                    <Tooltip title={item?.title}>
+                    <Tooltip key={index} title={item?.title}>
                       <Link
                         href={item?.link}
                         // onClick={item?.onClick}
@@ -186,7 +186,10 @@ const AdminDashboard = () => {
               <div className="flex justify-between gap-3 mb-7">
                 {project_cards?.map?.((item, i) => {
                   return (
-                    <div className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer border border-gray-600 text-center w-1/2 py-5 rounded-md bg-slate-200 shadow-lg">
+                    <div
+                      key={i}
+                      className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer border border-gray-600 text-center w-1/2 py-5 rounded-md bg-slate-200 shadow-lg"
+                    >
                       <p className={`text-xs  font-bold`}>{item?.title}</p>
                       <p className="text-md font-semibold">{item?.value}</p>
                     </div>
