@@ -173,11 +173,11 @@ const CreateBills = () => {
         return;
       }
       if (isBillType === "Paid") {
-        if (!values?.values?.clientGstNumber) {
+        if (!values?.clientGSTNumber) {
           Swal.fire(`info`, `GST Number is required!`, `info`);
           return;
         }
-        if (!values?.values?.text) {
+        if (!values?.text) {
           Swal.fire(`info`, `Terms and condition is required!`, `info`);
           return;
         }

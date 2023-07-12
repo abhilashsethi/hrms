@@ -31,7 +31,7 @@ const links = [
   { id: 1, page: "Bill", link: "/admin/bills" },
   {
     id: 2,
-    page: "Bill Details",
-    link: "/admin/bills/bill-details",
+    page: "All Bills",
+    link: "/admin/bills/all-bills",
   },
 ];
