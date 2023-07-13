@@ -167,6 +167,7 @@ const MoreOption = ({ item, mutate }: any) => {
 									</span>
 								</span>
 							</p>
+
 							<p className="text-gray-500 flex items-start">
 								<span className="group flex text-sm text-theme items-center justify-center gap-2">
 									<span className="group flex items-center justify-center gap-2">
@@ -184,38 +185,6 @@ const MoreOption = ({ item, mutate }: any) => {
 									</span>
 									<span className="text-gray-500">
 										{item?.Asset?.serialNumber || "---"}
-									</span>
-								</span>
-							</p>
-							<p className="text-gray-500 flex items-start">
-								<span className="group flex text-sm text-theme items-center justify-center gap-2">
-									<span className="group flex items-center justify-center gap-2">
-										<span className="font-semibold">Date Of Purchase </span>
-									</span>
-									<span className="text-gray-500">
-										{moment(item?.Asset?.dateOfPurchase?.$date).format(
-											"DD/MM/YYYY"
-										)}
-									</span>
-								</span>
-							</p>
-							<p className="text-sm text-slate-600 font-medium flex items-center gap-3">
-								<span className="group flex text-sm text-theme items-center justify-center gap-2">
-									<span className="group flex items-center justify-center gap-2">
-										<span className="font-semibold">Bill amount </span>
-									</span>
-									<span className="text-gray-500">
-										{item?.Asset?.billAmount}
-									</span>
-								</span>
-							</p>
-							<p className="text-sm text-slate-600 font-medium flex items-center gap-3">
-								<span className="group flex text-sm text-theme items-center justify-center gap-2">
-									<span className="group flex items-center justify-center gap-2">
-										<span className="font-semibold">Current Market Price </span>
-									</span>
-									<span className="text-gray-500">
-										{item?.Asset?.marketPrice}
 									</span>
 								</span>
 							</p>
