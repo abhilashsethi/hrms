@@ -59,7 +59,6 @@ const PersonalInformations = ({
       /^(https?:\/\/)?(www\.)?github\.com\/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*\/?$/,
       "Invalid GitHub profile link"
     ),
-    uanNo: Yup.string().required("UAN number is required"),
   });
   const handleSubmit = async (values: any) => {
     setLoading(true);
@@ -139,9 +138,7 @@ const PersonalInformations = ({
                     <div className="grid lg:grid-cols-2 gap-4">
                       {/* name */}
                       <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Pan No <span className="text-red-600">*</span>
-                        </p>
+                        <p className="text-theme font-semibold my-2">Pan No</p>
                         <TextField
                           fullWidth
                           size="small"
@@ -156,9 +153,7 @@ const PersonalInformations = ({
                       </div>
                       {/* gmail */}
                       <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Gmail <span className="text-red-600">*</span>
-                        </p>
+                        <p className="text-theme font-semibold my-2">Gmail</p>
                         <TextField
                           fullWidth
                           size="small"
@@ -174,7 +169,7 @@ const PersonalInformations = ({
                       {/* Aadhar No */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Aadhar No <span className="text-red-600">*</span>
+                          Aadhar No
                         </p>
                         <TextField
                           name="aadharNo"
