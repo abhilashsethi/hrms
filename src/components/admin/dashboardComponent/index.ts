@@ -16,3 +16,5 @@ export { default as BidManagerDashboardCards } from "./BidManagerDashboardCards"
 export { default as BidManagerDashboardCharts } from "./BidManagerDashboardCharts";
 export { default as UserDashboardCards } from "./UserDashboardCards";
 export { default as UserDashboardCharts } from "./UserDashboardCharts";
+export { default as BidDashboardCards } from "./BidDashboardCards";
+export { default as BidDashboardCharts } from "./BidDashboardCharts";

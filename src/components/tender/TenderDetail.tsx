@@ -1,25 +1,25 @@
-import { Add, Delete, Download, Edit, Print } from "@mui/icons-material";
+import { Add, Delete, Download, Edit } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import { CHATDOC } from "assets/home";
+import { Loader } from "components/core";
 import {
   AddTenderDocument,
   UpdateTenderBasicDetails,
   UpdateTenderDocument,
   UpdateTenderEMDDetails,
-  UpdateTenderFeeDetails
+  UpdateTenderFeeDetails,
 } from "components/dialogues";
-import { useAuth, useChange } from "hooks";
+import { useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
 import { deleteFile } from "utils";
 import TenderLayout from "./TenderLayout";
-import { Loader } from "components/core";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;
-  isLoading?: boolean
+  isLoading?: boolean;
 }
 interface TenderDoc {
   link?: any;
@@ -30,8 +30,9 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
   const { change } = useChange();
   const basicDetails = [
     {
-      id: 1, title: "Tender No",
-      value: tenderData?.tenderNo || "---"
+      id: 1,
+      title: "Tender No",
+      value: tenderData?.tenderNo || "---",
     },
     {
       id: 2,
@@ -73,7 +74,7 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
     {
       id: 2,
       title: "Payment Mode",
-      value: tenderData?.feesPaymentMode || "---"
+      value: tenderData?.feesPaymentMode || "---",
     },
   ];
   const emdFees = [
@@ -85,12 +86,16 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
     {
       id: 4,
       title: "EMD Amount in ₹",
-      value: tenderData?.isEmdExemption ? "Not available" : tenderData?.EmdAmount || "---",
+      value: tenderData?.isEmdExemption
+        ? "Not available"
+        : tenderData?.EmdAmount || "---",
     },
     {
       id: 2,
       title: "Payment Mode",
-      value: tenderData?.isEmdExemption ? "Not available" : tenderData?.EmdPaymentMode || "---",
+      value: tenderData?.isEmdExemption
+        ? "Not available"
+        : tenderData?.EmdPaymentMode || "---",
     },
   ];
   const [isUpdate, setIsUpdate] = useState<{
@@ -126,9 +131,12 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`tenders/remove/document?tenderId=${tenderData?.id}&docId=${item?.id}`, {
-            method: "DELETE",
-          });
+          const res = await change(
+            `tenders/remove/document?tenderId=${tenderData?.id}&docId=${item?.id}`,
+            {
+              method: "DELETE",
+            }
+          );
           if (item?.id) {
             await deleteFile(String(item?.link?.split("/").reverse()[0]));
           }
@@ -189,9 +197,12 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
         <TenderLayout title="Basic Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
-              <IconButton size="small" onClick={() => {
-                setIsUpdate({ dialogue: true, tenderData: tenderData });
-              }}>
+              <IconButton
+                size="small"
+                onClick={() => {
+                  setIsUpdate({ dialogue: true, tenderData: tenderData });
+                }}
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -226,9 +237,12 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
         <TenderLayout title="Tender Fee Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
-              <IconButton size="small" onClick={() => {
-                setIsFeeDetails({ dialogue: true, tenderData: tenderData });
-              }}>
+              <IconButton
+                size="small"
+                onClick={() => {
+                  setIsFeeDetails({ dialogue: true, tenderData: tenderData });
+                }}
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -255,9 +269,12 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
         <TenderLayout title="EMD Fee Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
             <Tooltip title="Edit">
-              <IconButton size="small" onClick={() => {
-                setIsEmdDetails({ dialogue: true, tenderData: tenderData });
-              }}>
+              <IconButton
+                size="small"
+                onClick={() => {
+                  setIsEmdDetails({ dialogue: true, tenderData: tenderData });
+                }}
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -290,7 +307,8 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
                 className="!bg-theme"
                 onClick={() => {
                   setIsDocument({ dialogue: true, tenderData: tenderData });
-                }}>
+                }}
+              >
                 Add Document
               </Button>
             </div>
@@ -304,7 +322,7 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
                   <th className="w-[30%] text-sm border-r-2">Document</th>
                   <th className="w-[20%] text-sm">Actions</th>
                 </tr>
-                {tenderData?.documents?.length ?
+                {tenderData?.documents?.length ? (
                   <>
                     {tenderData?.documents?.map((item, index) => (
                       <tr key={item?.id} className="border-b-2">
@@ -314,10 +332,16 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
                         >
                           {Number(index) + 1}
                         </td>
-                        <td align="center" className="w-[40%] text-sm border-r-2">
+                        <td
+                          align="center"
+                          className="w-[40%] text-sm border-r-2"
+                        >
                           {item?.title}
                         </td>
-                        <td align="center" className="w-[30%] text-sm border-r-2">
+                        <td
+                          align="center"
+                          className="w-[30%] text-sm border-r-2"
+                        >
                           <div className="flex gap-2 items-center justify-center">
                             <img
                               className="h-6 object-contain"
@@ -343,18 +367,21 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
                               </a>
                             </Tooltip>
                             <Tooltip title="Edit Document">
-                              <IconButton size="small"
+                              <IconButton
+                                size="small"
                                 onClick={() => {
-                                  setIsUpdateDocument({ dialogue: true, tenderData: item });
-                                }}>
+                                  setIsUpdateDocument({
+                                    dialogue: true,
+                                    tenderData: item,
+                                  });
+                                }}
+                              >
                                 <Edit />
                               </IconButton>
                             </Tooltip>
                             <Tooltip title="Delete Document">
                               <IconButton size="small">
-                                <Delete
-                                  onClick={() => handleDelete(item)}
-                                />
+                                <Delete onClick={() => handleDelete(item)} />
                               </IconButton>
                             </Tooltip>
                           </div>
@@ -362,13 +389,13 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
                       </tr>
                     ))}
                   </>
-                  :
+                ) : (
                   <tr>
                     <td colSpan={4} className="flex justify-center px-2 py-6">
                       No Document
                     </td>
                   </tr>
-                }
+                )}
               </tbody>
             </table>
           </div>
@@ -379,4 +406,3 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
 };
 
 export default TenderDetail;
-

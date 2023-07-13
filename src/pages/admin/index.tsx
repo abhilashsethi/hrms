@@ -3,6 +3,8 @@ import { DashboardSkeletonLoading } from "components/admin/assets";
 import {
   AccountantDashboardCards,
   AccountantDashboardCharts,
+  BidDashboardCards,
+  BidDashboardCharts,
   BidManagerDashboardCards,
   BidManagerDashboardCharts,
   MainClientDashboardCards,
@@ -126,6 +128,20 @@ const AdminHome = () => {
                 <section className="lg:px-8 px-4 py-4">
                   <BidManagerDashboardCards data={""} />
                   <BidManagerDashboardCharts data={""} />
+                </section>
+              </>
+            )}
+          </>
+        ) : user?.role?.name === "BID" ? (
+          <>
+            {isLoading ? (
+              <DashboardSkeletonLoading />
+            ) : (
+              <>
+                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                <section className="lg:px-8 px-4 py-4">
+                  <BidDashboardCards data={""} />
+                  <BidDashboardCharts data={""} />
                 </section>
               </>
             )}
