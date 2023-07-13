@@ -1,4 +1,4 @@
-import { Check, CurrencyRupee, Download } from "@mui/icons-material";
+import { CurrencyRupee, Download } from "@mui/icons-material";
 import { Button, CircularProgress } from "@mui/material";
 import { RenderIconRow } from "components/common";
 import {
@@ -25,7 +25,7 @@ const ViewPayrollDetails = () => {
 
 	const Gross_Salary: any = employData?.grossSalary;
 	const New_Fields: any = employData?.salaryInfoNewFields;
-	// console.log(New_Fields);
+	console.log(New_Fields);
 
 	const { data: configData, mutate: payRollMutate } = useFetch<any>(
 		`payrolls/getAllPayrollConfigs`
@@ -124,27 +124,30 @@ const ViewPayrollDetails = () => {
 			name: "Professional Tax",
 			count: `${Gross_Salary ? Professional_Tax?.tax : "---"}`,
 		},
-		{ id: 2, name: "TDS", count: `${Gross_Salary ? Tds_Monthly : "---"}` },
+		{ id: 3, name: "TDS", count: `${Gross_Salary ? Tds_Monthly : "---"}` },
 		{
-			id: 2,
+			id: 4,
 			name: "Total Deduction",
 			count: `${Gross_Salary ? Total_Deduction : "---"}`,
 		},
 		{
-			id: 2,
+			id: 5,
 			name: "Net Salary",
 			count: `${Gross_Salary ? Gross_Salary - Total_Deduction : "---"}`,
 		},
-		{
-			id: 2,
-			name: `${
-				New_Fields ? New_Fields?.map((item: any) => item?.title) : null
-			}`,
-			count: `${
-				New_Fields ? New_Fields?.map((item: any) => item?.value) : null
-			}`,
-		},
+		// New_Fields?.length
+		// 	? {
+		// 			id: 6,
+		// 			name: `${
+		// 				New_Fields ? New_Fields?.map((item: any) => item?.title) : null
+		// 			}`,
+		// 			count: `${
+		// 				New_Fields ? New_Fields?.map((item: any) => item?.value) : null
+		// 			}`,
+		// 	  }
+		// 	: null,
 	];
+
 	const ctc = [
 		{
 			id: 1,
@@ -187,74 +190,6 @@ const ViewPayrollDetails = () => {
 		// 	link: `/admin/employees/all-employee`,
 		// },
 	];
-
-	// const handleSubmit = async () => {
-	// 	setLoading(true);
-	// 	try {
-	// 		const res = await change(`payrolls/createPdf`, {
-	// 			body: {
-	// 				salaryMonth: new Date().toLocaleString("default", { month: "long" }),
-	// 				companyName: "Searchingyard Software Pvt Ltd.",
-	// 				employeeName: employData?.name,
-	// 				employeeCode: employData?.employeeID,
-	// 				employeeGrade: "A",
-	// 				designation: employData?.role?.name,
-	// 				hiringDate: "17 January 2023",
-	// 				leaveBalance: "5",
-	// 				dateOfSalaryRecieved: "17",
-	// 				noOfWorkingDays: "20",
-	// 				presentDays: "20",
-	// 				PAN: "jkI989jkJK123",
-	// 				bankName: "State Bank of India",
-	// 				bankAcNo: "3245646465",
-	// 				payslipNo: "9",
-	// 				basicSalary: "2561",
-	// 				HRA: "4547",
-	// 				conveyance: "63985",
-	// 				medicalAllowance: "24454",
-	// 				specialAllowance: "565323",
-	// 				employeerPfContribution: "565656",
-	// 				employeerESIContribution: "78454",
-	// 				KeyPerformanceIndex: "0.00",
-	// 				OtherAllowlance: "0.00",
-	// 				LeaveEncashment: "0.00",
-	// 				CityAllowance: "0.00",
-	// 				TrainingIncentive: "0.00",
-	// 				EmployeeReferralBonus: "0.00",
-	// 				Arrear: "0.00",
-	// 				SalaryAdvance: "0.00",
-	// 				InterestOfSalaryAdvance: "0.00",
-	// 				OtherAdvance: "0.00",
-	// 				PFEmployee: "936.00",
-	// 				ESIEmployee: "130.00",
-	// 				ProfessionalTax: "125.00",
-	// 				IncomeTax: "0.00",
-	// 				TotalEarnings: "18906.00",
-	// 				TotalDeductions: "1191.00",
-	// 				NetSalary: "17715.00",
-	// 			},
-	// 		});
-
-	// 		setLoading(false);
-	// 		if (res?.status !== 200) {
-	// 			Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
-	// 			setLoading(false);
-	// 			return;
-	// 		}
-	// 		const blob = await res.response.blob();
-	// 		const url = window.URL.createObjectURL(blob);
-	// 		window.open(url, "", "width=800,height=500");
-	// 		console.log(blob, "BLLLLLLLLLLLLLLLOB");
-	// 		console.log(url, "Urlllllllllllllllllll");
-	// 		Swal.fire(`Success`, `You have successfully Downloaded!`, `success`);
-	// 		return;
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		setLoading(false);
-	// 	} finally {
-	// 		setLoading(false);
-	// 	}
-	// };
 
 	const handleSubmit = async () => {
 		setLoading(true);
@@ -405,10 +340,24 @@ const ViewPayrollDetails = () => {
 												<p className="text-gray-700">{item?.name} :</p>
 												<span className="text-blue-700">
 													<CurrencyRupee fontSize="small" />
-													{item.count}
+													{item?.count}
 												</span>
 											</div>
 										))}
+										{New_Fields?.length > 0 &&
+											New_Fields?.map((item: any) => (
+												<div
+													key={item?.id}
+													className="md:flex gap-4 justify-between"
+												>
+													<p className="text-gray-700">{item} :</p>
+													{/* <p className="text-gray-700">{item?.name} :</p> */}
+													<span className="text-blue-700">
+														<CurrencyRupee fontSize="small" />
+														{item}
+													</span>
+												</div>
+											))}
 									</div>
 								</div>
 								<div className="pt-4">

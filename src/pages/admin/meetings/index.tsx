@@ -104,15 +104,15 @@ const Meetings = () => {
 							text=""
 							type="donut"
 							labels={
-								meetingData?.Meetings?.meetingStatusList
-									? meetingData?.Meetings?.meetingStatusList?.map(
+								meetingData?.meetingStatusList?.length
+									? meetingData?.meetingStatusList?.map(
 											(item: any) => item?.status
 									  )
 									: []
 							}
 							series={
-								meetingData?.Meetings?.meetingStatusList
-									? meetingData?.Meetings?.meetingStatusList?.map(
+								meetingData?.meetingStatusList?.length
+									? meetingData?.meetingStatusList?.map(
 											(item: any) => item?._count
 									  )
 									: []

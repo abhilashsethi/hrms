@@ -112,7 +112,7 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 								documentDetails?.docs?.map((item: any) => (
 									<div
 										key={item?.id}
-										className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
+										className="h-28 w-28 border-2 rounded-md grid grid-cols-1 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
 									>
 										<a
 											className="cursor-pointer flex flex-col items-center justify-center"
