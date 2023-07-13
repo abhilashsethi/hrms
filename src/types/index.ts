@@ -380,6 +380,7 @@ export interface Quotation {
 export interface Bills {
 	id?: string;
 	billNumber?: string;
+	gstVal?: number;
 	billType?: string;
 	clientAddress?: string;
 	clientEmail?: string;
