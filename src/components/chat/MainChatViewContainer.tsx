@@ -65,7 +65,7 @@ const MainChatViewContainer = () => {
     (() => {
       if (isChatLoading || chatPageNo !== 1) return;
       divRef.current?.scrollIntoView({
-        behavior: "instant",
+        behavior: "smooth",
       });
     })();
   }, [changing, selectedChatId, isChatLoading, chatPageNo]);
