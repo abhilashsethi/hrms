@@ -457,6 +457,8 @@ const CreateBills = () => {
                               fullWidth
                               size="small"
                               disabled
+                              multiline
+                              maxRows={4}
                               id="clientAddress"
                               // placeholder="clientAddress"
                               name="clientAddress"
@@ -591,6 +593,8 @@ const CreateBills = () => {
                               fullWidth
                               size="small"
                               id="clientAddress"
+                              multiline
+                              maxRows={4}
                               // placeholder="clientAddress"
                               name="clientAddress"
                               value={values.clientAddress}
@@ -723,6 +727,8 @@ const CreateBills = () => {
                               fullWidth
                               size="small"
                               id="clientAddress"
+                              multiline
+                              maxRows={4}
                               // placeholder="clientAddress"
                               name="clientAddress"
                               value={values.clientAddress}
