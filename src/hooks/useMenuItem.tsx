@@ -143,7 +143,7 @@ export default () => {
 		{
 			key: "13AS",
 			title: "Security",
-			icon: <Security />,
+			icon: <ICONS.Security />,
 			submenus: [
 				{
 					key: "13AS-1",
@@ -154,25 +154,25 @@ export default () => {
 				{
 					key: "13AS-2",
 					title: "Create-Guard",
-					icon: <ICONS.All_Guests />,
+					icon: <ICONS.Create_Guard />,
 					route: "/admin/security/create-guard",
 				},
 				{
 					key: "13AS-3",
 					title: "Shift Configuration",
-					icon: <ICONS.All_Guests />,
+					icon: <ICONS.Shift_Configure />,
 					route: "/admin/security/shift-config",
 				},
 				{
 					key: "13AS-4",
 					title: "Create Appointment",
-					icon: <ICONS.All_Guests />,
+					icon: <ICONS.Create_Appointment />,
 					route: "/admin/security/create-appointment",
 				},
 				{
 					key: "13AS-5",
 					title: "All Appointments",
-					icon: <ICONS.All_Guests />,
+					icon: <ICONS.All_Appointments />,
 					route: "/admin/security/all-appointments",
 				},
 			],

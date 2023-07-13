@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { Field, FieldArray, Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { downloadFile, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import dynamic from "next/dynamic";
 import router from "next/router";
@@ -75,12 +75,7 @@ const CreateQuotation = () => {
 		),
 	});
 
-	const {
-		data: clients,
-		mutate,
-		pagination,
-		isLoading,
-	} = useFetch<Client[]>(`clients`);
+	const { data: clients } = useFetch<Client[]>(`clients`);
 	console.log(clients);
 
 	const handleSubmit = async (values: FormValues) => {
@@ -109,6 +104,7 @@ const CreateQuotation = () => {
 					works: transformedArray,
 				},
 			});
+
 			setLoading(false);
 			if (res?.status !== 200) {
 				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");

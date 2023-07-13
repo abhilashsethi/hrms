@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
@@ -11,8 +12,8 @@ export const getAccessToken = () => {
 };
 
 // export const BASE_URL: "https://hrms.yardiot.com/api/v1" = `https://hrms.yardiot.com/api/v1`;
-// export const BASE_URL: "https://sy-hrms-api.onrender.com/api/v1" = `https://sy-hrms-api.onrender.com/api/v1`;
-export const BASE_URL: "http://192.168.29.25:8080/api/v1" = `http://192.168.29.25:8080/api/v1`;
+export const BASE_URL: "https://sy-hrms-api.onrender.com/api/v1" = `https://sy-hrms-api.onrender.com/api/v1`;
+// export const BASE_URL: "http://192.168.29.25:8080/api/v1" = `http://192.168.29.25:8080/api/v1`;
 
 type useFetchOptions = {
 	BASE_URL: typeof BASE_URL | "/api";
@@ -101,4 +102,51 @@ export const useChange = () => {
 		}
 	};
 	return { change, isChanging };
+};
+
+export const downloadFile = async ({
+	url,
+	method = "GET",
+	body,
+}: // type,
+{
+	url: string;
+	method: "GET" | "POST";
+	// body?: BodyInit;
+	body?: any;
+	// type: "pdf" | "csv" | "excel";
+}) => {
+	try {
+		// let ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
+		const token = getAccessToken();
+
+		const response = await fetch(BASE_URL + url, {
+			method,
+			headers: {
+				"Content-Type": "application/json",
+				authorization: `Bearer ${token}`,
+			},
+			body: body && JSON.stringify(body),
+		});
+
+		if (response?.status !== 200) throw new Error("Download failed.");
+
+		//convert to blob
+		const blob = await response.blob();
+
+		const fileUrl = window.URL.createObjectURL(blob);
+		window.open(fileUrl, "", "height=800");
+		window.URL.revokeObjectURL(fileUrl);
+
+		// notify.success("File downloaded successfully.");
+		Swal.fire(`Success`, `You have successfully Downloaded!`, `success`);
+	} catch (error) {
+		if (error instanceof Error) {
+			// notify.error(error?.message);
+			Swal.fire("Error", error?.message || "Unable to Download", "error");
+			return;
+		}
+		// notify.error("Download failed. Try again!");
+		Swal.fire("Error", "Download failed. Try again!", "error");
+	}
 };

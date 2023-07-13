@@ -7,7 +7,7 @@ import {
 	HeadText,
 	PhotoViewer,
 } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { downloadFile, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -188,13 +188,85 @@ const ViewPayrollDetails = () => {
 		// },
 	];
 
+	// const handleSubmit = async () => {
+	// 	setLoading(true);
+	// 	try {
+	// 		const res = await change(`payrolls/createPdf`, {
+	// 			body: {
+	// 				salaryMonth: new Date().toLocaleString("default", { month: "long" }),
+	// 				companyName: "Searchingyard Software Pvt Ltd.",
+	// 				employeeName: employData?.name,
+	// 				employeeCode: employData?.employeeID,
+	// 				employeeGrade: "A",
+	// 				designation: employData?.role?.name,
+	// 				hiringDate: "17 January 2023",
+	// 				leaveBalance: "5",
+	// 				dateOfSalaryRecieved: "17",
+	// 				noOfWorkingDays: "20",
+	// 				presentDays: "20",
+	// 				PAN: "jkI989jkJK123",
+	// 				bankName: "State Bank of India",
+	// 				bankAcNo: "3245646465",
+	// 				payslipNo: "9",
+	// 				basicSalary: "2561",
+	// 				HRA: "4547",
+	// 				conveyance: "63985",
+	// 				medicalAllowance: "24454",
+	// 				specialAllowance: "565323",
+	// 				employeerPfContribution: "565656",
+	// 				employeerESIContribution: "78454",
+	// 				KeyPerformanceIndex: "0.00",
+	// 				OtherAllowlance: "0.00",
+	// 				LeaveEncashment: "0.00",
+	// 				CityAllowance: "0.00",
+	// 				TrainingIncentive: "0.00",
+	// 				EmployeeReferralBonus: "0.00",
+	// 				Arrear: "0.00",
+	// 				SalaryAdvance: "0.00",
+	// 				InterestOfSalaryAdvance: "0.00",
+	// 				OtherAdvance: "0.00",
+	// 				PFEmployee: "936.00",
+	// 				ESIEmployee: "130.00",
+	// 				ProfessionalTax: "125.00",
+	// 				IncomeTax: "0.00",
+	// 				TotalEarnings: "18906.00",
+	// 				TotalDeductions: "1191.00",
+	// 				NetSalary: "17715.00",
+	// 			},
+	// 		});
+
+	// 		setLoading(false);
+	// 		if (res?.status !== 200) {
+	// 			Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+	// 			setLoading(false);
+	// 			return;
+	// 		}
+	// 		const blob = await res.response.blob();
+	// 		const url = window.URL.createObjectURL(blob);
+	// 		window.open(url, "", "width=800,height=500");
+	// 		console.log(blob, "BLLLLLLLLLLLLLLLOB");
+	// 		console.log(url, "Urlllllllllllllllllll");
+	// 		Swal.fire(`Success`, `You have successfully Downloaded!`, `success`);
+	// 		return;
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 		setLoading(false);
+	// 	} finally {
+	// 		setLoading(false);
+	// 	}
+	// };
+
 	const handleSubmit = async () => {
 		setLoading(true);
 		try {
-			const res = await change(`payrolls/createPdf`, {
+			const res = await downloadFile({
+				url: `/payrolls/createPdf`,
+				method: "POST",
 				body: {
-					salaryMonth: new Date().toLocaleString("default", { month: "long" }),
-					companyName: "Searchingyard Software Pvt Ltd.",
+					salaryMonth: `${new Date().toLocaleString("default", {
+						month: "long",
+					})}`,
+					companyName: "Searchingyard Pvt. Ltd",
 					employeeName: employData?.name,
 					employeeCode: employData?.employeeID,
 					employeeGrade: "A",
@@ -204,18 +276,26 @@ const ViewPayrollDetails = () => {
 					dateOfSalaryRecieved: "17",
 					noOfWorkingDays: "20",
 					presentDays: "20",
-					PAN: "jkI989jkJK123",
-					bankName: "State Bank of India",
-					bankAcNo: "3245646465",
+					PAN: employData?.panNo,
+					bankName: employData?.bankName,
+					bankAcNo: employData?.accountNo,
 					payslipNo: "9",
-					basicSalary: "2561",
-					HRA: "4547",
-					conveyance: "63985",
-					medicalAllowance: "24454",
-					specialAllowance: "565323",
-					employeerPfContribution: "565656",
-					employeerESIContribution: "78454",
-					KeyPerformanceIndex: "0.00",
+					basicSalary: Gross_Salary
+						? (Configs?.basicSalary * Gross_Salary) / 100
+						: 0,
+					HRA: Gross_Salary ? (Configs?.hra * Gross_Salary) / 100 : 0,
+					conveyance: Configs?.conveyanceAllowances,
+					medicalAllowance: Configs?.medicalAllowances,
+					specialAllowance: Special_Allowance,
+					employerPfContribution: Gross_Salary
+						? (Configs?.pfEmployer *
+								((Configs?.basicSalary * Gross_Salary) / 100)) /
+						  100
+						: 0,
+					employerESIContribution: Gross_Salary
+						? (Configs?.esiEmployer * Gross_Salary) / 100
+						: 0,
+					KeyPerformanceIndex: Gross_Salary ? employData?.kpi : 0,
 					OtherAllowlance: "0.00",
 					LeaveEncashment: "0.00",
 					CityAllowance: "0.00",
@@ -225,21 +305,27 @@ const ViewPayrollDetails = () => {
 					SalaryAdvance: "0.00",
 					InterestOfSalaryAdvance: "0.00",
 					OtherAdvance: "0.00",
-					PFEmployee: "936.00",
-					ESIEmployee: "130.00",
-					ProfessionalTax: "125.00",
+					PFEmployee: Gross_Salary
+						? (Configs?.pfEmployee *
+								((Configs?.basicSalary * Gross_Salary) / 100)) /
+						  100
+						: 0,
+					ESIEmployee: Gross_Salary
+						? (Configs?.esiEmployee * Gross_Salary) / 100
+						: 0,
+					ProfessionalTax: Gross_Salary ? Professional_Tax?.tax : 0,
 					IncomeTax: "0.00",
-					TotalEarnings: "18906.00",
-					TotalDeductions: "1191.00",
-					NetSalary: "17715.00",
+					TotalEarnings: Gross_Salary
+						? Gross_Salary + Employer_Pf + Employer_Esi
+						: 0,
+					TotalDeductions: Gross_Salary ? Total_Deduction : 0,
+					GrossEarnings: Gross_Salary,
+					NetSalary: Gross_Salary ? Gross_Salary - Total_Deduction : 0,
 				},
 			});
+
 			setLoading(false);
-			if (res?.status !== 200) {
-				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
-				setLoading(false);
-				return;
-			}
+
 			Swal.fire(`Success`, `You have successfully Downloaded!`, `success`);
 			return;
 		} catch (error) {
@@ -249,7 +335,6 @@ const ViewPayrollDetails = () => {
 			setLoading(false);
 		}
 	};
-
 	return (
 		<PanelLayout title="PayRoll Details - Admin Panel">
 			<section className="md:px-8 px-2 md:py-4 py-2">
@@ -351,15 +436,16 @@ const ViewPayrollDetails = () => {
 									className="!bg-theme hover:!scale-95 ease-in-out transition-all duration-300"
 									disabled={loading}
 									startIcon={
-										loading ? <CircularProgress size={20} /> : <Download />
+										loading ? (
+											<CircularProgress color="warning" size={20} />
+										) : (
+											<Download />
+										)
 									}
 									onClick={() => handleSubmit()}
 								>
-									Download
+									Download Salary Slip
 								</Button>
-								{/* <Button className="border !border-blue-600 hover:bg-blue-600 hover:text-white text-sm hover:font-semibold text-blue-600 px-7 py-1 rounded-md ease-in-out transition-all duration-300 w-64">
-									Download
-								</Button> */}
 							</div>
 						</div>
 					</div>

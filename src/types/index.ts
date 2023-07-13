@@ -227,7 +227,6 @@ export type Leave = {
 	type?: string;
 };
 
-
 export type Client = {
 	id: string;
 	name: string;
@@ -282,7 +281,7 @@ export interface TenderDocumentType {
 export interface TenderMember {
 	id?: string;
 	isAllowedToAddDoc: boolean;
-	isAllowedToReviewTender:boolean;
+	isAllowedToReviewTender: boolean;
 	isAllowedToSubmitTender: boolean;
 	isAllowedToTrackTender: boolean;
 	member: User;
@@ -316,21 +315,20 @@ export type Tender = {
 	members?: TenderMember[];
 	status?: string;
 	notes?: TenderNote[];
-	EmdAmount?: number,
-	totalOpenTenderCount?: number,
-	totalClosedTenderCount?: number,
-	totalSubmittedTenderCount?: number,
-	tenderCount?: number,
-	tenderFees?: number,
-	feesPaymentMode?: string,
-	EmdPaymentMode?: string,
-	documentAddReason?: string,
-	isEmdExemption?: boolean,
-	isAllDocumentsAdded?: boolean,
+	EmdAmount?: number;
+	totalOpenTenderCount?: number;
+	totalClosedTenderCount?: number;
+	totalSubmittedTenderCount?: number;
+	tenderCount?: number;
+	tenderFees?: number;
+	feesPaymentMode?: string;
+	EmdPaymentMode?: string;
+	documentAddReason?: string;
+	isEmdExemption?: boolean;
+	isAllDocumentsAdded?: boolean;
 	documents?: TenderDocumentType[];
 	allTenderCountMonthWiseOfCurrentYear?: TenderDashboard[];
 	allTenderCountStatusWise?: TenderDashboard[];
-
 };
 export interface QuotationDashboard {
 	status?: string | null;
@@ -351,7 +349,7 @@ export interface QuotationGst {
 	Cgst: number;
 }
 export interface Quotation {
-	id?: string;
+	id: string;
 	cgstVal?: number;
 	grandTotal?: number;
 	gst?: number;
@@ -412,17 +410,17 @@ export interface Bills {
 	typeWiseBillCount?: BillsDashboard[];
 }
 export interface QuotationBank {
-	id?: string;            
-	bankName?: string;      
-	branchName?: string;   
-	accountNumber?: string; 
-	companyName?: string;  
-	ifscCode?: string;    
-	swiftCode?: string;    
-	isBlock?: boolean;      
-  	updatedAt?: Date;
-	createdAt?: Date;  
-  	Quotation?: Quotation[]    
+	id?: string;
+	bankName?: string;
+	branchName?: string;
+	accountNumber?: string;
+	companyName?: string;
+	ifscCode?: string;
+	swiftCode?: string;
+	isBlock?: boolean;
+	updatedAt?: Date;
+	createdAt?: Date;
+	Quotation?: Quotation[];
 	quotationId?: string;
 }
 export interface QuotationWork {
