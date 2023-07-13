@@ -99,6 +99,7 @@ const BillGrid = ({ data, mutate }: Props) => {
 					nearBy: "Near AMRI Hospital Road",
 					place: "Khandagiri,Bhubaneswar-751030",
 					panNumber: "ABACS8623B",
+					gstVal: item?.gstVal,
 				},
 			});
 

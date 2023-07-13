@@ -17,6 +17,7 @@ const Meetings = () => {
 	const { data: meetingData, mutate } = useFetch<any>(
 		`meetings/dashboard/details`
 	);
+	console.log(meetingData);
 
 	const cards = [
 		{
@@ -26,30 +27,33 @@ const Meetings = () => {
 			title: "Total Meetings",
 			img: MEETINGICON.src,
 			bg: "from-blue-500 to-blue-300",
+			link: "/admin/meetings/all-meetings",
 		},
 		{
 			id: 2,
 			icon: <PendingActions className="text-theme" />,
 			count: meetingData?.meetingStatusList.length
 				? meetingData?.meetingStatusList
-					?.filter((item: any) => item?.status === "Ongoing")
-					?.map((item: any) => item?._count)
+						?.filter((item: any) => item?.status === "Ongoing")
+						?.map((item: any) => (item?._count ? item?._count : 0))
 				: 0,
 			title: "Ongoing Meetings",
 			bg: "from-yellow-500 to-yellow-300",
 			img: MEETINGICON2.src,
+			link: "/admin/meetings/all-meetings",
 		},
 		{
 			id: 3,
 			icon: <AssignmentTurnedIn className="text-theme" />,
 			count: meetingData?.meetingStatusList.length
 				? meetingData?.meetingStatusList
-					?.filter((item: any) => item?.status === "Closed")
-					?.map((item: any) => item?._count)
+						?.filter((item: any) => item?.status === "Closed")
+						?.map((item: any) => (item?._count ? item?._count : 0))
 				: 0,
 			title: "Closed Meetings",
 			bg: "from-emerald-500 to-emerald-300",
 			img: MEETINGICON3.src,
+			link: "/admin/meetings/all-meetings",
 		},
 	];
 
@@ -69,8 +73,8 @@ const Meetings = () => {
 									type: "column",
 									data: meetingData?.meetingCountsMonthWise
 										? meetingData?.meetingCountsMonthWise?.map(
-											(item: any) => item?.count
-										)
+												(item: any) => item?.count
+										  )
 										: [],
 								},
 								{
@@ -78,16 +82,16 @@ const Meetings = () => {
 									type: "area",
 									data: meetingData?.closedMeetingCountsMonthWise
 										? meetingData?.closedMeetingCountsMonthWise?.map(
-											(item: any) => item?.count
-										)
+												(item: any) => item?.count
+										  )
 										: [],
 								},
 							]}
 							labels={
 								meetingData?.meetingCountsMonthWise
 									? meetingData?.meetingCountsMonthWise?.map(
-										(item: any) => item?.month
-									)
+											(item: any) => item?.month
+									  )
 									: []
 							}
 							text=""
@@ -102,15 +106,15 @@ const Meetings = () => {
 							labels={
 								meetingData?.Meetings?.meetingStatusList
 									? meetingData?.Meetings?.meetingStatusList?.map(
-										(item: any) => item?.status
-									)
+											(item: any) => item?.status
+									  )
 									: []
 							}
 							series={
 								meetingData?.Meetings?.meetingStatusList
 									? meetingData?.Meetings?.meetingStatusList?.map(
-										(item: any) => item?._count
-									)
+											(item: any) => item?._count
+									  )
 									: []
 							}
 						/>

@@ -73,7 +73,7 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
       try {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const response = await change(`cards/delete/${id}`, {
+          const response = await change(`cards/${id}`, {
             method: "DELETE",
           });
           if (response?.status !== 200) {
@@ -114,30 +114,30 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
             !data
               ? []
               : (data?.map((_, i: number) => ({
-                ..._,
-                sl: i + 1,
-                name: _?.userId
-                  ? _?.user?.name
-                  : _?.guestId
+                  ..._,
+                  sl: i + 1,
+                  name: _?.userId
+                    ? _?.user?.name
+                    : _?.guestId
                     ? _?.guest?.name
                     : "---",
-                validFrom: _?.userId
-                  ? "---"
-                  : _?.guestId
+                  validFrom: _?.userId
+                    ? "---"
+                    : _?.guestId
                     ? _?.validFrom
                     : "---",
-                validTill: _?.userId
-                  ? "---"
-                  : _?.guestId
+                  validTill: _?.userId
+                    ? "---"
+                    : _?.guestId
                     ? _?.validTill
                     : "---",
-                userType: _?.userId
-                  ? "Employee"
-                  : _?.guestId
+                  userType: _?.userId
+                    ? "Employee"
+                    : _?.guestId
                     ? "Guest"
                     : "---",
-                userID: _?.userId ? _?.user?.employeeID : "---",
-              })) as Card[])
+                  userID: _?.userId ? _?.user?.employeeID : "---",
+                })) as Card[])
           }
           options={{ ...MuiTblOptions(), paging: false }}
           columns={[
@@ -155,12 +155,6 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
             {
               title: "Assigned User",
               field: "name",
-              // editable: "never",
-              // emptyValue: "Not Assigned",
-              // lookup: users?.reduce((lookup: any, user) => {
-              //   lookup[user.id] = user.name;
-              //   return lookup;
-              // }, {}),
             },
             {
               title: "ID",
@@ -190,19 +184,31 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
               field: "isBlocked",
               align: "center",
               render: (data) => (
-                <IOSSwitch
-                  checked={data?.isBlocked}
-                  onChange={(e) => handleBlock(e, data?.cardId)}
-                />
+                <>
+                  {data?.userId || data?.guestId ? (
+                    <>
+                      <IOSSwitch
+                        checked={data?.isBlocked}
+                        onChange={(e) => handleBlock(e, data?.cardId)}
+                      />
+                    </>
+                  ) : null}
+                </>
               ),
               editable: "never",
-              hidden: user?.role?.name == "CEO" || user?.role?.name == "HR" ? false : true,
+              hidden:
+                user?.role?.name == "CEO" || user?.role?.name == "HR"
+                  ? false
+                  : true,
             },
             {
               title: "Assign / Remove",
               field: "employeeId",
               export: false,
-              hidden: user?.role?.name == "CEO" || user?.role?.name == "HR" ? false : true,
+              hidden:
+                user?.role?.name == "CEO" || user?.role?.name == "HR"
+                  ? false
+                  : true,
 
               render: (data) => (
                 <>
@@ -257,7 +263,10 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
               title: "Room Access",
               field: "employeeId",
               export: false,
-              hidden: user?.role?.name == "CEO" || user?.role?.name == "HR" ? true : false,
+              hidden:
+                user?.role?.name == "CEO" || user?.role?.name == "HR"
+                  ? true
+                  : false,
 
               render: (data) => (
                 <>
@@ -277,7 +286,6 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
                       </div>
                     </Tooltip>
                   </div>
-
                 </>
               ),
               editable: "never",
@@ -337,30 +345,31 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
               editable: "never",
             },
           ]}
-
           editable={{
-
-            onRowDelete: user?.role?.name == "CEO" || user?.role?.name == "HR"
-              ? async oldData => {
-
-                try {
-                  const response = await change(`cards/delete/${oldData?.id}`, {
-                    method: "DELETE",
-                  });
-                  if (response?.status !== 200) {
-                    Swal.fire("Error", "Something went wrong!", "error");
+            onRowDelete:
+              user?.role?.name == "CEO" || user?.role?.name == "HR"
+                ? async (oldData) => {
+                    try {
+                      const response = await change(
+                        `cards/delete/${oldData?.id}`,
+                        {
+                          method: "DELETE",
+                        }
+                      );
+                      if (response?.status !== 200) {
+                        Swal.fire("Error", "Something went wrong!", "error");
+                      }
+                      mutate();
+                      Swal.fire("Success", "Deleted successfully!", "success");
+                    } catch (error) {
+                      console.log(error);
+                    }
                   }
-                  mutate();
-                  Swal.fire("Success", "Deleted successfully!", "success");
-                } catch (error) {
-                  console.log(error);
-                }
-              }
-              : undefined,
+                : undefined,
           }}
         />
       </div>
-    </div >
+    </div>
   );
 };
 
