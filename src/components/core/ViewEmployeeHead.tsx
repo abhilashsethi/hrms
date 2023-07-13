@@ -43,11 +43,11 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
       title: "Documents",
       onClick: () => setDocument(true),
     },
-    {
-      id: 2,
-      icon: <FileDownload />,
-      title: "Salary Slip",
-    },
+    // {
+    //   id: 2,
+    //   icon: <FileDownload />,
+    //   title: "Salary Slip",
+    // },
     {
       id: 3,
       icon: <Receipt />,
@@ -55,11 +55,11 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
       onClick: () =>
         router.push(`/admin/payroll/view-payroll-details?id=${employData?.id}`),
     },
-    {
-      id: 4,
-      icon: <ReceiptLongRounded />,
-      title: "Transactions",
-    },
+    // {
+    //   id: 4,
+    //   icon: <ReceiptLongRounded />,
+    //   title: "Transactions",
+    // },
     {
       id: 5,
       icon: <EmailRounded />,

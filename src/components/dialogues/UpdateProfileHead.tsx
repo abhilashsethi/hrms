@@ -48,24 +48,27 @@ const validationSchema = Yup.object().shape({
     .required("Personal Email Required!"),
   // employeeID: Yup.string().required("Employee ID is required!"),
   phone: Yup.string().required("Phone No is required!"),
-  dob: Yup.string()
-    .required("Date of Birth is required!")
-    .test("minimum-age", "You must be at least 18 years old", (value) => {
+  dob: Yup.string().test(
+    "minimum-age",
+    "You must be at least 18 years old",
+    (value: any) => {
       const currentDate = new Date();
       const selectedDate = new Date(value);
       const minAgeDate = new Date();
       minAgeDate.setFullYear(currentDate.getFullYear() - 18);
       return selectedDate <= minAgeDate;
-    }),
-  address: Yup.string().required("Address is required!"),
-  gender: Yup.string().required("Gender is required!"),
+    }
+  ),
   roleId: Yup.string().required("Role is required!"),
   departmentId: Yup.string().required("Department Id is required!"),
-  joiningDate: Yup.string().required("Joining Date is required!"),
-  bloodGroup: Yup.string().required("Blood Group is required!"),
 });
 
-const UpdateProfileHead = ({ open, handleClose, employData, mutate }: Props) => {
+const UpdateProfileHead = ({
+  open,
+  handleClose,
+  employData,
+  mutate,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { data: roles } = useFetch<any>(`roles`);
@@ -104,7 +107,7 @@ const UpdateProfileHead = ({ open, handleClose, employData, mutate }: Props) => 
       Swal.fire(`Success`, `Updated Successfully`, `success`);
       handleClose();
       return;
-    } catch (error) { }
+    } catch (error) {}
   };
   return (
     <>
@@ -325,8 +328,8 @@ const UpdateProfileHead = ({ open, handleClose, employData, mutate }: Props) => 
                           value={
                             values?.roleId
                               ? roles?.find(
-                                (option: any) => option.id === values.roleId
-                              )
+                                  (option: any) => option.id === values.roleId
+                                )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
@@ -360,9 +363,9 @@ const UpdateProfileHead = ({ open, handleClose, employData, mutate }: Props) => 
                           value={
                             values?.employeeOfBranchId
                               ? branchData?.find(
-                                (option: any) =>
-                                  option.id === values.employeeOfBranchId
-                              )
+                                  (option: any) =>
+                                    option.id === values.employeeOfBranchId
+                                )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
@@ -396,9 +399,9 @@ const UpdateProfileHead = ({ open, handleClose, employData, mutate }: Props) => 
                           value={
                             values?.departmentId
                               ? departmentsData?.find(
-                                (option: any) =>
-                                  option.id === values.departmentId
-                              )
+                                  (option: any) =>
+                                    option.id === values.departmentId
+                                )
                               : {}
                           }
                           onChange={(e: any, r: any) => {
