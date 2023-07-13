@@ -20,18 +20,14 @@ const configs = [
     title: "Leave Group",
     icon: <Logout fontSize="small" />,
     privateOnly: false,
+    groupOnly: true,
   },
   {
     id: 3,
     title: "Clear Chat",
     icon: <Delete fontSize="small" />,
     privateOnly: false,
-  },
-  {
-    id: 4,
-    title: "Clear Chat",
-    icon: <Delete fontSize="small" />,
-    privateOnly: true,
+    groupOnly: false,
   },
 ];
 
@@ -153,24 +149,16 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               "error"
             );
           }
+        case 3:
+          const clear = await change(`chat/message-clear/${selectedChatId}`, {
+            method: "POST",
+            BASE_URL,
+          });
 
-        case 4 || 3:
-          const clearChat = await change(
-            `message-clear/:chatId/${
-              currentChatProfileDetails?.chatMembers?.find(
-                (item) => item?.user?.id === user?.id
-              )?.id
-            }`,
-            {
-              method: "POST",
-              BASE_URL,
-            }
-          );
-
-          if (clearChat?.status !== 201) {
+          if (clear?.status !== 201) {
             Swal.fire(
               "Error",
-              clearChat?.results?.msg || "Something went wrong!",
+              clear?.results?.msg || "Something went wrong!",
               "error"
             );
           }
@@ -239,8 +227,15 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
                         ?.filter((item) => !item?.isPastMember)
                         ?.slice(0, 5)
                         ?.map((item) => item?.user?.name)
-                        .join(", ")}{" "}
-                  and others.
+                        .join(", ") +
+                      (currentChatProfileDetails?.chatMembers?.filter(
+                        (item) => !item?.isPastMember
+                      )?.length &&
+                      currentChatProfileDetails?.chatMembers?.filter(
+                        (item) => !item?.isPastMember
+                      )?.length > 5
+                        ? " and others."
+                        : "")}{" "}
                 </span>
               )}
             </h1>
@@ -271,10 +266,10 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
             </MenuItem>
 
             {configs
-              ?.filter(
-                (item) =>
-                  item?.privateOnly ===
-                  currentChatProfileDetails?.isPrivateGroup
+              ?.filter((item) =>
+                currentChatProfileDetails?.isPrivateGroup
+                  ? item?.privateOnly || !item?.groupOnly
+                  : !item?.privateOnly || item?.groupOnly
               )
               ?.map((item) => (
                 <MenuItem onClick={() => handleGroupAction(item?.id)}>
