@@ -42,8 +42,8 @@ const MyProjects = () => {
         ? `&managerId=${user?.role?.name === "PROJECT MANAGER" ? user?.id : ``}`
         : ""
     }${bugStatus ? `&bugs=${bugStatus}` : ""}${
-      user?.id
-        ? `&memberId=${user?.role?.name === "PROJECT MANAGER" ? `` : user?.id}`
+      user?.role?.name === "DEVELOPER" && user?.id
+        ? `&memberId=${user?.id}`
         : ""
     }` +
       (Technologies?.length

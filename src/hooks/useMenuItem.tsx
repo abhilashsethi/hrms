@@ -264,6 +264,12 @@ export default () => {
       route: "/admin/leaves/my-leaves",
     },
     {
+      key: "924a",
+      title: "Leave Requests",
+      icon: <ICONS.All_Leave_Requests />,
+      route: "/admin/leaves/manager-leave-requests",
+    },
+    {
       key: "6",
       title: "Meetings",
       icon: <ICONS.Meeting />,
