@@ -134,7 +134,7 @@ const BankInformationUpdate = ({
                       {/* name */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Bank Name <span className="text-red-600">*</span>
+                          Bank Name
                         </p>
                         <TextField
                           fullWidth
@@ -155,7 +155,7 @@ const BankInformationUpdate = ({
                       {/* IFSC Code */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          IFSC Code <span className="text-red-600">*</span>
+                          IFSC Code
                         </p>
                         <TextField
                           name="ifscCode"
@@ -175,7 +175,7 @@ const BankInformationUpdate = ({
                       {/* accountNo */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Account No <span className="text-red-600">*</span>
+                          Account No
                         </p>
                         <TextField
                           fullWidth
