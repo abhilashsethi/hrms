@@ -12,14 +12,14 @@ import { useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { Bills, Quotation } from "types";
+import { Bills, BillsWork, Quotation } from "types";
 interface Props {
   billData?: Bills;
   mutate: () => void;
   isLoading: boolean;
 }
 const BillData = ({ billData, mutate, isLoading }: Props) => {
-  const [isQuotationWorkData, setQuotationWorkData] = useState<Quotation>({});
+  const [isQuotationWorkData, setQuotationWorkData] = useState<BillsWork>({});
   const { change } = useChange();
   const [editDetails, setEditDetails] = useState<boolean>(false);
   const [additionDetails, setAdditionDetails] = useState<boolean>(false);

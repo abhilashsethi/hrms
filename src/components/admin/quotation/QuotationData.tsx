@@ -11,14 +11,16 @@ import { TenderLayout } from "components/tender";
 import { useChange } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { Quotation } from "types";
+import { Quotation, QuotationWork } from "types";
 interface Props {
   quotationData?: Quotation;
   mutate: () => void;
   isLoading: boolean;
 }
 const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
-  const [isQuotationWorkData, setQuotationWorkData] = useState<Quotation>({});
+  const [isQuotationWorkData, setQuotationWorkData] = useState<QuotationWork>(
+    {}
+  );
   const { change } = useChange();
   const [editDetails, setEditDetails] = useState<boolean>(false);
   const [additionDetails, setAdditionDetails] = useState<boolean>(false);
@@ -62,7 +64,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
       value: quotationData?.reason ? quotationData?.reason : "---",
     },
   ];
-  const handleDelete = (item?: Quotation) => {
+  const handleDelete = (id?: string) => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -75,7 +77,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`quotations/remove-work/${item?.id}`, {
+          const res = await change(`quotations/remove-work/${id}`, {
             method: "DELETE",
             body: {
               quotationId: quotationData?.id,
@@ -248,7 +250,9 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
                             </Tooltip>
                             <Tooltip title="Delete Document">
                               <IconButton size="small">
-                                <Delete onClick={() => handleDelete(item)} />
+                                <Delete
+                                  onClick={() => handleDelete(item?.id)}
+                                />
                               </IconButton>
                             </Tooltip>
                           </div>
