@@ -124,6 +124,7 @@ export type User = {
 		chatGroupId: string;
 	}[];
 	isClient?: boolean;
+	uanNo?: string;
 };
 
 interface urlTypes {

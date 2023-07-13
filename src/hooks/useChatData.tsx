@@ -19,11 +19,22 @@ type ChatState = {
   handleSendNewMessage: (body: object) => Promise<void>;
   handleNextChatPage: (page: number) => Promise<void>;
   handleReadMessage: (chatId: string) => Promise<void>;
+  chatPageNo: number;
+  totalChatCount: number;
+  setChatPageNo: (num: number) => void;
 };
 const useChatData = create<ChatState>((set, get) => ({
   allGroupChat: [],
   allPrivateChat: [],
   currentChatMessage: [],
+  chatPageNo: 1,
+  totalChatCount: 0,
+  setChatPageNo: async (num: number) => {
+    set({
+      chatPageNo: num,
+    });
+    await get().handleNextChatPage(num);
+  },
   setSelectedChatId: async (chatId?: string) => {
     if (chatId) {
       set({
@@ -84,7 +95,7 @@ const useChatData = create<ChatState>((set, get) => ({
       });
       const token = getAccessToken();
       const response = await fetch(
-        BASE_URL + `/chat/message-group/${chatId}?page=1&limit=10`,
+        BASE_URL + `/chat/message-group/${chatId}?page=1&limit=2`,
         {
           method: "GET",
           headers: {
@@ -96,6 +107,7 @@ const useChatData = create<ChatState>((set, get) => ({
       set({
         currentChatMessage: data?.data?.message,
         isChatLoading: false,
+        totalChatCount: data?.data?.pagination?.total,
       });
     } catch (error) {
       set({
@@ -185,7 +197,7 @@ const useChatData = create<ChatState>((set, get) => ({
       const token = getAccessToken();
       const response = await fetch(
         BASE_URL +
-          `/chat/message-group/${get().selectedChatId}?limit=10&page=${pageNo}`,
+          `/chat/message-group/${get().selectedChatId}?limit=2&page=${pageNo}`,
         {
           method: "GET",
           headers: {
@@ -201,6 +213,7 @@ const useChatData = create<ChatState>((set, get) => ({
           ...data?.data?.message,
         ],
         isChatLoading: false,
+        totalChatCount: data?.data?.pagination?.total,
       });
     } catch (error) {}
   },

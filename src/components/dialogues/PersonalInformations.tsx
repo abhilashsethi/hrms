@@ -21,10 +21,14 @@ interface Props {
   handleClose?: any;
   mutate?: any;
   employData?: any;
-
 }
 
-const PersonalInformations = ({ open, handleClose, employData, mutate }: Props) => {
+const PersonalInformations = ({
+  open,
+  handleClose,
+  employData,
+  mutate,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
@@ -34,15 +38,15 @@ const PersonalInformations = ({ open, handleClose, employData, mutate }: Props) 
     gmail: `${employData?.gmail ? employData?.gmail : ""}`,
     linkedin: `${employData?.linkedin ? employData?.linkedin : ""}`,
     github: `${employData?.github ? employData?.github : ""}`,
+    uanNo: `${employData?.uanNo ? employData?.uanNo : ""}`,
   };
 
   const validationSchema = Yup.object().shape({
-    panNo: Yup.string()
-      .required("PAN number is required")
-      .matches(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/, "Invalid PAN number"),
-    gmail: Yup.string()
-      .email("Invalid gmail address")
-      .required("gmail is required"),
+    panNo: Yup.string().matches(
+      /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/,
+      "Invalid PAN number"
+    ),
+    gmail: Yup.string().email("Invalid gmail address"),
     aadharNo: Yup.string().matches(
       /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
       "Invalid Aadhaar number"
@@ -134,9 +138,7 @@ const PersonalInformations = ({ open, handleClose, employData, mutate }: Props) 
                     <div className="grid lg:grid-cols-2 gap-4">
                       {/* name */}
                       <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Pan No <span className="text-red-600">*</span>
-                        </p>
+                        <p className="text-theme font-semibold my-2">Pan No</p>
                         <TextField
                           fullWidth
                           size="small"
@@ -151,9 +153,7 @@ const PersonalInformations = ({ open, handleClose, employData, mutate }: Props) 
                       </div>
                       {/* gmail */}
                       <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Gmail <span className="text-red-600">*</span>
-                        </p>
+                        <p className="text-theme font-semibold my-2">Gmail</p>
                         <TextField
                           fullWidth
                           size="small"
@@ -169,7 +169,7 @@ const PersonalInformations = ({ open, handleClose, employData, mutate }: Props) 
                       {/* Aadhar No */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
-                          Aadhar No <span className="text-red-600">*</span>
+                          Aadhar No
                         </p>
                         <TextField
                           name="aadharNo"
@@ -215,6 +215,20 @@ const PersonalInformations = ({ open, handleClose, employData, mutate }: Props) 
                           onBlur={handleBlur}
                           error={touched.github && !!errors.github}
                           helperText={touched.github && errors.github}
+                        />
+                      </div>
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">UAN No</p>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          name="uanNo"
+                          placeholder="Enter UAN No"
+                          value={values.uanNo}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.uanNo && !!errors.uanNo}
+                          helperText={touched.uanNo && errors.uanNo}
                         />
                       </div>
                     </div>

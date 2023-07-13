@@ -25,7 +25,12 @@ interface Props {
   employData?: any;
 }
 
-const BankInformationUpdate = ({ open, mutate, employData, handleClose }: Props) => {
+const BankInformationUpdate = ({
+  open,
+  mutate,
+  employData,
+  handleClose,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const router = useRouter();
@@ -38,19 +43,17 @@ const BankInformationUpdate = ({ open, mutate, employData, handleClose }: Props)
 
   const validationSchema = Yup.object().shape({
     bankName: Yup.string()
-      .required("Bank name is required")
       .min(2, "Bank name is too short")
       .max(50, "Bank name is too long")
       .matches(
         /^[a-zA-Z\s]+$/,
         "Bank name can only contain letters and spaces"
       ),
-    ifscCode: Yup.string()
-      .required("IFSC code is required")
-      .matches(/^[A-Z]{4}[0][A-Z0-9]{6}$/, "Invalid IFSC code"),
-    accountNo: Yup.string()
-      .required("Account number is required")
-      .matches(/^[0-9]{9,18}$/, "Invalid account number"),
+    ifscCode: Yup.string().matches(
+      /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+      "Invalid IFSC code"
+    ),
+    accountNo: Yup.string().matches(/^[0-9]{9,18}$/, "Invalid account number"),
   });
   const handleSubmit = async (values: any) => {
     setLoading(true);
@@ -142,7 +145,10 @@ const BankInformationUpdate = ({ open, mutate, employData, handleClose }: Props)
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.bankName && !!errors.bankName}
-                          helperText={touched?.bankName as any && errors?.bankName as any}
+                          helperText={
+                            (touched?.bankName as any) &&
+                            (errors?.bankName as any)
+                          }
                         />
                       </div>
 
@@ -160,7 +166,10 @@ const BankInformationUpdate = ({ open, mutate, employData, handleClose }: Props)
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.ifscCode && !!errors.ifscCode}
-                          helperText={touched.ifscCode as any && errors.ifscCode as any}
+                          helperText={
+                            (touched.ifscCode as any) &&
+                            (errors.ifscCode as any)
+                          }
                         />
                       </div>
                       {/* accountNo */}
@@ -177,7 +186,10 @@ const BankInformationUpdate = ({ open, mutate, employData, handleClose }: Props)
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={touched.accountNo && !!errors.accountNo}
-                          helperText={touched.accountNo as any && errors.accountNo as any}
+                          helperText={
+                            (touched.accountNo as any) &&
+                            (errors.accountNo as any)
+                          }
                         />
                       </div>
                     </div>

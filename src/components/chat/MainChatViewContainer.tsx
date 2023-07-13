@@ -7,16 +7,17 @@ import ICONS from "assets/icons";
 
 const MainChatViewContainer = () => {
   const [changing, setChanging] = useState(false);
-  const [pageNo, setPageNo] = useState(1);
   const {
     currentChatMessage,
     currentChatProfileDetails,
-    handleNextChatPage,
+    totalChatCount,
     revalidateCurrentChat,
     handleReadMessage,
     revalidateChatProfileDetails,
     selectedChatId,
     isChatLoading,
+    chatPageNo,
+    setChatPageNo,
   } = useChatData();
   const { user } = useAuth();
   const { socketRef } = useSocket();
@@ -55,19 +56,19 @@ const MainChatViewContainer = () => {
   }, [socketRef, selectedChatId, user?.id]);
 
   const handleFetchNext = () => {
-    setPageNo((prev) => prev + 1);
-    handleNextChatPage(pageNo + 1);
+    setChatPageNo(chatPageNo + 1);
   };
 
   const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     (() => {
+      if (isChatLoading || chatPageNo !== 1) return;
       divRef.current?.scrollIntoView({
         behavior: "smooth",
       });
     })();
-  }, [changing, selectedChatId]);
+  }, [changing, selectedChatId, isChatLoading, chatPageNo]);
 
   return (
     <div className="px-4 pb-4  !flex !flex-col-reverse">
@@ -121,21 +122,27 @@ const MainChatViewContainer = () => {
           )}
         </>
       ))}
-      <div className="w-full flex items-centre pt-2 justify-center">
-        <Chip
-          avatar={
-            isChatLoading ? (
-              <ICONS.Reload className="animate-spin  " />
-            ) : (
-              <Replay />
-            )
-          }
-          label="Load more.."
-          variant="outlined"
-          className="hover:!cursor-pointer"
-          onClick={handleFetchNext}
-        />
-      </div>
+      {totalChatCount === currentChatMessage?.length ? (
+        <h3 className="w-full flex items-centre pt-2 justify-center text-center">
+          No more messages
+        </h3>
+      ) : (
+        <div className="w-full flex items-centre pt-2 justify-center">
+          <Chip
+            avatar={
+              isChatLoading ? (
+                <ICONS.Reload className="animate-spin  " />
+              ) : (
+                <Replay />
+              )
+            }
+            label="Load more.."
+            variant="outlined"
+            className="hover:!cursor-pointer"
+            onClick={handleFetchNext}
+          />
+        </div>
+      )}
     </div>
   );
 };
