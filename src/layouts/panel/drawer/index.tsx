@@ -16,7 +16,6 @@ import {
 	Tooltip,
 	Typography,
 } from "@mui/material";
-import { LOGO } from "assets";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 import Swal from "sweetalert2";
@@ -24,6 +23,7 @@ import ICONS from "../../../assets/icons";
 import { useMenuItems, useAuth } from "hooks";
 
 import { CustomDrawer, CustomDrawerHeader } from "./custom";
+import { LOGO } from "assets/home";
 
 type DrawerType = {
 	onToggle?: () => void;
