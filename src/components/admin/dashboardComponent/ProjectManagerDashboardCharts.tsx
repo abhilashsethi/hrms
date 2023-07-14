@@ -1,16 +1,23 @@
 import { Tooltip } from "@mui/material";
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
-import { PhotoViewer } from "components/core";
+import { NoDatas, PhotoViewer } from "components/core";
+import { useAuth, useFetch } from "hooks";
+import moment from "moment";
 import Link from "next/link";
 interface Props {
 	data?: any;
 }
 const ProjectManagerDashboardCharts = ({ data }: Props) => {
+	const { user } = useAuth();
 	const getMonthName = (monthNumber: any) => {
 		const date = new Date();
 		date.setMonth(monthNumber - 1);
 		return date.toLocaleString("default", { month: "long" });
 	};
+	const { data: projectData } = useFetch<any>(
+		`projects?${user?.id ? `&managerId=${user?.id}` : ""}`
+	);
+	console.log(projectData);
 	const cards = [
 		{
 			id: 1,
@@ -45,6 +52,7 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 			link: `/admin/projects/project-details?id=${data?.projectId}`,
 		},
 	];
+
 	return (
 		<div className="w-full">
 			<div className="grid lg:grid-cols-2 content-between gap-6">
@@ -100,33 +108,54 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 				</div>
 				<div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
 					<p className="text-lg font-bold text-center">Recent Projects</p>
+					{projectData?.length === 0 && (
+						<NoDatas title="No leave Details yet!" />
+					)}
 					<div className="grid lg:grid-cols-2 grid-cols-1 lg:px-8 px-2 py-4 gap-4">
-						{cards?.map((item) => (
-							<Link href={item?.link} key={item?.id}>
-								<div
-									className={`h-full w-full bg-slate-200 py-4 lg:px-5 px-2 flex flex-col gap-2 rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
+						{projectData
+							?.sort(
+								(a: any, b: any) =>
+									(new Date(b?.createdAt) as any) -
+									(new Date(a?.createdAt) as any)
+							)
+							?.slice(0, 4)
+							?.map((item: any) => (
+								<Link
+									href={`admin/projects/project-details?id=${item?.id}`}
+									key={item?.id}
 								>
-									<Tooltip title="Project Manager">
-										<span className="flex w-full justify-center justify-items-center">
-											<PhotoViewer />
+									<div
+										className={`h-full w-full bg-slate-200 py-4 lg:px-5 px-2 flex flex-col gap-2 rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
+									>
+										<Tooltip title="Project Manager">
+											<span className="flex w-full justify-center justify-items-center">
+												<PhotoViewer />
+											</span>
+										</Tooltip>
+										<span className="font-semibold text-center tracking-wide text-lg">
+											{item?.name}
 										</span>
-									</Tooltip>
-									<span className="font-semibold text-center tracking-wide text-lg">
-										{item?.name}
-									</span>
-									<div className="grid lg:grid-cols-2 gap-4 text-sm text-center font-semibold">
-										<div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
-											<span>Start Date</span>
-											<span>15-02-2023</span>
-										</div>
-										<div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
-											<span>End Date</span>
-											<span>18-03-2023</span>
+										<div className="grid lg:grid-cols-2 gap-4 text-sm text-center font-semibold">
+											<div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
+												<span>Start Date</span>
+												<span>
+													{item?.startDate
+														? moment(item?.startDate).format("LL")
+														: "Not specified"}
+												</span>
+											</div>
+											<div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
+												<span>End Date</span>
+												<span>
+													{item?.endDate
+														? moment(item?.endDate).format("LL")
+														: "Not specified"}
+												</span>
+											</div>
 										</div>
 									</div>
-								</div>
-							</Link>
-						))}
+								</Link>
+							))}
 					</div>
 				</div>
 			</div>

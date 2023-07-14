@@ -12,11 +12,23 @@ import {
 } from "@mui/icons-material";
 import { Avatar, Grid, Tooltip } from "@mui/material";
 import { CardAsset } from "assets/home";
+import { NoDatas } from "components/core";
+import { useFetch } from "hooks";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { Leave } from "types";
 interface Props {
 	data?: any;
 }
 const ProjectManagerDashboardCards = ({ data }: Props) => {
+	const {
+		data: leavesData,
+		mutate,
+		pagination,
+		isLoading,
+	} = useFetch<any>(`leaves/manager/request`);
+	console.log(leavesData);
+	const router = useRouter();
 	const cards = [
 		{
 			id: 1,
@@ -187,7 +199,10 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 						<p>Recent Leaves </p>
 					</div>
 					<div className="h-[20rem] overflow-scroll">
-						{leave_status?.map?.((item, i) => {
+						{leavesData?.length === 0 && (
+							<NoDatas title="No leave Details yet!" />
+						)}
+						{leavesData?.map?.((item: any, i: any) => {
 							return (
 								<div key={i}>
 									<div className="border border-1 rounded-lg p-5 mb-2">
@@ -197,31 +212,41 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 												<p className="font-medium text-sm">
 													Name:{" "}
 													<span className="font-semibold text-sm">
-														{item?.name}
+														{item?.leave?.user?.name}
 													</span>
 												</p>
 												<p className="font-medium text-sm">
-													Id:{" "}
+													Role:{" "}
 													<span className="font-semibold text-sm">
-														{item?.id}
+														{item?.leave?.user?.role}
 													</span>
 												</p>
 											</div>
 										</div>
 										<div className="flex justify-between items-center mt-3">
 											<div className="text-sm font-semibold ">
-												<p>Leave Date</p>
-												<p>{item?.date}</p>
+												<p>Leave Type</p>
+												<p>{item?.leave?.type}</p>
 											</div>
-											<button
-												className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${
-													item?.status === "Pending"
-														? `text-red-700 bg-red-300`
-														: `text-green-700 bg-green-300`
-												} p-1 h-7 rounded-lg text-center`}
-											>
-												{item?.status}
-											</button>
+											<div className="flex flex-col gap-2 ">
+												<div
+													className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${
+														item?.status === "Pending"
+															? `text-red-700 bg-red-300`
+															: `text-green-700 bg-green-300`
+													} p-1 rounded-md text-center`}
+												>
+													{item?.status}
+												</div>
+												<button
+													className="bg-blue-500 text-xs text-white py-1 px-3 rounded-md hover:scale-105 ease-in-out transition-all duration-400"
+													onClick={() =>
+														router?.push("/admin/leaves/manager-leave-requests")
+													}
+												>
+													View
+												</button>
+											</div>
 										</div>
 									</div>
 								</div>
