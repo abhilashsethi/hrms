@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Loader, NoDatas } from "components/core";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -53,16 +53,17 @@ const style = {
   p: 4,
 };
 
-
-const ViewProjectsDrawer = ({ open, onClose, employData, setViewProject }: Props) => {
-  const router = useRouter();
+const ViewProjectsDrawer = ({
+  open,
+  onClose,
+  employData,
+  setViewProject,
+}: Props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedUser, setSearchedUser] = useState<any>([]);
-
+  const { user } = useAuth();
   const [openInfoModal, setOpenInfoModal] = useState(false);
-
   const handleInfoCloseModal = () => setOpenInfoModal(false);
-
   const { data: users, isLoading } = useFetch<User[]>(`users`);
   useEffect(() => {
     if (users) {
@@ -75,8 +76,18 @@ const ViewProjectsDrawer = ({ open, onClose, employData, setViewProject }: Props
 
   const classes = useStyles();
 
-  const { data: projectDetails, mutate } = useFetch<any>(
-    `projects?memberId=${employData?.id}`
+  const { data: projectDetails } = useFetch<any>(
+    `projects?${
+      user?.id
+        ? `managerId=${user?.role?.name === "PROJECT MANAGER" ? user?.id : ``}`
+        : ""
+    }${
+      user?.id
+        ? user?.role?.name === "PROJECT MANAGER"
+          ? ``
+          : `memberId=${user?.id}`
+        : ``
+    }`
   );
   // console.log(projectDetails);
 
@@ -140,10 +151,11 @@ const ViewProjectsDrawer = ({ open, onClose, employData, setViewProject }: Props
                     </div>
                     <div className="flex justify-end w-full">
                       <p
-                        className={`border border-green-500 p-1 rounded-full text-xs font-semibold text-white ${item?.status === "Pending"
-                          ? "bg-red-500"
-                          : "bg-green-500"
-                          } hover:scale-105 transition duration-300 ease-in-out cursor-pointer`}
+                        className={`border border-green-500 p-1 rounded-full text-xs font-semibold text-white ${
+                          item?.status === "Pending"
+                            ? "bg-red-500"
+                            : "bg-green-500"
+                        } hover:scale-105 transition duration-300 ease-in-out cursor-pointer`}
                       >
                         {item?.status}
                       </p>
