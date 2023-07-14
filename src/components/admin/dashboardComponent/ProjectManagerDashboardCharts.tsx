@@ -18,6 +18,10 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 		`projects?${user?.id ? `&managerId=${user?.id}` : ""}`
 	);
 	console.log(projectData);
+	const { data: projectDashboard } = useFetch<any>(
+		`dashboards/project/manager/dashboard/${user?.id}`
+	);
+	console.log(projectDashboard);
 	const cards = [
 		{
 			id: 1,
@@ -73,6 +77,7 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 							"Sept",
 							"Oct",
 							"Nov",
+							"Dec",
 						]}
 						data={[5, 5, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20]}
 						type="bar"
@@ -85,8 +90,20 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 						Current Month Projects Overview
 					</p>
 					<GuestDonutChart
-						labels={["On Going Projects", "Finished Projects", "Total Bugs"]}
-						series={[45, 25, 30]}
+						labels={
+							projectDashboard?.projectCountStatusWise?.length
+								? projectDashboard?.projectCountStatusWise?.map(
+										(item: any) => item?._id
+								  )
+								: []
+						}
+						series={
+							projectDashboard?.projectCountStatusWise?.length
+								? projectDashboard?.projectCountStatusWise?.map(
+										(item: any) => item?.count
+								  )
+								: []
+						}
 						text=""
 						type="donut"
 						colors={["#25d366", "#cddc39", "#448aff"]}
@@ -95,13 +112,20 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 				<div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="font-bold text-lg text-center">Ticket Issue Details</p>
 					<GuestBarChart
-						labels={[
-							"Yard Erp",
-							"HRMS Yard Iot",
-							"Study In Russia",
-							"Political Party Web",
-						]}
-						data={[5, 5, 10, 12]}
+						labels={
+							projectDashboard?.ticketsCountAccordingProjects?.length
+								? projectDashboard?.ticketsCountAccordingProjects?.map(
+										(item: any) => item?.projectName
+								  )
+								: []
+						}
+						data={
+							projectDashboard?.ticketsCountAccordingProjects?.length
+								? projectDashboard?.ticketsCountAccordingProjects?.map(
+										(item: any) => item?.ticketCount
+								  )
+								: []
+						}
 						type="bar"
 						text=""
 					/>

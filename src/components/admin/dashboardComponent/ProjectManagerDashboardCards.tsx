@@ -13,7 +13,7 @@ import {
 import { Avatar, Grid, Tooltip } from "@mui/material";
 import { CardAsset } from "assets/home";
 import { NoDatas } from "components/core";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Leave } from "types";
@@ -21,13 +21,13 @@ interface Props {
 	data?: any;
 }
 const ProjectManagerDashboardCards = ({ data }: Props) => {
-	const {
-		data: leavesData,
-		mutate,
-		pagination,
-		isLoading,
-	} = useFetch<any>(`leaves/manager/request`);
+	const { user } = useAuth();
+	const { data: leavesData } = useFetch<any>(`leaves/manager/request`);
 	console.log(leavesData);
+	const { data: projectDashboard } = useFetch<any>(
+		`dashboards/project/manager/dashboard/${user?.id}`
+	);
+	console.log(projectDashboard);
 	const router = useRouter();
 	const cards = [
 		{
@@ -35,7 +35,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 			color: "bg-[#bbcbff]",
 			icon: <AccountTree fontSize="medium" className="text-theme" />,
 			name: "Total Projects",
-			count: data?.totalInvolvedProjects || 0,
+			count: projectDashboard?.totalProjectCount || 0,
 			link: "admin/projects/my-projects",
 		},
 		{
@@ -43,7 +43,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 			color: "bg-[#b9e9fd]",
 			icon: <PendingActions fontSize="medium" className="text-theme" />,
 			name: "Total Pending Leave Requests",
-			count: data?.lastMonthAttendanceCount || 0,
+			count: projectDashboard?.totalPendingLeaveCount?.totalLeaveCount || 0,
 			link: "admin/leaves/leave-requests",
 		},
 		{
@@ -51,7 +51,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 			color: "bg-[#f6c8ff]",
 			icon: <BugReport fontSize="medium" className="text-theme" />,
 			name: "Total Bugs",
-			count: data?.totalAssignAssetCount || 0,
+			count: projectDashboard?.totalBugsCount || 0,
 			link: "/admin",
 		},
 		{
@@ -59,7 +59,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 			color: "bg-[#feb76f]",
 			icon: <Construction fontSize="medium" className="text-theme" />,
 			name: "Total Technology",
-			count: data?.totalChatCount || 0,
+			count: projectDashboard?.totalTechnologies || 0,
 			link: "/admin/technologies/all-technologies",
 		},
 	];
