@@ -1,5 +1,5 @@
 import { AccountTreeRounded } from "@mui/icons-material";
-import { HeadText, NoDatas } from "components/core";
+import { HeadText, Loader, NoDatas } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 
@@ -10,7 +10,7 @@ type Props = {
 
 const EmployProjects = ({ projectDetails, userName }: Props) => {
   const { user } = useAuth();
-  const { data: projectData } = useFetch<any>(
+  const { data: projectData, isLoading } = useFetch<any>(
     `projects?${
       user?.id
         ? `managerId=${user?.role?.name === "PROJECT MANAGER" ? user?.id : ``}`
@@ -23,10 +23,11 @@ const EmployProjects = ({ projectDetails, userName }: Props) => {
         : ``
     }`
   );
+
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
       <HeadText title="Latest Projects" />
-      {projectDetails?.length === 0 && (
+      {projectData?.length === 0 && (
         <NoDatas title="Not involved in any projects yet!" />
       )}
       <div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">

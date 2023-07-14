@@ -16,7 +16,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 interface Props {
   data?: any;
-  mutate?: any;
+  mutate: () => void;
 }
 const LeavesGrid = ({ data, mutate }: Props) => {
   const { user } = useAuth();
@@ -38,9 +38,15 @@ const LeavesGrid = ({ data, mutate }: Props) => {
                     item={item?.leave}
                     mutate={mutate}
                     key={item?.id}
+                    mainId={item?.id}
                   />
                 ) : (
-                  <CardComponent item={item} mutate={mutate} key={item?.id} />
+                  <CardComponent
+                    item={item}
+                    mainId={item?.id}
+                    mutate={mutate}
+                    key={item?.id}
+                  />
                 )}
               </>
             ))}
@@ -55,10 +61,11 @@ const steps = ["Team Manager", "Hr"];
 
 interface Props {
   item?: any;
-  mutate?: any;
+  mutate: () => void;
+  mainId?: string;
 }
 
-const CardComponent = ({ item, mutate }: Props) => {
+const CardComponent = ({ item, mainId, mutate }: Props) => {
   const { user } = useAuth();
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
@@ -77,7 +84,7 @@ const CardComponent = ({ item, mutate }: Props) => {
       if (result?.isConfirmed) {
         setLoading(true);
         try {
-          const res = await change(`leaves/manager/request/${id}`, {
+          const res = await change(`leaves/manager/request/${mainId}`, {
             method: "PATCH",
             body: { status: "Approved" },
           });
