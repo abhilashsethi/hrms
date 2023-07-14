@@ -8,7 +8,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { LeavesColumn, LeavesGrid } from "components/admin";
+import { LeavesColumnManager, LeavesGrid } from "components/admin";
 import {
   AdminBreadcrumbs,
   GridAndList,
@@ -159,7 +159,7 @@ const ManagerLeaveRequests = () => {
             {isGrid ? (
               <LeavesGrid data={leavesData} mutate={mutate} />
             ) : (
-              <LeavesColumn data={leavesData} mutate={mutate} />
+              <LeavesColumnManager data={leavesData} mutate={mutate} />
             )}
           </>
         )}
