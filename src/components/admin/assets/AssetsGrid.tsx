@@ -23,6 +23,7 @@ import { deleteFile } from "utils";
 import Lightbox from "yet-another-react-lightbox";
 import DownloadYet from "yet-another-react-lightbox/plugins/download";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -357,7 +358,13 @@ const MoreOption = ({ item, mutate }: any) => {
                   slides={item?.photos?.map((data: any, k: any) => {
                     return { src: data, download: `${data}?DownloadYet` };
                   })}
-                  plugins={[DownloadYet, Thumbnails, Zoom, Fullscreen]}
+                  plugins={[
+                    DownloadYet,
+                    Thumbnails,
+                    Slideshow,
+                    Zoom,
+                    Fullscreen,
+                  ]}
                 />
               </>
             ) : (
