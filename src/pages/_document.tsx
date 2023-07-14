@@ -5,7 +5,7 @@ export default function Document() {
 		<Html lang="en">
 			<Head>
 				<title>SY - YardOne</title>
-				<link rel="icon" href="/favicone.ico" />
+				<link rel="icon" href="/yo.png" />
 			</Head>
 			<body>
 				<Main />
