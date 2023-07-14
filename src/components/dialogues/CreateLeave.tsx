@@ -65,6 +65,8 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
+  const today = new Date();
+  today.setDate(today.getDate() + 1); // Get the next day's date
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
     const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
@@ -290,6 +292,10 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
                       size="small"
                       fullWidth
                       placeholder="Date"
+                      inputProps={{
+                        min: today.toISOString().split("T")[0],
+                        max: "9999-12-31",
+                      }}
                       type="date"
                       name="startDate"
                       value={values.startDate}

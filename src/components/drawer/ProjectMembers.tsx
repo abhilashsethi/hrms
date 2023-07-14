@@ -148,7 +148,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
     try {
       const res = await change(`projects/${projectData?.id}`, {
         method: "PATCH",
-        body: values,
+        body: { managerId: values?.managerId },
       });
       setLoading(false);
       if (res?.status !== 200) {
@@ -156,8 +156,9 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
         setLoading(false);
         return;
       }
-      mutate();
       Swal.fire(`Success`, `Manager Add Successfully`, `success`);
+      mutate();
+      onClose();
       setIsManager(false);
       return;
     } catch (error) {
