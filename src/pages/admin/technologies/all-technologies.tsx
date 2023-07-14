@@ -156,7 +156,6 @@ const AllTechnologies = () => {
 export default AllTechnologies;
 
 const links = [
-  { id: 1, page: "Technology", link: "/admin/technologies" },
   {
     id: 2,
     page: "All Technology",

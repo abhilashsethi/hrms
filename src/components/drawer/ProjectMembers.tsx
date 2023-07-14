@@ -25,6 +25,7 @@ import { useEffect } from "react";
 
 const initialValues = {
   managerId: "",
+  userId: "",
 };
 const members = {
   members: [""],
@@ -95,6 +96,53 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
       console.log(error);
     }
   };
+  const removeMember = (item: any) => {
+    console.log(item);
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: `You want to remove manager ${item?.name}!`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, remove!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          try {
+            const res = await change(
+              `projects/remove-member/${projectData?.id}`,
+              {
+                method: "PUT",
+                body: {
+                  userId: item?.id,
+                },
+              }
+            );
+            setLoading(false);
+            if (res?.status !== 200) {
+              Swal.fire(
+                "Error",
+                res?.results?.msg || "Unable to Delete",
+                "error"
+              );
+              setLoading(false);
+              return;
+            }
+            Swal.fire("Removed!", "Member removed successfully!", "success");
+            mutate();
+            onClose();
+            return;
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const updateManager = async (values: any) => {
     setLoading(true);
     try {
@@ -119,51 +167,59 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
       setLoading(false);
     }
   };
-  const updateMembers = (values: any) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to update members!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, update!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          setLoading(true);
-          const res = await change(
-            `projects/update-members/${projectData?.id}`,
-            {
-              method: "PATCH",
-              body: values,
-            }
-          );
-          setLoading(false);
-          if (res?.status !== 200) {
-            Swal.fire(
-              "Error",
-              res?.results?.msg || "Unable to Update",
-              "error"
-            );
-            setLoading(false);
-            return;
-          }
-          mutate();
-          onClose();
-          Swal.fire(`Success`, `Members updated successfully!`, `success`);
-          return;
-        } catch (error) {
-          console.log(error);
-          setLoading(false);
-        } finally {
-          setLoading(false);
-        }
-
+  const updateMembers = async (values: any) => {
+    try {
+      setLoading(true);
+      const res = await change(`projects/add/member/${projectData?.id}`, {
+        method: "PUT",
+        body: { userId: values?.userId },
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire("Error", res?.results?.msg || "Unable to Update", "error");
+        setLoading(false);
         return;
       }
-    });
+      mutate();
+      onClose();
+      Swal.fire(`Success`, `Members add successfully!`, `success`);
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+
+    return;
   };
+  const addMembers = async (values: any) => {
+    try {
+      setLoading(true);
+      const res = await change(`projects/update-members/${projectData?.id}`, {
+        method: "PATCH",
+        body: values,
+      });
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire("Error", res?.results?.msg || "Unable to Update", "error");
+        setLoading(false);
+        return;
+      }
+      mutate();
+      onClose();
+      Swal.fire(`Success`, `Members add successfully!`, `success`);
+      return;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+
+    return;
+  };
+
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
@@ -291,7 +347,82 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
                   {({ values, handleBlur, setFieldValue }) => (
                     <Form>
                       <Autocomplete
+                        options={employeesData ? (employeesData as any) : []}
+                        getOptionLabel={(option) =>
+                          option.name ? option?.name : ""
+                        }
+                        onChange={(e: any, r: any) => {
+                          setFieldValue("userId", r?.id);
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="standard"
+                            label="Team Members"
+                            placeholder="Select Members"
+                          />
+                        )}
+                      />
+                      <div className="flex justify-end mt-3">
+                        <Button
+                          type="submit"
+                          size="small"
+                          variant="contained"
+                          className="!bg-theme"
+                          disabled={loading}
+                          startIcon={
+                            loading ? <CircularProgress size={20} /> : <Check />
+                          }
+                        >
+                          ADD
+                        </Button>
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
+              </div>
+            )}
+            {projectData?.involvedMembers?.length ? (
+              <div className="mt-4 flex flex-col gap-2">
+                {projectData?.involvedMembers?.map((item) => (
+                  <div
+                    key={item?.id}
+                    className="h-24 w-full border-[1px] relative rounded-lg flex gap-3 items-center px-4"
+                  >
+                    {user?.role?.name === "CEO" ||
+                    user?.role?.name === "HR" ||
+                    user?.role?.name === "PROJECT MANAGER" ? (
+                      <>
+                        <div
+                          onClick={() => removeMember(item)}
+                          className="absolute right-[5px] top-[4px] cursor-pointer bg-red-500 h-6 w-6 rounded-full flex justify-center items-center"
+                        >
+                          <Close className="!text-[1rem] !text-white" />
+                        </div>
+                      </>
+                    ) : null}
+
+                    <PhotoViewer
+                      name={item?.name}
+                      photo={item?.photo ? item?.photo : null}
+                    />
+                    <div>
+                      <p className="font-semibold">{item?.name}</p>
+                      <p className="text-sm flex items-center gap-2 mt-1">
+                        <EmailRounded fontSize="small" /> {item?.email}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <>
+                <Formik initialValues={members} onSubmit={addMembers}>
+                  {({ values, handleBlur, setFieldValue }) => (
+                    <Form>
+                      <Autocomplete
                         multiple
+                        fullWidth
                         options={employeesData ? (employeesData as any) : []}
                         getOptionLabel={(option: any) => option.name}
                         value={employeesData?.filter((item: any) =>
@@ -323,46 +454,14 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
                             loading ? <CircularProgress size={20} /> : <Check />
                           }
                         >
-                          UPDATE
+                          ADD MEMBER
                         </Button>
                       </div>
                     </Form>
                   )}
                 </Formik>
-              </div>
-            )}
-            {projectData?.involvedMembers?.length ? (
-              <div className="mt-4 flex flex-col gap-2">
-                {projectData?.involvedMembers?.map((item) => (
-                  <div
-                    key={item?.id}
-                    className="h-24 w-full border-[1px] relative rounded-lg flex gap-3 items-center px-4"
-                  >
-                    <PhotoViewer
-                      name={item?.name}
-                      photo={item?.photo ? item?.photo : null}
-                    />
-                    <div>
-                      <p className="font-semibold">{item?.name}</p>
-                      <p className="text-sm flex items-center gap-2 mt-1">
-                        <EmailRounded fontSize="small" /> {item?.email}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <>
-                <div className="grid justify-items-center lg:py-12 py-6">
-                  <Button
-                    size="small"
-                    startIcon={<Add />}
-                    onClick={() => setIsMembers((prev) => !prev)}
-                    variant="contained"
-                    className="!bg-theme !hover:bg-theme-600 !text-white !font-semibold tracking-wide px-2"
-                  >
-                    ADD MEMBERS
-                  </Button>
+                <div className="grid justify-items-center w-full lg:py-12 py-6">
+                  <p>No Member Available</p>
                 </div>
               </>
             )}

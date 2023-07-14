@@ -16,7 +16,7 @@ import {
   LoaderAnime,
 } from "components/core";
 import { CreateLeave } from "components/dialogues";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import { Leave } from "types";
@@ -28,7 +28,6 @@ const ManagerLeaveRequests = () => {
   const [empId, setEmpId] = useState<string | null>(null);
   const [leaveType, setLeaveType] = useState<string | null>(null);
   const [leaveStatus, setLeaveStatus] = useState<string | null>(null);
-  const [isLeave, setIsLeave] = useState<boolean>(false);
   const {
     data: leavesData,
     mutate,
@@ -44,23 +43,10 @@ const ManagerLeaveRequests = () => {
   return (
     <PanelLayout title="Leave Requests - Admin Panel">
       <section className="md:px-8 px-4 py-2">
-        <CreateLeave
-          mutate={mutate}
-          open={isLeave}
-          handleClose={() => setIsLeave(false)}
-        />
         <div className="flex justify-between items-center py-4 md:flex-row flex-col">
           <AdminBreadcrumbs links={links} />
           <div className="flex gap-4 items-center">
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
-            <Button
-              onClick={() => setIsLeave((prev) => !prev)}
-              startIcon={<Add />}
-              variant="contained"
-              className="!bg-theme"
-            >
-              ADD LEAVE
-            </Button>
           </div>
         </div>
         <div className="md:flex gap-4 justify-between w-full py-2">
@@ -157,14 +143,19 @@ const ManagerLeaveRequests = () => {
         ) : (
           <>
             {isGrid ? (
-              <LeavesGrid data={leavesData} mutate={mutate} />
+              <>
+                {leavesData?.length ? (
+                  <LeavesGrid data={leavesData} mutate={mutate} />
+                ) : (
+                  <LoaderAnime text="No Request Available right now" />
+                )}
+              </>
             ) : (
               <LeavesColumnManager data={leavesData} mutate={mutate} />
             )}
           </>
         )}
 
-        {leavesData?.length === 0 && <LoaderAnime />}
         <section className="mb-6">
           {Math.ceil(
             Number(pagination?.total || 1) / Number(pagination?.limit || 1)
@@ -194,7 +185,6 @@ const ManagerLeaveRequests = () => {
 export default ManagerLeaveRequests;
 
 const links = [
-  { id: 1, page: "Leaves", link: "/admin/leaves" },
   { id: 2, page: "Leave Requests", link: "/admin/leaves/leave-requests" },
 ];
 

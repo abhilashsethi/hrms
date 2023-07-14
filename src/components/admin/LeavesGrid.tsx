@@ -59,10 +59,50 @@ interface Props {
 }
 
 const CardComponent = ({ item, mutate }: Props) => {
+  const { user } = useAuth();
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
   const [rloading, setRLoading] = useState(false);
   const [isDocuments, setIsDocuments] = useState(false);
+  const managerApproveLeave = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to approve!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, approve!",
+    }).then(async (result) => {
+      if (result?.isConfirmed) {
+        setLoading(true);
+        try {
+          const res = await change(`leaves/manager/request/${id}`, {
+            method: "PATCH",
+            body: { status: "Approved" },
+          });
+          setLoading(false);
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            setLoading(false);
+            return;
+          }
+          Swal.fire(`Success`, `Status changed successfully!`, `success`);
+          mutate();
+          return;
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
+  };
   const approveLeave = (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -158,16 +198,34 @@ const CardComponent = ({ item, mutate }: Props) => {
               {item?.status}
             </span>
             <div className="md:flex items-center justify-center mt-2 pt-2 space-x-3">
-              <Button
-                onClick={() => approveLeave(item?.id)}
-                className="!bg-green-600"
-                variant="contained"
-                disabled={loading}
-                startIcon={loading ? <CircularProgress size={20} /> : <Check />}
-                size="small"
-              >
-                ACCEPT
-              </Button>
+              {user?.role?.name === "PROJECT MANAGER" ? (
+                <Button
+                  onClick={() => managerApproveLeave(item?.id)}
+                  className="!bg-green-600"
+                  variant="contained"
+                  disabled={loading}
+                  startIcon={
+                    loading ? <CircularProgress size={20} /> : <Check />
+                  }
+                  size="small"
+                >
+                  ACCEPT
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => approveLeave(item?.id)}
+                  className="!bg-green-600"
+                  variant="contained"
+                  disabled={loading}
+                  startIcon={
+                    loading ? <CircularProgress size={20} /> : <Check />
+                  }
+                  size="small"
+                >
+                  ACCEPT
+                </Button>
+              )}
+
               <Button
                 onClick={() => rejectLeave(item?.id)}
                 className="!bg-red-600"

@@ -1,7 +1,6 @@
 import {
   AssignmentInd,
   AssignmentReturn,
-  Delete,
   DeleteRounded,
   Download,
   Edit,
@@ -9,12 +8,7 @@ import {
   Visibility,
 } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
-import { LoaderAnime } from "components/core";
-import {
-  AssignAsset,
-  ReturnAsset,
-  UpdateDepartment,
-} from "components/dialogues";
+import { AssignAsset, ReturnAsset } from "components/dialogues";
 import ChooseAssetHistory from "components/dialogues/ChooseAssetHistory";
 import UpdateAssets from "components/dialogues/UpdateAssets";
 import { DepartmentInformation } from "components/drawer";
@@ -22,19 +16,17 @@ import ViewAssetDetailsDrawer from "components/drawer/ViewAssetDetailsDrawer";
 import ViewAssetHistoryDrawer from "components/drawer/ViewAssetHistoryDrawer";
 import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
-import Link from "next/link";
 import { RefObject, createRef, useRef, useState } from "react";
 import Slider from "react-slick";
 import Swal from "sweetalert2";
 import { deleteFile } from "utils";
 import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
 import DownloadYet from "yet-another-react-lightbox/plugins/download";
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+import "yet-another-react-lightbox/styles.css";
 
 interface Props {
   data?: any;
