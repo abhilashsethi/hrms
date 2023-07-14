@@ -1,7 +1,14 @@
 import { AdminBreadcrumbs, ProjectDetails } from "components/core";
+import { useAuth } from "hooks";
 import PanelLayout from "layouts/panel";
 
 const ProjectDetailpage = () => {
+  const { user } = useAuth();
+  const links = [
+    user?.role?.name === "PROJECT MANAGER"
+      ? { id: 1, page: "My projects", link: "/admin/projects/my-projects" }
+      : { id: 1, page: "All projects", link: "/admin/projects/all-projects" },
+  ];
   return (
     <PanelLayout title="Project details - Admin Panel">
       <section className="md:px-8 px-2 py-4">
@@ -16,6 +23,3 @@ const ProjectDetailpage = () => {
 };
 
 export default ProjectDetailpage;
-const links = [
-  { id: 1, page: "All projects", link: "/admin/projects/all-projects" },
-];

@@ -1,20 +1,11 @@
 import MaterialTable from "@material-table/core";
-import {
-  Check,
-  Close,
-  Done,
-  HourglassBottomRounded,
-  Info,
-  KeyboardArrowDownRounded,
-  PendingActions,
-  RadioButtonChecked,
-} from "@mui/icons-material";
-import { Button, CircularProgress, Menu, MenuItem, Paper } from "@mui/material";
+import { Check, Close, Info, PendingActions } from "@mui/icons-material";
+import { Button, CircularProgress, Paper } from "@mui/material";
 import { HeadStyle, PhotoViewerSmall } from "components/core";
 import { LeaveDocuments } from "components/drawer";
-import { useChange, useFetch } from "hooks";
+import { useChange } from "hooks";
 import moment from "moment";
-import { useState, MouseEvent, useEffect } from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { MuiTblOptions } from "utils";
 
@@ -198,6 +189,8 @@ const LeavesColumnManager = ({ data, mutate }: Props) => {
                   name: _?.leave?.user?.name,
                   photo: _?.leave?.user?.photo ? _?.user?.photo : null,
                   role: _?.leave?.user?.role,
+                  totalLeaveThisMonth: _?.leave?.totalLeaveThisMonth,
+                  totalLeaveThisYear: _?.leave?.totalLeaveThisYear,
                 }))
           }
           options={{

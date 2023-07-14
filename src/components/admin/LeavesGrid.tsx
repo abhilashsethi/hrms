@@ -1,3 +1,4 @@
+import { Check, Close, KeyboardArrowLeftRounded } from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
@@ -8,11 +9,10 @@ import {
   Stepper,
   Tooltip,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Check, Close, KeyboardArrowLeftRounded } from "@mui/icons-material";
-import { LeaveDocuments } from "components/drawer";
 import { PhotoViewer } from "components/core";
-import { useAuth, useChange, useFetch } from "hooks";
+import { LeaveDocuments } from "components/drawer";
+import { useAuth, useChange } from "hooks";
+import { useState } from "react";
 import Swal from "sweetalert2";
 interface Props {
   data?: any;
