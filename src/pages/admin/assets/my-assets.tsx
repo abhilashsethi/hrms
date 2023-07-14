@@ -6,16 +6,8 @@ import PanelLayout from "layouts/panel";
 import { useEffect, useState } from "react";
 
 const MyAssets = () => {
-	const [isGrid, setIsGrid] = useState(true);
-	const [isChoose, setIsChoose] = useState(false);
 	const [isView, setIsView] = useState(false);
 	const [pageNumber, setPageNumber] = useState<number>(1);
-	const [userName, setUsername] = useState<string | null>(null);
-	const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
-	const [isBrand, setIsBrand] = useState<string | null>(null);
-	const [isBranch, setIsBranch] = useState<string | null>(null);
-	const [isModel, setIsModel] = useState<string | null>(null);
-	const [branchId, setBranchId] = useState<string | null>(null);
 	const { user } = useAuth();
 	const links = [
 		{
