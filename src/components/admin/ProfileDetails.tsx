@@ -23,7 +23,6 @@ import EmployLeaves from "./EmployLeaves";
 
 const ProfileDetails = () => {
   const { user } = useAuth();
-  const router = useRouter();
   const [isDialogue, setIsDialogue] = useState(false);
   const [isPersonal, setIsPersonal] = useState(false);
   const [isBank, setIsBank] = useState(false);
