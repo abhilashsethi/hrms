@@ -37,7 +37,7 @@ type NewMessageCountType = {
 	totalUnread: number;
 };
 
-const PanelLayout = ({ children, title = "HR MS - SearchingYard" }: Props) => {
+const PanelLayout = ({ children, title = "YardOne" }: Props) => {
 	const { user, setUser, validateUser, logout, syncUserState } = useAuth();
 	const { connect, socketRef } = useSocket();
 	const router = useRouter();

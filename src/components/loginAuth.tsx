@@ -1,6 +1,7 @@
 import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button, Checkbox, CircularProgress } from "@mui/material";
 import { Logo } from "assets/dashboard_Icons";
+import { LOGO } from "assets/home";
 import { Field, Form, Formik } from "formik";
 import { useAuth, useMutation } from "hooks";
 import Link from "next/link";
@@ -65,7 +66,6 @@ const LoginAuth = () => {
 			setUser(user);
 			setToken(res.data.accessToken);
 			router.push(`/admin`);
-
 		} catch (err) {
 			submitProps.setSubmitting(false);
 			Swal.fire(
@@ -84,11 +84,11 @@ const LoginAuth = () => {
 						<div className="md:w-[7rem] w-[5rem] md:h-[7rem] h-[5rem]  bg-[#FFB774]"></div>
 					</div>
 					<div className="flex absolute z-[30]  top-4 left-4 items-center justify-center px-8">
-						<img src={Logo.src} alt="logo" className="w-full h-10" />
+						<img src={LOGO.src} alt="logo" className="w-full h-10" />
 					</div>
 					<div className="flex  absolute md:top-60 z-[30] top-20 left-4 flex-col h-full gap-4 px-8">
 						<h1 className="md:text-4xl text-3xl text-blue-600 font-bold text-start tracking-wide">
-							Welcome to HRMS
+							Welcome To YardOne
 						</h1>
 						<p className="text-themeDarkGray md:font-medium text-sm md:tracking-wide tracking-normal  leading-6 md:text-start text-justify">
 							Streamline HR processes, optimize employee management, and enhance

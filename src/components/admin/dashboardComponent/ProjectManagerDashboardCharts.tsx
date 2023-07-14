@@ -89,7 +89,7 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 						series={[45, 25, 30]}
 						text=""
 						type="donut"
-						colors={["#25d366", "#E60023", "#BD33B5"]}
+						colors={["#25d366", "#cddc39", "#448aff"]}
 					/>
 				</div>
 				<div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
