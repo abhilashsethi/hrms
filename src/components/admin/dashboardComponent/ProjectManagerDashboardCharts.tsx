@@ -61,25 +61,22 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 		<div className="w-full">
 			<div className="grid lg:grid-cols-2 content-between gap-6">
 				<div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
-					<p className="font-bold text-lg text-center">
-						Current Year Leave Overview
-					</p>
+					<p className="font-bold text-lg text-center">Attendance Overview</p>
 					<GuestBarChart
-						labels={[
-							"Jan",
-							"Feb",
-							"Mar",
-							"Apr",
-							"May",
-							"Jun",
-							"Jul",
-							"Aug",
-							"Sept",
-							"Oct",
-							"Nov",
-							"Dec",
-						]}
-						data={[5, 5, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20]}
+						labels={
+							projectDashboard?.allAttendanceMonthWise?.length
+								? projectDashboard?.allAttendanceMonthWise?.map(
+										(item: any) => item?.month
+								  )
+								: []
+						}
+						data={
+							projectDashboard?.allAttendanceMonthWise?.length
+								? projectDashboard?.allAttendanceMonthWise?.map(
+										(item: any) => item?.count
+								  )
+								: []
+						}
 						type="bar"
 						text=""
 					/>
