@@ -134,7 +134,6 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
       setLoading(false);
     }
   };
-  console.log(leaveData);
   return (
     <Dialog
       onClose={handleClose}
