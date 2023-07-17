@@ -194,29 +194,65 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               {currentChatProfileDetails?.isPrivateGroup ? (
                 <span
                   className={`${
-                    currentChatProfileDetails?.chatMembers?.find(
-                      (item) => item?.user?.id !== user?.id
-                    )?.user?.isOnline
+                    currentChatProfileDetails?.chatMembers?.find((item) =>
+                      item?.isClient
+                        ? item?.client?.id !== user?.id
+                        : item?.user?.id !== user?.id
+                    )?.isClient
+                      ? currentChatProfileDetails?.chatMembers?.find((item) =>
+                          item?.isClient
+                            ? item?.client?.id !== user?.id
+                            : item?.user?.id !== user?.id
+                        )?.client?.isOnline
+                      : currentChatProfileDetails?.chatMembers?.find((item) =>
+                          item?.isClient
+                            ? item?.client?.id !== user?.id
+                            : item?.user?.id !== user?.id
+                        )?.user?.isOnline
                       ? "text-green-500"
                       : "text-gray-500"
                   }`}
                 >
                   {typingUser?.length
                     ? "Typing..."
-                    : currentChatProfileDetails?.chatMembers?.find(
-                        (item) => item?.user?.id !== user?.id
+                    : currentChatProfileDetails?.chatMembers?.find((item) =>
+                        item?.isClient
+                          ? item?.client?.id !== user?.id
+                          : item?.user?.id !== user?.id
+                      )?.isClient
+                    ? currentChatProfileDetails?.chatMembers?.find((item) =>
+                        item?.isClient
+                          ? item?.client?.id !== user?.id
+                          : item?.user?.id !== user?.id
+                      )?.client?.isOnline
+                    : currentChatProfileDetails?.chatMembers?.find((item) =>
+                        item?.isClient
+                          ? item?.client?.id !== user?.id
+                          : item?.user?.id !== user?.id
                       )?.user?.isOnline
                     ? "Active Now"
                     : `Last seen at ${
-                        (currentChatProfileDetails?.chatMembers?.find(
-                          (item) => item?.user?.id !== user?.id
-                        )?.user?.lastActiveTime &&
-                          formatChatTime(
-                            currentChatProfileDetails?.chatMembers?.find(
-                              (item) => item?.user?.id !== user?.id
-                            )?.user?.lastActiveTime
-                          )) ||
-                        "unknown"
+                        (currentChatProfileDetails?.chatMembers?.find((item) =>
+                          item?.isClient
+                            ? item?.client?.id !== user?.id
+                            : item?.user?.id !== user?.id
+                        )?.isClient
+                          ? formatChatTime(
+                              currentChatProfileDetails?.chatMembers?.find(
+                                (item) =>
+                                  item?.isClient
+                                    ? item?.client?.id !== user?.id
+                                    : item?.user?.id !== user?.id
+                              )?.client?.lastActiveTime
+                            )
+                          : formatChatTime(
+                              currentChatProfileDetails?.chatMembers?.find(
+                                (item) =>
+                                  item?.user
+                                    ? item?.user?.id !== user?.id
+                                    : item?.client?.id !== user?.id
+                              )?.user?.lastActiveTime
+                            )) || "unknown"
                       }`}
                 </span>
               ) : (
