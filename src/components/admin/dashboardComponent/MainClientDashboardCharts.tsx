@@ -88,13 +88,13 @@ const MainClientDashboardCharts = ({ data }: Props) => {
           </p>
           <GuestDonutChart
             labels={
-              clientData?.projectCountStatusWise?.length
-                ? clientData?.projectCountStatusWise?.map((item) => item?._id)
+              clientData?.ticketCounts?.length
+                ? clientData?.ticketCounts?.map((item) => item?.name)
                 : []
             }
             series={
-              clientData?.projectCountStatusWise?.length
-                ? clientData?.projectCountStatusWise?.map((item) => item?.count)
+              clientData?.ticketCounts?.length
+                ? clientData?.ticketCounts?.map((item) => item?.count)
                 : []
             }
             text=""

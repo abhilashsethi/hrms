@@ -35,8 +35,8 @@ const MainClientDashboardCards = ({ data }: Props) => {
     {
       id: 2,
       icon: <WebAsset fontSize="large" className="text-theme" />,
-      name: "On Going Projects",
-      count: clientData?.totalOngoingProject || 0,
+      name: "Total Tickets",
+      count: clientData?.totalTicketCount || 0,
       color: "bg-[#b9e9fd]",
       link: "/admin",
     },
