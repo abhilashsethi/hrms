@@ -35,9 +35,11 @@ const LeaveRequests = () => {
     pagination,
     isLoading,
   } = useFetch<Leave[]>(
-    `leaves/all?page=${pageNumber}&limit=8${userName ? `&employeeName=${userName}` : ""
-    }${empId ? `&employeeID=${empId}` : ""}${leaveStatus ? `&status=${leaveStatus}` : ""
-    }${leaveType ? `&type=${leaveType}` : ""}`
+    `leaves/all?page=${pageNumber}&limit=8${
+      userName ? `&employeeName=${userName}` : ""
+    }${empId ? `&employeeID=${empId}` : ""}${
+      leaveStatus ? `&status=${leaveStatus}` : ""
+    }${leaveType ? `&type=${leaveType}` : ""}&orderBy:createdAt:asc`
   );
   return (
     <PanelLayout title="Leave Requests - Admin Panel">
@@ -77,17 +79,17 @@ const LeaveRequests = () => {
               <Tooltip
                 title={
                   empId != null ||
-                    leaveStatus != null ||
-                    leaveType != null ||
-                    userName != null
+                  leaveStatus != null ||
+                  leaveType != null ||
+                  userName != null
                     ? `Remove Filters`
                     : `Filter`
                 }
               >
                 {empId != null ||
-                  leaveStatus != null ||
-                  leaveType != null ||
-                  userName != null ? (
+                leaveStatus != null ||
+                leaveType != null ||
+                userName != null ? (
                   <Close className={"!text-white"} />
                 ) : (
                   <FilterListRounded className={"!text-white"} />
@@ -172,7 +174,7 @@ const LeaveRequests = () => {
                 <Pagination
                   count={Math.ceil(
                     Number(pagination?.total || 1) /
-                    Number(pagination?.limit || 1)
+                      Number(pagination?.limit || 1)
                   )}
                   onChange={(e, v: number) => {
                     setPageNumber(v);

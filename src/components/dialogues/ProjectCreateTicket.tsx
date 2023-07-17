@@ -24,11 +24,7 @@ interface Props {
   handleClose?: any;
   mutate?: any;
 }
-type IMAGES_TYPES = {
-  file: File;
-  uniId: string;
-  previewURL: string;
-};
+
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required!"),
   description: Yup.string().required("Required field!"),
@@ -43,24 +39,12 @@ const ProjectCreateTicket = ({ open, handleClose, mutate }: Props) => {
   const initialValues = {
     title: "",
     description: "",
-    uploadDoc: [] as IMAGES_TYPES[],
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
 
     try {
-      const docsUrls = [];
-      for (const docs of values?.uploadDoc) {
-        // console.log(docs?.uniId);
-
-        const url = await uploadFile(
-          docs?.file,
-          `${Date.now()}.${docs?.uniId}`
-        );
-        docsUrls.push({ link: url, filetype: docs?.uniId });
-      }
       const reqData = {
-        documents: docsUrls,
         clientId: user?.id,
         title: values?.title,
         description: values?.description,
@@ -70,7 +54,7 @@ const ProjectCreateTicket = ({ open, handleClose, mutate }: Props) => {
         body: reqData,
       });
       setLoading(false);
-      if (res?.status !== 200) {
+      if (res?.status !== 201) {
         Swal.fire("Error", res?.results?.msg || "Unable to Create", "error");
         setLoading(false);
         return;
@@ -170,59 +154,6 @@ const ProjectCreateTicket = ({ open, handleClose, mutate }: Props) => {
                           error={touched.description && !!errors.description}
                           helperText={touched.description && errors.description}
                         />
-                      </div>
-                      {/* ----------------------------multiple Docs component------------------ */}
-                      <div className="py-2">
-                        <div className="py-2">
-                          <InputLabel htmlFor="name">
-                            Upload Document
-                          </InputLabel>
-                        </div>
-                        <div
-                          onClick={() => docsRef?.current?.click()}
-                          className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
-                        >
-                          <input
-                            className="hidden"
-                            ref={docsRef}
-                            type="file"
-                            multiple
-                            onChange={(event) => {
-                              const files: File[] = Array.from(
-                                event.target.files!
-                              );
-                              const fileObjects = files.map((file: File) => {
-                                const uniId = file.type
-                                  .split("/")[1]
-                                  .split("+")[0]; // Get unique ID of the image
-                                return {
-                                  file,
-                                  previewURL: URL.createObjectURL(file),
-                                  uniId, // Add unique ID to the file object
-                                };
-                              });
-                              setFieldValue("uploadDoc", fileObjects);
-                            }}
-                          />
-                          <div className="flex justify-center items-center gap-2 flex-wrap">
-                            {values.uploadDoc.map((image, index) => (
-                              <div className="" key={index}>
-                                <img
-                                  className="w-20 object-contain"
-                                  src={PDF.src}
-                                  alt={`Image ${index + 1}`}
-                                />
-                              </div>
-                            ))}
-                          </div>
-                          <p>Upload Docs</p>
-                          <CloudUpload fontSize="large" color="primary" />
-                          <ErrorMessage
-                            name="uploadDoc"
-                            component="div"
-                            className="error"
-                          />
-                        </div>
                       </div>
                     </div>
                     <div className="flex justify-center py-4">

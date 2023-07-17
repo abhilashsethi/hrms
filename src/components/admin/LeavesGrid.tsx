@@ -25,31 +25,25 @@ const LeavesGrid = ({ data, mutate }: Props) => {
     <>
       <section className="md:py-2 py-2">
         <Grid container spacing={3}>
-          {data
-            ?.sort(
-              (a: any, b: any) =>
-                (new Date(b?.createdAt) as any) -
-                (new Date(a?.createdAt) as any)
-            )
-            ?.map((item: any) => (
-              <>
-                {user?.role?.name === "PROJECT MANAGER" ? (
-                  <CardComponent
-                    item={item?.leave}
-                    mutate={mutate}
-                    key={item?.id}
-                    mainId={item?.id}
-                  />
-                ) : (
-                  <CardComponent
-                    item={item}
-                    mainId={item?.id}
-                    mutate={mutate}
-                    key={item?.id}
-                  />
-                )}
-              </>
-            ))}
+          {data?.map((item: any) => (
+            <>
+              {user?.role?.name === "PROJECT MANAGER" ? (
+                <CardComponent
+                  item={item?.leave}
+                  mutate={mutate}
+                  key={item?.id}
+                  mainId={item?.id}
+                />
+              ) : (
+                <CardComponent
+                  item={item}
+                  mainId={item?.id}
+                  mutate={mutate}
+                  key={item?.id}
+                />
+              )}
+            </>
+          ))}
         </Grid>
       </section>
     </>
