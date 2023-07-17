@@ -17,6 +17,8 @@ import {
   MainManagerDashboardCharts,
   ProjectManagerDashboardCards,
   ProjectManagerDashboardCharts,
+  SalesDashboardCards,
+  SalesDashboardCharts,
   UserDashboardCards,
   UserDashboardCharts,
 } from "components/admin/dashboardComponent";
@@ -88,6 +90,20 @@ const AdminHome = () => {
                 <section className="lg:px-8 px-4 py-4">
                   <MainManagerDashboardCards data={""} />
                   <MainManagerDashboardCharts data={""} />
+                </section>
+              </>
+            )}
+          </>
+        ) : user?.role?.name === "SALES" ? (
+          <>
+            {isLoading ? (
+              <DashboardSkeletonLoading />
+            ) : (
+              <>
+                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                <section className="lg:px-8 px-4 py-4">
+                  <SalesDashboardCards data={""} />
+                  <SalesDashboardCharts data={""} />
                 </section>
               </>
             )}

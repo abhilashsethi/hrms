@@ -18,3 +18,5 @@ export { default as UserDashboardCards } from "./UserDashboardCards";
 export { default as UserDashboardCharts } from "./UserDashboardCharts";
 export { default as BidDashboardCards } from "./BidDashboardCards";
 export { default as BidDashboardCharts } from "./BidDashboardCharts";
+export { default as SalesDashboardCards } from "./SalesDashboardCards";
+export { default as SalesDashboardCharts } from "./SalesDashboardCharts";
