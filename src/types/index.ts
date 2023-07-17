@@ -125,6 +125,7 @@ export type User = {
 	}[];
 	isClient?: boolean;
 	uanNo?: string;
+	clientId?: string;
 };
 
 interface urlTypes {

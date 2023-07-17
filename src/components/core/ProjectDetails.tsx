@@ -192,6 +192,7 @@ const ProjectDetails = () => {
                 <div>
                   <p>No Members assigned</p>
                   <Button
+                    disabled={user?.isClient}
                     onClick={() => setIsMembers(true)}
                     variant="contained"
                     className="bg-theme"
@@ -217,7 +218,7 @@ const ProjectDetails = () => {
               )}
             </div>
 
-            {/* ------------shortcuts------------ */}
+            {/* ------------shortcuts-----------                    - */}
             <div className="w-full flex gap-2 mt-6 justify-center">
               {shortCuts?.map((item) => (
                 <Tooltip key={item?.id} title={item?.title}>

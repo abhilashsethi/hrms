@@ -34,7 +34,7 @@ const Notification = () => {
               notice?.map((item, index) => (
                 <div
                   key={item?.id}
-                  className="flex my-4 shadow-md gap-6 rounded-lg bg-white overflow-hidden "
+                  className="flex hover:scale-105 transition duration-500 ease-in-out my-4 shadow-md gap-6 rounded-lg bg-white overflow-hidden "
                 >
                   <div
                     className={`flex flex-1 flex-col p-4 border-l-8 

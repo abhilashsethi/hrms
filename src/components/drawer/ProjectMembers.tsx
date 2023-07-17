@@ -45,7 +45,6 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
   const [isMembers, setIsMembers] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isManagers, setIsManagers] = useState<any>([]);
-  console.log(employeesData);
 
   useEffect(() => {
     const project_manager = employeesData

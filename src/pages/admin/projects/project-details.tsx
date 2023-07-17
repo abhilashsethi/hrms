@@ -7,6 +7,8 @@ const ProjectDetailpage = () => {
   const links = [
     user?.role?.name === "PROJECT MANAGER"
       ? { id: 1, page: "My projects", link: "/admin/projects/my-projects" }
+      : user?.isClient
+      ? { id: 1, page: "My projects", link: "/admin/projects/client-projects" }
       : { id: 1, page: "All projects", link: "/admin/projects/all-projects" },
   ];
   return (
