@@ -71,3 +71,4 @@ export { default as UpdateBankDetails } from "./UpdateBankDetails";
 export { default as AddSignatureConfig } from "./AddSignatureConfig";
 export { default as UpdateSignatureConfig } from "./UpdateSignatureConfig";
 export { default as SendReply } from "./SendReply";
+export { default as NotificationInfo } from "./NotificationInfo";

@@ -76,19 +76,19 @@ const UpdateProfileHead = ({
   const { data: branchData } = useFetch<any>(`branches`);
   const router = useRouter();
   const initialValues = {
-    firstName: employData?.firstName || "",
-    lastName: employData?.lastName || "",
-    // employeeID: employData?.employeeID || "",
-    phone: employData?.phone || "",
-    email: employData?.email || "",
-    dob: employData?.dob || "",
-    address: employData?.address || "",
-    gender: employData?.gender || "",
-    roleId: employData?.roleId || "",
-    departmentId: employData?.departmentId || "",
-    joiningDate: employData?.joiningDate || "",
-    bloodGroup: employData?.bloodGroup || "",
-    employeeOfBranchId: employData?.employeeOfBranchId || "",
+    firstName: employData?.firstName || null,
+    lastName: employData?.lastName || null,
+    // employeeID: employData?.employeeID || null,
+    phone: employData?.phone || null,
+    email: employData?.email || null,
+    dob: employData?.dob || null,
+    address: employData?.address || null,
+    gender: employData?.gender || null,
+    roleId: employData?.roleId || null,
+    departmentId: employData?.departmentId || null,
+    joiningDate: employData?.joiningDate || null,
+    bloodGroup: employData?.bloodGroup || null,
+    employeeOfBranchId: employData?.employeeOfBranchId || null,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);

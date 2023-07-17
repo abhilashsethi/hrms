@@ -1,16 +1,18 @@
 import {
   AccountTree,
-  BugReport,
   Chat,
-  Construction,
   Email,
   EventAvailable,
+  FactCheck,
+  Groups,
   PendingActions,
   PersonPin,
+  QuestionAnswer,
   RecentActors,
   SupportAgent,
+  WebAsset,
 } from "@mui/icons-material";
-import { Avatar, Grid, Tooltip } from "@mui/material";
+import { Grid, Tooltip } from "@mui/material";
 import { CardAsset } from "assets/home";
 import { NoDatas, PhotoViewer } from "components/core";
 import { useAuth, useFetch } from "hooks";
@@ -19,7 +21,7 @@ import { Leave } from "types";
 interface Props {
   data?: any;
 }
-const BidManagerDashboardCards = ({ data }: Props) => {
+const SalesDashboardCards = ({ data }: Props) => {
   const { user } = useAuth();
   const { data: leaveData } = useFetch<Leave[]>(
     `leaves?${user?.id ? `userId=${user?.id}` : ""}`
@@ -29,33 +31,33 @@ const BidManagerDashboardCards = ({ data }: Props) => {
       id: 1,
       color: "bg-[#bbcbff]",
       icon: <AccountTree fontSize="medium" className="text-theme" />,
-      name: "Total Leaves This Year",
+      name: "Total Meetings",
       count: data?.totalInvolvedProjects || 0,
-      link: "/admin/leaves/my-leaves",
+      link: "/admin/meetings/my-meetings",
     },
     {
       id: 2,
       color: "bg-[#b9e9fd]",
-      icon: <PendingActions fontSize="medium" className="text-theme" />,
-      name: "Total Assets",
-      count: data?.lastMonthAttendanceCount || 0,
-      link: "/admin/assets/my-assets",
+      icon: <FactCheck fontSize="medium" className="text-theme" />,
+      name: "Total Attendance This Month",
+      count: data?.currentMonthAttendanceCount || 0,
+      link: "/admin/employees/my-profile",
     },
     {
       id: 3,
       color: "bg-[#f6c8ff]",
-      icon: <BugReport fontSize="medium" className="text-theme" />,
-      name: "Total Tenders",
+      icon: <WebAsset fontSize="medium" className="text-theme" />,
+      name: "Total Assets Assigned",
       count: data?.totalAssignAssetCount || 0,
-      link: "/admin/tenders/all-tenders",
+      link: "/admin/employees/my-profile",
     },
     {
       id: 4,
       color: "bg-[#feb76f]",
-      icon: <Construction fontSize="medium" className="text-theme" />,
-      name: "Total Attendance This Month",
+      icon: <QuestionAnswer fontSize="medium" className="text-theme" />,
+      name: "Total Chats",
       count: data?.totalChatCount || 0,
-      link: "/admin/attendances/my-attendance",
+      link: "/admin/employees/my-profile",
     },
   ];
   const Quick_Access = [
@@ -83,9 +85,9 @@ const BidManagerDashboardCards = ({ data }: Props) => {
     {
       id: 4,
       icon: <AccountTree fontSize="medium" className="text-white" />,
-      title: "All Tenders",
+      title: "My Meetings",
       color: "bg-[#00bcd4]",
-      link: "/admin/tenders/all-tenders",
+      link: "/admin/meetings/my-meetings",
     },
     {
       id: 5,
@@ -97,6 +99,7 @@ const BidManagerDashboardCards = ({ data }: Props) => {
     {
       id: 6,
       icon: <Chat fontSize="medium" className="text-white" />,
+
       title: "Chats",
       color: "bg-[#3f51b5]",
       link: "/admin/chat",
@@ -106,7 +109,7 @@ const BidManagerDashboardCards = ({ data }: Props) => {
       icon: <SupportAgent fontSize="medium" className="text-white" />,
       title: "Support",
       color: "bg-[#4caf50]",
-      link: "/admin/support",
+      link: "/admin/admin/support/create-support",
     },
   ];
 
@@ -233,4 +236,4 @@ const BidManagerDashboardCards = ({ data }: Props) => {
   );
 };
 
-export default BidManagerDashboardCards;
+export default SalesDashboardCards;

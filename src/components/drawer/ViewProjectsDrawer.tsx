@@ -13,8 +13,7 @@ import { Loader, NoDatas } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { User } from "types";
+import { useState } from "react";
 
 type Props = {
   open?: boolean | any;
