@@ -252,7 +252,7 @@ export type ClientDashboard = {
 	_id?: string;
 	ticketCount?: number;
 	count?: number;
-	notResolvedTicketCount?: number;
+	name?: string;
 };
 export type Photos = {
 	file?: File;
