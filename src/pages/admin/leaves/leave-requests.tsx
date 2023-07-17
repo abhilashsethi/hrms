@@ -39,7 +39,7 @@ const LeaveRequests = () => {
       userName ? `&employeeName=${userName}` : ""
     }${empId ? `&employeeID=${empId}` : ""}${
       leaveStatus ? `&status=${leaveStatus}` : ""
-    }${leaveType ? `&type=${leaveType}` : ""}&orderBy:createdAt:asc`
+    }${leaveType ? `&type=${leaveType}` : ""}&orderBy=createdAt:asc`
   );
   return (
     <PanelLayout title="Leave Requests - Admin Panel">
