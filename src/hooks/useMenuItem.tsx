@@ -633,11 +633,25 @@ export default () => {
 				},
 			],
 		},
+
 		{
 			key: "15",
 			title: "Support",
 			icon: <ICONS.Support />,
-			route: "/admin/support",
+			submenus: [
+				{
+					key: "15-1",
+					title: "Create Support",
+					icon: <ICONS.Support />,
+					route: "/admin/support/create-support",
+				},
+				{
+					key: "15-2",
+					title: "All Supports",
+					icon: <ICONS.Support />,
+					route: "/admin/support/all-supports",
+				},
+			],
 		},
 		{
 			key: "11wfewfwfwe",
