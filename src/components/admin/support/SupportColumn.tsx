@@ -2,8 +2,8 @@ import MaterialTable from "@material-table/core";
 import {
 	Delete,
 	Info,
-	Inventory2,
 	Send,
+	SupportAgent,
 	Visibility,
 } from "@mui/icons-material";
 import {
@@ -78,7 +78,7 @@ const SupportColumn = ({ data, mutate }: Props) => {
 				handleClose={() => setIsReply({ dialogue: false })}
 			/>
 			<MaterialTable
-				title={<HeadStyle name="All Supports" icon={<Inventory2 />} />}
+				title={<HeadStyle name="All Supports" icon={<SupportAgent />} />}
 				isLoading={!data}
 				data={data ? getDataWithSL<any>(data) : []}
 				options={{

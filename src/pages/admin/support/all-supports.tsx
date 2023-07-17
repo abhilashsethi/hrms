@@ -9,26 +9,14 @@ import { Bills } from "types";
 
 const AllSupports = () => {
 	const [pageNumber, setPageNumber] = useState<number>(1);
-	const [clientName, setClientName] = useState<string | null>(null);
-	const [billNumber, setBillNumber] = useState<string | null>(null);
-	const [BillStatus, setBillStatus] = useState<string | null>(null);
 	const [selectDate, setSelectDate] = useState<string | null>(null);
-	const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
 	console.log({ selectDate });
 	const {
 		data: billData,
 		mutate,
 		isLoading,
 		pagination,
-	} = useFetch<Bills[]>(
-		`bills?page=${pageNumber}&limit=6${
-			clientName ? `&clientName=${clientName}` : ""
-		}${BillStatus ? `&billType=${BillStatus}` : ""}${
-			billNumber ? `&billNumber=${billNumber}` : ""
-		}${selectDate ? `&dueDate=${selectDate}` : ""}${
-			isOrderBy ? `&orderBy=${isOrderBy}` : ""
-		}`
-	);
+	} = useFetch<Bills[]>(`bills`);
 	return (
 		<>
 			<PanelLayout title="Bills - Admin Panel">
@@ -153,17 +141,15 @@ const AllSupports = () => {
 							</TextField>
 						</div>
 					</div> */}
-					{isLoading ? (
-						<SkeletonLoader />
-					) : (
-						<>
-							{billData?.length ? (
-								<SupportColumn data={billData} mutate={mutate} />
-							) : (
-								<LoaderAnime text="No data" />
-							)}
-						</>
-					)}
+
+					<>
+						{billData?.length ? (
+							<SupportColumn data={billData} mutate={mutate} />
+						) : (
+							<LoaderAnime text="No data" />
+						)}
+					</>
+
 					<section className="mb-6">
 						{Math.ceil(
 							Number(pagination?.total || 1) / Number(pagination?.limit || 1)
@@ -193,13 +179,6 @@ const AllSupports = () => {
 
 export default AllSupports;
 
-const status = [
-	{ id: 1, value: "Unpaid" },
-	{ id: 2, value: "Advance" },
-	{ id: 3, value: "Paid" },
-];
-
 const links = [
-	{ id: 1, page: "Suppport", link: "/admin/support" },
 	{ id: 2, page: "All Support", link: "/admin/support/all-supports" },
 ];

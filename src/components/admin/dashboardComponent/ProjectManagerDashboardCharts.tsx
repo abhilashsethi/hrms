@@ -1,9 +1,9 @@
-import { Tooltip } from "@mui/material";
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
 import { NoDatas, PhotoViewer } from "components/core";
 import { useAuth, useFetch } from "hooks";
-import moment from "moment";
+import { Tooltip } from "@mui/material";
 import Link from "next/link";
+import moment from "moment";
 interface Props {
 	data?: any;
 }
@@ -22,40 +22,6 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 		`dashboards/project/manager/dashboard/${user?.id}`
 	);
 	console.log(projectDashboard);
-	const cards = [
-		{
-			id: 1,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "Yard Erp",
-			count: data?.GuestInfo?.totalGuest || 0,
-			link: `/admin/projects/project-details?id=${data?.projectId}`,
-		},
-		{
-			id: 2,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "HRMS Yard Iot",
-			count: data?.GuestInfo?.blockedGuestCount || 0,
-			link: `/admin/projects/project-details?id=${data?.projectId}`,
-		},
-		{
-			id: 3,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "Study In Russia",
-			count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
-			link: `/admin/projects/project-details?id=${data?.projectId}`,
-		},
-		{
-			id: 4,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "Political Party Web",
-			count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
-			link: `/admin/projects/project-details?id=${data?.projectId}`,
-		},
-	];
 
 	return (
 		<div className="w-full">

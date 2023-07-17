@@ -57,7 +57,7 @@ const AssignedAssetsLists = () => {
 			isBranch ? `&branchName=${isBranch}` : ""
 		}${isModel ? `&modelName=${isModel}` : ""}`
 	);
-	// console.log(assetsData);
+	console.log(assetsData);
 
 	return (
 		<PanelLayout title="All Assets - Admin Panel">

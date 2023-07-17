@@ -167,7 +167,16 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 			<MaterialTable
 				title={<HeadStyle name="All Assets" icon={<Inventory2 />} />}
 				isLoading={!data}
-				data={data ? getDataWithSL<any>(data) : []}
+				data={
+					data
+						? data?.map((_: any, i: number) => ({
+								..._,
+								sl: i + 1,
+								dateOfPurchase: new Date(_?.dateOfPurchase).toLocaleString(),
+								createdAt: new Date(_?.createdAt).toLocaleString(),
+						  }))
+						: []
+				}
 				options={{ ...MuiTblOptions(), selection: false, paging: false }}
 				columns={[
 					{
