@@ -251,15 +251,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
                       </Badge>
                     </Tooltip>
                   </Link>
-                  <Link
-                    href={
-                      user?.role?.name === "CEO"
-                        ? "/admin"
-                        : user?.role?.name === "HR"
-                        ? "/admin"
-                        : "/"
-                    }
-                  >
+                  <Link href={"/admin/notification"}>
                     <Tooltip title="Notifications">
                       <p className="cursor-pointer group rounded-lg bg-[#bbcbff87] hover:bg-white transition-all ease-in-out duration-200 p-2 shadow-md">
                         <img
