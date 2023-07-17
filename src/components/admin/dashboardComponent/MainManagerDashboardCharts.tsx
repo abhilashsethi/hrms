@@ -46,9 +46,24 @@ const MainManagerDashboardCharts = ({ data }: Props) => {
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
-          <p className="font-bold text-lg text-center">Last Year Leaves Overview</p>
+          <p className="font-bold text-lg text-center">
+            Last Year Leaves Overview
+          </p>
           <GuestBarChart
-            labels={["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]}
+            labels={[
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ]}
             data={[15, 10, 11, 10, 9, 12, 12, 26, 12, 10, 18, 19]}
             type="bar"
             text=""
@@ -71,15 +86,13 @@ const MainManagerDashboardCharts = ({ data }: Props) => {
             series={[80, 20]}
             text=""
             type="donut"
-            colors={[
-              "#005d32",
-              "#BD33B5",
-              "#E60023",
-            ]}
+            colors={["#005d32", "#BD33B5", "#E60023"]}
           />
         </div>
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
-          <p className="font-bold text-lg text-center">Role Wise Employee Strength</p>
+          <p className="font-bold text-lg text-center">
+            Role Wise Employee Strength
+          </p>
           <GuestBarChart
             labels={["DEVELOPER", "CEO", "HR", "TESTER", "DIRECTOR"]}
             data={[15, 9, 11, 10, 5]}
@@ -87,7 +100,6 @@ const MainManagerDashboardCharts = ({ data }: Props) => {
             text=""
           />
         </div>
-
       </div>
     </div>
   );
