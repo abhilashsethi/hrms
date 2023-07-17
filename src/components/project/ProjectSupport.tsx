@@ -1,22 +1,20 @@
 import { Add } from "@mui/icons-material";
-import { Avatar, AvatarGroup, Button } from "@mui/material";
-import { DEFAULTPROFILE } from "assets/home";
+import { Button } from "@mui/material";
 import { LoaderAnime } from "components/core";
 import { ProjectCreateTicket } from "components/dialogues";
-import { useFetch } from "hooks";
-import moment from "moment";
-import React, { useState } from "react";
+import { useAuth, useFetch } from "hooks";
+import { useState } from "react";
 import { TicketsConversations } from "types";
 import { clock } from "utils";
 
 const ProjectSupport = () => {
   const [isCreate, setIsCreate] = useState(false);
+  const { user } = useAuth();
   const {
     data: ticketsData,
     mutate,
     isLoading,
   } = useFetch<TicketsConversations[]>(`ticket-conversations`);
-  console.log(ticketsData);
   return (
     <section className="">
       <ProjectCreateTicket
@@ -26,14 +24,17 @@ const ProjectSupport = () => {
       />
       {isLoading && <p className="text-center">Please wait...</p>}
       <div className="flex justify-end mb-4">
-        <Button
-          className="!bg-theme"
-          onClick={() => setIsCreate(true)}
-          variant="contained"
-          startIcon={<Add />}
-        >
-          Create ticket
-        </Button>
+        {user?.isClient || user?.role?.name === "CEO" ? (
+          <Button
+            className="!bg-theme"
+            size="small"
+            onClick={() => setIsCreate(true)}
+            variant="contained"
+            startIcon={<Add />}
+          >
+            Create ticket
+          </Button>
+        ) : null}
       </div>
       <div className="grid gap-3">
         {ticketsData?.map((data) => (

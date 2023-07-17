@@ -1,9 +1,9 @@
 import MaterialTable from "@material-table/core";
 import {
-	BorderColor,
 	Delete,
 	Info,
-	Inventory2,
+	Send,
+	SupportAgent,
 	Visibility,
 } from "@mui/icons-material";
 import {
@@ -14,6 +14,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { HeadStyle } from "components/core";
+import { SendReply } from "components/dialogues";
 import { useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
@@ -26,6 +27,10 @@ interface Props {
 const SupportColumn = ({ data, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
 	const { change, isChanging } = useChange();
+	const [isReply, setIsReply] = useState<any>({
+		dialogue: false,
+		departmentData: null,
+	});
 
 	const handleDelete = async (id: string) => {
 		Swal.fire({
@@ -68,11 +73,20 @@ const SupportColumn = ({ data, mutate }: Props) => {
 
 	return (
 		<section className="mt-8">
+			<SendReply
+				open={isReply?.dialogue}
+				handleClose={() => setIsReply({ dialogue: false })}
+			/>
 			<MaterialTable
-				title={<HeadStyle name="All Supports" icon={<Inventory2 />} />}
+				title={<HeadStyle name="All Supports" icon={<SupportAgent />} />}
 				isLoading={!data}
 				data={data ? getDataWithSL<any>(data) : []}
-				options={{ ...MuiTblOptions(), selection: false, paging: false }}
+				options={{
+					...MuiTblOptions(),
+					selection: false,
+					paging: false,
+					exportMenu: [],
+				}}
 				columns={[
 					{
 						title: "#",
@@ -110,10 +124,12 @@ const SupportColumn = ({ data, mutate }: Props) => {
 						render: (data) => {
 							return (
 								<div className="flex gap-1">
-									<Tooltip title="Edit">
+									<Tooltip title="Reply">
 										<div className="text-sm bg-blue-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-											<IconButton>
-												<BorderColor className="!text-white" />
+											<IconButton
+												onClick={() => setIsReply({ dialogue: true })}
+											>
+												<Send className="!text-white" />
 											</IconButton>
 										</div>
 									</Tooltip>

@@ -2,7 +2,6 @@ import { Check } from "@mui/icons-material";
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
-import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import * as Yup from "yup";
@@ -15,13 +14,10 @@ const initialValues = {
 
 const validationSchema = Yup.object().shape({
 	name: Yup.string()
-		.matches(
-			/^[A-Za-z ]+$/,
-			"First name must only contain alphabetic characters"
-		)
-		.min(2, "First name must be at least 2 characters")
-		.max(50, "First name must be less than 50 characters")
-		.required("First name is required!"),
+		.matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
+		.min(2, "Name must be at least 2 characters")
+		.max(50, "Name must be less than 50 characters")
+		.required("Name is required!"),
 
 	email: Yup.string()
 		.email("Invalid email address")
@@ -32,7 +28,6 @@ const validationSchema = Yup.object().shape({
 const CreateSupport = () => {
 	// const theme = useTheme();
 	const [loading, setLoading] = useState(false);
-	const { change, isChanging } = useChange();
 	const handleSubmit = async (values: any) => {
 		console.log(values);
 	};

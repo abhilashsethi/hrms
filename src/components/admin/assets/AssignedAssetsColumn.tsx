@@ -6,7 +6,6 @@ import {
 	Delete,
 	Info,
 	PeopleRounded,
-	Spa,
 	Visibility,
 } from "@mui/icons-material";
 import {
@@ -19,14 +18,12 @@ import {
 import { PDF } from "assets/home";
 import { HeadStyle } from "components/core";
 import UpdateAssets from "components/dialogues/UpdateAssets";
-import { DepartmentInformation } from "components/drawer";
 import { useChange } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { Role } from "types";
-import { MuiTblOptions, clock, getDataWithSL } from "utils";
+import { MuiTblOptions, getDataWithSL } from "utils";
 interface Props {
 	data?: any;
 	mutate?: any;
@@ -112,16 +109,7 @@ const AssignedAssetsColumn = ({ data, mutate }: Props) => {
 						tooltip: "Asset Name",
 						field: "name",
 					},
-					{
-						title: "Asset Images",
-						tooltip: "Asset Images",
-						field: "images",
-					},
-					// {
-					// 	title: "Asset Docs",
-					// 	tooltip: "Asset Docs",
-					// 	field: "docs",
-					// },
+
 					{
 						title: "Brand Name",
 						tooltip: "Brand Name",
@@ -246,6 +234,7 @@ const AssignedAssetsColumn = ({ data, mutate }: Props) => {
 										backgroundColor: "#eef5f9",
 									}}
 								>
+									{" "}
 									<Card
 										sx={{
 											minWidth: 450,
@@ -261,11 +250,21 @@ const AssignedAssetsColumn = ({ data, mutate }: Props) => {
 									>
 										<CardContent>
 											<Typography className="flex" gutterBottom align="left">
-												<p>Images :</p>
+												<p>Images : </p>
 												<div className="flex gap-2">
 													{rowData?.photos?.length ? (
 														rowData?.photos?.map((item: any, i: any) => {
-															return <img className="w-36" src={item} alt="" />;
+															<div
+																key={i}
+																className="bg-white rounded-lg shadow-lg px-2 py-2"
+															>
+																<img
+																	className="lg:h-48 md:h-36 w-full object-cover object-center 
+                        transition duration-500 ease-in-out transform group-hover:scale-105"
+																	src={item}
+																	alt="Branch"
+																/>
+															</div>;
 														})
 													) : (
 														<span> No Images Found</span>
@@ -301,29 +300,3 @@ const AssignedAssetsColumn = ({ data, mutate }: Props) => {
 };
 
 export default AssignedAssetsColumn;
-const department = [
-	{
-		id: 0,
-		name: "Web Development",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-	{
-		id: 1,
-		name: "Application Development",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-	{
-		id: 2,
-		name: "IT Management",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-	{
-		id: 3,
-		name: "Accounts Management",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-];

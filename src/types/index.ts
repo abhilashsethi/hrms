@@ -243,6 +243,16 @@ export type Client = {
   country: string;
   completedProjectCount: number;
   resolvedTicketCount: number;
+  ticketsCountAccordingProjects?: ClientDashboard[];
+  projectCountStatusWise?: ClientDashboard[];
+  ticketCounts?: ClientDashboard[];
+};
+export type ClientDashboard = {
+  projectName?: string;
+  _id?: string;
+  ticketCount?: number;
+  count?: number;
+  name?: string;
 };
 export type Photos = {
   file?: File;

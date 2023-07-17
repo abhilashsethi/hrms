@@ -21,8 +21,8 @@ import {
 	LoaderAnime,
 	SkeletonLoader,
 } from "components/core";
+import { ChooseBranchToViewAssets } from "components/dialogues";
 import ChooseBranch from "components/dialogues/ChooseBranch";
-import ChooseBranchToViewAssets from "components/dialogues/ChooseBranchToViewAssets";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";

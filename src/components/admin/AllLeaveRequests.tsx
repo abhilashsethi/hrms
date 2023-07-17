@@ -35,6 +35,7 @@ const AllLeaveRequests = () => {
   };
   const handleInfoCloseModal = () => setOpenInfoModal(false);
   const { data: leaveData } = useFetch<User[]>(`leaves/credits`);
+
   return (
     <section className="mt-8">
       <MaterialTable
@@ -46,11 +47,14 @@ const AllLeaveRequests = () => {
             : leaveData?.map((_: any, i: number) => ({
                 ..._,
                 sl: i + 1,
-                total: 12,
+                totalCL: 12,
+                totalSL: 12,
                 accepted: _?.leavesData?.totalAccepted,
                 rejected: _?.leavesData?.totalRejected,
                 carryover: _?.leavesData?.carryOver,
                 used: _?.leavesData?.totalApplied,
+                casualLeaveCarryOver: _?.leavesData?.casualLeaveCarryOver,
+                sickLeaveCarryOver: _?.leavesData?.sickLeaveCarryOver,
               }))
         }
         options={{ ...MuiTblOptions() }}
@@ -104,9 +108,15 @@ const AllLeaveRequests = () => {
             },
           },
           {
-            title: "Total",
-            tooltip: "Total Credits",
-            field: "total",
+            title: "Total CL",
+            tooltip: "Total CL Credits",
+            field: "totalCL",
+            editable: "never",
+          },
+          {
+            title: "Total SL",
+            tooltip: "Total SL Credits",
+            field: "totalSL",
             editable: "never",
           },
           {
@@ -128,9 +138,15 @@ const AllLeaveRequests = () => {
             editable: "never",
           },
           {
-            title: "Carry Over",
-            tooltip: "Carry Over",
-            field: "carryover",
+            title: "CL Carry Over",
+            tooltip: "CL Carry Over",
+            field: "casualLeaveCarryOver",
+            editable: "never",
+          },
+          {
+            title: "SL Carry Over",
+            tooltip: "SL Carry Over",
+            field: "sickLeaveCarryOver",
             editable: "never",
           },
           // {

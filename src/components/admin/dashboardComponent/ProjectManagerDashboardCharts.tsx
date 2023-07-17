@@ -1,9 +1,9 @@
-import { Tooltip } from "@mui/material";
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
 import { NoDatas, PhotoViewer } from "components/core";
 import { useAuth, useFetch } from "hooks";
-import moment from "moment";
+import { Tooltip } from "@mui/material";
 import Link from "next/link";
+import moment from "moment";
 interface Props {
 	data?: any;
 }
@@ -22,64 +22,27 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 		`dashboards/project/manager/dashboard/${user?.id}`
 	);
 	console.log(projectDashboard);
-	const cards = [
-		{
-			id: 1,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "Yard Erp",
-			count: data?.GuestInfo?.totalGuest || 0,
-			link: `/admin/projects/project-details?id=${data?.projectId}`,
-		},
-		{
-			id: 2,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "HRMS Yard Iot",
-			count: data?.GuestInfo?.blockedGuestCount || 0,
-			link: `/admin/projects/project-details?id=${data?.projectId}`,
-		},
-		{
-			id: 3,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "Study In Russia",
-			count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
-			link: `/admin/projects/project-details?id=${data?.projectId}`,
-		},
-		{
-			id: 4,
-			color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-			name: "Political Party Web",
-			count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
-			link: `/admin/projects/project-details?id=${data?.projectId}`,
-		},
-	];
 
 	return (
 		<div className="w-full">
 			<div className="grid lg:grid-cols-2 content-between gap-6">
 				<div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
-					<p className="font-bold text-lg text-center">
-						Current Year Leave Overview
-					</p>
+					<p className="font-bold text-lg text-center">Attendance Overview</p>
 					<GuestBarChart
-						labels={[
-							"Jan",
-							"Feb",
-							"Mar",
-							"Apr",
-							"May",
-							"Jun",
-							"Jul",
-							"Aug",
-							"Sept",
-							"Oct",
-							"Nov",
-							"Dec",
-						]}
-						data={[5, 5, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20]}
+						labels={
+							projectDashboard?.allAttendanceMonthWise?.length
+								? projectDashboard?.allAttendanceMonthWise?.map(
+										(item: any) => item?.month
+								  )
+								: []
+						}
+						data={
+							projectDashboard?.allAttendanceMonthWise?.length
+								? projectDashboard?.allAttendanceMonthWise?.map(
+										(item: any) => item?.count
+								  )
+								: []
+						}
 						type="bar"
 						text=""
 					/>

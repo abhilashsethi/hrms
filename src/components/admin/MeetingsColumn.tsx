@@ -7,6 +7,7 @@ import {
 	MedicalInformationRounded,
 	MeetingRoom,
 	RadioButtonChecked,
+	Visibility,
 } from "@mui/icons-material";
 import {
 	Avatar,
@@ -78,7 +79,6 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
 			}
 		});
 	};
-
 
 	const router = useRouter();
 
@@ -219,8 +219,8 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
 					detailPanel={[
 						{
 							tooltip: "info",
-							// icon: "info",
-							// openIcon: "visibility",
+							icon: () => <Info />,
+							openIcon: () => <Visibility />,
 							render: ({ rowData }) => (
 								<>
 									<div
