@@ -13,7 +13,6 @@ import { Loader, NoDatas } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { User } from "types";
 
@@ -59,24 +58,11 @@ const ViewProjectsDrawer = ({
   employData,
   setViewProject,
 }: Props) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchedUser, setSearchedUser] = useState<any>([]);
   const { user } = useAuth();
   const [openInfoModal, setOpenInfoModal] = useState(false);
   const handleInfoCloseModal = () => setOpenInfoModal(false);
-  const { data: users, isLoading } = useFetch<User[]>(`users`);
-  useEffect(() => {
-    if (users) {
-      const filtered = users.filter((user) =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setSearchedUser(filtered);
-    }
-  }, [users, searchTerm]);
-
   const classes = useStyles();
-
-  const { data: projectDetails } = useFetch<any>(
+  const { data: projectDetails, isLoading } = useFetch<any>(
     `projects?${
       user?.id
         ? `managerId=${user?.role?.name === "PROJECT MANAGER" ? user?.id : ``}`
