@@ -196,7 +196,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 			<div className="w-1/4">
 				<div className="px-2 col-span-12 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
 					<div className="font-semibold pl-2 py-3 space-y-2">
-						<p>Recent Leaves </p>
+						<p>Recent Leave Requests </p>
 					</div>
 					<div className="h-[20rem] overflow-scroll">
 						{leavesData?.length === 0 && (
