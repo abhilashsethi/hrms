@@ -95,7 +95,7 @@ const useChatData = create<ChatState>((set, get) => ({
       });
       const token = getAccessToken();
       const response = await fetch(
-        BASE_URL + `/chat/message-group/${chatId}?page=1&limit=2`,
+        BASE_URL + `/chat/message-group/${chatId}?page=1&limit=20`,
         {
           method: "GET",
           headers: {
@@ -197,7 +197,7 @@ const useChatData = create<ChatState>((set, get) => ({
       const token = getAccessToken();
       const response = await fetch(
         BASE_URL +
-          `/chat/message-group/${get().selectedChatId}?limit=2&page=${pageNo}`,
+          `/chat/message-group/${get().selectedChatId}?limit=20&page=${pageNo}`,
         {
           method: "GET",
           headers: {
