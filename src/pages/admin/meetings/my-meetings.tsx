@@ -1,21 +1,5 @@
-import {
-	Close,
-	DateRange as DateRangeIcon,
-	FilterListRounded,
-	GridViewRounded,
-	Send,
-	TableRowsRounded,
-} from "@mui/icons-material";
-import {
-	Button,
-	Card,
-	IconButton,
-	MenuItem,
-	Modal,
-	TextField,
-	Tooltip,
-} from "@mui/material";
-import { MeetingsColumn, MeetingsGrid } from "components/admin";
+import { GridViewRounded, Send, TableRowsRounded } from "@mui/icons-material";
+import { Button, Card, IconButton, Modal } from "@mui/material";
 import { MyMeetingColumn, MyMeetingGrid } from "components/admin/meetings";
 import {
 	AdminBreadcrumbs,
@@ -24,7 +8,7 @@ import {
 	SkeletonLoader,
 } from "components/core";
 import { UploadEmployData } from "components/dialogues";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { DateRangePicker } from "materialui-daterange-picker";
 import moment from "moment";
@@ -47,6 +31,7 @@ const style = {
 };
 
 const MyMeetings = () => {
+	const { user } = useAuth();
 	const [currentRange, setcurrentRange] = useState<{
 		startDate?: string | null;
 		endDate?: string | null;
@@ -69,32 +54,15 @@ const MyMeetings = () => {
 	const handleInfoCloseModal = () => setOpenInfoModal(false);
 
 	const toggle = () => setOpen(!open);
-	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [isGrid, setIsGrid] = useState(true);
 	const [isUpload, setIsUpload] = useState(false);
-	const [value, setValue] = useState("Web Developer");
-	// const handleChange = (event: any) => {
-	// 	setValue(event.target.value);
-	// };
-	// function handleDateChange(date: any) {
-	// 	setSelectedDate(date);
-	// }
 
-	const [meetingPerson, setMeetingPerson] = useState<string | null>("");
-	const [meetingStatus, setMeetingStatus] = useState<string | null>(null);
-	const [selectDate, setSelectDate] = useState<string | null>(null);
 	const {
 		data: meetingData,
 		mutate,
 		isLoading,
 	} = useFetch<MEETING_DATA>(
-		`meetings?page=${pageNumber}&limit=8${
-			meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
-		}${meetingStatus ? `&status=${meetingStatus}` : ""}${
-			selectDate ? `&date=${selectDate}` : ""
-		}${currentRange?.startDate ? `&startDate=${currentRange?.startDate}` : ""}${
-			currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
-		}`
+		`meetings?userId=${user?.id}&page=${pageNumber}&limit=8`
 	);
 	console.log(meetingData);
 	// console.log(currentRange);
@@ -177,87 +145,6 @@ const MyMeetings = () => {
 									</div>
 								</IconButton>
 							</div>
-						</div>
-					</div>
-					<div className="md:flex gap-4 justify-between w-full py-2">
-						<div
-							className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
-                `}
-						>
-							<IconButton
-								onClick={() => {
-									setSelectDate(null);
-									setMeetingStatus(null);
-									setMeetingPerson("");
-								}}
-							>
-								<Tooltip
-									title={
-										selectDate != null ||
-										meetingStatus != null ||
-										meetingPerson != ""
-											? `Remove Filters`
-											: `Filter`
-									}
-								>
-									{selectDate != null ||
-									meetingStatus != null ||
-									meetingPerson != "" ? (
-										<Close className={"!text-white"} />
-									) : (
-										<FilterListRounded className={"!text-white"} />
-									)}
-								</Tooltip>
-							</IconButton>
-						</div>
-						<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-							<TextField
-								fullWidth
-								size="small"
-								id="meetingPerson"
-								placeholder="Member Name"
-								value={meetingPerson ? meetingPerson : ""}
-								name="meetingPerson"
-								onChange={(e) => setMeetingPerson(e.target.value)}
-							/>
-							<TextField
-								fullWidth
-								select
-								label="Select Status"
-								size="small"
-								value={meetingStatus ? meetingStatus : null}
-								onChange={(e) => setMeetingStatus(e?.target?.value)}
-							>
-								{status.map((option) => (
-									<MenuItem key={option.id} value={option.value}>
-										{option.value}
-									</MenuItem>
-								))}
-							</TextField>
-							<TextField
-								fullWidth
-								size="small"
-								id="date"
-								placeholder="Select Date"
-								name="date"
-								type="date"
-								value={
-									selectDate ? moment(selectDate).format("YYYY-MM-DD") : null
-								}
-								onChange={(e) => {
-									setSelectDate(new Date(e.target.value).toISOString());
-								}}
-							/>
-
-							<Button
-								onClick={() => handleInfoOpen()}
-								fullWidth
-								startIcon={<DateRangeIcon />}
-								variant="contained"
-								className="!bg-theme"
-							>
-								Select Date Range
-							</Button>
 						</div>
 					</div>
 
