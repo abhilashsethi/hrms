@@ -349,6 +349,9 @@ export type Tender = {
   totalAssignAssetCount?: number;
   totalTenderCount?: number;
   monthWiseTenderCount?: TenderUserDashboard[];
+  tenders?: Tender;
+  _id?: {$oid?: string};
+
 };
 export interface QuotationDashboard {
   status?: string | null;
