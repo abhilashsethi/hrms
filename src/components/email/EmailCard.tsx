@@ -32,11 +32,11 @@ const EmailCard = ({
 
   return (
     <tr
-      className={`flex-col flex md:flex-row border-b cursor-pointer border-gray-200   w-full items-center ${
+      className={`flex-col flex lg:flex-row border-b cursor-pointer border-gray-200   w-full items-center ${
         isRead ? "bg-white" : "bg-theme/20"
       } `}
     >
-      <td className="px-5 py-5 max-w-[22%] w-full text-sm">
+      <td className="px-5 py-5 lg:max-w-[22%] w-full text-sm">
         <div className="flex items-center gap-2 ">
           <Checkbox size="small" checked={selected} onClick={onSelect} />
           <Avatar
@@ -57,7 +57,7 @@ const EmailCard = ({
         </div>
       </td>
       <td
-        className="px-5 py-5 w-full   text-sm"
+        className="px-5 lg:py-5 w-full   text-sm"
         onClick={() => {
           onclick ? onclick() : push(`/admin/email/${Date.now()}`);
         }}
@@ -69,7 +69,7 @@ const EmailCard = ({
               : parseTextFromHtml(messages))}
         </p>
       </td>
-      <td className="px-5 py-5 min-w-fit   text-sm">
+      <td className="px-5 lg:py-5 min-w-fit w-full lg:w-fit  text-sm">
         <p className="text-gray-900 whitespace-nowrap">
           {moment(messageDate).format("LL")}
         </p>

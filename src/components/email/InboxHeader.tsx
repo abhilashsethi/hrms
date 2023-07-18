@@ -56,8 +56,8 @@ const InboxHeader = ({
   const { push } = useRouter();
 
   return (
-    <div className="flex flex-col md:flex-row gap-2 shadow-md rounded-lg justify-between p-4 bg-white py-4  w-full items-center">
-      <div className="flex gap-2 items-center">
+    <div className="flex flex-col lg:flex-row gap-2 shadow-md rounded-lg justify-between p-4 bg-white py-4  w-full items-center">
+      <div className="flex flex-wrap lg:flex-nowrap justify-center gap-2 items-center">
         <Checkbox
           size="small"
           checked={allClicked}

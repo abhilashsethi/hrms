@@ -27,7 +27,7 @@ const EmailReplyContainer = ({ data }: { data?: EmailType }) => {
                 }}
               >
                 <Reply />
-                <span className="text-sm">Reply</span>
+                <span className="text-sm hidden md:flex">Reply</span>
               </button>
               <button
                 className="flex gap-4 items-center border border-gray-300/50 hover:scale-95 transition-all ease-in-out duration-300 hover:bg-gray-700/10 justify-center bg-gray-200 text-gray-700 px-4 py-2 rounded-md shadow-lg "
@@ -36,7 +36,7 @@ const EmailReplyContainer = ({ data }: { data?: EmailType }) => {
                   setReply(true);
                 }}
               >
-                <span className="text-sm">Forward</span>
+                <span className="text-sm hidden md:flex">Forward</span>
                 <Reply className="scale-x-[-1]" />
               </button>
             </div>

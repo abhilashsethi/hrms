@@ -7,7 +7,7 @@ const CreateHeader = () => {
 
   return (
     <section className="w-full bg-theme text-white">
-      <div className="flex container mx-auto p-4 justify-between gap-4 items-center">
+      <div className="flex container mx-auto p-4 justify-between gap-4 items-center flex-wrap">
         <div className="flex gap-4 items-center">
           <IconButton onClick={back}>
             <KeyboardBackspace className="!text-white" />

@@ -12,15 +12,13 @@ const EmailContainer = ({
   data?: EmailType;
   printRef: any;
 }) => {
-  const [infoActive, setInfoActive] = useState(false);
-
   return (
     <>
       <div className="w-full flex flex-col  gap-4" ref={printRef}>
         {data?.replyTo?.id && <ReplyToEmail />}
 
-        <div className="p-4 flex w-full bg-secondary-600 rounded-t-lg items-center gap-4 border-b border-white justify-between">
-          <div className="flex items-center w-full gap-4 justify-start">
+        <div className="p-4 flex flex-wrap w-full bg-secondary-600 rounded-t-lg items-center gap-4 border-b border-white justify-between">
+          <div className="flex items-center w-11/12 gap-4 justify-start">
             <Avatar
               src={
                 data?.isSenderUser ? data?.receiver?.photo : data?.sender?.photo
@@ -93,9 +91,9 @@ const EmailContainer = ({
             }}
           ></p>
         </div>
-        {data?.attachments?.length && (
+        {data?.attachments?.length ? (
           <h3 className="font-medium tracking-wide px-4">Attachments -</h3>
-        )}
+        ) : null}
 
         <div className="flex flex-wrap gap-4 px-4 pb-4 ">
           {data?.attachments?.map((item, i) => (
