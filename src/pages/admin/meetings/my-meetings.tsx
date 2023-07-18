@@ -170,14 +170,6 @@ const MyMeetings = () => {
 
 export default MyMeetings;
 
-const status = [
-	{ id: 1, value: "Ongoing" },
-	{ id: 2, value: "InPipeline" },
-	{ id: 3, value: "QuotationSent" },
-	{ id: 3, value: "Closed" },
-];
-
 const links = [
-	{ id: 1, page: "Meetings", link: "/admin/meetings" },
-	{ id: 2, page: "All Meetings", link: "/admin/meetings/all-meetings" },
+	{ id: 2, page: "My Meetings", link: "/admin/meetings/my-meetings" },
 ];

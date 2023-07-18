@@ -1,27 +1,18 @@
 import { BorderColor } from "@mui/icons-material";
-import { Button, Grid, Tooltip, useMediaQuery } from "@mui/material";
-import ICONS from "assets/icons";
-import { RenderIconRow } from "components/common";
-import { Loader, PhotoViewer } from "components/core";
-import {
-	ChangeProfile,
-	CreateLeave,
-	DocPreview,
-	UpdateClient,
-} from "components/dialogues";
-import { useChange, useFetch } from "hooks";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { Client, MeetingProps, MeetingTypes } from "types";
-import { ViewNotesDrawer, ViewTicketsDrawer } from "components/drawer";
-import { DEFAULTPROFILE, DOC, IMG, PDF, Video, XLS } from "assets/home";
+import { Button, Grid, Tooltip } from "@mui/material";
+import { DOC, IMG, PDF } from "assets/home";
+import { Loader } from "components/core";
+import { DocPreview, UpdateClient } from "components/dialogues";
 import AddDocument from "components/dialogues/AddDocument";
 import EditMeetingDetails from "components/dialogues/EditMeetingDetails";
-import { useTheme } from "@emotion/react";
+import { ViewNotesDrawer } from "components/drawer";
+import { useAuth, useFetch } from "hooks";
 import moment from "moment";
-import Swal from "sweetalert2";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 const MeetingData = () => {
+	const { user } = useAuth();
 	const router = useRouter();
 	const [isDialogue, setIsDialogue] = useState(false);
 	const [tickets, setTickets] = useState(false);
@@ -80,17 +71,20 @@ const MeetingData = () => {
 					<div className="w-full bg-blue-100/50 rounded-lg lg:p-4 p-1">
 						<div className="grid lg:grid-cols-2 gap-5">
 							<div>
-								<div className="flex justify-end">
-									<Button
-										variant="contained"
-										className="!bg-blue-500 "
-										startIcon={<BorderColor />}
-										size="small"
-										onClick={() => setEditDetails((prev) => !prev)}
-									>
-										Edit
-									</Button>
-								</div>
+								{user?.role?.name === "CEO" ||
+								user?.role?.name === "PROJECT MANAGER" ? (
+									<div className="flex justify-end">
+										<Button
+											variant="contained"
+											className="!bg-blue-500 "
+											startIcon={<BorderColor />}
+											size="small"
+											onClick={() => setEditDetails((prev) => !prev)}
+										>
+											Edit
+										</Button>
+									</div>
+								) : null}
 								<div>
 									<div className="pb-1 lg:text-base text-sm font-semibold md:flex">
 										<p>Meeting Name : </p>

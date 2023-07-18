@@ -238,12 +238,6 @@ const CardComponent = ({ items, mutate }: any) => {
 						Details
 					</MenuItem>
 				</Link>
-				<MenuItem onClick={() => handleDelete(items?.id)}>
-					<ListItemIcon>
-						<DeleteRounded fontSize="small" />
-					</ListItemIcon>
-					Delete
-				</MenuItem>
 			</Menu>
 		</div>
 	);
