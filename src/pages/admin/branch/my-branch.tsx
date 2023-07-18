@@ -21,7 +21,7 @@ import {
   LoaderAnime,
   SkeletonLoader,
 } from "components/core";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
@@ -32,22 +32,18 @@ const AllBranch = () => {
   const [userName, setUsername] = useState<string | null>(null);
   const [location, setLocation] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
-
+  const { user } = useAuth();
   const {
     data: branchData,
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any[]>(
-    `branches?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
-      location ? `&location=${location}` : ""
-    }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
-  );
+  } = useFetch<any[]>(`branches?managerId${user?.id}`);
 
   console.log(branchData);
 
   return (
-    <PanelLayout title="All Branches - Admin Panel">
+    <PanelLayout title="My Branch - Admin Panel">
       <section className="lg:px-8 px-2 py-4">
         <div className="lg:flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />
@@ -72,88 +68,9 @@ const AllBranch = () => {
                 </div>
               </IconButton>
             </div>
-            <Link href="/admin/branch/create-branch">
-              <Button
-                variant="contained"
-                className="!bg-theme"
-                startIcon={<Add />}
-              >
-                CREATE BRANCH
-              </Button>
-            </Link>
           </div>
         </div>
-        <div>
-          <div className="md:flex gap-4 justify-between w-full py-2">
-            <div
-              className={`w-10 mb-2 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
-                `}
-            >
-              <IconButton
-                onClick={() => {
-                  setIsOrderBy(null);
-                  setUsername(null);
-                  setLocation(null);
-                }}
-              >
-                <Tooltip
-                  title={
-                    isOrderBy != null || userName != null || location != null
-                      ? `Remove Filters`
-                      : `Filter`
-                  }
-                >
-                  {isOrderBy != null || userName != null || location != null ? (
-                    <Close className={"!text-white"} />
-                  ) : (
-                    <FilterListRounded className={"!text-white"} />
-                  )}
-                </Tooltip>
-              </IconButton>
-            </div>
 
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <TextField
-                fullWidth
-                size="small"
-                id="name"
-                value={userName ? userName : ""}
-                onChange={(e) => {
-                  setPageNumber(1), setUsername(e.target.value);
-                }}
-                placeholder="Branch Name"
-                name="name"
-              />
-              <TextField
-                fullWidth
-                size="small"
-                id="name"
-                value={location ? location : ""}
-                onChange={(e) => {
-                  setPageNumber(1), setLocation(e.target.value);
-                }}
-                placeholder="Branch Location"
-                name="name"
-              />
-              <TextField
-                fullWidth
-                select
-                label="Ascending/Descending"
-                size="small"
-                value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => {
-                  setPageNumber(1), setIsOrderBy(e?.target?.value);
-                }}
-              >
-                {short.map((option) => (
-                  <MenuItem key={option.id} value={option.value}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
-          </div>
-        </div>
         {isGrid ? (
           <>
             {isLoading && <SkeletonLoader />}
@@ -166,27 +83,6 @@ const AllBranch = () => {
           </>
         )}
         {branchData?.length === 0 ? <LoaderAnime /> : null}
-        {Math.ceil(
-          Number(pagination?.total || 1) / Number(pagination?.limit || 1)
-        ) > 1 ? (
-          <div className="flex justify-center py-8">
-            <Stack spacing={2}>
-              <Pagination
-                count={Math.ceil(
-                  Number(pagination?.total || 1) /
-                    Number(pagination?.limit || 1)
-                )}
-                onChange={(e, v: number) => {
-                  setPageNumber(v);
-                }}
-                variant="outlined"
-                page={pageNumber}
-              />
-            </Stack>
-          </div>
-        ) : (
-          ""
-        )}
       </section>
     </PanelLayout>
   );
@@ -195,11 +91,10 @@ const AllBranch = () => {
 export default AllBranch;
 
 const links = [
-  { id: 1, page: "Branch", link: "/admin/branch" },
   {
     id: 2,
-    page: "All Branch",
-    link: "/admin/branch/all-branch",
+    page: "My Branch",
+    link: "/admin/branch/my-branch",
   },
 ];
 const short = [

@@ -41,7 +41,7 @@ const MyLeaves = () => {
     }`
   );
   return (
-    <PanelLayout title="Leave Requests - Admin Panel">
+    <PanelLayout title="My Leaves - Admin Panel">
       <section className="md:px-8 px-4 py-2">
         <CreateLeaveUser
           mutate={mutate}

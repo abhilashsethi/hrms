@@ -27,7 +27,7 @@ const MainManagerDashboardCards = ({ data }: Props) => {
   const { data: dashboardData } = useFetch<any>(
     `dashboards/manager/dashboard/${user?.employeeOfBranchId}`
   );
-  console.log(dashboardData);
+  console.log(user);
   const cards = [
     {
       id: 1,
