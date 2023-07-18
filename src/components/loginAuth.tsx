@@ -2,6 +2,7 @@ import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button, Checkbox, CircularProgress } from "@mui/material";
 import { Logo } from "assets/dashboard_Icons";
 import { LOGO } from "assets/home";
+import { Public_LOGO } from "config/env.config";
 import { Field, Form, Formik } from "formik";
 import { useAuth, useMutation } from "hooks";
 import Link from "next/link";
@@ -84,7 +85,7 @@ const LoginAuth = () => {
 						<div className="md:w-[7rem] w-[5rem] md:h-[7rem] h-[5rem]  bg-[#FFB774]"></div>
 					</div>
 					<div className="flex absolute z-[30]  top-4 left-4 items-center justify-center px-8">
-						<img src={LOGO.src} alt="logo" className="w-full h-10" />
+						<img src={Public_LOGO} alt="logo" className="w-full h-10" />
 					</div>
 					<div className="flex  absolute md:top-60 z-[30] top-20 left-4 flex-col h-full gap-4 px-8">
 						<h1 className="md:text-4xl text-3xl text-blue-600 font-bold text-start tracking-wide">
@@ -103,7 +104,11 @@ const LoginAuth = () => {
 				<div className="md:w-1/2 w-full md:h-[30rem] h-[41.7rem] bg-white md:rounded-r rounded-none">
 					<div className="flex flex-col items-start justify-center h-full gap-4 px-8">
 						<div className="md:hidden w-full flex flex-col items-center justify-center">
-							<img src={Logo.src} alt="logo" className="h-6 object-contain" />
+							<img
+								src={Public_LOGO}
+								alt="logo"
+								className="h-6 object-contain"
+							/>
 							<p className="text-themeDarkGray text-sm font-medium">
 								Welcome to HRMS
 							</p>
