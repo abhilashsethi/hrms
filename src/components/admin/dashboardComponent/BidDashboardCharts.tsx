@@ -1,7 +1,7 @@
 import { TENDERCARD } from "assets/home";
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
 
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { Tender } from "types";
@@ -9,7 +9,11 @@ interface Props {
   data?: any;
 }
 const BidDashboardCharts = ({ data }: Props) => {
+  const { user } = useAuth();
   const { data: tenderData } = useFetch<Tender[]>(`tenders`);
+  const { data: dashboardData } = useFetch<Tender>(
+    `dashboards/bid-manager/dashboard?userId=${user?.id}`
+  );
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
@@ -18,8 +22,20 @@ const BidDashboardCharts = ({ data }: Props) => {
             This Year Attendance Overview
           </p>
           <GuestBarChart
-            labels={["jan", "feb", "Jul", "mar", "apr"]}
-            data={["10", "2", "15", "2", "5"]}
+            labels={
+              dashboardData?.monthWiseTenderCount?.length
+                ? dashboardData?.monthWiseTenderCount?.map(
+                    (item) => item?.month
+                  )
+                : []
+            }
+            data={
+              dashboardData?.monthWiseTenderCount?.length
+                ? dashboardData?.monthWiseTenderCount?.map(
+                    (item) => item?.tenderCount
+                  )
+                : []
+            }
             type="bar"
             text=""
           />

@@ -304,6 +304,11 @@ export interface TenderNote {
   title?: string;
   description?: string;
 }
+export interface TenderUserDashboard {
+  monthAbbreviation: string;
+  tenderCount?: number;
+  month?: string;
+}
 export interface TenderDashboard {
   monthAbbreviation: string;
   status: string | null;
@@ -341,6 +346,9 @@ export type Tender = {
   documents?: TenderDocumentType[];
   allTenderCountMonthWiseOfCurrentYear?: TenderDashboard[];
   allTenderCountStatusWise?: TenderDashboard[];
+  totalAssignAssetCount?: number;
+  totalTenderCount?: number;
+  monthWiseTenderCount?: TenderUserDashboard[];
 };
 export interface QuotationDashboard {
   status?: string | null;
