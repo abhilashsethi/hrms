@@ -75,6 +75,7 @@ const useAuth = create<AuthState>((set) => ({
           },
           body: JSON.stringify({
             isOnline: state === "ONLINE",
+            lastActiveTime: new Date().toISOString(),
           }),
           keepalive: true,
         }
