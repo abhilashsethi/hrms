@@ -65,8 +65,8 @@ const MyProfile = () => {
   const links = [
     {
       id: 2,
-      page: "Employee Profile",
-      link: `/admin/employees/profile/${user?.id}`,
+      page: "My Profile",
+      link: `/admin/employees/my-profile`,
     },
   ];
 

@@ -1,19 +1,5 @@
-import {
-  Add,
-  Close,
-  FilterListRounded,
-  GridViewRounded,
-  TableRowsRounded,
-} from "@mui/icons-material";
-import {
-  Button,
-  IconButton,
-  MenuItem,
-  Pagination,
-  Stack,
-  TextField,
-  Tooltip,
-} from "@mui/material";
+import { GridViewRounded, TableRowsRounded } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 import { AllBranchColumn, AllBranchGrid } from "components/admin/branch";
 import {
   AdminBreadcrumbs,
@@ -23,23 +9,18 @@ import {
 } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import Link from "next/link";
 import { useState } from "react";
 
 const AllBranch = () => {
   const [isGrid, setIsGrid] = useState(true);
-  const [pageNumber, setPageNumber] = useState<number>(1);
-  const [userName, setUsername] = useState<string | null>(null);
-  const [location, setLocation] = useState<string | null>(null);
-  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   const { user } = useAuth();
   const {
     data: branchData,
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any[]>(`branches?managerId${user?.id}`);
-
+  } = useFetch<any[]>(`branches?managerId=${user?.id}`);
+  console.log(user?.id);
   console.log(branchData);
 
   return (

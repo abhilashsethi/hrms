@@ -25,16 +25,16 @@ const MainManagerDashboardCards = ({ data }: Props) => {
     `leaves?${user?.id ? `userId=${user?.id}` : ""}`
   );
   const { data: dashboardData } = useFetch<any>(
-    `dashboards/manager/dashboard/${user?.employeeOfBranchId}`
+    `dashboards/manager/dashboard?managerId=${user?.id}&branchId=${user?.employeeOfBranchId}`
   );
-  console.log(user);
+  console.log(dashboardData);
   const cards = [
     {
       id: 1,
       color: "bg-[#bbcbff]",
       icon: <Groups fontSize="medium" className="text-theme" />,
       name: "Total Employees",
-      count: dashboardData?.totalInvolvedProjects || 0,
+      count: dashboardData?.totalEmployeesCount || 0,
       link: "admin/projects/my-projects",
     },
     {
@@ -50,7 +50,7 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       color: "bg-[#f6c8ff]",
       icon: <WebAsset fontSize="medium" className="text-theme" />,
       name: "Total Assets",
-      count: dashboardData?.totalAssignAssetCount || 0,
+      count: dashboardData?.totalAssetsCount || 0,
       link: "/admin",
     },
     {
@@ -68,29 +68,23 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       icon: <PersonPin fontSize="medium" className="text-white" />,
       title: "My Profile",
       color: "bg-[#673ab7]",
-      link: "/admin/leaves/all-leaves",
+      link: "/admin/employees/my-profile",
     },
     {
       id: 2,
       icon: <RecentActors fontSize="medium" className="text-white" />,
       title: "My Cards",
       color: "bg-[#e91e63]",
-      link: "/admin/roles/all-roles",
+      link: "/admin/cards/my-card",
     },
     {
       id: 3,
       icon: <EventAvailable fontSize="medium" className="text-white" />,
       title: "My Attendance",
       color: "bg-[#ff9800]",
-      link: "/admin/department/all-department",
+      link: "/admin/attendances/my-attendance",
     },
-    {
-      id: 4,
-      icon: <AccountTree fontSize="medium" className="text-white" />,
-      title: "My Projects",
-      color: "bg-[#00bcd4]",
-      link: "/admin/meetings/all-meetings",
-    },
+
     {
       id: 5,
       icon: <Email fontSize="medium" className="text-white" />,
@@ -101,17 +95,16 @@ const MainManagerDashboardCards = ({ data }: Props) => {
     {
       id: 6,
       icon: <Chat fontSize="medium" className="text-white" />,
-
       title: "Chats",
       color: "bg-[#3f51b5]",
-      link: "/admin/technologies/all-technologies",
+      link: "/admin/email",
     },
     {
       id: 7,
       icon: <SupportAgent fontSize="medium" className="text-white" />,
       title: "Support",
       color: "bg-[#4caf50]",
-      link: "/admin/support",
+      link: `/admin/support`,
     },
   ];
 

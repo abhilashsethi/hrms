@@ -330,11 +330,10 @@ const CardContent = ({ item, mutate }: Props) => {
 };
 
 const links = [
-  { id: 1, page: "Tenders", link: "/admin/tenders" },
   {
     id: 2,
-    page: "All Tenders",
-    link: "/admin/tenders/all-tenders",
+    page: "My Tenders",
+    link: "/admin/tenders/my-tenders",
   },
 ];
 const short = [

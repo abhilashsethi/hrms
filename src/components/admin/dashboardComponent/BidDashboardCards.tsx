@@ -15,7 +15,7 @@ import { CardAsset } from "assets/home";
 import { NoDatas, PhotoViewer } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import Link from "next/link";
-import { Leave } from "types";
+import { Leave, Tender } from "types";
 interface Props {
   data?: any;
 }
@@ -24,22 +24,25 @@ const BidDashboardCards = ({ data }: Props) => {
   const { data: leaveData } = useFetch<Leave[]>(
     `leaves?${user?.id ? `userId=${user?.id}` : ""}`
   );
-  console.log(leaveData);
+  const { data: dashboardData } = useFetch<Tender>(
+    `dashboards/bid-manager/dashboard?userId=${user?.id}`
+  );
+  console.log(dashboardData);
   const cards = [
     {
       id: 1,
       color: "bg-[#bbcbff]",
       icon: <AccountTree fontSize="medium" className="text-theme" />,
       name: "Total Leaves This Year",
-      count: data?.totalInvolvedProjects || 0,
+      count: dashboardData?.totalTenderCount || 0,
       link: "/admin/leaves/my-leaves",
     },
     {
       id: 2,
       color: "bg-[#b9e9fd]",
       icon: <PendingActions fontSize="medium" className="text-theme" />,
-      name: "Total Assets",
-      count: data?.lastMonthAttendanceCount || 0,
+      name: "Total Assets Assigned",
+      count: dashboardData?.totalAssignAssetCount || 0,
       link: "/admin/assets/my-assets",
     },
     {
@@ -47,7 +50,7 @@ const BidDashboardCards = ({ data }: Props) => {
       color: "bg-[#f6c8ff]",
       icon: <BugReport fontSize="medium" className="text-theme" />,
       name: "Total Tenders",
-      count: data?.totalAssignAssetCount || 0,
+      count: dashboardData?.totalTenderCount || 0,
       link: "/admin/tenders/all-tenders",
     },
     {
@@ -55,7 +58,7 @@ const BidDashboardCards = ({ data }: Props) => {
       color: "bg-[#feb76f]",
       icon: <Construction fontSize="medium" className="text-theme" />,
       name: "Total Attendance This Month",
-      count: data?.totalChatCount || 0,
+      count: dashboardData?.totalTenderCount || 0,
       link: "/admin/attendances/my-attendance",
     },
   ];
