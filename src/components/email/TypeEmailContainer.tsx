@@ -294,7 +294,7 @@ const TypeEmailContainer = ({
         </>
       ) : null}
 
-      <div className="flex items-center gap-4 py-4 w-full justify-between">
+      <div className="flex items-center gap-4 py-4 mt-5 w-full justify-between">
         <div className="flex gap-4 items-center">
           <button
             className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg "
@@ -302,7 +302,7 @@ const TypeEmailContainer = ({
             type="submit"
           >
             <Send />
-            <span className="text-sm">Send Email</span>
+            <span className="text-sm hidden md:flex">Send Email</span>
           </button>
           <input
             type="file"
@@ -323,7 +323,7 @@ const TypeEmailContainer = ({
             onClick={() => attachRef?.current?.click()}
           >
             <AttachFile />
-            <span className="text-sm">Attach</span>
+            <span className="text-sm hidden md:flex">Attach</span>
           </button>
 
           <button
@@ -336,7 +336,7 @@ const TypeEmailContainer = ({
             type="submit"
           >
             <Drafts />
-            <span className="text-sm">Save To Draft</span>
+            <span className="text-sm hidden md:flex">Save To Draft</span>
           </button>
         </div>
         <button
@@ -346,7 +346,7 @@ const TypeEmailContainer = ({
           }}
         >
           <Cancel />
-          <span className="text-sm">Cancel</span>
+          <span className="text-sm hidden md:flex">Cancel</span>
         </button>
       </div>
     </div>

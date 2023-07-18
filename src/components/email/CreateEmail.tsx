@@ -446,7 +446,7 @@ const CreateEmail = () => {
         <div className="flex flex-col w-full gap-2">
           <InputLabel className="!font-semibold"> Message - </InputLabel>
           <ReactQuill
-            placeholder="Reply message ..."
+            placeholder="Message ..."
             theme="snow"
             modules={{
               toolbar: [
@@ -529,8 +529,8 @@ const CreateEmail = () => {
           </>
         ) : null}
 
-        <div className="flex items-center gap-4 py-4 w-full justify-between">
-          <div className="flex gap-4 items-center">
+        <div className="flex items-center gap-4 py-4 w-full justify-between mt-14 flex-wrap">
+          <div className="flex gap-4 items-center justify-center md:justify-start w-full flex-wrap">
             <button
               className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg "
               onClick={() => {
@@ -538,7 +538,7 @@ const CreateEmail = () => {
               }}
             >
               <Send />
-              <span className="text-sm">Send Email</span>
+              <span className="text-sm hidden md:flex ">Send Email</span>
             </button>
             <input
               type="file"
@@ -559,7 +559,7 @@ const CreateEmail = () => {
               onClick={() => attachRef?.current?.click()}
             >
               <AttachFile />
-              <span className="text-sm">Attach</span>
+              <span className="text-sm hidden md:flex">Attach</span>
             </button>
 
             <button
@@ -571,7 +571,7 @@ const CreateEmail = () => {
               type="submit"
             >
               <Drafts />
-              <span className="text-sm">Save To Draft</span>
+              <span className="text-sm hidden md:flex">Save To Draft</span>
             </button>
           </div>
         </div>
