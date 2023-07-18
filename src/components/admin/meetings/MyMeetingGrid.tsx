@@ -1,9 +1,4 @@
-import {
-	DeleteRounded,
-	Info,
-	MoreVertRounded,
-	Place,
-} from "@mui/icons-material";
+import { Info, MoreVertRounded, Place } from "@mui/icons-material";
 import {
 	IconButton,
 	ListItemIcon,
@@ -73,11 +68,9 @@ const MyMeetingGrid = ({ data, mutate }: Props) => {
 									Meeting Start Dt :{" "}
 								</p>
 								{/* <AccessTime /> */}
-								<span className="text-sm md:text-base">{`${moment(
+								<span className="text-sm md:text-base">{` ${moment(
 									items?.meetingDate
-								).format("LL")}, ${moment(items?.meetingStartTime).format(
-									"LT"
-								)}`}</span>
+								).format("LL")}`}</span>
 							</div>
 
 							<div className="flex py-2 md:py-0">
@@ -86,9 +79,7 @@ const MyMeetingGrid = ({ data, mutate }: Props) => {
 								</p>
 								{/* <AccessTime /> */}
 								<span className="text-sm md:text-base">
-									{`${moment(items?.meetingDate).format("LL")}, ${moment(
-										items?.meetingEndTime
-									).format("LT")}`}
+									{` ${moment(items?.meetingDate).format("LL")}`}
 								</span>
 							</div>
 							<div className="py-2 text-lg tracking-wide">
@@ -130,7 +121,7 @@ const MyMeetingGrid = ({ data, mutate }: Props) => {
 								<p className="text-sm md:text-base">{items?.address}</p>
 							</div>
 
-							<div className=" group flex items-center py-2 text-md tracking-wide text-lg">
+							<div className="group flex items-center py-2 text-md tracking-wide text-lg">
 								<Place />
 								<span className="text-md font-medium">Location :</span>
 							</div>

@@ -94,7 +94,15 @@ const MyMeetingColumn = ({ data, mutate }: Props) => {
 					data={
 						!data?.length
 							? []
-							: data?.map((_: any, i: number) => ({ ..._, sn: i + 1 }))
+							: data?.map((_: any, i: number) => ({
+									..._,
+									sn: i + 1,
+									meetingDate: new Date(_?.meetingDate)?.toLocaleDateString(),
+									meetingStartTime: new Date(
+										_?.meetingStartTime
+									)?.toLocaleString(),
+									meetingEndTime: new Date(_?.meetingEndTime)?.toLocaleString(),
+							  }))
 					}
 					options={{
 						...MuiTblOptions(),
