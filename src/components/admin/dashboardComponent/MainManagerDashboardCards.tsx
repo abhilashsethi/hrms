@@ -68,21 +68,21 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       icon: <PersonPin fontSize="medium" className="text-white" />,
       title: "My Profile",
       color: "bg-[#673ab7]",
-      link: "/admin/employee/my-profile",
+      link: "/admin/employees/my-profile",
     },
     {
       id: 2,
       icon: <RecentActors fontSize="medium" className="text-white" />,
       title: "My Cards",
       color: "bg-[#e91e63]",
-      link: "/admin/cards/my-cards",
+      link: "/admin/cards/my-card",
     },
     {
       id: 3,
       icon: <EventAvailable fontSize="medium" className="text-white" />,
       title: "My Attendance",
       color: "bg-[#ff9800]",
-      link: "/admin/attendance/my-attendance",
+      link: "/admin/attendances/my-attendance",
     },
 
     {
@@ -90,22 +90,21 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       icon: <Email fontSize="medium" className="text-white" />,
       title: "Email",
       color: "bg-[#607d8b]",
-      link: "/admin/email",
+      link: "/admin/clients/all-clients",
     },
     {
       id: 6,
       icon: <Chat fontSize="medium" className="text-white" />,
-
       title: "Chats",
       color: "bg-[#3f51b5]",
-      link: "/admin/chat",
+      link: "/admin/email",
     },
     {
       id: 7,
       icon: <SupportAgent fontSize="medium" className="text-white" />,
       title: "Support",
       color: "bg-[#4caf50]",
-      link: "/admin/support",
+      link: `/admin/support`,
     },
   ];
 
