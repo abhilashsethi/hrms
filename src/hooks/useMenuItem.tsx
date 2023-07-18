@@ -365,6 +365,12 @@ export default () => {
       ],
     },
     {
+      key: "11-2",
+      title: "My Branch",
+      icon: <ICONS.All_Branch />,
+      route: "/admin/branch/my-branch",
+    },
+    {
       key: "6",
       title: "Meetings",
       icon: <ICONS.Meeting />,
