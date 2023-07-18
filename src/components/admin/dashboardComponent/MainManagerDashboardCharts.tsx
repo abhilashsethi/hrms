@@ -1,70 +1,36 @@
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
+import { useAuth, useFetch } from "hooks";
 interface Props {
   data?: any;
 }
 const MainManagerDashboardCharts = ({ data }: Props) => {
-  const getMonthName = (monthNumber: any) => {
-    const date = new Date();
-    date.setMonth(monthNumber - 1);
-    return date.toLocaleString("default", { month: "long" });
-  };
-  const cards = [
-    {
-      id: 1,
-      color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-      name: "John Doe",
-      count: data?.GuestInfo?.totalGuest || 0,
-      link: "/admin",
-    },
-    {
-      id: 2,
-      color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-      name: "Prasad Ghos",
-      count: data?.GuestInfo?.blockedGuestCount || 0,
-      link: "/admin",
-    },
-    {
-      id: 3,
-      color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-      name: "Subala Mohanta",
-      count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
-      link: "/admin",
-    },
-    {
-      id: 4,
-      color: "bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600",
-
-      name: "Joti Panda",
-      count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
-      link: "/admin",
-    },
-  ];
+  const { user } = useAuth();
+  const { data: dashboardData } = useFetch<any>(
+    `dashboards/manager/dashboard?managerId=${user?.id}&branchId=${user?.employeeOfBranchId}`
+  );
+  console.log(dashboardData);
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">
-            Last Year Leaves Overview
+            This Year Leaves Overview
           </p>
           <GuestBarChart
-            labels={[
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ]}
-            data={[15, 10, 11, 10, 9, 12, 12, 26, 12, 10, 18, 19]}
+            labels={
+              dashboardData?.currentYearLeaveData?.length
+                ? dashboardData?.currentYearLeaveData?.map(
+                    (item: any) => item?.month
+                  )
+                : []
+            }
+            data={
+              dashboardData?.currentYearLeaveData?.length
+                ? dashboardData?.currentYearLeaveData?.map(
+                    (item: any) => item?.leaveCount
+                  )
+                : []
+            }
             type="bar"
             text=""
           />
@@ -72,8 +38,16 @@ const MainManagerDashboardCharts = ({ data }: Props) => {
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Assets Overview</p>
           <GuestDonutChart
-            labels={["Assigned", "Not Assigned"]}
-            series={[70, 30]}
+            labels={
+              dashboardData?.assetOverView?.length
+                ? dashboardData?.assetOverView?.map((item: any) => item?.type)
+                : []
+            }
+            series={
+              dashboardData?.assetOverView?.length
+                ? dashboardData?.assetOverView?.map((item: any) => item?.count)
+                : []
+            }
             text=""
             type="pie"
             colors={["#25d366", "#E60023", "#BD33B5"]}
@@ -94,8 +68,20 @@ const MainManagerDashboardCharts = ({ data }: Props) => {
             Role Wise Employee Strength
           </p>
           <GuestBarChart
-            labels={["DEVELOPER", "CEO", "HR", "TESTER", "DIRECTOR"]}
-            data={[15, 9, 11, 10, 5]}
+            labels={
+              dashboardData?.roleWiseEmployeeCount?.length
+                ? dashboardData?.roleWiseEmployeeCount?.map(
+                    (item: any) => item?.roleName
+                  )
+                : []
+            }
+            data={
+              dashboardData?.roleWiseEmployeeCount?.length
+                ? dashboardData?.roleWiseEmployeeCount?.map(
+                    (item: any) => item?.count
+                  )
+                : []
+            }
             type="bar"
             text=""
           />

@@ -39,7 +39,7 @@ const AllBranch = () => {
     isLoading,
     pagination,
   } = useFetch<any[]>(`branches?managerId${user?.id}`);
-
+  console.log(user?.id);
   console.log(branchData);
 
   return (

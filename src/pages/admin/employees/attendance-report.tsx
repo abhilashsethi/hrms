@@ -1,7 +1,7 @@
 import MaterialTable from "@material-table/core";
 import { Checklist } from "@mui/icons-material";
 import { AdminBreadcrumbs, HeadStyle } from "components/core";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -9,6 +9,7 @@ import { MuiTblOptions } from "utils";
 
 const AttendanceReport = () => {
   const router = useRouter();
+  const { user } = useAuth();
   const getMonthName = (monthNumber: any) => {
     const date = new Date(2000, monthNumber, 1); // Creating a Date object with the year 2000 and the given month number
     const monthName = date.toLocaleString("default", { month: "long" }); // Getting the month name using the 'long' option
@@ -28,6 +29,18 @@ const AttendanceReport = () => {
       link: `/admin/employees/attendance-report?empId=${router?.query?.empId}?month=${router?.query?.month}`,
     },
   ];
+  const nextLinks = [
+    {
+      id: 3,
+      page: "My Profile",
+      link: `/admin/employees/my-profile`,
+    },
+    {
+      id: 4,
+      page: "Monthly Attendance",
+      link: `/admin/employees/attendance-report?empId=${router?.query?.empId}?month=${router?.query?.month}`,
+    },
+  ];
   const { data: attendanceData } = useFetch<any>(
     `attendances/${router?.query?.empId}?month=${router?.query?.month}`
   );
@@ -35,7 +48,11 @@ const AttendanceReport = () => {
     <PanelLayout title="Monthly Report - Admin Panel">
       <section className="px-8 py-4">
         <div className="pb-4">
-          <AdminBreadcrumbs links={links} />
+          {user?.role?.name === "CEO" ? (
+            <AdminBreadcrumbs links={links} />
+          ) : (
+            <AdminBreadcrumbs links={nextLinks} />
+          )}
         </div>
         <div>
           <MaterialTable
@@ -52,11 +69,11 @@ const AttendanceReport = () => {
               !attendanceData
                 ? []
                 : (attendanceData?.map((_: any, i: number) => ({
-                  ..._,
-                  sl: i + 1,
-                  in: moment(_?.inTime).format("hh:MM A"),
-                  out: moment(_?.outTime).format("hh:MM A"),
-                })) as any)
+                    ..._,
+                    sl: i + 1,
+                    in: moment(_?.inTime).format("hh:MM A"),
+                    out: moment(_?.outTime).format("hh:MM A"),
+                  })) as any)
             }
             options={{ ...MuiTblOptions() }}
             columns={[
