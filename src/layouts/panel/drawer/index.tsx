@@ -24,6 +24,7 @@ import { useMenuItems, useAuth } from "hooks";
 
 import { CustomDrawer, CustomDrawerHeader } from "./custom";
 import { LOGO } from "assets/home";
+import { Public_LOGO } from "config/env.config";
 
 type DrawerType = {
 	onToggle?: () => void;
@@ -61,7 +62,7 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
 					<div className="flex h-16 w-full items-center justify-between my-2">
 						<div className="flex justify-center">
 							<img
-								src={LOGO.src}
+								src={Public_LOGO}
 								alt=""
 								className={`${
 									open ? "h-12 w-[80%]  object-contain" : "hidden"
