@@ -365,6 +365,12 @@ export default () => {
 			],
 		},
 		{
+			key: "11-2",
+			title: "My Branch",
+			icon: <ICONS.All_Branch />,
+			route: "/admin/branch/my-branch",
+		},
+		{
 			key: "6",
 			title: "Meetings",
 			icon: <ICONS.Meeting />,
@@ -380,12 +386,6 @@ export default () => {
 					title: "All Meetings",
 					icon: <ICONS.All_Meetings />,
 					route: "/admin/meetings/all-meetings",
-				},
-				{
-					key: "6-3",
-					title: "My Meetings",
-					icon: <ICONS.All_Meetings />,
-					route: "/admin/meetings/my-meetings",
 				},
 			],
 		},

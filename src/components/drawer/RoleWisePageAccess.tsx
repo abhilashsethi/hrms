@@ -484,6 +484,12 @@ const PageList = [
 		name: "Branch Dashboard",
 	},
 	{
+		id: 1223,
+		name: "My Branch",
+		icon: <ICONS.All_Branch />,
+		value: "/admin/branch/my-branch",
+	},
+	{
 		id: 42,
 		value: "/admin/branch/all-branch",
 		icon: <ICONS.All_Branch />,
@@ -672,12 +678,6 @@ const PageList = [
 		value: "/admin/support/all-supports",
 		icon: <ICONS.All_Appointments />,
 		name: "All Supports",
-	},
-	{
-		id: 72,
-		value: "/admin/meetings/my-meetings",
-		icon: <ICONS.All_Appointments />,
-		name: "My Meetings",
 	},
 
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },

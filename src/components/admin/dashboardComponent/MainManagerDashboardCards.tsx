@@ -24,13 +24,17 @@ const MainManagerDashboardCards = ({ data }: Props) => {
   const { data: leaveData } = useFetch<Leave[]>(
     `leaves?${user?.id ? `userId=${user?.id}` : ""}`
   );
+  const { data: dashboardData } = useFetch<any>(
+    `dashboards/manager/dashboard/${user?.employeeOfBranchId}`
+  );
+  console.log(dashboardData);
   const cards = [
     {
       id: 1,
       color: "bg-[#bbcbff]",
       icon: <Groups fontSize="medium" className="text-theme" />,
       name: "Total Employees",
-      count: data?.totalInvolvedProjects || 0,
+      count: dashboardData?.totalInvolvedProjects || 0,
       link: "admin/projects/my-projects",
     },
     {
@@ -38,7 +42,7 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       color: "bg-[#b9e9fd]",
       icon: <PendingActions fontSize="medium" className="text-theme" />,
       name: "Total Pending Leave Requests",
-      count: data?.lastMonthAttendanceCount || 0,
+      count: dashboardData?.totalPendingLeaveCount || 0,
       link: "admin/leaves/leave-requests",
     },
     {
@@ -46,7 +50,7 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       color: "bg-[#f6c8ff]",
       icon: <WebAsset fontSize="medium" className="text-theme" />,
       name: "Total Assets",
-      count: data?.totalAssignAssetCount || 0,
+      count: dashboardData?.totalAssignAssetCount || 0,
       link: "/admin",
     },
     {
@@ -54,7 +58,7 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       color: "bg-[#feb76f]",
       icon: <AccountTree fontSize="medium" className="text-theme" />,
       name: "Total Projects",
-      count: data?.totalChatCount || 0,
+      count: dashboardData?.allProjectCount || 0,
       link: "/admin/technologies/all-technologies",
     },
   ];
@@ -110,32 +114,7 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       link: "/admin/support",
     },
   ];
-  const leave_status = [
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Pending",
-    },
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Approved",
-    },
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Approved",
-    },
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Approved",
-    },
-  ];
+
   return (
     <div className="flex gap-2 py-4">
       <div className="w-3/4 ">
