@@ -19,7 +19,7 @@ const AllBranch = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any[]>(`branches?managerId${user?.id}`);
+  } = useFetch<any[]>(`branches?managerId=${user?.id}`);
   console.log(user?.id);
   console.log(branchData);
 
