@@ -9,7 +9,7 @@ import {
   UpdateTenderEMDDetails,
   UpdateTenderFeeDetails,
 } from "components/dialogues";
-import { useChange } from "hooks";
+import { useAuth, useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -27,6 +27,7 @@ interface TenderDoc {
   id?: string;
 }
 const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
+  const { user } = useAuth();
   const { change } = useChange();
   const basicDetails = [
     {
@@ -196,16 +197,19 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
       <div className="mt-8">
         <TenderLayout title="Basic Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
-            <Tooltip title="Edit">
-              <IconButton
-                size="small"
-                onClick={() => {
-                  setIsUpdate({ dialogue: true, tenderData: tenderData });
-                }}
-              >
-                <Edit />
-              </IconButton>
-            </Tooltip>
+            {user?.role?.name === "CEO" ||
+            user?.role?.name === "BID MANAGER" ? (
+              <Tooltip title="Edit">
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    setIsUpdate({ dialogue: true, tenderData: tenderData });
+                  }}
+                >
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+            ) : null}
           </div>
           <table className="w-full">
             <tbody>
@@ -236,16 +240,19 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
       <div className="mt-14">
         <TenderLayout title="Tender Fee Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
-            <Tooltip title="Edit">
-              <IconButton
-                size="small"
-                onClick={() => {
-                  setIsFeeDetails({ dialogue: true, tenderData: tenderData });
-                }}
-              >
-                <Edit />
-              </IconButton>
-            </Tooltip>
+            {user?.role?.name === "CEO" ||
+            user?.role?.name === "BID MANAGER" ? (
+              <Tooltip title="Edit">
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    setIsFeeDetails({ dialogue: true, tenderData: tenderData });
+                  }}
+                >
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+            ) : null}
           </div>
           <table className="w-full">
             <tbody>
@@ -268,16 +275,19 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
       <div className="mt-14">
         <TenderLayout title="EMD Fee Details">
           <div className="flex justify-end absolute right-[10px] top-[10px]">
-            <Tooltip title="Edit">
-              <IconButton
-                size="small"
-                onClick={() => {
-                  setIsEmdDetails({ dialogue: true, tenderData: tenderData });
-                }}
-              >
-                <Edit />
-              </IconButton>
-            </Tooltip>
+            {user?.role?.name === "CEO" ||
+            user?.role?.name === "BID MANAGER" ? (
+              <Tooltip title="Edit">
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    setIsEmdDetails({ dialogue: true, tenderData: tenderData });
+                  }}
+                >
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+            ) : null}
           </div>
           <table className="w-full">
             <tbody>
@@ -301,16 +311,19 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
         <TenderLayout title="Tender Documents">
           <div>
             <div className="flex justify-end mb-2">
-              <Button
-                startIcon={<Add />}
-                variant="contained"
-                className="!bg-theme"
-                onClick={() => {
-                  setIsDocument({ dialogue: true, tenderData: tenderData });
-                }}
-              >
-                Add Document
-              </Button>
+              {user?.role?.name === "CEO" ||
+              user?.role?.name === "BID MANAGER" ? (
+                <Button
+                  startIcon={<Add />}
+                  variant="contained"
+                  className="!bg-theme"
+                  onClick={() => {
+                    setIsDocument({ dialogue: true, tenderData: tenderData });
+                  }}
+                >
+                  Add Document
+                </Button>
+              ) : null}
             </div>
             <table className="w-full">
               <tbody className="border-2">

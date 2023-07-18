@@ -1,4 +1,11 @@
-import { Add, Check, Delete, Download, Edit, Person } from "@mui/icons-material";
+import {
+  Add,
+  Check,
+  Delete,
+  Download,
+  Edit,
+  Person,
+} from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
@@ -8,13 +15,17 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { CHATDOC } from "assets/home";
 import { Loader, PhotoViewerSmall } from "components/core";
-import { AddTenderDocument, AddTenderDocumentationMember, UpdateTenderDocument } from "components/dialogues";
+import {
+  AddTenderDocument,
+  AddTenderDocumentationMember,
+  UpdateTenderDocument,
+} from "components/dialogues";
 import { Form, Formik } from "formik";
-import { useChange } from "hooks";
+import { useAuth, useChange } from "hooks";
 import { ChangeEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
@@ -32,24 +43,31 @@ interface TenderDoc {
   id?: string;
 }
 const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
+  const { user } = useAuth();
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
-  const [isDocumentValue, setIsDocumentValue] = useState(tenderData?.isAllDocumentsAdded)
+  const [isDocumentValue, setIsDocumentValue] = useState(
+    tenderData?.isAllDocumentsAdded
+  );
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsDocumentValue(event.target.value === 'Yes');
+    setIsDocumentValue(event.target.value === "Yes");
   };
   const [filteredMember, setFilteredMember] = useState<any | null>(null);
-  tenderData?.members?.length ?
-    useEffect(() => {
-      const filtered = tenderData?.members?.find(member => member.isAllowedToAddDoc);
-      setFilteredMember(filtered || null);
-    }, [tenderData]) : null;
+  tenderData?.members?.length
+    ? useEffect(() => {
+        const filtered = tenderData?.members?.find(
+          (member) => member.isAllowedToAddDoc
+        );
+        setFilteredMember(filtered || null);
+      }, [tenderData])
+    : null;
   const initialValues = {
-    documentAddReason: `${tenderData?.documentAddReason ? tenderData?.documentAddReason : ""}`,
+    documentAddReason: `${
+      tenderData?.documentAddReason ? tenderData?.documentAddReason : ""
+    }`,
   };
 
-  const validationSchema = Yup.object().shape({
-  });
+  const validationSchema = Yup.object().shape({});
   const [isDocument, setIsDocument] = useState<{
     dialogue: boolean;
     tenderData?: any | null;
@@ -75,9 +93,12 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`tenders/remove-member-from-tender?assignMemberId=${item?.id}&tenderId=${tenderData?.id}`, {
-            method: "PATCH",
-          });
+          const res = await change(
+            `tenders/remove-member-from-tender?assignMemberId=${item?.id}&tenderId=${tenderData?.id}`,
+            {
+              method: "PATCH",
+            }
+          );
 
           if (res?.status !== 200) {
             Swal.fire(`Error`, "Something went wrong!", "error");
@@ -104,16 +125,12 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
       Swal.fire(`Success`, `Documentation updated successfully!`, `success`);
-      mutate()
+      mutate();
       return;
     } catch (error) {
       console.log(error);
@@ -135,9 +152,12 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`tenders/remove/document?tenderId=${tenderData?.id}&docId=${item?.id}`, {
-            method: "DELETE",
-          });
+          const res = await change(
+            `tenders/remove/document?tenderId=${tenderData?.id}&docId=${item?.id}`,
+            {
+              method: "DELETE",
+            }
+          );
           if (item?.id) {
             await deleteFile(String(item?.link?.split("/").reverse()[0]));
           }
@@ -182,9 +202,9 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
         mutate={mutate}
       />
       <h1 className="text-theme font-semibold">Assigned Member</h1>
-      {tenderData?.members?.length ?
+      {tenderData?.members?.length ? (
         <>
-          {filteredMember ?
+          {filteredMember ? (
             <div className="w-80 rounded-md border-theme border-2 mt-3 p-4">
               <div className="mt-2 rounded-md p-2 flex gap-4 items-center">
                 <PhotoViewerSmall
@@ -194,7 +214,9 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                 />
                 <div>
                   <h1>{filteredMember?.member?.name}</h1>
-                  <h1 className="text-sm text-gray-600">{filteredMember?.member?.email}</h1>
+                  <h1 className="text-sm text-gray-600">
+                    {filteredMember?.member?.email}
+                  </h1>
                 </div>
               </div>
               <div className="mt-2 flex justify-center gap-2">
@@ -210,41 +232,47 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                     View Details
                   </Button>
                 </Link>
-                <Button
-                  onClick={() => handleRemove(filteredMember)}
-                  variant="contained"
-                  className="!bg-youtube"
-                  size="small"
-                  startIcon={<Delete />}
-                >
-                  Remove
-                </Button>
+                {user?.role?.name === "CEO" ||
+                user?.role?.name === "BID MANAGER" ? (
+                  <Button
+                    onClick={() => handleRemove(filteredMember)}
+                    variant="contained"
+                    className="!bg-youtube"
+                    size="small"
+                    startIcon={<Delete />}
+                  >
+                    Remove
+                  </Button>
+                ) : null}
               </div>
             </div>
-            : <div className="w-80">
+          ) : (
+            <div className="w-80">
               <div className="grid py-6 justify-center justify-items-center">
-                <p className="text-lg font-semibold">
-                  No Member Assigned
-                </p>
+                <p className="text-lg font-semibold">No Member Assigned</p>
                 <div className="flex justify-end mb-2">
-                  <Button
-                    startIcon={<Add />}
-                    variant="contained"
-                    className="!bg-theme"
-                    onClick={() => {
-                      setIsMember({ dialogue: true, tenderData: tenderData });
-                    }}>
-                    Add Member
-                  </Button>
+                  {user?.role?.name === "CEO" ||
+                  user?.role?.name === "BID MANAGER" ? (
+                    <Button
+                      startIcon={<Add />}
+                      variant="contained"
+                      className="!bg-theme"
+                      onClick={() => {
+                        setIsMember({ dialogue: true, tenderData: tenderData });
+                      }}
+                    >
+                      Add Member
+                    </Button>
+                  ) : null}
                 </div>
               </div>
-            </div>}
-        </> :
+            </div>
+          )}
+        </>
+      ) : (
         <div className="w-80">
           <div className="grid py-6 justify-center justify-items-center">
-            <p className="text-lg font-semibold">
-              No Member Assigned
-            </p>
+            <p className="text-lg font-semibold">No Member Assigned</p>
             <div className="flex justify-end mb-2">
               <Button
                 startIcon={<Add />}
@@ -252,13 +280,14 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                 className="!bg-theme"
                 onClick={() => {
                   setIsMember({ dialogue: true, tenderData: tenderData });
-                }}>
+                }}
+              >
                 Add Member
               </Button>
             </div>
           </div>
         </div>
-      }
+      )}
       <div className="mt-14">
         <TenderLayout title="Documents">
           <div>
@@ -269,7 +298,8 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                 className="!bg-theme"
                 onClick={() => {
                   setIsDocument({ dialogue: true, tenderData: tenderData });
-                }}>
+                }}
+              >
                 Add Document
               </Button>
             </div>
@@ -283,7 +313,7 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                   <th className="w-[30%] text-sm border-r-2">Document</th>
                   <th className="w-[20%] text-sm">Actions</th>
                 </tr>
-                {tenderData?.documents?.length ?
+                {tenderData?.documents?.length ? (
                   <>
                     {tenderData?.documents?.map((item, index) => (
                       <tr key={item?.id} className="border-b-2">
@@ -293,10 +323,16 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                         >
                           {Number(index) + 1}
                         </td>
-                        <td align="center" className="w-[40%] text-sm border-r-2">
+                        <td
+                          align="center"
+                          className="w-[40%] text-sm border-r-2"
+                        >
                           {item?.title}
                         </td>
-                        <td align="center" className="w-[30%] text-sm border-r-2">
+                        <td
+                          align="center"
+                          className="w-[30%] text-sm border-r-2"
+                        >
                           <div className="flex gap-2 items-center justify-center">
                             <img
                               className="h-6 object-contain"
@@ -322,18 +358,21 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                               </a>
                             </Tooltip>
                             <Tooltip title="Edit Document">
-                              <IconButton size="small"
+                              <IconButton
+                                size="small"
                                 onClick={() => {
-                                  setIsUpdateDocument({ dialogue: true, tenderData: item });
-                                }}>
+                                  setIsUpdateDocument({
+                                    dialogue: true,
+                                    tenderData: item,
+                                  });
+                                }}
+                              >
                                 <Edit />
                               </IconButton>
                             </Tooltip>
                             <Tooltip title="Delete Document">
                               <IconButton size="small">
-                                <Delete
-                                  onClick={() => handleDelete(item)}
-                                />
+                                <Delete onClick={() => handleDelete(item)} />
                               </IconButton>
                             </Tooltip>
                           </div>
@@ -341,13 +380,13 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                       </tr>
                     ))}
                   </>
-                  :
+                ) : (
                   <tr>
                     <td colSpan={4} className="flex justify-center px-2 py-6">
                       No Document
                     </td>
                   </tr>
-                }
+                )}
               </tbody>
             </table>
           </div>
@@ -359,28 +398,25 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
         enableReinitialize={true}
         onSubmit={handleSubmit}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-        }) => (
+        {({ values, errors, touched, handleChange, handleBlur }) => (
           <Form>
             <div className="mt-4">
               <h1 className="font-semibold">All documents created ? </h1>
               <div className="flex gap-2 items-center">
                 <RadioGroup
-                  defaultValue={tenderData?.isAllDocumentsAdded ? 'Yes' : 'No'}
+                  defaultValue={tenderData?.isAllDocumentsAdded ? "Yes" : "No"}
                   row
                   name="isAllDocumentsAdded"
                   onChange={handleOptionChange}
                   aria-labelledby="demo-row-radio-buttons-group-label"
                 >
-                  <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                  <FormControlLabel
+                    value="Yes"
+                    control={<Radio />}
+                    label="Yes"
+                  />
                   <FormControlLabel value="No" control={<Radio />} label="No" />
                 </RadioGroup>
-
               </div>
             </div>
             <div className="w-1/2">
@@ -397,7 +433,9 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.documentAddReason && !!errors.documentAddReason}
-                helperText={touched.documentAddReason && errors.documentAddReason}
+                helperText={
+                  touched.documentAddReason && errors.documentAddReason
+                }
               />
               <div className="flex mt-2 mb-2">
                 <Button
@@ -421,5 +459,3 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
 };
 
 export default TenderDocumentation;
-
-

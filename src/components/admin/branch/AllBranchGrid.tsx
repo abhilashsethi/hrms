@@ -4,7 +4,7 @@ import { LOCATION, MANAGER } from "assets/dashboard_Icons";
 import { RenderIconRow } from "components/common";
 import { CountryNameFlag, IOSSwitch } from "components/core";
 import { UpdateBranch } from "components/dialogues";
-import { useChange } from "hooks";
+import { useAuth, useChange } from "hooks";
 import { ChangeEvent, useState } from "react";
 import Slider from "react-slick";
 import Swal from "sweetalert2";
@@ -47,7 +47,6 @@ const settings = {
   ],
 };
 const AllBranchGrid = ({ data, mutate }: Props) => {
-
   return (
     <>
       <section className="py-6 ">
@@ -69,9 +68,9 @@ interface PROPS {
   mutate: () => void;
 }
 const MoreOption = ({ item, mutate }: PROPS) => {
-
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const { user } = useAuth();
   const [isUpdate, setIsUpdate] = useState<{
     dialogue?: boolean;
     branchId?: string;
@@ -91,7 +90,9 @@ const MoreOption = ({ item, mutate }: PROPS) => {
         setLoading(true);
         try {
           Swal.fire("", "Please Wait...", "info");
-          const res = await change(`branches/${item?.id}`, { method: "DELETE" });
+          const res = await change(`branches/${item?.id}`, {
+            method: "DELETE",
+          });
           const photoPaths = item?.photos;
           if (photoPaths && photoPaths.length > 0) {
             photoPaths.forEach(async (path) => {
@@ -153,33 +154,51 @@ const MoreOption = ({ item, mutate }: PROPS) => {
         MainMutate={mutate}
       />
       <div key={item?.id} className="mb-4 w-full">
-        <div className="group h-full w-full border-2 bg-white border-gray-200 
-                border-opacity-60 rounded-lg overflow-hidden shadow-lg">
-          {item?.photos?.length ?
+        <div
+          className="group h-full w-full border-2 bg-white border-gray-200 
+                border-opacity-60 rounded-lg overflow-hidden shadow-lg"
+        >
+          {item?.photos?.length ? (
             item?.photos?.length > 1 ? (
               <>
                 <Slider {...settings} className="">
                   {item?.photos?.map((data: any, k: any) => (
-                    <img key={k} className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
+                    <img
+                      key={k}
+                      className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                      src={data} alt="Branch" />
+                      src={data}
+                      alt="Branch"
+                    />
                   ))}
                 </Slider>
               </>
             ) : (
               <>
                 {item?.photos?.map((data: any, k: any) => (
-                  <img key={k} className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
+                  <img
+                    key={k}
+                    className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                    src={data} alt="Branch" />
+                    src={data}
+                    alt="Branch"
+                  />
                 ))}
               </>
-            ) : <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+            )
+          ) : (
+            <img
+              className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-              src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg" alt="Branch" />}
+              src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg"
+              alt="Branch"
+            />
+          )}
           <div className="py-1 pt-2 px-4">
-            <h1 className="inline-block py-1 font-extrabold 
-                    text-gray-800 cursor-pointer">
+            <h1
+              className="inline-block py-1 font-extrabold 
+                    text-gray-800 cursor-pointer"
+            >
               {item?.name || "---"}
             </h1>
             <Tooltip title="Manager">
@@ -201,40 +220,44 @@ const MoreOption = ({ item, mutate }: PROPS) => {
             </p>
 
             <p className="text-gray-500 flex items-start">
-              <RenderIconRow
-                value={item?.email || "---"}
-                isEmail
-              />
+              <RenderIconRow value={item?.email || "---"} isEmail />
             </p>
             <p className="text-sm text-slate-600 font-medium py-1 flex items-center gap-3">
-              <CountryNameFlag
-                countryName={item?.country || "---"}
-              />
+              <CountryNameFlag countryName={item?.country || "---"} />
             </p>
 
-            <h2 className="py-1 pb-1 inline-block text-xs 
+            <h2
+              className="py-1 pb-1 inline-block text-xs 
                     text-red-400"
             >
               <span className="group flex text-xs items-center justify-center gap-2">
-
                 <img src={LOCATION.src} className="w-6 pr-2" alt="" />
                 {item?.location || "---"}
               </span>
             </h2>
             <div className="flex bottom-0 ">
-              <span onClick={() => handleDelete(item)}
-                className="group w-full hover:bg-theme text-red-600 hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
-                <DeleteRounded fontSize="small" />
-              </span>
-              <span onClick={() => {
-                setIsUpdate({ dialogue: true, branchId: item?.id });
-              }} className="group w-full hover:bg-theme text-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center ">
+              {user?.role?.name === "MANAGER" ? null : (
+                <span
+                  onClick={() => handleDelete(item)}
+                  className="group w-full hover:bg-theme text-red-600 hover:text-white flex border-2 px-2 py-1 items-center justify-center "
+                >
+                  <DeleteRounded fontSize="small" />
+                </span>
+              )}
+              <span
+                onClick={() => {
+                  setIsUpdate({ dialogue: true, branchId: item?.id });
+                }}
+                className="group w-full hover:bg-theme text-theme hover:text-white flex border-2 px-2 py-1 items-center justify-center "
+              >
                 <Edit fontSize="small" />
               </span>
               <div className="group w-full hover:bg-theme hover:text-white gap-2 flex border-2 px-2 py-1 items-center justify-center ">
                 <p className="font-semibold tracking-wide text-sm">STATUS</p>
-                <IOSSwitch size="small"
+                <IOSSwitch
+                  size="small"
                   checked={item?.isBlocked}
+                  disabled={user?.role?.name === "MANAGER"}
                   onChange={(e) => handleBlock(e, item?.id)}
                 />
               </div>

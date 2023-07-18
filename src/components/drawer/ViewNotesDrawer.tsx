@@ -14,7 +14,7 @@ import { DEFAULTPROFILE, DOC, IMG, PDF, SAMPLEDP } from "assets/home";
 import { Loader } from "components/core";
 import { DocPreview } from "components/dialogues";
 import AddMeetingNotes from "components/dialogues/AddMeetingNotes";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -62,7 +62,8 @@ const style = {
 };
 
 const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
-	// console.log(meetingDetails);
+	console.log(meetingDetails);
+	const { user } = useAuth();
 	const router = useRouter();
 	const [openInfoModal, setOpenInfoModal] = useState(false);
 	const handleInfoOpen = () => {
@@ -133,10 +134,10 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 				<Container
 					style={{ marginTop: "1rem" }}
 					className={classes.container}
-				// style={{
-				// 	width: "30vw",
-				// 	marginTop: "3.5vh",
-				// }}
+					// style={{
+					// 	width: "30vw",
+					// 	marginTop: "3.5vh",
+					// }}
 				>
 					{/* Document Modal  */}
 					{/* <Modal
@@ -160,23 +161,26 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 					</Modal> */}
 					<div className="flex items-center justify-between pb-4">
 						<p className="text-lg font-bold text-theme">View All Notes</p>
-						<div className="flex ">
-							<Button
-								variant="contained"
-								className="!bg-blue-500 "
-								startIcon={<Add />}
-								size="small"
-								onClick={() => setEditDetails((prev) => !prev)}
-							>
-								Add Notes
-							</Button>
-							<IconButton onClick={() => onClose()}>
-								<Close
-									fontSize="small"
-									className="text-red-500 block md:hidden"
-								/>
-							</IconButton>
-						</div>
+						{user?.role?.name === "CEO" ||
+						user?.role?.name === "PROJECT MANAGER" ? (
+							<div className="flex ">
+								<Button
+									variant="contained"
+									className="!bg-blue-500 "
+									startIcon={<Add />}
+									size="small"
+									onClick={() => setEditDetails((prev) => !prev)}
+								>
+									Add Notes
+								</Button>
+								<IconButton onClick={() => onClose()}>
+									<Close
+										fontSize="small"
+										className="text-red-500 block md:hidden"
+									/>
+								</IconButton>
+							</div>
+						) : null}
 					</div>
 
 					{isLoading && <Loader />}
@@ -251,13 +255,16 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 												</Tooltip>
 											</div>
 
-											<div className="flex justify-end">
-												<DeleteButton
-													meetingId={meetingDetails?.id}
-													id={item?.id}
-													mutate={mutate}
-												/>
-											</div>
+											{user?.role?.name === "CEO" ||
+											user?.role?.name === "PROJECT MANAGER" ? (
+												<div className="flex justify-end">
+													<DeleteButton
+														meetingId={meetingDetails?.id}
+														id={item?.id}
+														mutate={mutate}
+													/>
+												</div>
+											) : null}
 										</div>
 									</div>
 								);

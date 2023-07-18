@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { TENDERCARD } from "assets/home";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import Link from "next/link";
@@ -26,6 +26,7 @@ import { Tender } from "types";
 import { deleteFile } from "utils";
 
 const MyTenders = () => {
+  const { user } = useAuth();
   const [isPortal, setIsPortal] = useState<string | null>(null);
   const [isCategory, setIsCategory] = useState<string | null>(null);
   const [tenderNo, setTenderNo] = useState<string | null>(null);
@@ -39,149 +40,24 @@ const MyTenders = () => {
     isLoading,
     pagination,
   } = useFetch<Tender[]>(
-    `tenders?page=${pageNumber}&limit=8${
-      tenderName ? `&title=${tenderName}` : ""
-    }${tenderNo ? `&tenderNo=${tenderNo}` : ""}${
-      isOrderBy ? `&orderBy=${isOrderBy}` : ""
-    }${isCategory ? `&category=${isCategory}` : ""}${
-      isSubmissionDate ? `&submissionDate=${isSubmissionDate}` : ""
-    }${isPortal ? `&portal=${isPortal}` : ""}`
+    `tenders/all-tender/by-memberId?userId=${user?.id}&page=${pageNumber}&limit=8`
   );
-
+  console.log(tenderData);
   return (
-    <PanelLayout title="All Tenders - Admin Panel">
+    <PanelLayout title="My Tenders - Admin Panel">
       <section className="px-8 py-4">
         <AdminBreadcrumbs links={links} />
 
-        <div className="md:flex gap-4 justify-between w-full py-2 mt-2">
-          <div
-            className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
-                `}
-          >
-            <IconButton
-              onClick={() => {
-                setIsOrderBy(null);
-                setTenderName(null);
-                setTenderNo(null);
-                setIsPortal(null);
-                setIsSubmissionDate(null);
-                setIsCategory(null);
-              }}
-            >
-              <Tooltip
-                title={
-                  isSubmissionDate != null ||
-                  isPortal != null ||
-                  isCategory != null ||
-                  isOrderBy != null ||
-                  tenderName != null ||
-                  tenderNo != null
-                    ? `Remove Filters`
-                    : `Filter`
-                }
-              >
-                {isPortal != null ||
-                isSubmissionDate != null ||
-                isCategory != null ||
-                isOrderBy != null ||
-                tenderName != null ||
-                tenderNo != null ? (
-                  <Close className={"!text-white"} />
-                ) : (
-                  <FilterListRounded className={"!text-white"} />
-                )}
-              </Tooltip>
-            </IconButton>
-          </div>
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <TextField
-              fullWidth
-              size="small"
-              id="name"
-              value={tenderName ? tenderName : ""}
-              onChange={(e) => {
-                setPageNumber(1), setTenderName(e.target.value);
-              }}
-              placeholder="Tender Name"
-              name="name"
-            />
-            <TextField
-              fullWidth
-              size="small"
-              id="tenderNo"
-              value={tenderNo ? tenderNo : ""}
-              onChange={(e) => {
-                setPageNumber(1), setTenderNo(e.target.value);
-              }}
-              placeholder="Tender Number"
-              name="tenderNo"
-            />
-            <TextField
-              fullWidth
-              size="small"
-              id="Category"
-              value={isCategory ? isCategory : ""}
-              onChange={(e) => {
-                setPageNumber(1), setIsCategory(e.target.value);
-              }}
-              placeholder="Category"
-              name="Category"
-            />
-            <TextField
-              fullWidth
-              size="small"
-              id="portal"
-              value={isPortal ? isPortal : ""}
-              onChange={(e) => {
-                setPageNumber(1), setIsPortal(e.target.value);
-              }}
-              placeholder="Portal"
-              name="portal"
-            />
-            <TextField
-              fullWidth
-              size="small"
-              id="submissionDate"
-              type="date"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              label="Submission Date"
-              value={
-                isSubmissionDate
-                  ? moment(isSubmissionDate).format("YYYY-MM-DD")
-                  : null
-              }
-              onChange={(e) => {
-                setPageNumber(1),
-                  setIsSubmissionDate(new Date(e.target.value).toISOString());
-              }}
-              name="submissionDate"
-            />
-            <TextField
-              fullWidth
-              select
-              label="Ascending/Descending"
-              size="small"
-              value={isOrderBy ? isOrderBy : ""}
-              onChange={(e) => {
-                setPageNumber(1), setIsOrderBy(e?.target?.value);
-              }}
-            >
-              {short.map((option) => (
-                <MenuItem key={option.id} value={option.value}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </div>
-        </div>
         <section className="mt-4">
           {isLoading && <SkeletonLoader />}
           <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
             {tenderData?.map((item) => (
               <div key={item?.id}>
-                <CardContent item={item} mutate={mutate} />
+                <CardContent
+                  item={item?.tenders}
+                  tenderId={item?.tenders?._id?.$oid}
+                  mutate={mutate}
+                />
               </div>
             ))}
           </div>
@@ -217,9 +93,12 @@ export default MyTenders;
 interface Props {
   item?: Tender;
   mutate: () => void;
+  tenderId?: string;
 }
 
-const CardContent = ({ item, mutate }: Props) => {
+const CardContent = ({ item, mutate, tenderId }: Props) => {
+  console.log({ item });
+  const { user } = useAuth();
   const { change } = useChange();
   const handleDelete = (id?: string) => {
     try {
@@ -290,18 +169,24 @@ const CardContent = ({ item, mutate }: Props) => {
             </span>
           </div>
           <div className=" px-4 py-1 bg-white absolute right-0 bottom-[-15px] rounded-l-md flex gap-2 items-center">
-            <Link href={`/admin/tenders/tender-details?id=${item?.id}`}>
+            <Link href={`/admin/tenders/tender-details?id=${item?._id?.$oid}`}>
               <Tooltip title="Details">
                 <IconButton size="small">
                   <Info />
                 </IconButton>
               </Tooltip>
             </Link>
-            <Tooltip title="Delete">
-              <IconButton size="small" onClick={() => handleDelete(item?.id)}>
-                <Delete className="!text-youtube" />
-              </IconButton>
-            </Tooltip>
+            {user?.role?.name === "CEO" ||
+            user?.role?.name === "BID MANAGER" ? (
+              <Tooltip title="Delete">
+                <IconButton
+                  size="small"
+                  onClick={() => handleDelete(item?._id?.$oid)}
+                >
+                  <Delete className="!text-youtube" />
+                </IconButton>
+              </Tooltip>
+            ) : null}
           </div>
           <img
             className="h-12 object-contain "
@@ -330,11 +215,10 @@ const CardContent = ({ item, mutate }: Props) => {
 };
 
 const links = [
-  { id: 1, page: "Tenders", link: "/admin/tenders" },
   {
     id: 2,
-    page: "All Tenders",
-    link: "/admin/tenders/all-tenders",
+    page: "My Tenders",
+    link: "/admin/tenders/my-tenders",
   },
 ];
 const short = [

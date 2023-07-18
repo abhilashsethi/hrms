@@ -5,7 +5,7 @@ import {
   Delete,
   Download,
   Edit,
-  Person
+  Person,
 } from "@mui/icons-material";
 import {
   Button,
@@ -14,13 +14,18 @@ import {
   Link,
   MenuItem,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { CHATDOC } from "assets/home";
 import { Loader, PhotoViewerSmall } from "components/core";
-import { AddTenderDocument, AddTenderTrackMember, TenderCreateNote, UpdateTenderDocument } from "components/dialogues";
+import {
+  AddTenderDocument,
+  AddTenderTrackMember,
+  TenderCreateNote,
+  UpdateTenderDocument,
+} from "components/dialogues";
 import { Form, Formik } from "formik";
-import { useChange } from "hooks";
+import { useAuth, useChange } from "hooks";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
@@ -38,21 +43,26 @@ interface TenderDoc {
   id?: string;
 }
 const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
+  const { user } = useAuth();
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
-  const [isDocumentValue, setIsDocumentValue] = useState(tenderData?.isAllDocumentsAdded)
+  const [isDocumentValue, setIsDocumentValue] = useState(
+    tenderData?.isAllDocumentsAdded
+  );
   const [filteredMember, setFilteredMember] = useState<any | null>(null);
-  tenderData?.members?.length ?
-    useEffect(() => {
-      const filtered = tenderData?.members?.find(member => member.isAllowedToTrackTender);
-      setFilteredMember(filtered || null);
-    }, [tenderData]) : null;
+  tenderData?.members?.length
+    ? useEffect(() => {
+        const filtered = tenderData?.members?.find(
+          (member) => member.isAllowedToTrackTender
+        );
+        setFilteredMember(filtered || null);
+      }, [tenderData])
+    : null;
   const initialValues = {
     status: `${tenderData?.status ? tenderData?.status : ""}`,
   };
 
-  const validationSchema = Yup.object().shape({
-  });
+  const validationSchema = Yup.object().shape({});
   const [isDocument, setIsDocument] = useState<{
     dialogue: boolean;
     tenderData?: any | null;
@@ -82,9 +92,12 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`tenders/remove-member-from-tender?assignMemberId=${item?.id}&tenderId=${tenderData?.id}`, {
-            method: "PATCH",
-          });
+          const res = await change(
+            `tenders/remove-member-from-tender?assignMemberId=${item?.id}&tenderId=${tenderData?.id}`,
+            {
+              method: "PATCH",
+            }
+          );
 
           if (res?.status !== 200) {
             Swal.fire(`Error`, "Something went wrong!", "error");
@@ -111,16 +124,12 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
       Swal.fire(`Success`, `Status change successfully`, `success`);
-      mutate()
+      mutate();
       return;
     } catch (error) {
       console.log(error);
@@ -142,12 +151,15 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`tenders/remove/note/from/tender?tenderId=${tenderData?.id}`, {
-            method: "DELETE",
-            body: {
-              noteId: item?.id,
+          const res = await change(
+            `tenders/remove/note/from/tender?tenderId=${tenderData?.id}`,
+            {
+              method: "DELETE",
+              body: {
+                noteId: item?.id,
+              },
             }
-          });
+          );
 
           if (res?.status !== 200) {
             Swal.fire(`Error`, `${res?.results?.msg}`, "error");
@@ -175,9 +187,12 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`tenders/remove/document?tenderId=${tenderData?.id}&docId=${item?.id}`, {
-            method: "DELETE",
-          });
+          const res = await change(
+            `tenders/remove/document?tenderId=${tenderData?.id}&docId=${item?.id}`,
+            {
+              method: "DELETE",
+            }
+          );
           if (item?.id) {
             await deleteFile(String(item?.link?.split("/").reverse()[0]));
           }
@@ -229,9 +244,9 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
       />
 
       <h1 className="text-theme font-semibold">Assigned Member</h1>
-      {tenderData?.members?.length ?
+      {tenderData?.members?.length ? (
         <>
-          {filteredMember ?
+          {filteredMember ? (
             <div className="w-80 rounded-md border-theme border-2 mt-3 p-4">
               <div className="mt-2 rounded-md p-2 flex gap-4 items-center">
                 <PhotoViewerSmall
@@ -241,7 +256,9 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                 />
                 <div>
                   <h1>{filteredMember?.member?.name}</h1>
-                  <h1 className="text-sm text-gray-600">{filteredMember?.member?.email}</h1>
+                  <h1 className="text-sm text-gray-600">
+                    {filteredMember?.member?.email}
+                  </h1>
                 </div>
               </div>
               <div className="mt-2 flex justify-center gap-2">
@@ -257,43 +274,47 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                     View Details
                   </Button>
                 </Link>
-                <Button
-                  onClick={() => handleRemove(filteredMember)}
-                  variant="contained"
-                  className="!bg-youtube"
-                  size="small"
-                  startIcon={<Delete />}
-                >
-                  Remove
-                </Button>
+                {user?.role?.name === "CEO" ||
+                user?.role?.name === "BID MANAGER" ? (
+                  <Button
+                    onClick={() => handleRemove(filteredMember)}
+                    variant="contained"
+                    className="!bg-youtube"
+                    size="small"
+                    startIcon={<Delete />}
+                  >
+                    Remove
+                  </Button>
+                ) : null}
               </div>
             </div>
-            : <div className="w-80">
+          ) : (
+            <div className="w-80">
               <div className="grid py-6 justify-center justify-items-center">
-                <p className="text-lg font-semibold">
-                  No Member Assigned
-                </p>
+                <p className="text-lg font-semibold">No Member Assigned</p>
                 <div className="flex justify-end mb-2">
-                  <Button
-                    startIcon={<Add />}
-                    variant="contained"
-                    className="!bg-theme"
-                    onClick={() => {
-                      setIsMember({ dialogue: true, tenderData: tenderData });
-                    }}>
-                    Add Member
-                  </Button>
+                  {user?.role?.name === "CEO" ||
+                  user?.role?.name === "BID MANAGER" ? (
+                    <Button
+                      startIcon={<Add />}
+                      variant="contained"
+                      className="!bg-theme"
+                      onClick={() => {
+                        setIsMember({ dialogue: true, tenderData: tenderData });
+                      }}
+                    >
+                      Add Member
+                    </Button>
+                  ) : null}
                 </div>
               </div>
-            </div>}
-
-
-        </> :
+            </div>
+          )}
+        </>
+      ) : (
         <div className="w-80">
           <div className="grid py-6 justify-center justify-items-center">
-            <p className="text-lg font-semibold">
-              No Member Assigned
-            </p>
+            <p className="text-lg font-semibold">No Member Assigned</p>
             <div className="flex justify-end mb-2">
               <Button
                 startIcon={<Add />}
@@ -301,13 +322,14 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                 className="!bg-theme"
                 onClick={() => {
                   setIsMember({ dialogue: true, tenderData: tenderData });
-                }}>
+                }}
+              >
                 Add Member
               </Button>
             </div>
           </div>
         </div>
-      }
+      )}
       <div className="mt-14">
         <TenderLayout title="Documents">
           <div>
@@ -318,7 +340,8 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                 className="!bg-theme"
                 onClick={() => {
                   setIsDocument({ dialogue: true, tenderData: tenderData });
-                }}>
+                }}
+              >
                 Add Document
               </Button>
             </div>
@@ -332,7 +355,7 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                   <th className="w-[30%] text-sm border-r-2">Document</th>
                   <th className="w-[20%] text-sm">Actions</th>
                 </tr>
-                {tenderData?.documents?.length ?
+                {tenderData?.documents?.length ? (
                   <>
                     {tenderData?.documents?.map((item, index) => (
                       <tr key={item?.id} className="border-b-2">
@@ -342,10 +365,16 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                         >
                           {Number(index) + 1}
                         </td>
-                        <td align="center" className="w-[40%] text-sm border-r-2">
+                        <td
+                          align="center"
+                          className="w-[40%] text-sm border-r-2"
+                        >
                           {item?.title}
                         </td>
-                        <td align="center" className="w-[30%] text-sm border-r-2">
+                        <td
+                          align="center"
+                          className="w-[30%] text-sm border-r-2"
+                        >
                           <div className="flex gap-2 items-center justify-center">
                             <img
                               className="h-6 object-contain"
@@ -371,18 +400,21 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                               </a>
                             </Tooltip>
                             <Tooltip title="Edit Document">
-                              <IconButton size="small"
+                              <IconButton
+                                size="small"
                                 onClick={() => {
-                                  setIsUpdateDocument({ dialogue: true, tenderData: item });
-                                }}>
+                                  setIsUpdateDocument({
+                                    dialogue: true,
+                                    tenderData: item,
+                                  });
+                                }}
+                              >
                                 <Edit />
                               </IconButton>
                             </Tooltip>
                             <Tooltip title="Delete Document">
                               <IconButton size="small">
-                                <Delete
-                                  onClick={() => handleDeleteDoc(item)}
-                                />
+                                <Delete onClick={() => handleDeleteDoc(item)} />
                               </IconButton>
                             </Tooltip>
                           </div>
@@ -390,13 +422,13 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                       </tr>
                     ))}
                   </>
-                  :
+                ) : (
                   <tr>
                     <td colSpan={4} className="flex justify-center px-2 py-6">
                       No Document
                     </td>
                   </tr>
-                }
+                )}
               </tbody>
             </table>
           </div>
@@ -410,13 +442,7 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
           enableReinitialize={true}
           onSubmit={handleSubmit}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-          }) => (
+          {({ values, errors, touched, handleChange, handleBlur }) => (
             <Form>
               <h1 className="font-semibold">Update Status </h1>
               <TextField
@@ -464,46 +490,47 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
             className="!bg-theme"
             onClick={() => {
               setIsCreateNote({ dialogue: true, tenderData: tenderData });
-            }}>
+            }}
+          >
             Create Note
           </Button>
         </div>
         <div className="border-2 py-4 px-2 grid gap-2 h-[60vh] overflow-scroll w-full rounded-md p-2">
-          {tenderData?.notes?.length ?
+          {tenderData?.notes?.length ? (
             <>
-              {tenderData?.notes?.sort(
-                (a: any, b: any) =>
-                  (new Date(b?.createdAt) as any) -
-                  (new Date(a?.createdAt) as any)
-              )?.map((item) => (
-                <>
-                  <div className="w-full p-4 border-[1px] border-theme rounded-md">
-                    <p className="text-sm tracking-wide">
-                      {item?.description}
-                    </p>
-                    <div className="flex justify-between items-end">
-                      <div className="flex gap-1 justify-start">
-                        <Tooltip title="Delete">
-                          <IconButton size="small">
-                            <Delete
-                              onClick={() => handleDelete(item)}
-                            />
-                          </IconButton>
-                        </Tooltip>
+              {tenderData?.notes
+                ?.sort(
+                  (a: any, b: any) =>
+                    (new Date(b?.createdAt) as any) -
+                    (new Date(a?.createdAt) as any)
+                )
+                ?.map((item) => (
+                  <>
+                    <div className="w-full p-4 border-[1px] border-theme rounded-md">
+                      <p className="text-sm tracking-wide">
+                        {item?.description}
+                      </p>
+                      <div className="flex justify-between items-end">
+                        <div className="flex gap-1 justify-start">
+                          <Tooltip title="Delete">
+                            <IconButton size="small">
+                              <Delete onClick={() => handleDelete(item)} />
+                            </IconButton>
+                          </Tooltip>
+                        </div>
+                        <span className="text-xs">
+                          {clock(item?.createdAt).fromNow()}
+                        </span>
                       </div>
-                      <span className="text-xs">
-                        {clock(item?.createdAt).fromNow()}
-                      </span>
                     </div>
-                  </div>
-                </>
-              ))}
+                  </>
+                ))}
             </>
-            :
+          ) : (
             <div className="grid justify-center justify-items-center px-4 py-4">
               <p>No Note Available</p>
             </div>
-          }
+          )}
         </div>
       </div>
     </section>

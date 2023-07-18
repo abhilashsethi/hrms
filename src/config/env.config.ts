@@ -11,3 +11,11 @@ export const Public_STORAGE_BUCKET =
 export const Public_MESSAGING_SENDER_ID =
 	process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID || "";
 export const Public_API_ID = process.env.NEXT_PUBLIC_API_ID || "";
+export const Public_AWS_REGION = process.env.NEXT_PUBLIC_AWS_REGION || "";
+export const Public_AWS_ACCESS_KEY_ID =
+	process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID || "";
+export const Public_AWS_SECRET_ACCESS_KEY =
+	process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY || "";
+export const Public_AWS_S3_URL = process.env.NEXT_PUBLIC_AWS_S3_URL || "";
+export const Public_AWS_DISTRIBUTION_ID =
+	process.env.NEXT_PUBLIC_AWS_DISTRIBUTION_ID || "";
