@@ -16,6 +16,7 @@ import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { Branch } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -29,7 +30,7 @@ const ChooseBranch = ({ open, handleClose, mutate }: Props) => {
 	const [isBranch, setIsBranch] = useState<any>(null);
 	const [pageNumber, setPageNumber] = useState<number>(1);
 	const { change } = useChange();
-	const { data: branchData } = useFetch<any>(`branches`);
+	const { data: branchData } = useFetch<Branch[]>(`branches`);
 	// console.log(branchData);
 	const router = useRouter();
 	const validationSchema = Yup.object().shape({

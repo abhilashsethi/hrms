@@ -15,6 +15,7 @@ import {
 import { Form, Formik } from "formik";
 import { useFetch } from "hooks";
 import { useState } from "react";
+import { Branch } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -31,7 +32,7 @@ const ChooseBranchToViewAssets = ({
 	setBranchId,
 }: Props) => {
 	const [loading, setLoading] = useState(false);
-	const { data: branchData } = useFetch<any>(`branches`);
+	const { data: branchData } = useFetch<Branch[]>(`branches`);
 
 	console.log(branchData);
 

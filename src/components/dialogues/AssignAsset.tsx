@@ -24,6 +24,7 @@ import Swal from "sweetalert2";
 import moment from "moment";
 import { useRef, useState } from "react";
 import { uploadFile } from "utils";
+import { User } from "types";
 
 interface Props {
 	open: any;
@@ -57,7 +58,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
 	const router = useRouter();
-	const { data: userData } = useFetch<any>(
+	const { data: userData } = useFetch<User[]>(
 		`users?branchId=${assetData?.branchId}`
 	);
 	// console.log(assetData);
