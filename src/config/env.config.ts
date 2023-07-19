@@ -19,3 +19,4 @@ export const Public_AWS_SECRET_ACCESS_KEY =
 export const Public_AWS_S3_URL = process.env.NEXT_PUBLIC_AWS_S3_URL || "";
 export const Public_AWS_DISTRIBUTION_ID =
 	process.env.NEXT_PUBLIC_AWS_DISTRIBUTION_ID || "";
+export const Public_LOGIN_TITLE = process.env.NEXT_PUBLIC_LOGIN_TITLE || "";

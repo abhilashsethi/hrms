@@ -2,7 +2,7 @@ import { LoginOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button, Checkbox, CircularProgress } from "@mui/material";
 import { Logo } from "assets/dashboard_Icons";
 import { LOGO } from "assets/home";
-import { Public_LOGO } from "config/env.config";
+import { Public_LOGIN_TITLE, Public_LOGO } from "config/env.config";
 import { Field, Form, Formik } from "formik";
 import { useAuth, useMutation } from "hooks";
 import Link from "next/link";
@@ -89,7 +89,7 @@ const LoginAuth = () => {
 					</div>
 					<div className="flex  absolute md:top-60 z-[30] top-20 left-4 flex-col h-full gap-4 px-8">
 						<h1 className="md:text-4xl text-3xl text-blue-600 font-bold text-start tracking-wide">
-							Welcome To YardOne
+							{Public_LOGIN_TITLE}
 						</h1>
 						<p className="text-themeDarkGray md:font-medium text-sm md:tracking-wide tracking-normal  leading-6 md:text-start text-justify">
 							Streamline HR processes, optimize employee management, and enhance
