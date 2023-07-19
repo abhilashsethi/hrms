@@ -34,7 +34,7 @@ const BidDashboardCards = ({ data }: Props) => {
       color: "bg-[#bbcbff]",
       icon: <AccountTree fontSize="medium" className="text-theme" />,
       name: "Total Leaves This Year",
-      count: dashboardData?.totalTenderCount || 0,
+      count: dashboardData?.totalLeaveCountOfTheYear || 0,
       link: "/admin/leaves/my-leaves",
     },
     {
