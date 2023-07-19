@@ -10,10 +10,13 @@ interface Props {
 }
 const BidDashboardCharts = ({ data }: Props) => {
   const { user } = useAuth();
-  const { data: tenderData } = useFetch<Tender[]>(`tenders`);
+  const { data: tenderData } = useFetch<Tender[]>(
+    `tenders/all-tender/by-memberId?userId=${user?.id}&orderBy=createdAt:asc`
+  );
   const { data: dashboardData } = useFetch<Tender>(
     `dashboards/bid-manager/dashboard?userId=${user?.id}`
   );
+  console.log(tenderData);
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
@@ -72,15 +75,11 @@ const BidDashboardCharts = ({ data }: Props) => {
             {tenderData?.length &&
               tenderData
                 ?.slice(0, 4)
-                ?.sort(
-                  (a: any, b: any) =>
-                    (new Date(b?.createdAt) as any) -
-                    (new Date(a?.createdAt) as any)
-                )
+
                 ?.map((item: any) => (
                   <Link
-                    href={`/admin/tenders/tender-details?id=${item?.id}`}
-                    key={item?.id}
+                    href={`/admin/tenders/tender-details?id=${item?.tenders?._id?.$oid}`}
+                    key={item?.tenders?.id}
                   >
                     <div className="w-full h-full rounded-lg overflow-hidden shadow-sleek">
                       <div
@@ -88,25 +87,25 @@ const BidDashboardCharts = ({ data }: Props) => {
                       >
                         <div
                           className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${
-                            item?.status === "Open"
+                            item?.tenders?.status === "Open"
                               ? `bg-yellow-400`
-                              : item?.status === "Disqualified"
+                              : item?.tenders?.status === "Disqualified"
                               ? `bg-red-500`
-                              : item?.status === "L1"
+                              : item?.tenders?.status === "L1"
                               ? `bg-blue-500`
-                              : item?.status === "Cancelled"
+                              : item?.tenders?.status === "Cancelled"
                               ? `bg-[#f97316]`
-                              : item?.status === "FinancialEvaluation"
+                              : item?.tenders?.status === "FinancialEvaluation"
                               ? `bg-[#8b5cf6]`
-                              : item?.status === "TechnicalEvaluation"
+                              : item?.tenders?.status === "TechnicalEvaluation"
                               ? `bg-[#e879f9]`
-                              : item?.status === "BidAwarded"
+                              : item?.tenders?.status === "BidAwarded"
                               ? `bg-[#9333ea]`
                               : `bg-green-500`
                           }`}
                         >
                           <span className="text-xs font-semibold text-white tracking-wide">
-                            {item?.status}
+                            {item?.tenders?.status}
                           </span>
                         </div>
 
@@ -117,25 +116,27 @@ const BidDashboardCharts = ({ data }: Props) => {
                         />
                       </div>
                       <div className="bg-white p-4">
-                        <h1 className="font-semibold text-sm">{item?.title}</h1>
+                        <h1 className="font-semibold text-sm">
+                          {item?.tenders?.title}
+                        </h1>
                         <h1 className="mt-2 text-sm font-semibold">
                           Tender No :
                         </h1>
                         <span className="text-sm text-gray-600">
-                          {item?.tenderNo}
+                          {item?.tenders?.tenderNo}
                         </span>
                         <h1 className="mt-2 text-sm font-semibold">
                           Category :
                         </h1>
                         <span className="text-sm text-gray-600">
-                          {item?.category}
+                          {item?.tenders?.category}
                         </span>
                         <h1 className="mt-2 text-sm font-semibold">
                           Submission Date :
                         </h1>
                         <span className="text-sm text-gray-600">
-                          {item?.submissionDate ? (
-                            moment(item?.submissionDate).format("ll")
+                          {item?.tenders?.submissionDate ? (
+                            moment(item?.tenders?.submissionDate).format("ll")
                           ) : (
                             <p className="text-gray-500 font-medium">
                               Not Specified

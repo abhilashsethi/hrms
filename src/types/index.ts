@@ -350,7 +350,8 @@ export type Tender = {
   totalTenderCount?: number;
   monthWiseTenderCount?: TenderUserDashboard[];
   tenders?: Tender;
-  _id?: {$oid?: string};
+  _id?: { $oid?: string };
+  currentMonthAttendanceCount?: number;
 
 };
 export interface QuotationDashboard {
