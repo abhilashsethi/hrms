@@ -12,6 +12,7 @@ import {
 import { Avatar, Grid, LinearProgress, Radio, Tooltip } from "@mui/material";
 import { CardAsset } from "assets/home";
 import {
+	GuestBarChart,
 	GuestDonutChart,
 	ProjectOverview,
 	TaskOverview,
@@ -373,8 +374,26 @@ const AdminDashboard = () => {
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 				<div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-6 !border-grey-500 rounded-xl !shadow-xl">
-					<p className="font-semibold text-lg text-center">Projects Overview</p>
-					<ProjectOverview text="" type="bar" />
+					<p className="font-semibold text-lg text-center">Tender Overview</p>
+					<GuestBarChart
+						labels={[
+							"Jan",
+							"Feb",
+							"Mar",
+							"Apr",
+							"May",
+							"Jun",
+							"Jul",
+							"Aug",
+							"Sep",
+							"Oct",
+							"Nov",
+							"Dec",
+						]}
+						data={[23, 8, 10, 10, 20, 10, 15, 23, 14, 8, 10, 9]}
+						type="bar"
+						text=""
+					/>
 				</div>
 				<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
 					<p className="font-semibold text-lg text-center">Task Overview</p>
