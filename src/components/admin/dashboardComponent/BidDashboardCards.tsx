@@ -58,7 +58,7 @@ const BidDashboardCards = ({ data }: Props) => {
       color: "bg-[#feb76f]",
       icon: <Construction fontSize="medium" className="text-theme" />,
       name: "Total Attendance This Month",
-      count: dashboardData?.totalTenderCount || 0,
+      count: dashboardData?.currentMonthAttendanceCount || 0,
       link: "/admin/attendances/my-attendance",
     },
   ];
