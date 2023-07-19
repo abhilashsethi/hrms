@@ -101,7 +101,7 @@ const CreateQuotation = () => {
           clientAddress: values?.clientAddress,
           quotationTitle: values?.quotationTitle,
           termsAndConditions: values?.text,
-          branchId: values?.branchId,
+          quotationBranchId: values?.branchId,
           isIgst: isGstValue,
           isCgst: isCgst,
           isSgst: isSgst,

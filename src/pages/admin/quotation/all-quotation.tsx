@@ -12,6 +12,7 @@ import { QuotationGrid } from "components/admin/quotation";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Quotation } from "types";
@@ -43,13 +44,15 @@ const AllQuotation = () => {
         <section className="px-8">
           <div className="flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
-            <Button
-              variant="contained"
-              className="!bg-theme"
-              startIcon={<Add />}
-            >
-              CREATE QUOTATION
-            </Button>
+            <Link href={"/admin/quotation/create-quotation"}>
+              <Button
+                variant="contained"
+                className="!bg-theme"
+                startIcon={<Add />}
+              >
+                CREATE QUOTATION
+              </Button>
+            </Link>
           </div>
 
           <div className="md:flex gap-4 justify-between w-full py-2">
