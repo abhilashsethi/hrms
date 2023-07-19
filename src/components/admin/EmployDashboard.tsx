@@ -17,18 +17,9 @@ import {
 } from "components/analytics";
 import { DashboardCard, UpcomingLeaves } from "components/core";
 import { useFetch } from "hooks";
-import { MouseEvent, useState } from "react";
 import { Projects, User } from "types";
 
 const EmployDashboard = () => {
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-	const open = Boolean(anchorEl);
-	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-		setAnchorEl(event.currentTarget);
-	};
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
 	const { data: cardDetails } = useFetch<{
 		cards?: {
 			scannedCards?: number | undefined;
@@ -40,7 +31,7 @@ const EmployDashboard = () => {
 
 	const { data: projectData } = useFetch<Projects[]>(`projects`);
 
-	const { data: employeeData, mutate } = useFetch<User[]>(`users`);
+	const { data: employeeData } = useFetch<User[]>(`users`);
 
 	const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
 	const roleData = employeeDetails?.departmentWiseUsers;
