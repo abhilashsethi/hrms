@@ -49,8 +49,20 @@ const BidDashboardCharts = ({ data }: Props) => {
           </p>
           {/* {data?.allLeaveCount?.length ? ( */}
           <GuestDonutChart
-            labels={["Approved", "Pending", "Rejected"]}
-            series={[3, 4, 10]}
+            labels={
+              dashboardData?.thisYearLeaveDetails?.length
+                ? dashboardData?.thisYearLeaveDetails?.map(
+                    (item) => item?.status
+                  )
+                : []
+            }
+            series={
+              dashboardData?.thisYearLeaveDetails?.length
+                ? dashboardData?.thisYearLeaveDetails?.map(
+                    (item) => item?._count
+                  )
+                : []
+            }
             text=""
             type="pie"
             colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
@@ -60,7 +72,7 @@ const BidDashboardCharts = ({ data }: Props) => {
           )} */}
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-          <p className="text-lg font-bold text-center">This Month Attendance</p>
+          <p className="text-lg font-bold text-center">Tender Overview</p>
           <GuestDonutChart
             labels={["Present", "Absent"]}
             series={[15, 20]}

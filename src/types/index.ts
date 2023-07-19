@@ -308,6 +308,8 @@ export interface TenderUserDashboard {
   monthAbbreviation: string;
   tenderCount?: number;
   month?: string;
+  _count?: number;
+  status?: string;
 }
 export interface TenderDashboard {
   monthAbbreviation: string;
@@ -352,6 +354,8 @@ export type Tender = {
   tenders?: Tender;
   _id?: { $oid?: string };
   currentMonthAttendanceCount?: number;
+  totalLeaveCountOfTheYear?: number;
+  thisYearLeaveDetails?:TenderUserDashboard[]
 
 };
 export interface QuotationDashboard {
