@@ -170,8 +170,8 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 													getOptionLabel={(option: any) =>
 														option.name ? option.name : ""
 													}
-													isOptionEqualToValue={(option, value) =>
-														option.id === value.userId
+													isOptionEqualToValue={(option:any, value) =>
+														option?.id === value?.userId
 													}
 													value={
 														values?.assignedUserId

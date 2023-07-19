@@ -115,8 +115,8 @@ const ChooseBranchToViewAssets = ({
 											getOptionLabel={(option: any) =>
 												option.name ? option.name : ""
 											}
-											isOptionEqualToValue={(option, value) =>
-												option.id === value.userId
+											isOptionEqualToValue={(option: any, value: any) =>
+												option?.id === value?.userId
 											}
 											value={
 												values?.branchId
