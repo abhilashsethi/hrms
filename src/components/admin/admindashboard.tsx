@@ -396,8 +396,31 @@ const AdminDashboard = () => {
 					/>
 				</div>
 				<div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
-					<p className="font-semibold text-lg text-center">Task Overview</p>
-					<TaskOverview text="" type="donut" />
+					<p className="font-semibold text-lg text-center">Project Overview</p>
+					<GuestDonutChart
+						labels={[
+							"Completed Task",
+							"Inprogress Tasks",
+							"On Hold Tasks",
+							"Pending Tasks",
+							"Review Tasks",
+						]}
+						series={[166, 115, 31, 47, 27]}
+						text=""
+						type="donut"
+						colors={[
+							"#cddc39",
+							"#a855f7",
+							"#03a9f4",
+							"#ef4444",
+							"#3f51b5",
+							"#e91e63",
+							"#00bcd4",
+							"#ffeb3b",
+							"#76ff03",
+							"#2962ff",
+						]}
+					/>
 				</div>
 			</div>
 		</>
@@ -455,32 +478,5 @@ const Quick_Access = [
 		title: "Support",
 		color: "bg-[#4caf50]",
 		link: "/admin/support",
-	},
-];
-
-const leave_status = [
-	{
-		id: 1234,
-		name: "Abhilash",
-		date: "4 May 2023",
-		status: "Pending",
-	},
-	{
-		id: 1234,
-		name: "Abhilash",
-		date: "4 May 2023",
-		status: "Approved",
-	},
-	{
-		id: 1234,
-		name: "Abhilash",
-		date: "4 May 2023",
-		status: "Approved",
-	},
-	{
-		id: 1234,
-		name: "Abhilash",
-		date: "4 May 2023",
-		status: "Approved",
 	},
 ];
