@@ -72,13 +72,27 @@ const BidDashboardCharts = ({ data }: Props) => {
           )} */}
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-          <p className="text-lg font-bold text-center">Tender Overview</p>
+          <p className="text-lg font-bold text-center">
+            Tender status Overview
+          </p>
           <GuestDonutChart
-            labels={["Present", "Absent"]}
-            series={[15, 20]}
+            labels={
+              dashboardData?.tenderCountStatusWise?.length
+                ? dashboardData?.tenderCountStatusWise?.map(
+                    (item) => item?.status
+                  )
+                : []
+            }
+            series={
+              dashboardData?.tenderCountStatusWise?.length
+                ? dashboardData?.tenderCountStatusWise?.map(
+                    (item) => item?.count
+                  )
+                : []
+            }
             text=""
             type="donut"
-            colors={["#25d366", "#E60023"]}
+            colors={["#25d366", "#E60023", "#a855f7"]}
           />
         </div>
         <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">

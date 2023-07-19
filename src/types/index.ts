@@ -355,7 +355,8 @@ export type Tender = {
   _id?: { $oid?: string };
   currentMonthAttendanceCount?: number;
   totalLeaveCountOfTheYear?: number;
-  thisYearLeaveDetails?:TenderUserDashboard[]
+  thisYearLeaveDetails?: TenderUserDashboard[];
+  tenderCountStatusWise?: TenderDashboard[];
 
 };
 export interface QuotationDashboard {
