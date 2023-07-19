@@ -11,7 +11,11 @@ import {
 } from "@mui/icons-material";
 import { Avatar, Grid, LinearProgress, Radio, Tooltip } from "@mui/material";
 import { CardAsset } from "assets/home";
-import { ProjectOverview, TaskOverview } from "components/analytics";
+import {
+	GuestDonutChart,
+	ProjectOverview,
+	TaskOverview,
+} from "components/analytics";
 import { NoDatas, PhotoViewer } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import moment from "moment";
@@ -27,6 +31,8 @@ const AdminDashboard = () => {
 	const { data: projectData } = useFetch<any>(
 		`clients/get/all/projects/${user?.id}`
 	);
+	const { data: leaveAll } = useFetch<any>(`leaves/all?orderBy=createdAt:asc`);
+	console.log(leaveAll);
 
 	const cards = [
 		{
@@ -169,62 +175,27 @@ const AdminDashboard = () => {
 					<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
 						{/* attandance section */}
 						<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
-							<div className="font-semibold pl-2 py-3 space-y-2">
-								<p>
-									Total Present :{" "}
-									<span className="p-[1px] rounded-md text-green-700 bg-green-300">
-										50
-									</span>
-								</p>
-								<p>
-									Total Absent :{" "}
-									<span className="p-[1px] rounded-md text-red-700 bg-red-300">
-										06
-									</span>
-								</p>
-							</div>
-							<div className="h-[20rem] overflow-scroll">
-								{leave_status?.map?.((item, i) => {
-									return (
-										<div key={i}>
-											<div className="border border-1 rounded-lg p-5 mb-2">
-												<div className="flex items-center gap-3">
-													<Avatar />
-													<div className="flex flex-col">
-														<p className="font-medium text-sm">
-															Name:{" "}
-															<span className="font-semibold text-sm">
-																{item?.name}
-															</span>
-														</p>
-														<p className="font-medium text-sm">
-															Id:{" "}
-															<span className="font-semibold text-sm">
-																{item?.id}
-															</span>
-														</p>
-													</div>
-												</div>
-												<div className="flex justify-between items-center mt-3">
-													<div className="text-sm font-semibold ">
-														<p>Leave Date</p>
-														<p>{item?.date}</p>
-													</div>
-													<button
-														className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${
-															item?.status === "Pending"
-																? `text-red-700 bg-red-300`
-																: `text-green-700 bg-green-300`
-														} p-1 h-7 rounded-lg text-center`}
-													>
-														{item?.status}
-													</button>
-												</div>
-											</div>
-										</div>
-									);
-								})}
-							</div>
+							<p className="text-center font-semibold text-lg">
+								Branch Wise Employee Strength
+							</p>
+							<GuestDonutChart
+								labels={["Approved", "Pending", "Rejected"]}
+								series={[3, 4, 10]}
+								text=""
+								type="pie"
+								colors={[
+									"#cddc39",
+									"#a855f7",
+									"#03a9f4",
+									"#ef4444",
+									"#3f51b5",
+									"#e91e63",
+									"#00bcd4",
+									"#ffeb3b",
+									"#76ff03",
+									"#2962ff",
+								]}
+							/>
 						</div>
 						{/* Project section */}
 						<div className="px-2 col-span-12 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
@@ -291,59 +262,54 @@ const AdminDashboard = () => {
 							<p>Recent Leaves </p>
 						</div>
 						<div className="h-[20rem] overflow-scroll">
-							{leaveData?.length ? (
+							{leaveAll?.length ? (
 								<>
-									{leaveData
-										?.slice(0, 4)
-										?.sort(
-											(a: any, b: any) =>
-												(new Date(b?.createdAt) as any) -
-												(new Date(a?.createdAt) as any)
-										)
-										?.map?.((item, i) => {
-											return (
-												<div key={i}>
-													<div className="border border-1 shadow-lg rounded-lg p-5 mb-2">
-														<div className="flex items-center gap-3">
-															<PhotoViewer
-																name={item?.user?.name}
-																photo={item?.user?.photo}
-																size="3.3rem"
-															/>
-															<div className="flex flex-col">
-																<p className="font-medium text-sm">
-																	Name:{" "}
-																	<span className="font-semibold text-sm">
-																		{item?.user?.name}
-																	</span>
-																</p>
-																<p className="font-medium text-sm">
-																	Id:{" "}
-																	<span className="font-semibold text-sm">
-																		{item?.user?.employeeID}
-																	</span>
-																</p>
-															</div>
-														</div>
-														<div className="flex justify-between items-center mt-3">
-															<div className="text-sm font-semibold ">
-																<p>Leave Type</p>
-																<p>{item?.type}</p>
-															</div>
-															<button
-																className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${
-																	item?.status === "Pending"
-																		? `text-red-700 bg-red-300`
-																		: `text-green-700 bg-green-300`
-																} p-1 h-7 rounded-lg text-center`}
-															>
-																{item?.status}
-															</button>
+									{leaveAll?.slice(0, 4)?.map?.((item: any, i: any) => {
+										return (
+											<div key={i}>
+												<div className="border border-1 shadow-lg rounded-lg p-5 mb-2">
+													<div className="flex items-center gap-3">
+														<PhotoViewer
+															name={item?.user?.name}
+															photo={item?.user?.photo}
+															size="3.3rem"
+														/>
+														<div className="flex flex-col">
+															<p className="font-medium text-sm">
+																Name:{" "}
+																<span className="font-semibold text-sm">
+																	{item?.user?.name}
+																</span>
+															</p>
+															<p className="font-medium text-sm">
+																Id:{" "}
+																<span className="font-semibold text-sm">
+																	{item?.user?.employeeID}
+																</span>
+															</p>
 														</div>
 													</div>
+													<div className="flex justify-between items-center mt-3">
+														<div className="text-sm font-semibold ">
+															<p>Leave Type</p>
+															<p>{item?.type}</p>
+														</div>
+														<button
+															className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${
+																item?.status === "Rejected"
+																	? `text-red-700 bg-red-300`
+																	: item?.status === "Pending"
+																	? `text-yellow-700 bg-yellow-300`
+																	: `text-green-700 bg-green-300`
+															} p-1 h-7 rounded-lg text-center`}
+														>
+															{item?.status}
+														</button>
+													</div>
 												</div>
-											);
-										})}
+											</div>
+										);
+									})}
 								</>
 							) : (
 								<NoDatas title={"No Leave Taken"} />
@@ -470,30 +436,6 @@ const Quick_Access = [
 		title: "Support",
 		color: "bg-[#4caf50]",
 		link: "/admin/support",
-	},
-];
-
-const stats = [
-	{
-		id: 1,
-		title: "New Employees",
-		growth: "+10%",
-		value: "10",
-		sub: "Overall Employees 218",
-	},
-	{
-		id: 2,
-		title: "New Employees",
-		growth: "+10%",
-		value: "10",
-		sub: "Overall Employees 218",
-	},
-	{
-		id: 3,
-		title: "New Employees",
-		growth: "+10%",
-		value: "10",
-		sub: "Overall Employees 218",
 	},
 ];
 
