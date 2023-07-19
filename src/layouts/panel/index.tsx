@@ -27,7 +27,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Drawer from "./drawer";
-import { Public_FAV_ICON } from "config/env.config";
+import { Public_FAV_ICON, Public_LOGO } from "config/env.config";
 
 type Props = {
 	children: JSX.Element | JSX.Element[];
@@ -147,6 +147,12 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
 			<Head>
 				<title>{title}</title>
 				<link rel="icon" href={`${Public_FAV_ICON}`} />
+				<meta
+					name="description"
+					content={`This App is a Streamline HR processes, optimize employee management, and enhance productivity with our innovative HR management system. Simplify HR tasks and empower your workforce for success.`}
+				></meta>
+
+				<meta property="og:image" content={Public_LOGO} />
 			</Head>
 			<>
 				<Drawer

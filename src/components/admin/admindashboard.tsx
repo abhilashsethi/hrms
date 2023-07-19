@@ -20,7 +20,6 @@ import { Leave } from "types";
 
 const AdminDashboard = () => {
 	const { user } = useAuth();
-	const { data: usersDetails } = useFetch<any>(`users/dashboard/details`);
 	const { data: projectDetails } = useFetch<any>(`projects/dashboard/details`);
 	const { data: leaveData } = useFetch<Leave[]>(
 		`leaves?${user?.id ? `userId=${user?.id}` : ""}`
@@ -32,7 +31,7 @@ const AdminDashboard = () => {
 	const cards = [
 		{
 			id: 1,
-			icon: <People fontSize="medium" className="text-theme " />,
+			icon: <People fontSize="medium" className="text-theme" />,
 			count: "34",
 			title: "Total Employees",
 			color: "bg-[#bbcbff]",
