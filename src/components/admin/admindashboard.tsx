@@ -29,9 +29,7 @@ const AdminDashboard = () => {
 	const { data: leaveData } = useFetch<Leave[]>(
 		`leaves?${user?.id ? `userId=${user?.id}` : ""}`
 	);
-	const { data: projectData } = useFetch<any>(
-		`clients/get/all/projects/${user?.id}`
-	);
+	const { data: projectData } = useFetch<any>(`projects`);
 	const { data: leaveAll } = useFetch<any>(`leaves/all?orderBy=createdAt:asc`);
 	console.log(leaveAll);
 
@@ -200,59 +198,58 @@ const AdminDashboard = () => {
 						</div>
 						{/* Project section */}
 						<div className="px-2 col-span-12 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
-							<div className="font-semibold text-lg pb-5">
-								<p>Projects</p>
-							</div>
-							<div className="flex justify-between gap-3 mb-7">
-								{project_cards?.map?.((item, i) => {
-									return (
-										<div
-											key={i}
-											className="hover:scale-95 transition duration-500 ease-in-out cursor-pointer border border-gray-600 text-center w-1/2 py-5 rounded-md bg-slate-200 shadow-lg"
-										>
-											<p className={`text-xs  font-bold`}>{item?.title}</p>
-											<p className="text-md font-semibold">{item?.value}</p>
-										</div>
-									);
-								})}
-							</div>
-							<div className="flex flex-col gap-3">
-								{/* <div className="w-full border border-gray-200 rounded-xl flex">
-									<p
-										className={`bg-[#9c27b0] w-[40%] h-7 text-white flex items-center justify-center text-xs font-semibold rounded-l-xl`}
-									>
-										40%
-									</p>
-									<p
-										className={`bg-[#ed6c02] w-[22%] h-7 text-white flex items-center justify-center text-xs font-semibold`}
-									>
-										22%
-									</p>
-									<p
-										className={`bg-[#2e7d32] w-[24%] h-7 text-white flex items-center justify-center text-xs font-semibold`}
-									>
-										24%
-									</p>
-									<p
-										className={`bg-[#d32f2f] w-[21%] h-7 text-white flex items-center justify-center text-xs font-semibold  rounded-r-xl`}
-									>
-										21%
-									</p>
-									<p className="bg-[#1976d2] w-[10%] h-7 text-white flex items-center justify-center text-xs font-semibold rounded-r-xl">
-										10%
-									</p>
-								</div> */}
-								{task_status?.map((item, i) => {
-									return (
-										<div className="flex justify-between items-center" key={i}>
-											<div className="flex items-center px-2  ">
-												{/* <Radio size="small" color={item?.color as any} /> */}
-												<p className={`font-semibold`}>{item?.title}</p>
-											</div>
-											<p className="font-bold">{item?.value}</p>
-										</div>
-									);
-								})}
+							<div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
+								<p className="text-lg font-bold text-center">Recent Projects</p>
+								<div className="grid lg:grid-cols-2 grid-cols-1 lg:px-8 px-2 py-4 gap-4">
+									{projectData?.length ? (
+										projectData
+											?.slice(0, 4)
+											?.sort(
+												(a: any, b: any) =>
+													(new Date(b?.createdAt) as any) -
+													(new Date(a?.createdAt) as any)
+											)
+											?.map((item: any) => (
+												<Link
+													href={`/admin/projects/project-details?id=${item?.id}`}
+													key={item?.id}
+												>
+													<div
+														className={`h-full w-full bg-slate-200 py-4 lg:px-5 px-2 flex flex-col gap-2 rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
+													>
+														<Tooltip title="Project Manager">
+															<span className="flex w-full justify-center justify-items-center">
+																<PhotoViewer />
+															</span>
+														</Tooltip>
+														<span className="font-semibold text-center tracking-wide text-lg">
+															{item?.name}
+														</span>
+														<div className="grid lg:grid-cols-2 gap-4 text-sm text-center font-semibold">
+															<div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
+																<span>Start Date</span>
+																<span>
+																	{item?.endDate
+																		? moment(item?.endDate).format("ll")
+																		: "Not Specified"}
+																</span>
+															</div>
+															<div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
+																<span>End Date</span>
+																<span>
+																	{item?.startDate
+																		? moment(item?.startDate).format("ll")
+																		: "Not Specified"}
+																</span>
+															</div>
+														</div>
+													</div>
+												</Link>
+											))
+									) : (
+										<NoDatas title={"No Recent Projects"} />
+									)}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -314,59 +311,6 @@ const AdminDashboard = () => {
 								</>
 							) : (
 								<NoDatas title={"No Leave Taken"} />
-							)}
-						</div>
-					</div>
-					<div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
-						<p className="text-lg font-bold text-center">Recent Projects</p>
-						<div className="grid lg:grid-cols-2 grid-cols-1 lg:px-8 px-2 py-4 gap-4">
-							{projectData?.length ? (
-								projectData
-									?.slice(0, 4)
-									?.sort(
-										(a: any, b: any) =>
-											(new Date(b?.createdAt) as any) -
-											(new Date(a?.createdAt) as any)
-									)
-									?.map((item: any) => (
-										<Link
-											href={`/admin/projects/project-details?id=${item?.id}`}
-											key={item?.id}
-										>
-											<div
-												className={`h-full w-full bg-slate-200 py-4 lg:px-5 px-2 flex flex-col gap-2 rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
-											>
-												<Tooltip title="Project Manager">
-													<span className="flex w-full justify-center justify-items-center">
-														<PhotoViewer />
-													</span>
-												</Tooltip>
-												<span className="font-semibold text-center tracking-wide text-lg">
-													{item?.name}
-												</span>
-												<div className="grid lg:grid-cols-2 gap-4 text-sm text-center font-semibold">
-													<div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
-														<span>Start Date</span>
-														<span>
-															{item?.endDate
-																? moment(item?.endDate).format("ll")
-																: "Not Specified"}
-														</span>
-													</div>
-													<div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
-														<span>End Date</span>
-														<span>
-															{item?.startDate
-																? moment(item?.startDate).format("ll")
-																: "Not Specified"}
-														</span>
-													</div>
-												</div>
-											</div>
-										</Link>
-									))
-							) : (
-								<NoDatas title={"No Recent Projects"} />
 							)}
 						</div>
 					</div>
