@@ -16,42 +16,49 @@ import {
 } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { CardAsset } from "assets/home";
+import { useAuth, useFetch } from "hooks";
 import Link from "next/link";
+import { Quotation } from "types";
 interface Props {
   data?: any;
 }
 const AccountantDashboardCards = ({ data }: Props) => {
+  const { user } = useAuth();
+  const { data: dashboardData } = useFetch<Quotation>(
+    `dashboards/accountant/dashboard?userId=${user?.id}`
+  );
+  console.log(dashboardData);
   const cards = [
     {
       id: 1,
       color: "bg-[#bbcbff]",
       icon: <People fontSize="large" className="text-theme" />,
-      name: "Total Employees",
-      count: data?.GuestInfo?.totalGuest || 0,
+      name: "Total Quotations",
+      count: dashboardData?.totalQuotations || 0,
       link: "/admin",
     },
     {
       id: 2,
       color: "bg-[#b9e9fd]",
       icon: <Category fontSize="large" className="text-theme" />,
-      name: "Total Assets",
-      count: data?.GuestInfo?.blockedGuestCount || 0,
+      name: "Total Paid Bill",
+      count: dashboardData?.totalPaidBill || 0,
       link: "/admin",
     },
     {
       id: 3,
       color: "bg-[#f6c8ff]",
       icon: <Article fontSize="large" className="text-theme" />,
-      name: "Total Quotation",
-      count: data?.GuestInfo?.guestCountByGender[0]?._count || 0,
+      name: "Total Unpaid Bill",
+      count: dashboardData?.totalUnpaidBill || 0,
       link: "/admin",
     },
     {
       id: 4,
       color: "bg-[#feb76f]",
       icon: <ReceiptLong fontSize="large" className="text-theme" />,
-      name: "Total Paid Bills",
-      count: data?.GuestInfo?.guestCountByGender[1]?._count || 0,
+      name: "Total Leaves This Year",
+      count: dashboardData?.totalLeaveCountOfTheYear || 0,
       link: "/admin",
     },
   ];

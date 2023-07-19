@@ -405,6 +405,10 @@ export interface Quotation {
   totalQuotation?: number;
   totalRejectedQuotations?: number;
   reason?: string;
+  totalPaidBill?: number;
+  totalQuotations?: number;
+  totalUnpaidBill?: number;
+  totalLeaveCountOfTheYear?: number;
 }
 export interface Bills {
   id?: string;
