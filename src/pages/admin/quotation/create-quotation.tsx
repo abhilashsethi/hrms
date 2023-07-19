@@ -83,6 +83,7 @@ const CreateQuotation = () => {
 
   const handleSubmit = async (values: FormValues) => {
     setLoading(true);
+    console.log(values);
     try {
       const transformedArray = values?.inputFields.map(
         (item, index: number) => {
@@ -94,21 +95,23 @@ const CreateQuotation = () => {
           return { id, description, quantity, cost };
         }
       );
+      const resData = {
+        clientName: values?.clientName,
+        clientEmail: values?.clientEmail,
+        clientAddress: values?.clientAddress,
+        quotationTitle: values?.quotationTitle,
+        termsAndConditions: values?.text,
+        quotationBranchId: values?.branchId,
+        isIgst: isGstValue,
+        isCgst: isCgst,
+        isSgst: isSgst,
+        works: transformedArray,
+      };
+      console.log(resData);
       const res = await change(`quotations`, {
-        body: {
-          clientName: values?.clientName,
-          clientEmail: values?.clientEmail,
-          clientAddress: values?.clientAddress,
-          quotationTitle: values?.quotationTitle,
-          termsAndConditions: values?.text,
-          quotationBranchId: values?.branchId,
-          isIgst: isGstValue,
-          isCgst: isCgst,
-          isSgst: isSgst,
-          works: transformedArray,
-        },
+        body: resData,
       });
-
+      console.log(res);
       setLoading(false);
       if (res?.status !== 200) {
         Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");

@@ -364,6 +364,7 @@ export interface QuotationDashboard {
   count?: number;
   _count?: number | null;
   month?: string;
+  billType?: string;
 }
 export interface BillsDashboard {
   billType?: string | null;
@@ -409,6 +410,8 @@ export interface Quotation {
   totalQuotations?: number;
   totalUnpaidBill?: number;
   totalLeaveCountOfTheYear?: number;
+  quotationOverview?: QuotationDashboard[];
+  billOverview?: QuotationDashboard[];
 }
 export interface Bills {
   id?: string;
