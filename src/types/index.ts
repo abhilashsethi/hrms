@@ -411,6 +411,7 @@ export interface Quotation {
   totalUnpaidBill?: number;
   totalLeaveCountOfTheYear?: number;
   quotationOverview?: QuotationDashboard[];
+  monthWiseBillOverview?: QuotationDashboard[];
   billOverview?: QuotationDashboard[];
   quotationBranchId?: string;
 }
