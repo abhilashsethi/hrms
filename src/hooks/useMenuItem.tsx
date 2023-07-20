@@ -124,12 +124,12 @@ export default () => {
 				// 	icon: <ICONS.Dashboard_1 />,
 				// 	route: "/admin/payroll/employee-salary",
 				// },
-				{
-					key: "14-2",
-					title: "Configure",
-					icon: <ICONS.Configure />,
-					route: "/admin/payroll/configure",
-				},
+				// {
+				// 	key: "14-2",
+				// 	title: "Configure",
+				// 	icon: <ICONS.Configure />,
+				// 	route: "/admin/payroll/configure",
+				// },
 				{
 					key: "14-2",
 					title: "View Config",
