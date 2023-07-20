@@ -228,7 +228,7 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
                     onChange={(e: any, r: any) => {
                       setFieldValue("billOfBranchId", r?.id);
                     }}
-                    isOptionEqualToValue={(option, value) =>
+                    isOptionEqualToValue={(option: Bills, value: Bills) =>
                       option.id === value.billOfBranchId
                     }
                     value={

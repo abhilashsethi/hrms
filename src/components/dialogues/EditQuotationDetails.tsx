@@ -196,7 +196,7 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
                   onChange={(e: any, r: any) => {
                     setFieldValue("quotationBranchId", r?.id);
                   }}
-                  isOptionEqualToValue={(option, value) =>
+                  isOptionEqualToValue={(option: any, value: any) =>
                     option.id === value.quotationBranchId
                   }
                   value={
