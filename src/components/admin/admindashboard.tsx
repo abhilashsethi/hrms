@@ -248,9 +248,9 @@ const AdminDashboard = () => {
 														</div>
 														<button
 															className={`hover:scale-105 transition duration-500 ease-in-out text-xs font-medium ${
-																item?.status === "Rejected"
-																	? `text-red-700 bg-red-300`
-																	: item?.status === "Pending"
+																item?.status === "FinancialEvaluation"
+																	? `text-blue-700 bg-blue-300`
+																	: item?.status === "Open"
 																	? `text-yellow-700 bg-yellow-300`
 																	: `text-green-700 bg-green-300`
 															} p-1 h-7 rounded-lg text-center`}

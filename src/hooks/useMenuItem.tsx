@@ -387,6 +387,12 @@ export default () => {
 					icon: <ICONS.All_Meetings />,
 					route: "/admin/meetings/all-meetings",
 				},
+				{
+					key: "6-3",
+					title: "Create Meetings",
+					icon: <ICONS.All_Meetings />,
+					route: "/admin/meetings/create-meeting",
+				},
 			],
 		},
 		{

@@ -1,27 +1,22 @@
+import { makeStyles } from "@material-ui/core";
 import { Add, Close, Delete, EventNote } from "@mui/icons-material";
 import {
 	Avatar,
 	Button,
-	Card,
 	CircularProgress,
 	Container,
 	Drawer,
 	IconButton,
-	Modal,
 	Tooltip,
 } from "@mui/material";
-import { DEFAULTPROFILE, DOC, IMG, PDF, SAMPLEDP } from "assets/home";
 import { Loader } from "components/core";
 import { DocPreview } from "components/dialogues";
 import AddMeetingNotes from "components/dialogues/AddMeetingNotes";
 import { useAuth, useChange, useFetch } from "hooks";
-import moment from "moment";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
-import { makeStyles } from "@material-ui/core";
-import { useRouter } from "next/router";
 
 type Props = {
 	open?: boolean | any;
