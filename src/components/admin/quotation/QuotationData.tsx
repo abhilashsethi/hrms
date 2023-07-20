@@ -27,6 +27,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
   const [AddadditionDetails, setAddAdditionDetails] = useState<boolean>(false);
   const [termsAndConditionDetails, setTermsAndConditionDetails] =
     useState<boolean>(false);
+  console.log(quotationData);
   const basicDetails = [
     {
       id: 1,
@@ -61,7 +62,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
     {
       id: 5,
       title: "Quotation Branch",
-      value: quotationData?.quotationBranchId || "---",
+      value: quotationData?.quotationOfBranch?.name || "---",
     },
     {
       id: 7,

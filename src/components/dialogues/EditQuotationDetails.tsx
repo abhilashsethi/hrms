@@ -33,6 +33,7 @@ interface QuotationInput {
   clientAddress: string;
   quotationTitle: string;
   reason: string;
+  quotationBranchId?: string;
 }
 const validationSchema = Yup.object().shape({
   status: Yup.string().required("Select status"),
@@ -61,7 +62,9 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
     clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,
     quotationTitle: `${data?.quotationTitle ? data?.quotationTitle : ""}`,
     reason: "",
-    quotationBranchId: "",
+    quotationBranchId: `${
+      data?.quotationBranchId ? data?.quotationBranchId : ""
+    }`,
   };
   const { change } = useChange();
   const handleSubmit = async (values: QuotationInput) => {
@@ -76,6 +79,7 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
           clientEmail: values?.clientEmail,
           clientAddress: values?.clientAddress,
           quotationTitle: values?.quotationTitle,
+          quotationBranchId: values?.quotationBranchId,
           reason: values?.reason,
           isIgst: isGstValue,
           isCgst: isCgst,
@@ -192,6 +196,9 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
                   onChange={(e: any, r: any) => {
                     setFieldValue("quotationBranchId", r?.id);
                   }}
+                  isOptionEqualToValue={(option, value) =>
+                    option.id === value.quotationBranchId
+                  }
                   value={
                     values?.quotationBranchId
                       ? Branch?.find(
@@ -200,7 +207,9 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
                         )
                       : {}
                   }
-                  getOptionLabel={(option: any) => option.name}
+                  getOptionLabel={(option: any) =>
+                    option?.name ? option?.name : ""
+                  }
                   renderInput={(params) => (
                     <TextField
                       {...params}

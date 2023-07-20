@@ -414,6 +414,7 @@ export interface Quotation {
   monthWiseBillOverview?: QuotationDashboard[];
   billOverview?: QuotationDashboard[];
   quotationBranchId?: string;
+  quotationOfBranch?: Branch;
 }
 export interface Bills {
   id?: string;
@@ -447,6 +448,8 @@ export interface Bills {
   totalPaidBillCount?: number;
   totalUnpaidBillCount?: number;
   typeWiseBillCount?: BillsDashboard[];
+  billOfBranch?: Branch;
+  billOfBranchId?: string;
 }
 export interface QuotationBank {
   id?: string;
