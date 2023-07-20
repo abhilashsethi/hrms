@@ -8,7 +8,7 @@ const MainManagerDashboardCharts = ({ data }: Props) => {
   const { data: dashboardData } = useFetch<any>(
     `dashboards/manager/dashboard?managerId=${user?.id}&branchId=${user?.employeeOfBranchId}`
   );
-  console.log(dashboardData);
+
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
@@ -54,10 +54,22 @@ const MainManagerDashboardCharts = ({ data }: Props) => {
           />
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-          <p className="text-lg font-bold text-center">Project Overview</p>
+          <p className="text-lg font-bold text-center">Bills Overview</p>
           <GuestDonutChart
-            labels={["PENDING", "COMPLETED"]}
-            series={[80, 20]}
+            labels={
+              dashboardData?.billCountStatusWise?.length
+                ? dashboardData?.billCountStatusWise?.map(
+                    (item: any) => item?.billType
+                  )
+                : []
+            }
+            series={
+              dashboardData?.billCountStatusWise?.length
+                ? dashboardData?.billCountStatusWise?.map(
+                    (item: any) => item?._count
+                  )
+                : []
+            }
             text=""
             type="donut"
             colors={["#005d32", "#BD33B5", "#E60023"]}

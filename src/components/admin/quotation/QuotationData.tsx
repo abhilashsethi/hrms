@@ -27,6 +27,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
   const [AddadditionDetails, setAddAdditionDetails] = useState<boolean>(false);
   const [termsAndConditionDetails, setTermsAndConditionDetails] =
     useState<boolean>(false);
+  console.log(quotationData);
   const basicDetails = [
     {
       id: 1,
@@ -58,11 +59,11 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
       title: "Tax",
       value: quotationData?.isIgst ? "IGST" : "CGST & SGST",
     },
-    // {
-    //   id: 5,
-    //   title: "Quotation Branch",
-    //   value: quotationData?.branchId || "---",
-    // },
+    {
+      id: 5,
+      title: "Quotation Branch",
+      value: quotationData?.quotationOfBranch?.name || "---",
+    },
     {
       id: 7,
       title: "Reason",

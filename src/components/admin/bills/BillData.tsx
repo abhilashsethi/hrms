@@ -53,6 +53,11 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
       value: billData?.billNumber || "---",
     },
     {
+      id: 5,
+      title: "Branch Name",
+      value: billData?.billOfBranch?.name || "---",
+    },
+    {
       id: 6,
       title: "Invoice Date",
       value: billData?.invoiceDate

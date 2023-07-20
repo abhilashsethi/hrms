@@ -14,11 +14,11 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange } from "hooks";
+import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { Bills, Quotation } from "types";
+import { Bills, Branch } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -35,6 +35,7 @@ interface BillsInput {
   billAmount?: string;
   invoiceDate: string | Date;
   invoiceDueDate: string | Date;
+  billOfBranchId?: string;
 }
 const validationSchema = Yup.object().shape({
   // status: Yup.string().required("Select status"),
@@ -43,8 +44,10 @@ const validationSchema = Yup.object().shape({
   clientAddress: Yup.string().required("Client address is required!"),
   invoiceDate: Yup.string().required("Invoice Date is required!"),
   invoiceDueDate: Yup.string().required("Invoice Due Date is required!"),
+  billOfBranchId: Yup.string().required("Branch name is required!"),
 });
 const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
+  const { data: Branch } = useFetch<Branch[]>(`branches`);
   const [isCgst, setIsCgst] = useState(true);
   const [isSgst, setIsSgst] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -59,6 +62,7 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
     clientName: `${data?.clientName ? data?.clientName : ""}`,
     clientEmail: `${data?.clientEmail ? data?.clientEmail : ""}`,
     clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,
+    billOfBranchId: `${data?.billOfBranchId ? data?.billOfBranchId : ""}`,
     invoiceDate: data?.invoiceDate
       ? moment(data?.invoiceDate).format("YYYY-MM-DD")
       : new Date(),
@@ -79,6 +83,7 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
             clientName: values?.clientName,
             clientEmail: values?.clientEmail,
             clientAddress: values?.clientAddress,
+            billOfBranchId: values?.billOfBranchId,
             invoiceDate: new Date(values?.invoiceDate)?.toISOString(),
             invoiceDueDate: new Date(values?.invoiceDueDate)?.toISOString(),
             isCgst: isCgst,
@@ -106,6 +111,7 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
           status: values?.status,
           clientName: values?.clientName,
           clientEmail: values?.clientEmail,
+          billOfBranchId: values?.billOfBranchId,
           clientAddress: values?.clientAddress,
           invoiceDate: new Date(values?.invoiceDate)?.toISOString(),
           invoiceDueDate: new Date(values?.invoiceDueDate)?.toISOString(),
@@ -209,6 +215,47 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
                     />
                   </>
                 ) : null}
+                <div className="my-4">
+                  <p className="font-medium text-gray-700">
+                    Select Branch<span className="text-red-600">*</span>
+                  </p>
+
+                  <Autocomplete
+                    fullWidth
+                    size="small"
+                    id="billOfBranchId"
+                    options={Branch || []}
+                    onChange={(e: any, r: any) => {
+                      setFieldValue("billOfBranchId", r?.id);
+                    }}
+                    isOptionEqualToValue={(option, value) =>
+                      option.id === value.billOfBranchId
+                    }
+                    value={
+                      values?.billOfBranchId
+                        ? Branch?.find(
+                            (option: any) => option.id === values.billOfBranchId
+                          )
+                        : {}
+                    }
+                    getOptionLabel={(option: any) =>
+                      option?.name ? option?.name : ""
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        // placeholder="Selected Gender"
+                        onBlur={handleBlur}
+                        error={
+                          touched.billOfBranchId && !!errors.billOfBranchId
+                        }
+                        helperText={
+                          touched.billOfBranchId && errors.billOfBranchId
+                        }
+                      />
+                    )}
+                  />
+                </div>
                 <div className="my-4">
                   <p className="font-medium text-gray-700">
                     Enter Client Name<span className="text-red-600">*</span>

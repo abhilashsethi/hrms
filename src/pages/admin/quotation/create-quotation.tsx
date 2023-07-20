@@ -20,7 +20,7 @@ import dynamic from "next/dynamic";
 import router from "next/router";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { Client } from "types";
+import { Branch, Client } from "types";
 import * as Yup from "yup";
 // import PayrollInputField from "./PayrollInputField";
 interface InputField {
@@ -79,10 +79,11 @@ const CreateQuotation = () => {
   });
 
   const { data: clients } = useFetch<Client[]>(`clients`);
-  const { data: Branch } = useFetch<Client[]>(`branches`);
+  const { data: Branch } = useFetch<Branch[]>(`branches`);
 
   const handleSubmit = async (values: FormValues) => {
     setLoading(true);
+    console.log(values);
     try {
       const transformedArray = values?.inputFields.map(
         (item, index: number) => {
@@ -94,21 +95,23 @@ const CreateQuotation = () => {
           return { id, description, quantity, cost };
         }
       );
+      const resData = {
+        clientName: values?.clientName,
+        clientEmail: values?.clientEmail,
+        clientAddress: values?.clientAddress,
+        quotationTitle: values?.quotationTitle,
+        termsAndConditions: values?.text,
+        quotationBranchId: values?.branchId,
+        isIgst: isGstValue,
+        isCgst: isCgst,
+        isSgst: isSgst,
+        works: transformedArray,
+      };
+      console.log(resData);
       const res = await change(`quotations`, {
-        body: {
-          clientName: values?.clientName,
-          clientEmail: values?.clientEmail,
-          clientAddress: values?.clientAddress,
-          quotationTitle: values?.quotationTitle,
-          termsAndConditions: values?.text,
-          quotationBranchId: values?.branchId,
-          isIgst: isGstValue,
-          isCgst: isCgst,
-          isSgst: isSgst,
-          works: transformedArray,
-        },
+        body: resData,
       });
-
+      console.log(res);
       setLoading(false);
       if (res?.status !== 200) {
         Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");

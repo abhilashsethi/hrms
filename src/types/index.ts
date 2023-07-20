@@ -309,6 +309,7 @@ export interface TenderUserDashboard {
   tenderCount?: number;
   month?: string;
   _count?: number;
+  count?: number;
   status?: string;
 }
 export interface TenderDashboard {
@@ -357,13 +358,16 @@ export type Tender = {
   totalLeaveCountOfTheYear?: number;
   thisYearLeaveDetails?: TenderUserDashboard[];
   tenderCountStatusWise?: TenderDashboard[];
-
+  totalTender?: number;
+  tenderOverview?: TenderUserDashboard[];
+  tenderCountStatus?: TenderUserDashboard[];
 };
 export interface QuotationDashboard {
   status?: string | null;
   count?: number;
   _count?: number | null;
   month?: string;
+  billType?: string;
 }
 export interface BillsDashboard {
   billType?: string | null;
@@ -409,6 +413,11 @@ export interface Quotation {
   totalQuotations?: number;
   totalUnpaidBill?: number;
   totalLeaveCountOfTheYear?: number;
+  quotationOverview?: QuotationDashboard[];
+  monthWiseBillOverview?: QuotationDashboard[];
+  billOverview?: QuotationDashboard[];
+  quotationBranchId?: string;
+  quotationOfBranch?: Branch;
 }
 export interface Bills {
   id?: string;
@@ -442,6 +451,8 @@ export interface Bills {
   totalPaidBillCount?: number;
   totalUnpaidBillCount?: number;
   typeWiseBillCount?: BillsDashboard[];
+  billOfBranch?: Branch;
+  billOfBranchId?: string;
 }
 export interface QuotationBank {
   id?: string;

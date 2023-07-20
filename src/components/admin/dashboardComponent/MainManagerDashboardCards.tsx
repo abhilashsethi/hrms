@@ -57,8 +57,8 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       id: 4,
       color: "bg-[#feb76f]",
       icon: <AccountTree fontSize="medium" className="text-theme" />,
-      name: "Total Projects",
-      count: dashboardData?.allProjectCount || 0,
+      name: "Total Bills",
+      count: dashboardData?.totalBill || 0,
       link: "/admin/technologies/all-technologies",
     },
   ];
@@ -107,7 +107,7 @@ const MainManagerDashboardCards = ({ data }: Props) => {
       link: `/admin/support`,
     },
   ];
-
+  console.log(user);
   return (
     <div className="flex gap-2 py-4">
       <div className="w-3/4 ">
