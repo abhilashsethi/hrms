@@ -412,6 +412,7 @@ export interface Quotation {
   totalLeaveCountOfTheYear?: number;
   quotationOverview?: QuotationDashboard[];
   billOverview?: QuotationDashboard[];
+  quotationBranchId?: string;
 }
 export interface Bills {
   id?: string;

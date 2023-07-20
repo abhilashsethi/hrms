@@ -14,10 +14,10 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange } from "hooks";
+import { useChange, useFetch } from "hooks";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { Quotation } from "types";
+import { Quotation, Branch } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -40,6 +40,7 @@ const validationSchema = Yup.object().shape({
   clientEmail: Yup.string().email().required("Client email is required!"),
   clientAddress: Yup.string().required("Client address is required!"),
   quotationTitle: Yup.string().required("Quotation title is required!"),
+  quotationBranchId: Yup.string().required("Quotation branch is required!"),
 });
 const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
   const [isStatus, setIsStatus] = useState("");
@@ -47,6 +48,7 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
   const [isSgst, setIsSgst] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isGstValue, setIsGstValue] = useState(false);
+  const { data: Branch } = useFetch<Branch[]>(`branches`);
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsGstValue(event.target.value === "IGST");
     setIsCgst(event.target.value !== "IGST");
@@ -59,6 +61,7 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
     clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,
     quotationTitle: `${data?.quotationTitle ? data?.quotationTitle : ""}`,
     reason: "",
+    quotationBranchId: "",
   };
   const { change } = useChange();
   const handleSubmit = async (values: QuotationInput) => {
@@ -174,6 +177,41 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
                       onBlur={handleBlur}
                       error={touched.status && !!errors.status}
                       helperText={touched.status && errors.status}
+                    />
+                  )}
+                />
+                <p className="font-medium text-gray-700 mt-2">
+                  Select Quotation Branch
+                  <span className="text-red-600">*</span>
+                </p>
+                <Autocomplete
+                  fullWidth
+                  size="small"
+                  id="quotationBranchId"
+                  options={Branch || []}
+                  onChange={(e: any, r: any) => {
+                    setFieldValue("quotationBranchId", r?.id);
+                  }}
+                  value={
+                    values?.quotationBranchId
+                      ? Branch?.find(
+                          (option: any) =>
+                            option.id === values.quotationBranchId
+                        )
+                      : {}
+                  }
+                  getOptionLabel={(option: any) => option.name}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      // placeholder="Selected Gender"
+                      onBlur={handleBlur}
+                      error={
+                        touched.quotationBranchId && !!errors.quotationBranchId
+                      }
+                      helperText={
+                        touched.quotationBranchId && errors.quotationBranchId
+                      }
                     />
                   )}
                 />

@@ -20,7 +20,7 @@ import dynamic from "next/dynamic";
 import router from "next/router";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { Client } from "types";
+import { Branch, Client } from "types";
 import * as Yup from "yup";
 // import PayrollInputField from "./PayrollInputField";
 interface InputField {
@@ -79,7 +79,7 @@ const CreateQuotation = () => {
   });
 
   const { data: clients } = useFetch<Client[]>(`clients`);
-  const { data: Branch } = useFetch<Client[]>(`branches`);
+  const { data: Branch } = useFetch<Branch[]>(`branches`);
 
   const handleSubmit = async (values: FormValues) => {
     setLoading(true);

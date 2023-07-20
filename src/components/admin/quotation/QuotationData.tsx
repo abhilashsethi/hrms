@@ -58,11 +58,11 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
       title: "Tax",
       value: quotationData?.isIgst ? "IGST" : "CGST & SGST",
     },
-    // {
-    //   id: 5,
-    //   title: "Quotation Branch",
-    //   value: quotationData?.branchId || "---",
-    // },
+    {
+      id: 5,
+      title: "Quotation Branch",
+      value: quotationData?.quotationBranchId || "---",
+    },
     {
       id: 7,
       title: "Reason",
