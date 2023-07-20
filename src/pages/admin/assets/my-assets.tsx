@@ -25,7 +25,6 @@ const MyAssets = () => {
   } = useFetch<any>(
     `assets/assign/user/of/asset?${user?.id ? `userId=${user?.id}` : ""}`
   );
-  console.log(assetsData);
 
   useEffect(() => {
     setTimeout(() => {
