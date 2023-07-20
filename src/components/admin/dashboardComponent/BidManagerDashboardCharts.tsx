@@ -60,7 +60,7 @@ const BidManagerDashboardCharts = ({ data }: Props) => {
             }
             text=""
             type="pie"
-            colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
+            // colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
           />
           {/* ) : (
             <NoDatas title={"No Leave Taken"} />
@@ -83,7 +83,7 @@ const BidManagerDashboardCharts = ({ data }: Props) => {
             }
             text=""
             type="donut"
-            colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
+            // colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
           />
         </div>
         <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
