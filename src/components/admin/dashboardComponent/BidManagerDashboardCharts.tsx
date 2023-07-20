@@ -1,7 +1,7 @@
 import { TENDERCARD } from "assets/home";
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
 
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { Tender } from "types";
@@ -9,7 +9,13 @@ interface Props {
   data?: any;
 }
 const BidManagerDashboardCharts = ({ data }: Props) => {
+  const { user } = useAuth();
   const { data: tenderData } = useFetch<Tender[]>(`tenders`);
+  const { data: dashboardData } = useFetch<Tender>(
+    `dashboards/bid-manager/dashboard/info?userId=${user?.id}`
+  );
+  console.log(dashboardData);
+
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
@@ -18,8 +24,16 @@ const BidManagerDashboardCharts = ({ data }: Props) => {
             This Year Tenders Overview
           </p>
           <GuestBarChart
-            labels={["jan", "feb", "Jul", "mar", "apr"]}
-            data={["10", "2", "15", "2", "5"]}
+            labels={
+              dashboardData?.tenderOverview?.length
+                ? dashboardData?.tenderOverview?.map((item) => item?.month)
+                : []
+            }
+            data={
+              dashboardData?.tenderOverview?.length
+                ? dashboardData?.tenderOverview?.map((item) => item?.count)
+                : []
+            }
             type="bar"
             text=""
           />
@@ -30,8 +44,20 @@ const BidManagerDashboardCharts = ({ data }: Props) => {
           </p>
           {/* {data?.allLeaveCount?.length ? ( */}
           <GuestDonutChart
-            labels={["Approved", "Pending", "Rejected"]}
-            series={[3, 4, 10]}
+            labels={
+              dashboardData?.thisYearLeaveDetails?.length
+                ? dashboardData?.thisYearLeaveDetails?.map(
+                    (item) => item?.status
+                  )
+                : []
+            }
+            series={
+              dashboardData?.thisYearLeaveDetails?.length
+                ? dashboardData?.thisYearLeaveDetails?.map(
+                    (item) => item?._count
+                  )
+                : []
+            }
             text=""
             type="pie"
             colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
@@ -41,13 +67,23 @@ const BidManagerDashboardCharts = ({ data }: Props) => {
           )} */}
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-          <p className="text-lg font-bold text-center">This Month Attendance</p>
+          <p className="text-lg font-bold text-center">
+            Tender status overview
+          </p>
           <GuestDonutChart
-            labels={["Present", "Absent"]}
-            series={[15, 20]}
+            labels={
+              dashboardData?.tenderCountStatus?.length
+                ? dashboardData?.tenderCountStatus?.map((item) => item?.status)
+                : []
+            }
+            series={
+              dashboardData?.tenderCountStatus?.length
+                ? dashboardData?.tenderCountStatus?.map((item) => item?._count)
+                : []
+            }
             text=""
             type="donut"
-            colors={["#25d366", "#E60023"]}
+            colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
           />
         </div>
         <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">

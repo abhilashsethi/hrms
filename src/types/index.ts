@@ -309,6 +309,7 @@ export interface TenderUserDashboard {
   tenderCount?: number;
   month?: string;
   _count?: number;
+  count?: number;
   status?: string;
 }
 export interface TenderDashboard {
@@ -357,7 +358,9 @@ export type Tender = {
   totalLeaveCountOfTheYear?: number;
   thisYearLeaveDetails?: TenderUserDashboard[];
   tenderCountStatusWise?: TenderDashboard[];
-
+  totalTender?: number;
+  tenderOverview?: TenderUserDashboard[];
+  tenderCountStatus?: TenderUserDashboard[];
 };
 export interface QuotationDashboard {
   status?: string | null;
