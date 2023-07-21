@@ -83,7 +83,7 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
 			icon: <ChecklistRounded />,
 			title: "Leaves",
 			onClick: () => {
-				setLeaves(true), router?.push(`/admin/leaves/my-leaves`);
+				setLeaves(true);
 			},
 		},
 	];
