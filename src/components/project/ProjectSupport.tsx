@@ -4,8 +4,9 @@ import { LoaderAnime } from "components/core";
 import { ProjectCreateTicket } from "components/dialogues";
 import { useAuth, useFetch } from "hooks";
 import Link from "next/link";
+import router from "next/router";
 import { useState } from "react";
-import { TicketsConversations } from "types";
+import { Tickets, TicketsConversations } from "types";
 import { clock } from "utils";
 
 const ProjectSupport = () => {
@@ -15,8 +16,9 @@ const ProjectSupport = () => {
     data: ticketsData,
     mutate,
     isLoading,
-  } = useFetch<TicketsConversations[]>(`ticket-conversations`);
-  console.log({ ticketsData });
+  } = useFetch<Tickets[]>(
+    `projects/all-tickets/of-projects?projectId=${router?.query?.id}&orderBy=createdAt:desc`
+  );
   return (
     <section className="">
       <ProjectCreateTicket
@@ -39,43 +41,47 @@ const ProjectSupport = () => {
         ) : null}
       </div>
       <div className="grid gap-3">
-        {ticketsData
-          ?.sort(
-            (a: any, b: any) =>
-              (new Date(b?.createdAt) as any) - (new Date(a?.createdAt) as any)
-          )
-          ?.map((data) => (
-            <div
-              key={data?.id}
-              className="w-full rounded-md p-6 shadow-jubilation"
-            >
-              <div className="flex justify-end">
-                <span className="text-xs mb-1">
-                  {clock(data?.createdAt).fromNow()}
+        {ticketsData?.map((data) => (
+          <div
+            key={data?.id}
+            className="w-full rounded-md p-6 shadow-jubilation"
+          >
+            <div className="flex justify-between">
+              <div>
+                <h1 className="text-sm font-semibold text-theme mt-2">
+                  Ticket Issue isResolved :
+                </h1>
+                <span
+                  className={`${
+                    data?.isResolved ? `bg-green-500` : `bg-red-500`
+                  }  font-semibold text-white px-4 rounded-md`}
+                >
+                  {data?.isResolved ? "Yes" : "No"}
                 </span>
               </div>
-              <div dangerouslySetInnerHTML={{ __html: `${data?.text}` }}></div>
-              <h1 className="text-sm font-semibold text-theme mt-2">
-                Ticket Title :
-              </h1>
-              <h1 className="font-semibold text-slate-700 text-sm">
-                {data?.ticket?.title}
-              </h1>
-              <div className="flex justify-between">
-                <h1 className="text-sm font-semibold text-theme mt-2">
-                  User Info :
-                </h1>
-                <Link
-                  href={`/admin/clients/view-ticket-details?id=${data?.ticket?.id}`}
-                >
-                  <button className="bg-theme-400 hover:bg-theme-500 px-3 py-1 rounded-lg shadow-md text-white font-semibold hover:translate-x-1 delay-75 transition-all">
-                    View details
-                  </button>
-                </Link>
-              </div>
-              <p>{data?.userInfo?.name}</p>
+              <span className="text-xs mb-1">
+                {clock(data?.createdAt).fromNow()}
+              </span>
             </div>
-          ))}
+            <h1 className="text-sm font-semibold text-theme mt-2">
+              Ticket Title :
+            </h1>
+            <h1 className="font-semibold text-slate-700 text-sm">
+              {data?.title}
+            </h1>
+            <div className="flex justify-between">
+              <h1 className="text-sm font-semibold text-theme mt-2">
+                User Info :
+              </h1>
+              <Link href={`/admin/clients/view-ticket-details?id=${data?.id}`}>
+                <button className="bg-theme-400 hover:bg-theme-500 px-3 py-1 rounded-lg shadow-md text-white font-semibold hover:translate-x-1 delay-75 transition-all">
+                  View details
+                </button>
+              </Link>
+            </div>
+            <p>{data?.description}</p>
+          </div>
+        ))}
         {ticketsData?.length === 0 ? (
           <LoaderAnime text="No support Found" />
         ) : null}

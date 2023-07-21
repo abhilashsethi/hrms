@@ -97,16 +97,21 @@ const ProjectBugs = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        {projectData?.map((item: any, i: any) => (
-          <CardComponent
-            index={i}
-            key={item?.id}
-            item={item}
-            mutate={mutate}
-            isLoading={isLoading}
-            projectId={projectData?.id}
-          />
-        ))}
+        {isLoading && <p>Loading....</p>}
+        {projectData?.length ? (
+          projectData?.map((item: any, i: any) => (
+            <CardComponent
+              index={i}
+              key={item?.id}
+              item={item}
+              mutate={mutate}
+              isLoading={isLoading}
+              projectId={projectData?.id}
+            />
+          ))
+        ) : (
+          <LoaderAnime text="No Bug at this time" />
+        )}
       </div>
     </section>
   );
@@ -187,97 +192,84 @@ const CardComponent = ({
         handleClose={() => setIsUpdate(false)}
       />
       <div className="border-b-2 py-2">
-        {isLoading ? (
+        {isLoading && (
           <div className="flex justify-center items-center">Loading...</div>
-        ) : (
-          <>
-            <div className=" w-full rounded-md py-3 flex items-start">
-              <div className="md:w-[57%] pr-3">
-                <div className="flex gap-2">
-                  <div className="h-4 w-4 bg-slate-500 rounded-full text-white flex justify-center items-center text-xs">
-                    {Number(index) + 1}
-                  </div>
-                  <div className="md:w-[90%]">
-                    <h1 className="text-sm font-medium text-slate-900">
-                      {item?.title}
-                    </h1>
-                  </div>
-                </div>
+        )}
+        <div className=" w-full rounded-md py-3 flex items-start">
+          <div className="md:w-[57%] pr-3">
+            <div className="flex gap-2">
+              <div className="h-4 w-4 bg-slate-500 rounded-full text-white flex justify-center items-center text-xs">
+                {Number(index) + 1}
               </div>
-              <div className="md:w-[43%] md:h-8 md:flex justify-between pl-4 text-sm tracking-wide items-center text-slate-600">
-                <span
-                  className={`text-xs font-medium px-3 py-1 h-6 rounded-full text-white ${
-                    item?.status === "Completed"
-                      ? `bg-green-400`
-                      : item?.status === "Open"
-                      ? `bg-purple-400`
-                      : item?.status === "Pending"
-                      ? `bg-yellow-400`
-                      : item?.status === "Ongoing"
-                      ? `bg-blue-400`
-                      : item?.status === "Reviewed"
-                      ? `bg-black`
-                      : `bg-slate-600`
-                  }`}
-                >
-                  {item?.status}
-                </span>
-                <span>
-                  <Tooltip title="Screenshot">
-                    <IconButton
-                      onClick={() => setIsScreenshot(true)}
-                      size="small"
-                    >
-                      <InsertDriveFile />
-                    </IconButton>
-                  </Tooltip>
-                </span>
-                <div className="md:flex hidden">
-                  <ProfileImage id={item?.bugs?.detectedBy} />
-                </div>
-                <div className="md:flex text-slate-600">
-                  {item?.createdAt
-                    ? moment(item?.createdAt).format("ll")
-                    : null}
-                </div>
-                <IconButton
-                  onClick={() => setIsDescription((prev) => !prev)}
-                  size="small"
-                >
-                  <ChevronRight
-                    fontSize="small"
-                    className={`${
-                      isDescription ? `!rotate-[-90deg]` : ``
-                    } transition-all ease-in-out duration-200`}
-                  />
-                </IconButton>
+              <div className="md:w-[90%]">
+                <h1 className="text-sm font-medium text-slate-900">
+                  {item?.title}
+                </h1>
               </div>
             </div>
-            {isDescription ? (
-              <div className="flex gap-2 justify-between items-end">
-                <div className="transition-all ease-in-out duration-200 w-[90%]">
-                  <h1 className="text-sm font-semibold text-gray-600">
-                    Description :
-                  </h1>
-                  <p className="text-sm py-3 tracking-wide">
-                    {item?.description}
-                  </p>
-                </div>
-                <div className="md:w-[10%] pb-4 flex gap-2">
-                  <IconButton onClick={() => setIsUpdate(true)} size="small">
-                    <Edit />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleDelete(item?.id)}
-                  >
-                    <Delete className="!text-red-500" />
-                  </IconButton>
-                </div>
-              </div>
-            ) : null}
-          </>
-        )}
+          </div>
+          <div className="md:w-[43%] md:h-8 md:flex justify-between pl-4 text-sm tracking-wide items-center text-slate-600">
+            <span
+              className={`text-xs font-medium px-3 py-1 h-6 rounded-full text-white ${
+                item?.status === "Completed"
+                  ? `bg-green-400`
+                  : item?.status === "Open"
+                  ? `bg-purple-400`
+                  : item?.status === "Pending"
+                  ? `bg-yellow-400`
+                  : item?.status === "Ongoing"
+                  ? `bg-blue-400`
+                  : item?.status === "Reviewed"
+                  ? `bg-black`
+                  : `bg-slate-600`
+              }`}
+            >
+              {item?.status}
+            </span>
+            <span>
+              <Tooltip title="Screenshot">
+                <IconButton onClick={() => setIsScreenshot(true)} size="small">
+                  <InsertDriveFile />
+                </IconButton>
+              </Tooltip>
+            </span>
+            <div className="md:flex hidden">
+              <ProfileImage id={item?.bugs?.detectedBy} />
+            </div>
+            <div className="md:flex text-slate-600">
+              {item?.createdAt ? moment(item?.createdAt).format("ll") : null}
+            </div>
+            <IconButton
+              onClick={() => setIsDescription((prev) => !prev)}
+              size="small"
+            >
+              <ChevronRight
+                fontSize="small"
+                className={`${
+                  isDescription ? `!rotate-[-90deg]` : ``
+                } transition-all ease-in-out duration-200`}
+              />
+            </IconButton>
+          </div>
+        </div>
+        {isDescription ? (
+          <div className="flex gap-2 justify-between items-end">
+            <div className="transition-all ease-in-out duration-200 w-[90%]">
+              <h1 className="text-sm font-semibold text-gray-600">
+                Description :
+              </h1>
+              <p className="text-sm py-3 tracking-wide">{item?.description}</p>
+            </div>
+            <div className="md:w-[10%] pb-4 flex gap-2">
+              <IconButton onClick={() => setIsUpdate(true)} size="small">
+                <Edit />
+              </IconButton>
+              <IconButton size="small" onClick={() => handleDelete(item?.id)}>
+                <Delete className="!text-red-500" />
+              </IconButton>
+            </div>
+          </div>
+        ) : null}
       </div>
     </>
   );
@@ -301,5 +293,4 @@ const bugSelects = [
   { id: 3, value: "Ongoing", label: "Ongoing" },
   { id: 4, value: "Fixed", label: "Fixed" },
   { id: 5, value: "Reviewed", label: "Reviewed" },
-  { id: 6, value: null, label: "All" },
 ];
