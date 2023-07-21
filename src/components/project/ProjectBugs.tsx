@@ -6,12 +6,20 @@ import {
   InsertDriveFile,
   Person,
 } from "@mui/icons-material";
-import { Avatar, Button, IconButton, Tooltip } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  IconButton,
+  MenuItem,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { DEFAULTIMG, DEFAULTPROFILE } from "assets/home";
 import { PhotoViewer, PhotoViewerSmall } from "components/core";
 import { ProjectCreateBug, UpdateBugStatus } from "components/dialogues";
 import ViewScreenshot from "components/dialogues/ViewScreenshot";
 import { useChange, useFetch } from "hooks";
+import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -19,14 +27,12 @@ import { User } from "types";
 
 const ProjectBugs = () => {
   const router = useRouter();
+  const [bugStatus, setBugStatus] = useState(null);
 
   const [isCreate, setIsCreate] = useState(false);
-  const [isDescription, setIsDescription] = useState(false);
-  const {
-    data: projectData,
-    mutate,
-    isLoading,
-  } = useFetch<any>(`projects/${router?.query?.id}`);
+  const { data: projectData, mutate } = useFetch<any>(
+    `projects/${router?.query?.id}${bugStatus ? `?bugs=${bugStatus}` : ""}`
+  );
 
   return (
     <section>
@@ -38,16 +44,34 @@ const ProjectBugs = () => {
       />
       <ViewScreenshot />
       <div className="flex gap-2 pb-2 mb-2 border-b-2">
-        <div className="md:w-[60%]">
-          <Button
-            onClick={() => setIsCreate(true)}
-            size="small"
-            className="!bg-cyan-500"
-            variant="contained"
-            startIcon={<Add />}
-          >
-            ADD NEW
-          </Button>
+        <div className="md:w-[60%] ">
+          <div className="flex gap-4">
+            <Button
+              onClick={() => setIsCreate(true)}
+              size="small"
+              className="!bg-cyan-500"
+              variant="contained"
+              startIcon={<Add />}
+            >
+              ADD NEW
+            </Button>
+            <TextField
+              fullWidth
+              select
+              label="Bug status"
+              size="small"
+              value={bugStatus}
+              onChange={(e: any) => {
+                setBugStatus(e.target?.value);
+              }}
+            >
+              {bugSelects?.map((option: any) => (
+                <MenuItem key={option.id} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
         </div>
         <div className="md:w-[40%] h-8 flex justify-between pl-4 pr-12 text-xs tracking-wide items-center text-slate-600">
           <span>STATUS</span>
@@ -60,15 +84,20 @@ const ProjectBugs = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        {projectData?.bugs.map((item: any, i: any) => (
-          <CardComponent
-            index={i}
-            key={item?.id}
-            item={item}
-            mutate={mutate}
-            projectId={projectData?.id}
-          />
-        ))}
+        {projectData?.bugs
+          ?.sort(
+            (a: any, b: any) =>
+              (new Date(b?.createdAt) as any) - (new Date(a?.createdAt) as any)
+          )
+          ?.map((item: any, i: any) => (
+            <CardComponent
+              index={i}
+              key={item?.id}
+              item={item}
+              mutate={mutate}
+              projectId={projectData?.id}
+            />
+          ))}
       </div>
     </section>
   );
@@ -88,6 +117,7 @@ interface Props {
     bugs?: any;
     pictures?: any;
     id?: any;
+    createdAt?: any;
   };
 }
 
@@ -126,7 +156,6 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
       }
     });
   };
-
   return (
     <>
       <ViewScreenshot
@@ -156,18 +185,19 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
           </div>
           <div className="md:w-[43%] md:h-8 md:flex justify-between pl-4 text-sm tracking-wide items-center text-slate-600">
             <span
-              className={`text-xs font-medium px-3 py-1 h-6 rounded-full text-white ${item?.status === "Completed"
+              className={`text-xs font-medium px-3 py-1 h-6 rounded-full text-white ${
+                item?.status === "Completed"
                   ? `bg-green-400`
                   : item?.status === "Open"
-                    ? `bg-purple-400`
-                    : item?.status === "Pending"
-                      ? `bg-yellow-400`
-                      : item?.status === "Ongoing"
-                        ? `bg-blue-400`
-                        : item?.status === "Reviewed"
-                          ? `bg-black`
-                          : `bg-slate-600`
-                }`}
+                  ? `bg-purple-400`
+                  : item?.status === "Pending"
+                  ? `bg-yellow-400`
+                  : item?.status === "Ongoing"
+                  ? `bg-blue-400`
+                  : item?.status === "Reviewed"
+                  ? `bg-black`
+                  : `bg-slate-600`
+              }`}
             >
               {item?.status}
             </span>
@@ -181,14 +211,18 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
             <div className="md:flex hidden">
               <ProfileImage id={item?.bugs?.detectedBy} />
             </div>
+            <div className="md:flex text-slate-600">
+              {item?.createdAt ? moment(item?.createdAt).format("ll") : null}
+            </div>
             <IconButton
               onClick={() => setIsDescription((prev) => !prev)}
               size="small"
             >
               <ChevronRight
                 fontSize="small"
-                className={`${isDescription ? `!rotate-[-90deg]` : ``
-                  } transition-all ease-in-out duration-200`}
+                className={`${
+                  isDescription ? `!rotate-[-90deg]` : ``
+                } transition-all ease-in-out duration-200`}
               />
             </IconButton>
           </div>
@@ -216,7 +250,6 @@ const CardComponent = ({ key, index, item, mutate, projectId }: Props) => {
   );
 };
 
-
 const ProfileImage = ({ id }: any) => {
   const { data: personData } = useFetch<User>(`users/${id}`);
   return (
@@ -229,3 +262,11 @@ const ProfileImage = ({ id }: any) => {
     </Tooltip>
   );
 };
+const bugSelects = [
+  { id: 1, value: "Open", label: "Open" },
+  { id: 2, value: "Pending", label: "Pending" },
+  { id: 3, value: "Ongoing", label: "Ongoing" },
+  { id: 4, value: "Fixed", label: "Fixed" },
+  { id: 5, value: "Reviewed", label: "Reviewed" },
+  { id: 6, value: null, label: "All" },
+];

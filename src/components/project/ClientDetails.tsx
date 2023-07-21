@@ -181,9 +181,7 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
                 <p>{projectData?.client?.email}</p>
               </div>
             </div>
-            {user?.role?.name == "CEO" ||
-            user?.role?.name == "HR" ||
-            user?.role?.name == "PROJECT MANAGER" ? (
+            {user?.role?.name == "CEO" ? (
               <div className="mt-2 flex justify-center gap-2">
                 <Link
                   href={`/admin/clients/client-profile?id=${projectData?.clientId}`}

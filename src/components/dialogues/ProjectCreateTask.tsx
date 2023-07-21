@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   TextField,
@@ -15,9 +16,10 @@ import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { Check, Close } from "@mui/icons-material";
+import { CalendarMonth, Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import moment from "moment";
 
 interface Props {
   open?: any;
@@ -28,6 +30,8 @@ interface Props {
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required!"),
   description: Yup.string().required("Required field!"),
+  date: Yup.string().required("Required field!"),
+  assignedUserIds: Yup.array().required("Required field!"),
 });
 
 const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
@@ -40,6 +44,7 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
     title: "",
     description: "",
     status: "",
+    date: "",
     assignedUserIds: [],
   };
   const handleSubmit = async (values: any) => {
@@ -207,6 +212,25 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
                             </MenuItem>
                           ))}
                         </TextField>
+                      </div>
+                      <div className="px-4 py-2">
+                        <div className="py-2">
+                          <InputLabel htmlFor="name">Deadline</InputLabel>
+                        </div>
+                        <TextField
+                          fullWidth
+                          type="date"
+                          size="small"
+                          inputProps={{
+                            min: moment().format("YYYY-MM-DD"),
+                          }}
+                          name="date"
+                          value={values.date}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.date && !!errors.date}
+                          helperText={touched.date && errors.date}
+                        ></TextField>
                       </div>
                     </div>
                     <div className="flex justify-center py-4">
