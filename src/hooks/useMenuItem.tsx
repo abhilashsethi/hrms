@@ -204,14 +204,13 @@ export default () => {
 					icon: <ICONS.Add_Project />,
 					route: "/admin/projects/create-projects",
 				},
-
-				{
-					key: "7-5",
-					title: "All Technologies",
-					icon: <ICONS.All_Tech />,
-					route: "/admin/technologies/all-technologies",
-				},
 			],
+		},
+		{
+			key: "7-5",
+			title: "All Technologies",
+			icon: <ICONS.All_Tech />,
+			route: "/admin/technologies/all-technologies",
 		},
 		{
 			key: "724",

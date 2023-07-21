@@ -1,11 +1,15 @@
-import { MoreHorizRounded, RemoveRedEyeOutlined } from "@mui/icons-material";
-import { Grid, IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
+import {
+	AddHomeWork,
+	MoreHorizRounded,
+	RemoveRedEyeOutlined,
+} from "@mui/icons-material";
+import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
 import moment from "moment";
 import Link from "next/link";
-import { useState, MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 
 interface ARRAY {
 	id?: string;
@@ -16,6 +20,7 @@ interface Props {
 }
 
 const AttendanceGrid = ({ data }: Props) => {
+	console.log(data);
 	return (
 		<div className="mt-6">
 			<div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
@@ -33,7 +38,7 @@ const AttendanceGrid = ({ data }: Props) => {
 								>
 									{item?.status === "present" ? `PRESENT` : `ABSENT`}
 								</span>
-								<MenuComponent id={item?.userId} />
+								<MenuComponent id={item?.userId} wfh={item} />
 								{/* </div> */}
 							</div>
 							<div className="h-16 w-16 overflow-hidden rounded-full shadow-xl">
@@ -100,15 +105,19 @@ export default AttendanceGrid;
 
 interface Props {
 	id?: any;
+	wfh?: any;
 }
 
-const MenuComponent = ({ id }: Props) => {
+const MenuComponent = ({ id, wfh }: Props) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
 	const handleClose = () => {
+		setAnchorEl(null);
+	};
+	const handleWorkFromHome = () => {
 		setAnchorEl(null);
 	};
 	return (
@@ -159,6 +168,14 @@ const MenuComponent = ({ id }: Props) => {
 						Visit Profile
 					</MenuItem>
 				</Link>
+				{wfh?.status === "absent" && (
+					<MenuItem onClick={handleWorkFromHome}>
+						<ListItemIcon>
+							<AddHomeWork fontSize="small" />
+						</ListItemIcon>
+						Work From Home
+					</MenuItem>
+				)}
 			</Menu>
 		</>
 	);
