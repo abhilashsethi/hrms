@@ -664,7 +664,7 @@ const PageList = [
 	{
 		id: 69,
 		value: "/admin/support/create-support",
-		icon: <ICONS.All_Appointments />,
+		icon: <ICONS.Create_Supports />,
 		name: "Create Support",
 	},
 	{
@@ -676,7 +676,7 @@ const PageList = [
 	{
 		id: 71,
 		value: "/admin/support/all-supports",
-		icon: <ICONS.All_Appointments />,
+		icon: <ICONS.All_Support />,
 		name: "All Supports",
 	},
 	{

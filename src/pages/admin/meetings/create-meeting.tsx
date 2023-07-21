@@ -80,14 +80,6 @@ const CreateMeeting = () => {
 		),
 		clientName: Yup.string().required("Client Name is required!"),
 		status: Yup.string().required("Meeting Status is required!"),
-		// inputFields: Yup.array().of(
-		// 	Yup.object()
-		// 		.shape({
-		// 			docTitle: Yup.string().required("Document Title is required"),
-		// 			doc: Yup.mixed().required("File is required"),
-		// 		})
-		// 		.nullable()
-		// ),
 	});
 
 	const { data: clients } = useFetch<Client[]>(`clients`);
@@ -158,6 +150,7 @@ const CreateMeeting = () => {
 								}) => (
 									<Form>
 										<div className="grid lg:grid-cols-2">
+											{/* {console.log(touched)} */}
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="md:py-2 py-1">
 													<InputLabel htmlFor="meetingTitle">
@@ -185,7 +178,6 @@ const CreateMeeting = () => {
 												<div className="py-2">
 													<InputLabel htmlFor="meetingPurpose">
 														Meeting Purpose{" "}
-														<span className="text-red-600">*</span>
 													</InputLabel>
 												</div>
 												<TextField
@@ -366,7 +358,7 @@ const CreateMeeting = () => {
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="py-2">
 													<InputLabel htmlFor="clientPhone">
-														Client Phone <span className="text-red-600">*</span>
+														Client Phone
 													</InputLabel>
 												</div>
 												<TextField
@@ -386,7 +378,7 @@ const CreateMeeting = () => {
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="py-2">
 													<InputLabel htmlFor="clientEmail">
-														Client Email <span className="text-red-600">*</span>
+														Client Email
 													</InputLabel>
 												</div>
 												<TextField
@@ -404,9 +396,7 @@ const CreateMeeting = () => {
 											</div>
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="py-2">
-													<InputLabel htmlFor="address">
-														Address <span className="text-red-600">*</span>
-													</InputLabel>
+													<InputLabel htmlFor="address">Address</InputLabel>
 												</div>
 												<TextField
 													size="small"
@@ -423,9 +413,7 @@ const CreateMeeting = () => {
 											</div>
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="py-2">
-													<InputLabel htmlFor="lat">
-														Latitude <span className="text-red-600">*</span>
-													</InputLabel>
+													<InputLabel htmlFor="lat">Latitude</InputLabel>
 												</div>
 												<TextField
 													size="small"
@@ -442,9 +430,7 @@ const CreateMeeting = () => {
 											</div>
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="py-2">
-													<InputLabel htmlFor="lon">
-														Longitude <span className="text-red-600">*</span>
-													</InputLabel>
+													<InputLabel htmlFor="lon">Longitude</InputLabel>
 												</div>
 												<TextField
 													size="small"

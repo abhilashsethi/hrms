@@ -1,4 +1,9 @@
-import { HeadText, PhotoViewer } from "components/core";
+import {
+	HeadText,
+	IOSSwitch,
+	PhotoViewer,
+	ReverseIOSSwitch,
+} from "components/core";
 import moment from "moment";
 import { AccountTreeRounded, Add, Delete } from "@mui/icons-material";
 import { RenderIconRow } from "components/common";
@@ -12,7 +17,7 @@ import {
 import { DEFAULTPROFILE, DOC, IMG, PDF, XLS } from "assets/home";
 import { useRouter } from "next/router";
 import { ViewTicketsDrawer } from "components/drawer";
-import React, { useState } from "react";
+import React, { SyntheticEvent, useState, ChangeEvent } from "react";
 import { useChange, useFetch } from "hooks";
 import { Tickets } from "types";
 import TicketDetailsSkeletonLoading from "./TicketDetailsSkeletonLoading";
@@ -24,8 +29,39 @@ interface Props {
 	mutateTicket?: any;
 }
 const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
+	console.log(ticketsData);
 	const [getDocument, setGetDocument] = useState<boolean>(false);
+	const [loading, setLoading] = useState(false);
 	const [tickets, setTickets] = useState(false);
+	const { change } = useChange();
+	const handleResolved = async (
+		e?: ChangeEvent<HTMLInputElement>,
+		id?: string
+	) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to update status?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, update!",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				const res = await change(`tickets/${id}`, {
+					method: "PATCH",
+					body: { isResolved: e && !e.target?.checked },
+				});
+				mutateTicket();
+				if (res?.status !== 200) {
+					Swal.fire(`Error`, "Something went wrong!", "error");
+					return;
+				}
+				Swal.fire(`Success`, "Status updated successfully!!", "success");
+				return;
+			}
+		});
+	};
 
 	return (
 		<section className="w-full p-4 rounded-lg bg-white shadow-xl">
@@ -73,14 +109,14 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 					</p>
 					<div className="flex items-center mt-3 gap-3">
 						<div className="font-semibold ">Issue Resolved :</div>
-						<div
-							className={`text-xs ${ticketsData?.isResolved ? `bg-[#44bd44]` : `bg-red-600`
-								}  text-white p-1 rounded-md font-semibold px-2`}
-						>
-							{ticketsData?.isResolved ? <p> Yes</p> : <p>No</p>}
+						<div>
+							<ReverseIOSSwitch
+								checked={ticketsData?.isResolved}
+								onChange={(e) => handleResolved(e, ticketsData?.id)}
+							/>
 						</div>
 					</div>
-					<p className="font-semibold mt-3 mb-2">Assigned Members</p>
+					{/* <p className="font-semibold mt-3 mb-2">Assigned Members</p>
 					<div className="flex justify-start">
 						{ticketsData?.assignedUserIds?.length ? (
 							<AvatarGroup
@@ -115,7 +151,7 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 						) : (
 							<p>Not Assigned</p>
 						)}
-					</div>
+					</div> */}
 
 					<div className="flex justify-between">
 						<p className="font-semibold mt-3 mb-2">Documents</p>
