@@ -18,6 +18,7 @@ import {
 import ProjectVideoDrawer from "components/drawer/ProjectVideoDrawer";
 import {
   ClientDetails,
+  ClientDocument,
   ProjectDescription,
   ProjectTabs,
   TechnologyUsed,
@@ -243,6 +244,7 @@ const ProjectDetails = () => {
           <div className="w-full">
             <ProjectDescription description={projectData?.description} />
             <ClientDetails projectData={projectData} mutate={mutate} />
+            <ClientDocument projectData={projectData} mutate={mutate} />
             <TechnologyUsed projectData={projectData} mutate={mutate} />
           </div>
         </div>

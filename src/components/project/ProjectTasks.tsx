@@ -86,87 +86,110 @@ const ProjectTasks = () => {
       ) : null}
       {isLoading && <p className="text-center">Please wait...</p>}
       <section className="flex flex-col gap-3 max-h-[30rem] overflow-y-auto pr-2 pt-2">
-        {projectData?.tasks?.map((item: any) => (
-          <div
-            key={item?.id}
-            className={`w-full rounded-md shadow-md p-4 shadow-sleek ${
-              item?.status === "COMPLETED"
-                ? "bg-green-100"
-                : item?.status === "ONGOING"
-                ? "bg-blue-100"
-                : "bg-cyan-50"
-            }`}
-          >
-            <UpdateTaskStatus
-              handleClose={() => setIsUpdate(false)}
-              id={isItemId}
-              mutate={mutate}
-              open={isUpdate}
-            />
-            <div className="flex justify-end text-xs">
-              <p>{moment(item?.createdAt).format("ll")}</p>
-            </div>
-            <div className="flex justify-between">
-              <h1 className="font-semibold text-slate-700">{item?.title}</h1>
-              <span
-                className={`text-xs font-semibold px-4 py-1 h-6 rounded-full text-white ${
-                  item?.status === "Open"
-                    ? "bg-purple-400"
-                    : item?.status === "Pending"
-                    ? "bg-yellow-500"
-                    : item?.status === "Ongoing"
-                    ? "bg-blue-500"
-                    : item?.status === "Fixed"
-                    ? "bg-green-500"
-                    : item?.status === "Reviewed"
-                    ? "bg-red-500"
-                    : "bg-red-400"
+        {projectData?.tasks?.length ? (
+          projectData?.tasks
+            ?.sort(
+              (a: any, b: any) =>
+                (new Date(b?.createdAt) as any) -
+                (new Date(a?.createdAt) as any)
+            )
+            ?.map((item: any) => (
+              <div
+                key={item?.id}
+                className={`w-full rounded-md shadow-md p-4 shadow-sleek ${
+                  item?.status === "COMPLETED"
+                    ? "bg-green-100"
+                    : item?.status === "ONGOING"
+                    ? "bg-blue-100"
+                    : "bg-cyan-50"
                 }`}
               >
-                {item?.status}
-              </span>
-            </div>
-            <p className="mt-1 text-sm tracking-wide">{item?.description}</p>
-            <h2 className="mt-2 text-sm font-semibold text-slate-700">
-              Assigned To :
-            </h2>
-            <div className="flex justify-between mt-4">
-              <div className="flex justify-center justify-items-center gap-3">
-                {!item?.assignedUsers?.length ? (
-                  <p>No Members assigned.</p>
-                ) : (
-                  <div className="flex gap-2 group items-center pt-2">
-                    <AvatarGroup className="!cursor-pointer" max={4}>
-                      {item?.assignedUsers?.map(
-                        (data: { name?: string; photo?: string }) => (
-                          <Avatar alt={data?.name} src={data?.photo || " "} />
-                        )
-                      )}
-                    </AvatarGroup>
-                  </div>
-                )}
-              </div>
-              {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
-                <div className="flex gap-2 items-center">
-                  <Tooltip title="Edit">
-                    <IconButton
-                      onClick={() => {
-                        setItemId(item), setIsUpdate(true);
-                      }}
-                    >
-                      <Edit />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Delete">
-                    <IconButton onClick={() => handleDelete(item?.id)}>
-                      <Delete />
-                    </IconButton>
-                  </Tooltip>
+                <UpdateTaskStatus
+                  handleClose={() => setIsUpdate(false)}
+                  id={isItemId}
+                  mutate={mutate}
+                  open={isUpdate}
+                />
+                <div className="flex justify-end text-xs">
+                  <p>{moment(item?.createdAt).format("ll")}</p>
                 </div>
-              ) : null}
-            </div>
-          </div>
-        ))}
+                <div className="flex justify-between">
+                  <h1 className="font-semibold text-slate-700">
+                    {item?.title}
+                  </h1>
+                  <span
+                    className={`text-xs font-semibold px-4 py-1 h-6 rounded-full text-white ${
+                      item?.status === "Open"
+                        ? "bg-purple-400"
+                        : item?.status === "Pending"
+                        ? "bg-yellow-500"
+                        : item?.status === "Ongoing"
+                        ? "bg-blue-500"
+                        : item?.status === "Fixed"
+                        ? "bg-green-500"
+                        : item?.status === "Reviewed"
+                        ? "bg-red-500"
+                        : "bg-red-400"
+                    }`}
+                  >
+                    {item?.status}
+                  </span>
+                </div>
+                <p className="mt-1 text-sm tracking-wide">
+                  {item?.description}
+                </p>
+                <div className="mt-1 text-sm tracking-wide">
+                  <h2 className="mt-2 text-sm font-semibold text-slate-700">
+                    Dead Line :{" "}
+                  </h2>
+                  {item?.deadLine ? moment(item?.deadLine).format("ll") : "---"}
+                </div>
+                <h2 className="mt-2 text-sm font-semibold text-slate-700">
+                  Assigned To :
+                </h2>
+                <div className="flex justify-between mt-4">
+                  <div className="flex justify-center justify-items-center gap-3">
+                    {!item?.assignedUsers?.length ? (
+                      <p>No Members assigned.</p>
+                    ) : (
+                      <div className="flex gap-2 group items-center pt-2">
+                        <AvatarGroup className="!cursor-pointer" max={4}>
+                          {item?.assignedUsers?.map(
+                            (data: { name?: string; photo?: string }) => (
+                              <Avatar
+                                alt={data?.name}
+                                src={data?.photo || " "}
+                              />
+                            )
+                          )}
+                        </AvatarGroup>
+                      </div>
+                    )}
+                  </div>
+                  {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+                    <div className="flex gap-2 items-center">
+                      <Tooltip title="Edit">
+                        <IconButton
+                          onClick={() => {
+                            setItemId(item), setIsUpdate(true);
+                          }}
+                        >
+                          <Edit />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Delete">
+                        <IconButton onClick={() => handleDelete(item?.id)}>
+                          <Delete />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            ))
+        ) : (
+          <p>No task available</p>
+        )}
       </section>
       {projectData?.tasks?.length === 0 ? <p>No Tasks found...</p> : null}
     </>

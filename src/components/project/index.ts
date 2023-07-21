@@ -5,3 +5,4 @@ export { default as TechnologyUsed } from "./TechnologyUsed";
 export { default as ProjectTasks } from "./ProjectTasks";
 export { default as ProjectSupport } from "./ProjectSupport";
 export { default as ProjectBugs } from "./ProjectBugs";
+export { default as ClientDocument } from "./ClientDocument";

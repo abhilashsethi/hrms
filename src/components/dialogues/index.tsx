@@ -74,3 +74,4 @@ export { default as SendReply } from "./SendReply";
 export { default as NotificationInfo } from "./NotificationInfo";
 export { default as ChooseBranchToViewAssets } from "./ChooseBranchToViewAssets";
 export { default as ProjectCreateTicket } from "./ProjectCreateTicket";
+export { default as ClientAddDocumentModal } from "./ClientAddDocumentModal";
