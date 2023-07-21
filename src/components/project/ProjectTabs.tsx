@@ -25,13 +25,15 @@ const ProjectTabs = () => {
 				<TabContext value={value}>
 					<Box sx={{ borderColor: "divider" }}>
 						<TabList onChange={handleChange} aria-label="lab API tabs example">
-							<Tab
-								sx={{ width: "30%" }}
-								icon={<AssignmentTurnedIn fontSize="small" />}
-								iconPosition="start"
-								label="TASKS"
-								value="1"
-							/>
+							{user?.isClient ? null : (
+								<Tab
+									sx={{ width: "30%" }}
+									icon={<AssignmentTurnedIn fontSize="small" />}
+									iconPosition="start"
+									label="TASKS"
+									value="1"
+								/>
+							)}
 							<Tab
 								icon={<SupportAgent fontSize="small" />}
 								iconPosition="start"
@@ -39,20 +41,21 @@ const ProjectTabs = () => {
 								label="SUPPORT"
 								value="2"
 							/>
-							<Tab
-								icon={<BugReport fontSize="small" />}
-								iconPosition="start"
-								sx={{ width: "30%" }}
-								label="BUGS"
-								value="3"
-							/>
+							{user?.isClient ? null : (
+								<Tab
+									icon={<BugReport fontSize="small" />}
+									iconPosition="start"
+									sx={{ width: "30%" }}
+									label="BUGS"
+									value="3"
+								/>
+							)}
 						</TabList>
 					</Box>
-					{user?.isClient ? null : (
-						<TabPanel value="1">
-							<ProjectTasks />
-						</TabPanel>
-					)}
+
+					<TabPanel value="1">
+						<ProjectTasks />
+					</TabPanel>
 					<TabPanel value="2">
 						<ProjectSupport />
 					</TabPanel>

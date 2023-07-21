@@ -221,6 +221,8 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
 		return;
 	};
 
+	console.log(projectData);
+
 	return (
 		<>
 			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
