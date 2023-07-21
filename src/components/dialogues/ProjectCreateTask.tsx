@@ -56,6 +56,7 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
           title: values?.title,
           description: values?.description,
           status: values?.status,
+          deadLine: new Date(values?.date).toISOString(),
         },
       ],
     };
