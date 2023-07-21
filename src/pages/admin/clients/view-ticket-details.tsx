@@ -7,9 +7,12 @@ import { Tickets } from "types";
 
 const ViewTicketDetails = () => {
   const router = useRouter();
-  const { data: ticketsData, mutate, isLoading } = useFetch<Tickets>(
-    `tickets/${router?.query?.id}`
-  );
+  const {
+    data: ticketsData,
+    mutate,
+    isLoading,
+  } = useFetch<Tickets>(`tickets/${router?.query?.id}`);
+  console.log(ticketsData);
   const links = [
     { id: 1, page: "Clients", link: "/admin/clients" },
     {
@@ -22,7 +25,6 @@ const ViewTicketDetails = () => {
       page: "Client Profile",
       link: `/admin/clients/client-profile?id=${ticketsData?.clientId}`,
     },
-
   ];
   return (
     <>
@@ -30,7 +32,11 @@ const ViewTicketDetails = () => {
         <section className="lg:px-8 px-2 py-4">
           <div className="pb-4">
             <AdminBreadcrumbs links={links} />
-            <TicketDetails ticketsData={ticketsData} mutateTicket={mutate} ticketLoading={isLoading} />
+            <TicketDetails
+              ticketsData={ticketsData}
+              mutateTicket={mutate}
+              ticketLoading={isLoading}
+            />
           </div>
         </section>
       </PanelLayout>
@@ -39,5 +45,3 @@ const ViewTicketDetails = () => {
 };
 
 export default ViewTicketDetails;
-
-

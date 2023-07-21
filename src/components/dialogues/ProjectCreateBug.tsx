@@ -51,7 +51,6 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
   const { change } = useChange();
   const router = useRouter();
   const { data: employData } = useFetch<any>(`projects/${id}`);
-  console.log(employData);
   const initialValues = {
     title: "",
     description: "",

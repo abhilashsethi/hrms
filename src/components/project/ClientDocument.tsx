@@ -77,7 +77,7 @@ const ClientDocument = ({ projectData, mutate }: Props) => {
           Swal.fire(`Info`, "It will take some time", "info");
           try {
             const res = await change(
-              `projects/delete-client-doc?docId=${item?.id}`,
+              `projects/delete/client-doc?docId=${item?.id}`,
               {
                 method: "DELETE",
               }
