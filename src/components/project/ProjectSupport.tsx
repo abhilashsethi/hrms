@@ -6,7 +6,7 @@ import { useAuth, useFetch } from "hooks";
 import Link from "next/link";
 import router from "next/router";
 import { useState } from "react";
-import { Tickets, TicketsConversations } from "types";
+import { Tickets } from "types";
 import { clock } from "utils";
 
 const ProjectSupport = () => {
