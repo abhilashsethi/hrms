@@ -107,7 +107,7 @@ const AttendanceGrid = ({ data, mutate }: Props) => {
 export default AttendanceGrid;
 
 interface Props {
-	id?: any;
+	id?: string;
 	wfh?: any;
 	mutate: () => void;
 }
