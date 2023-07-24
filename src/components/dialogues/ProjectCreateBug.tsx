@@ -49,8 +49,6 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
   const { data: employeesData, isLoading } = useFetch<any>(`users`);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const router = useRouter();
-  const { data: employData } = useFetch<any>(`projects/${id}`);
   const initialValues = {
     title: "",
     description: "",

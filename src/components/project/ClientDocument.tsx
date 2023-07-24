@@ -117,7 +117,7 @@ const ClientDocument = ({ projectData, mutate }: Props) => {
       />
       <div className="flex justify-between items-center">
         <h1 className="font-semibold text-gray-600 underline">
-          Document Details
+          Client Document Details
         </h1>
         {(projectData?.technologies?.length && user?.role?.name == "CEO") ||
         user?.role?.name == "CEO" ||
