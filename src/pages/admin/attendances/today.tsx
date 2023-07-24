@@ -43,7 +43,7 @@ const TodayAttendance = () => {
     { id: 1, page: "Attendances", link: "/admin/attendances" },
     {
       id: 2,
-      page: "Datewise",
+      page: "Date Wise",
       link: "/admin/attendances/today",
     },
   ];
