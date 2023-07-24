@@ -67,6 +67,7 @@ const MyAttendance = () => {
 		data: attendance,
 		isLoading,
 		pagination,
+		mutate,
 	} = useFetch<any>(
 		`attendances/${selectedDate.toISOString().slice(0, 10)}/${status}?${
 			user?.id ? `&userId=${user?.id}` : ""
@@ -115,7 +116,7 @@ const MyAttendance = () => {
 						<Loader />
 					) : (
 						<>
-							<AttendanceGrid data={attendance} />
+							<AttendanceGrid data={attendance} mutate={mutate} />
 						</>
 					)}
 					{attendance?.length === 0 ? <LoaderAnime /> : null}

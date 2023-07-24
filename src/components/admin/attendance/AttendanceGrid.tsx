@@ -10,6 +10,8 @@ import { RenderIconRow } from "components/common";
 import moment from "moment";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
+import Swal from "sweetalert2";
+import { useChange } from "hooks";
 
 interface ARRAY {
 	id?: string;
@@ -17,9 +19,10 @@ interface ARRAY {
 
 interface Props {
 	data?: ARRAY[];
+	mutate: () => void;
 }
 
-const AttendanceGrid = ({ data }: Props) => {
+const AttendanceGrid = ({ data, mutate }: Props) => {
 	console.log(data);
 	return (
 		<div className="mt-6">
@@ -38,7 +41,7 @@ const AttendanceGrid = ({ data }: Props) => {
 								>
 									{item?.status === "present" ? `PRESENT` : `ABSENT`}
 								</span>
-								<MenuComponent id={item?.userId} wfh={item} />
+								<MenuComponent id={item?.userId} wfh={item} mutate={mutate} />
 								{/* </div> */}
 							</div>
 							<div className="h-16 w-16 overflow-hidden rounded-full shadow-xl">
@@ -106,9 +109,11 @@ export default AttendanceGrid;
 interface Props {
 	id?: any;
 	wfh?: any;
+	mutate: () => void;
 }
 
-const MenuComponent = ({ id, wfh }: Props) => {
+const MenuComponent = ({ id, wfh, mutate }: Props) => {
+	const { change } = useChange();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -117,8 +122,37 @@ const MenuComponent = ({ id, wfh }: Props) => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-	const handleWorkFromHome = () => {
-		setAnchorEl(null);
+	const handleWorkFromHome = (userId: any) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to update status?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, update!",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				const res = await change(`attendances`, {
+					body: {
+						isWFH: true,
+						userId: userId,
+					},
+				});
+				mutate();
+				if (res?.status !== 201) {
+					Swal.fire(
+						`Error`,
+						res?.results?.msg || "Something went wrong!",
+						"error"
+					);
+					return;
+				}
+				Swal.fire(`Success`, "Status updated successfully!", "success");
+				console.log("response data for prasad ", res);
+				return;
+			}
+		});
 	};
 	return (
 		<>
@@ -169,7 +203,7 @@ const MenuComponent = ({ id, wfh }: Props) => {
 					</MenuItem>
 				</Link>
 				{wfh?.status === "absent" && (
-					<MenuItem onClick={handleWorkFromHome}>
+					<MenuItem onClick={() => handleWorkFromHome(wfh?.userId)}>
 						<ListItemIcon>
 							<AddHomeWork fontSize="small" />
 						</ListItemIcon>

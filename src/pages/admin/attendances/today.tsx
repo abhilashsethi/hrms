@@ -59,6 +59,7 @@ const TodayAttendance = () => {
 
 	const {
 		data: attendance,
+		mutate,
 		isLoading,
 		pagination,
 	} = useFetch<any>(
@@ -255,7 +256,7 @@ const TodayAttendance = () => {
 					) : (
 						<>
 							{isGrid ? (
-								<AttendanceGrid data={attendance} />
+								<AttendanceGrid data={attendance} mutate={mutate} />
 							) : (
 								<AttendanceList data={attendance} />
 							)}
