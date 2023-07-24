@@ -64,9 +64,17 @@ const PersonalInformations = ({
     setLoading(true);
     try {
       Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
+      const res = {
+        panNo: values?.panNo || null,
+        gmail: values?.gmail || null,
+        aadharNo: values?.aadharNo || null,
+        linkedin: values?.linkedin || null,
+        github: values?.github || null,
+        uanNumber: values?.uanNo || null,
+      };
       const resData: any = await change(`users/${employData?.id}`, {
         method: "PATCH",
-        body: values,
+        body: res,
       });
       setLoading(false);
       if (resData?.status !== 200) {
