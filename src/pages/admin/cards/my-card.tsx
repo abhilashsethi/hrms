@@ -112,7 +112,7 @@ const MyCard = () => {
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="absolute bottom-0 w-full h-40 translate-y-[100%] group-hover:translate-y-[0%] transition-all ease-in-out duration-300 bg-slate-700 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gray-100">
+                                  <div className="absolute w-full h-40 translate-y-[100%] hidden group-hover:block group-hover:translate-y-[0%] bottom-0 transition-all ease-in-out duration-300 bg-slate-700 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gray-100">
                                     <div className="flex justify-center pt-2">
                                       <div className="w-12 bg-white rounded-full px-2 py-[0.2rem]">
                                         <div className="border-b-2 border-black"></div>

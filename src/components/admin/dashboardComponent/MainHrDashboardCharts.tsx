@@ -16,7 +16,7 @@ const MainHrDashboardCharts = () => {
       <div className="grid lg:grid-cols-2 content-between gap-6">
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">
-            This Year Employee Overview
+            This Year Employee Joining Overview
           </p>
           <GuestBarChart
             labels={
@@ -35,7 +35,7 @@ const MainHrDashboardCharts = () => {
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">
-            This Year Leave Details
+            This Month Leave Details
           </p>
           <GuestDonutChart
             labels={
