@@ -1,17 +1,9 @@
 import {
-	ChevronLeftRounded,
-	ChevronRightRounded,
 	Close,
 	FilterListRounded,
-	GridViewRounded,
 	InsertInvitationRounded,
-	Search,
-	TableRowsRounded,
 } from "@mui/icons-material";
-import { useState, useRef } from "react";
 import {
-	Button,
-	Grid,
 	IconButton,
 	MenuItem,
 	Pagination,
@@ -19,21 +11,20 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
+import { AttendanceGrid, AttendanceList } from "components/admin/attendance";
 import {
 	AdminBreadcrumbs,
-	FiltersContainer,
 	GridAndList,
 	Loader,
 	LoaderAnime,
-	TextTitles,
 } from "components/core";
+import { addDays } from "date-fns";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
+import { useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useAuth, useFetch } from "hooks";
-import { addDays } from "date-fns";
-import { AttendanceGrid, AttendanceList } from "components/admin/attendance";
 
 const TodayAttendance = () => {
 	const [isGrid, setIsGrid] = useState(true);
@@ -52,7 +43,7 @@ const TodayAttendance = () => {
 		{ id: 1, page: "Attendances", link: "/admin/attendances" },
 		{
 			id: 2,
-			page: "Datewise",
+			page: "Date Wise",
 			link: "/admin/attendances/today",
 		},
 	];
