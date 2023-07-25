@@ -54,7 +54,6 @@ const DailyAttendance = ({
 			},
 		},
 	};
-	console.log(data);
 	return (
 		<ApexCharts
 			height={"500"}

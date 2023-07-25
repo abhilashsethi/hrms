@@ -153,8 +153,11 @@ const AttendanceList = ({
 						},
 					},
 					{
-						title: "In Time",
-						field: "intime",
+						title: "Work From Home",
+						field: "",
+						render: (item) => {
+							return item?.isWFH ? <div>Yes</div> : "---";
+						},
 					},
 					{
 						title: "In Time",
