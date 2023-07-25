@@ -1,4 +1,4 @@
-import { Check, Close } from "@mui/icons-material";
+import { Check, Close, CloudUpload } from "@mui/icons-material";
 import {
 	Autocomplete,
 	Button,
@@ -16,9 +16,10 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { Form, Formik } from "formik";
+import { FileUpload } from "components/core";
+import { ErrorMessage, Form, Formik } from "formik";
 import { useAuth, useChange } from "hooks";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useRef } from "react";
 import * as Yup from "yup";
 
 interface Props {
@@ -42,6 +43,7 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 	const [agreement, setAgreement] = useState(false);
 	const [declaration, setDeclaration] = useState(false);
 	const [doc, setDoc] = useState(false);
+	const imageRef = useRef<HTMLInputElement | null>(null);
 	const handleAssetChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setAssetReturn(event.target.value === "yes");
 	};
@@ -64,8 +66,13 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 		clientAddress: "",
 		status: "",
 		reason: "",
+		images: [] as IMAGES_TYPES[],
 	};
-
+	type IMAGES_TYPES = {
+		file: File;
+		uniId: string;
+		previewURL: string;
+	};
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
 		console.log(values);
@@ -260,6 +267,51 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 										/>
 									</RadioGroup>
 								</FormControl>
+								<div className="md:col-span-2 col-span-1 py-3">
+									<p className="text-gray-500 mb-2">Upload Docs</p>
+									{/* ----------------------------multiple Images component------------------ */}
+									<div
+										onClick={() => imageRef?.current?.click()}
+										className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
+									>
+										<input
+											className="hidden"
+											ref={imageRef}
+											type="file"
+											multiple
+											onChange={(event: ChangeEvent<HTMLInputElement>) => {
+												const files: File[] = Array.from(event.target.files!);
+												const fileObjects = files.map((file: File) => {
+													const uniId = file.type.split("/")[1].split("+")[0]; // Get unique ID of the image
+													return {
+														file,
+														previewURL: URL.createObjectURL(file),
+														uniId, // Add unique ID to the file object
+													};
+												});
+												setFieldValue("images", fileObjects);
+											}}
+										/>
+										<div className="flex justify-center items-center gap-2 flex-wrap">
+											{values.images.map((image, index) => (
+												<div className="" key={index}>
+													<img
+														className="w-40 object-contain"
+														src={image.previewURL}
+														alt={`Image ${index + 1}`}
+													/>
+												</div>
+											))}
+										</div>
+										<p>Upload Images</p>
+										<CloudUpload fontSize="large" color="primary" />
+										<ErrorMessage
+											name="images"
+											component="div"
+											className="error"
+										/>
+									</div>
+								</div>
 								<div className="flex justify-center mt-4">
 									<Button
 										type="submit"

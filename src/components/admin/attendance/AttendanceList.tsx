@@ -96,14 +96,14 @@ const AttendanceList = ({
 					{
 						title: "Email",
 						field: "email",
-						render: ({ email }: any) => (
+						render: ({ email }) => (
 							<CopyClipboard value={email} isCut={false} />
 						),
 					},
 					{
 						title: "Employee ID",
 						field: "employeeID",
-						render: ({ employeeID }: any) => (
+						render: ({ employeeID }) => (
 							<CopyClipboard value={employeeID} isCut={false} />
 						),
 					},
