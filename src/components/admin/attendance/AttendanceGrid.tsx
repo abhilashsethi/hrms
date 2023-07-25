@@ -32,7 +32,6 @@ const AttendanceGrid = ({
   presentMutate,
   allMutate,
 }: Props) => {
-  console.log(data);
   return (
     <div className="mt-6">
       <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
@@ -190,7 +189,6 @@ const MenuComponent = ({
           return;
         }
         Swal.fire(`Success`, "Status updated successfully!", "success");
-        console.log("response data for prasad ", res);
         return;
       }
     });
