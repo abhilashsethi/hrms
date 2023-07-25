@@ -229,15 +229,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
               </h1>
               <div className="flex items-center gap-4">
                 <div className="flex gap-4 items-center">
-                  <Link
-                    href={
-                      user?.role?.name === "CEO"
-                        ? "/admin/chat"
-                        : user?.role?.name === "HR"
-                        ? "/admin"
-                        : "/"
-                    }
-                  >
+                  <Link href={"/admin/chat"}>
                     <Tooltip title="Chats">
                       <Badge
                         badgeContent={
