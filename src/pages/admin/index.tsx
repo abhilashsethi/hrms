@@ -22,7 +22,7 @@ import {
   UserDashboardCards,
   UserDashboardCharts,
 } from "components/admin/dashboardComponent";
-import { useAuth, useFetch } from "hooks";
+import { useAuth, useFCMToken, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
 const AdminHome = () => {

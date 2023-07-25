@@ -5,7 +5,6 @@ import { VAPID_KEY, messaging } from "config";
 
 const useFCMToken = (uid: string | undefined) => {
   const { change } = useChange();
-
   useEffect(() => {
     const isSupported = () =>
       "Notification" in window &&
@@ -24,15 +23,15 @@ const useFCMToken = (uid: string | undefined) => {
               .then(async (fcmToken) => {
                 if (fcmToken) {
                   try {
-                    await change(`user/${uid}`, {
+                    const resData = {web:fcmToken}
+                   const result= await change(`users/${uid}`, {
                       method: "PATCH",
-                      body: JSON.stringify({
-                        fcmTokens: {
-                          web: fcmToken,
-                        },
-                      }),
-                    });
-                  } catch (err) {}
+                      body: {fcmTokens: resData}     
+                   });
+                   
+                  } catch (err) {
+                    console.log(err)
+                  }
                 } else {
                 }
               })
