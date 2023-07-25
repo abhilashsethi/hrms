@@ -249,7 +249,7 @@ const TodayAttendance = () => {
 							{isGrid ? (
 								<AttendanceGrid data={attendance} mutate={mutate} />
 							) : (
-								<AttendanceList data={attendance} />
+								<AttendanceList data={attendance} mutate={mutate} />
 							)}
 						</>
 					)}

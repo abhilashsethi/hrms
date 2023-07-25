@@ -15,10 +15,11 @@ import {
 } from "@mui/material";
 import { RenderIconRow } from "components/common";
 import { CopyClipboard, PhotoViewer, IOSSwitch } from "components/core";
+import { EmployeeExitForm } from "components/dialogues";
 import AddSalaryInfo from "components/dialogues/AddSalaryInfo";
 import { useChange } from "hooks";
 import Link from "next/link";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useState, ChangeEvent } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 import { deleteFile } from "utils";
@@ -62,6 +63,7 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
+	const [employeeExitModal, setEmployeeExitModal] = useState<boolean>(false);
 	const handleClick = (event: MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -101,7 +103,10 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 			console.log(error);
 		}
 	};
-	const handleBlock = async (e: any, userId: string) => {
+	const handleBlock = async (
+		e: ChangeEvent<HTMLInputElement>,
+		userId: string
+	) => {
 		Swal.fire({
 			title: "Are you sure?",
 			text: "You want to update status?",
@@ -133,6 +138,11 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 				mutate={mutate}
 				open={salaryInfoModal}
 				handleClose={() => setSalaryInfoModal(false)}
+			/>
+			<EmployeeExitForm
+				mutate={mutate}
+				open={employeeExitModal}
+				handleClose={() => setEmployeeExitModal(false)}
 			/>
 			<div className="absolute right-[10px] top-[10px]">
 				<Tooltip title="More">
@@ -198,7 +208,11 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 								</ListItemIcon>
 								Add Salary Info
 							</MenuItem>
-							<MenuItem onClick={() => handleDelete(item)}>
+							<MenuItem
+								onClick={() => {
+									setEmployeeExitModal((prev) => !prev);
+								}}
+							>
 								<ListItemIcon>
 									<ExitToApp fontSize="small" />
 								</ListItemIcon>

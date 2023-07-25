@@ -54,8 +54,8 @@ const LeavesColumn = ({ data, mutate }: Props) => {
 	const [isDocuments, setIsDocuments] = useState(false);
 	const [value, setValue] = useState("unPaid");
 
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue((event.target as HTMLInputElement).value);
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setValue(e.target.value);
 	};
 	const approveLeave = (id: string) => {
 		Swal.fire({
