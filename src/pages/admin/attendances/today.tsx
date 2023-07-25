@@ -47,7 +47,8 @@ const TodayAttendance = () => {
 			link: "/admin/attendances/today",
 		},
 	];
-
+	const { data: newAttendance } = useFetch<any>(`attendances`);
+	console.log({ newAttendance });
 	const {
 		data: attendance,
 		mutate,
@@ -65,13 +66,13 @@ const TodayAttendance = () => {
 		}${empId ? `&employeeId=${empId}` : ""}${order ? `&orderBy=${order}` : ""}`
 	);
 
-	const { data: absentData } = useFetch<any>(
+	const { data: absentData, mutate: absentMutate } = useFetch<any>(
 		`attendances/${selectedDate.toISOString().slice(0, 10)}/absent`
 	);
-	const { data: presentData } = useFetch<any>(
+	const { data: presentData, mutate: presentMutate } = useFetch<any>(
 		`attendances/${selectedDate.toISOString().slice(0, 10)}/present`
 	);
-	const { data: allUser } = useFetch<any>(
+	const { data: allUser, mutate: allMutate } = useFetch<any>(
 		`attendances/${selectedDate.toISOString().slice(0, 10)}/all`
 	);
 
@@ -247,9 +248,21 @@ const TodayAttendance = () => {
 					) : (
 						<>
 							{isGrid ? (
-								<AttendanceGrid data={attendance} mutate={mutate} />
+								<AttendanceGrid
+									data={attendance}
+									mutate={mutate}
+									absentMutate={absentMutate}
+									presentMutate={presentMutate}
+									allMutate={allMutate}
+								/>
 							) : (
-								<AttendanceList data={attendance} mutate={mutate} />
+								<AttendanceList
+									data={attendance}
+									mutate={mutate}
+									absentMutate={absentMutate}
+									presentMutate={presentMutate}
+									allMutate={allMutate}
+								/>
 							)}
 						</>
 					)}
