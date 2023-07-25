@@ -27,8 +27,6 @@ import PanelLayout from "layouts/panel";
 
 const AdminHome = () => {
   const { user } = useAuth();
-  console.log(user?.id);
-  useFCMToken(user?.id);
 
   const { data: developerDetails, isLoading } = useFetch<any>(
     `dashboards/developer-dashInfo/${user?.id}`
