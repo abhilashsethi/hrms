@@ -19,10 +19,10 @@ interface ARRAY {
 
 interface Props {
   data?: ARRAY[];
-  mutate: () => void;
-  absentMutate: () => void;
-  presentMutate: () => void;
-  allMutate: () => void;
+  mutate: any;
+  absentMutate?: any;
+  presentMutate?: any;
+  allMutate?: any;
 }
 
 const AttendanceGrid = ({
@@ -136,10 +136,10 @@ export default AttendanceGrid;
 interface Props {
   id?: any;
   wfh?: any;
-  mutate: () => void;
-  presentMutate: () => void;
-  absentMutate: () => void;
-  allMutate: () => void;
+  mutate: any;
+  presentMutate?: any;
+  absentMutate?: any;
+  allMutate?: any;
 }
 
 const MenuComponent = ({
