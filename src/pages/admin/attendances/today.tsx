@@ -22,7 +22,7 @@ import { addDays } from "date-fns";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
-import { useRef, useState } from "react";
+import { useRef, useState, ChangeEvent } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -226,7 +226,7 @@ const TodayAttendance = () => {
 									value={order ? order : ""}
 									label="Order By"
 									// defaultValue="all"
-									onChange={(e: any) => {
+									onChange={(e: ChangeEvent<HTMLInputElement>) => {
 										setPageNumber(1), setOrder(e.target.value);
 									}}
 								>

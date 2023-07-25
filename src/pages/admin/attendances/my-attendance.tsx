@@ -1,23 +1,7 @@
-import {
-	Close,
-	FilterListRounded,
-	InsertInvitationRounded,
-} from "@mui/icons-material";
-import {
-	IconButton,
-	MenuItem,
-	Pagination,
-	Stack,
-	TextField,
-	Tooltip,
-} from "@mui/material";
-import { AttendanceGrid, AttendanceList } from "components/admin/attendance";
-import {
-	AdminBreadcrumbs,
-	GridAndList,
-	Loader,
-	LoaderAnime,
-} from "components/core";
+import { InsertInvitationRounded } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import { AttendanceGrid } from "components/admin/attendance";
+import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
 import { addDays } from "date-fns";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -31,13 +15,8 @@ interface MyDateRef {
 }
 
 const MyAttendance = () => {
-	const [isGrid, setIsGrid] = useState(true);
-	const [pageNumber, setPageNumber] = useState<number>(1);
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [status, setStatus] = useState("all");
-	const [order, setOrder] = useState<string | null>(null);
-	const [userName, setUsername] = useState<string | null>(null);
-	const [empId, setEmpId] = useState<string | null>(null);
 	const { user } = useAuth();
 	const dateRef = useRef<MyDateRef>({
 		current: null,

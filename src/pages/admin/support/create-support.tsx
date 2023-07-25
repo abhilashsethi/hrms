@@ -6,22 +6,22 @@ import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import * as Yup from "yup";
 const initialValues = {
-	name: "",
-	phone: "",
-	email: "",
+	// name: "",
+	// phone: "",
+	// email: "",
 	message: "",
 };
 
 const validationSchema = Yup.object().shape({
-	name: Yup.string()
-		.matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
-		.min(2, "Name must be at least 2 characters")
-		.max(50, "Name must be less than 50 characters")
-		.required("Name is required!"),
+	// name: Yup.string()
+	// 	.matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
+	// 	.min(2, "Name must be at least 2 characters")
+	// 	.max(50, "Name must be less than 50 characters")
+	// 	.required("Name is required!"),
 
-	email: Yup.string()
-		.email("Invalid email address")
-		.required("Email is required!"),
+	// email: Yup.string()
+	// 	.email("Invalid email address")
+	// 	.required("Email is required!"),
 	message: Yup.string().required("Required!"),
 });
 
@@ -59,7 +59,7 @@ const CreateSupport = () => {
 										Support
 									</h1>
 									<div className="grid lg:grid-cols-1">
-										<div className="md:px-4 px-2 md:py-2 py-1">
+										{/* <div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="md:py-2 py-1">
 												<InputLabel htmlFor="name">
 													Name <span className="text-red-600">*</span>
@@ -114,7 +114,7 @@ const CreateSupport = () => {
 												error={touched.phone && !!errors.phone}
 												helperText={touched.phone && errors.phone}
 											/>
-										</div>
+										</div> */}
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="message">
