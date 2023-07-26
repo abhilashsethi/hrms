@@ -17,16 +17,13 @@ import {
   GuestDonutChart,
 } from "components/analytics";
 import { NoDatas, PhotoViewer } from "components/core";
-import { useAuth, useFCMToken, useFetch } from "hooks";
+import { useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 
 const AdminDashboard = () => {
-  const { user } = useAuth();
-  const { data: projectData } = useFetch<any>(`projects`);
   const { data: leaveAll } = useFetch<any>(`leaves/all?orderBy=createdAt:asc`);
   const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
-  const roleData = employeeDetails?.departmentWiseUsers;
   const { data: dashboardDetails } = useFetch<any>(`dashboards/ceo/dashboard`);
   const { data: tenderDetails } = useFetch<any>(
     `tenders?orderBy=createdAt:asc`

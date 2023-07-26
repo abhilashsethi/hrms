@@ -92,14 +92,14 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       icon: <Email fontSize="medium" className="text-white" />,
       title: "Email",
       color: "bg-[#607d8b]",
-      link: "/admin/clients/all-clients",
+      link: "/admin/email",
     },
     {
       id: 6,
       icon: <Chat fontSize="medium" className="text-white" />,
       title: "Chats",
       color: "bg-[#3f51b5]",
-      link: "/admin/email",
+      link: "/admin/chat",
     },
     {
       id: 7,

@@ -35,7 +35,6 @@ const EmployeeDetails = () => {
   const { data: projectDetails } = useFetch<any>(
     `projects?memberId=${router?.query?.id}`
   );
-
   const SwitchBloodgroup = (bloodGroup: any) => {
     return (
       <span>
