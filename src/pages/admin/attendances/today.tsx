@@ -48,7 +48,6 @@ const TodayAttendance = () => {
     },
   ];
   const { data: newAttendance } = useFetch<any>(`attendances`);
-  console.log({ newAttendance });
   const {
     data: attendance,
     mutate,
