@@ -2,34 +2,48 @@ import { Check } from "@mui/icons-material";
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
+import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 const initialValues = {
-	// name: "",
-	// phone: "",
-	// email: "",
 	message: "",
 };
 
 const validationSchema = Yup.object().shape({
-	// name: Yup.string()
-	// 	.matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
-	// 	.min(2, "Name must be at least 2 characters")
-	// 	.max(50, "Name must be less than 50 characters")
-	// 	.required("Name is required!"),
-
-	// email: Yup.string()
-	// 	.email("Invalid email address")
-	// 	.required("Email is required!"),
 	message: Yup.string().required("Required!"),
 });
 
 const CreateSupport = () => {
 	// const theme = useTheme();
 	const [loading, setLoading] = useState(false);
+	const { change } = useChange();
+
 	const handleSubmit = async (values: any) => {
 		console.log(values);
+		setLoading(true);
+		try {
+			const res = await change(`supports`, {
+				body: {
+					message: values?.message,
+				},
+			});
+
+			setLoading(false);
+			if (res?.status !== 200) {
+				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+				setLoading(false);
+				return;
+			}
+			Swal.fire(`Success`, `You have successfully Submitted!`, `success`);
+			return;
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -59,62 +73,6 @@ const CreateSupport = () => {
 										Support
 									</h1>
 									<div className="grid lg:grid-cols-1">
-										{/* <div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="md:py-2 py-1">
-												<InputLabel htmlFor="name">
-													Name <span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
-											<TextField
-												fullWidth
-												size="small"
-												id="name"
-												placeholder="Name"
-												name="name"
-												value={values.name}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.name && !!errors.name}
-												helperText={touched.name && errors.name}
-											/>
-										</div>
-
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="email">
-													Email <span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												placeholder="Email"
-												id="email"
-												name="email"
-												value={values.email}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.email && !!errors.email}
-												helperText={touched.email && errors.email}
-											/>
-										</div>
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="phone">Phone</InputLabel>
-											</div>
-											<TextField
-												size="small"
-												fullWidth
-												placeholder="Phone"
-												id="phone"
-												name="phone"
-												value={values.phone}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.phone && !!errors.phone}
-												helperText={touched.phone && errors.phone}
-											/>
-										</div> */}
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="message">
@@ -144,7 +102,11 @@ const CreateSupport = () => {
 											className="!bg-theme"
 											disabled={loading}
 											startIcon={
-												loading ? <CircularProgress size={20} /> : <Check />
+												loading ? (
+													<CircularProgress color="secondary" size={20} />
+												) : (
+													<Check />
+												)
 											}
 										>
 											SUBMIT
