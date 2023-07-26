@@ -330,7 +330,7 @@ const EmployeeDetails = () => {
               <EmpAttendanceIndividual employData={employData} />
               <EmployLeaves employData={employData} />
               <EmployProjects
-                userName={employData?.name}
+                employData={employData}
                 projectDetails={projectDetails}
               />
             </div>

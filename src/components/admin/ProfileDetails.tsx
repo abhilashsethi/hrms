@@ -49,7 +49,7 @@ const ProfileDetails = () => {
         : ``
     }`
   );
-
+  console.log({ employData });
   const SwitchBloodgroup = (bloodGroup: any) => {
     return (
       <span>
