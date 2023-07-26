@@ -62,10 +62,29 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
               <div>
                 <h2 className="font-semibold tracking-wide">Srinu Reddy</h2>
                 <h2 className="text-gray-600">Developer</h2>
+                
+                
+
+
+
               </div>
             </div> */}
             <h1 className="font-semibold mt-4">Leave Type</h1>
             <h2 className="text-gray-600">{data?.type}</h2>
+            <h1 className="font-semibold mt-4">Paid Leave</h1>
+            <h2 className="text-gray-600">
+              {data?.isPaidLeave ? "Yes" : "No"}
+            </h2>
+            <h1 className="font-semibold mt-4">
+              Leave Casual Credit Remaining
+            </h1>
+            <h2 className="text-gray-600">{data?.casualCreditRemaining}</h2>
+            <h1 className="font-semibold mt-4">Sick Leave Credit Remaining</h1>
+            <h2 className="text-gray-600">{data?.sickCreditRemaining}</h2>
+            <h1 className="font-semibold mt-4">Total Leave This Month</h1>
+            <h2 className="text-gray-600">{data?.totalLeaveThisMonth}</h2>
+            <h1 className="font-semibold mt-4">Total Leave This Year</h1>
+            <h2 className="text-gray-600">{data?.totalLeaveThisYear}</h2>
             {data?.variant === "MultipleDays" ? (
               <>
                 <h1 className="font-semibold mt-4">Starts From</h1>

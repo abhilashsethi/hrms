@@ -64,13 +64,17 @@ const ViewProjectsDrawer = ({
   const { data: projectDetails, isLoading } = useFetch<any>(
     `projects?${
       user?.id
-        ? `managerId=${user?.role?.name === "PROJECT MANAGER" ? user?.id : ``}`
+        ? `${
+            user?.role?.name === "PROJECT MANAGER"
+              ? `managerId=${employData?.id}`
+              : ``
+          }`
         : ""
     }${
       user?.id
         ? user?.role?.name === "PROJECT MANAGER"
           ? ``
-          : `memberId=${user?.id}`
+          : `memberId=${employData?.id}`
         : ``
     }`
   );
