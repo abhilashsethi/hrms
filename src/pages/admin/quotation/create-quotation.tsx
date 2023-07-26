@@ -90,7 +90,7 @@ const CreateQuotation = () => {
 					const timestamp = Date.now() + index; // Add the index to make the timestamp unique
 					const id = (timestamp % 100000).toString().padStart(6, "0"); // Limit to 6 digits
 					const description = item.description;
-					const quantity = item.qty;
+					const quantity = Number(item.qty);
 					const cost = item.cost;
 					return { id, description, quantity, cost };
 				}

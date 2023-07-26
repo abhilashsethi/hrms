@@ -177,12 +177,12 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
 							<div className="text-sm tracking-wide w-3/4">
 								<p className="font-semibold">Name : </p>
 								<p>{projectData?.client?.name}</p>
-								{user?.role?.name == "CEO" ? (
+								{/* {user?.role?.name == "CEO" ? (
 									<>
 										<p className="font-semibold">Email : </p>
 										<p>{projectData?.client?.email}</p>
 									</>
-								) : null}
+								) : null} */}
 							</div>
 						</div>
 						{user?.role?.name == "CEO" ? (

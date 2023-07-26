@@ -375,11 +375,18 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 									>
 										<CardContent>
 											<Typography className="flex" gutterBottom align="left">
-												<p>Images :</p>
+												<p className="mr-2">Images :</p>
 												<div className="grid grid-cols-3 gap-2">
 													{rowData?.photos?.length ? (
 														rowData?.photos?.map((item: any, i: any) => {
-															return <img className="w-36" src={item} alt="" />;
+															return (
+																<img
+																	className="w-36 cursor-pointer"
+																	src={item}
+																	alt=""
+																	onClick={() => window.open(item)}
+																/>
+															);
 														})
 													) : (
 														<span> No Images Found</span>

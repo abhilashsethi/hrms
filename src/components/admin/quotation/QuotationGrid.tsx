@@ -75,7 +75,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 				body: {
 					quotationNumber: item?.quotationNumber,
 					cinNumber: "U72501OR2018PTC029550",
-					date: new Date(),
+					date: moment(new Date()).format("LL"),
 					clientName: item?.clientName,
 					clientEmail: item?.clientEmail,
 					clientAddress: item?.clientAddress,
@@ -84,6 +84,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 					termsAndConditions: item?.termsAndConditions,
 					status: item?.status,
 					gst: item?.gst,
+					gstVal: item?.gstVal,
 					igstVal: item?.igstVal,
 					cgstVal: item?.cgstVal,
 					sgstVal: item?.sgstVal,
