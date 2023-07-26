@@ -33,7 +33,21 @@ const ProfileDetails = () => {
   } = useFetch<User>(`users/${user?.id}`);
 
   const { data: projectDetails } = useFetch<any>(
-    `projects?memberId=${user?.id}`
+    `projects?${
+      user?.id
+        ? `${
+            user?.role?.name === "PROJECT MANAGER"
+              ? `managerId=${employData?.id}`
+              : ``
+          }`
+        : ""
+    }${
+      user?.id
+        ? user?.role?.name === "PROJECT MANAGER"
+          ? ``
+          : `memberId=${employData?.id}`
+        : ``
+    }`
   );
 
   const SwitchBloodgroup = (bloodGroup: any) => {
@@ -334,7 +348,7 @@ const ProfileDetails = () => {
               <EmpAttendanceIndividual employData={employData} />
               <EmployLeaves employData={employData} />
               <EmployProjects
-                userName={employData?.name}
+                employData={employData}
                 projectDetails={projectDetails}
               />
             </div>
