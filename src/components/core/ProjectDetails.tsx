@@ -237,7 +237,7 @@ const ProjectDetails = () => {
                 </Tooltip>
               ))}
             </div>
-            <ProjectTabs />
+            <ProjectTabs projectId={projectData?.id} />
           </div>
         </div>
         <div>

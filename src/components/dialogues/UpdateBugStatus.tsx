@@ -38,7 +38,6 @@ const UpdateBugStatus = ({ open, handleClose, mutate, id }: Props) => {
 
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const { data: employData } = useFetch<any>(`projects/${id}`);
   const initialValues = {
     status: `${bugData?.status ? bugData?.status : ""}`,
   };
