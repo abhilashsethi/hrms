@@ -16,7 +16,7 @@ const UpdateTemplate = () => {
     {
       id: 1,
       page: "Update Template",
-      link: "/admin/templates/update-template",
+      link: `/admin/templates/update-template?id=${router?.query?.id}`,
     },
   ];
   const {
