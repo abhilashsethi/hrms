@@ -15,7 +15,7 @@ const AllSupports = () => {
 		mutate,
 		isLoading,
 		pagination,
-	} = useFetch<any>(`supports?orderBy=createdAt:asc`);
+	} = useFetch<any>(`supports?orderBy=createdAt:desc`);
 	// console.log(supportsData);
 	return (
 		<>
