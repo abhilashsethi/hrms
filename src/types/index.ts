@@ -394,6 +394,9 @@ export interface Quotation {
 	isCgst?: boolean;
 	isIgst?: boolean;
 	isSgst?: boolean;
+	igstPercent?: number;
+	cgstPercent?: number;
+	sgstPercent?: number;
 	clientAddress?: string;
 	clientEmail?: string;
 	clientName?: string;

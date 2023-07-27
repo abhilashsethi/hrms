@@ -1,19 +1,7 @@
 import MaterialTable from "@material-table/core";
-import {
-	Delete,
-	Info,
-	Send,
-	SupportAgent,
-	Visibility,
-} from "@mui/icons-material";
-import {
-	Card,
-	CardContent,
-	IconButton,
-	Tooltip,
-	Typography,
-} from "@mui/material";
-import { HeadStyle } from "components/core";
+import { Delete, Info, SupportAgent, Visibility } from "@mui/icons-material";
+import { Avatar, Card, CardContent, Tooltip, Typography } from "@mui/material";
+import { HeadStyle, ReverseIOSSwitch } from "components/core";
 import { SendReply } from "components/dialogues";
 import { useChange } from "hooks";
 import moment from "moment";
@@ -31,42 +19,64 @@ const SupportColumn = ({ data, mutate }: Props) => {
 		dialogue: false,
 		departmentData: null,
 	});
+	console.log(data);
 
-	const handleDelete = async (id: string) => {
+	const handleDelete = (id: string) => {
 		Swal.fire({
 			title: "Are you sure?",
-			text: "You want to delete?",
+			text: "You want to delete!",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
 			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, delete!",
+			confirmButtonText: "Yes, delete it!",
+		}).then(async (result) => {
+			try {
+				if (result.isConfirmed) {
+					Swal.fire(`Info`, "It will take some time", "info");
+					const response = await change(`supports/${id}`, {
+						method: "DELETE",
+					});
+					if (response?.status !== 200) {
+						Swal.fire("Error", "Something went wrong!", "error");
+					}
+					Swal.fire("Success", "Deleted successfully!", "success");
+					mutate();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		});
+	};
+	const handleSubmit = async (e: any, id: any) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to update status?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, update!",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
-				setLoading(true);
-				Swal.fire("", "Please Wait...", "info");
-				try {
-					Swal.fire(`Info`, "It will take some time", "info");
-					const res = await change(`assets/${id}`, { method: "DELETE" });
-					setLoading(false);
-					if (res?.status !== 200) {
-						Swal.fire(
-							"Error",
-							res?.results?.msg || "Something went wrong!",
-							"error"
-						);
-						setLoading(false);
-						return;
-					}
-					Swal.fire(`Success`, `Deleted Successfully!`, `success`);
-					mutate();
+				const res = await change(`supports/${id}`, {
+					method: "PATCH",
+					body: {
+						isResolved: !e?.target?.checked,
+					},
+				});
+				mutate();
+
+				if (res?.status !== 200) {
+					Swal.fire(
+						`Error`,
+						res?.results?.msg || "Something went wrong!",
+						"error"
+					);
 					return;
-				} catch (error) {
-					console.log(error);
-					setLoading(false);
-				} finally {
-					setLoading(false);
 				}
+				Swal.fire(`Success`, "Status updated successfully!", "success");
+				return;
 			}
 		});
 	};
@@ -83,8 +93,6 @@ const SupportColumn = ({ data, mutate }: Props) => {
 				data={data ? getDataWithSL<any>(data) : []}
 				options={{
 					...MuiTblOptions(),
-					selection: false,
-					paging: false,
 					exportMenu: [],
 				}}
 				columns={[
@@ -98,52 +106,79 @@ const SupportColumn = ({ data, mutate }: Props) => {
 					{
 						title: "Name",
 						tooltip: "Name",
-						field: "name",
+						render: (data) => {
+							return <div>{data?.reqUser?.name}</div>;
+						},
 					},
 
 					{
 						title: "Email",
 						tooltip: "Email",
-						field: "email",
+						render: (data) => {
+							return <div>{data?.reqUser?.email}</div>;
+						},
+					},
+
+					{
+						title: "Resolved",
+						tooltip: "Resolved",
+						// field: "isResolved",
+						render: (data) => {
+							return (
+								<div>
+									<ReverseIOSSwitch
+										checked={data?.isResolved}
+										onChange={(e) => handleSubmit(e, data?.id)}
+									/>
+								</div>
+							);
+						},
 					},
 					{
-						title: "Phone",
-						tooltip: "Phone",
-						field: "phone",
+						title: "Resolved Status",
+						tooltip: "Resolved Status",
+						field: "isResolved",
+						render: ({ isResolved }) => {
+							return <div>{isResolved ? "Resolved" : "Not Resolved"}</div>;
+						},
 					},
 
 					{
 						title: "Created",
 						field: "createdAt",
-						render: (data) => moment(data?.createdAt).format("MM/DD/YYYY"),
+						render: (data) => moment(data?.createdAt).format("DD/MM/YYYY"),
 						editable: "never",
 					},
 					{
 						title: "Actions",
-						// field: "name",
-						render: (data) => {
-							return (
-								<div className="flex gap-1">
-									<Tooltip title="Reply">
-										<div className="text-sm bg-blue-600 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-											<IconButton
-												onClick={() => setIsReply({ dialogue: true })}
-											>
-												<Send className="!text-white" />
-											</IconButton>
-										</div>
-									</Tooltip>
+						cellStyle: {
+							textAlign: "right",
+						},
+						export: true,
+						// width: "18%",
+						// field: "pick",
+						render: (data) => (
+							<>
+								<div className="flex">
 									<Tooltip title="Delete">
-										<div className="text-sm bg-red-500 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-											<IconButton onClick={() => handleDelete(data?.id)}>
-												<Delete className="!text-white" />
-											</IconButton>
-										</div>
+										<Avatar
+											onClick={() => handleDelete(data?.id)}
+											variant="rounded"
+											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-500 !p-0"
+											sx={{
+												mr: "0.1vw",
+												padding: "0px !important",
+												backgroundColor: "Highlight",
+												cursor: "pointer",
+												color: "",
+											}}
+										>
+											<Delete sx={{ padding: "0px !important" }} />
+										</Avatar>
 									</Tooltip>
 								</div>
-							);
-						},
-						editable: "never",
+							</>
+						),
 					},
 				]}
 				detailPanel={[
@@ -178,10 +213,7 @@ const SupportColumn = ({ data, mutate }: Props) => {
 											<Typography gutterBottom align="left">
 												Message :
 												<div className="flex gap-2">
-													<p>
-														Lorem ipsum dolor sit amet consectetur, adipisicing
-														elit. Aspernatur, molestias.
-													</p>
+													<p className="font-semibold">{rowData?.message}</p>
 												</div>
 											</Typography>
 										</CardContent>
@@ -197,29 +229,3 @@ const SupportColumn = ({ data, mutate }: Props) => {
 };
 
 export default SupportColumn;
-const department = [
-	{
-		id: 0,
-		name: "Web Development",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-	{
-		id: 1,
-		name: "Application Development",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-	{
-		id: 2,
-		name: "IT Management",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-	{
-		id: 3,
-		name: "Accounts Management",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-];
