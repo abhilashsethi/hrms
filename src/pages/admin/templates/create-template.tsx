@@ -68,13 +68,17 @@ const CreateTemplate = () => {
                   return null; // No validation error
                 },
                 preConfirm: async (title) => {
-                  const res = await change(`mail-template`, {
-                    body: {
-                      title: title,
-                      content: html,
-                      json: JSON.stringify(design),
-                    },
-                  });
+                  const res = await change(
+                    `mail-template?templateId=${router?.query?.id}`,
+                    {
+                      method: "PATCH",
+                      body: {
+                        title: title,
+                        content: html,
+                        json: JSON.stringify(design),
+                      },
+                    }
+                  );
                   router.push(`/admin/templates/saved-templates`);
 
                   if (res?.status !== 200) {
@@ -86,8 +90,8 @@ const CreateTemplate = () => {
               }).then((result) => {
                 if (result.isConfirmed) {
                   Swal.fire(
-                    "Created!",
-                    "Successfully created mail template!",
+                    "Updated!",
+                    "Successfully updated mail template!",
                     "success"
                   );
                 }
