@@ -134,7 +134,9 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
 						title: "Manager",
 						tooltip: "Manager",
 						render: (data) => {
-							return <span>{data?.manager?.name}</span>;
+							return (
+								<span>{data?.manager?.name ? data?.manager?.name : "---"}</span>
+							);
 						},
 					},
 					{
@@ -182,6 +184,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
 					{
 						title: "Last Updated",
 						field: "updatedAt",
+						hidden: true,
 						render: (data) => clock(data.updatedAt).fromNow(),
 						editable: "never",
 					},
