@@ -26,7 +26,6 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
   const { data: projectDashboard } = useFetch<any>(
     `dashboards/project/manager/dashboard/${user?.id}`
   );
-  console.log(projectDashboard);
   const router = useRouter();
   const cards = [
     {

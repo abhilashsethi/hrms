@@ -80,22 +80,32 @@ const CreateMeeting = () => {
     console.log(values);
     setLoading(true);
     try {
-      const res = await change(`meetings`, {
-        body: {
-          title: values?.meetingTitle,
-          purpose: values?.meetingPurpose,
-          meetingDate: new Date(values?.meetingDate)?.toISOString(),
-          meetingStartTime: values?.meetingStartTime,
-          meetingEndTime: values?.meetingEndTime,
-          meetingPersonName: values?.meetingPersonName,
-          clientName: values?.clientName,
-          clientPhone: values?.clientPhone?.toString() || null,
-          clientEmail: values?.clientEmail || null,
-          address: values?.address,
-          lat: Number(values?.lat) || 0,
-          lng: Number(values?.lon) || 0,
-          userId: user?.id,
+      const resData = {
+        title: values?.meetingTitle,
+        purpose: values?.meetingPurpose,
+        meetingDate: new Date(values?.meetingDate)?.toISOString(),
+        meetingStartTime: values?.meetingStartTime,
+        meetingEndTime: values?.meetingEndTime,
+        meetingPersonName: values?.meetingPersonName,
+        clientName: values?.clientName,
+        clientPhone: values?.clientPhone?.toString(),
+        clientEmail: values?.clientEmail,
+        address: values?.address,
+        lat: Number(values?.lat) || 0,
+        lng: Number(values?.lon) || 0,
+        userId: user?.id,
+      };
+      const reqValue = Object.entries(resData).reduce(
+        (acc: any, [key, value]) => {
+          if (value) {
+            acc[key] = value;
+          }
+          return acc;
         },
+        {}
+      );
+      const res = await change(`meetings`, {
+        body: reqValue,
       });
 
       setLoading(false);
@@ -213,7 +223,8 @@ const CreateMeeting = () => {
                       <div className="px-4 py-2">
                         <div className="py-2">
                           <InputLabel htmlFor="meetingStartTime">
-                            Meeting Start Time
+                            Meeting Start Time{" "}
+                            <span className="text-red-600">*</span>
                           </InputLabel>
                         </div>
 
