@@ -11,7 +11,7 @@ import moment from "moment";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { useChange } from "hooks";
+import { useAuth, useChange } from "hooks";
 
 interface ARRAY {
   id?: string;
@@ -153,6 +153,7 @@ const MenuComponent = ({
   const { change } = useChange();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { user } = useAuth();
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -242,12 +243,16 @@ const MenuComponent = ({
           </MenuItem>
         </Link>
         {wfh?.status === "absent" && (
-          <MenuItem onClick={() => handleWorkFromHome(wfh?.userId)}>
-            <ListItemIcon>
-              <AddHomeWork fontSize="small" />
-            </ListItemIcon>
-            Work From Home
-          </MenuItem>
+          <>
+            {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+              <MenuItem onClick={() => handleWorkFromHome(wfh?.userId)}>
+                <ListItemIcon>
+                  <AddHomeWork fontSize="small" />
+                </ListItemIcon>
+                Work From Home
+              </MenuItem>
+            ) : null}
+          </>
         )}
       </Menu>
     </>

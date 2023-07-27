@@ -46,7 +46,7 @@ const SavedTemplates = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           Swal.fire(`Info`, "It will take some time", "info");
-          const res = await change(`mail-template/${id}`, {
+          const res = await change(`mail-template?templateId=${id}`, {
             method: "DELETE",
           });
 

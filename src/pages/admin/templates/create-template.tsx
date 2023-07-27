@@ -23,7 +23,7 @@ const CreateTemplate = () => {
     data: template,
     mutate,
     isLoading,
-  } = useFetch<MailTemplate>(`mail-template/${router?.query?.id}`);
+  } = useFetch<MailTemplate>(`mail-template?templateId=${router?.query?.id}`);
   console.log(template);
   const emailEditorRef = useRef<any>(null);
   const onLoad = () => {};
