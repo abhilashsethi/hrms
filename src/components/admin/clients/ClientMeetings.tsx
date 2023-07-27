@@ -22,7 +22,9 @@ const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
         isLoading={isLoading}
       />
       <div className="md:flex justify-between">
-        <HeadText title={`Tickets (${ticketsData?.length})`} />
+        <HeadText
+          title={`Tickets (${ticketsData ? ticketsData?.length : 0})`}
+        />
         <Tooltip title="View All Tickets">
           <div
             onClick={() => setTickets(true)}
@@ -35,7 +37,13 @@ const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
         </Tooltip>
       </div>
       <div className="flex flex-col gap-1 mt-4 max-h-[15rem] overflow-y-auto">
-        {ticketsData?.length === 0 ? (<LoaderAnime animeHight={150} animeWidth={150} text={"No Ticket Available"} />) : null}
+        {ticketsData?.length === 0 ? (
+          <LoaderAnime
+            animeHight={150}
+            animeWidth={150}
+            text={"No Ticket Available"}
+          />
+        ) : null}
         {ticketsData?.map((item: any, i: any) => (
           <>
             <div key={i} className="flex gap-1 py-3 border-b-[1px]">
@@ -56,10 +64,11 @@ const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
                 <p className="text-sm tracking-wide my-2">
                   Status :{" "}
                   <span
-                    className={`py-1 px-3 rounded-md tracking-wide ${item?.isResolved
-                      ? "bg-emerald-100 border-green-400 border-[1px] text-green-500"
-                      : "bg-red-100 border-red-400 border-[1px] text-red-500"
-                      } text-xs font-semibold`}
+                    className={`py-1 px-3 rounded-md tracking-wide ${
+                      item?.isResolved
+                        ? "bg-emerald-100 border-green-400 border-[1px] text-green-500"
+                        : "bg-red-100 border-red-400 border-[1px] text-red-500"
+                    } text-xs font-semibold`}
                   >
                     {item?.isResolved ? "Yes" : "No"}
                   </span>
@@ -68,8 +77,7 @@ const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
               </div>
             </div>
           </>
-        ))
-        }
+        ))}
       </div>
     </section>
   );
