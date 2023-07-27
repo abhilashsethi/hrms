@@ -655,6 +655,13 @@ export type EmailType = {
 	replyTo: InboxEmailType;
 	isSenderUser: boolean;
 };
+export type MailTemplate = {
+	content: string;
+	title: string;
+	json: string;
+	id: string;
+};
+
 
 export type ASSET = {
 	assetType: string;

@@ -77,7 +77,6 @@ const CreateMeeting = () => {
   const { data: clients } = useFetch<Client[]>(`clients`);
 
   const handleSubmit = async (values: any) => {
-    console.log(values);
     setLoading(true);
     try {
       const resData = {

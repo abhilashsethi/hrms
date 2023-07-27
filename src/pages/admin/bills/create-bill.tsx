@@ -69,8 +69,8 @@ const CreateBills = () => {
     billType: "",
     inputFields: [{ description: "", sac: "", amount: 0 }],
     quotationId: "",
-    clientEmail: `${isClientEmail ? isClientEmail : ""}`,
-    clientAddress: `${isClientAddress ? isClientAddress : ""}`,
+    clientEmail: ``,
+    clientAddress: ``,
     invoiceNumber: "",
     invoiceDate: "",
     dueDate: null,
@@ -475,7 +475,7 @@ const CreateBills = () => {
                               disabled
                               // placeholder="clientEmail"
                               name="clientEmail"
-                              value={values.clientEmail}
+                              value={isClientEmail}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               error={
@@ -501,7 +501,7 @@ const CreateBills = () => {
                               id="clientAddress"
                               // placeholder="clientAddress"
                               name="clientAddress"
-                              value={values.clientAddress}
+                              value={isClientAddress}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               error={
@@ -608,9 +608,10 @@ const CreateBills = () => {
                               fullWidth
                               size="small"
                               id="clientEmail"
+                              disabled
                               // placeholder="clientEmail"
                               name="clientEmail"
-                              value={values.clientEmail}
+                              value={isClientEmail}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               error={
@@ -742,9 +743,10 @@ const CreateBills = () => {
                               fullWidth
                               size="small"
                               id="clientEmail"
+                              disabled
                               // placeholder="clientEmail"
                               name="clientEmail"
-                              value={values.clientEmail}
+                              value={isClientEmail}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               error={

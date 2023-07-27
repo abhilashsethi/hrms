@@ -3,15 +3,19 @@ import { Button, Grid } from "@mui/material";
 import { EMAILTEMP } from "assets/dashboard_Icons";
 import { AdminBreadcrumbs } from "components/core";
 import { UseTemplate, ViewEmailTemplate } from "components/dialogues";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import Swal from "sweetalert2";
+import { MailTemplate } from "types";
 
 const SavedTemplates = () => {
   const [isView, setIsView] = useState<{
     dialogue?: boolean;
     id?: string | null;
   }>({ dialogue: false, id: null });
+  const { change } = useChange();
   const [isUse, setIsUse] = useState(false);
   const router = useRouter();
   const links = [
@@ -23,6 +27,47 @@ const SavedTemplates = () => {
     // editor is ready
     console.log("onReady");
   };
+  const {
+    data: template,
+    mutate,
+    isLoading,
+  } = useFetch<MailTemplate[]>(`mail-template`);
+  console.log(template);
+  const handleDelete = (id?: string) => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to delete!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire(`Info`, "It will take some time", "info");
+          const res = await change(`mail-template/${id}`, {
+            method: "DELETE",
+          });
+
+          if (res?.status !== 200) {
+            Swal.fire(
+              "Error",
+              res?.results?.msg || "Something went wrong!",
+              "error"
+            );
+            return;
+          }
+          Swal.fire(`Success`, "Deleted Successfully!", "success");
+          mutate();
+          return;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <PanelLayout title="Saved Templates - Admin Panel">
       <section className="px-8 py-4">
@@ -42,7 +87,7 @@ const SavedTemplates = () => {
             </h1>
           </div>
           <Grid container spacing={1.5} marginTop={0.5}>
-            {templates?.map((item) => (
+            {template?.map((item) => (
               <Grid key={item?.id} item lg={2.4}>
                 <div className="h-52 hover:scale-105 transition-all ease-in-out duration-200 bg-gradient-to-br border-blue-400 from-blue-300 to-blue-100 rounded-md w-full border-[1px] p-4 flex flex-col justify-between items-center">
                   <div className="h-4">
@@ -72,6 +117,9 @@ const SavedTemplates = () => {
                       variant="contained"
                       startIcon={<Delete />}
                       className="!bg-red-600"
+                      onClick={() => {
+                        handleDelete(item?.id);
+                      }}
                     >
                       Delete
                     </Button>
