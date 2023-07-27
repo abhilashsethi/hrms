@@ -28,7 +28,7 @@ interface Props {
   data?: Bills;
 }
 interface BillsInput {
-  status?: string | null;
+  status?: string;
   clientName?: string;
   clientEmail?: string;
   clientAddress?: string;
@@ -58,7 +58,7 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
     setIsSgst(event.target.value !== "IGST");
   };
   const initialValues = {
-    status: data?.status ? data?.status : null,
+    status: data?.status ? data?.status : "",
     clientName: `${data?.clientName ? data?.clientName : ""}`,
     clientEmail: `${data?.clientEmail ? data?.clientEmail : ""}`,
     clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,

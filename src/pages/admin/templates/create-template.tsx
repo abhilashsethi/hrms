@@ -5,10 +5,10 @@ import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import EmailEditor from "react-email-editor";
 import Swal from "sweetalert2";
-import { User } from "types";
+import { MailTemplate, User } from "types";
 
 const CreateTemplate = () => {
   const router = useRouter();
@@ -19,6 +19,12 @@ const CreateTemplate = () => {
       link: "/admin/templates/create-template",
     },
   ];
+  const {
+    data: template,
+    mutate,
+    isLoading,
+  } = useFetch<MailTemplate>(`mail-template/${router?.query?.id}`);
+  console.log(template);
   const emailEditorRef = useRef<any>(null);
   const onLoad = () => {};
   const onReady = () => {
@@ -40,9 +46,49 @@ const CreateTemplate = () => {
         confirmButtonText: "Yes, send!",
       }).then((result) => {
         if (result.isConfirmed) {
-          emailEditorRef.current.editor.exportHtml(
-            async ({ html }: { html: string }) => {
-              router.push(`/admin/templates/saved-templates`);
+          emailEditorRef?.current?.editor.exportHtml(
+            async ({ html, design }: { html: string; design: any }) => {
+              Swal.fire({
+                title: "Please add a title for your template",
+                input: "text",
+                inputAttributes: {
+                  autocapitalize: "off",
+                },
+                showCancelButton: true,
+                confirmButtonText: "Submit!",
+                showLoaderOnConfirm: true,
+                inputValidator: (value) => {
+                  if (!value) {
+                    return "Title is required!"; // Validation error message
+                  }
+                  return null; // No validation error
+                },
+                preConfirm: async (title) => {
+                  const res = await change(`mail-template`, {
+                    body: {
+                      title: title,
+                      content: html,
+                      json: JSON.stringify(design),
+                    },
+                  });
+                  router.push(`/admin/templates/saved-templates`);
+
+                  if (res?.status !== 200) {
+                    throw new Error(res?.results?.msg || "Unable to Submit");
+                  }
+                  return title;
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire(
+                    "Created!",
+                    "Successfully created mail template!",
+                    "success"
+                  );
+                }
+              });
+              return;
             }
           );
         }

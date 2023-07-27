@@ -10,19 +10,20 @@ import {
 import { DEFAULTIMG } from "assets/home";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import { MailTemplate } from "types";
 
 interface Props {
   open?: any;
   handleClose?: any;
-  id?: string | null;
+  item?: MailTemplate;
 }
 
-const ViewEmailTemplate = ({ open, handleClose, id }: Props) => {
+const ViewEmailTemplate = ({ open, handleClose, item }: Props) => {
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle sx={{ p: 2, minWidth: "30rem !important" }}>
         <p className="text-center text-lg font-semibold text-theme tracking-wide">
-          {id}
+          {item?.title}
         </p>
         <IconButton
           aria-label="close"
@@ -42,11 +43,11 @@ const ViewEmailTemplate = ({ open, handleClose, id }: Props) => {
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
         <div className="md:w-full w-full md:px-4 px-2 tracking-wide">
           <section className="flex justify-center">
-            <img
-              className="h-[30rem] object-contain"
-              src="https://venngage-wordpress.s3.amazonaws.com/uploads/2021/05/Email-Template-External-Marketing-Email-Newsletter.png"
-              alt="img"
-            />
+            <div
+              dangerouslySetInnerHTML={{
+                __html: `${item?.content}`,
+              }}
+            ></div>
           </section>
           <div className="flex justify-center mt-4 font-semibold mb-3 gap-4">
             <Link href="/admin/templates/edit-template">
