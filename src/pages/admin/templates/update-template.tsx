@@ -15,8 +15,8 @@ const CreateTemplate = () => {
   const links = [
     {
       id: 1,
-      page: "Create Template",
-      link: "/admin/templates/create-template",
+      page: "All Template",
+      link: "/admin/templates/saved-templates",
     },
   ];
   const {
@@ -28,9 +28,7 @@ const CreateTemplate = () => {
   );
   console.log(template);
   const emailEditorRef = useRef<any>(null);
-  const onLoad = () => {
-    template?.json;
-  };
+  const onLoad = () => {};
   const onReady = () => {
     // editor is ready
     console.log("onReady");
@@ -123,7 +121,7 @@ const CreateTemplate = () => {
           </div>
           <div className="flex justify-between items-center">
             <h1 className="font-semibold mt-4 text-lg">
-              Update Email Template
+              Create Email Template
             </h1>
           </div>
           <div>

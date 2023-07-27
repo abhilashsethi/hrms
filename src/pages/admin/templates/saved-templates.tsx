@@ -111,7 +111,7 @@ const SavedTemplates = () => {
                       View
                     </Button>
                     <Link
-                      href={`/admin/templates/create-template?id=${item?.id}`}
+                      href={`/admin/templates/update-template?id=${item?.id}`}
                     >
                       <Button
                         size="small"
