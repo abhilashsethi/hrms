@@ -183,7 +183,11 @@ const ManagerLeaveRequests = () => {
 export default ManagerLeaveRequests;
 
 const links = [
-  { id: 2, page: "Leave Requests", link: "/admin/leaves/leave-requests" },
+  {
+    id: 2,
+    page: "Leave Requests",
+    link: "/admin/leaves/manager-leave-requests",
+  },
 ];
 
 const statuses = [

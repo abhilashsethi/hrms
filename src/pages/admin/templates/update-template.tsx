@@ -8,20 +8,29 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import EmailEditor from "react-email-editor";
 import Swal from "sweetalert2";
-import { User } from "types";
+import { MailTemplate, User } from "types";
 
-const CreateTemplate = () => {
+const UpdateTemplate = () => {
   const router = useRouter();
   const links = [
     {
       id: 1,
-      page: "Create Template",
-      link: "/admin/templates/create-template",
+      page: "Update Template",
+      link: `/admin/templates/update-template?id=${router?.query?.id}`,
     },
   ];
-
+  const {
+    data: template,
+    mutate,
+    isLoading,
+  } = useFetch<MailTemplate>(
+    `mail-template/get-by-id/?templateId=${router?.query?.id}`
+  );
+  console.log(template);
   const emailEditorRef = useRef<any>(null);
-  const onLoad = () => {};
+  const onLoad = () => {
+    template?.json;
+  };
   const onReady = () => {
     // editor is ready
     console.log("onReady");
@@ -59,13 +68,17 @@ const CreateTemplate = () => {
                   return null; // No validation error
                 },
                 preConfirm: async (title) => {
-                  const res = await change(`mail-template`, {
-                    body: {
-                      title: title,
-                      content: html,
-                      json: JSON.stringify(design),
-                    },
-                  });
+                  const res = await change(
+                    `mail-template?templateId=${router?.query?.id}`,
+                    {
+                      method: "PATCH",
+                      body: {
+                        title: title,
+                        content: html,
+                        json: JSON.stringify(design),
+                      },
+                    }
+                  );
                   router.push(`/admin/templates/saved-templates`);
 
                   if (res?.status !== 200) {
@@ -77,8 +90,8 @@ const CreateTemplate = () => {
               }).then((result) => {
                 if (result.isConfirmed) {
                   Swal.fire(
-                    "Created!",
-                    "Successfully created mail template!",
+                    "Updated!",
+                    "Successfully updated mail template!",
                     "success"
                   );
                 }
@@ -114,7 +127,7 @@ const CreateTemplate = () => {
           </div>
           <div className="flex justify-between items-center">
             <h1 className="font-semibold mt-4 text-lg">
-              Create Email Template
+              Update Email Template
             </h1>
           </div>
           <div>
@@ -156,4 +169,4 @@ const CreateTemplate = () => {
   );
 };
 
-export default CreateTemplate;
+export default UpdateTemplate;

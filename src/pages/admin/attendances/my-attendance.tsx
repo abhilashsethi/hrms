@@ -25,23 +25,14 @@ const MyAttendance = () => {
 	function handleDateChange(date: any) {
 		setSelectedDate(date);
 	}
-	const links =
-		user?.role?.name == "CEO" || user?.role?.name == "HR"
-			? [
-					{ id: 1, page: "Attendances", link: "/admin/attendances" },
-					{
-						id: 2,
-						page: "Datewise",
-						link: "/admin/attendances/today",
-					},
-			  ]
-			: [
-					// {
-					// 	id: 2,
-					// 	page: "My Attendance",
-					// 	link: "/admin/attendances/today",
-					// },
-			  ];
+	const links = [
+		{
+			id: 2,
+			page: "My Attendance",
+			link: "/admin/attendances/my-attendance",
+		},
+	];
+
 	const {
 		data: attendance,
 		isLoading,

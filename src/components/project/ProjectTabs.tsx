@@ -36,13 +36,16 @@ const ProjectTabs = ({ projectId }: Props) => {
                   value="1"
                 />
               )}
-              <Tab
-                icon={<SupportAgent fontSize="small" />}
-                iconPosition="start"
-                sx={{ width: "30%" }}
-                label="SUPPORT"
-                value="2"
-              />
+              {user?.role?.name === "DEVELOPER" ||
+              user?.role?.name === "TESTER" ? null : (
+                <Tab
+                  icon={<SupportAgent fontSize="small" />}
+                  iconPosition="start"
+                  sx={{ width: "30%" }}
+                  label="SUPPORT"
+                  value="2"
+                />
+              )}
               {user?.isClient ? null : (
                 <Tab
                   icon={<BugReport fontSize="small" />}
