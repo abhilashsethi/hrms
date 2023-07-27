@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import EmailEditor from "react-email-editor";
 import Swal from "sweetalert2";
-import { User } from "types";
+import { MailTemplate, User } from "types";
 
 const CreateTemplate = () => {
   const router = useRouter();
@@ -19,6 +19,12 @@ const CreateTemplate = () => {
       link: "/admin/templates/create-template",
     },
   ];
+  const {
+    data: template,
+    mutate,
+    isLoading,
+  } = useFetch<MailTemplate>(`mail-template/${router?.query?.id}`);
+  console.log(template);
   const emailEditorRef = useRef<any>(null);
   const onLoad = () => {};
   const onReady = () => {

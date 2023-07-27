@@ -1,5 +1,5 @@
-import { Delete, Visibility } from "@mui/icons-material";
-import { Button, Grid } from "@mui/material";
+import { Delete, Edit, Visibility } from "@mui/icons-material";
+import { Button, Grid, Link } from "@mui/material";
 import { EMAILTEMP } from "assets/dashboard_Icons";
 import { AdminBreadcrumbs } from "components/core";
 import { UseTemplate, ViewEmailTemplate } from "components/dialogues";
@@ -110,6 +110,18 @@ const SavedTemplates = () => {
                     >
                       View
                     </Button>
+                    <Link
+                      href={`/admin/templates/create-template?id=${item?.id}`}
+                    >
+                      <Button
+                        size="small"
+                        variant="contained"
+                        startIcon={<Edit />}
+                        className="!bg-green-500"
+                      >
+                        Edit
+                      </Button>
+                    </Link>
                     <Button
                       size="small"
                       variant="contained"
