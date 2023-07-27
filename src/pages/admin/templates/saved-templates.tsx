@@ -13,8 +13,8 @@ import { MailTemplate } from "types";
 const SavedTemplates = () => {
   const [isView, setIsView] = useState<{
     dialogue?: boolean;
-    id?: string | null;
-  }>({ dialogue: false, id: null });
+    item?: any;
+  }>({ dialogue: false, item: "" });
   const { change } = useChange();
   const [isUse, setIsUse] = useState(false);
   const router = useRouter();
@@ -75,7 +75,7 @@ const SavedTemplates = () => {
           <ViewEmailTemplate
             open={isView?.dialogue}
             handleClose={() => setIsView({ dialogue: false })}
-            id={isView?.id}
+            item={isView?.item}
           />
           <UseTemplate open={isUse} handleClose={() => setIsUse(false)} />
           <div className="md:w-auto w-full">
@@ -106,9 +106,7 @@ const SavedTemplates = () => {
                       variant="contained"
                       startIcon={<Visibility />}
                       className="!bg-blue-500"
-                      onClick={() =>
-                        setIsView({ dialogue: true, id: item?.title })
-                      }
+                      onClick={() => setIsView({ dialogue: true, item: item })}
                     >
                       View
                     </Button>
@@ -135,11 +133,3 @@ const SavedTemplates = () => {
 };
 
 export default SavedTemplates;
-
-const templates = [
-  { id: 1, title: "Salary Credit Template" },
-  { id: 2, title: "Event Invitation" },
-  { id: 3, title: "Referral Programme" },
-  { id: 4, title: "Change Management Communications" },
-  { id: 4, title: "Default" },
-];

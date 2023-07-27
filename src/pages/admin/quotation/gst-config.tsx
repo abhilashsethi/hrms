@@ -11,9 +11,9 @@ import { QuotationGst } from "types";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-  gst: Yup.number().required("% For GST is required !"),
-  cgst: Yup.number().required("% For CGST is required !"),
-  sgst: Yup.number().required("% For SGST is required !"),
+  Igst: Yup.number().required("% For GST is required !"),
+  Cgst: Yup.number().required("% For CGST is required !"),
+  Sgst: Yup.number().required("% For SGST is required !"),
 });
 
 const GstConfig = () => {
