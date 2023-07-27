@@ -36,11 +36,11 @@ const MyAttendance = () => {
 					},
 			  ]
 			: [
-					{
-						id: 2,
-						page: "My Attendance",
-						link: "/admin/attendances/today",
-					},
+					// {
+					// 	id: 2,
+					// 	page: "My Attendance",
+					// 	link: "/admin/attendances/today",
+					// },
 			  ];
 	const {
 		data: attendance,

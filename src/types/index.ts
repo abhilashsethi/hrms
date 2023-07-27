@@ -446,6 +446,9 @@ export interface Bills {
 	isIgst?: boolean;
 	isSgst?: boolean;
 	status?: string;
+	sgstPercent?: number;
+	cgstPercent?: number;
+	igstPercent?: number;
 	termsAndConditions?: string;
 	updatedAt?: Date;
 	createdAt?: Date;
@@ -664,7 +667,6 @@ export type MailTemplate = {
 	json: string;
 	id: string;
 };
-
 
 export type ASSET = {
 	assetType: string;
