@@ -1,8 +1,14 @@
-import { Button, CircularProgress } from "@mui/material";
-import { Form, Formik, FormikProps } from "formik";
+import {
+	Button,
+	CircularProgress,
+	IconButton,
+	TextField,
+	Tooltip,
+} from "@mui/material";
+import { Field, FieldArray, Form, Formik, FormikProps } from "formik";
 import { useMemo, useState } from "react";
 import Swal from "sweetalert2";
-import { Add, BorderColor, Done } from "@mui/icons-material";
+import { Add, BorderColor, Check, Delete, Done } from "@mui/icons-material";
 import * as Yup from "yup";
 import TextInput from "components/core/TextInput";
 import AdminAutocomplete from "components/core/AdminAutocomplete";
@@ -12,97 +18,43 @@ import { AdminBreadcrumbs, LoaderAnime } from "components/core";
 import { AddMoreField } from "components/dialogues";
 import PayrollInputField from "./PayrollInputField";
 
-const AddPrescription = () => {
+interface Props {
+	open: boolean;
+	handleClose: any;
+	userId?: any;
+	mutate?: any;
+}
+interface InputField {
+	title?: string;
+	value?: number;
+}
+
+const AddPrescription = ({ open, handleClose, userId, mutate }: Props) => {
 	const [fields, setFields] = useState<any>([]);
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
 	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
 
 	const { data: usersData, isLoading } = useFetch<any>(`users`);
-	const payrollSchema = useMemo(() => {
-		return [
-			{
-				key: "1",
-				name: "userId",
-				size: "small",
-				label: "Select Employee",
-				placeholder: "",
-				styleContact: "rounded-lg mb-5",
-				type: "autocomplete",
-				validationSchema: Yup.string().required("Employee is required"),
-				initialValue: "",
-				icon: <BorderColor />,
 
-				options: usersData?.map((item: any, i: any) => {
-					return {
-						data: item,
-						label: `${item?.name}`,
-						value: item?.id,
-						key: item?.name,
-					};
-				}),
-				required: true,
-			},
-			{
-				key: "1",
-				// placeholder: 'Enter your email',
-				name: "grossSalary",
-				label: "Enter Gross Salary Per Month",
-				placeholder: "",
-				size: "small",
-				styleContact: "rounded-lg mb-5",
-				type: "number",
-				validationSchema: Yup.string().required(
-					"Gross Salary Per Month Required."
-				),
-				initialValue: "",
-				required: true,
-			},
-			{
-				key: "2",
-				// placeholder: 'Enter your email',
-				name: "kpi",
-				label: "KPI",
-				size: "small",
-				placeholder: "",
-				styleContact: "rounded-lg mb-5",
-				type: "number",
-				initialValue: 0,
-			},
+	const initialValues = {
+		grossSalary: "",
+		kpi: 0,
+		tds: 0,
+		salaryInfoNewFields: null,
+		inputFields: [{ title: "", value: 0 }],
+	};
 
-			{
-				key: "4",
-				label: "TDS",
-				size: "small",
-				name: "tds",
-				type: "number",
-				initialValue: 0,
-				styleContact: "rounded-lg mb-5",
-			},
-			{
-				key: "5",
-				// placeholder: 'Enter your email',
-				name: "salaryInfoNewFields",
-				label: "Payroll Name",
-				placeholder: "",
-				styleContact: "rounded-lg mb-5",
-				initialValue: null,
-			},
-		];
-	}, []);
-
-	const handleSend = async (values: any, submitProps: any) => {
+	const handleSubmit = async (values: any) => {
 		setLoading(true);
 		try {
 			const ticketText = {
 				grossSalary: values?.grossSalary,
 				kpi: values?.kpi,
 				tds: values?.tds,
-				salaryInfoNewFields: values?.salaryInfoNewFields?.map((item: any) => {
-					return { title: item?.title, value: Number(item.value) };
-				}),
+				salaryInfoNewFields: values?.inputFields,
 			};
-			const res = await change(`users/addSalaryInfo/${values?.userId}`, {
+			const res = await change(`users/addSalaryInfo/${userId}`, {
 				method: "PATCH",
 				body: ticketText,
 			});
@@ -112,8 +64,13 @@ const AddPrescription = () => {
 				setLoading(false);
 				return;
 			}
-			//  router?.push("/admin/guests/all-guests");
-			Swal.fire(`Success`, `You have successfully added!`, `success`);
+			Swal.fire(
+				`Success`,
+				`Gross Salary added successfully for ${res?.results?.data?.name}`,
+				`success`
+			);
+			mutate();
+			handleClose();
 			return;
 		} catch (error) {
 			console.log(error);
@@ -121,51 +78,6 @@ const AddPrescription = () => {
 		} finally {
 			setLoading(false);
 		}
-	};
-	const initialValues = payrollSchema.reduce((accumulator, currentValue) => {
-		accumulator[currentValue.name] = currentValue.initialValue;
-		return accumulator;
-	}, {} as any);
-	const validationSchema = payrollSchema?.reduce(
-		(accumulator, currentValue) => {
-			accumulator[currentValue.name] = currentValue.validationSchema;
-			return accumulator;
-		},
-		{} as any
-	);
-
-	const handleClick = (name: string, formik: FormikProps<any>) => {
-		try {
-			formik?.setFieldValue(
-				name,
-				formik?.values[name]?.length > 0
-					? [...formik?.values[name], { title: "", value: "" }]
-					: [{ title: "", value: "" }]
-			);
-		} catch (error) {}
-	};
-
-	const handleFormikOnChange = (
-		formik: FormikProps<any>,
-		title: any,
-		value: any,
-		key: string
-	) => {
-		try {
-			formik?.setFieldValue(
-				"salaryInfoNewFields",
-				formik?.values?.salaryInfoNewFields?.map((item: any) => {
-					if (item.key === key) {
-						return {
-							...item,
-							title,
-							value,
-						};
-					}
-					return item;
-				})
-			);
-		} catch (error) {}
 	};
 	return (
 		<PanelLayout title="Add Salary Info - Admin Panel">
@@ -186,136 +98,156 @@ const AddPrescription = () => {
 						</p>
 						<div className="">
 							<Formik
-								enableReinitialize
-								initialValues={{
-									...initialValues,
-								}}
-								validationSchema={Yup.object(validationSchema)}
-								onSubmit={handleSend}
+								initialValues={initialValues}
+								// validationSchema={validationSchema}
+								enableReinitialize={true}
+								onSubmit={handleSubmit}
 							>
-								{(formik) => (
-									<Form>
-										{payrollSchema?.map((inputItem: any, index: any) => (
-											<div key={index}>
-												{inputItem?.type === "autocomplete" ? (
-													<div className=" w-full pb-4">
-														<AdminAutocomplete
-															size={"small"}
-															label={inputItem?.label}
-															isOptionEqualToValue={(option, value) =>
-																option?.value === value?.value
-															}
-															error={Boolean(
-																formik?.touched[inputItem?.name] &&
-																	formik?.errors[inputItem?.name]
-															)}
-															helperText={
-																formik?.touched[inputItem?.name] &&
-																(formik?.errors[inputItem?.name] as any)
-															}
-															onChange={(e: any, value: any) => {
-																formik?.setFieldValue(
-																	inputItem?.name,
-																	value?.data?.id
-																);
-																inputItem?.name === "userId";
-															}}
-															options={inputItem?.options}
-															noOptionText={
-																<div className="flex w-full flex-col gap-2">
-																	<small className="tracking-wide">
-																		No options found
-																	</small>
-																</div>
-															}
-														/>
-													</div>
-												) : inputItem?.name === "salaryInfoNewFields" ? (
-													<div className=" w-full py-1">
-														{formik.values[inputItem.name]?.length &&
-															formik?.values[inputItem.name]?.map(
-																(item: any) => {
-																	return (
-																		<PayrollInputField
-																			name="item"
-																			error={Boolean(
-																				formik?.touched?.salaryInfoNewFields &&
-																					formik?.errors?.salaryInfoNewFields
-																			)}
-																			value={item.value}
-																			title={item?.title}
-																			onChange={(title: any, value: any) =>
-																				handleFormikOnChange(
-																					formik,
-																					title,
-																					value,
-																					item?.key
-																				)
-																			}
-																		/>
-																	);
-																}
-															)}
+								{({
+									values,
+									errors,
+									touched,
+									handleChange,
+									handleBlur,
+									setFieldValue,
+								}) => (
+									<Form className="w-full">
+										<p className="font-medium text-gray-700 mb-2">
+											Enter Gross Salary <span className="text-red-600">*</span>
+										</p>
+										<TextField
+											size="small"
+											fullWidth
+											type="number"
+											placeholder="Gross Salary"
+											name="grossSalary"
+											value={values.grossSalary}
+											onChange={handleChange}
+											onBlur={handleBlur}
+											error={touched.grossSalary && !!errors.grossSalary}
+											helperText={touched.grossSalary && errors.grossSalary}
+										/>
+										<p className="font-medium text-gray-700 my-2">
+											KPI <span className="text-red-600">*</span>
+										</p>
+										<div className="w-full">
+											<TextField
+												size="small"
+												type="number"
+												fullWidth
+												name="kpi"
+												placeholder="Document kpi"
+												value={values.kpi}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.kpi && !!errors.kpi}
+												helperText={touched.kpi && errors.kpi}
+											/>
+										</div>
 
-														<button
-															onClick={() =>
-																handleClick(inputItem?.name, formik)
-															}
-															type="button"
-															className="mt-5 flex items-center gap-1 rounded-md bg-theme px-4 py-2 text-sm text-white transition-all duration-300 ease-in-out hover:scale-105"
-														>
-															<Add className="!text-[1.3rem]" /> Add More
-														</button>
-													</div>
-												) : (
-													<div className={"py-1"}>
-														<TextInput
-															fullWidth
+										<p className="font-medium text-gray-700 my-2">
+											TDS <span className="text-red-600">*</span>
+										</p>
+										<div className="w-full">
+											<TextField
+												size="small"
+												type="number"
+												fullWidth
+												name="tds"
+												placeholder="Document tds"
+												value={values.tds}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												error={touched.tds && !!errors.tds}
+												helperText={touched.tds && errors.tds}
+											/>
+										</div>
+
+										<p className="font-medium text-gray-700 my-2">More</p>
+										<FieldArray name="inputFields">
+											{({ remove, push }) => (
+												<div className="grid gap-2 w-full">
+													{values.inputFields.map((field, index) => (
+														<div
+															className="grid gap-2 items-center"
 															key={index}
-															name={inputItem?.name}
-															options={inputItem.options}
-															title={inputItem?.label}
-															multiline={inputItem?.multiline}
-															rows={inputItem?.rows}
-															size={inputItem?.size}
-															type={inputItem?.type as any}
-															startIcon={inputItem?.icon}
-															styleContact={inputItem?.styleContact}
-															error={Boolean(
-																formik?.touched[inputItem.name] &&
-																	formik?.errors[inputItem.name]
-															)}
-															helperText={
-																formik?.touched[inputItem.name] &&
-																(formik?.errors[inputItem.name] as any)
-															}
-															value={formik?.values[inputItem.name]}
-															onChange={formik?.handleChange}
-															onBlur={formik?.handleBlur}
-														/>
-													</div>
-												)}
-											</div>
-										))}
+														>
+															<Field
+																as={TextField}
+																label="Payroll Name"
+																fullWidth
+																size="small"
+																name={`inputFields[${index}].title`}
+																onBlur={handleBlur}
+																error={
+																	touched.inputFields?.[index]?.title &&
+																	!!(errors.inputFields?.[index] as InputField)
+																		?.title
+																}
+																helperText={
+																	touched.inputFields?.[index]?.title &&
+																	(errors.inputFields?.[index] as InputField)
+																		?.title
+																}
+															/>
 
-										<div>
-											<div className="flex justify-center py-1">
-												<Button
-													type="submit"
-													variant="contained"
-													className="!bg-theme"
-													disabled={loading}
-													startIcon={
-														loading ? (
-															<CircularProgress size={20} color="warning" />
-														) : (
-															<Done />
-														)
-													}
-												>
-													SAVE
-												</Button>
-											</div>
+															<Field
+																as={TextField}
+																name={`inputFields[${index}].value`}
+																label="value"
+																type="number"
+																fullWidth
+																size="small"
+																onBlur={handleBlur}
+																error={
+																	touched.inputFields?.[index]?.value &&
+																	!!(errors.inputFields?.[index] as InputField)
+																		?.value
+																}
+																helperText={
+																	touched.inputFields?.[index]?.value &&
+																	(errors.inputFields?.[index] as InputField)
+																		?.value
+																}
+															/>
+
+															<Tooltip title="Remove Field">
+																<div className="text-sm bg-red-500 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+																	<IconButton>
+																		<Delete
+																			onClick={() => remove(index)}
+																			className="!text-white"
+																		/>
+																	</IconButton>
+																</div>
+															</Tooltip>
+														</div>
+													))}
+													<button
+														className="w-32 mt-2 bg-white text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white border border-theme rounded-lg px-2 py-1"
+														type="button"
+														onClick={() =>
+															push({ description: "", sac: "", value: "" })
+														}
+													>
+														Add Field
+													</button>
+												</div>
+											)}
+										</FieldArray>
+
+										<div className="flex justify-center mt-4">
+											<Button
+												type="submit"
+												className="!bg-theme"
+												variant="contained"
+												disabled={loading}
+												startIcon={
+													loading ? <CircularProgress size={20} /> : <Check />
+												}
+											>
+												SUBMIT
+											</Button>
 										</div>
 									</Form>
 								)}

@@ -10,16 +10,14 @@ import {
 	FormControlLabel,
 	FormLabel,
 	IconButton,
-	MenuItem,
 	Radio,
 	RadioGroup,
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { FileUpload } from "components/core";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useAuth, useChange } from "hooks";
-import { ChangeEvent, useState, useRef } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import * as Yup from "yup";
 
 interface Props {
@@ -61,9 +59,6 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 	// console.log(user);
 	// console.log(details);
 	const initialValues = {
-		clientName: "",
-		clientEmail: "",
-		clientAddress: "",
 		status: "",
 		reason: "",
 		images: [] as IMAGES_TYPES[],
