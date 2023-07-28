@@ -58,7 +58,7 @@ const ExEmployees = () => {
 			userName ? `&name=${userName}` : ""
 		}${status ? `&status=${status}` : ""}`
 	);
-	console.log(employeeExitData);
+	// console.log(employeeExitData);
 
 	const links =
 		user?.role?.name === "CEO" || user?.role?.name === "HR"
@@ -81,10 +81,6 @@ const ExEmployees = () => {
 	return (
 		<PanelLayout title="All Users - Admin Panel">
 			<section className="md:px-8 px-4">
-				<UploadEmployData
-					open={isUpload}
-					handleClose={() => setIsUpload(false)}
-				/>
 				<div className="flex flex-col md:flex-row w-full md:justify-between justify-start items-start md:items-center md:py-4 py-2">
 					<div className="md:w-auto w-full">
 						<AdminBreadcrumbs links={links as any} />
