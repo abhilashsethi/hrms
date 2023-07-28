@@ -44,7 +44,7 @@ const MyLeaves = () => {
 			leaveStatus ? `&status=${leaveStatus}` : ""
 		}${leaveType ? `&type=${leaveType}` : ""}${
 			user?.id ? `&userId=${user?.id}` : ""
-		}`
+		}&orderBy=createdAt:asc`
 	);
 	return (
 		<PanelLayout title="My Leaves - Admin Panel">
