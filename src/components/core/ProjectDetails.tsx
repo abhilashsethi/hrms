@@ -244,7 +244,13 @@ const ProjectDetails = () => {
           <div className="w-full">
             <ProjectDescription description={projectData?.description} />
             <ClientDetails projectData={projectData} mutate={mutate} />
-            <ClientDocument projectData={projectData} mutate={mutate} />
+            {user?.role?.name === "PROJECT MANAGER" ||
+            user?.isClient ||
+            user?.role?.name === "CEO" ||
+            user?.role?.name === "COO" ||
+            user?.role?.name === "DIRECTOR" ? (
+              <ClientDocument projectData={projectData} mutate={mutate} />
+            ) : null}
             <TechnologyUsed projectData={projectData} mutate={mutate} />
           </div>
         </div>
