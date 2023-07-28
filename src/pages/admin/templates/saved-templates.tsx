@@ -165,18 +165,22 @@ const SavedTemplates = () => {
 											</MenuItem>
 
 											<>
-												<MenuItem
-													onClick={() => {
-														// setUserId(item?.id);
-														// setSalaryInfoModal((prev) => !prev);
-														handleClose;
-													}}
+												<Link
+													href={`/admin/templates/update-template?id=${item?.id}`}
 												>
-													<ListItemIcon>
-														<CurrencyRupee fontSize="small" />
-													</ListItemIcon>
-													Edit Template
-												</MenuItem>
+													<MenuItem
+														onClick={() => {
+															// setUserId(item?.id);
+															// setSalaryInfoModal((prev) => !prev);
+															handleClose;
+														}}
+													>
+														<ListItemIcon>
+															<CurrencyRupee fontSize="small" />
+														</ListItemIcon>
+														Edit Template
+													</MenuItem>
+												</Link>
 											</>
 										</Menu>
 									</div>
@@ -200,18 +204,6 @@ const SavedTemplates = () => {
 										>
 											View
 										</Button>
-										<Link
-											href={`/admin/templates/update-template?id=${item?.id}`}
-										>
-											<Button
-												size="small"
-												variant="contained"
-												startIcon={<Edit />}
-												className="!bg-green-500"
-											>
-												Edit
-											</Button>
-										</Link>
 										<Button
 											size="small"
 											variant="contained"

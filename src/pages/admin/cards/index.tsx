@@ -38,7 +38,7 @@ const Cards = () => {
 			title: "Assigned to Guests",
 			img: CARDICON1.src,
 			bg: "from-blue-500 to-blue-300",
-			link: "/admin/guests/all-guests",
+			link: "/admin/cards/scanned",
 		},
 		{
 			id: 2,
@@ -49,6 +49,7 @@ const Cards = () => {
 			title: "Assigned to Employees",
 			bg: "from-yellow-500 to-yellow-300",
 			img: CARDICON2.src,
+			link: "/admin/cards/scanned",
 		},
 		{
 			id: 3,
@@ -59,6 +60,7 @@ const Cards = () => {
 			title: "Blocked Cards",
 			bg: "from-emerald-500 to-emerald-300",
 			img: CARDICON3.src,
+			link: "/admin/cards/scanned",
 		},
 		{
 			id: 4,
@@ -69,6 +71,7 @@ const Cards = () => {
 			title: "Scanned Cards",
 			bg: "from-purple-500 to-purple-300",
 			img: CARDICON4.src,
+			link: "/admin/cards/scanned",
 		},
 	];
 

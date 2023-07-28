@@ -1,4 +1,11 @@
-import { Add, BorderColor, Close, Done } from "@mui/icons-material";
+import {
+	Add,
+	BorderColor,
+	Check,
+	Close,
+	Delete,
+	Done,
+} from "@mui/icons-material";
 import {
 	Button,
 	CircularProgress,
@@ -6,11 +13,12 @@ import {
 	DialogContent,
 	DialogTitle,
 	IconButton,
+	TextField,
 	Tooltip,
 } from "@mui/material";
 import PayrollInputField from "components/admin/PayrollInputField";
 import TextInput from "components/core/TextInput";
-import { Form, Formik, FormikProps } from "formik";
+import { Field, FieldArray, Form, Formik, FormikProps } from "formik";
 import { useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
@@ -22,6 +30,11 @@ interface Props {
 	handleClose: any;
 	userId?: any;
 	mutate?: any;
+}
+interface InputField {
+	payrollName?: string;
+
+	amount?: number;
 }
 
 const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
@@ -35,55 +48,13 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 		isLoading,
 	} = useFetch<User>(`users/${router?.query?.id}`);
 
-	const payrollSchema = useMemo(() => {
-		return [
-			{
-				key: "1",
-				// placeholder: 'Enter your email',
-				name: "grossSalary",
-				label: "Enter Gross Salary Per Month *",
-				placeholder: "",
-				size: "small",
-				styleContact: "rounded-lg mb-5",
-				type: "number",
-				validationSchema: Yup.number()
-					.min(0, "enter positive value")
-					.required("Gross Salary Per Month Required."),
-				initialValue: "",
-				required: true,
-			},
-			{
-				key: "2",
-				// placeholder: 'Enter your email',
-				name: "kpi",
-				label: "KPI",
-				size: "small",
-				placeholder: "",
-				styleContact: "rounded-lg mb-5",
-				type: "number",
-				initialValue: 0,
-			},
-
-			{
-				key: "4",
-				label: "TDS (in %)",
-				size: "small",
-				name: "tds",
-				type: "number",
-				initialValue: 0,
-				styleContact: "rounded-lg mb-5",
-			},
-			{
-				key: "5",
-				// placeholder: 'Enter your email',
-				name: "salaryInfoNewFields",
-				label: "Payroll Name",
-				placeholder: "",
-				styleContact: "rounded-lg mb-5",
-				initialValue: null,
-			},
-		];
-	}, []);
+	const initialValues = {
+		grossSalary: "",
+		kpi: 0,
+		tds: 0,
+		salaryInfoNewFields: null,
+		inputFields: [{ payrollName: "", amount: 0 }],
+	};
 
 	const handleSend = async (values: any, submitProps: any) => {
 		setLoading(true);
@@ -121,17 +92,6 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 			setLoading(false);
 		}
 	};
-	const initialValues = payrollSchema.reduce((accumulator, currentValue) => {
-		accumulator[currentValue.name] = currentValue.initialValue;
-		return accumulator;
-	}, {} as any);
-	const validationSchema = payrollSchema?.reduce(
-		(accumulator, currentValue) => {
-			accumulator[currentValue.name] = currentValue.validationSchema;
-			return accumulator;
-		},
-		{} as any
-	);
 
 	const handleClick = (name: string, formik: FormikProps<any>) => {
 		try {
@@ -177,7 +137,10 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 			maxWidth="lg"
 			open={open}
 		>
-			<DialogTitle id="customized-dialog-title" sx={{ p: 2 }}>
+			<DialogTitle
+				id="customized-dialog-title"
+				sx={{ p: 2, minWidth: "40rem !important" }}
+			>
 				<p className="text-center text-xl font-bold text-theme tracking-wide">
 					ADD SALARY INFO
 				</p>
@@ -199,99 +162,155 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 			<DialogContent className="app-scrollbar" sx={{ p: 2 }}>
 				<div className="md:w-[40rem] w-[72vw] md:px-4 px-2 tracking-wide">
 					<Formik
-						enableReinitialize
-						initialValues={{
-							...initialValues,
-						}}
-						validationSchema={Yup.object(validationSchema)}
-						onSubmit={handleSend}
+						initialValues={initialValues}
+						// validationSchema={validationSchema}
+						enableReinitialize={true}
+						onSubmit={handleSubmit}
 					>
-						{(formik) => (
-							<Form>
-								{payrollSchema?.map((inputItem: any, index: any) => (
-									<div key={index}>
-										{inputItem?.name === "salaryInfoNewFields" ? (
-											<div className=" w-full py-1">
-												{formik.values[inputItem.name]?.length &&
-													formik?.values[inputItem.name]?.map((item: any) => {
-														return (
-															<PayrollInputField
-																name="item"
-																error={Boolean(
-																	formik?.touched?.salaryInfoNewFields &&
-																		formik?.errors?.salaryInfoNewFields
-																)}
-																value={item.value}
-																title={item?.title}
-																onChange={(title: any, value: any) =>
-																	handleFormikOnChange(
-																		formik,
-																		title,
-																		value,
-																		item?.key
-																	)
-																}
-															/>
-														);
-													})}
+						{({
+							values,
+							errors,
+							touched,
+							handleChange,
+							handleBlur,
+							setFieldValue,
+						}) => (
+							<Form className="w-full">
+								<p className="font-medium text-gray-700 mb-2">
+									Enter Gross Salary <span className="text-red-600">*</span>
+								</p>
+								<TextField
+									size="small"
+									fullWidth
+									type="number"
+									placeholder="Gross Salary"
+									name="grossSalary"
+									value={values.grossSalary}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									error={touched.grossSalary && !!errors.grossSalary}
+									helperText={touched.grossSalary && errors.grossSalary}
+								/>
+								<p className="font-medium text-gray-700 my-2">
+									KPI <span className="text-red-600">*</span>
+								</p>
+								<div className="w-full">
+									<TextField
+										size="small"
+										type="number"
+										fullWidth
+										name="kpi"
+										placeholder="Document kpi"
+										value={values.kpi}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										error={touched.kpi && !!errors.kpi}
+										helperText={touched.kpi && errors.kpi}
+									/>
+								</div>
 
-												<button
-													onClick={() => handleClick(inputItem?.name, formik)}
-													type="button"
-													className="mt-5 flex items-center gap-1 rounded-md bg-theme px-4 py-2 text-sm text-white transition-all duration-300 ease-in-out hover:scale-105"
-												>
-													<Add className="!text-[1.3rem]" /> Add More
-												</button>
-											</div>
-										) : (
-											<div className={"py-1"}>
-												<TextInput
-													fullWidth
+								<p className="font-medium text-gray-700 my-2">
+									TDS <span className="text-red-600">*</span>
+								</p>
+								<div className="w-full">
+									<TextField
+										size="small"
+										type="number"
+										fullWidth
+										name="tds"
+										placeholder="Document tds"
+										value={values.tds}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										error={touched.tds && !!errors.tds}
+										helperText={touched.tds && errors.tds}
+									/>
+								</div>
+
+								<FieldArray name="inputFields">
+									{({ remove, push }) => (
+										<div className="px-4 py-2 grid gap-2 w-full">
+											{values.inputFields.map((field, index) => (
+												<div
+													className="grid grid-cols-4 gap-2 items-center"
 													key={index}
-													name={inputItem?.name}
-													options={inputItem.options}
-													title={inputItem?.label}
-													multiline={inputItem?.multiline}
-													rows={inputItem?.rows}
-													size={inputItem?.size}
-													type={inputItem?.type as any}
-													startIcon={inputItem?.icon}
-													styleContact={inputItem?.styleContact}
-													error={Boolean(
-														formik?.touched[inputItem.name] &&
-															formik?.errors[inputItem.name]
-													)}
-													helperText={
-														formik?.touched[inputItem.name] &&
-														(formik?.errors[inputItem.name] as any)
-													}
-													value={formik?.values[inputItem.name]}
-													onChange={formik?.handleChange}
-													onBlur={formik?.handleBlur}
-												/>
-											</div>
-										)}
-									</div>
-								))}
+												>
+													<Field
+														as={TextField}
+														label="Payroll Name"
+														fullWidth
+														size="small"
+														name={`inputFields[${index}].description`}
+														onBlur={handleBlur}
+														error={
+															touched.inputFields?.[index]?.payrollName &&
+															!!(errors.inputFields?.[index] as InputField)
+																?.payrollName
+														}
+														helperText={
+															touched.inputFields?.[index]?.payrollName &&
+															(errors.inputFields?.[index] as InputField)
+																?.payrollName
+														}
+													/>
 
-								<div>
-									<div className="flex justify-center py-1">
-										<Button
-											type="submit"
-											variant="contained"
-											className="!bg-theme"
-											disabled={loading}
-											startIcon={
-												loading ? (
-													<CircularProgress size={20} color="warning" />
-												) : (
-													<Done />
-												)
-											}
-										>
-											SAVE
-										</Button>
-									</div>
+													<Field
+														as={TextField}
+														name={`inputFields[${index}].amount`}
+														label="Amount"
+														type="number"
+														fullWidth
+														size="small"
+														onBlur={handleBlur}
+														error={
+															touched.inputFields?.[index]?.amount &&
+															!!(errors.inputFields?.[index] as InputField)
+																?.amount
+														}
+														helperText={
+															touched.inputFields?.[index]?.amount &&
+															(errors.inputFields?.[index] as InputField)
+																?.amount
+														}
+													/>
+
+													<Tooltip title="Remove Field">
+														<div className="text-sm bg-red-500 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
+															<IconButton>
+																<Delete
+																	onClick={() => remove(index)}
+																	className="!text-white"
+																/>
+															</IconButton>
+														</div>
+													</Tooltip>
+												</div>
+											))}
+											<button
+												className="w-32 mt-2 bg-white text-theme hover:scale-95 transition duration-300 ease-in-out hover:bg-theme hover:text-white border border-theme rounded-lg px-2 py-1"
+												type="button"
+												onClick={() =>
+													push({ description: "", sac: "", amount: "" })
+												}
+											>
+												Add Field
+											</button>
+										</div>
+									)}
+								</FieldArray>
+
+								<div className="flex justify-center mt-4">
+									<Button
+										type="submit"
+										className="!bg-theme"
+										variant="contained"
+										disabled={loading}
+										startIcon={
+											loading ? <CircularProgress size={20} /> : <Check />
+										}
+									>
+										SUBMIT
+									</Button>
 								</div>
 							</Form>
 						)}
