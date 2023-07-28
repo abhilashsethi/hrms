@@ -50,6 +50,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
     currentChatProfileDetails,
     selectedChatId,
     revalidateChatProfileDetails,
+    revalidateCurrentChat,
   } = useChatData();
   const { user } = useAuth();
 
@@ -105,6 +106,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
 
   const handleGroupAction = async (configId: number) => {
     try {
+      console.log({ configId });
       switch (configId) {
         case 2:
           const res = await change(
@@ -129,7 +131,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
           break;
         case 1:
           const blockUser = await change(
-            `chat/block/${
+            `chat/blocked/${
               currentChatProfileDetails?.chatMembers?.find(
                 (item) => item?.user?.id === user?.id
               )?.id
@@ -149,19 +151,21 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               "error"
             );
           }
+          break;
         case 3:
           const clear = await change(`chat/message-clear/${selectedChatId}`, {
             method: "POST",
             BASE_URL,
           });
 
-          if (clear?.status !== 201) {
+          if (clear?.status !== 200) {
             Swal.fire(
               "Error",
               clear?.results?.msg || "Something went wrong!",
               "error"
             );
           }
+          revalidateCurrentChat(selectedChatId);
           break;
         default:
           break;
