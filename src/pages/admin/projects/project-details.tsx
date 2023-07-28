@@ -5,7 +5,9 @@ import PanelLayout from "layouts/panel";
 const ProjectDetailpage = () => {
   const { user } = useAuth();
   const links = [
-    user?.role?.name === "PROJECT MANAGER" || user?.role?.name === "DEVELOPER"
+    user?.role?.name === "PROJECT MANAGER" ||
+    user?.role?.name === "DEVELOPER" ||
+    user?.role?.name === "TESTER"
       ? { id: 1, page: "My projects", link: "/admin/projects/my-projects" }
       : user?.isClient
       ? { id: 1, page: "My projects", link: "/admin/projects/client-projects" }
