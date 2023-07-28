@@ -31,7 +31,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       icon: <AccountTree fontSize="medium" className="text-theme" />,
       name: "Total Projects Involve",
       count: data?.totalInvolvedProjects || 0,
-      link: "/admin",
+      link: "/admin/projects/my-projects",
     },
     {
       id: 2,
@@ -39,7 +39,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       icon: <FactCheck fontSize="medium" className="text-theme" />,
       name: "Total Attendance This Month",
       count: data?.currentMonthAttendanceCount || 0,
-      link: "/admin",
+      link: "/admin/attendances/my-attendance",
     },
     {
       id: 3,
@@ -47,7 +47,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       icon: <WebAsset fontSize="medium" className="text-theme" />,
       name: "Total Assets Assigned",
       count: data?.totalAssignAssetCount || 0,
-      link: "/admin",
+      link: "/admin/assets/my-assets",
     },
     {
       id: 4,
@@ -55,7 +55,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       icon: <QuestionAnswer fontSize="medium" className="text-theme" />,
       name: "Total Chats",
       count: data?.totalChatCount || 0,
-      link: "/admin",
+      link: "/admin/chat",
     },
   ];
   const Quick_Access = [

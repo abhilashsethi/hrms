@@ -59,6 +59,7 @@ const AddDocumentDialogue = ({
       confirmButtonText: "Yes, Add",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        console.log(values);
         Swal.fire(`Info`, "It will take some time", "info");
         const url = await uploadFile(values?.link, `${Date.now()}.${dtype}`);
         const res = await change(`users/add-doc/${employData?.id}`, {
