@@ -31,7 +31,7 @@ interface Props {
 	mutate?: any;
 	userDetails?: any;
 }
-const EmplyeesGrid = ({ data, mutate, userDetails }: Props) => {
+const ExEmployeesGrid = ({ data, mutate, userDetails }: Props) => {
 	return (
 		<section className="md:my-8 my-4">
 			<Grid
@@ -56,7 +56,7 @@ const EmplyeesGrid = ({ data, mutate, userDetails }: Props) => {
 	);
 };
 
-export default EmplyeesGrid;
+export default ExEmployeesGrid;
 
 const CardContent = ({ item, mutate, userDetails }: any) => {
 	const [userId, setUserId] = useState("");

@@ -15,9 +15,12 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
+import { PDF } from "assets/home";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useAuth, useChange } from "hooks";
 import { ChangeEvent, useRef, useState } from "react";
+import Swal from "sweetalert2";
+import { uploadFile } from "utils";
 import * as Yup from "yup";
 
 interface Props {
@@ -25,23 +28,21 @@ interface Props {
 	handleClose: any;
 	details?: any;
 	mutate?: any;
+	userId?: string;
 }
 
 const validationSchema = Yup.object().shape({
-	clientName: Yup.string().required("Client name is required!"),
-	clientEmail: Yup.string().email().required("Client Email is required!"),
-	clientAddress: Yup.string().required("Client address is required!"),
-	reason: Yup.string().required("Reason is required"),
-	status: Yup.string().required("Status is required"),
+	// reason: Yup.string().required("Reason is required"),
+	// status: Yup.string().required("Status is required"),
 });
-const EmployeeExitForm = ({ open, handleClose }: Props) => {
+const EmployeeExitForm = ({ open, handleClose, userId, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
 	const [isStatus, setIsStatus] = useState("");
 	const [assetReturn, setAssetReturn] = useState(false);
 	const [agreement, setAgreement] = useState(false);
 	const [declaration, setDeclaration] = useState(false);
 	const [doc, setDoc] = useState(false);
-	const imageRef = useRef<HTMLInputElement | null>(null);
+	const docsRef = useRef<HTMLInputElement | null>(null);
 	const handleAssetChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setAssetReturn(event.target.value === "yes");
 	};
@@ -61,16 +62,74 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 	const initialValues = {
 		status: "",
 		reason: "",
-		images: [] as IMAGES_TYPES[],
+		uploadDoc: [] as IMAGES_TYPES[],
 	};
 	type IMAGES_TYPES = {
 		file: File;
 		uniId: string;
 		previewURL: string;
 	};
+
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
 		console.log(values);
+		setLoading(true);
+		try {
+			Swal.fire({
+				title: "Are you sure?",
+				text: "You want to Exit?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, exit!",
+			}).then(async (result) => {
+				if (result.isConfirmed) {
+					const docsUrls = [];
+					for (const docs of values?.uploadDoc) {
+						// console.log(docs?.uniId);
+
+						const url = await uploadFile(
+							docs?.file,
+							`${Date.now()}.${docs?.uniId}`
+						);
+						docsUrls.push(url);
+					}
+					const res = await change(`employee-exit`, {
+						body: {
+							userId: userId,
+							reason: values?.reason,
+							status: values?.status,
+							assetsReturn: assetReturn,
+							nonDisclouserAggrement: agreement,
+							Declaration: declaration,
+							docReturn: doc,
+							exitDocs: docsUrls,
+						},
+					});
+
+					setLoading(false);
+					if (res?.status !== 200) {
+						Swal.fire(
+							"Error",
+							res?.results?.msg || "Unable to Submit",
+							"error"
+						);
+						setLoading(false);
+						return;
+					}
+					Swal.fire(`Success`, `You have successfully Exited!`, `success`);
+					mutate();
+					handleClose();
+					return;
+				}
+			});
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -119,6 +178,7 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
+								{/* {console.log(values)} */}
 								<p className="font-medium text-gray-700">
 									Select Status<span className="text-red-600">*</span>
 								</p>
@@ -197,7 +257,7 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 										aria-labelledby="demo-controlled-radio-buttons-group"
 										name="controlled-radio-buttons-group"
 										value={agreement ? "yes" : "no"}
-										onChange={handleDeclarationChange}
+										onChange={handleAgreementChange}
 										row
 									>
 										<FormControlLabel
@@ -222,7 +282,7 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 										aria-labelledby="demo-controlled-radio-buttons-group"
 										name="controlled-radio-buttons-group"
 										value={declaration ? "yes" : "no"}
-										onChange={handleAgreementChange}
+										onChange={handleDeclarationChange}
 										row
 									>
 										<FormControlLabel
@@ -263,18 +323,18 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 									</RadioGroup>
 								</FormControl>
 								<div className="md:col-span-2 col-span-1 py-3">
-									<p className="text-gray-500 mb-2">Upload Docs</p>
-									{/* ----------------------------multiple Images component------------------ */}
+									<p className="text-gray-500 mb-2">UploaI Docs</p>
+									{/* ----------------------------multiple Docs component------------------ */}
 									<div
-										onClick={() => imageRef?.current?.click()}
+										onClick={() => docsRef?.current?.click()}
 										className="min-h-[8rem] py-6 w-full border-[1px] border-dashed border-theme cursor-pointer flex flex-col items-center justify-center text-sm"
 									>
 										<input
 											className="hidden"
-											ref={imageRef}
+											ref={docsRef}
 											type="file"
 											multiple
-											onChange={(event: ChangeEvent<HTMLInputElement>) => {
+											onChange={(event) => {
 												const files: File[] = Array.from(event.target.files!);
 												const fileObjects = files.map((file: File) => {
 													const uniId = file.type.split("/")[1].split("+")[0]; // Get unique ID of the image
@@ -284,24 +344,24 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 														uniId, // Add unique ID to the file object
 													};
 												});
-												setFieldValue("images", fileObjects);
+												setFieldValue("uploadDoc", fileObjects);
 											}}
 										/>
 										<div className="flex justify-center items-center gap-2 flex-wrap">
-											{values.images.map((image, index) => (
+											{values.uploadDoc.map((image, index) => (
 												<div className="" key={index}>
 													<img
-														className="w-40 object-contain"
-														src={image.previewURL}
+														className="w-20 object-contain"
+														src={PDF.src}
 														alt={`Image ${index + 1}`}
 													/>
 												</div>
 											))}
 										</div>
-										<p>Upload Images</p>
+										<p>Upload Docs</p>
 										<CloudUpload fontSize="large" color="primary" />
 										<ErrorMessage
-											name="images"
+											name="uploadDoc"
 											component="div"
 											className="error"
 										/>
@@ -331,8 +391,8 @@ const EmployeeExitForm = ({ open, handleClose }: Props) => {
 
 export default EmployeeExitForm;
 const exitStatus = [
-	{ id: 1, value: "resigned", name: "Resigned" },
-	{ id: 2, value: "terminated", name: "Terminated" },
-	{ id: 3, value: "absconded", name: "Absconded" },
-	{ id: 4, value: "laidOff", name: "Laid Off" },
+	{ id: 1, value: "Resigned", name: "Resigned" },
+	{ id: 2, value: "Terminated", name: "Terminated" },
+	{ id: 3, value: "Absconded", name: "Absconded" },
+	{ id: 4, value: "LaidOff", name: "Laid Off" },
 ];

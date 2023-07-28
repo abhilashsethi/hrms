@@ -691,6 +691,12 @@ const PageList = [
 		icon: <ICONS.All_Meetings />,
 		name: "Create Meeting",
 	},
+	{
+		id: 74,
+		value: "/admin/employees/ex-employees",
+		icon: <ICONS.All_Meetings />,
+		name: "Ex-Employees",
+	},
 
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
