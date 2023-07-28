@@ -47,14 +47,20 @@ const AllLeaveRequests = () => {
             : leaveData?.map((_: any, i: number) => ({
                 ..._,
                 sl: i + 1,
-                totalCL: 12,
-                totalSL: 12,
-                accepted: _?.leavesData?.totalAccepted,
-                rejected: _?.leavesData?.totalRejected,
-                carryover: _?.leavesData?.carryOver,
-                used: _?.leavesData?.totalApplied,
+
                 casualLeaveCarryOver: _?.leavesData?.casualLeaveCarryOver,
                 sickLeaveCarryOver: _?.leavesData?.sickLeaveCarryOver,
+                accepted: _?.leavesData?.totalAccepted,
+                used: _?.leavesData?.totalApplied,
+                totalCasualLeaveCreditLoss:
+                  _?.leavesData?.totalCasualLeaveCreditLoss,
+                totalDaysLeave: _?.leavesData?.totalDaysLeave,
+                totalPaidLeave: _?.leavesData?.totalPaidLeave,
+                totalPending: _?.leavesData?.totalPending,
+                rejected: _?.leavesData?.totalRejected,
+                totalSickLeaveCreditLoss:
+                  _?.leavesData?.totalSickLeaveCreditLoss,
+                totalUnpaidLeave: _?.leavesData?.totalUnpaidLeave,
               }))
         }
         options={{ ...MuiTblOptions() }}
@@ -108,15 +114,22 @@ const AllLeaveRequests = () => {
             },
           },
           {
-            title: "Total CL",
-            tooltip: "Total CL Credits",
-            field: "totalCL",
+            title: "Total CL Carry Over",
+            tooltip: "Total CL Carry Over",
+            field: "casualLeaveCarryOver",
             editable: "never",
           },
           {
-            title: "Total SL",
-            tooltip: "Total SL Credits",
-            field: "totalSL",
+            title: "Total SL Carry Over",
+            tooltip: "Total SL Carry Over",
+            field: "sickLeaveCarryOver",
+            editable: "never",
+          },
+
+          {
+            title: "Accepted",
+            tooltip: "Accepted",
+            field: "accepted",
             editable: "never",
           },
           {
@@ -126,56 +139,48 @@ const AllLeaveRequests = () => {
             editable: "never",
           },
           {
-            title: "Accepted",
-            tooltip: "Accepted",
-            field: "accepted",
+            title: "Total casual leave credit loss",
+            tooltip: "Total casual leave credit loss",
+            field: "totalCasualLeaveCreditLoss",
+            editable: "never",
+          },
+
+          {
+            title: "Total Days Leave",
+            tooltip: "Total Days Leave",
+            field: "totalDaysLeave",
             editable: "never",
           },
           {
-            title: "Rejected",
-            tooltip: "Rejected",
+            title: "Total Paid Leave",
+            tooltip: "Total Paid Leave",
+            field: "totalPaidLeave",
+            editable: "never",
+          },
+          {
+            title: "Total Pending",
+            tooltip: "Total Pending",
+            field: "totalPending",
+            editable: "never",
+          },
+          {
+            title: "Total Rejected",
+            tooltip: "Total Rejected",
             field: "rejected",
             editable: "never",
           },
           {
-            title: "CL Carry Over",
-            tooltip: "CL Carry Over",
-            field: "casualLeaveCarryOver",
+            title: "Total sick leave credit loss",
+            tooltip: "Total sick leave credit loss",
+            field: "totalSickLeaveCreditLoss",
             editable: "never",
           },
           {
-            title: "SL Carry Over",
-            tooltip: "SL Carry Over",
-            field: "sickLeaveCarryOver",
+            title: "Total unpaid leave",
+            tooltip: "Total unpaid leave",
+            field: "totalUnpaidLeave",
             editable: "never",
           },
-          // {
-          //   title: "Details",
-          //   export: true,
-          //   render: (row) => (
-          //     <>
-          //       {console.log(row)}
-          //       <div className="flex">
-          //         <Tooltip title="Info">
-          //           <Avatar
-          //             onClick={() => handleInfoOpen()}
-          //             variant="rounded"
-          //             className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
-          //             sx={{
-          //               mr: ".1vw",
-          //               padding: "0px !important",
-          //               backgroundColor: "Highlight",
-          //               cursor: "pointer",
-          //               color: "",
-          //             }}
-          //           >
-          //             <Info sx={{ padding: "0px !important" }} />
-          //           </Avatar>
-          //         </Tooltip>
-          //       </div>
-          //     </>
-          //   ),
-          // },
         ]}
       />
       <Modal
