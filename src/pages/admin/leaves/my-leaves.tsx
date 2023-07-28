@@ -1,4 +1,9 @@
-import { Add, KeyboardArrowLeftRounded } from "@mui/icons-material";
+import {
+  Add,
+  Close,
+  FilterListRounded,
+  KeyboardArrowLeftRounded,
+} from "@mui/icons-material";
 import {
   Button,
   Grid,
@@ -62,6 +67,32 @@ const MyLeaves = () => {
           </div>
         </div>
         <div className="md:flex gap-4 justify-between w-full py-2">
+          {" "}
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
+                `}
+          >
+            <IconButton
+              onClick={() => {
+                setLeaveType(null);
+                setLeaveStatus(null);
+              }}
+            >
+              <Tooltip
+                title={
+                  leaveStatus != null || leaveType != null
+                    ? `Remove Filters`
+                    : `Filter`
+                }
+              >
+                {leaveStatus != null || leaveType != null ? (
+                  <Close className={"!text-white"} />
+                ) : (
+                  <FilterListRounded className={"!text-white"} />
+                )}
+              </Tooltip>
+            </IconButton>
+          </div>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <TextField
               fullWidth
