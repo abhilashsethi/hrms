@@ -50,7 +50,7 @@ const ViewEmailTemplate = ({ open, handleClose, item }: Props) => {
             ></div>
           </section>
           <div className="flex justify-center mt-4 font-semibold mb-3 gap-4">
-            <Link href="/admin/templates/edit-template">
+            <Link href={`/admin/templates/edit-template?id=${item?.id}`}>
               <Button
                 variant="contained"
                 startIcon={<Edit />}

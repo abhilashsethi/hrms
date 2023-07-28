@@ -38,12 +38,7 @@ const SavedTemplates = () => {
   const { change } = useChange();
   const [isUse, setIsUse] = useState(false);
   const router = useRouter();
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+
   const links = [
     { id: 1, page: "Saved Templates", link: "/admin/saved-templates" },
   ];
@@ -58,7 +53,6 @@ const SavedTemplates = () => {
     mutate,
     isLoading,
   } = useFetch<MailTemplate[]>(`mail-template`);
-  console.log(template);
   const handleDelete = (id?: string) => {
     try {
       Swal.fire({

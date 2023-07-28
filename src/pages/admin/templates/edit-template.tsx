@@ -5,13 +5,19 @@ import { useRef } from "react";
 import EmailEditor from "react-email-editor";
 import { RemoveRedEye, SendToMobile } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import { MailTemplate } from "types";
+import { useFetch } from "hooks";
 
 const EditTemplate = () => {
   const emailEditorRef = useRef<any>(null);
   const { push, query } = useRouter();
   const router = useRouter();
+  const { data: template } = useFetch<MailTemplate>(
+    `mail-template/get-by-id/?templateId=${router?.query?.id}`
+  );
+  console.log(template);
   const onLoad = () => {
-    emailEditorRef?.current?.editor?.loadDesign(demoData);
+    emailEditorRef?.current?.editor?.loadDesign(template?.json);
   };
 
   const onReady = () => {
