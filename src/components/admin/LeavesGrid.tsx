@@ -134,7 +134,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
             method: "PATCH",
             body: {
               status: "Approved",
-              isPaidLeave: true,
+              isPaidLeave: isValue,
             },
           });
           setLoading(false);
@@ -257,42 +257,44 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
               </Button>
             </div>
             <div>
-              <FormControl>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-controlled-radio-buttons-group"
-                  name="controlled-radio-buttons-group"
-                  value={isValue ? "paid" : "unPaid"}
-                  onChange={handleChange}
-                >
-                  <FormControlLabel
-                    value="paid"
-                    control={
-                      <Radio
-                        sx={{
-                          "& .MuiSvgIcon-root": {
-                            fontSize: 20,
-                          },
-                        }}
-                      />
-                    }
-                    label="Paid"
-                  />
-                  <FormControlLabel
-                    value="unPaid"
-                    control={
-                      <Radio
-                        sx={{
-                          "& .MuiSvgIcon-root": {
-                            fontSize: 20,
-                          },
-                        }}
-                      />
-                    }
-                    label="UnPaid"
-                  />
-                </RadioGroup>
-              </FormControl>
+              {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={isValue ? "paid" : "unPaid"}
+                    onChange={handleChange}
+                  >
+                    <FormControlLabel
+                      value="paid"
+                      control={
+                        <Radio
+                          sx={{
+                            "& .MuiSvgIcon-root": {
+                              fontSize: 20,
+                            },
+                          }}
+                        />
+                      }
+                      label="Paid"
+                    />
+                    <FormControlLabel
+                      value="unPaid"
+                      control={
+                        <Radio
+                          sx={{
+                            "& .MuiSvgIcon-root": {
+                              fontSize: 20,
+                            },
+                          }}
+                        />
+                      }
+                      label="UnPaid"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              ) : null}
             </div>
           </>
         );

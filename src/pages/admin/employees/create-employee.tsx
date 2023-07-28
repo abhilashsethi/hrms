@@ -7,11 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
-import {
-  Public_Create_User_BranchId,
-  Public_Create_User_DepartmentId,
-  Public_Create_User_RoleId,
-} from "config/env.config";
+
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -76,19 +72,7 @@ const CreateEmployee = () => {
       }
       return acc;
     }, {});
-    const newData = {
-      firstName: values?.firstName,
-      lastName: values?.lastName,
-      phone: values?.phone,
-      email: values?.email,
-      roleId: values?.roleId ? values?.roleId : Public_Create_User_RoleId,
-      departmentId: values?.departmentId
-        ? values?.departmentId
-        : Public_Create_User_DepartmentId,
-      employeeOfBranchId: values?.employeeOfBranchId
-        ? values?.employeeOfBranchId
-        : Public_Create_User_BranchId,
-    };
+
     try {
       setLoading(true);
       const res: any = await change(`users`, {

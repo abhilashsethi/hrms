@@ -76,6 +76,7 @@ const AllEmployees = () => {
       <section className="md:px-8 px-4">
         <UploadEmployData
           open={isUpload}
+          mutate={mutate}
           handleClose={() => setIsUpload(false)}
         />
         <div className="flex flex-col md:flex-row w-full md:justify-between justify-start items-start md:items-center md:py-4 py-2">

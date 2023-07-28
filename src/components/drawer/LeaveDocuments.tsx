@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import { Close, Info } from "@mui/icons-material";
 import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
 import { CHATDOC, PDF } from "assets/home";
+import { PhotoViewer } from "components/core";
 import { DocPreview } from "components/dialogues";
 import moment from "moment";
 import { useState } from "react";
@@ -56,19 +57,6 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
             </IconButton>
           </div>
           <div>
-            {/* <h1 className="font-semibold">Team Manager</h1>
-            <div className="h-20 w-full mt-2 flex gap-4 items-center">
-              <PhotoViewer name="Srinu Reddy" />
-              <div>
-                <h2 className="font-semibold tracking-wide">Srinu Reddy</h2>
-                <h2 className="text-gray-600">Developer</h2>
-                
-                
-
-
-
-              </div>
-            </div> */}
             <h1 className="font-semibold mt-4">Leave Type</h1>
             <h2 className="text-gray-600">{data?.type}</h2>
             <h1 className="font-semibold mt-4">Paid Leave</h1>
@@ -143,16 +131,44 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
             </div>
           </div>
           <div className="pb-8">
-            <h1 className="mt-4 font-semibold">Approved By</h1>
-            {data?.approvedBy?.name ? (
-              <div className="w-full mt-4 border-[1px]  rounded-md p-4 text-sm">
-                <h1 className="font-semibold"> {data?.approvedBy?.name}</h1>
-                <h1> {data?.approvedBy?.role}</h1>
-                <h1>
-                  Approved on :{" "}
-                  {moment(data?.approvedBy?.createdAt).format("lll")}
-                </h1>
-              </div>
+            <h1 className="mt-4 font-semibold">Request Status</h1>
+            {data?.requests?.length ? (
+              <>
+                {data?.requests?.map((item: any) => (
+                  <div className="w-full mt-4 border-[1px]  rounded-md p-4 text-sm">
+                    <div className="flex gap-4">
+                      <div>
+                        <PhotoViewer
+                          name={item?.approvedBy?.name}
+                          photo={item?.approvedBy?.photo}
+                          size="5rem"
+                        />
+                      </div>
+                      <div>
+                        <h1 className="font-semibold">
+                          {" "}
+                          {item?.approvedBy?.name}
+                        </h1>
+                        <h1> {item?.approvedBy?.username}</h1>
+                        <h1 className="py-2">
+                          Status :{" "}
+                          <span
+                            className={`px-2 py-1 rounded-lg text-white ${
+                              item?.status === `Pending`
+                                ? `bg-yellow-500`
+                                : item?.status === `Approved`
+                                ? `bg-green-500`
+                                : `bg-red-500`
+                            }`}
+                          >
+                            {item?.status}
+                          </span>
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </>
             ) : (
               <p className="mt-4">No members approved yet!</p>
             )}
@@ -164,5 +180,3 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
 };
 
 export default LeaveDocuments;
-
-const docs = [{ id: 1, title: "Doc 53426", img: PDF.src }];

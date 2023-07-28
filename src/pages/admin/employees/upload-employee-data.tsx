@@ -5,6 +5,7 @@ import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
+import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
@@ -23,14 +24,14 @@ const UploadEmployeeData = () => {
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
-    console.log(isFile);
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append("files", values?.file);
-      console.log(formData);
+      formData.append("files", values?.files);
+
       const res: any = await change(`users/upload`, {
-        body: { files: isFile },
+        isFormData: true,
+        body: formData,
       });
       setLoading(false);
       console.log(res);
@@ -39,7 +40,7 @@ const UploadEmployeeData = () => {
         setLoading(false);
         return;
       }
-      //   router?.push("/admin/employees/all-employees");
+      router?.push("/admin/employees/all-employees");
       Swal.fire(
         `Success!`,
         `${res?.results?.msg || `Employee Created Successfully`}`,
