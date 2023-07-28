@@ -20,3 +20,6 @@ export const Public_AWS_S3_URL = process.env.NEXT_PUBLIC_AWS_S3_URL || "";
 export const Public_AWS_DISTRIBUTION_ID =
 	process.env.NEXT_PUBLIC_AWS_DISTRIBUTION_ID || "";
 export const Public_LOGIN_TITLE = process.env.NEXT_PUBLIC_LOGIN_TITLE || "";
+export const Public_Create_User_RoleId = process.env.CREATE_EMPLOYEE_ROLE_ID || "";
+export const Public_Create_User_DepartmentId = process.env.CREATE_EMPLOYEE_DEPARTMENT_ID || "";
+export const Public_Create_User_BranchId = process.env.CREATE_EMPLOYEE_BRANCH_ID || "";

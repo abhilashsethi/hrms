@@ -1,20 +1,16 @@
 import { useTheme } from "@material-ui/core";
-import { Check, Upload } from "@mui/icons-material";
+import { Upload } from "@mui/icons-material";
 import { Button, CircularProgress, TextField } from "@mui/material";
-import {
-  AdminBreadcrumbs,
-  EmployeeDataUpload,
-  FileUpload,
-} from "components/core";
-import { ErrorMessage, Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { AdminBreadcrumbs } from "components/core";
+import { Form, Formik } from "formik";
+import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 const initialValues = {
-  doc: "",
+  files: null,
 };
 
 const validationSchema = Yup.object().shape({
@@ -23,14 +19,18 @@ const validationSchema = Yup.object().shape({
 
 const UploadEmployeeData = () => {
   const theme = useTheme();
+  const [isFile, setIsFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
   const handleSubmit = async (values: any) => {
-    console.log(values);
+    console.log(isFile);
     try {
       setLoading(true);
+      const formData = new FormData();
+      formData.append("files", values?.file);
+      console.log(formData);
       const res: any = await change(`users/upload`, {
-        body: { files: values?.doc },
+        body: { files: isFile },
       });
       setLoading(false);
       console.log(res);
@@ -79,17 +79,18 @@ const UploadEmployeeData = () => {
                 <Form className="w-full">
                   <TextField
                     type="file"
-                    name="doc"
+                    name="files"
                     size="small"
                     fullWidth
                     placeholder="Choose Document"
-                    //   value={values?.doc}
-                    onChange={(e: any) =>
-                      setFieldValue("doc", e?.target?.files[0])
-                    }
+                    //   value={values?.files}
+                    onChange={(e: any) => {
+                      setFieldValue("files", e?.target?.files[0]);
+                      setIsFile(e?.target?.files[0]);
+                    }}
                     onBlur={handleBlur}
-                    error={touched.doc && !!errors.doc}
-                    helperText={touched.doc && errors.doc}
+                    error={touched.files && !!errors.files}
+                    helperText={touched.files && errors.files}
                   />
                   {/* <EmployeeDataUpload
                     values={values}

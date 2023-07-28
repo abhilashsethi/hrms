@@ -38,12 +38,7 @@ const SavedTemplates = () => {
 	const { change } = useChange();
 	const [isUse, setIsUse] = useState(false);
 	const router = useRouter();
-	const handleClick = (event: MouseEvent<HTMLElement>) => {
-		setAnchorEl(event.currentTarget);
-	};
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
+
 	const links = [
 		{ id: 1, page: "Saved Templates", link: "/admin/saved-templates" },
 	];
@@ -58,7 +53,6 @@ const SavedTemplates = () => {
 		mutate,
 		isLoading,
 	} = useFetch<MailTemplate[]>(`mail-template`);
-	console.log(template);
 	const handleDelete = (id?: string) => {
 		try {
 			Swal.fire({
@@ -116,74 +110,6 @@ const SavedTemplates = () => {
 						{template?.map((item) => (
 							<Grid key={item?.id} item lg={2.4}>
 								<div className="relative h-52 hover:scale-105 transition-all ease-in-out duration-200 bg-gradient-to-br border-blue-400 from-blue-300 to-blue-100 rounded-md w-full border-[1px] p-4 flex flex-col justify-between items-center">
-									<div className="absolute right-[10px] top-[10px]">
-										<Tooltip title="More">
-											<IconButton onClick={handleClick}>
-												<MoreVertRounded />
-											</IconButton>
-										</Tooltip>
-										<Menu
-											anchorEl={anchorEl}
-											id="account-menu"
-											open={open}
-											onClose={handleClose}
-											onClick={handleClose}
-											PaperProps={{
-												elevation: 0,
-												sx: {
-													overflow: "visible",
-													filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
-													mt: 1.5,
-													"& .MuiAvatar-root": {
-														width: 32,
-														height: 32,
-														ml: -0.5,
-														mr: 1,
-													},
-													"&:before": {
-														content: '""',
-														display: "block",
-														position: "absolute",
-														top: 0,
-														right: 14,
-														width: 10,
-														height: 10,
-														bgcolor: "background.paper",
-														transform: "translateY(-50%) rotate(45deg)",
-														zIndex: 0,
-													},
-												},
-											}}
-											transformOrigin={{ horizontal: "right", vertical: "top" }}
-											anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-										>
-											<MenuItem onClick={handleClose}>
-												<ListItemIcon>
-													<InfoRounded fontSize="small" />
-												</ListItemIcon>
-												Edit Title
-											</MenuItem>
-
-											<>
-												<Link
-													href={`/admin/templates/update-template?id=${item?.id}`}
-												>
-													<MenuItem
-														onClick={() => {
-															// setUserId(item?.id);
-															// setSalaryInfoModal((prev) => !prev);
-															handleClose;
-														}}
-													>
-														<ListItemIcon>
-															<CurrencyRupee fontSize="small" />
-														</ListItemIcon>
-														Edit Template
-													</MenuItem>
-												</Link>
-											</>
-										</Menu>
-									</div>
 									<div className="h-4">
 										<h1 className="text-center font-semibold text-gray-700 text-sm">
 											{item?.title}
@@ -204,6 +130,7 @@ const SavedTemplates = () => {
 										>
 											View
 										</Button>
+
 										<Button
 											size="small"
 											variant="contained"
