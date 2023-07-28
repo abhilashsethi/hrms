@@ -9,7 +9,11 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { EmployeesColumn, EmplyeesGrid } from "components/admin";
+import {
+	EmployeesColumn,
+	EmplyeesGrid,
+	ExEmployeesGrid,
+} from "components/admin";
 import {
 	AdminBreadcrumbs,
 	GridAndList,
@@ -24,7 +28,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { User } from "types";
 
-const AllEmployees = () => {
+const ExEmployees = () => {
+	const exitStatus = [
+		{ id: 1, value: "Resigned", name: "Resigned" },
+		{ id: 2, value: "Terminated", name: "Terminated" },
+		{ id: 3, value: "Absconded", name: "Absconded" },
+		{ id: 4, value: "LaidOff", name: "Laid Off" },
+	];
+
 	const { user } = useAuth();
 	// console.log(user);
 	const theme = useTheme();
@@ -34,25 +45,21 @@ const AllEmployees = () => {
 	const [isRole, setIsRole] = useState<string | null>(null);
 	const [isDepartment, setIsDepartment] = useState<string | null>(null);
 	const [isUpload, setIsUpload] = useState(false);
-	const [empId, setEmpId] = useState<string | null>(null);
+	const [status, setStatus] = useState<string | null>(null);
 	const { data: roleData } = useFetch<any>(`roles`);
 	const { data: departmentData } = useFetch<any>(`departments`);
 	const {
-		data: employees,
+		data: employeeExitData,
 		mutate,
 		isLoading,
 		pagination,
-	} = useFetch<User[]>(
-		`users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
-			user?.role?.name === "CEO" ? `` : `&branchId=${user?.employeeOfBranchId}`
-		}${empId ? `&employeeID=${empId}` : ""}${isRole ? `&role=${isRole}` : ""}${
-			isDepartment ? `&departmentName=${isDepartment}` : ""
-		}${
-			user?.role?.name === "CEO" || user?.role?.name === "HR"
-				? ""
-				: `&userId=${user?.id}`
-		}`
+	} = useFetch<any>(
+		`employee-exit?page=${pageNumber}&limit=8${
+			userName ? `&name=${userName}` : ""
+		}${status ? `&status=${status}` : ""}`
 	);
+	// console.log(employeeExitData);
+
 	const links =
 		user?.role?.name === "CEO" || user?.role?.name === "HR"
 			? [
@@ -74,39 +81,9 @@ const AllEmployees = () => {
 	return (
 		<PanelLayout title="All Users - Admin Panel">
 			<section className="md:px-8 px-4">
-				<UploadEmployData
-					open={isUpload}
-					mutate={mutate}
-					handleClose={() => setIsUpload(false)}
-				/>
 				<div className="flex flex-col md:flex-row w-full md:justify-between justify-start items-start md:items-center md:py-4 py-2">
 					<div className="md:w-auto w-full">
 						<AdminBreadcrumbs links={links as any} />
-					</div>
-					<div className="flex gap-4 md:items-center md:flex-row flex-col-reverse md:w-auto w-full items-end">
-						<GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
-						{user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
-							<div className="flex md:gap-4 gap-2 mt-2 flex-row items-center">
-								<Link href="/admin/employees/create-employee">
-									<Button
-										fullWidth
-										className="!bg-theme text-xs md:!text-sm w-full"
-										variant="contained"
-										startIcon={<Add />}
-									>
-										ADD EMPLOYEE
-									</Button>
-								</Link>
-								<Button
-									onClick={() => setIsUpload(true)}
-									className="!bg-slate-600 !text-xs md:!text-sm"
-									variant="contained"
-									startIcon={<Upload />}
-								>
-									UPLOAD EMPLOYEES DATA
-								</Button>
-							</div>
-						) : null}
 					</div>
 				</div>
 
@@ -118,7 +95,7 @@ const AllEmployees = () => {
 						>
 							<IconButton
 								onClick={() => {
-									setEmpId(null);
+									setStatus(null);
 									setUsername(null);
 									setIsRole(null);
 									setIsDepartment(null);
@@ -127,7 +104,7 @@ const AllEmployees = () => {
 								<Tooltip
 									title={
 										isDepartment != null ||
-										empId != null ||
+										status != null ||
 										isRole != null ||
 										userName != null
 											? `Remove Filters`
@@ -135,7 +112,7 @@ const AllEmployees = () => {
 									}
 								>
 									{isDepartment != null ||
-									empId != null ||
+									status != null ||
 									isRole != null ||
 									userName != null ? (
 										<Close className={"!text-white"} />
@@ -149,10 +126,10 @@ const AllEmployees = () => {
 							<TextField
 								fullWidth
 								size="small"
-								value={empId ? empId : ""}
+								value={status ? status : ""}
 								placeholder="Employee Id"
 								onChange={(e) => {
-									setPageNumber(1), setEmpId(e.target.value);
+									setPageNumber(1), setStatus(e.target.value);
 								}}
 							/>
 							<TextField
@@ -174,7 +151,7 @@ const AllEmployees = () => {
 									setPageNumber(1), setIsRole(e?.target?.value);
 								}}
 							>
-								{roleData?.map((option: any) => (
+								{exitStatus?.map((option: any) => (
 									<MenuItem key={option.id} value={option.name}>
 										{option.name}
 									</MenuItem>
@@ -199,22 +176,17 @@ const AllEmployees = () => {
 						</div>
 					</div>
 				) : null}
-				{isGrid ? (
-					<>
-						{isLoading && <SkeletonLoader />}
-						<EmplyeesGrid userDetails={user} data={employees} mutate={mutate} />
-					</>
-				) : (
-					<>
-						{isLoading && <Loader />}
-						<EmployeesColumn
-							userDetails={user}
-							data={employees}
-							mutate={mutate}
-						/>
-					</>
-				)}
-				{employees?.length === 0 ? <LoaderAnime /> : null}
+
+				<>
+					{isLoading && <SkeletonLoader />}
+					<ExEmployeesGrid
+						userDetails={user}
+						data={employeeExitData}
+						mutate={mutate}
+					/>
+				</>
+
+				{employeeExitData?.length === 0 ? <LoaderAnime /> : null}
 				<section className="mb-6">
 					{Math.ceil(
 						Number(pagination?.total || 1) / Number(pagination?.limit || 1)
@@ -241,4 +213,4 @@ const AllEmployees = () => {
 	);
 };
 
-export default AllEmployees;
+export default ExEmployees;

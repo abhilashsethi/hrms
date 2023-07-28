@@ -19,3 +19,4 @@ export { default as EmployeeAllAttendance } from "./EmployeeAllAttendance";
 export { default as AllLeaveRequests } from "./AllLeaveRequests";
 export { default as ProfileDetails } from "./ProfileDetails";
 export { default as LeavesColumnManager } from "./LeavesColumnManager";
+export { default as ExEmployeesGrid } from "./ExEmployeesGrid";

@@ -79,6 +79,12 @@ export default () => {
 					icon: <ICONS.Upload_Employee_Data />,
 					route: "/admin/employees/upload-employee-data",
 				},
+				{
+					key: "3-5",
+					title: "Ex Employees",
+					icon: <ICONS.Upload_Employee_Data />,
+					route: "/admin/employees/ex-employees",
+				},
 			],
 		},
 

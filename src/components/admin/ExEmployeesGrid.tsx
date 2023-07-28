@@ -31,7 +31,8 @@ interface Props {
 	mutate?: any;
 	userDetails?: any;
 }
-const EmplyeesGrid = ({ data, mutate, userDetails }: Props) => {
+const ExEmployeesGrid = ({ data, mutate, userDetails }: Props) => {
+	console.log(data);
 	return (
 		<section className="md:my-8 my-4">
 			<Grid
@@ -56,7 +57,7 @@ const EmplyeesGrid = ({ data, mutate, userDetails }: Props) => {
 	);
 };
 
-export default EmplyeesGrid;
+export default ExEmployeesGrid;
 
 const CardContent = ({ item, mutate, userDetails }: any) => {
 	const [userId, setUserId] = useState("");
@@ -145,7 +146,7 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 				open={employeeExitModal}
 				handleClose={() => setEmployeeExitModal(false)}
 			/>
-			<div className="absolute right-[10px] top-[10px]">
+			{/* <div className="absolute right-[10px] top-[10px]">
 				<Tooltip title="More">
 					<IconButton onClick={handleClick}>
 						<MoreVertRounded />
@@ -233,32 +234,21 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 						</>
 					) : null}
 				</Menu>
-			</div>
-			<PhotoViewer name={item?.name} photo={item?.photo} />
+			</div> */}
+			<PhotoViewer name={item?.user?.name} photo={item?.user?.photo} />
 			<span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
-				{item?.name}
+				{item?.user?.name}
 			</span>
 			<span className="font-medium tracking-wide text-gray-400 text-sm">
 				{item?.role?.name}
 			</span>
 			<div className="text-base font-semibold tracking-wide text-gray-600 pl-4">
-				<RenderIconRow value={item?.username} isEmail />
+				<RenderIconRow value={item?.user?.email} isEmail />
 			</div>
 			<div className="flex gap-2 items-center font-semibold text-sm pl-4">
 				EMP ID :
-				<CopyClipboard value={item?.employeeID} />
+				<CopyClipboard value={item?.user?.employeeID} />
 			</div>
-			{userDetails?.role?.name == "CEO" || userDetails?.role?.name == "HR" ? (
-				<div className="w-full px-8 flex gap-2 mt-2 justify-center">
-					<div className=" py-1.5 rounded-lg border-2 flex items-center gap-2 px-4">
-						<p className="font-semibold tracking-wide text-sm">STATUS</p>
-						<IOSSwitch
-							checked={item?.isBlocked}
-							onChange={(e) => handleBlock(e, item?.id)}
-						/>
-					</div>
-				</div>
-			) : null}
 		</div>
 	);
 };
