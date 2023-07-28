@@ -1,13 +1,9 @@
 import { useTheme } from "@material-ui/core";
-import { Check, Upload } from "@mui/icons-material";
+import { Upload } from "@mui/icons-material";
 import { Button, CircularProgress, TextField } from "@mui/material";
-import {
-  AdminBreadcrumbs,
-  EmployeeDataUpload,
-  FileUpload,
-} from "components/core";
-import { ErrorMessage, Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { AdminBreadcrumbs } from "components/core";
+import { Form, Formik } from "formik";
+import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
