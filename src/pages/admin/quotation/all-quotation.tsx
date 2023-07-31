@@ -65,6 +65,7 @@ const AllQuotation = () => {
                   setClientName(null);
                   setQuotationTitle(null);
                   setQuotationNumber(null);
+                  setIsOrderBy(null);
                   setQuotationStatus(null);
                 }}
               >
@@ -73,6 +74,7 @@ const AllQuotation = () => {
                     clientName != null ||
                     quotationNumber != null ||
                     quotationStatus != null ||
+                    isOrderBy != null ||
                     quotationTitle != null
                       ? `Remove Filters`
                       : `Filter`
@@ -81,6 +83,7 @@ const AllQuotation = () => {
                   {clientName != null ||
                   quotationNumber != null ||
                   quotationStatus != null ||
+                  isOrderBy != null ||
                   quotationTitle != null ? (
                     <Close className={"!text-white"} />
                   ) : (

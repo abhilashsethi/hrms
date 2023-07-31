@@ -35,6 +35,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
   const [isMedia, setIsMedia] = useState(false);
   const { user } = useAuth();
   const { change } = useChange();
+  const { revalidateCurrentChat, selectedChatId } = useChatData();
 
   const handleGroupAction = async (configId: number) => {
     try {
@@ -62,7 +63,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
           break;
         case 1:
           const blockUser = await change(
-            `chat/block/${
+            `chat/blocked/${
               profileData?.chatMembers?.find(
                 (item) => item?.user?.id === user?.id
               )?.id
@@ -82,6 +83,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               "error"
             );
           }
+          break;
 
         case 4 || 3:
           const clearChat = await change(
@@ -96,13 +98,14 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
             }
           );
 
-          if (clearChat?.status !== 201) {
+          if (clearChat?.status !== 200) {
             Swal.fire(
               "Error",
               clearChat?.results?.msg || "Something went wrong!",
               "error"
             );
           }
+          revalidateCurrentChat(selectedChatId);
           break;
         default:
           break;
