@@ -1,4 +1,6 @@
 import {
+	Autocomplete,
+	AutocompleteChangeDetails,
 	Button,
 	CircularProgress,
 	IconButton,
@@ -6,7 +8,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { Field, FieldArray, Form, Formik, FormikProps } from "formik";
-import { useMemo, useState } from "react";
+import { SyntheticEvent, useMemo, useState } from "react";
 import Swal from "sweetalert2";
 import { Add, BorderColor, Check, Delete, Done } from "@mui/icons-material";
 import * as Yup from "yup";
@@ -17,6 +19,7 @@ import PanelLayout from "layouts/panel";
 import { AdminBreadcrumbs, LoaderAnime } from "components/core";
 import { AddMoreField } from "components/dialogues";
 import PayrollInputField from "./PayrollInputField";
+import { User } from "types";
 
 interface Props {
 	open: boolean;
@@ -38,12 +41,14 @@ const AddPrescription = ({ open, handleClose, userId, mutate }: Props) => {
 	const { data: usersData, isLoading } = useFetch<any>(`users`);
 
 	const initialValues = {
+		user: "",
 		grossSalary: "",
 		kpi: 0,
 		tds: 0,
 		salaryInfoNewFields: null,
 		inputFields: [{ title: "", value: 0 }],
 	};
+	const { data: employees } = useFetch<User[]>(`users`);
 
 	const handleSubmit = async (values: any) => {
 		setLoading(true);
@@ -113,6 +118,70 @@ const AddPrescription = ({ open, handleClose, userId, mutate }: Props) => {
 								}) => (
 									<Form className="w-full">
 										<p className="font-medium text-gray-700 mb-2">
+											Select Employee <span className="text-red-600">*</span>
+										</p>
+										{/* <Autocomplete
+											options={employees || []}
+											fullWidth
+											multiple
+											size="small"
+											getOptionLabel={(option) =>
+												option.name ? option?.name : ""
+											}
+											onChange={(
+												e: SyntheticEvent<Element, Event>,
+												r: User | null
+											) => setFieldValue("user", r?.id)}
+											renderInput={(params) => (
+												<TextField
+													{...params}
+													name="user"
+													placeholder="Select User"
+													onBlur={handleBlur}
+													error={touched.user && !!errors.user}
+													helperText={
+														Boolean(touched.user) && (errors.user as string)
+													}
+												/>
+											)}
+										/> */}
+										<Autocomplete
+											options={employees || []}
+											fullWidth
+											multiple // This enables multiple selection
+											size="small"
+											getOptionLabel={(option) =>
+												option.name ? option.name : ""
+											}
+											onChange={(
+												event: React.SyntheticEvent<Element, Event>,
+												value: User[] | null,
+												reason: AutocompleteChangeReason,
+												details?: AutocompleteChangeDetails<User> | undefined
+											) => {
+												// Handle the selected values here
+												if (value) {
+													const selectedUserIds = value.map((user) => user.id);
+													setFieldValue("user", selectedUserIds);
+												} else {
+													setFieldValue("user", []);
+												}
+											}}
+											renderInput={(params) => (
+												<TextField
+													{...params}
+													name="user"
+													placeholder="Select User"
+													onBlur={handleBlur}
+													error={touched.user && !!errors.user}
+													helperText={
+														Boolean(touched.user) && (errors.user as string)
+													}
+												/>
+											)}
+										/>
+
+										<p className="font-medium text-gray-700 mb-2">
 											Enter Gross Salary <span className="text-red-600">*</span>
 										</p>
 										<TextField
@@ -163,7 +232,9 @@ const AddPrescription = ({ open, handleClose, userId, mutate }: Props) => {
 											/>
 										</div>
 
-										<p className="font-medium text-gray-700 my-2">More</p>
+										<p className="font-medium text-gray-700 my-2">
+											More Fields
+										</p>
 										<FieldArray name="inputFields">
 											{({ remove, push }) => (
 												<div className="grid gap-2 w-full">

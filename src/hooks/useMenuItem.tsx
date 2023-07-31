@@ -142,12 +142,12 @@ export default () => {
 					icon: <ICONS.View_Configure />,
 					route: "/admin/payroll/view-config",
 				},
-				{
-					key: "14-3",
-					title: "Add Salary Info",
-					icon: <ICONS.Add_Salary_Info />,
-					route: "/admin/payroll/add-salary-info",
-				},
+				// {
+				// 	key: "14-3",
+				// 	title: "Add Salary Info",
+				// 	icon: <ICONS.Add_Salary_Info />,
+				// 	route: "/admin/payroll/add-salary-info",
+				// },
 			],
 		},
 		{
