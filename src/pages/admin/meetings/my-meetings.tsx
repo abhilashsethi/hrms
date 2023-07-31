@@ -1,5 +1,5 @@
-import { GridViewRounded, Send, TableRowsRounded } from "@mui/icons-material";
-import { Button, Card, IconButton, Modal } from "@mui/material";
+import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
+import { Button, IconButton } from "@mui/material";
 import { MyMeetingColumn, MyMeetingGrid } from "components/admin/meetings";
 import {
   AdminBreadcrumbs,
@@ -7,12 +7,10 @@ import {
   LoaderAnime,
   SkeletonLoader,
 } from "components/core";
-import { UploadEmployData } from "components/dialogues";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { DateRangePicker } from "materialui-daterange-picker";
-import moment from "moment";
-import { useRef, useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { MEETING_DATA } from "types";
 
@@ -32,31 +30,10 @@ const style = {
 
 const MyMeetings = () => {
   const { user } = useAuth();
-  const [currentRange, setcurrentRange] = useState<{
-    startDate?: string | null;
-    endDate?: string | null;
-  }>({
-    startDate: null,
-    endDate: null,
-  });
-  const dateRef = useRef<any>();
   const [pageNumber, setPageNumber] = useState<number | null>(1);
-  const [dateRange, setDateRange] = useState({
-    startDate: moment().toDate(),
-    endDate: moment().toDate(),
-  });
   const [open, setOpen] = useState(true);
-
-  const [openInfoModal, setOpenInfoModal] = useState(false);
-  const handleInfoOpen = () => {
-    setOpenInfoModal(true);
-  };
-  const handleInfoCloseModal = () => setOpenInfoModal(false);
-
   const toggle = () => setOpen(!open);
   const [isGrid, setIsGrid] = useState(true);
-  const [isUpload, setIsUpload] = useState(false);
-
   const {
     data: meetingData,
     mutate,
@@ -70,54 +47,9 @@ const MyMeetings = () => {
     <>
       <PanelLayout title="Meetings - Admin Panel">
         <section className="px-8">
-          <Modal
-            open={openInfoModal}
-            onClose={handleInfoCloseModal}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Card
-              sx={style}
-              className="dashboard-card-shadow w-[60%] border-t-4 border-b-4 border-t-theme border-b-theme !p-6"
-            >
-              <p className="text-center text-lg font-semibold pb-2">
-                Select Date Range
-              </p>
-              <DateRangePicker
-                wrapperClassName="date-range-picker-wrapper"
-                closeOnClickOutside={true}
-                open={open}
-                toggle={toggle}
-                onChange={(range) =>
-                  range.endDate &&
-                  range.startDate &&
-                  setDateRange({
-                    endDate: range.endDate,
-                    startDate: range.startDate,
-                  })
-                }
-              />
-              <div className="flex justify-end mt-3 ">
-                <Button
-                  endIcon={<Send />}
-                  variant="contained"
-                  className="!bg-emerald-500 hover:scale-95 transition duration-200"
-                  onClick={() => {
-                    setcurrentRange({
-                      startDate: new Date(dateRange.startDate).toISOString(),
-                      endDate: new Date(dateRange.endDate).toISOString(),
-                    });
-                    handleInfoCloseModal();
-                  }}
-                >
-                  Submit
-                </Button>
-              </div>
-            </Card>
-          </Modal>
-
           <div className="flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
+
             <div className="flex gap-4 items-center">
               <div className="flex gap-1">
                 <IconButton onClick={() => setIsGrid(true)} size="small">
@@ -141,6 +73,15 @@ const MyMeetings = () => {
                   </div>
                 </IconButton>
               </div>
+              <Link href={"/admin/meetings/create-meeting"}>
+                <Button
+                  variant="contained"
+                  className="!bg-theme"
+                  startIcon={<Add />}
+                >
+                  CREATE MEETINGS
+                </Button>
+              </Link>
             </div>
           </div>
 

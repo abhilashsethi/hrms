@@ -550,8 +550,8 @@ const links = [
   // { id: 1, page: "Payroll", link: "/admin/payroll" },
   {
     id: 2,
-    page: "Create Quotation",
-    link: "/admin/quotation/create-quotation",
+    page: "Create Meeting",
+    link: "/admin/meetings/create-meeting",
   },
 ];
 const Status_Type = [

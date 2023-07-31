@@ -15,7 +15,7 @@ import {
   TenderSubmission,
   TenderTrack,
 } from "components/tender";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useState } from "react";
@@ -23,7 +23,7 @@ import { Tender } from "types";
 
 const TenderDetails = () => {
   const [value, setValue] = useState("1");
-
+  const { user } = useAuth();
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -32,42 +32,78 @@ const TenderDetails = () => {
     data: tenderData,
     mutate,
     isLoading,
-  } = useFetch<Tender>(
-    `tenders/${router?.query?.id}`
-  );
+  } = useFetch<Tender>(`tenders/${router?.query?.id}`);
   const tenderSections = [
     {
       id: "1",
       title: "Details",
       icon: <Article />,
-      component: <TenderDetail mutate={mutate} isLoading={isLoading} tenderData={tenderData} />,
+      component: (
+        <TenderDetail
+          mutate={mutate}
+          isLoading={isLoading}
+          tenderData={tenderData}
+        />
+      ),
     },
     {
       id: "2",
       title: "Documentation",
       icon: <FileCopy />,
-      component: <TenderDocumentation mutate={mutate} isLoading={isLoading} tenderData={tenderData} />,
+      component: (
+        <TenderDocumentation
+          mutate={mutate}
+          isLoading={isLoading}
+          tenderData={tenderData}
+        />
+      ),
     },
     {
       id: "3",
       title: "Review",
       icon: <FindInPage />,
-      component: <TenderReview mutate={mutate} isLoading={isLoading} tenderData={tenderData} />,
+      component: (
+        <TenderReview
+          mutate={mutate}
+          isLoading={isLoading}
+          tenderData={tenderData}
+        />
+      ),
     },
     {
       id: "4",
       title: "Submission",
       icon: <Task />,
-      component: <TenderSubmission mutate={mutate} isLoading={isLoading} tenderData={tenderData} />,
+      component: (
+        <TenderSubmission
+          mutate={mutate}
+          isLoading={isLoading}
+          tenderData={tenderData}
+        />
+      ),
     },
     {
       id: "5",
       title: "Track",
       icon: <Timeline />,
-      component: <TenderTrack mutate={mutate} isLoading={isLoading} tenderData={tenderData} />,
+      component: (
+        <TenderTrack
+          mutate={mutate}
+          isLoading={isLoading}
+          tenderData={tenderData}
+        />
+      ),
     },
   ];
-
+  const links = [
+    user?.role?.name === "CEO" || user?.role?.name === "BID MANAGER"
+      ? { id: 2, page: "All Tenders", link: "/admin/tenders" }
+      : {
+          id: 2,
+          page: "My Tenders",
+          link: "/admin/tenders/my-tenders",
+        },
+  ];
   return (
     <PanelLayout title="Tender Details - Admin Panel">
       <section className="px-8 py-4">
@@ -104,12 +140,3 @@ const TenderDetails = () => {
 };
 
 export default TenderDetails;
-
-const links = [
-  { id: 1, page: "Tenders", link: "/admin/tenders" },
-  {
-    id: 2,
-    page: "All Tenders",
-    link: "/admin/tenders/all-tenders",
-  },
-];

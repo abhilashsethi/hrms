@@ -297,6 +297,7 @@ const selects = [
   { id: 1, value: "present", label: "Present" },
   { id: 2, value: "absent", label: "Absent" },
   { id: 3, value: "all", label: "All" },
+  { id: 4, value: "wfh", label: "Work From Home" },
 ];
 const orderBy = [
   { id: 1, value: "createdAt:asc", name: "Created Ascending" },
