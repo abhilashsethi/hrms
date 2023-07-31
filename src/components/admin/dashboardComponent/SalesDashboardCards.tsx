@@ -43,7 +43,7 @@ const SalesDashboardCards = ({ data }: Props) => {
       icon: <FactCheck fontSize="medium" className="text-theme" />,
       name: "Total Received Email",
       count: dashboardData?.totalReceivedEmailCount || 0,
-      link: "/admin/employees/my-profile",
+      link: "/admin/email",
     },
     {
       id: 3,
@@ -51,7 +51,7 @@ const SalesDashboardCards = ({ data }: Props) => {
       icon: <WebAsset fontSize="medium" className="text-theme" />,
       name: "Total Assets Assigned",
       count: dashboardData?.totalAssignAssetCount || 0,
-      link: "/admin/employees/my-profile",
+      link: "/admin/assets/my-assets",
     },
     {
       id: 4,
