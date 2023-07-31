@@ -6133,5 +6133,147 @@ const ICONS = {
 			</svg>
 		);
 	},
+	Create_Meeting: (
+		props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+	) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<path
+					d="M99.8834 382.495H71.9222C57.0907 382.495 42.8667 376.603 32.3792 366.115C21.8918 355.628 16 341.404 16 326.572V74.9222C16 60.0907 21.8918 45.8667 32.3792 35.3792C42.8667 24.8918 57.0907 19 71.9222 19H323.572C338.404 19 352.628 24.8918 363.115 35.3792C373.603 45.8667 379.495 60.0907 379.495 74.9222V102.883"
+					fill="url(#paint0_linear_2192_2)"
+				/>
+				<path
+					d="M99.8834 382.495H71.9222C57.0907 382.495 42.8667 376.603 32.3792 366.115C21.8918 355.628 16 341.404 16 326.572V74.9222C16 60.0907 21.8918 45.8667 32.3792 35.3792C42.8667 24.8918 57.0907 19 71.9222 19H323.572C338.404 19 352.628 24.8918 363.115 35.3792C373.603 45.8667 379.495 60.0907 379.495 74.9222V102.883"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M440.076 129.679H188.426C157.541 129.679 132.504 154.717 132.504 185.602V437.252C132.504 468.137 157.541 493.174 188.426 493.174H440.076C470.961 493.174 495.999 468.137 495.999 437.252V185.602C495.999 154.717 470.961 129.679 440.076 129.679Z"
+					fill="url(#paint1_linear_2192_2)"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M314 386V236"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M239 311H389"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<defs>
+					<linearGradient
+						id="paint0_linear_2192_2"
+						x1="197.747"
+						y1="19"
+						x2="197.747"
+						y2="382.495"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_2192_2"
+						x1="314.251"
+						y1="129.679"
+						x2="314.251"
+						y2="493.174"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+				</defs>
+			</svg>
+		);
+	},
+	Ex_Employees: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
+		return (
+			<svg
+				width="25"
+				height="25"
+				viewBox="0 0 512 512"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				{...props}
+			>
+				<path
+					d="M343.274 452.728V409.092C343.274 385.946 334.079 363.747 317.712 347.381C301.345 331.014 279.147 321.819 256.001 321.819H103.273C80.1267 321.819 57.9285 331.014 41.5617 347.381C25.1948 363.747 16 385.946 16 409.092V452.728"
+					fill="url(#paint0_linear_2193_2)"
+				/>
+				<path
+					d="M343.274 452.728V409.092C343.274 385.946 334.079 363.747 317.712 347.381C301.345 331.014 279.147 321.819 256.001 321.819H103.273C80.1267 321.819 57.9285 331.014 41.5617 347.381C25.1948 363.747 16 385.946 16 409.092V452.728"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M179.636 234.546C227.836 234.546 266.909 195.473 266.909 147.273C266.909 99.0734 227.836 60 179.636 60C131.437 60 92.3633 99.0734 92.3633 147.273C92.3633 195.473 131.437 234.546 179.636 234.546Z"
+					fill="url(#paint1_linear_2193_2)"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M384.262 188.263L476.829 280.83"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M476.825 188.262L384.258 280.829"
+					stroke="black"
+					stroke-width="20"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+				<defs>
+					<linearGradient
+						id="paint0_linear_2193_2"
+						x1="179.637"
+						y1="321.819"
+						x2="179.637"
+						y2="452.728"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+					<linearGradient
+						id="paint1_linear_2193_2"
+						x1="179.636"
+						y1="60"
+						x2="179.636"
+						y2="234.546"
+						gradientUnits="userSpaceOnUse"
+					>
+						<stop stop-color="#C6C0E9" />
+						<stop offset="1" stop-color="white" />
+					</linearGradient>
+				</defs>
+			</svg>
+		);
+	},
 };
 export default ICONS;

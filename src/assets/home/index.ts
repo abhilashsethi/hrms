@@ -30,3 +30,5 @@ export { default as BAG } from "./bag.png";
 export { default as BANK } from "./bank.png";
 export { default as LOGO } from "./logo.png";
 export { default as SUPPORT } from "./support.png";
+export { default as MAIL } from "./mail.png";
+export { default as NEW_MAIL } from "./newMail.png";

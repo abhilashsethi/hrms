@@ -1,7 +1,6 @@
 import { useTheme } from "@material-ui/core";
-import { Add, Close, FilterListRounded, Upload } from "@mui/icons-material";
+import { Close, FilterListRounded } from "@mui/icons-material";
 import {
-	Button,
 	IconButton,
 	MenuItem,
 	Pagination,
@@ -9,24 +8,11 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import {
-	EmployeesColumn,
-	EmplyeesGrid,
-	ExEmployeesGrid,
-} from "components/admin";
-import {
-	AdminBreadcrumbs,
-	GridAndList,
-	Loader,
-	LoaderAnime,
-	SkeletonLoader,
-} from "components/core";
-import { UploadEmployData } from "components/dialogues";
+import { ExEmployeesGrid } from "components/admin";
+import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import Link from "next/link";
 import { useState } from "react";
-import { User } from "types";
 
 const ExEmployees = () => {
 	const exitStatus = [
@@ -40,13 +26,10 @@ const ExEmployees = () => {
 	// console.log(user);
 	const theme = useTheme();
 	const [pageNumber, setPageNumber] = useState<number>(1);
-	const [isGrid, setIsGrid] = useState(true);
 	const [userName, setUsername] = useState<string | null>(null);
 	const [isRole, setIsRole] = useState<string | null>(null);
 	const [isDepartment, setIsDepartment] = useState<string | null>(null);
-	const [isUpload, setIsUpload] = useState(false);
 	const [status, setStatus] = useState<string | null>(null);
-	const { data: roleData } = useFetch<any>(`roles`);
 	const { data: departmentData } = useFetch<any>(`departments`);
 	const {
 		data: employeeExitData,
@@ -126,15 +109,6 @@ const ExEmployees = () => {
 							<TextField
 								fullWidth
 								size="small"
-								value={status ? status : ""}
-								placeholder="Employee Id"
-								onChange={(e) => {
-									setPageNumber(1), setStatus(e.target.value);
-								}}
-							/>
-							<TextField
-								fullWidth
-								size="small"
 								value={userName ? userName : ""}
 								onChange={(e) => {
 									setPageNumber(1), setUsername(e.target.value);
@@ -152,22 +126,6 @@ const ExEmployees = () => {
 								}}
 							>
 								{exitStatus?.map((option: any) => (
-									<MenuItem key={option.id} value={option.name}>
-										{option.name}
-									</MenuItem>
-								))}
-							</TextField>
-							<TextField
-								fullWidth
-								select
-								label="Select Department"
-								size="small"
-								value={isDepartment ? isDepartment : ""}
-								onChange={(e) => {
-									setPageNumber(1), setIsDepartment(e.target.value);
-								}}
-							>
-								{departmentData?.map((option: any) => (
 									<MenuItem key={option.id} value={option.name}>
 										{option.name}
 									</MenuItem>

@@ -82,7 +82,7 @@ export default () => {
 				{
 					key: "3-5",
 					title: "Ex Employees",
-					icon: <ICONS.Upload_Employee_Data />,
+					icon: <ICONS.Ex_Employees />,
 					route: "/admin/employees/ex-employees",
 				},
 			],
@@ -395,7 +395,7 @@ export default () => {
 				{
 					key: "6-3",
 					title: "Create Meetings",
-					icon: <ICONS.All_Meetings />,
+					icon: <ICONS.Create_Meeting />,
 					route: "/admin/meetings/create-meeting",
 				},
 			],
