@@ -77,11 +77,6 @@ const CreateQuotation = () => {
         .nullable()
     ),
   });
-  const [value, setValue] = useState("newClient");
-
-  const handleChangeClient = (event: ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
-  };
 
   const { data: clients } = useFetch<Client[]>(`clients`);
   const { data: Branch } = useFetch<Branch[]>(`branches`);
@@ -162,26 +157,6 @@ const CreateQuotation = () => {
                 }) => (
                   <Form>
                     <div className="grid lg:grid-cols-2">
-                      <FormControl>
-                        <RadioGroup
-                          row
-                          aria-labelledby="demo-controlled-radio-buttons-group"
-                          name="controlled-radio-buttons-group"
-                          value={value}
-                          onChange={handleChangeClient}
-                        >
-                          <FormControlLabel
-                            value="newClient"
-                            control={<Radio />}
-                            label="New Client"
-                          />
-                          <FormControlLabel
-                            value="existingClient"
-                            control={<Radio />}
-                            label="existing client"
-                          />
-                        </RadioGroup>
-                      </FormControl>
                       <div className="md:px-4 px-2 md:py-2 py-1">
                         <div className="md:py-2 py-1">
                           <InputLabel htmlFor="clientName">
@@ -246,7 +221,7 @@ const CreateQuotation = () => {
                         />
                       </div>
 
-                      <div className="px-4 py-2">
+                      {/* <div className="px-4 py-2">
                         <div className="py-2">
                           <InputLabel htmlFor="existingClient">
                             Select Client Name (If Existing Client)
@@ -267,7 +242,6 @@ const CreateQuotation = () => {
                             <TextField
                               {...params}
                               label="Client Name"
-                              // placeholder="Selected Gender"
                               onBlur={handleBlur}
                               error={
                                 touched.existingClient &&
@@ -279,7 +253,7 @@ const CreateQuotation = () => {
                             />
                           )}
                         />
-                      </div>
+                      </div> */}
                       <div className="px-4 py-2">
                         <div className="py-2">
                           <InputLabel htmlFor="branchId">

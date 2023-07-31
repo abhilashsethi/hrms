@@ -117,6 +117,7 @@ const MyProjects = () => {
               fullWidth
               size="small"
               placeholder="Project Name"
+              value={projectName ? projectName : ""}
               onChange={(e: any) => {
                 setPageNumber(1), setProjectName(e.target.value);
               }}
