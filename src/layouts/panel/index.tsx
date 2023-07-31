@@ -229,7 +229,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
 							</h1>
 							<div className="flex items-center gap-4">
 								<div className="flex gap-4 items-center">
-									<Link href={""}>
+									<Link href={"/admin/email"}>
 										<Tooltip title="Mail">
 											<Badge
 												badgeContent={

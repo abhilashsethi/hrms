@@ -1,6 +1,7 @@
 import {
 	Autocomplete,
 	AutocompleteChangeDetails,
+	AutocompleteChangeReason,
 	Button,
 	CircularProgress,
 	IconButton,
