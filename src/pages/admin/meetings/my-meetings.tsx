@@ -1,10 +1,5 @@
-import {
-  Add,
-  GridViewRounded,
-  Send,
-  TableRowsRounded,
-} from "@mui/icons-material";
-import { Button, Card, IconButton, Modal } from "@mui/material";
+import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
+import { Button, IconButton } from "@mui/material";
 import { MyMeetingColumn, MyMeetingGrid } from "components/admin/meetings";
 import {
   AdminBreadcrumbs,
@@ -12,13 +7,10 @@ import {
   LoaderAnime,
   SkeletonLoader,
 } from "components/core";
-import { UploadEmployData } from "components/dialogues";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { DateRangePicker } from "materialui-daterange-picker";
-import moment from "moment";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { MEETING_DATA } from "types";
 
@@ -38,25 +30,10 @@ const style = {
 
 const MyMeetings = () => {
   const { user } = useAuth();
-  const [currentRange, setcurrentRange] = useState<{
-    startDate?: string | null;
-    endDate?: string | null;
-  }>({
-    startDate: null,
-    endDate: null,
-  });
-  const dateRef = useRef<any>();
   const [pageNumber, setPageNumber] = useState<number | null>(1);
-  const [dateRange, setDateRange] = useState({
-    startDate: moment().toDate(),
-    endDate: moment().toDate(),
-  });
   const [open, setOpen] = useState(true);
-
   const toggle = () => setOpen(!open);
   const [isGrid, setIsGrid] = useState(true);
-  const [isUpload, setIsUpload] = useState(false);
-
   const {
     data: meetingData,
     mutate,
