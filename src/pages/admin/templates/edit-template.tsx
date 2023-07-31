@@ -46,7 +46,7 @@ const EditTemplate = () => {
             </button>
             <button
               className="px-6 py-2 flex gap-2 items-center shadow-xl bg-emerald-600 text-white rounded-md text-sm hover:scale-105 ease-in-out transition-all duration-200"
-              onClick={() => push(`/panel/university/saved-templates`)}
+              onClick={() => push(`/admin/templates/saved-templates`)}
             >
               <RemoveRedEye /> VIEW TEMPLATES
             </button>
