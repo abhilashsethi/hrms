@@ -27,7 +27,6 @@ const AccountantDashboardCards = ({ data }: Props) => {
   const { data: dashboardData } = useFetch<Quotation>(
     `dashboards/accountant/dashboard?userId=${user?.id}`
   );
-  console.log(dashboardData);
   const cards = [
     {
       id: 1,
@@ -35,7 +34,7 @@ const AccountantDashboardCards = ({ data }: Props) => {
       icon: <People fontSize="large" className="text-theme" />,
       name: "Total Quotations",
       count: dashboardData?.totalQuotations || 0,
-      link: "/admin",
+      link: "/admin/quotation/all-quotation",
     },
     {
       id: 2,
@@ -43,7 +42,7 @@ const AccountantDashboardCards = ({ data }: Props) => {
       icon: <Category fontSize="large" className="text-theme" />,
       name: "Total Paid Bill",
       count: dashboardData?.totalPaidBill || 0,
-      link: "/admin",
+      link: "/admin/bills/all-bills",
     },
     {
       id: 3,
@@ -51,7 +50,7 @@ const AccountantDashboardCards = ({ data }: Props) => {
       icon: <Article fontSize="large" className="text-theme" />,
       name: "Total Unpaid Bill",
       count: dashboardData?.totalUnpaidBill || 0,
-      link: "/admin",
+      link: "/admin/bills/all-bills",
     },
     {
       id: 4,
@@ -59,7 +58,7 @@ const AccountantDashboardCards = ({ data }: Props) => {
       icon: <ReceiptLong fontSize="large" className="text-theme" />,
       name: "Total Leaves This Year",
       count: dashboardData?.totalLeaveCountOfTheYear || 0,
-      link: "/admin",
+      link: "/admin/leaves/my-leaves",
     },
   ];
   const Quick_Access = [
@@ -103,7 +102,7 @@ const AccountantDashboardCards = ({ data }: Props) => {
       icon: <Chat fontSize="medium" className="text-white" />,
       title: "Chats",
       color: "bg-[#3f51b5]",
-      link: "/admin/chats",
+      link: "/admin/chat",
     },
     {
       id: 7,

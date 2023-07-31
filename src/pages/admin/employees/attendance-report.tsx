@@ -1,6 +1,11 @@
 import MaterialTable from "@material-table/core";
 import { Checklist } from "@mui/icons-material";
-import { AdminBreadcrumbs, HeadStyle, LoaderAnime } from "components/core";
+import {
+  AdminBreadcrumbs,
+  HeadStyle,
+  Loader,
+  LoaderAnime,
+} from "components/core";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
@@ -41,7 +46,7 @@ const AttendanceReport = () => {
       link: `/admin/employees/attendance-report?empId=${router?.query?.empId}?month=${router?.query?.month}`,
     },
   ];
-  const { data: attendanceData } = useFetch<any>(
+  const { data: attendanceData, isLoading } = useFetch<any>(
     `attendances/${router?.query?.empId}?month=${router?.query?.month}`
   );
   return (
@@ -55,6 +60,7 @@ const AttendanceReport = () => {
           )}
         </div>
         <div>
+          {isLoading ? <Loader /> : null}
           {attendanceData?.length ? (
             <>
               <MaterialTable
