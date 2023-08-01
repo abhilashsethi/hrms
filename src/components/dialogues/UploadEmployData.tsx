@@ -27,7 +27,7 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  //   name: Yup.string().required("Name is required"),
+  files: Yup.string().required("CSV file is required"),
 });
 
 const UploadEmployData = ({ open, handleClose, mutate }: Props) => {
