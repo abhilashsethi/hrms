@@ -1,4 +1,10 @@
-import { Add, Close, FilterListRounded, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
+import {
+  Add,
+  Close,
+  FilterListRounded,
+  GridViewRounded,
+  TableRowsRounded,
+} from "@mui/icons-material";
 import {
   Button,
   IconButton,
@@ -8,11 +14,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import {
-  AdminBreadcrumbs,
-  Loader,
-  LoaderAnime,
-} from "components/core";
+import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
 import { CreateRole } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -31,7 +33,8 @@ const AllRoles = () => {
     isLoading,
     pagination,
   } = useFetch<any>(
-    `roles?page=${pageNumber}&limit=8${userName ? `&contains=${userName}` : ""
+    `roles?page=${pageNumber}&limit=8${
+      userName ? `&contains=${userName}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
@@ -49,16 +52,18 @@ const AllRoles = () => {
             <div className="flex gap-1">
               <IconButton onClick={() => setIsGrid(true)} size="small">
                 <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${isGrid && `border-2 border-theme`
-                    }`}
+                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+                    isGrid && `border-2 border-theme`
+                  }`}
                 >
                   <GridViewRounded className={`${isGrid && `!text-theme`}`} />
                 </div>
               </IconButton>
               <IconButton onClick={() => setIsGrid(false)} size="small">
                 <div
-                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${!isGrid && `border-2 border-theme`
-                    }`}
+                  className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+                    !isGrid && `border-2 border-theme`
+                  }`}
                 >
                   <TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
                 </div>
@@ -86,8 +91,18 @@ const AllRoles = () => {
                   setUsername(null);
                 }}
               >
-                <Tooltip title={isOrderBy != null || userName != null ? `Remove Filters` : `Filter`}>
-                  {isOrderBy != null || userName != null ? <Close className={'!text-white'} /> : <FilterListRounded className={"!text-white"} />}
+                <Tooltip
+                  title={
+                    isOrderBy != null || userName != null
+                      ? `Remove Filters`
+                      : `Filter`
+                  }
+                >
+                  {isOrderBy != null || userName != null ? (
+                    <Close className={"!text-white"} />
+                  ) : (
+                    <FilterListRounded className={"!text-white"} />
+                  )}
                 </Tooltip>
               </IconButton>
             </div>
@@ -98,7 +113,9 @@ const AllRoles = () => {
                 size="small"
                 id="name"
                 value={userName ? userName : ""}
-                onChange={(e) => {setPageNumber(1), setUsername(e.target.value)}}
+                onChange={(e) => {
+                  setPageNumber(1), setUsername(e.target.value);
+                }}
                 placeholder="Role Name"
                 name="name"
               />
@@ -108,7 +125,9 @@ const AllRoles = () => {
                 label="Ascending/Descending"
                 size="small"
                 value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => {setPageNumber(1), setIsOrderBy(e?.target?.value)}}
+                onChange={(e) => {
+                  setPageNumber(1), setIsOrderBy(e?.target?.value);
+                }}
               >
                 {short.map((option) => (
                   <MenuItem key={option.id} value={option.value}>
@@ -132,15 +151,14 @@ const AllRoles = () => {
         )}
         {roleData?.length === 0 ? <LoaderAnime /> : null}
         {Math.ceil(
-          Number(pagination?.total || 1) /
-          Number(pagination?.limit || 1)
+          Number(pagination?.total || 1) / Number(pagination?.limit || 1)
         ) > 1 ? (
           <div className="flex justify-center py-8">
             <Stack spacing={2}>
               <Pagination
                 count={Math.ceil(
                   Number(pagination?.total || 1) /
-                  Number(pagination?.limit || 1)
+                    Number(pagination?.limit || 1)
                 )}
                 onChange={(e, v: number) => {
                   setPageNumber(v);
@@ -169,6 +187,6 @@ const links = [
 const short = [
   { id: 1, value: "name:asc", name: "Name Ascending" },
   { id: 2, value: "name:desc", name: "Name Descending" },
-  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
-  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
+  { id: 3, value: "createdAt:desc", name: "CreatedAt Ascending" },
+  { id: 4, value: "createdAt:asc", name: "CreatedAt Descending" },
 ];
