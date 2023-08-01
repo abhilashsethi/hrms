@@ -1,13 +1,5 @@
 import { useTheme } from "@material-ui/core";
-import { Close, FilterListRounded } from "@mui/icons-material";
-import {
-  IconButton,
-  MenuItem,
-  Pagination,
-  Stack,
-  TextField,
-  Tooltip,
-} from "@mui/material";
+import { Pagination, Stack } from "@mui/material";
 import { ExEmployeesGrid } from "components/admin";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useAuth, useFetch } from "hooks";
@@ -37,29 +29,18 @@ const ExEmployees = () => {
     isLoading,
     pagination,
   } = useFetch<any>(
-    `employee-exit?page=${pageNumber}&limit=8${
-      userName ? `&name=${userName}` : ""
-    }${status ? `&status=${status}` : ""}`
+    `employee-exit?page=${pageNumber}&limit=8&orderBy=createdAt:desc`
   );
   // console.log(employeeExitData);
 
-  const links =
-    user?.role?.name === "CEO" || user?.role?.name === "HR"
-      ? [
-          { id: 1, page: "Employees", link: "/admin/employees" },
-          {
-            id: 2,
-            page: "All Employees",
-            link: "/admin/employees/all-employees",
-          },
-        ]
-      : [
-          {
-            id: 3,
-            page: "My Profile",
-            link: "/admin/employees/all-employees",
-          },
-        ];
+  const links = [
+    { id: 1, page: "Employees", link: "/admin/employees" },
+    {
+      id: 2,
+      page: "All Ex Employees",
+      link: "/admin/employees/ex-employees",
+    },
+  ];
 
   return (
     <PanelLayout title="All Users - Admin Panel">
