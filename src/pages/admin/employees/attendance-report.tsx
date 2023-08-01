@@ -48,7 +48,7 @@ const AttendanceReport = () => {
     <PanelLayout title="Monthly Report - Admin Panel">
       <section className="px-8 py-4">
         <div className="pb-4">
-          {user?.role?.name === "CEO" ? (
+          {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
             <AdminBreadcrumbs links={links} />
           ) : (
             <AdminBreadcrumbs links={nextLinks} />
