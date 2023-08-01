@@ -39,6 +39,7 @@ const ChangePassword = ({ resetForm }: any) => {
     setLoading(true);
     try {
       const res = await change(`users/change-password/${user?.id}`, {
+        method: "PUT",
         body: {
           password: values.password,
         },
