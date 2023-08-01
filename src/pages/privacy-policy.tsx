@@ -1,38 +1,35 @@
+import { Public_LOGO } from "config/env.config";
+
 const PrivacyPolicy = () => {
   return (
-    <div className="container mx-auto py-6">
-      <h1 className="text-lg font-semibold">
+    <div className="container mx-auto py-6 text-justify">
+      {" "}
+      <img src={Public_LOGO} className="h-28" alt="Privacy Policy" />
+      <h1 className="text-lg font-semibold py-5">
         Privacy Policy for SearchingYard software Pvt. Ltd
       </h1>
-
       <p>
         At YardOne, accessible from https://sy-hrms.vercel.app/, one of our main
         priorities is the privacy of our visitors. This Privacy Policy document
         contains types of information that is collected and recorded by YardOne
         and how we use it.
       </p>
-
       <p>
         If you have additional questions or require more information about our
         Privacy Policy, do not hesitate to contact us.
       </p>
-
       <p>
         This Privacy Policy applies only to our online activities and is valid
         for visitors to our website with regards to the information that they
         shared and/or collect in YardOne. This policy is not applicable to any
         information collected offline or via channels other than this website.
       </p>
-
       <h2 className="text-lg font-semibold">Consent</h2>
-
       <p>
         By using our website, you hereby consent to our Privacy Policy and agree
         to its terms.
       </p>
-
       <h2 className="text-lg font-semibold">Information we collect</h2>
-
       <p>
         The personal information that you are asked to provide, and the reasons
         why you are asked to provide it, will be made clear to you at the point
@@ -49,11 +46,8 @@ const PrivacyPolicy = () => {
         information, including items such as name, company name, address, email
         address, and telephone number.
       </p>
-
       <h2 className="text-lg font-semibold">How we use your information</h2>
-
       <p>We use the information we collect in various ways, including to:</p>
-
       <ul>
         <li>Provide, operate, and maintain our website</li>
         <li>Improve, personalize, and expand our website</li>
@@ -68,9 +62,7 @@ const PrivacyPolicy = () => {
         <li>Send you emails</li>
         <li>Find and prevent fraud</li>
       </ul>
-
       <h2 className="text-lg font-semibold">Log Files</h2>
-
       <p>
         YardOne follows a standard procedure of using log files. These files log
         visitors when they visit websites. All hosting companies do this and a
@@ -82,16 +74,13 @@ const PrivacyPolicy = () => {
         analyzing trends, administering the site, tracking users' movement on
         the website, and gathering demographic information.
       </p>
-
       <h2 className="text-lg font-semibold">
         Advertising Partners Privacy Policies
       </h2>
-
       <p>
         You may consult this list to find the Privacy Policy for each of the
         advertising partners of YardOne.
       </p>
-
       <p>
         Third-party ad servers or ad networks uses technologies like cookies,
         JavaScript, or Web Beacons that are used in their respective
@@ -101,14 +90,11 @@ const PrivacyPolicy = () => {
         their advertising campaigns and/or to personalize the advertising
         content that you see on websites that you visit.
       </p>
-
       <p>
         Note that YardOne has no access to or control over these cookies that
         are used by third-party advertisers.
       </p>
-
       <h2 className="text-lg font-semibold">Third Party Privacy Policies</h2>
-
       <p>
         YardOne's Privacy Policy does not apply to other advertisers or
         websites. Thus, we are advising you to consult the respective Privacy
@@ -116,18 +102,15 @@ const PrivacyPolicy = () => {
         It may include their practices and instructions about how to opt-out of
         certain options.{" "}
       </p>
-
       <p>
         You can choose to disable cookies through your individual browser
         options. To know more detailed information about cookie management with
         specific web browsers, it can be found at the browsers' respective
         websites.
       </p>
-
       <h2 className="text-lg font-semibold">
         CCPA Privacy Rights (Do Not Sell My Personal Information)
       </h2>
-
       <p>
         Under the CCPA, among other rights, California consumers have the right
         to:
@@ -149,9 +132,7 @@ const PrivacyPolicy = () => {
         If you make a request, we have one month to respond to you. If you would
         like to exercise any of these rights, please contact us.
       </p>
-
       <h2 className="text-lg font-semibold">GDPR Data Protection Rights</h2>
-
       <p>
         We would like to make sure you are fully aware of all of your data
         protection rights. Every user is entitled to the following:
@@ -187,15 +168,12 @@ const PrivacyPolicy = () => {
         If you make a request, we have one month to respond to you. If you would
         like to exercise any of these rights, please contact us.
       </p>
-
       <h2 className="text-lg font-semibold">Children's Information</h2>
-
       <p>
         Another part of our priority is adding protection for children while
         using the internet. We encourage parents and guardians to observe,
         participate in, and/or monitor and guide their online activity.
       </p>
-
       <p>
         YardOne does not knowingly collect any Personal Identifiable Information
         from children under the age of 13. If you think that your child provided
@@ -203,16 +181,13 @@ const PrivacyPolicy = () => {
         contact us immediately and we will do our best efforts to promptly
         remove such information from our records.
       </p>
-
       <h2 className="text-lg font-semibold">Changes to This Privacy Policy</h2>
-
       <p>
         We may update our Privacy Policy from time to time. Thus, we advise you
         to review this page periodically for any changes. We will notify you of
         any changes by posting the new Privacy Policy on this page. These
         changes are effective immediately, after they are posted on this page.
       </p>
-
       <p>
         Our Privacy Policy was created with the help of the{" "}
         <a href="https://www.termsfeed.com/privacy-policy-generator/">
@@ -220,9 +195,7 @@ const PrivacyPolicy = () => {
         </a>
         .
       </p>
-
       <h2 className="text-lg font-semibold">Contact Us</h2>
-
       <p>
         If you have any questions or suggestions about our Privacy Policy, do
         not hesitate to contact us.
