@@ -28,11 +28,6 @@ const AttendanceReport = () => {
       page: "Employee Profile",
       link: `/admin/employees/profile/${router?.query?.empId}`,
     },
-    {
-      id: 4,
-      page: "Monthly Attendance",
-      link: `/admin/employees/attendance-report?empId=${router?.query?.empId}?month=${router?.query?.month}`,
-    },
   ];
   const nextLinks = [
     {
