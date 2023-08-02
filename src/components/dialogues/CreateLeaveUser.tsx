@@ -38,7 +38,6 @@ const validationSchema = Yup.object({
       minDate.setDate(currentDate.getDate());
       return selectedDate >= minDate;
     }),
-  variant: Yup.string().required("Please select a variant!"),
   reason: Yup.string().required("Required!"),
   type: Yup.string().required("Required!"),
 });
