@@ -49,7 +49,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
     reason: "",
     link: "",
     endDate: null,
-    variant: "FullDay",
+    variant: "",
     leaveMonth: `${moment(new Date().toISOString()).format("MMMM")}`,
     leaveYear: `${moment(new Date().toISOString()).format("YYYY")}`,
   };
@@ -230,7 +230,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
                       row
                       defaultValue={"FullDay"}
                       name="row-radio-buttons-group"
-                      value={values?.variant}
+                      value={value}
                       onChange={(e: any) => {
                         handleRadioChange(e);
                         // setFieldValue("leave", e.target.value);

@@ -27,6 +27,7 @@ const SalesDashboardCards = ({ data }: Props) => {
 	const { data: dashboardData } = useFetch<any>(
 		`dashboards/sales/dashboard?userId=${user?.id}`
 	);
+	console.log(dashboardData);
 	const cards = [
 		{
 			id: 1,

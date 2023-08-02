@@ -54,10 +54,10 @@ const TodayAttendance = () => {
     isLoading,
     pagination,
   } = useFetch<any>(
-    `attendances/${selectedDate
-      .toISOString()
-      .slice(0, 10)}/${status}?page=${pageNumber}&limit=8${
-      userName ? `&employeeName=${userName}` : ""
+    `attendances/${selectedDate.toISOString().slice(0, 10)}/${
+      status === "wfh" ? `present` : status
+    }?page=${pageNumber}&limit=8${userName ? `&employeeName=${userName}` : ""}${
+      status === "wfh" ? `&isWFH=true` : ``
     }${
       user?.role?.name === "CEO" || user?.role?.name === "HR"
         ? ""

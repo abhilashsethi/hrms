@@ -27,7 +27,7 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  //   name: Yup.string().required("Name is required"),
+  files: Yup.string().required("CSV file is required"),
 });
 
 const UploadEmployData = ({ open, handleClose, mutate }: Props) => {
@@ -47,7 +47,7 @@ const UploadEmployData = ({ open, handleClose, mutate }: Props) => {
       });
       setLoading(false);
       console.log(res);
-      if (res?.status !== 200) {
+      if (res?.status !== 201) {
         Swal.fire("Error", res?.results?.msg || "Unable to Submit", "info");
         setLoading(false);
         return;

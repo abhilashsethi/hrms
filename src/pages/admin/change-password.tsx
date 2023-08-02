@@ -38,10 +38,11 @@ const ChangePassword = ({ resetForm }: any) => {
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      delete values.confirmPassword;
-      const res = await change(`users/${user?.id}`, {
-        method: "PATCH",
-        body: values,
+      const res = await change(`users/change-password/${user?.id}`, {
+        method: "PUT",
+        body: {
+          password: values.password,
+        },
       });
       setLoading(false);
       if (res?.status !== 200) {

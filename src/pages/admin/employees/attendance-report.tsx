@@ -28,11 +28,6 @@ const AttendanceReport = () => {
       page: "Employee Profile",
       link: `/admin/employees/profile/${router?.query?.empId}`,
     },
-    {
-      id: 4,
-      page: "Monthly Attendance",
-      link: `/admin/employees/attendance-report?empId=${router?.query?.empId}?month=${router?.query?.month}`,
-    },
   ];
   const nextLinks = [
     {
@@ -53,7 +48,7 @@ const AttendanceReport = () => {
     <PanelLayout title="Monthly Report - Admin Panel">
       <section className="px-8 py-4">
         <div className="pb-4">
-          {user?.role?.name === "CEO" ? (
+          {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
             <AdminBreadcrumbs links={links} />
           ) : (
             <AdminBreadcrumbs links={nextLinks} />
