@@ -1,5 +1,4 @@
 import {
-	CurrencyRupee,
 	DeleteRounded,
 	ExitToApp,
 	InfoRounded,
@@ -14,12 +13,11 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { RenderIconRow } from "components/common";
-import { CopyClipboard, PhotoViewer, IOSSwitch } from "components/core";
-import { EmployeeExitForm } from "components/dialogues";
-import AddSalaryInfo from "components/dialogues/AddSalaryInfo";
+import { CopyClipboard, PhotoViewer } from "components/core";
+import { ExitEmployeeDetails } from "components/drawer";
 import { useChange } from "hooks";
 import Link from "next/link";
-import { MouseEvent, useState, ChangeEvent } from "react";
+import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 import { deleteFile } from "utils";
@@ -60,11 +58,10 @@ const ExEmployeesGrid = ({ data, mutate, userDetails }: Props) => {
 export default ExEmployeesGrid;
 
 const CardContent = ({ item, mutate, userDetails }: any) => {
-	const [userId, setUserId] = useState("");
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
-	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
-	const [employeeExitModal, setEmployeeExitModal] = useState<boolean>(false);
+
+	const [exitEmployeeDrawer, setExitEmployeeDrawer] = useState<boolean>(false);
 	const handleClick = (event: MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -85,7 +82,7 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 			}).then(async (result) => {
 				if (result.isConfirmed) {
 					Swal.fire(`Info`, "It will take some time", "info");
-					const res = await change(`users/${user?.id}`, {
+					const res = await change(`employee-exit/${user?.id}`, {
 						method: "DELETE",
 					});
 					if (user?.photo) {
@@ -104,49 +101,43 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 			console.log(error);
 		}
 	};
-	const handleBlock = async (
-		e: ChangeEvent<HTMLInputElement>,
-		userId: string
-	) => {
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to update status?",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, update!",
-		}).then(async (result) => {
-			if (result.isConfirmed) {
-				const res = await change(`users/${userId}`, {
-					method: "PATCH",
-					body: { isBlocked: !e.target?.checked },
-				});
-				mutate();
-				if (res?.status !== 200) {
-					Swal.fire(`Error`, "Something went wrong!", "error");
-					return;
-				}
-				Swal.fire(`Success`, "Status updated successfully!", "success");
-				return;
-			}
-		});
-	};
+	// const handleBlock = async (
+	// 	e: ChangeEvent<HTMLInputElement>,
+	// 	userId: string
+	// ) => {
+	// 	Swal.fire({
+	// 		title: "Are you sure?",
+	// 		text: "You want to update status?",
+	// 		icon: "warning",
+	// 		showCancelButton: true,
+	// 		confirmButtonColor: "#3085d6",
+	// 		cancelButtonColor: "#d33",
+	// 		confirmButtonText: "Yes, update!",
+	// 	}).then(async (result) => {
+	// 		if (result.isConfirmed) {
+	// 			const res = await change(`users/${userId}`, {
+	// 				method: "PATCH",
+	// 				body: { isBlocked: !e.target?.checked },
+	// 			});
+	// 			mutate();
+	// 			if (res?.status !== 200) {
+	// 				Swal.fire(`Error`, "Something went wrong!", "error");
+	// 				return;
+	// 			}
+	// 			Swal.fire(`Success`, "Status updated successfully!", "success");
+	// 			return;
+	// 		}
+	// 	});
+	// };
 	return (
 		<div className="h-full relative bg-white w-full rounded-xl flex flex-col gap-1.5 py-6 tracking-wide items-center justify-center shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
-			<AddSalaryInfo
-				userId={userId}
-				mutate={mutate}
-				open={salaryInfoModal}
-				handleClose={() => setSalaryInfoModal(false)}
+			<ExitEmployeeDetails
+				data={item}
+				open={exitEmployeeDrawer}
+				onClose={() => setExitEmployeeDrawer(false)}
 			/>
-			<EmployeeExitForm
-				userId={userId}
-				mutate={mutate}
-				open={employeeExitModal}
-				handleClose={() => setEmployeeExitModal(false)}
-			/>
-			{/* <div className="absolute right-[10px] top-[10px]">
+
+			<div className="absolute right-[10px] top-[10px]">
 				<Tooltip title="More">
 					<IconButton onClick={handleClick}>
 						<MoreVertRounded />
@@ -187,7 +178,7 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 					transformOrigin={{ horizontal: "right", vertical: "top" }}
 					anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 				>
-					<Link href={`/admin/employees/profile/${item?.id}`}>
+					<Link href={`/admin/employees/profile/${item?.userId}`}>
 						<MenuItem onClick={handleClose}>
 							<ListItemIcon>
 								<InfoRounded fontSize="small" />
@@ -195,32 +186,15 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 							Details
 						</MenuItem>
 					</Link>
+					<MenuItem onClick={() => setExitEmployeeDrawer(true)}>
+						<ListItemIcon>
+							<ExitToApp fontSize="small" />
+						</ListItemIcon>
+						Exit Details
+					</MenuItem>
 					{userDetails?.role?.name == "CEO" ||
 					userDetails?.role?.name == "HR" ? (
 						<>
-							<MenuItem
-								onClick={() => {
-									setUserId(item?.id);
-									setSalaryInfoModal((prev) => !prev);
-									handleClose;
-								}}
-							>
-								<ListItemIcon>
-									<CurrencyRupee fontSize="small" />
-								</ListItemIcon>
-								Add Salary Info
-							</MenuItem>
-							<MenuItem
-								onClick={() => {
-									setUserId(item?.id);
-									setEmployeeExitModal((prev) => !prev);
-								}}
-							>
-								<ListItemIcon>
-									<ExitToApp fontSize="small" />
-								</ListItemIcon>
-								Employee Exit
-							</MenuItem>
 							<MenuItem
 								onClick={() => {
 									handleDelete(item);
@@ -234,7 +208,7 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 						</>
 					) : null}
 				</Menu>
-			</div> */}
+			</div>
 			<PhotoViewer name={item?.user?.name} photo={item?.user?.photo} />
 			<span className="mt-2 text-base font-semibold tracking-wide text-gray-600">
 				{item?.user?.name}
@@ -248,6 +222,10 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
 			<div className="flex gap-2 items-center font-semibold text-sm pl-4">
 				EMP ID :
 				<CopyClipboard value={item?.user?.employeeID} />
+			</div>
+			<div className="flex gap-2 items-center font-semibold text-sm pl-4">
+				Role :
+				<CopyClipboard value={item?.user?.role?.name} />
 			</div>
 		</div>
 	);

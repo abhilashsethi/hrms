@@ -21,3 +21,4 @@ export { default as ChatGroupCreate } from "./ChatGroupCreate";
 export { default as ChatReactions } from "./ChatReactions";
 export { default as ChatSeen } from "./ChatSeen";
 export { default as RoleWisePageAccess } from "./RoleWisePageAccess";
+export { default as ExitEmployeeDetails } from "./ExitEmployeeDetails";

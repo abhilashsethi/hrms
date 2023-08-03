@@ -76,3 +76,4 @@ export { default as ChooseBranchToViewAssets } from "./ChooseBranchToViewAssets"
 export { default as ProjectCreateTicket } from "./ProjectCreateTicket";
 export { default as ClientAddDocumentModal } from "./ClientAddDocumentModal";
 export { default as EmployeeExitForm } from "./EmployeeExitForm";
+export { default as ExitEmployeeMoreInfo } from "./ExitEmployeeMoreInfo";

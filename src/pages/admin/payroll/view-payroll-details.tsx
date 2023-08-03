@@ -87,17 +87,23 @@ const ViewPayrollDetails = () => {
 		{
 			id: 2,
 			name: "Conveyance Allowance",
-			count: `${Configs?.conveyanceAllowances}`,
+			count: `${
+				Gross_Salary
+					? Configs?.conveyanceAllowances
+					: Gross_Salary
+					? (Configs?.basicSalary * Gross_Salary) / 100
+					: "---"
+			}`,
 		},
 		{
 			id: 2,
 			name: "Medical Allowance",
-			count: `${Configs?.medicalAllowances}`,
+			count: `${Gross_Salary ? Configs?.medicalAllowances : "---"}`,
 		},
 		{
 			id: 2,
 			name: "Special Allowance",
-			count: `${Special_Allowance}`,
+			count: `${Gross_Salary ? Special_Allowance : "---"}`,
 		},
 	];
 	const deduction = [
