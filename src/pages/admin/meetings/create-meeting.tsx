@@ -117,7 +117,9 @@ const CreateMeeting = () => {
 			}
 			Swal.fire(`Success`, `Meeting created successfully!`, `success`);
 			resetForm();
-			router.push("/admin/meetings/all-meetings");
+			user?.role?.name === "CEO"
+				? router.push("/admin/meetings/all-meetings")
+				: router.push("/admin/meetings/my-meetings");
 			return;
 		} catch (error) {
 			console.log(error);
