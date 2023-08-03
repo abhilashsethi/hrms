@@ -35,7 +35,7 @@ const UploadEmployeeData = () => {
       });
       setLoading(false);
       console.log(res);
-      if (res?.status !== 201) {
+      if (res?.status !== 200) {
         Swal.fire("Error", res?.results?.msg || "Unable to Submit", "info");
         setLoading(false);
         return;
