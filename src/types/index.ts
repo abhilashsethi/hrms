@@ -346,6 +346,7 @@ export type Tender = {
 	EmdPaymentMode?: string;
 	documentAddReason?: string;
 	isEmdExemption?: boolean;
+	isAllDocumentsCorrect?: boolean;
 	isAllDocumentsAdded?: boolean;
 	documents?: TenderDocumentType[];
 	allTenderCountMonthWiseOfCurrentYear?: TenderDashboard[];

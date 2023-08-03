@@ -47,7 +47,7 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
   const [isDocumentValue, setIsDocumentValue] = useState(
-    tenderData?.isAllDocumentsAdded
+    tenderData?.isAllDocumentsCorrect
   );
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsDocumentValue(event.target.value === "Yes");
@@ -120,7 +120,7 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
         method: "PATCH",
         body: {
           documentAddReason: values?.documentAddReason,
-          isAllDocumentsAdded: isDocumentValue,
+          isAllDocumentsCorrect: isDocumentValue,
         },
       });
       setLoading(false);
@@ -401,12 +401,14 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
         {({ values, errors, touched, handleChange, handleBlur }) => (
           <Form>
             <div className="mt-4">
-              <h1 className="font-semibold">All documents created ? </h1>
+              <h1 className="font-semibold">All documents correct ? </h1>
               <div className="flex gap-2 items-center">
                 <RadioGroup
-                  defaultValue={tenderData?.isAllDocumentsAdded ? "Yes" : "No"}
+                  defaultValue={
+                    tenderData?.isAllDocumentsCorrect ? "Yes" : "No"
+                  }
                   row
-                  name="isAllDocumentsAdded"
+                  name="isAllDocumentsCorrect"
                   onChange={handleOptionChange}
                   aria-labelledby="demo-row-radio-buttons-group-label"
                 >
