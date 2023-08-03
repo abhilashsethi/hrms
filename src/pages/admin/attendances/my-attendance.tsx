@@ -1,17 +1,14 @@
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import FullCalendar from "@fullcalendar/react";
-import { Check, Close, InsertInvitationRounded } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
-import { AttendanceGrid } from "components/admin/attendance";
-import { AdminBreadcrumbs, Loader, LoaderAnime } from "components/core";
+import { Check, Close } from "@mui/icons-material";
+import { AdminBreadcrumbs } from "components/core";
 import { addDays } from "date-fns";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
-import DatePicker from "react-datepicker";
+import { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 interface MyDateRef {
   current: HTMLInputElement | null;
   setOpen: (value: boolean) => void;
