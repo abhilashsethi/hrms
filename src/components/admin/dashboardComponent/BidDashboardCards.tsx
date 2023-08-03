@@ -51,7 +51,7 @@ const BidDashboardCards = ({ data }: Props) => {
       icon: <BugReport fontSize="medium" className="text-theme" />,
       name: "Total Tenders",
       count: dashboardData?.totalTenderCount || 0,
-      link: "/admin/tenders/all-tenders",
+      link: "/admin/tenders/my-tenders",
     },
     {
       id: 4,

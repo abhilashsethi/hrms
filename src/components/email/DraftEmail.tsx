@@ -69,7 +69,6 @@ const DraftEmail = () => {
       return [...prev, emailId];
     });
   };
-
   const { change } = useChange();
 
   const handleDeleteEmail = async () => {
