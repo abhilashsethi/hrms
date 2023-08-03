@@ -82,7 +82,7 @@ const AllDepartmentGrid = ({ data, mutate }: Props) => {
                   <p className="text-lg font-semibold tracking-wide text-center capitalize">
                     {item?.name}
                   </p>
-                  <div className="w-full px-8 flex gap-2 justify-center">
+                  <div className="w-full px-2 flex gap-2 justify-center">
                     <div className=" py-1 rounded-lg text-gray-600 flex items-center gap-2 px-4">
                       <p className="font-semibold tracking-wide text-sm">
                         Total Member :
