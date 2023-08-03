@@ -85,50 +85,57 @@ const MainHrDashboardCharts = () => {
         <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Recent Guests</p>
           <div className="grid lg:grid-cols-2 grid-cols-1 lg:px-8 px-2 py-4 gap-4">
-            {hrDetails?.recentGuests?.map((item: any) => (
-              <Link
-                href={`/admin/guests/guest-profile?id=${item?.id}`}
-                key={item?.id}
-              >
-                <div
-                  className={`h-full w-full bg-slate-200 py-4 lg:px-5 px-2 flex flex-col gap-2 rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
+            {hrDetails?.recentGuests
+              ?.slice(0, 4)
+              ?.sort(
+                (a: any, b: any) =>
+                  (new Date(b?.createdAt) as any) -
+                  (new Date(a?.createdAt) as any)
+              )
+              ?.map((item: any) => (
+                <Link
+                  href={`/admin/guests/guest-profile?id=${item?.id}`}
+                  key={item?.id}
                 >
-                  <Tooltip title="Project Manager">
-                    <span className="flex w-full justify-center justify-items-center">
-                      <PhotoViewer name={item?.name} />
+                  <div
+                    className={`h-full w-full bg-slate-200 py-4 lg:px-5 px-2 flex flex-col gap-2 rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-300 ease-in-out`}
+                  >
+                    <Tooltip title="Project Manager">
+                      <span className="flex w-full justify-center justify-items-center">
+                        <PhotoViewer name={item?.name} />
+                      </span>
+                    </Tooltip>
+                    <span className="font-semibold text-center tracking-wide text-lg">
+                      {item?.name}
                     </span>
-                  </Tooltip>
-                  <span className="font-semibold text-center tracking-wide text-lg">
-                    {item?.name}
-                  </span>
-                  <span className="font-semibold text-center tracking-wide text-sm">
-                    {item?.designation}
-                  </span>
-                  <div className="grid lg:grid-cols-2 gap-4 text-sm text-center font-semibold">
-                    <div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
-                      <span>Valid From</span>
-                      <span>
-                        {item?.card?.length ? (
-                          moment(item?.card[0]?.validFrom).format("ll")
-                        ) : (
-                          <p>Not Given</p>
-                        )}
-                      </span>
-                    </div>
-                    <div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
-                      <span>Valid Till</span>
-                      <span>
-                        {item?.card?.length ? (
-                          moment(item?.card[0]?.validTill).format("ll")
-                        ) : (
-                          <p>Not Given</p>
-                        )}
-                      </span>
+                    <span className="font-semibold text-center tracking-wide text-sm">
+                      {item?.designation}
+                    </span>
+                    <div className="grid lg:grid-cols-2 gap-4 text-sm text-center font-semibold">
+                      <div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
+                        <span>Valid From</span>
+                        <span>
+                          {item?.card?.length ? (
+                            moment(item?.card[0]?.validFrom).format("ll")
+                          ) : (
+                            <p>Not Given</p>
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex flex-col gap-1 rounded-lg px-3 py-2 bg-gradient-to-b from-gray-900 via-purple-900 to-violet-600 text-white justify-center w-full">
+                        <span>Valid Till</span>
+                        <span>
+                          {item?.card?.length ? (
+                            moment(item?.card[0]?.validTill).format("ll")
+                          ) : (
+                            <p>Not Given</p>
+                          )}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
           </div>
         </div>
       </div>

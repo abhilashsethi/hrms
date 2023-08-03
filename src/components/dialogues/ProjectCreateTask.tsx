@@ -30,6 +30,7 @@ interface Props {
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required!"),
   description: Yup.string().required("Required field!"),
+  status: Yup.string().required("Required field!"),
   date: Yup.string().required("Required field!"),
   assignedUserIds: Yup.array().required("Required field!"),
 });
