@@ -13,6 +13,7 @@ import { Field, FieldArray, Form, Formik } from "formik";
 import { useChange } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import * as Yup from "yup";
 import Swal from "sweetalert2";
 interface Props {
 	open: boolean;
@@ -37,7 +38,19 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 		salaryInfoNewFields: null,
 		inputFields: [{ title: "", value: 0 }],
 	};
-
+	const validationSchema = Yup.object().shape({
+		inputFields: Yup.array().of(
+			Yup.object()
+				.shape({
+					title: Yup.string().required("Document Title is required"),
+					value: Yup.mixed().required("File is required"),
+				})
+				.nullable()
+		),
+		grossSalary: Yup.number().required("Required"),
+		kpi: Yup.number().required("Required"),
+		tds: Yup.number().required("Required"),
+	});
 	const handleSubmit = async (values: any) => {
 		setLoading(true);
 		try {
@@ -105,7 +118,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 				<div className="md:w-[40rem] w-[72vw] md:px-4 px-2 tracking-wide">
 					<Formik
 						initialValues={initialValues}
-						// validationSchema={validationSchema}
+						validationSchema={validationSchema}
 						enableReinitialize={true}
 						onSubmit={handleSubmit}
 					>

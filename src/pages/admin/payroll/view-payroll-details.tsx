@@ -24,7 +24,9 @@ const ViewPayrollDetails = () => {
 	console.log(employData);
 
 	const Gross_Salary: any = employData?.grossSalary;
-	const New_Fields: any = employData?.salaryInfoNewFields;
+	const New_Fields: any = employData?.salaryInfoNewFields?.length
+		? employData?.salaryInfoNewFields
+		: [];
 	console.log(New_Fields);
 
 	const { data: configData, mutate: payRollMutate } = useFetch<any>(
@@ -32,7 +34,7 @@ const ViewPayrollDetails = () => {
 	);
 	// console.log(configData);
 	const Configs = configData?.length ? configData[0] : null;
-
+	console.log(Configs);
 	const Professional_Tax = Configs?.ptTaxes?.find(
 		(item: any) =>
 			Gross_Salary >= item?.startGrossSalary &&
@@ -356,11 +358,11 @@ const ViewPayrollDetails = () => {
 													key={item?.id}
 													className="md:flex gap-4 justify-between"
 												>
-													<p className="text-gray-700">{item} :</p>
+													<p className="text-gray-700">{item?.title} :</p>
 													{/* <p className="text-gray-700">{item?.name} :</p> */}
 													<span className="text-blue-700">
 														<CurrencyRupee fontSize="small" />
-														{item}
+														{item?.value}
 													</span>
 												</div>
 											))}
