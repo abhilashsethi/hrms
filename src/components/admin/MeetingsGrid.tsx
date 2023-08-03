@@ -32,7 +32,7 @@ interface ARRAY {
 	purpose?: string;
 }
 interface Props {
-	data?: ARRAY[];
+	data?: ARRAY[] | undefined;
 	mutate?: any;
 }
 

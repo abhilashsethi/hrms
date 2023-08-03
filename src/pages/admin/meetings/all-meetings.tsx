@@ -80,7 +80,7 @@ const AllMeetings = () => {
 		mutate,
 		isLoading,
 		pagination,
-	} = useFetch<MEETING_DATA>(
+	} = useFetch<MEETING_DATA[]>(
 		`meetings?page=${pageNumber}&limit=6${
 			meetingPerson ? `&meetingPersonName=${meetingPerson}` : ""
 		}${meetingStatus ? `&status=${meetingStatus}` : ""}${
@@ -243,18 +243,18 @@ const AllMeetings = () => {
 					{isGrid ? (
 						<>
 							{isLoading && <SkeletonLoader />}
-							<MeetingsGrid data={meetingData?.meetings} mutate={mutate} />
+							<MeetingsGrid data={meetingData} mutate={mutate} />
 						</>
 					) : (
 						<>
 							{isLoading && <Loader />}
-							<MeetingsColumn data={meetingData?.meetings} mutate={mutate} />
+							<MeetingsColumn data={meetingData} mutate={mutate} />
 						</>
 					)}
-					{meetingData?.meetings?.length === 0 ? (
+					{meetingData?.length === 0 ? (
 						<LoaderAnime text="No Meetings Available" />
 					) : null}
-					{meetingData?.meetings?.length === 0 ? <LoaderAnime /> : null}
+					{meetingData?.length === 0 ? <LoaderAnime /> : null}
 					<section className="mb-6">
 						{Math.ceil(
 							Number(pagination?.total || 1) / Number(pagination?.limit || 1)

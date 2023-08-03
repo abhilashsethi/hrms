@@ -735,25 +735,23 @@ type Note = {
 };
 
 export interface MEETING_DATA {
-	meetings: {
-		address: string;
-		clientEmail: string;
-		clientName: string;
-		clientPhone: string;
-		createdAt: string;
-		id: string;
-		lat: number;
-		lng: number;
-		meetingDate: string;
-		meetingEndTime: string;
-		meetingPersonName: string;
-		meetingStartTime: string;
-		notes: Note[];
-		purpose: string;
-		status: string;
-		title: string;
-		updatedAt: string;
-		user: User;
-		userId: string;
-	}[];
+	address: string;
+	clientEmail: string;
+	clientName: string;
+	clientPhone: string;
+	createdAt: string;
+	id: string;
+	lat: number;
+	lng: number;
+	meetingDate: string;
+	meetingEndTime: string;
+	meetingPersonName: string;
+	meetingStartTime: string;
+	notes: Note[];
+	purpose: string;
+	status: string;
+	title: string;
+	updatedAt: string;
+	user: User;
+	userId: string;
 }
