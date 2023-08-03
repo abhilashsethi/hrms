@@ -35,11 +35,12 @@ const UploadEmployeeData = () => {
       });
       setLoading(false);
       console.log(res);
-      if (res?.status !== 200) {
+      if (res?.status !== 201) {
         Swal.fire("Error", res?.results?.msg || "Unable to Submit", "info");
         setLoading(false);
         return;
       }
+      console.log(res);
       router?.push("/admin/employees/all-employees");
       Swal.fire(
         `Success!`,
