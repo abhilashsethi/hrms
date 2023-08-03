@@ -1,19 +1,5 @@
-import {
-  Add,
-  Close,
-  Delete,
-  FilterListRounded,
-  Info,
-} from "@mui/icons-material";
-import {
-  Button,
-  IconButton,
-  MenuItem,
-  Pagination,
-  Stack,
-  TextField,
-  Tooltip,
-} from "@mui/material";
+import { Delete, Info } from "@mui/icons-material";
+import { IconButton, Pagination, Stack, Tooltip } from "@mui/material";
 import { TENDERCARD } from "assets/home";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useAuth, useChange, useFetch } from "hooks";
@@ -27,12 +13,7 @@ import { deleteFile } from "utils";
 
 const MyTenders = () => {
   const { user } = useAuth();
-  const [isPortal, setIsPortal] = useState<string | null>(null);
-  const [isCategory, setIsCategory] = useState<string | null>(null);
-  const [tenderNo, setTenderNo] = useState<string | null>(null);
-  const [tenderName, setTenderName] = useState<string | null>(null);
-  const [isSubmissionDate, setIsSubmissionDate] = useState<any>(null);
-  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
+
   const [pageNumber, setPageNumber] = useState<number>(1);
   const {
     data: tenderData,
@@ -42,7 +23,6 @@ const MyTenders = () => {
   } = useFetch<Tender[]>(
     `tenders/all-tender/by-memberId?userId=${user?.id}&page=${pageNumber}&limit=8`
   );
-  console.log(tenderData);
   return (
     <PanelLayout title="My Tenders - Admin Panel">
       <section className="px-8 py-4">
@@ -220,10 +200,4 @@ const links = [
     page: "My Tenders",
     link: "/admin/tenders/my-tenders",
   },
-];
-const short = [
-  { id: 1, value: "title:asc", name: "Name Ascending" },
-  { id: 2, value: "title:desc", name: "Name Descending" },
-  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
-  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
