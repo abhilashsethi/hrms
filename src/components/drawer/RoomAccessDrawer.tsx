@@ -122,25 +122,33 @@ const RoomAccessDrawer = ({ open, onClose, cardId, mutate }: Props) => {
                   <p className="font-semibold">{item?.value}</p>
                   <ReverseIOSSwitch
                     checked={item?.isAccess}
-                    disabled={user?.role?.name == "CEO" || user?.role?.name == "HR" ? false : true}
+                    disabled={
+                      user?.role?.name == "CEO" ||
+                      user?.role?.name == "COO" ||
+                      user?.role?.name == "DIRECTOR"
+                        ? false
+                        : true
+                    }
                     onChange={(e) => handleChange(e, item?.value)}
                   />
                 </div>
               ))}
             </div>
-            {user?.role?.name == "CEO" || user?.role?.name == "HR" ?
+            {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
               <div className="flex justify-end mt-6">
                 <Button
                   onClick={() => handleSubmit()}
                   disabled={loading}
                   variant="contained"
                   className="!bg-emerald-600"
-                  startIcon={loading ? <CircularProgress size={20} /> : <Done />}
+                  startIcon={
+                    loading ? <CircularProgress size={20} /> : <Done />
+                  }
                 >
                   SAVE CHANGES
                 </Button>
               </div>
-              : null}
+            ) : null}
           </>
         )}
       </Container>
