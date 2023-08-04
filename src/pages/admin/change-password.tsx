@@ -32,10 +32,10 @@ const ChangePassword = ({ resetForm }: any) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { change, isChanging } = useChange();
+  const { change } = useChange();
   const { user } = useAuth();
   const { data: employees, mutate, isLoading } = useFetch<User>(`users`);
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: any, { resetForm }: any) => {
     setLoading(true);
     try {
       const res = await change(`users/change-password/${user?.id}`, {
@@ -50,8 +50,8 @@ const ChangePassword = ({ resetForm }: any) => {
         setLoading(false);
         return;
       }
-      router?.push("/");
       Swal.fire(`Success`, `Password change successfully`, `success`);
+      resetForm();
       mutate();
       return;
     } catch (error) {
