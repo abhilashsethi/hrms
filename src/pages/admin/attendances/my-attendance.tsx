@@ -15,14 +15,10 @@ interface MyDateRef {
 }
 
 const MyAttendance = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [activeMonth, setActiveMonth] = useState();
   const [attendances, setAttendances] = useState<any>([]);
   const { user } = useAuth();
 
-  function handleDateChange(date: any) {
-    setSelectedDate(date);
-  }
   const links = [
     {
       id: 2,
