@@ -134,7 +134,9 @@ const RoomAccessDrawer = ({ open, onClose, cardId, mutate }: Props) => {
                 </div>
               ))}
             </div>
-            {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+            {user?.role?.name == "CEO" ||
+            user?.role?.name == "COO" ||
+            user?.role?.name == "DIRECTOR" ? (
               <div className="flex justify-end mt-6">
                 <Button
                   onClick={() => handleSubmit()}

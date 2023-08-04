@@ -9,10 +9,12 @@ import {
 } from "components/core";
 import { downloadFile, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
+import { NumInWords } from "utils";
 
 const ViewPayrollDetails = () => {
   const router = useRouter();
@@ -21,19 +23,18 @@ const ViewPayrollDetails = () => {
   const { data: employData, mutate } = useFetch<User>(
     `users/${router?.query?.id}`
   );
-  const { data: lossOfPay } = useFetch<any>(
-    `leaves/loss-of-pay/${router?.query?.id}?month=8&year=2023`
-  );
-
   // Function to get total days in a month
   function getDaysInMonth(year: number, month: number): number {
     return new Date(year, month, 0).getDate();
   }
-
+  console.log({ employData });
   const currentDate = new Date();
   const year: number = currentDate.getFullYear();
   const month: number = currentDate.getMonth() + 1; // January is 0, so we add 1 to get the current month.
   // Function to get total days in a month
+  const { data: lossOfPay } = useFetch<any>(
+    `leaves/loss-of-pay/${router?.query?.id}?month=${month}&year=${year}`
+  );
   const totalDaysInMonth = getDaysInMonth(year, month);
   const totalWorkingDay =
     totalDaysInMonth === 31 ? 22 : totalDaysInMonth === 30 ? 21 : 20;
@@ -43,12 +44,11 @@ const ViewPayrollDetails = () => {
     ? employData?.salaryInfoNewFields
     : [];
   const totalLossOfPay =
-    (Gross_Salary / totalWorkingDay) * lossOfPay?.totalUnPaidLeave;
+    (Gross_Salary / totalWorkingDay) * lossOfPay?.totalUnPaidLeave || 0;
 
   const { data: configData, mutate: payRollMutate } = useFetch<any>(
     `payrolls/getAllPayrollConfigs`
   );
-  // console.log(configData);
   const Configs = configData?.length ? configData[0] : null;
   const Professional_Tax = Configs?.ptTaxes?.find(
     (item: any) =>
@@ -216,19 +216,21 @@ const ViewPayrollDetails = () => {
           companyName: "Searchingyard Pvt. Ltd",
           employeeName: employData?.name,
           employeeCode: employData?.employeeID,
-          employeeGrade: "A",
+
           designation: employData?.role?.name,
-          hiringDate: "17 January 2023",
-          leaveBalance: "5",
-          dateOfSalaryRecieved: "17",
-          noOfWorkingDays: "20",
-          presentDays: "20",
+          hiringDate: employData?.joiningDate
+            ? moment(employData?.joiningDate).format("ll")
+            : "--",
+          dateOfSalaryRecieved: moment(new Date()).format("ll"),
           totalLossOfPay: totalLossOfPay,
-          totalUnPaidLeave: lossOfPay?.totalUnPaidLeave,
+          totalUnPaidLeave: lossOfPay?.totalUnPaidLeave
+            ? lossOfPay?.totalUnPaidLeave
+            : 0,
           totalWorkingDay: totalWorkingDay,
           PAN: employData?.panNo,
           bankName: employData?.bankName,
           bankAcNo: employData?.accountNo,
+          UAN: employData?.uanNumber ? employData?.uanNumber : "--",
           payslipNo: "9",
           basicSalary: Gross_Salary
             ? (Configs?.basicSalary * Gross_Salary) / 100
@@ -252,6 +254,7 @@ const ViewPayrollDetails = () => {
           TrainingIncentive: "0.00",
           EmployeeReferralBonus: "0.00",
           Arrear: "0.00",
+          bonus: "0.00",
           SalaryAdvance: "0.00",
           InterestOfSalaryAdvance: "0.00",
           OtherAdvance: "0.00",
@@ -271,6 +274,9 @@ const ViewPayrollDetails = () => {
           TotalDeductions: Gross_Salary ? Total_Deduction : 0,
           GrossEarnings: Gross_Salary,
           NetSalary: Gross_Salary ? Gross_Salary - Total_Deduction : 0,
+          NetSalaryInWord: NumInWords(
+            Gross_Salary ? Gross_Salary - Total_Deduction : 0
+          ),
         },
       });
 
