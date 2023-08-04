@@ -50,7 +50,7 @@ const ChangePassword = ({ resetForm }: any) => {
         setLoading(false);
         return;
       }
-      router?.push("/login");
+      router?.push("/");
       Swal.fire(`Success`, `Password change successfully`, `success`);
       mutate();
       return;

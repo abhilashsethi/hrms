@@ -158,7 +158,9 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
 
             {!isFile && <p>Upload file.</p>}
             {isFile && isFile?.name}
-            {formik.errors?.image && formik?.errors?.image}
+            <span className="text-red-500">
+              {formik.errors?.image && formik?.errors?.image?.toString()}
+            </span>
           </div>
           <TextField
             fullWidth
