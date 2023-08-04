@@ -48,7 +48,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
     reason: "",
     link: "",
     endDate: null,
-    variant: "",
+    variant: "FullDay",
     leaveMonth: `${moment(new Date().toISOString()).format("MMMM")}`,
     leaveYear: `${moment(new Date().toISOString()).format("YYYY")}`,
   };
