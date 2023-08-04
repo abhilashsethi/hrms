@@ -24,21 +24,32 @@ const ViewPayrollDetails = () => {
   const { data: lossOfPay } = useFetch<any>(
     `leaves/loss-of-pay/${router?.query?.id}?month=8&year=2023`
   );
-  // leaves/loss-of-pay/64bf5831e1923bd5ace3baef
-  console.log({ lossOfPay });
+
+  // Function to get total days in a month
+  function getDaysInMonth(year: number, month: number): number {
+    return new Date(year, month, 0).getDate();
+  }
+
+  const currentDate = new Date();
+  const year: number = currentDate.getFullYear();
+  const month: number = currentDate.getMonth() + 1; // January is 0, so we add 1 to get the current month.
+  // Function to get total days in a month
+  const totalDaysInMonth = getDaysInMonth(year, month);
+  const totalWorkingDay =
+    totalDaysInMonth === 31 ? 22 : totalDaysInMonth === 30 ? 21 : 20;
 
   const Gross_Salary: any = employData?.grossSalary;
   const New_Fields: any = employData?.salaryInfoNewFields?.length
     ? employData?.salaryInfoNewFields
     : [];
-  console.log(New_Fields);
+  const totalLossOfPay =
+    (Gross_Salary / totalWorkingDay) * lossOfPay?.totalUnPaidLeave;
 
   const { data: configData, mutate: payRollMutate } = useFetch<any>(
     `payrolls/getAllPayrollConfigs`
   );
   // console.log(configData);
   const Configs = configData?.length ? configData[0] : null;
-  console.log(Configs);
   const Professional_Tax = Configs?.ptTaxes?.find(
     (item: any) =>
       Gross_Salary >= item?.startGrossSalary &&
@@ -212,7 +223,9 @@ const ViewPayrollDetails = () => {
           dateOfSalaryRecieved: "17",
           noOfWorkingDays: "20",
           presentDays: "20",
-          lossOfPay: "0",
+          totalLossOfPay: totalLossOfPay,
+          totalUnPaidLeave: lossOfPay?.totalUnPaidLeave,
+          totalWorkingDay: totalWorkingDay,
           PAN: employData?.panNo,
           bankName: employData?.bankName,
           bankAcNo: employData?.accountNo,

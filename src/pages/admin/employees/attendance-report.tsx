@@ -35,11 +35,6 @@ const AttendanceReport = () => {
       page: "My Profile",
       link: `/admin/employees/my-profile`,
     },
-    {
-      id: 4,
-      page: "Monthly Attendance",
-      link: `/admin/employees/attendance-report?empId=${router?.query?.empId}?month=${router?.query?.month}`,
-    },
   ];
   const { data: attendanceData, isLoading } = useFetch<any>(
     `attendances/${router?.query?.empId}?month=${router?.query?.month}`
