@@ -227,7 +227,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
                   <FormControl>
                     <RadioGroup
                       row
-                      defaultValue={"FullDay"}
+                      defaultValue={value}
                       name="row-radio-buttons-group"
                       value={value}
                       onChange={(e: any) => {
