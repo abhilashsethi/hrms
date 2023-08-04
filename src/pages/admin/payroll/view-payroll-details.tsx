@@ -217,19 +217,19 @@ const ViewPayrollDetails = () => {
           employeeName: employData?.name,
           employeeCode: employData?.employeeID,
 
-          designation: employData?.role?.name,
+          designation: employData?.role?.name ? employData?.role?.name : "--",
           hiringDate: employData?.joiningDate
             ? moment(employData?.joiningDate).format("ll")
             : "--",
           dateOfSalaryRecieved: moment(new Date()).format("ll"),
-          totalLossOfPay: totalLossOfPay,
+          totalLossOfPay: totalLossOfPay ? totalLossOfPay : 0,
           totalUnPaidLeave: lossOfPay?.totalUnPaidLeave
             ? lossOfPay?.totalUnPaidLeave
             : 0,
-          totalWorkingDay: totalWorkingDay,
-          PAN: employData?.panNo,
-          bankName: employData?.bankName,
-          bankAcNo: employData?.accountNo,
+          totalWorkingDay: totalWorkingDay ? totalWorkingDay : 0,
+          PAN: employData?.panNo ? employData?.panNo : "--",
+          bankName: employData?.bankName ? employData?.bankName : "--",
+          bankAcNo: employData?.accountNo ? employData?.accountNo : "--",
           UAN: employData?.uanNumber ? employData?.uanNumber : "--",
           payslipNo: "9",
           basicSalary: Gross_Salary
@@ -238,7 +238,7 @@ const ViewPayrollDetails = () => {
           HRA: Gross_Salary ? (Configs?.hra * Gross_Salary) / 100 : 0,
           conveyance: Configs?.conveyanceAllowances,
           medicalAllowance: Configs?.medicalAllowances,
-          specialAllowance: Special_Allowance,
+          specialAllowance: Special_Allowance ? Special_Allowance : 0,
           employerPfContribution: Gross_Salary
             ? (Configs?.pfEmployer *
                 ((Configs?.basicSalary * Gross_Salary) / 100)) /
