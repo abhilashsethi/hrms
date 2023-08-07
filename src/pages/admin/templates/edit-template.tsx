@@ -17,15 +17,18 @@ const EditTemplate = () => {
     `mail-template/get-by-id/?templateId=${router?.query?.id}`
   );
   console.log({ template });
-  console.log(template?.json);
   const onLoad = () => {
     emailEditorRef?.current?.editor?.loadDesign(JSON.parse(template?.json));
+  };
+  const onReady = () => {
+    // editor is ready
+    console.log("onReady");
   };
   const { change } = useChange();
   const exportHtml = () => {
     emailEditorRef?.current?.editor?.exportHtml(async (data: any) => {
       const { html, design } = data;
-
+      console.log({ data });
       const { isConfirmed } = await Swal.fire({
         title: "Are you sure?",
         text: "You want to save this template ?",
@@ -55,6 +58,7 @@ const EditTemplate = () => {
         );
         return;
       }
+      router.push(`/admin/templates/saved-templates`);
       Swal.fire("Success!", "Template saved successfully!", "success");
     });
   };
@@ -73,7 +77,7 @@ const EditTemplate = () => {
           <div className="flex justify-end font-semibold mb-3 gap-4">
             <button
               className="px-6 py-2 flex gap-2 items-center shadow-xl bg-theme text-white rounded-md text-sm hover:scale-105 ease-in-out transition-all duration-200"
-              //   onClick={exportHtml}
+              onClick={exportHtml}
             >
               <SendToMobile /> SAVE TEMPLATE
             </button>
@@ -88,11 +92,11 @@ const EditTemplate = () => {
             <EmailEditor
               ref={emailEditorRef}
               onLoad={onLoad}
+              onReady={onReady}
               appearance={{
                 theme: "dark",
                 panels: { tools: { dock: "right" } },
               }}
-              //   initialContent={templateData?.success?.data?.content}
             />
           </div>
         </div>
