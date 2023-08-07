@@ -3,13 +3,11 @@ import { CANCEL, CHECK, GROUP } from "assets/dashboard_Icons";
 import { WelcomeUser } from "components/admin";
 import { AttendanceCharts } from "components/admin/attendance";
 import { AdminBreadcrumbs, DashboardCard, Loader } from "components/core";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useMemo } from "react";
 const Attendance = () => {
-  // const { data: attendanceData } = useFetch<any>(
-  // 	`attendances/dashboard/details/data`
-  // );
+  const { user } = useAuth();
   const { data: absentData } = useFetch<any>(
     `attendances/${new Date().toISOString().slice(0, 10)}/absent`
   );
@@ -74,7 +72,7 @@ const Attendance = () => {
   return (
     <PanelLayout title="Attendance Dashboard - Admin Panel">
       <>
-        <WelcomeUser title="Welcome Superadmin!" />
+        <WelcomeUser title={`Welcome ${user?.role?.name}`} />
         <div className="lg:px-8 px-4 pt-4">
           <AdminBreadcrumbs links={links} />
         </div>

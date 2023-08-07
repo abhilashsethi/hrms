@@ -1,8 +1,8 @@
-import { GuestBarChart, GuestDonutChart } from "components/analytics";
-import Link from "next/link";
-import { PhotoViewer } from "components/core";
-import { Tooltip } from "@mui/material";
-import moment from "moment";
+import {
+  DailyAttendance,
+  GuestBarChart,
+  GuestDonutChart,
+} from "components/analytics";
 import { useAuth, useFetch } from "hooks";
 
 const MainHrDashboardCharts = () => {
@@ -10,6 +10,8 @@ const MainHrDashboardCharts = () => {
   const { data: hrDetails, isLoading: hrIsLoading } = useFetch<any>(
     `dashboards/hr-dashInfo?branchId=${user?.employeeOfBranchId}`
   );
+  console.log(hrDetails);
+  const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
@@ -82,7 +84,17 @@ const MainHrDashboardCharts = () => {
             text=""
           />
         </div>
-        <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
+        <div className="grid grid-cols-12 content-between gap-10 m-5 !mb-6">
+          <div className="col-span-12 bg-white pt-20 w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
+            <DailyAttendance
+              text="Last Week Employee's Attendance Report"
+              type="area"
+              data={hrDetails?.lastWeekAttendanceArr}
+              totalUsers={hrDetails?.totalEmployees}
+            />
+          </div>
+        </div>
+        {/* <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Recent Guests</p>
           <div className="grid lg:grid-cols-2 grid-cols-1 lg:px-8 px-2 py-4 gap-4">
             {hrDetails?.recentGuests
@@ -137,7 +149,7 @@ const MainHrDashboardCharts = () => {
                 </Link>
               ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
