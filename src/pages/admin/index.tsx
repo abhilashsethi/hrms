@@ -116,6 +116,19 @@ const AdminHome = () => {
               </>
             )}
           </>
+        ) : user?.role?.name === "COO" ? (
+          <>
+            {isLoading ? (
+              <DashboardSkeletonLoading />
+            ) : (
+              <>
+                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
+                <section className="lg:px-8 px-4 py-4">
+                  <AdminDashboard />
+                </section>
+              </>
+            )}
+          </>
         ) : user?.role?.name === "PROJECT MANAGER" ? (
           <>
             {isLoading ? (
