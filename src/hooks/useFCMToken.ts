@@ -28,7 +28,6 @@ const useFCMToken = (uid: string | undefined) => {
                       method: "PATCH",
                       body: {fcmTokens: resData}     
                    });
-                   console.log(result)
                   } catch (err) {
                     console.log(err)
                   }
