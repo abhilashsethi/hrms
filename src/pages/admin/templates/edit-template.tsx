@@ -13,12 +13,13 @@ const EditTemplate = () => {
   const emailEditorRef = useRef<any>(null);
   const { push, query } = useRouter();
   const router = useRouter();
-  const { data: template } = useFetch<any>(
+  const { data: template, mutate } = useFetch<any>(
     `mail-template/get-by-id/?templateId=${router?.query?.id}`
   );
-  console.log({ template });
   const onLoad = () => {
-    emailEditorRef?.current?.editor?.loadDesign(JSON.parse(template?.json));
+    emailEditorRef?.current?.editor?.loadDesign(
+      template?.json ? JSON.parse(template?.json) : ``
+    );
   };
   const onReady = () => {
     // editor is ready
@@ -58,6 +59,7 @@ const EditTemplate = () => {
         );
         return;
       }
+      mutate();
       router.push(`/admin/templates/saved-templates`);
       Swal.fire("Success!", "Template saved successfully!", "success");
     });
