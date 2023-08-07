@@ -6,25 +6,58 @@ import EmailEditor from "react-email-editor";
 import { RemoveRedEye, SendToMobile } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import { MailTemplate } from "types";
-import { useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
+import Swal from "sweetalert2";
 
 const EditTemplate = () => {
   const emailEditorRef = useRef<any>(null);
   const { push, query } = useRouter();
   const router = useRouter();
-  const { data: template } = useFetch<MailTemplate>(
+  const { data: template } = useFetch<any>(
     `mail-template/get-by-id/?templateId=${router?.query?.id}`
   );
-  console.log(template);
+  console.log({ template });
+  console.log(template?.json);
   const onLoad = () => {
-    emailEditorRef?.current?.editor?.loadDesign(template?.json);
+    emailEditorRef?.current?.editor?.loadDesign(JSON.parse(template?.json));
   };
+  const { change } = useChange();
+  const exportHtml = () => {
+    emailEditorRef?.current?.editor?.exportHtml(async (data: any) => {
+      const { html, design } = data;
 
-  const onReady = () => {
-    // editor is ready
-    console.log("onReady");
+      const { isConfirmed } = await Swal.fire({
+        title: "Are you sure?",
+        text: "You want to save this template ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, save it.",
+      });
+      if (!isConfirmed) return;
+      const res = await change(
+        `mail-template?templateId=${router?.query?.id}`,
+        {
+          method: "PATCH",
+          body: {
+            content: html,
+            json: JSON.stringify(design),
+          },
+        }
+      );
+
+      if (res.status !== 200) {
+        Swal.fire(
+          "Error",
+          res?.results?.error?.message || "Unable to save email template",
+          "error"
+        );
+        return;
+      }
+      Swal.fire("Success!", "Template saved successfully!", "success");
+    });
   };
-
   return (
     <PanelLayout title="Customize Template - University Panel">
       <section className="p-8">
@@ -55,7 +88,6 @@ const EditTemplate = () => {
             <EmailEditor
               ref={emailEditorRef}
               onLoad={onLoad}
-              onReady={onReady}
               appearance={{
                 theme: "dark",
                 panels: { tools: { dock: "right" } },

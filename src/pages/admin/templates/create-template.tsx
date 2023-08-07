@@ -19,16 +19,13 @@ const CreateTemplate = () => {
       link: "/admin/templates/create-template",
     },
   ];
-
   const emailEditorRef = useRef<any>(null);
   const onLoad = () => {};
   const onReady = () => {
     // editor is ready
     console.log("onReady");
   };
-
   const { change } = useChange();
-
   const handleTemplateSave = () => {
     try {
       Swal.fire({
@@ -66,7 +63,7 @@ const CreateTemplate = () => {
                       json: JSON.stringify(design),
                     },
                   });
-                  router.push(`/admin/templates/saved-templates`);
+                  console.log(res);
 
                   if (res?.status !== 200) {
                     throw new Error(res?.results?.msg || "Unable to Submit");
@@ -76,6 +73,7 @@ const CreateTemplate = () => {
                 allowOutsideClick: () => !Swal.isLoading(),
               }).then((result) => {
                 if (result.isConfirmed) {
+                  router.push(`/admin/templates/saved-templates`);
                   Swal.fire(
                     "Created!",
                     "Successfully created mail template!",
