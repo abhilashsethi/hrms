@@ -94,6 +94,7 @@ const SupportColumn = ({ data, mutate }: Props) => {
 				options={{
 					...MuiTblOptions(),
 					exportMenu: [],
+					search: false,
 				}}
 				columns={[
 					{
