@@ -8,14 +8,17 @@ import { useRouter } from "next/router";
 import { MailTemplate } from "types";
 import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
+import { Loader } from "components/core";
 
 const EditTemplate = () => {
   const emailEditorRef = useRef<any>(null);
   const { push, query } = useRouter();
   const router = useRouter();
-  const { data: template, mutate } = useFetch<any>(
-    `mail-template/get-by-id/?templateId=${router?.query?.id}`
-  );
+  const {
+    data: template,
+    mutate,
+    isLoading,
+  } = useFetch<any>(`mail-template/get-by-id/?templateId=${router?.query?.id}`);
   const onLoad = () => {
     emailEditorRef?.current?.editor?.loadDesign(
       template?.json ? JSON.parse(template?.json) : ``
