@@ -1,9 +1,22 @@
 import { KeyboardBackspace, East, ArrowRightAlt } from "@mui/icons-material";
 import { FormControl, IconButton, MenuItem, Select } from "@mui/material";
+import { useFetch } from "hooks";
 import { useRouter } from "next/router";
-
-const CreateHeader = () => {
+import { useState } from "react";
+import { MailTemplate } from "types";
+interface Props {
+  setTemplateId: (templateId: string) => void;
+}
+const CreateHeader = ({ setTemplateId }: Props) => {
   const { back } = useRouter();
+  const [selectedTemplate, setSelectedTemplate] = useState("normal"); // Default value is "normal"
+
+  const { data: template } = useFetch<MailTemplate[]>(`mail-template`);
+  const handleTemplateChange = (event: any) => {
+    const selectedValue = event.target.value as string;
+    setTemplateId(selectedValue);
+    setSelectedTemplate(selectedValue);
+  };
 
   return (
     <section className="w-full bg-theme text-white">
@@ -23,13 +36,17 @@ const CreateHeader = () => {
             <Select
               className="!border-white !text-white "
               defaultValue={"normal"}
+              value={selectedTemplate}
+              onChange={handleTemplateChange}
             >
               <MenuItem value="normal">
                 <em>Normal</em>
               </MenuItem>
-              <MenuItem value={10}>Salary Template</MenuItem>
-              <MenuItem value={20}>Email Invitation</MenuItem>
-              <MenuItem value={30}>Programme</MenuItem>
+              {template?.map((item, i) => (
+                <MenuItem key={i} value={item?.id}>
+                  {item?.title}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </div>

@@ -20,33 +20,26 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
-import { EmailType, EmailUser, User } from "types";
+import { EmailType, EmailUser, MailTemplate, User } from "types";
 import { deleteFile, uploadFile } from "utils";
 import * as Yup from "yup";
 import ReplyToEmail from "./ReplyToEmail";
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
-const CreateEmail = () => {
+const CreateEmail = (templateId: any) => {
   const [pageLimit, setPageLimit] = useState<number | undefined>(20);
   const [searchText, setSearchText] = useState("");
-
   const attachRef = useRef<HTMLInputElement | null>(null);
-
   const { data: users, isValidating: userLoading } = useFetch<User[]>(
     `users?${pageLimit ? "page=1&limit=" + pageLimit + "&" : ""}` +
       (searchText ? `name=${searchText}` : "")
   );
-
   const { change, isChanging } = useChange();
-
   const { user } = useAuth();
-
   const { push, query } = useRouter();
-
   const { data: draftData, isValidating } = useFetch<EmailType>(
     `emails/${query?.draftId}?draft=true`
   );
-
   const formik = useFormik({
     initialValues: {
       recipients: draftData?.receiver?.id ? [draftData?.receiver] : "",
@@ -194,7 +187,11 @@ const CreateEmail = () => {
       formik?.values?.attachments?.filter((item, index) => index !== slNumber)
     );
   };
-
+  const { data: template, isLoading } = useFetch<MailTemplate>(
+    `mail-template/get-by-id?templateId=${templateId?.templateId}`
+  );
+  console.log(templateId);
+  console.log({ template });
   return (
     <>
       {draftData?.replyTo?.id && (
@@ -445,45 +442,59 @@ const CreateEmail = () => {
         </div>
         <div className="flex flex-col w-full gap-2">
           <InputLabel className="!font-semibold"> Message - </InputLabel>
-          <ReactQuill
-            placeholder="Message ..."
-            theme="snow"
-            modules={{
-              toolbar: [
-                [{ header: [1, 2, false] }],
-                ["bold", "italic", "underline", "strike", "blockquote"],
-                [
-                  { list: "ordered" },
-                  { list: "bullet" },
-                  { indent: "-1" },
-                  { indent: "+1" },
+          {templateId?.templateId === "normal" ? (
+            <ReactQuill
+              placeholder="Message ..."
+              theme="snow"
+              modules={{
+                toolbar: [
+                  [{ header: [1, 2, false] }],
+                  ["bold", "italic", "underline", "strike", "blockquote"],
+                  [
+                    { list: "ordered" },
+                    { list: "bullet" },
+                    { indent: "-1" },
+                    { indent: "+1" },
+                  ],
+                  ["link", "image"],
+                  ["clean"],
                 ],
-                ["link", "image"],
-                ["clean"],
-              ],
-            }}
-            formats={[
-              "header",
-              "bold",
-              "italic",
-              "underline",
-              "strike",
-              "blockquote",
-              "list",
-              "bullet",
-              "indent",
-              "link",
-              "image",
-            ]}
-            value={formik?.values?.message}
-            onChange={(value) => formik?.setFieldValue("message", value)}
-            onBlur={() => formik?.setFieldTouched("message", true)}
-            style={{
-              height: "50vh",
-              paddingBottom: "2rem",
-            }}
-            className=" w-full bg-white rounded-lg"
-          />
+              }}
+              formats={[
+                "header",
+                "bold",
+                "italic",
+                "underline",
+                "strike",
+                "blockquote",
+                "list",
+                "bullet",
+                "indent",
+                "link",
+                "image",
+              ]}
+              value={formik?.values?.message}
+              onChange={(value) => formik?.setFieldValue("message", value)}
+              onBlur={() => formik?.setFieldTouched("message", true)}
+              style={{
+                height: "50vh",
+                paddingBottom: "2rem",
+              }}
+              className=" w-full bg-white rounded-lg"
+            />
+          ) : (
+            <section className="flex justify-center">
+              {isLoading ? (
+                <p>Loading.....</p>
+              ) : (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: `${template?.content}`,
+                  }}
+                ></div>
+              )}
+            </section>
+          )}
           {Boolean(formik?.touched?.message && formik?.errors?.message) && (
             <FormHelperText error={true}>
               {formik?.touched?.message && formik?.errors?.message}
