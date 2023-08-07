@@ -32,8 +32,8 @@ const GstConfig = () => {
   const handleSubmit = async (values: QuotationGst) => {
     setLoading(true);
     try {
-      const res = await change(`quotations/gst-info/${gstData?.id}`, {
-        method: "PATCH",
+      const res = await change(`quotations/gst-info?gstId=${gstData?.id}`, {
+        method: "PUT",
         body: {
           Igst: Number(values?.Igst),
           Cgst: Number(values?.Cgst),
