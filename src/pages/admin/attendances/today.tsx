@@ -57,8 +57,8 @@ const TodayAttendance = () => {
     `attendances/${selectedDate.toISOString().slice(0, 10)}/${
       status === "wfh" ? `present` : status
     }?page=${pageNumber}&limit=8${userName ? `&employeeName=${userName}` : ""}${
-      status === "wfh" ? `&isWFH=true` : ``
-    }${
+      user?.role?.name === "HR" ? `&branchId=${user?.employeeOfBranchId}` : ``
+    }${status === "wfh" ? `&isWFH=true` : ``}${
       user?.role?.name === "CEO" || user?.role?.name === "HR"
         ? ""
         : `&userId=${user?.id}`
@@ -66,13 +66,19 @@ const TodayAttendance = () => {
   );
 
   const { data: absentData, mutate: absentMutate } = useFetch<any>(
-    `attendances/${selectedDate.toISOString().slice(0, 10)}/absent`
+    `attendances/${selectedDate.toISOString().slice(0, 10)}/absent${
+      user?.role?.name === "HR" ? `?branchId=${user?.employeeOfBranchId}` : ``
+    }`
   );
   const { data: presentData, mutate: presentMutate } = useFetch<any>(
-    `attendances/${selectedDate.toISOString().slice(0, 10)}/present`
+    `attendances/${selectedDate.toISOString().slice(0, 10)}/present${
+      user?.role?.name === "HR" ? `?branchId=${user?.employeeOfBranchId}` : ``
+    }`
   );
   const { data: allUser, mutate: allMutate } = useFetch<any>(
-    `attendances/${selectedDate.toISOString().slice(0, 10)}/all`
+    `attendances/${selectedDate.toISOString().slice(0, 10)}/all${
+      user?.role?.name === "HR" ? `?branchId=${user?.employeeOfBranchId}` : ``
+    }`
   );
 
   const cards = [

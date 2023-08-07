@@ -222,7 +222,7 @@ const ViewPayrollDetails = () => {
             ? moment(employData?.joiningDate).format("ll")
             : "--",
           dateOfSalaryRecieved: moment(new Date()).format("ll"),
-          totalLossOfPay: totalLossOfPay ? totalLossOfPay : 0,
+          totalLossOfPay: totalLossOfPay ? totalLossOfPay?.toFixed(2) : 0,
           totalUnPaidLeave: lossOfPay?.totalUnPaidLeave
             ? lossOfPay?.totalUnPaidLeave
             : 0,
