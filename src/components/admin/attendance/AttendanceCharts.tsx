@@ -11,7 +11,7 @@ const AttendanceCharts = ({
   presentData,
 }: Props) => {
   const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
-
+  console.log(employeeDetails);
   return (
     <>
       <div className="grid grid-cols-12 py-2 content-between gap-6 !mb-6">
@@ -20,7 +20,7 @@ const AttendanceCharts = ({
 						Attendance from last week
 					</p> */}
           <DailyAttendance
-            text="This Week Employee's Report"
+            text="Last Week Employee's Report"
             type="area"
             data={employeeDetails?.lastWeekAttendanceArr}
             totalUsers={employeeDetails?.totalUsers}
