@@ -605,6 +605,19 @@ export default () => {
 			],
 		},
 
+		{
+			key: "24ADSB",
+			title: "Announcement",
+			icon: <ICONS.Departments />,
+			submenus: [
+				{
+					key: "10ADSB-1",
+					title: "All Announcements",
+					icon: <ICONS.Dashboard_1 />,
+					route: "/admin/announcement/all-announcements",
+				},
+			],
+		},
 		// {
 		// 	key: "12",
 		// 	title: "Technologies",
