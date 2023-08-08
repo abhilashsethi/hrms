@@ -28,7 +28,12 @@ const validationSchema = Yup.object().shape({
 	qty: Yup.string().required("Quantity is required!"),
 	cost: Yup.string().required("Cost is required!"),
 });
-const AddAdditionalQuotationDetails = ({ open, data, handleClose, mutate }: Props) => {
+const AddAdditionalQuotationDetails = ({
+	open,
+	data,
+	handleClose,
+	mutate,
+}: Props) => {
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
 	const [value, setValue] = useState("one");
@@ -37,7 +42,7 @@ const AddAdditionalQuotationDetails = ({ open, data, handleClose, mutate }: Prop
 	};
 	const initialValues = {
 		description: "",
-		qty: 0,
+		qty: "",
 		cost: 0,
 	};
 
@@ -45,30 +50,26 @@ const AddAdditionalQuotationDetails = ({ open, data, handleClose, mutate }: Prop
 		setLoading(true);
 		try {
 			const timestamp = Date.now();
-			const id = (timestamp % 100000).toString().padStart(6, '0');
+			const id = (timestamp % 100000).toString().padStart(6, "0");
 			const resData = {
 				id: id,
 				description: values?.description,
 				cost: Number(values?.cost),
-				quantity: Number(values?.qty),
-			}
+				quantity: values?.qty,
+			};
 			const res = await change(`quotations/add-work/${data?.id}`, {
 				body: resData,
 			});
 			console.log("after submit", res);
 			setLoading(false);
 			if (res?.status !== 200) {
-				Swal.fire(
-					"Error",
-					res?.results?.msg || "Unable to Submit",
-					"error"
-				);
+				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
 				setLoading(false);
 				return;
 			}
 			Swal.fire(`Success`, `Additional details add successfully!`, `success`);
-			mutate()
-			handleClose()
+			mutate();
+			handleClose();
 			return;
 		} catch (error) {
 			console.log(error);
@@ -148,7 +149,6 @@ const AddAdditionalQuotationDetails = ({ open, data, handleClose, mutate }: Prop
 									<TextField
 										size="small"
 										fullWidth
-										type="number"
 										placeholder="Qty"
 										name="qty"
 										value={values.qty}

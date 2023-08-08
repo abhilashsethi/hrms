@@ -7,7 +7,7 @@ import { useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { MuiTblOptions, getDataWithSL } from "utils";
+import { MuiTblOptions } from "utils";
 interface Props {
 	data?: any;
 	mutate?: any;
@@ -90,11 +90,20 @@ const SupportColumn = ({ data, mutate }: Props) => {
 			<MaterialTable
 				title={<HeadStyle name="All Supports" icon={<SupportAgent />} />}
 				isLoading={!data}
-				data={data ? getDataWithSL<any>(data) : []}
+				data={
+					data
+						? data?.map((_: any, i: number) => ({
+								..._,
+								sl: i + 1,
+								name: _?.reqUser?.name,
+								email: _?.reqUser?.email,
+						  }))
+						: []
+				}
 				options={{
 					...MuiTblOptions(),
 					exportMenu: [],
-					search: false,
+					search: true,
 				}}
 				columns={[
 					{
@@ -107,17 +116,16 @@ const SupportColumn = ({ data, mutate }: Props) => {
 					{
 						title: "Name",
 						tooltip: "Name",
-						render: (data) => {
-							return <div>{data?.reqUser?.name}</div>;
-						},
+						field: "name",
+						// render: (data) => {
+						// 	return <div>{data?.reqUser?.name}</div>;
+						// },
 					},
 
 					{
 						title: "Email",
 						tooltip: "Email",
-						render: (data) => {
-							return <div>{data?.reqUser?.email}</div>;
-						},
+						field: "email",
 					},
 
 					{

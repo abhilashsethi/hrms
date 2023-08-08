@@ -616,6 +616,12 @@ export default () => {
 					icon: <ICONS.Dashboard_1 />,
 					route: "/admin/announcement/all-announcements",
 				},
+				{
+					key: "11ADSB-1",
+					title: "Create Announcements",
+					icon: <ICONS.Dashboard_1 />,
+					route: "/admin/announcement/create-announcement",
+				},
 			],
 		},
 		// {
