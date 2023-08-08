@@ -40,7 +40,7 @@ const EditAdditionalQuotationDetails = ({
 	const [loading, setLoading] = useState(false);
 	const initialValues = {
 		description: `${data?.description ? data?.description : ""}`,
-		qty: `${data?.quantity ? data?.quantity : ""}`,
+		qty: `${data?.quantity ? data?.quantity : null}`,
 		cost: `${data?.cost ? data?.cost : 0}`,
 	};
 
@@ -50,7 +50,7 @@ const EditAdditionalQuotationDetails = ({
 			const resData = {
 				description: values?.description,
 				cost: Number(values?.cost),
-				quantity: Number(values?.qty),
+				quantity: values?.qty,
 			};
 			const res = await change(`quotations/update-work/${data?.id}`, {
 				method: "PATCH",
