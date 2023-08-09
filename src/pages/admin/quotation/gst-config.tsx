@@ -31,15 +31,23 @@ const GstConfig = () => {
   };
   const handleSubmit = async (values: QuotationGst) => {
     setLoading(true);
+
     try {
-      const res = await change(`quotations/gst-info?gstId=${gstData?.id}`, {
-        method: "PUT",
-        body: {
-          Igst: Number(values?.Igst),
-          Cgst: Number(values?.Cgst),
-          Sgst: Number(values?.Sgst),
-        },
-      });
+      const res = await change(
+        `${
+          gstData?.id
+            ? `quotations/gst-info?gstId=${gstData?.id}`
+            : `quotations/create-gst-info`
+        }`,
+        {
+          method: `${gstData?.id ? "PUT" : "POST"}`,
+          body: {
+            Igst: Number(values?.Igst),
+            Cgst: Number(values?.Cgst),
+            Sgst: Number(values?.Sgst),
+          },
+        }
+      );
       setLoading(false);
       if (res?.status !== 200) {
         Swal.fire(
