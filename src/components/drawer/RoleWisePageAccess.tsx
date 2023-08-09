@@ -296,12 +296,12 @@ const PageList = [
 		icon: <ICONS.Data_Wise_Attendance />,
 		name: "Date Wise Attendance",
 	},
-	// {
-	// 	id: 16,
-	// 	value: "/admin/payroll/configure",
-	// 	icon: <ICONS.Configure />,
-	// 	name: "Payroll Configure",
-	// },
+	{
+		id: 16,
+		value: "/admin/payroll/configure",
+		icon: <ICONS.Configure />,
+		name: "Payroll Configure",
+	},
 	{
 		id: 17,
 		value: "/admin/payroll/view-config",
