@@ -608,18 +608,18 @@ export default () => {
 		{
 			key: "24ADSB",
 			title: "Announcement",
-			icon: <ICONS.Departments />,
+			icon: <ICONS.Announcement />,
 			submenus: [
 				{
 					key: "10ADSB-1",
 					title: "All Announcements",
-					icon: <ICONS.Dashboard_1 />,
+					icon: <ICONS.All_Announcement />,
 					route: "/admin/announcement/all-announcements",
 				},
 				{
 					key: "11ADSB-1",
 					title: "Create Announcements",
-					icon: <ICONS.Dashboard_1 />,
+					icon: <ICONS.Create_Announcement />,
 					route: "/admin/announcement/create-announcement",
 				},
 			],

@@ -700,13 +700,13 @@ const PageList = [
 	{
 		id: 75,
 		value: "/admin/announcement/all-announcements",
-		icon: <ICONS.All_Meetings />,
+		icon: <ICONS.All_Announcement />,
 		name: "All Announcements",
 	},
 	{
 		id: 76,
 		value: "/admin/announcement/create-announcement",
-		icon: <ICONS.All_Meetings />,
+		icon: <ICONS.Create_Announcement />,
 		name: "Create Announcements",
 	},
 
