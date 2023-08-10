@@ -106,7 +106,6 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
 
   const handleGroupAction = async (configId: number) => {
     try {
-      console.log({ configId });
       switch (configId) {
         case 2:
           const res = await change(
@@ -128,29 +127,24 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               "error"
             );
           }
+          revalidateCurrentChat(selectedChatId);
           break;
         case 1:
-          const blockUser = await change(
-            `chat/blocked/${
-              currentChatProfileDetails?.chatMembers?.find(
-                (item) => item?.user?.id === user?.id
-              )?.id
-            }`,
-            {
-              method: "PATCH",
-              body: {
-                isBlocked: true,
-              },
-            }
-          );
+          const blockUser = await change(`/${selectedChatId}`, {
+            method: "PATCH",
+            body: {
+              isBlocked: true,
+            },
+          });
 
-          if (blockUser?.status !== 201) {
+          if (blockUser?.status !== 200) {
             Swal.fire(
               "Error",
               blockUser?.results?.msg || "Something went wrong!",
               "error"
             );
           }
+          revalidateCurrentChat(selectedChatId);
           break;
         case 3:
           const clear = await change(`chat/message-clear/${selectedChatId}`, {
@@ -172,7 +166,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
       }
     } catch (error) {}
   };
-
+  console.log(currentChatProfileDetails);
   return (
     <>
       <ChatProfileDrawer
@@ -193,7 +187,6 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
             <h1 className="font-semibold">
               {currentChatProfileDetails?.title}
             </h1>
-
             <h1 className="text-sm font-light">
               {currentChatProfileDetails?.isPrivateGroup ? (
                 <span
@@ -280,6 +273,15 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               )}
             </h1>
           </div>
+          <p className="px-6">
+            {currentChatProfileDetails?.isGroupBlocked ? (
+              <p className="text-white bg-red-500 rounded-full px-2 py-1">
+                Blocked{" "}
+              </p>
+            ) : (
+              ""
+            )}
+          </p>
         </div>
         <div>
           <Tooltip title="Menu">

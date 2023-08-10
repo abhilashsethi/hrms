@@ -60,38 +60,29 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               "error"
             );
           }
+          revalidateCurrentChat(selectedChatId);
           break;
         case 1:
-          const blockUser = await change(
-            `chat/blocked/${
-              profileData?.chatMembers?.find(
-                (item) => item?.user?.id === user?.id
-              )?.id
-            }`,
-            {
-              method: "PATCH",
-              body: {
-                isBlocked: true,
-              },
-            }
-          );
+          const blockUser = await change(`chat/blocked/${selectedChatId}`, {
+            method: "PATCH",
+            body: {
+              isBlocked: true,
+            },
+          });
 
-          if (blockUser?.status !== 201) {
+          if (blockUser?.status !== 200) {
             Swal.fire(
               "Error",
               blockUser?.results?.msg || "Something went wrong!",
               "error"
             );
           }
+          revalidateCurrentChat(selectedChatId);
           break;
 
         case 4 || 3:
           const clearChat = await change(
-            `message-clear/:chatId/${
-              profileData?.chatMembers?.find(
-                (item) => item?.user?.id === user?.id
-              )?.id
-            }`,
+            `chat/message-clear/${selectedChatId}`,
             {
               method: "POST",
               BASE_URL,
@@ -106,6 +97,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
             );
           }
           revalidateCurrentChat(selectedChatId);
+          onClose();
           break;
         default:
           break;

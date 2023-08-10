@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { Form, Formik } from "formik";
-import { useChange, useChatData, useFetch } from "hooks";
+import { useAuth, useChange, useChatData, useFetch } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
@@ -36,6 +36,7 @@ const validationSchema = yup.object().shape({
 });
 const ChatGroupCreate = ({ open, onClose }: Props) => {
   const { reValidateGroupChat } = useChatData();
+  const { user } = useAuth();
   const { data: employeeData } = useFetch<User[]>(`users`);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
@@ -116,7 +117,11 @@ const ChatGroupCreate = ({ open, onClose }: Props) => {
                 <div className="mt-2">
                   <Autocomplete
                     multiple
-                    options={employeeData ? employeeData : []}
+                    options={
+                      employeeData
+                        ? employeeData?.filter((item) => item?.id !== user?.id)
+                        : []
+                    }
                     getOptionLabel={(option) => option.name}
                     onChange={(e, r) => {
                       setFieldValue(

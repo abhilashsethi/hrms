@@ -12,10 +12,11 @@ const EmailContainer = ({
   data?: EmailType;
   printRef: any;
 }) => {
+  console.log(data?.replyTo);
   return (
     <>
       <div className="w-full flex flex-col  gap-4" ref={printRef}>
-        {data?.replyTo?.id && <ReplyToEmail />}
+        {data?.replyTo?.id && <ReplyToEmail data={data} />}
 
         <div className="p-4 flex flex-wrap w-full bg-secondary-600 rounded-t-lg items-center gap-4 border-b border-white justify-between">
           <div className="flex items-center w-11/12 gap-4 justify-start">
