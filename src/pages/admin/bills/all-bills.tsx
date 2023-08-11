@@ -24,7 +24,7 @@ const AllBills = () => {
   const [billNumber, setBillNumber] = useState<string | null>(null);
   const [BillStatus, setBillStatus] = useState<string | null>(null);
   const [selectDate, setSelectDate] = useState<string | null>(null);
-  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string | null>("createdAt:desc");
   console.log({ selectDate });
   const {
     data: billData,
@@ -64,7 +64,7 @@ const AllBills = () => {
             >
               <IconButton
                 onClick={() => {
-                  setIsOrderBy(null);
+                  setIsOrderBy("createdAt:desc");
                   setSelectDate(null);
                   setBillStatus(null);
                   setBillNumber(null);
@@ -74,7 +74,7 @@ const AllBills = () => {
                 <Tooltip
                   title={
                     selectDate != null ||
-                    isOrderBy != null ||
+                    isOrderBy != "createdAt:desc" ||
                     BillStatus != null ||
                     clientName != null ||
                     billNumber != null
@@ -83,7 +83,7 @@ const AllBills = () => {
                   }
                 >
                   {selectDate != null ||
-                  isOrderBy != null ||
+                  isOrderBy != "createdAt:desc" ||
                   clientName != null ||
                   BillStatus != null ||
                   billNumber != null ? (
@@ -227,6 +227,6 @@ const links = [
 const short = [
   { id: 1, value: "name:asc", name: "Client Name Ascending" },
   { id: 2, value: "name:desc", name: "Client Name Descending" },
-  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
-  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
+  { id: 3, value: "createdAt:desc", name: "CreatedAt Ascending" },
+  { id: 4, value: "createdAt:asc", name: "CreatedAt Descending" },
 ];
