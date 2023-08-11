@@ -1,5 +1,19 @@
-import { Add, Close, Delete, FilterListRounded, Info } from "@mui/icons-material";
-import { Button, IconButton, MenuItem, Pagination, Stack, TextField, Tooltip } from "@mui/material";
+import {
+  Add,
+  Close,
+  Delete,
+  FilterListRounded,
+  Info,
+} from "@mui/icons-material";
+import {
+  Button,
+  IconButton,
+  MenuItem,
+  Pagination,
+  Stack,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import { TENDERCARD } from "assets/home";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useChange, useFetch } from "hooks";
@@ -25,11 +39,12 @@ const AllTenders = () => {
     isLoading,
     pagination,
   } = useFetch<Tender[]>(
-    `tenders?page=${pageNumber}&limit=8${tenderName ? `&title=${tenderName}` : ""
-    }${tenderNo ? `&tenderNo=${tenderNo}` : ""
-    }${isOrderBy ? `&orderBy=${isOrderBy}` : ""
-    }${isCategory ? `&category=${isCategory}` : ""
-    }${isSubmissionDate ? `&submissionDate=${isSubmissionDate}` : ""
+    `tenders?page=${pageNumber}&limit=8${
+      tenderName ? `&title=${tenderName}` : ""
+    }${tenderNo ? `&tenderNo=${tenderNo}` : ""}${
+      isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    }${isCategory ? `&category=${isCategory}` : ""}${
+      isSubmissionDate ? `&submissionDate=${isSubmissionDate}` : ""
     }${isPortal ? `&portal=${isPortal}` : ""}`
   );
 
@@ -67,21 +82,21 @@ const AllTenders = () => {
               <Tooltip
                 title={
                   isSubmissionDate != null ||
-                    isPortal != null ||
-                    isCategory != null ||
-                    isOrderBy != null ||
-                    tenderName != null ||
-                    tenderNo != null
+                  isPortal != null ||
+                  isCategory != null ||
+                  isOrderBy != null ||
+                  tenderName != null ||
+                  tenderNo != null
                     ? `Remove Filters`
                     : `Filter`
                 }
               >
                 {isPortal != null ||
-                  isSubmissionDate != null ||
-                  isCategory != null ||
-                  isOrderBy != null ||
-                  tenderName != null ||
-                  tenderNo != null ? (
+                isSubmissionDate != null ||
+                isCategory != null ||
+                isOrderBy != null ||
+                tenderName != null ||
+                tenderNo != null ? (
                   <Close className={"!text-white"} />
                 ) : (
                   <FilterListRounded className={"!text-white"} />
@@ -144,10 +159,19 @@ const AllTenders = () => {
               }}
               label="Submission Date"
               value={
-                isSubmissionDate ? moment(isSubmissionDate).format("YYYY-MM-DD") : null
+                isSubmissionDate
+                  ? moment(isSubmissionDate).format("YYYY-MM-DD")
+                  : ""
               }
               onChange={(e) => {
-                setPageNumber(1), setIsSubmissionDate(new Date(e.target.value).toISOString());
+                setPageNumber(1);
+                const newValue = e.target.value;
+                // Check if the new value is empty (cleared)
+                if (newValue === "") {
+                  setIsSubmissionDate(null); // Set state to null if cleared
+                } else {
+                  setIsSubmissionDate(new Date(newValue).toISOString());
+                }
               }}
               name="submissionDate"
             />
@@ -175,7 +199,6 @@ const AllTenders = () => {
             {tenderData?.map((item) => (
               <div key={item?.id}>
                 <CardContent item={item} mutate={mutate} />
-
               </div>
             ))}
           </div>
@@ -189,7 +212,7 @@ const AllTenders = () => {
                   <Pagination
                     count={Math.ceil(
                       Number(pagination?.total || 1) /
-                      Number(pagination?.limit || 1)
+                        Number(pagination?.limit || 1)
                     )}
                     onChange={(e, v: number) => {
                       setPageNumber(v);
@@ -261,16 +284,23 @@ const CardContent = ({ item, mutate }: Props) => {
           className={`h-28 w-full flex justify-center items-center relative bg-[#76DCC7]`}
         >
           <div
-            className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${item?.status === "Open"
-              ? `bg-yellow-400` :
-              item?.status === "Disqualified" ? `bg-red-500` :
-                item?.status === "L1" ? `bg-blue-500` :
-                  item?.status === "Cancelled" ? `bg-[#f97316]` :
-                    item?.status === "FinancialEvaluation" ? `bg-[#8b5cf6]` :
-                      item?.status === "TechnicalEvaluation" ? `bg-[#e879f9]` :
-                        item?.status === "BidAwarded" ? `bg-[#9333ea]`
-                          : `bg-green-500`
-              }`}
+            className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${
+              item?.status === "Open"
+                ? `bg-yellow-400`
+                : item?.status === "Disqualified"
+                ? `bg-red-500`
+                : item?.status === "L1"
+                ? `bg-blue-500`
+                : item?.status === "Cancelled"
+                ? `bg-[#f97316]`
+                : item?.status === "FinancialEvaluation"
+                ? `bg-[#8b5cf6]`
+                : item?.status === "TechnicalEvaluation"
+                ? `bg-[#e879f9]`
+                : item?.status === "BidAwarded"
+                ? `bg-[#9333ea]`
+                : `bg-green-500`
+            }`}
           >
             <span className="text-xs font-semibold text-white tracking-wide">
               {item?.status}
@@ -301,12 +331,8 @@ const CardContent = ({ item, mutate }: Props) => {
           <h1 className="mt-2 text-sm font-semibold">Tender No :</h1>
           <span className="text-sm text-gray-600">{item?.tenderNo}</span>
           <h1 className="mt-2 text-sm font-semibold">Category :</h1>
-          <span className="text-sm text-gray-600">
-            {item?.category}
-          </span>
-          <h1 className="mt-2 text-sm font-semibold">
-            Submission Date :
-          </h1>
+          <span className="text-sm text-gray-600">{item?.category}</span>
+          <h1 className="mt-2 text-sm font-semibold">Submission Date :</h1>
           <span className="text-sm text-gray-600">
             {item?.submissionDate ? (
               moment(item?.submissionDate).format("ll")
@@ -334,4 +360,3 @@ const short = [
   { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
   { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
-
