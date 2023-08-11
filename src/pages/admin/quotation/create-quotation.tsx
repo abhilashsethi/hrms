@@ -3,7 +3,6 @@ import {
   Autocomplete,
   Button,
   CircularProgress,
-  FormControl,
   FormControlLabel,
   FormHelperText,
   IconButton,
@@ -15,7 +14,7 @@ import {
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { Field, FieldArray, Form, Formik } from "formik";
-import { downloadFile, useChange, useFetch } from "hooks";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import dynamic from "next/dynamic";
 import router from "next/router";
@@ -90,8 +89,8 @@ const CreateQuotation = () => {
           const timestamp = Date.now() + index; // Add the index to make the timestamp unique
           const id = (timestamp % 100000).toString().padStart(6, "0"); // Limit to 6 digits
           const description = item.description;
-          const quantity = Number(item.qty);
-          const cost = item.cost;
+          const quantity = item.qty;
+          const cost = Number(item.cost);
           return { id, description, quantity, cost };
         }
       );
