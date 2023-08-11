@@ -110,7 +110,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
       icon: <SupportAgent fontSize="medium" className="text-white" />,
       title: "Support",
       color: "bg-[#4caf50]",
-      link: "/admin/admin/support/create-support",
+      link: "/admin/support/create-support",
     },
   ];
   const leave_status = [
