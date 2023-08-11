@@ -9,7 +9,7 @@ import {
   DialogTitle,
   IconButton,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useChange, useFetch } from "hooks";
@@ -29,12 +29,7 @@ interface Props {
   branchId?: string;
 }
 
-const UpdateBranch = ({
-  open,
-  handleClose,
-  MainMutate,
-  branchId,
-}: Props) => {
+const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
   const [loading, setLoading] = useState(false);
   const imageRef = useRef<HTMLInputElement | null>(null);
   const { change } = useChange();
@@ -63,27 +58,38 @@ const UpdateBranch = ({
       country: yup.string().required("Country Name is required!"),
       location: yup.string().required("Location is required!"),
       managerId: yup.string().required("Manager is required!"),
-      name: yup.string()
+      name: yup
+        .string()
         .min(2, "Name must be at least 2 characters")
         .max(50, "Name must be less than 50 characters")
         .required("Name is required!"),
-      phone: yup.string()
+      phone: yup
+        .string()
         .matches(
           /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
           "Phone number is not valid"
         )
         .min(6)
         .max(15),
-      email: yup.string()
-        .email("Invalid email address"),
+      email: yup.string().email("Invalid email address"),
     }),
     onSubmit: async (values) => {
       setLoading(true);
       try {
+        const reqValue = Object.entries(values).reduce(
+          (acc: any, [key, value]) => {
+            if (key !== "link" && value) {
+              acc[key] = value;
+            }
+            return acc;
+          },
+          {}
+        );
         const res = await change(`branches/${branchData?.id}`, {
           method: "PATCH",
-          body: values,
+          body: { ...reqValue },
         });
+        console.log(res);
         setLoading(false);
         if (res?.status !== 200) {
           Swal.fire(
@@ -120,7 +126,9 @@ const UpdateBranch = ({
         try {
           Swal.fire("", "Please Wait...", "info");
           await deleteFile(String(data?.split("/").reverse()[0]));
-          const updatedPhotos = branchData?.photos.filter((photo: any) => photo !== data);
+          const updatedPhotos = branchData?.photos.filter(
+            (photo: any) => photo !== data
+          );
 
           const res = await change(`branches/${branchData?.id}`, {
             method: "PATCH",
@@ -223,8 +231,9 @@ const UpdateBranch = ({
                       value={
                         formik.values?.managerId
                           ? userData?.find(
-                            (option: any) => option.id === formik.values.managerId
-                          )
+                              (option: any) =>
+                                option.id === formik.values.managerId
+                            )
                           : {}
                       }
                       onChange={(e: any, r: any) => {
@@ -244,16 +253,19 @@ const UpdateBranch = ({
                           {...params}
                           placeholder="Manager Name"
                           onBlur={formik.handleBlur}
-                          error={formik.touched.managerId && !!formik.errors.managerId}
-                          helperText={formik.touched.managerId && formik.errors.managerId}
+                          error={
+                            formik.touched.managerId &&
+                            !!formik.errors.managerId
+                          }
+                          helperText={
+                            formik.touched.managerId && formik.errors.managerId
+                          }
                         />
                       )}
                     />
                   </div>
                   <div className="w-full">
-                    <p className="text-theme font-semibold">
-                      Phone
-                    </p>
+                    <p className="text-theme font-semibold">Phone</p>
                     <TextField
                       size="small"
                       fullWidth
@@ -267,9 +279,7 @@ const UpdateBranch = ({
                     />
                   </div>
                   <div className="w-full">
-                    <p className="text-theme font-semibold">
-                      Email
-                    </p>
+                    <p className="text-theme font-semibold">Email</p>
                     <TextField
                       size="small"
                       fullWidth
@@ -283,9 +293,7 @@ const UpdateBranch = ({
                     />
                   </div>
                   <div className="w-full">
-                    <p className="text-theme font-semibold">
-                      Location
-                    </p>
+                    <p className="text-theme font-semibold">Location</p>
                     <TextField
                       size="small"
                       fullWidth
@@ -294,8 +302,12 @@ const UpdateBranch = ({
                       value={formik.values.location}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      error={formik.touched.location && !!formik.errors.location}
-                      helperText={formik.touched.location && formik.errors.location}
+                      error={
+                        formik.touched.location && !!formik.errors.location
+                      }
+                      helperText={
+                        formik.touched.location && formik.errors.location
+                      }
                     />
                   </div>
                   <div className="w-full">
@@ -333,10 +345,13 @@ const UpdateBranch = ({
                           label="Choose a country"
                           name="country"
                           error={
-                            formik.touched?.country && Boolean(formik.errors?.country)
+                            formik.touched?.country &&
+                            Boolean(formik.errors?.country)
                           }
                           onBlur={formik.handleBlur}
-                          helperText={formik.touched?.country && formik.errors?.country}
+                          helperText={
+                            formik.touched?.country && formik.errors?.country
+                          }
                           inputProps={{
                             ...params.inputProps,
                           }}
@@ -351,50 +366,77 @@ const UpdateBranch = ({
                   variant="contained"
                   className="!bg-emerald-500"
                   disabled={loading}
-                  startIcon={loading ? <CircularProgress size={20} /> : <Check />}
+                  startIcon={
+                    loading ? <CircularProgress size={20} /> : <Check />
+                  }
                 >
                   UPDATE DETAILS
                 </Button>
               </form>
-              {branchData?.photos?.length ?
-                (
-                  <>
-                    <div className="w-full">
-                      <div className="flex justify-end pt-4 gap-2">
-                        <button onClick={() =>
-                          setIsUpload({ dialogue: true, branchData: branchData })}
-                          className=
-                          "bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">
-                          Add More Images
-                        </button>
-                      </div>
+              {branchData?.photos?.length ? (
+                <>
+                  <div className="w-full">
+                    <div className="flex justify-end pt-4 gap-2">
+                      <button
+                        onClick={() =>
+                          setIsUpload({
+                            dialogue: true,
+                            branchData: branchData,
+                          })
+                        }
+                        className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                      >
+                        Add More Images
+                      </button>
                     </div>
-                    <div className="grid lg:grid-cols-2 gap-4 py-4">
-                      {branchData?.photos?.map((data: any, k: any) => (
-                        <div key={k} className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg">
-                          <img className="lg:h-48 md:h-36 w-full object-cover object-center 
+                  </div>
+                  <div className="grid lg:grid-cols-2 gap-4 py-4">
+                    {branchData?.photos?.map((data: any, k: any) => (
+                      <div
+                        key={k}
+                        className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
+                      >
+                        <img
+                          className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                            src={data} alt="Branch" />
-                          <div className="flex justify-between gap-1 pt-4 pb-2">
-                            <button onClick={() => {
+                          src={data}
+                          alt="Branch"
+                        />
+                        <div className="flex justify-between gap-1 pt-4 pb-2">
+                          <button
+                            onClick={() => {
                               setIsUpdate({ dialogue: true, imageData: data });
-                            }} className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Edit</button>
-                            <button onClick={() => handleDelete(data, branchData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">Delete</button>
-                          </div>
+                            }}
+                            className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(data, branchData)}
+                            className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded"
+                          >
+                            Delete
+                          </button>
                         </div>
-                      ))}
-                    </div>
-                  </>
-                )
-                :
-                (
-                  <>
-                    <div className="flex flex-col justify-center justify-items-center pt-4 gap-2">
-                      <p>No Image Available</p>
-                      <button onClick={() => setIsUpload({ dialogue: true, branchData: branchData })} className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Add Images</button>
-                    </div>
-                  </>
-                )}
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex flex-col justify-center justify-items-center pt-4 gap-2">
+                    <p>No Image Available</p>
+                    <button
+                      onClick={() =>
+                        setIsUpload({ dialogue: true, branchData: branchData })
+                      }
+                      className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                    >
+                      Add Images
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </DialogContent>
