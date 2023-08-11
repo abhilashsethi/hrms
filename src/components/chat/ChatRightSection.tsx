@@ -91,9 +91,8 @@ const ChatRightSection = () => {
   };
 
   const handleKeyDown = (e: any) => {
-    console.log(e);
     if (e.key === "Enter") {
-      handleSend();
+      !isLoading && handleSend();
     }
   };
 

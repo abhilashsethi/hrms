@@ -6,26 +6,27 @@ import { EmailType, EmailUser } from "types";
 
 const ReplyToEmail = ({ data }: { data?: EmailType }) => {
   const { push } = useRouter();
+  console.log({ data });
   return (
     <div
-      onClick={() => push(`/admin/email/${data?.id}`)}
+      onClick={() => push(`/admin/email/${data?.replyTo?.id}`)}
       className={`flex-col flex md:flex-row border-b cursor-pointer border-gray-200 bg-themeBlue rounded-md shadow-lg  w-full items-center `}
     >
       <div className="px-5 py-5 max-w-[22%] w-full text-sm">
         <div className="flex items-center gap-2 ">
           <Avatar
-            alt={data?.isSenderUser ? data?.receiver?.name : data?.sender?.name}
+            alt={data?.isSenderUser ? data?.sender?.name : data?.receiver?.name}
             src={
-              data?.isSenderUser ? data?.receiver?.photo : data?.sender?.photo
+              data?.isSenderUser ? data?.sender?.photo : data?.receiver?.photo
             }
           >
             {data?.isSenderUser
-              ? data?.receiver?.name[0]
-              : data?.sender?.name[0]}
+              ? data?.sender?.name[0]
+              : data?.receiver?.name[0]}
           </Avatar>
           <div className="ml-3 flex flex-col ">
             <p className="text-gray-800 min-w-fit text-sm font-bold ">
-              {data?.isSenderUser ? data?.receiver?.name : data?.sender?.name}
+              {data?.isSenderUser ? data?.sender?.name : data?.receiver?.name}
             </p>
             <p className="text-gray-600 min-w-fit text-xs ">{data?.subject}</p>
           </div>
@@ -35,7 +36,7 @@ const ReplyToEmail = ({ data }: { data?: EmailType }) => {
         <p
           className="text-gray-900 break-words"
           dangerouslySetInnerHTML={{
-            __html: data?.content || "",
+            __html: data?.replyTo?.content || "",
           }}
         ></p>
       </div>

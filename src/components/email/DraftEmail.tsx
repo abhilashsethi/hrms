@@ -208,6 +208,8 @@ const DraftEmail = () => {
             InputProps={{
               startAdornment: <Search />,
             }}
+            autoComplete="off"
+            name={`search_${Math.random()}`}
             onChange={(e) => setSearchText(e?.target?.value)}
             value={searchText}
           />

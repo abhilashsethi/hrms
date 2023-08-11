@@ -10,13 +10,13 @@ interface Props {
   handleNext: () => void;
 }
 interface TenderCreate {
-  tenderNo: string,
-  title: string,
-  portal: string,
-  category: string,
-  submissionDate: Date,
-  submissionTime: string,
-  bidValue: number,
+  tenderNo: string;
+  title: string;
+  portal: string;
+  category: string;
+  submissionDate: Date;
+  submissionTime: string;
+  bidValue: number;
 }
 const validationSchema = Yup.object().shape({
   tenderNo: Yup.string().required("Tender number is required!"),
@@ -25,8 +25,9 @@ const validationSchema = Yup.object().shape({
   category: Yup.string().required("Category is required!"),
   submissionDate: Yup.date().required("Date is required!"),
   submissionTime: Yup.string().required("Time is required!"),
-  bidValue: Yup.number().required('Bid value is required!')
-    .positive('Bid value must be positive')
+  bidValue: Yup.number()
+    .required("Bid value is required!")
+    .positive("Bid value must be positive")
     .nullable(),
 });
 const TenderDetailsCreate = ({ handleNext }: Props) => {
@@ -43,7 +44,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
     bidValue: 0,
   };
   const today = new Date();
-  today.setDate(today.getDate() + 1); // Get the next day's date
+  today.setDate(today.getDate()); // Get the next day's date
 
   const handleSubmit = async (values: TenderCreate) => {
     setLoading(true);
@@ -61,17 +62,13 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
-      setTender(res?.results?.data)
+      setTender(res?.results?.data);
       Swal.fire(`Success`, `Tender details created successfully!`, `success`);
-      handleNext()
+      handleNext();
       return;
     } catch (error) {
       console.log(error);
@@ -116,7 +113,9 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.tenderNo && !!errors.tenderNo}
-                    helperText={Boolean(touched?.tenderNo) && errors?.tenderNo as string}
+                    helperText={
+                      Boolean(touched?.tenderNo) && (errors?.tenderNo as string)
+                    }
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -135,7 +134,9 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.title && !!errors.title}
-                    helperText={Boolean(touched.title) && errors.title as string}
+                    helperText={
+                      Boolean(touched.title) && (errors.title as string)
+                    }
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -154,7 +155,9 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.portal && !!errors.portal}
-                    helperText={Boolean(touched.portal) && errors.portal as string}
+                    helperText={
+                      Boolean(touched.portal) && (errors.portal as string)
+                    }
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -173,7 +176,9 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.category && !!errors.category}
-                    helperText={Boolean(touched.category) && errors.category as string}
+                    helperText={
+                      Boolean(touched.category) && (errors.category as string)
+                    }
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -197,7 +202,10 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.submissionDate && !!errors.submissionDate}
-                    helperText={Boolean(touched.submissionDate) && errors.submissionDate as string}
+                    helperText={
+                      Boolean(touched.submissionDate) &&
+                      (errors.submissionDate as string)
+                    }
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -217,7 +225,10 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.submissionTime && !!errors.submissionTime}
-                    helperText={Boolean(touched.submissionTime) && errors.submissionTime as string}
+                    helperText={
+                      Boolean(touched.submissionTime) &&
+                      (errors.submissionTime as string)
+                    }
                   />
                 </div>
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -237,7 +248,9 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.bidValue && !!errors.bidValue}
-                    helperText={Boolean(touched.bidValue) && errors.bidValue as string}
+                    helperText={
+                      Boolean(touched.bidValue) && (errors.bidValue as string)
+                    }
                   />
                 </div>
               </div>
