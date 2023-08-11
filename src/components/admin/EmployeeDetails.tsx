@@ -167,11 +167,7 @@ const EmployeeDetails = () => {
 				title: "Aadhar No",
 				value: `${employData?.aadharNo ? employData?.aadharNo : "---"}`,
 			},
-			{
-				id: 3,
-				title: "Gmail",
-				value: `${employData?.gmail ? employData?.gmail : "---"}`,
-			},
+
 			{
 				id: 5,
 				title: "Linkedin",
