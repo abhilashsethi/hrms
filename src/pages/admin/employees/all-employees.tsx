@@ -43,7 +43,9 @@ const AllEmployees = () => {
     isLoading,
     pagination,
   } = useFetch<User[]>(
-    `users?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+    `users?page=${pageNumber}&limit=8&orderBy=createdAt:desc${
+      userName ? `&name=${userName}` : ""
+    }${
       user?.role?.name === "CEO" ? `` : `&branchId=${user?.employeeOfBranchId}`
     }${empId ? `&employeeID=${empId}` : ""}${isRole ? `&role=${isRole}` : ""}${
       isDepartment ? `&departmentName=${isDepartment}` : ""
