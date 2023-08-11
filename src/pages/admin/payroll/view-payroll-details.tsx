@@ -35,6 +35,7 @@ const ViewPayrollDetails = () => {
   const { data: lossOfPay } = useFetch<any>(
     `leaves/loss-of-pay/${router?.query?.id}?month=${month}&year=${year}`
   );
+  console.log({ lossOfPay });
   const totalDaysInMonth = getDaysInMonth(year, month);
   const totalWorkingDay =
     totalDaysInMonth === 31 ? 22 : totalDaysInMonth === 30 ? 21 : 20;
