@@ -83,33 +83,34 @@ const Inbox = () => {
         mutate?.();
         return;
       }
+      if (selectedEmails?.length) {
+        await Promise.all(
+          selectedEmails?.map(
+            (item) =>
+              new Promise(async (resolve, reject) => {
+                try {
+                  const response = await change(`emails/${item}`, {
+                    method: "DELETE",
+                  });
 
-      await Promise.all(
-        selectedEmails?.map(
-          (item) =>
-            new Promise(async (resolve, reject) => {
-              try {
-                const response = await change(`emails/${item}`, {
-                  method: "DELETE",
-                });
-
-                if (response?.status !== 200)
-                  throw new Error(response?.results?.msg);
-                resolve(true);
-              } catch (error) {
-                reject(error);
-              }
-            })
-        )
-      );
-      Swal.fire({
-        title: "Success",
-        text: "Email deleted successfully",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      mutate?.();
+                  if (response?.status !== 200)
+                    throw new Error(response?.results?.msg);
+                  resolve(true);
+                } catch (error) {
+                  reject(error);
+                }
+              })
+          )
+        );
+        mutate?.();
+        Swal.fire({
+          title: "Success",
+          text: "Email deleted successfully",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
     } catch (error) {
       if (error instanceof Error) {
         Swal.fire({
