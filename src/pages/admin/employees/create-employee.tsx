@@ -14,7 +14,6 @@ import PanelLayout from "layouts/panel";
 import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
 import * as Yup from "yup";
 const initialValues = {
 	firstName: "",
