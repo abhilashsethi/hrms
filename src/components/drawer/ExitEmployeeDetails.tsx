@@ -1,12 +1,8 @@
-import { makeStyles } from "@material-ui/core";
-import { Close, ExitToApp, Info } from "@mui/icons-material";
 import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
-import { CHATDOC, DOC, PDF } from "assets/home";
-import { PhotoViewer } from "components/core";
-import { DocPreview } from "components/dialogues";
+import { Close, ExitToApp } from "@mui/icons-material";
+import { makeStyles } from "@material-ui/core";
+import { DOC } from "assets/home";
 import moment from "moment";
-import { useState } from "react";
-import { downloadFile } from "utils";
 
 type Props = {
 	open?: boolean | any;
@@ -29,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ExitEmployeeDetails = ({ open, onClose, data }: Props) => {
-	console.log(data);
+	// console.log(data);
 	const classes = useStyles();
 
 	return (
