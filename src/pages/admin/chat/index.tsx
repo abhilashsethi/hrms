@@ -18,7 +18,7 @@ const Chats = () => {
   return (
     <PanelLayout title="Chats - Admin Panel">
       <section className="p-2">
-        <div className="h-[calc(100vh-80px)] overflow-hidden  w-full rounded-md bg-white  shadow-md flex">
+        <div className="h-[calc(100vh-80px)] overflow-hidden  w-full rounded-md bg-white  shadow-md md:flex">
           <ChatLeftBar />
           <ChatRightSection />
         </div>

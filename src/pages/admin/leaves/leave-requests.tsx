@@ -16,12 +16,13 @@ import {
   LoaderAnime,
 } from "components/core";
 import { CreateLeave } from "components/dialogues";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import { Leave } from "types";
 
 const LeaveRequests = () => {
+  const { user } = useAuth();
   const [isGrid, setIsGrid] = useState(true);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [userName, setUsername] = useState<string | null>(null);
@@ -37,6 +38,8 @@ const LeaveRequests = () => {
   } = useFetch<Leave[]>(
     `leaves/all?page=${pageNumber}&limit=8${
       userName ? `&employeeName=${userName}` : ""
+    }${
+      user?.role?.name === "HR" ? `&branchId=${user?.employeeOfBranchId}` : ``
     }${empId ? `&employeeID=${empId}` : ""}${
       leaveStatus ? `&status=${leaveStatus}` : ""
     }${leaveType ? `&type=${leaveType}` : ""}&orderBy=createdAt:asc`

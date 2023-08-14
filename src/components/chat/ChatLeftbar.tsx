@@ -31,7 +31,7 @@ const ChatLeftbar = () => {
     }
   };
   return (
-    <div className="w-[32%] h-full border-r-2 px-4 rounded-md">
+    <div className="md:w-[32%] w-full h-full border-r-2 px-4 rounded-md">
       <div className={`h-20 w-full flex justify-between items-center px-8`}>
         {quickLinks?.map((item) => (
           <div
@@ -140,7 +140,7 @@ const Chats = () => {
       <div className="border-2 flex gap-1 items-center px-2 rounded-md py-1">
         <Search fontSize="small" />
         <input
-          className="w-[85%] bg-white px-2 py-1 rounded-md text-sm"
+          className="md:w-[85%] w-full bg-white px-2 py-1 rounded-md text-sm"
           type="text"
           placeholder="Search chats"
           value={searchTitle}

@@ -147,7 +147,7 @@ const ChatRightSection = () => {
         handleClose={() => setIsLink(false)}
         sendId={currentChatProfileDetails?.id}
       />
-      <div className="w-[68%] h-full">
+      <div className="md:w-[68%] w-full h-full">
         {!currentChatProfileDetails?.id ? (
           <DefaultChatView />
         ) : (
@@ -156,8 +156,8 @@ const ChatRightSection = () => {
             <div className="h-[calc(100%-153px)] overflow-y-auto">
               <MainChatViewContainer key={currentChatProfileDetails?.id} />
             </div>
-            <div className="h-20 w-full border-2 flex items-center px-8 justify-between">
-              <div className="h-10 px-3 rounded-full w-[70%] border-2 flex justify-between items-center">
+            <div className="md:h-20 h-24 w-full border-2 md:flex items-center py-2 px-8 justify-between">
+              <div className="h-10 px-3 rounded-full md:w-[70%] w-full border-2 flex justify-between items-center">
                 <div className="flex gap-2 items-center w-full">
                   {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
                   <input
