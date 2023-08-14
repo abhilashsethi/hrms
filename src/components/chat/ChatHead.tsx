@@ -137,6 +137,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               isBlocked: !currentChatProfileDetails?.isGroupBlocked,
             },
           });
+          revalidateCurrentChat();
 
           if (blockUser?.status !== 200) {
             Swal.fire(
@@ -145,7 +146,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               "error"
             );
           }
-          revalidateCurrentChat(selectedChatId);
+          revalidateCurrentChat();
           break;
         case 3:
           const clear = await change(`chat/message-clear/${selectedChatId}`, {

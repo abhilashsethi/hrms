@@ -36,7 +36,32 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
   const { user } = useAuth();
   const { change } = useChange();
   const { revalidateCurrentChat, selectedChatId } = useChatData();
-
+  const configs = [
+    {
+      id: 1,
+      title: `${profileData?.isGroupBlocked ? "Unblock" : "Block User"}`,
+      icon: <Block fontSize="small" />,
+      privateOnly: true,
+    },
+    {
+      id: 2,
+      title: "Leave Group",
+      icon: <Logout fontSize="small" />,
+      privateOnly: false,
+    },
+    {
+      id: 3,
+      title: "Clear Chat",
+      icon: <Delete fontSize="small" />,
+      privateOnly: false,
+    },
+    {
+      id: 4,
+      title: "Clear Chat",
+      icon: <Delete fontSize="small" />,
+      privateOnly: true,
+    },
+  ];
   const handleGroupAction = async (configId: number) => {
     try {
       switch (configId) {
@@ -66,9 +91,10 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
           const blockUser = await change(`chat/blocked/${selectedChatId}`, {
             method: "PATCH",
             body: {
-              isBlocked: true,
+              isBlocked: !profileData?.isGroupBlocked,
             },
           });
+          revalidateCurrentChat(selectedChatId);
 
           if (blockUser?.status !== 200) {
             Swal.fire(
@@ -78,6 +104,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
             );
           }
           revalidateCurrentChat(selectedChatId);
+          onClose();
           break;
 
         case 4 || 3:
@@ -332,33 +359,6 @@ const SectionTitle = ({ title }: TitleProps) => {
     </h1>
   );
 };
-
-const configs = [
-  {
-    id: 1,
-    title: "Block User",
-    icon: <Block fontSize="small" />,
-    privateOnly: true,
-  },
-  {
-    id: 2,
-    title: "Leave Group",
-    icon: <Logout fontSize="small" />,
-    privateOnly: false,
-  },
-  {
-    id: 3,
-    title: "Clear Chat",
-    icon: <Delete fontSize="small" />,
-    privateOnly: false,
-  },
-  {
-    id: 4,
-    title: "Clear Chat",
-    icon: <Delete fontSize="small" />,
-    privateOnly: true,
-  },
-];
 
 interface MenuProps {
   data?: any;
