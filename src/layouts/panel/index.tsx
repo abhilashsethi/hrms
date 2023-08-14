@@ -50,7 +50,10 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
     mutate: refetchChatCount,
     isValidating: chatCountLoading,
   } = useFetch<NewMessageCountType>(`chat/unread`);
-
+  // const { data: mailCount } = useFetch<NewMessageCountType>(
+  //   `emails/getMyInbox/${user?.id}?isRead=false&isReceiverDelete=false`
+  // );
+  // console.log("mail count--->", mailCount);
   const { change } = useChange();
   const { selectedChatId } = useChatData();
 

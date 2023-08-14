@@ -41,7 +41,7 @@ const Inbox = () => {
   const { change } = useChange();
 
   const { data, isValidating, mutate, error } = useFetch<InboxDataType>(
-    `emails/getMyInbox/${user?.id}?page=${pageNo}&limit=20` +
+    `emails/getMyInbox/${user?.id}?page=${pageNo}&limit=20&isReceiverDelete=false` +
       (searchText?.trim()?.length ? `&userName=${searchText}` : "") +
       (typeof sortBy !== "undefined" ? `&sortBy=${sortBy}` : "")
   );
@@ -67,7 +67,7 @@ const Inbox = () => {
   const handleDeleteEmail = async () => {
     try {
       if (allClicked) {
-        const response = await change(`emails/deleteAll`, {
+        const response = await change(`emails/delete/all?isInbox=true`, {
           method: "DELETE",
         });
 

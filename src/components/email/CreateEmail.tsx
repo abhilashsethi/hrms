@@ -66,7 +66,6 @@ const CreateEmail = (templateId: any) => {
       let attachmentUrl: string[] = [];
       try {
         //if attachments are present then upload the file and get ur
-
         if (value?.attachments?.length) {
           await Promise.all(
             value?.attachments?.map((item: any) => {
@@ -77,7 +76,7 @@ const CreateEmail = (templateId: any) => {
                   } else {
                     let url = await uploadFile(
                       item,
-                      Date.now() + "-" + item?.name
+                      `${Date.now()}.${item.name.split(".").at(-1)}`
                     );
                     url && attachmentUrl.push(url);
                   }
@@ -90,7 +89,7 @@ const CreateEmail = (templateId: any) => {
             })
           );
         }
-
+        // return;
         let draftQuery: any = {};
 
         if (query?.draftId) {
@@ -190,8 +189,7 @@ const CreateEmail = (templateId: any) => {
   const { data: template, isLoading } = useFetch<MailTemplate>(
     `mail-template/get-by-id?templateId=${templateId?.templateId}`
   );
-  console.log(templateId);
-  console.log({ template });
+
   return (
     <>
       {draftData?.replyTo?.id && (

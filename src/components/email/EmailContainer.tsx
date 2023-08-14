@@ -12,7 +12,7 @@ const EmailContainer = ({
   data?: EmailType;
   printRef: any;
 }) => {
-  console.log(data?.replyTo);
+  console.log(data);
   return (
     <>
       <div className="w-full flex flex-col  gap-4" ref={printRef}>

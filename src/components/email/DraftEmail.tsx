@@ -74,7 +74,7 @@ const DraftEmail = () => {
   const handleDeleteEmail = async () => {
     try {
       if (allClicked) {
-        const response = await change(`emails/deleteAll`, {
+        const response = await change(`emails/delete/all?isSend=false`, {
           method: "DELETE",
         });
 
