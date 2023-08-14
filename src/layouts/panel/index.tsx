@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Drawer from "./drawer";
 import { Public_FAV_ICON, Public_LOGO } from "config/env.config";
+import { EmailType } from "types";
 
 type Props = {
   children: JSX.Element | JSX.Element[];
@@ -50,10 +51,10 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
     mutate: refetchChatCount,
     isValidating: chatCountLoading,
   } = useFetch<NewMessageCountType>(`chat/unread`);
-  // const { data: mailCount } = useFetch<NewMessageCountType>(
-  //   `emails/getMyInbox/${user?.id}?isRead=false&isReceiverDelete=false`
-  // );
-  // console.log("mail count--->", mailCount);
+  const { data: mailCount } = useFetch<any>(
+    `emails/getMyInbox/${user?.id}?isRead=false&isReceiverDelete=false`
+  );
+  console.log("mail count--->", mailCount?.inboxData?.length);
   const { change } = useChange();
   const { selectedChatId } = useChatData();
 
@@ -235,10 +236,10 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
                     <Tooltip title="Mail">
                       <Badge
                         badgeContent={
-                          (chatCount?.totalUnread &&
-                            (chatCount?.totalUnread > 99
+                          (mailCount?.inboxData?.length &&
+                            (mailCount?.inboxData?.length > 99
                               ? "99+"
-                              : chatCount?.totalUnread)) ||
+                              : mailCount?.inboxData?.length)) ||
                           undefined
                         }
                         color="warning"

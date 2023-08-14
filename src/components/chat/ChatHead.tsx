@@ -8,29 +8,6 @@ import { formatChatTime } from "utils";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 
-const configs = [
-  {
-    id: 1,
-    title: "Block User",
-    icon: <Block fontSize="small" />,
-    privateOnly: true,
-  },
-  {
-    id: 2,
-    title: "Leave Group",
-    icon: <Logout fontSize="small" />,
-    privateOnly: false,
-    groupOnly: true,
-  },
-  {
-    id: 3,
-    title: "Clear Chat",
-    icon: <Delete fontSize="small" />,
-    privateOnly: false,
-    groupOnly: false,
-  },
-];
-
 const ChatHead = ({ isNew }: { isNew?: boolean }) => {
   const [typingUser, setTypingUser] = useState("");
   const [isDrawer, setIsDrawer] = useState(false);
@@ -53,6 +30,30 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
     revalidateCurrentChat,
   } = useChatData();
   const { user } = useAuth();
+  const configs = [
+    {
+      id: 1,
+      title: `${
+        currentChatProfileDetails?.isGroupBlocked ? "Unblock" : "Block User"
+      }`,
+      icon: <Block fontSize="small" />,
+      privateOnly: true,
+    },
+    {
+      id: 2,
+      title: "Leave Group",
+      icon: <Logout fontSize="small" />,
+      privateOnly: false,
+      groupOnly: true,
+    },
+    {
+      id: 3,
+      title: "Clear Chat",
+      icon: <Delete fontSize="small" />,
+      privateOnly: false,
+      groupOnly: false,
+    },
+  ];
 
   useEffect(() => {
     (() => {
@@ -130,10 +131,10 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
           revalidateCurrentChat(selectedChatId);
           break;
         case 1:
-          const blockUser = await change(`/${selectedChatId}`, {
+          const blockUser = await change(`chat/blocked/${selectedChatId}`, {
             method: "PATCH",
             body: {
-              isBlocked: true,
+              isBlocked: !currentChatProfileDetails?.isGroupBlocked,
             },
           });
 
