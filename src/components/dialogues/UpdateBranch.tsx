@@ -47,7 +47,7 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
     initialValues: {
       name: `${branchData?.name ? branchData?.name : ""}`,
       email: `${branchData?.email ? branchData?.email : ""}`,
-      phone: `${branchData?.phone ? branchData?.phone : ""}`,
+      phone: `${branchData?.phone ? branchData?.phone : 0}`,
       country: `${branchData?.country ? branchData?.country : ""}`,
       location: `${branchData?.location ? branchData?.location : ""}`,
       managerId: `${branchData?.managerId ? branchData?.managerId : ""}`,
@@ -87,7 +87,15 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
         );
         const res = await change(`branches/${branchData?.id}`, {
           method: "PATCH",
-          body: { ...reqValue },
+          body: {
+            name: values?.name,
+            email: values?.email ? values?.email : null,
+            phone: values?.phone ? values?.phone : null,
+            country: values?.country,
+            location: values?.location,
+            managerId: values?.managerId,
+            photos: values?.photos,
+          },
         });
         console.log(res);
         setLoading(false);
@@ -269,6 +277,7 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
                     <TextField
                       size="small"
                       fullWidth
+                      type="number"
                       placeholder="Phone"
                       name="phone"
                       value={formik.values.phone}

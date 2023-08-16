@@ -137,7 +137,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               isBlocked: !currentChatProfileDetails?.isGroupBlocked,
             },
           });
-          revalidateCurrentChat();
+          revalidateCurrentChat(selectedChatId);
 
           if (blockUser?.status !== 200) {
             Swal.fire(
@@ -146,6 +146,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               "error"
             );
           }
+          Swal.fire("Success", "Status Changed Successfully!", "success");
           revalidateCurrentChat();
           break;
         case 3:
@@ -168,7 +169,6 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
       }
     } catch (error) {}
   };
-  console.log(currentChatProfileDetails);
   return (
     <>
       <ChatProfileDrawer

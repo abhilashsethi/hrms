@@ -14,7 +14,7 @@ interface TenderCreate {
   title: string;
   portal: string;
   category: string;
-  submissionDate: Date;
+  submissionDate: any;
   submissionTime: string;
   bidValue: number;
 }
@@ -39,7 +39,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
     title: "",
     portal: "",
     category: "",
-    submissionDate: new Date(),
+    submissionDate: null,
     submissionTime: "",
     bidValue: 0,
   };
