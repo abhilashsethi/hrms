@@ -775,7 +775,7 @@ export default () => {
 			key: "15",
 			title: "Support",
 			icon: <ICONS.Support />,
-			route: "/admin/support",
+			route: "/admin/support/create-support",
 		},
 		{
 			key: "11wfewfwfwe",
