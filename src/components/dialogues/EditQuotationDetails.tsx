@@ -41,7 +41,6 @@ const validationSchema = Yup.object().shape({
 	clientEmail: Yup.string().email().required("Client email is required!"),
 	clientAddress: Yup.string().required("Client address is required!"),
 	quotationTitle: Yup.string().required("Quotation title is required!"),
-	quotationBranchId: Yup.string().required("Quotation branch is required!"),
 });
 const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
 	const [isStatus, setIsStatus] = useState("");
@@ -61,14 +60,10 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
 		clientEmail: `${data?.clientEmail ? data?.clientEmail : ""}`,
 		clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,
 		quotationTitle: `${data?.quotationTitle ? data?.quotationTitle : ""}`,
-		reason: "",
-		quotationBranchId: `${
-			data?.quotationBranchId ? data?.quotationBranchId : ""
-		}`,
+		reason: `${data?.reason ? data?.reason : ""}`,
 	};
 	const { change } = useChange();
 	const handleSubmit = async (values: QuotationInput) => {
-		console.log(values);
 		setLoading(true);
 		try {
 			const res = await change(`quotations/${data?.id}`, {
@@ -79,7 +74,6 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
 					clientEmail: values?.clientEmail,
 					clientAddress: values?.clientAddress,
 					quotationTitle: values?.quotationTitle,
-					quotationBranchId: values?.quotationBranchId,
 					reason: values?.reason,
 					isIgst: isGstValue,
 					isCgst: isCgst,
@@ -188,42 +182,7 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
 									Select Quotation Branch
 									<span className="text-red-600">*</span>
 								</p>
-								<Autocomplete
-									fullWidth
-									size="small"
-									id="quotationBranchId"
-									options={Branch || []}
-									onChange={(e: any, r: any) => {
-										setFieldValue("quotationBranchId", r?.id);
-									}}
-									isOptionEqualToValue={(option: any, value: any) =>
-										option.id === value.quotationBranchId
-									}
-									value={
-										values?.quotationBranchId
-											? Branch?.find(
-													(option: any) =>
-														option.id === values.quotationBranchId
-											  )
-											: {}
-									}
-									getOptionLabel={(option: any) =>
-										option?.name ? option?.name : ""
-									}
-									renderInput={(params) => (
-										<TextField
-											{...params}
-											// placeholder="Selected Gender"
-											onBlur={handleBlur}
-											error={
-												touched.quotationBranchId && !!errors.quotationBranchId
-											}
-											helperText={
-												touched.quotationBranchId && errors.quotationBranchId
-											}
-										/>
-									)}
-								/>
+
 								{isStatus === "Rejected" || data?.status === "Rejected" ? (
 									<div className="my-4">
 										<p className="font-medium text-gray-700">Reason</p>

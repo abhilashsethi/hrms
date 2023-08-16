@@ -30,6 +30,20 @@ const LeaveRequests = () => {
   const [leaveType, setLeaveType] = useState<string | null>(null);
   const [leaveStatus, setLeaveStatus] = useState<string | null>(null);
   const [isLeave, setIsLeave] = useState<boolean>(false);
+  // const {
+  //   data: leavesData,
+  //   mutate,
+  //   pagination,
+  //   isLoading,
+  // } = useFetch<Leave[]>(
+  //   `leaves/all?page=${pageNumber}&limit=8${
+  //     userName ? `&employeeName=${userName}` : ""
+  //   }${
+  //     user?.role?.name === "HR" ? `&branchId=${user?.employeeOfBranchId}` : ``
+  //   }${empId ? `&employeeID=${empId}` : ""}${
+  //     leaveStatus ? `&status=${leaveStatus}` : ""
+  //   }${leaveType ? `&type=${leaveType}` : ""}&orderBy=createdAt:asc`
+  // );
   const {
     data: leavesData,
     mutate,
@@ -38,8 +52,6 @@ const LeaveRequests = () => {
   } = useFetch<Leave[]>(
     `leaves/all?page=${pageNumber}&limit=8${
       userName ? `&employeeName=${userName}` : ""
-    }${
-      user?.role?.name === "HR" ? `&branchId=${user?.employeeOfBranchId}` : ``
     }${empId ? `&employeeID=${empId}` : ""}${
       leaveStatus ? `&status=${leaveStatus}` : ""
     }${leaveType ? `&type=${leaveType}` : ""}&orderBy=createdAt:asc`

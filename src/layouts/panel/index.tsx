@@ -54,7 +54,6 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
   const { data: mailCount } = useFetch<any>(
     `emails/getMyInbox/${user?.id}?isRead=false&isReceiverDelete=false`
   );
-  console.log("mail count--->", mailCount?.inboxData?.length);
   const { change } = useChange();
   const { selectedChatId } = useChatData();
 
