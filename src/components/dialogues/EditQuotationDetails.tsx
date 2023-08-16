@@ -41,7 +41,6 @@ const validationSchema = Yup.object().shape({
   clientEmail: Yup.string().email().required("Client email is required!"),
   clientAddress: Yup.string().required("Client address is required!"),
   quotationTitle: Yup.string().required("Quotation title is required!"),
-  quotationBranchId: Yup.string().required("Quotation branch is required!"),
 });
 const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
   const [isStatus, setIsStatus] = useState("");
