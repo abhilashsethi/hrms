@@ -37,6 +37,7 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
     dialogue: false,
     title: "Preview",
   });
+  console.log({ data });
   // const { data: myData } = useFetch(`leaves/${data?.id}`);
   return (
     <>
@@ -134,7 +135,7 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
           </div>
           <div className="pb-8">
             <h1 className="mt-4 font-semibold">Request Status</h1>
-            {data?.requests?.length ? (
+            {data?.requests?.length || data?.approvedBy ? (
               <>
                 {data?.requests?.map((item: any) => (
                   <div className="w-full mt-4 border-[1px]  rounded-md p-4 text-sm">
@@ -170,6 +171,42 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
                     </div>
                   </div>
                 ))}
+                {data?.approvedBy ? (
+                  <>
+                    <div className="w-full mt-4 border-[1px]  rounded-md p-4 text-sm">
+                      <div className="flex gap-4">
+                        <div>
+                          <PhotoViewer
+                            name={data?.approvedBy?.name}
+                            photo={data?.approvedBy?.photo}
+                            size="5rem"
+                          />
+                        </div>
+                        <div>
+                          <h1 className="font-semibold">
+                            {" "}
+                            {data?.approvedBy?.name}
+                          </h1>
+                          <h1> {data?.approvedBy?.role}</h1>
+                          <h1 className="py-2">
+                            Status :{" "}
+                            <span
+                              className={`px-2 py-1 rounded-lg text-white ${
+                                data?.status === `Pending`
+                                  ? `bg-yellow-500`
+                                  : data?.status === `Approved`
+                                  ? `bg-green-500`
+                                  : `bg-red-500`
+                              }`}
+                            >
+                              {data?.status}
+                            </span>
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : null}
               </>
             ) : (
               <p className="mt-4">No members approved yet!</p>
