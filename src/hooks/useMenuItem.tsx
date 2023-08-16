@@ -553,16 +553,16 @@ export default () => {
 					route: "/admin/bills/create-bill",
 				},
 				{
-					key: "17ABH-3",
-					title: "Signature Config",
-					icon: <ICONS.Signature_Config />,
-					route: "/admin/bills/signature-config",
-				},
-				{
 					key: "17ABH-4",
 					title: "View All Bills",
 					icon: <ICONS.View_Bill />,
 					route: "/admin/bills/all-bills",
+				},
+				{
+					key: "17ABH-3",
+					title: "Signature Config",
+					icon: <ICONS.Signature_Config />,
+					route: "/admin/bills/signature-config",
 				},
 			],
 		},

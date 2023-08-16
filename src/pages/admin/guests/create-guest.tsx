@@ -1,21 +1,18 @@
-import { Check, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Check } from "@mui/icons-material";
 import {
 	Autocomplete,
 	Button,
 	CircularProgress,
-	IconButton,
-	InputAdornment,
 	InputLabel,
 	TextField,
 } from "@mui/material";
-import { AdminBreadcrumbs, Loader } from "components/core";
+import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
 import * as Yup from "yup";
 const initialValues = {
 	name: "",
