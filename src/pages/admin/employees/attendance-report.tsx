@@ -39,7 +39,6 @@ const AttendanceReport = () => {
   const { data: attendanceData, isLoading } = useFetch<any>(
     `attendances/${router?.query?.empId}?month=${router?.query?.month}`
   );
-  console.log(attendanceData);
   return (
     <PanelLayout title="Monthly Report - Admin Panel">
       <section className="px-8 py-4">
@@ -70,8 +69,8 @@ const AttendanceReport = () => {
                     : (attendanceData?.map((_: any, i: number) => ({
                         ..._,
                         sl: i + 1,
-                        in: moment(_?.inTime).format("HH:MM A"),
-                        out: moment(_?.outTime).format("HH:MM A"),
+                        in: moment(_?.inTime).format("hh:mm A"),
+                        out: moment(_?.outTime).format("hh:mm A"),
                       })) as any)
                 }
                 options={{ ...MuiTblOptions() }}
@@ -82,7 +81,6 @@ const AttendanceReport = () => {
                     editable: "never",
                     width: "2%",
                   },
-
                   {
                     title: "Date",
                     tooltip: "Date",
