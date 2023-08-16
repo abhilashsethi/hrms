@@ -116,7 +116,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
 				{data?.map((item: any) => (
-					<div className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
+					<div className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl bg-gradient-to-r from-rose-100 to-teal-100">
 						<div className="relative">
 							<p
 								className={`absolute top-2 z-50 rounded-r-xl 
@@ -183,11 +183,11 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 							<div className="flex justify-center bg-[conic-gradient(at_left,_var(--tw-gradient-stops))] from-sky-400 to-blue-800 py-3 rounded-t-lg w-full border">
 								<img src={QUOTATION.src} alt="" className="w-24" />
 							</div>
-							<div className="px-4 bg-gradient-to-r from-rose-100 to-teal-100">
+							<div className="px-4">
 								<div className="flex gap-2 py-2 md:py-0 justify-start">
 									<p className="text-sm md:text-sm text-gray-700">
 										<span>
-											<Person className=" text-gray-500 mr-1" />
+											<Person className="text-gray-500 mr-1" />
 										</span>
 										{item?.clientName}
 									</p>

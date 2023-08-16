@@ -42,7 +42,8 @@ const validationSchema = Yup.object().shape({
 			"Phone number is not valid"
 		)
 		.min(6)
-		.max(15),
+		.max(15)
+		.required("Phone number is required"),
 	gender: Yup.string().required("Gender is required!"),
 	designation: Yup.string().required("Designation is required!"),
 	visitInfo: Yup.string().required("Visit information is required"),
