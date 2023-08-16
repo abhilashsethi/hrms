@@ -56,7 +56,7 @@ const AttendanceReport = () => {
               <MaterialTable
                 title={
                   <HeadStyle
-                    name={`Employee Attendance for ${getMonthName(
+                    name={`Attendance report for ${getMonthName(
                       router?.query?.month
                     )}`}
                     icon={<Checklist />}
@@ -69,8 +69,8 @@ const AttendanceReport = () => {
                     : (attendanceData?.map((_: any, i: number) => ({
                         ..._,
                         sl: i + 1,
-                        in: moment(_?.inTime).format("hh:MM A"),
-                        out: moment(_?.outTime).format("hh:MM A"),
+                        in: moment(_?.inTime).format("hh:mm A"),
+                        out: moment(_?.outTime).format("hh:mm A"),
                       })) as any)
                 }
                 options={{ ...MuiTblOptions() }}

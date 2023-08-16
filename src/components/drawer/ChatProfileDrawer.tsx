@@ -348,7 +348,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               revalidateCurrentChat={() =>
                 revalidateCurrentChat(selectedChatId)
               }
-              // onClose={}
+              onClose={() => onClose()}
             />
           </section>
         </Container>
