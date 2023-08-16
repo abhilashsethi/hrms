@@ -82,6 +82,11 @@ const AttendanceReport = () => {
                     width: "2%",
                   },
                   {
+                    title: "Name",
+                    tooltip: "Name",
+                    field: "name",
+                  },
+                  {
                     title: "Date",
                     tooltip: "Date",
                     field: "date",
