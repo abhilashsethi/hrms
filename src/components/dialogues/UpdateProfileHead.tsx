@@ -52,10 +52,16 @@ const validationSchema = Yup.object().shape({
     "minimum-age",
     "You must be at least 18 years old",
     (value: any) => {
+      if (value === null || value === undefined || value === "") {
+        // Allow null, undefined, or empty value
+        return true;
+      }
+
       const currentDate = new Date();
       const selectedDate = new Date(value);
       const minAgeDate = new Date();
       minAgeDate.setFullYear(currentDate.getFullYear() - 18);
+
       return selectedDate <= minAgeDate;
     }
   ),

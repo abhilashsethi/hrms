@@ -35,7 +35,7 @@ const EmployDashboard = () => {
 
   const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
   const roleData = employeeDetails?.departmentWiseUsers;
-
+  // console.log(employeeDetails);
   const cards = [
     {
       id: 1,

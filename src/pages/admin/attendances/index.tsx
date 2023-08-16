@@ -17,6 +17,7 @@ const Attendance = () => {
   const { data: dashboardDetails, isLoading } = useFetch<any>(
     `users/dashboard/details`
   );
+  // console.log(absentData);
   const cards = useMemo(
     () => [
       {
