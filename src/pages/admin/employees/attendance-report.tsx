@@ -56,7 +56,7 @@ const AttendanceReport = () => {
               <MaterialTable
                 title={
                   <HeadStyle
-                    name={`Employee Attendance for ${getMonthName(
+                    name={`Attendance report for ${getMonthName(
                       router?.query?.month
                     )}`}
                     icon={<Checklist />}
