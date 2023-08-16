@@ -22,10 +22,12 @@ const ChatMedia = ({
   setIsMedia,
   groupId,
   revalidateCurrentChat,
+  onClose,
 }: {
   isMedia: boolean;
   revalidateCurrentChat: () => void;
   setIsMedia: (arg: any) => void;
+  onClose: () => void;
   groupId?: string;
 }) => {
   const [fileData, setFileData] = useState<any[]>([]);
@@ -88,6 +90,7 @@ const ChatMedia = ({
                 revalidate={mutate}
                 handleNextFetch={handleNextFetch}
                 revalidateCurrentChat={revalidateCurrentChat}
+                onClose={onClose}
               />
             </TabPanel>
             <TabPanel value="file">
@@ -97,6 +100,7 @@ const ChatMedia = ({
                 revalidate={mutate}
                 handleNextFetch={handleNextFetch}
                 revalidateCurrentChat={revalidateCurrentChat}
+                onClose={onClose}
               />
             </TabPanel>
             <TabPanel value="link">
@@ -106,6 +110,7 @@ const ChatMedia = ({
                 revalidate={mutate}
                 handleNextFetch={handleNextFetch}
                 revalidateCurrentChat={revalidateCurrentChat}
+                onClose={onClose}
               />
             </TabPanel>
           </TabContext>
@@ -122,6 +127,7 @@ const MediaFiles = ({
   isLoading,
   revalidate,
   handleNextFetch,
+  onClose,
   revalidateCurrentChat,
 }: {
   chatFile: {
@@ -138,6 +144,7 @@ const MediaFiles = ({
   revalidate?: () => void;
   revalidateCurrentChat?: () => void;
   handleNextFetch: () => void;
+  onClose: () => void;
 }) => {
   const [isPreview, setIsPreview] = useState(false);
   const [activePreview, setActivePreview] = useState("");
@@ -145,8 +152,8 @@ const MediaFiles = ({
   const { selectedChatId } = useChatData();
   const { change } = useChange();
   const handleDeleteFile = async (id: string, file: string) => {
+    Swal.fire("Info", "Please wait....", "info");
     await deleteFile(file);
-
     const clearChat = await change(`chat/message-clear/${selectedChatId}`, {
       method: "POST",
       BASE_URL,
@@ -162,7 +169,10 @@ const MediaFiles = ({
         "error"
       );
     }
+    onClose();
+    revalidateCurrentChat;
     revalidate?.();
+    Swal.fire("Success", "File deleted successfully", "success");
   };
 
   return (
@@ -262,6 +272,7 @@ const DocFiles = ({
   isLoading,
   revalidate,
   handleNextFetch,
+  onClose,
   revalidateCurrentChat,
 }: {
   chatFile: {
@@ -278,10 +289,12 @@ const DocFiles = ({
   revalidate?: () => void;
   revalidateCurrentChat?: () => void;
   handleNextFetch?: () => void;
+  onClose: () => void;
 }) => {
   const { selectedChatId } = useChatData();
   const { change } = useChange();
   const handleDeleteFile = async (id: string, file: string) => {
+    Swal.fire("Info", "Please wait....", "info");
     await deleteFile(file);
     const clearChat = await change(`chat/message-clear/${selectedChatId}`, {
       method: "POST",
@@ -299,6 +312,9 @@ const DocFiles = ({
       );
     }
     revalidate?.();
+    onClose();
+    revalidateCurrentChat;
+    Swal.fire("Success", "File deleted successfully", "success");
   };
 
   return (
@@ -377,6 +393,7 @@ const ChatLinks = ({
   isLoading,
   revalidate,
   handleNextFetch,
+  onClose,
   revalidateCurrentChat,
 }: {
   chatLinks: {
@@ -392,6 +409,7 @@ const ChatLinks = ({
   revalidate?: () => void;
   revalidateCurrentChat?: () => void;
   handleNextFetch: () => void;
+  onClose: () => void;
 }) => {
   const { selectedChatId } = useChatData();
 
@@ -399,6 +417,7 @@ const ChatLinks = ({
 
   const handleLinkDelete = async (id: string) => {
     try {
+      Swal.fire("Info", "Please wait....", "info");
       const clearChat = await change(`chat/message-clear/${selectedChatId}`, {
         method: "POST",
         BASE_URL,
@@ -417,6 +436,9 @@ const ChatLinks = ({
     } catch (error) {
     } finally {
       revalidate?.();
+      onClose();
+      revalidateCurrentChat;
+      Swal.fire("Success", "Link deleted", "success");
     }
   };
 
