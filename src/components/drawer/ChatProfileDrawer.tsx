@@ -35,7 +35,11 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
   const [isMedia, setIsMedia] = useState(false);
   const { user } = useAuth();
   const { change } = useChange();
-  const { revalidateCurrentChat, selectedChatId } = useChatData();
+  const {
+    revalidateCurrentChat,
+    revalidateChatProfileDetails,
+    selectedChatId,
+  } = useChatData();
   const configs = [
     {
       id: 1,
@@ -85,6 +89,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               "error"
             );
           }
+          selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
           break;
         case 1:
@@ -103,6 +108,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               "error"
             );
           }
+          selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
           onClose();
           break;
@@ -123,6 +129,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               "error"
             );
           }
+          selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
           onClose();
           break;
@@ -338,6 +345,10 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               isMedia={isMedia}
               setIsMedia={setIsMedia}
               groupId={profileData?.id}
+              revalidateCurrentChat={() =>
+                revalidateCurrentChat(selectedChatId)
+              }
+              // onClose={}
             />
           </section>
         </Container>

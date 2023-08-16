@@ -21,8 +21,10 @@ const ChatMedia = ({
   isMedia,
   setIsMedia,
   groupId,
+  revalidateCurrentChat,
 }: {
   isMedia: boolean;
+  revalidateCurrentChat: () => void;
   setIsMedia: (arg: any) => void;
   groupId?: string;
 }) => {
@@ -85,6 +87,7 @@ const ChatMedia = ({
                 isLoading={isValidating}
                 revalidate={mutate}
                 handleNextFetch={handleNextFetch}
+                revalidateCurrentChat={revalidateCurrentChat}
               />
             </TabPanel>
             <TabPanel value="file">
@@ -93,6 +96,7 @@ const ChatMedia = ({
                 isLoading={isValidating}
                 revalidate={mutate}
                 handleNextFetch={handleNextFetch}
+                revalidateCurrentChat={revalidateCurrentChat}
               />
             </TabPanel>
             <TabPanel value="link">
@@ -101,6 +105,7 @@ const ChatMedia = ({
                 isLoading={isValidating}
                 revalidate={mutate}
                 handleNextFetch={handleNextFetch}
+                revalidateCurrentChat={revalidateCurrentChat}
               />
             </TabPanel>
           </TabContext>
@@ -117,6 +122,7 @@ const MediaFiles = ({
   isLoading,
   revalidate,
   handleNextFetch,
+  revalidateCurrentChat,
 }: {
   chatFile: {
     text: string;
@@ -130,6 +136,7 @@ const MediaFiles = ({
   }[];
   isLoading?: boolean;
   revalidate?: () => void;
+  revalidateCurrentChat?: () => void;
   handleNextFetch: () => void;
 }) => {
   const [isPreview, setIsPreview] = useState(false);
@@ -255,6 +262,7 @@ const DocFiles = ({
   isLoading,
   revalidate,
   handleNextFetch,
+  revalidateCurrentChat,
 }: {
   chatFile: {
     text: string;
@@ -268,6 +276,7 @@ const DocFiles = ({
   }[];
   isLoading?: boolean;
   revalidate?: () => void;
+  revalidateCurrentChat?: () => void;
   handleNextFetch?: () => void;
 }) => {
   const { selectedChatId } = useChatData();
@@ -368,6 +377,7 @@ const ChatLinks = ({
   isLoading,
   revalidate,
   handleNextFetch,
+  revalidateCurrentChat,
 }: {
   chatLinks: {
     text: string;
@@ -380,6 +390,7 @@ const ChatLinks = ({
   }[];
   isLoading?: boolean;
   revalidate?: () => void;
+  revalidateCurrentChat?: () => void;
   handleNextFetch: () => void;
 }) => {
   const { selectedChatId } = useChatData();

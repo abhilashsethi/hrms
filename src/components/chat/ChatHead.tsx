@@ -129,6 +129,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
             );
           }
           revalidateCurrentChat(selectedChatId);
+          selectedChatId && revalidateChatProfileDetails(selectedChatId);
           break;
         case 1:
           const blockUser = await change(`chat/blocked/${selectedChatId}`, {
@@ -147,7 +148,8 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
             );
           }
           Swal.fire("Success", "Status Changed Successfully!", "success");
-          revalidateCurrentChat();
+          selectedChatId && revalidateChatProfileDetails(selectedChatId);
+          revalidateCurrentChat(selectedChatId);
           break;
         case 3:
           const clear = await change(`chat/message-clear/${selectedChatId}`, {
@@ -162,6 +164,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               "error"
             );
           }
+          selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
           break;
         default:
