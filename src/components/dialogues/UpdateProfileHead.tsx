@@ -52,9 +52,9 @@ const validationSchema = Yup.object().shape({
     "minimum-age",
     "You must be at least 18 years old",
     (value: any) => {
+      // Check for null, undefined, or empty string
       if (value === null || value === undefined || value === "") {
-        // Allow null, undefined, or empty value
-        return true;
+        return true; // Allow null, undefined, or empty value
       }
 
       const currentDate = new Date();
@@ -84,10 +84,9 @@ const UpdateProfileHead = ({
   const initialValues = {
     firstName: employData?.firstName || null,
     lastName: employData?.lastName || null,
-    // employeeID: employData?.employeeID || null,
     phone: employData?.phone || null,
     email: employData?.email || null,
-    dob: employData?.dob || null,
+    dob: employData?.dob || "",
     address: employData?.address || null,
     gender: employData?.gender || null,
     roleId: employData?.roleId || null,
@@ -101,7 +100,20 @@ const UpdateProfileHead = ({
     try {
       const res = await change(`users/${employData?.id}`, {
         method: "PATCH",
-        body: values,
+        body: {
+          firstName: values?.firstName,
+          lastName: values?.lastName,
+          phone: values?.phone,
+          email: values?.email,
+          dob: values?.dob ? values?.dob : null,
+          address: values?.address,
+          gender: values?.gender,
+          roleId: values?.roleId,
+          departmentId: values?.departmentId,
+          joiningDate: values?.joiningDate,
+          bloodGroup: values?.bloodGroup,
+          employeeOfBranchId: values?.employeeOfBranchId,
+        },
       });
       setLoading(false);
       if (res?.status !== 200) {
