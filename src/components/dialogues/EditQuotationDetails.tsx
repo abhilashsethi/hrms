@@ -45,6 +45,7 @@ const validationSchema = Yup.object().shape({
 });
 const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
   const [isStatus, setIsStatus] = useState("");
+  const [isBranchId, setIsBranchId] = useState("");
   const [isCgst, setIsCgst] = useState(true);
   const [isSgst, setIsSgst] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -61,14 +62,13 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
     clientEmail: `${data?.clientEmail ? data?.clientEmail : ""}`,
     clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,
     quotationTitle: `${data?.quotationTitle ? data?.quotationTitle : ""}`,
-    reason: "",
+    reason: `${data?.reason ? data?.reason : ""}`,
     quotationBranchId: `${
       data?.quotationBranchId ? data?.quotationBranchId : ""
     }`,
   };
   const { change } = useChange();
   const handleSubmit = async (values: QuotationInput) => {
-    console.log(values);
     setLoading(true);
     try {
       const res = await change(`quotations/${data?.id}`, {
@@ -195,6 +195,7 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
                   options={Branch || []}
                   onChange={(e: any, r: any) => {
                     setFieldValue("quotationBranchId", r?.id);
+                    setIsBranchId(r?.id);
                   }}
                   isOptionEqualToValue={(option: any, value: any) =>
                     option.id === value.quotationBranchId

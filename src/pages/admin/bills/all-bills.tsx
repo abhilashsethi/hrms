@@ -225,8 +225,6 @@ const links = [
   { id: 2, page: "All Bills", link: "/admin/bills/all-bills" },
 ];
 const short = [
-  { id: 1, value: "name:asc", name: "Client Name Ascending" },
-  { id: 2, value: "name:desc", name: "Client Name Descending" },
   { id: 3, value: "createdAt:desc", name: "CreatedAt Ascending" },
   { id: 4, value: "createdAt:asc", name: "CreatedAt Descending" },
 ];
