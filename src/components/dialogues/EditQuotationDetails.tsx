@@ -45,7 +45,6 @@ const validationSchema = Yup.object().shape({
 });
 const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
   const [isStatus, setIsStatus] = useState("");
-  const [isBranchId, setIsBranchId] = useState("");
   const [isCgst, setIsCgst] = useState(true);
   const [isSgst, setIsSgst] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -63,9 +62,6 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
     clientAddress: `${data?.clientAddress ? data?.clientAddress : ""}`,
     quotationTitle: `${data?.quotationTitle ? data?.quotationTitle : ""}`,
     reason: `${data?.reason ? data?.reason : ""}`,
-    quotationBranchId: `${
-      data?.quotationBranchId ? data?.quotationBranchId : ""
-    }`,
   };
   const { change } = useChange();
   const handleSubmit = async (values: QuotationInput) => {
@@ -79,7 +75,6 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
           clientEmail: values?.clientEmail,
           clientAddress: values?.clientAddress,
           quotationTitle: values?.quotationTitle,
-          quotationBranchId: values?.quotationBranchId,
           reason: values?.reason,
           isIgst: isGstValue,
           isCgst: isCgst,
@@ -188,43 +183,7 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
                   Select Quotation Branch
                   <span className="text-red-600">*</span>
                 </p>
-                <Autocomplete
-                  fullWidth
-                  size="small"
-                  id="quotationBranchId"
-                  options={Branch || []}
-                  onChange={(e: any, r: any) => {
-                    setFieldValue("quotationBranchId", r?.id);
-                    setIsBranchId(r?.id);
-                  }}
-                  isOptionEqualToValue={(option: any, value: any) =>
-                    option.id === value.quotationBranchId
-                  }
-                  value={
-                    values?.quotationBranchId
-                      ? Branch?.find(
-                          (option: any) =>
-                            option.id === values.quotationBranchId
-                        )
-                      : {}
-                  }
-                  getOptionLabel={(option: any) =>
-                    option?.name ? option?.name : ""
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      // placeholder="Selected Gender"
-                      onBlur={handleBlur}
-                      error={
-                        touched.quotationBranchId && !!errors.quotationBranchId
-                      }
-                      helperText={
-                        touched.quotationBranchId && errors.quotationBranchId
-                      }
-                    />
-                  )}
-                />
+
                 {isStatus === "Rejected" || data?.status === "Rejected" ? (
                   <div className="my-4">
                     <p className="font-medium text-gray-700">Reason</p>
