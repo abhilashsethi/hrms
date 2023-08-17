@@ -1,4 +1,3 @@
-import { useTheme } from "@material-ui/core";
 import { Add, Close, FilterListRounded, Upload } from "@mui/icons-material";
 import {
   Button,
@@ -26,8 +25,6 @@ import { User } from "types";
 
 const AllEmployees = () => {
   const { user } = useAuth();
-  // console.log(user);
-  const theme = useTheme();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [isGrid, setIsGrid] = useState(true);
   const [userName, setUsername] = useState<string | null>(null);
