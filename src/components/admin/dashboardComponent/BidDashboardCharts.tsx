@@ -16,7 +16,6 @@ const BidDashboardCharts = ({ data }: Props) => {
   const { data: dashboardData } = useFetch<Tender>(
     `dashboards/bid-manager/dashboard?userId=${user?.id}`
   );
-  console.log(tenderData);
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">

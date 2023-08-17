@@ -6,7 +6,7 @@ import {
   MenuItem,
   Radio,
   RadioGroup,
-  TextField
+  TextField,
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange, useForm } from "hooks";
@@ -16,10 +16,10 @@ import * as Yup from "yup";
 import router from "next/router";
 
 interface Props {
-  EmdAmount?: number,
-  tenderFees?: number,
-  tenderPaymentMode?: string,
-  EmdPaymentMode?: string,
+  EmdAmount?: number;
+  tenderFees?: number;
+  tenderPaymentMode?: string;
+  EmdPaymentMode?: string;
 }
 
 const validationSchema = Yup.object().shape({
@@ -31,9 +31,9 @@ const TenderCreateLaststep = () => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { tender } = useForm();
-  const [isEmdValue, setIsEmdValue] = useState(false)
+  const [isEmdValue, setIsEmdValue] = useState(false);
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsEmdValue(event.target.value === 'yes');
+    setIsEmdValue(event.target.value === "yes");
   };
   const initialValues = {
     EmdAmount: 0,
@@ -47,20 +47,18 @@ const TenderCreateLaststep = () => {
       const res = await change(`tenders/update/${tender?.id}`, {
         method: "PATCH",
         body: {
-          EmdAmount: Number(values?.EmdAmount),
+          EmdAmount: Number(values?.EmdAmount === 0 ? values?.EmdAmount : null),
           tenderFees: Number(values?.tenderFees),
           isEmdExemption: isEmdValue,
           feesPaymentMode: values?.tenderPaymentMode,
-          EmdPaymentMode: values?.EmdPaymentMode,
+          EmdPaymentMode: values?.EmdPaymentMode
+            ? values?.EmdPaymentMode
+            : null,
         },
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
@@ -92,7 +90,6 @@ const TenderCreateLaststep = () => {
         }) => (
           <Form>
             <div className="px-20 my-8">
-
               <h1 className="text-theme font-semibold">Tender Fee Details</h1>
               <div className="grid lg:grid-cols-2 gap-4">
                 <div className="md:py-2 py-1">
@@ -107,7 +104,10 @@ const TenderCreateLaststep = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.tenderFees && !!errors.tenderFees}
-                    helperText={Boolean(touched.tenderFees) && errors.tenderFees as string}
+                    helperText={
+                      Boolean(touched.tenderFees) &&
+                      (errors.tenderFees as string)
+                    }
                   />
                 </div>
                 <div className="md:py-2 py-1">
@@ -122,8 +122,13 @@ const TenderCreateLaststep = () => {
                     value={values.tenderPaymentMode}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.tenderPaymentMode && !!errors.tenderPaymentMode}
-                    helperText={Boolean(touched.tenderPaymentMode) && errors.tenderPaymentMode as string}
+                    error={
+                      touched.tenderPaymentMode && !!errors.tenderPaymentMode
+                    }
+                    helperText={
+                      Boolean(touched.tenderPaymentMode) &&
+                      (errors.tenderPaymentMode as string)
+                    }
                   >
                     {paymentModes.map((option) => (
                       <MenuItem key={option.id} value={option.title}>
@@ -138,12 +143,16 @@ const TenderCreateLaststep = () => {
                 <h1 className="mb-2">EMD Exemption</h1>
 
                 <RadioGroup
-                  defaultValue={isEmdValue ? 'yes' : 'no'}
+                  defaultValue={isEmdValue ? "yes" : "no"}
                   row
                   name="isEmdValue"
                   onChange={handleOptionChange}
                 >
-                  <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                  <FormControlLabel
+                    value="yes"
+                    control={<Radio />}
+                    label="Yes"
+                  />
                   <FormControlLabel value="no" control={<Radio />} label="No" />
                 </RadioGroup>
               </div>
@@ -161,7 +170,10 @@ const TenderCreateLaststep = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       error={touched.EmdAmount && !!errors.EmdAmount}
-                      helperText={Boolean(touched.EmdAmount) && errors.EmdAmount as string}
+                      helperText={
+                        Boolean(touched.EmdAmount) &&
+                        (errors.EmdAmount as string)
+                      }
                     />
                   </div>
                   <div className="md:py-2 py-1">
@@ -177,7 +189,10 @@ const TenderCreateLaststep = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       error={touched.EmdPaymentMode && !!errors.EmdPaymentMode}
-                      helperText={Boolean(touched.EmdPaymentMode) && errors.EmdPaymentMode as string}
+                      helperText={
+                        Boolean(touched.EmdPaymentMode) &&
+                        (errors.EmdPaymentMode as string)
+                      }
                     >
                       {paymentModes.map((option) => (
                         <MenuItem key={option.id} value={option.title}>
@@ -188,22 +203,17 @@ const TenderCreateLaststep = () => {
                   </div>
                 </div>
               )}
-
             </div>
             <div className="flex justify-end items-center px-20">
-
               <Button
                 type="submit"
                 variant="contained"
                 disabled={loading}
-                startIcon={
-                  loading ? <CircularProgress size={20} /> : <Check />
-                }
+                startIcon={loading ? <CircularProgress size={20} /> : <Check />}
                 className="!bg-green-600"
               >
                 SUBMIT
               </Button>
-
             </div>
           </Form>
         )}

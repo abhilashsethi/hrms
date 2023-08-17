@@ -27,7 +27,6 @@ const BidDashboardCards = ({ data }: Props) => {
   const { data: dashboardData } = useFetch<Tender>(
     `dashboards/bid-manager/dashboard?userId=${user?.id}`
   );
-  console.log(dashboardData);
   const cards = [
     {
       id: 1,

@@ -28,7 +28,10 @@ const initialValues = {
 };
 const validationSchema = yup.object().shape({
   title: yup.string().required("Required!"),
-  description: yup.string().required("Required!"),
+  description: yup
+    .string()
+    .min(6, "At least five character")
+    .required("Required!"),
   members: yup
     .array()
     .of(yup.string().required("Required!"))

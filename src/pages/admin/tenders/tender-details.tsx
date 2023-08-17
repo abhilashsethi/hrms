@@ -96,8 +96,11 @@ const TenderDetails = () => {
     },
   ];
   const links = [
-    user?.role?.name === "CEO" || user?.role?.name === "BID MANAGER"
-      ? { id: 2, page: "All Tenders", link: "/admin/tenders" }
+    user?.role?.name === "CEO" ||
+    user?.role?.name === "BID MANAGER" ||
+    user?.role?.name === "DIRECTOR" ||
+    user?.role?.name === "COO"
+      ? { id: 2, page: "All Tenders", link: "/admin/tenders/all-tenders" }
       : {
           id: 2,
           page: "My Tenders",

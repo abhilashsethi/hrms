@@ -14,6 +14,7 @@ const useFCMToken = (uid: string | undefined) => {
       Notification.requestPermission(async function (permission) {
         const messagingResolver = await messaging;
         // If the user accepts, let's create a notification
+        // console.log(messagingResolver)
         if (permission === "granted") {
           if (uid) {
             // Get FCM Token
@@ -22,12 +23,15 @@ const useFCMToken = (uid: string | undefined) => {
             })
               .then(async (fcmToken) => {
                 if (fcmToken) {
+                  // console.log(fcmToken)
                   try {
-                    const resData = {web:fcmToken}
+                    const resData = { web: fcmToken }
+                    // console.log("first resData", resData)
                    const result= await change(`users/${uid}`, {
                       method: "PATCH",
                       body: {fcmTokens: resData}     
                    });
+                    // console.log("FCM results",result)
                   } catch (err) {
                     console.log(err)
                   }
