@@ -99,6 +99,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
         }
         Swal.fire(`Success`, `Leave Added Successfully!`, `success`);
         mutate();
+        setValue("FullDay");
         resetForm();
         handleClose();
         return;
@@ -122,6 +123,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
         }
         Swal.fire(`Success`, `Leave Added Successfully!`, `success`);
         mutate();
+        setValue("FullDay");
         resetForm();
         handleClose();
         return;
