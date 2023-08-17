@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Bills } from "types";
+import { NumInWords } from "utils";
 interface Props {
   data: Bills[];
   mutate?: any;
@@ -103,6 +104,7 @@ const BillGrid = ({ data, mutate }: Props) => {
           place: "Khandagiri,Bhubaneswar-751030",
           panNumber: "ABACS8623B",
           gstVal: item?.gstVal,
+          grandTotalInWord: NumInWords(item?.grandTotal ? item?.grandTotal : 0),
         },
       });
 
