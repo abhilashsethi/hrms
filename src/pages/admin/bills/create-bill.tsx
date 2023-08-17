@@ -197,7 +197,7 @@ const CreateBills = () => {
             body: {
               billType: values?.billType,
               quotationId: isPaidId,
-              dueDate: null,
+              // dueDate: null,
               billOfBranchId: values?.branchId,
               clientEmail: isClientEmail,
               clientName: isClientName,
@@ -229,7 +229,7 @@ const CreateBills = () => {
           body: {
             billType: values?.billType,
             quotationId: isPaidId,
-            dueDate: null,
+            // dueDate: null,
             billOfBranchId: values?.branchId,
             clientName: isClientName,
             clientEmail: isClientEmail,

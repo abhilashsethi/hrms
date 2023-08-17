@@ -78,7 +78,9 @@ const BillGrid = ({ data, mutate }: Props) => {
           clientGstNumber: item?.clientGstNumber,
           billType: item?.billType,
           status: item?.status,
-          dueDate: moment(item?.dueDate).format("DD/MM/YYYY"),
+          dueDate: item?.dueDate
+            ? moment(item?.dueDate).format("DD/MM/YYYY")
+            : "---",
           clientName: item?.clientName,
           clientAddress: item?.clientAddress,
           gstNumber: "18JAKSDAJ45",
