@@ -1,7 +1,7 @@
 import { FileCopy, Save, Send } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -12,6 +12,7 @@ import { User } from "types";
 
 const CreateTemplate = () => {
   const router = useRouter();
+  const { user } = useAuth();
   const links = [
     {
       id: 1,
@@ -61,6 +62,7 @@ const CreateTemplate = () => {
                       title: title,
                       content: html,
                       json: JSON.stringify(design),
+                      userId: user?.id,
                     },
                   });
                   console.log(res);
