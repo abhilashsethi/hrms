@@ -16,6 +16,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
+import { DEFAULTPROFILE } from "assets/home";
 import { ChatMedia } from "components/chat";
 import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
 import { AddParticipants, ChatDescription } from "components/dialogues";
@@ -177,7 +178,9 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
               {/* ------------------Image section----------------- */}
               <div className="flex flex-col items-center gap-3 my-8">
                 <PhotoUpdateView
-                  photo={profileData?.photo}
+                  photo={
+                    profileData?.photo ? profileData?.photo : DEFAULTPROFILE.src
+                  }
                   chatId={profileData?.id}
                   editable={
                     !profileData?.isPrivateGroup &&
