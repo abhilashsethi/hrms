@@ -286,7 +286,7 @@ const GroupChats = () => {
   }, [socketRef, allGroupChat?.length]);
 
   return (
-    <div className="h-[65vh] overflow-y-auto">
+    <div className="h-[calc(100%)] overflow-y-auto">
       <ChatGroupCreate open={isCreate} onClose={() => setIsCreate(false)} />
       <div className="flex justify-between items-center">
         <div className="border-2 w-[87%] flex gap-1 items-center px-2 rounded-md py-1">
@@ -448,7 +448,7 @@ const Contacts = () => {
   };
 
   return (
-    <div className="h-[65vh] overflow-y-auto">
+    <div className="h-[calc(100%)] overflow-y-auto">
       <div className="border-2 flex gap-1 items-center px-2 rounded-md py-1">
         <Search fontSize="small" />
         <input
@@ -458,7 +458,7 @@ const Contacts = () => {
           onChange={(e) => setSearchText(e?.target?.value)}
         />
       </div>
-      <div className="mt-2 flex flex-col gap-1 overflow-y-auto h-[75%]">
+      <div className="mt-2 flex flex-col gap-1 ">
         {employeesData?.users?.map((item) => (
           <div
             key={item?.id}
