@@ -130,7 +130,7 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
 												alt=""
 											/>
 										</a>
-										<p className="text-xs">
+										<p className="text-xs text-center font-semibold">
 											{item?.title?.slice(0, 9)}
 											{item?.title?.length > 9 ? "..." : null}
 										</p>
