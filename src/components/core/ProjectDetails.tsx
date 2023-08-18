@@ -138,9 +138,10 @@ const ProjectDetails = () => {
               <h1 className="font-semibold tracking-wide text-lg text-secondary">
                 {projectData?.name}
               </h1>
-              {user?.role?.name == "CEO" ||
-              user?.role?.name == "HR" ||
-              user?.role?.name == "PROJECT MANAGER" ? (
+              {user?.role?.name === "CEO" ||
+              user?.role?.name === "HR" ||
+              user?.role?.name === "COO" ||
+              user?.role?.name === "PROJECT MANAGER" ? (
                 <Button
                   size="small"
                   variant="contained"

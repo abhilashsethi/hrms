@@ -101,10 +101,11 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
         <h1 className="font-semibold text-gray-600 underline">
           Technology Used
         </h1>
-        {(projectData?.technologies?.length && user?.role?.name == "CEO") ||
-        user?.role?.name == "CEO" ||
-        user?.role?.name == "HR" ||
-        user?.role?.name == "PROJECT MANAGER" ? (
+        {(projectData?.technologies?.length && user?.role?.name === "CEO") ||
+        user?.role?.name === "CEO" ||
+        user?.role?.name === "HR" ||
+        user?.role?.name === "COO" ||
+        user?.role?.name === "PROJECT MANAGER" ? (
           <Tooltip title="Add Technology">
             <IconButton
               onClick={() => setIsUpdate((prev) => !prev)}
@@ -171,9 +172,10 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
               key={item?.id}
               className="px-4 py-4 relative mt-3 rounded-md shadow-jubilation"
             >
-              {user?.role?.name == "CEO" ||
-              user?.role?.name == "HR" ||
-              user?.role?.name == "PROJECT MANAGER" ? (
+              {user?.role?.name === "CEO" ||
+              user?.role?.name === "HR" ||
+              user?.role?.name === "COO" ||
+              user?.role?.name === "PROJECT MANAGER" ? (
                 <div
                   onClick={() => removeTechnology(item?.id)}
                   className="absolute right-[5px] top-[4px] cursor-pointer shadow-md bg-red-500 h-6 w-6 rounded-full flex justify-center items-center"
@@ -196,9 +198,10 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
         <>
           <div className="flex flex-col gap-4 lg:py-12 py-6">
             <h1 className="text-center">Technology details not mentioned, </h1>
-            {user?.role?.name == "CEO" ||
-            user?.role?.name == "HR" ||
-            user?.role?.name == "PROJECT MANAGER" ? (
+            {user?.role?.name === "CEO" ||
+            user?.role?.name === "HR" ||
+            user?.role?.name === "COO" ||
+            user?.role?.name === "PROJECT MANAGER" ? (
               <Button
                 size="small"
                 fullWidth

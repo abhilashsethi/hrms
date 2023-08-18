@@ -84,7 +84,9 @@ const AllEmployees = () => {
           </div>
           <div className="flex gap-4 md:items-center md:flex-row flex-col-reverse md:w-auto w-full items-end">
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
-            {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+            {user?.role?.name === "CEO" ||
+            user?.role?.name === "HR" ||
+            user?.role?.name === "COO" ? (
               <div className="flex md:gap-4 gap-2 mt-2 flex-row items-center">
                 <Link href="/admin/employees/create-employee">
                   <Button
@@ -109,7 +111,9 @@ const AllEmployees = () => {
           </div>
         </div>
 
-        {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+        {user?.role?.name === "CEO" ||
+        user?.role?.name === "HR" ||
+        user?.role?.name === "COO" ? (
           <div className="md:flex gap-4 justify-between w-full py-2">
             <div
               className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme

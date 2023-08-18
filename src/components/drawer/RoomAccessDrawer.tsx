@@ -123,9 +123,9 @@ const RoomAccessDrawer = ({ open, onClose, cardId, mutate }: Props) => {
                   <ReverseIOSSwitch
                     checked={item?.isAccess}
                     disabled={
-                      user?.role?.name == "CEO" ||
-                      user?.role?.name == "COO" ||
-                      user?.role?.name == "DIRECTOR"
+                      user?.role?.name === "CEO" ||
+                      user?.role?.name === "COO" ||
+                      user?.role?.name === "DIRECTOR"
                         ? false
                         : true
                     }
@@ -134,9 +134,9 @@ const RoomAccessDrawer = ({ open, onClose, cardId, mutate }: Props) => {
                 </div>
               ))}
             </div>
-            {user?.role?.name == "CEO" ||
-            user?.role?.name == "COO" ||
-            user?.role?.name == "DIRECTOR" ? (
+            {user?.role?.name === "CEO" ||
+            user?.role?.name === "COO" ||
+            user?.role?.name === "DIRECTOR" ? (
               <div className="flex justify-end mt-6">
                 <Button
                   onClick={() => handleSubmit()}

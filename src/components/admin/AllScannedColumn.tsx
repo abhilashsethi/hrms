@@ -197,7 +197,9 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
               ),
               editable: "never",
               hidden:
-                user?.role?.name == "CEO" || user?.role?.name == "HR"
+                user?.role?.name === "CEO" ||
+                user?.role?.name === "HR" ||
+                user?.role?.name === "COO"
                   ? false
                   : true,
             },
@@ -206,7 +208,9 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
               field: "employeeId",
               export: false,
               hidden:
-                user?.role?.name == "CEO" || user?.role?.name == "HR"
+                user?.role?.name === "CEO" ||
+                user?.role?.name === "HR" ||
+                user?.role?.name === "COO"
                   ? false
                   : true,
 
@@ -264,7 +268,9 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
               field: "employeeId",
               export: false,
               hidden:
-                user?.role?.name == "CEO" || user?.role?.name == "HR"
+                user?.role?.name === "CEO" ||
+                user?.role?.name === "HR" ||
+                user?.role?.name === "COO"
                   ? true
                   : false,
 
@@ -347,7 +353,9 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
           ]}
           editable={{
             onRowDelete:
-              user?.role?.name == "CEO" || user?.role?.name == "HR"
+              user?.role?.name === "CEO" ||
+              user?.role?.name === "HR" ||
+              user?.role?.name === "COO"
                 ? async (oldData) => {
                     try {
                       const response = await change(
