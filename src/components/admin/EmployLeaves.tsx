@@ -13,7 +13,7 @@ const EmployLeaves = ({ employData }: Props) => {
   const { data: leaveDetails } = useFetch<any[]>(
     `leaves?employeeID=${employData?.employeeID}`
   );
-
+  console.log({ leaveData });
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
       <HeadText title="Employee Leaves" />
@@ -23,9 +23,11 @@ const EmployLeaves = ({ employData }: Props) => {
             <div className="flex flex-col items-center">
               <p className="font-semibold text-sm mb-1">Current Month</p>
               <div className="h-20 w-20 relative text-white overflow-hidden rounded-md bg-gradient-to-r from-blue-500 to-blue-400 shadow-md flex justify-center items-center text-4xl font-bold">
-                {leaveData?.monthWiseLeaves?.Jun
-                  ? leaveData?.monthWiseLeaves?.Jun
-                  : 0}
+                {Object.keys(leaveData?.monthWiseLeaves || {}).map((month) => (
+                  <div key={month}>
+                    {leaveData?.monthWiseLeaves[month] || 0}
+                  </div>
+                ))}
               </div>
             </div>
             <div className="flex flex-col items-center">
