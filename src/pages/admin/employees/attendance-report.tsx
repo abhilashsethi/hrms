@@ -21,7 +21,6 @@ const AttendanceReport = () => {
     return monthName;
   };
   const links = [
-    { id: 1, page: "Employee", link: "/admin/employees" },
     { id: 2, page: "All Employee", link: "/admin/employees/all-employees" },
     {
       id: 3,

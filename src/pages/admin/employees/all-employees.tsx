@@ -53,9 +53,17 @@ const AllEmployees = () => {
     }`
   );
   const links =
-    user?.role?.name === "CEO" || user?.role?.name === "HR"
+    user?.role?.name === "CEO"
       ? [
           { id: 1, page: "Employees", link: "/admin/employees" },
+          {
+            id: 2,
+            page: "All Employees",
+            link: "/admin/employees/all-employees",
+          },
+        ]
+      : user?.role?.name === "HR"
+      ? [
           {
             id: 2,
             page: "All Employees",
