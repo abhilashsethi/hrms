@@ -204,11 +204,11 @@ const CardComponent = ({ item, mutate }: Props) => {
                       <p className="text-xs text-blue-900">
                         {/* {item?.user?.bloodGroup} */}
                         {item?.user?.bloodGroup &&
-                          SwitchBloodgroup(item?.user?.bloodGroup)}
+                          SwitchBloodGroup(item?.user?.bloodGroup)}
                       </p>
                     </div>
                   </div>
-                  <div className="absolute w-full h-40 translate-y-[100%] hidden group-hover:block group-hover:translate-y-[0%] bottom-0 transition-all ease-in-out duration-300 bg-slate-700 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gray-100">
+                  <div className="absolute w-full h-40 translate-y-[100%] hidden group-hover:block group-hover:translate-y-[0%] bottom-0 transition-all ease-in-out duration-300 bg-slate-700 bg-clip-padding  bg-opacity-20 border-gray-100">
                     <div className="flex justify-center pt-2">
                       <div className="w-12 bg-white rounded-full px-2 py-[0.2rem]">
                         <div className="border-b-2 border-black"></div>
@@ -216,8 +216,9 @@ const CardComponent = ({ item, mutate }: Props) => {
                     </div>
                     <div className="w-full flex flex-col items-center justify-center gap-2 mt-2">
                       <div className="flex items-center gap-4">
-                        {user?.role?.name == "CEO" ||
-                        user?.role?.name == "HR" ? (
+                        {user?.role?.name === "CEO" ||
+                        user?.role?.name === "HR" ||
+                        user?.role?.name === "COO" ? (
                           <>
                             <Tooltip title="Delete Card">
                               <div className="h-10 w-10 bg-white shadow-lg rounded-full">
@@ -254,7 +255,9 @@ const CardComponent = ({ item, mutate }: Props) => {
                           </div>
                         </Tooltip>
                       </div>
-                      {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+                      {user?.role?.name === "CEO" ||
+                      user?.role?.name === "HR" ||
+                      user?.role?.name === "COO" ? (
                         <div className="flex flex-col items-center gap-1">
                           <p className="font-semibold tracking-wide text-sm">
                             Unblock/Block
@@ -290,7 +293,7 @@ const CardComponent = ({ item, mutate }: Props) => {
                       </p>
                     </div>
                   </div>
-                  <div className="absolute w-full h-40 translate-y-[100%] hidden group-hover:block group-hover:translate-y-[0%] bottom-0 transition-all ease-in-out duration-300 bg-slate-700 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 border-gray-100">
+                  <div className="absolute w-full h-40 translate-y-[100%] hidden group-hover:block group-hover:translate-y-[0%] bottom-0 transition-all ease-in-out duration-300 bg-slate-700 bg-clip-padding bg-opacity-20 border-gray-100">
                     <div className="flex justify-center pt-2">
                       <div className="w-12 bg-white rounded-full px-2 py-[0.2rem]">
                         <div className="border-b-2 border-black"></div>
@@ -298,8 +301,9 @@ const CardComponent = ({ item, mutate }: Props) => {
                     </div>
                     <div className="w-full flex flex-col items-center justify-center gap-2 mt-2">
                       <div className="flex items-center gap-4">
-                        {user?.role?.name == "CEO" ||
-                        user?.role?.name == "HR" ? (
+                        {user?.role?.name === "CEO" ||
+                        user?.role?.name === "HR" ||
+                        user?.role?.name === "COO" ? (
                           <>
                             <Tooltip title="Delete Card">
                               <div className="h-10 w-10 bg-white shadow-lg rounded-full">
@@ -421,7 +425,7 @@ interface Props {
   data?: Card[];
 }
 
-const SwitchBloodgroup = (bloodGroup: any) => {
+const SwitchBloodGroup = (bloodGroup: any) => {
   return (
     <p>
       Blood Group :{` `}

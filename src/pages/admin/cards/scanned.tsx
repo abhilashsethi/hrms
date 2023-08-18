@@ -30,7 +30,9 @@ const Cards = () => {
   const [isGrid, setIsGrid] = useState(true);
   const { user } = useAuth();
   const links =
-    user?.role?.name == "CEO" || user?.role?.name == "HR"
+    user?.role?.name === "CEO" ||
+    user?.role?.name === "HR" ||
+    user?.role?.name === "COO"
       ? [
           { id: 1, page: "Cards", link: "/admin/cards" },
           { id: 2, page: "Scanned Cards", link: "/admin/cards/scanned" },
@@ -43,7 +45,9 @@ const Cards = () => {
     pagination,
   } = useFetch<Card[]>(
     `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${
-      user?.role?.name == "CEO" || user?.role?.name == "HR"
+      user?.role?.name === "CEO" ||
+      user?.role?.name === "HR" ||
+      user?.role?.name === "COO"
         ? ""
         : `&userId=${user?.id}`
     }${empId ? `&employeeID=${empId}` : ""}${
@@ -61,7 +65,9 @@ const Cards = () => {
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
           </div>
         </div>
-        {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+        {user?.role?.name === "CEO" ||
+        user?.role?.name === "HR" ||
+        user?.role?.name === "COO" ? (
           <div className="md:flex gap-4 justify-between w-full py-2">
             <div
               className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme

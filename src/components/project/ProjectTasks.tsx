@@ -69,9 +69,10 @@ const ProjectTasks = () => {
         handleClose={() => setIsCreate(false)}
       />
 
-      {user?.role?.name == "CEO" ||
-      user?.role?.name == "HR" ||
-      user?.role?.name == "PROJECT MANAGER" ? (
+      {user?.role?.name === "CEO" ||
+      user?.role?.name === "HR" ||
+      user?.role?.name === "COO" ||
+      user?.role?.name === "PROJECT MANAGER" ? (
         <div className="flex border-b-2 pb-2 justify-end">
           <Button
             onClick={() => setIsCreate(true)}

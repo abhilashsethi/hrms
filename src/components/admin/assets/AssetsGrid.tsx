@@ -294,7 +294,7 @@ const MoreOption = ({ item, mutate }: any) => {
                           src={data}
                           alt="Branch"
                         />
-                        <span className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 bg-zinc-500 bg-transparent transition-opacity duration-300 group-hover:opacity-70">
+                        <span className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0  transition-opacity duration-300 group-hover:opacity-70">
                           <Visibility className=" !text-white" />
                         </span>
                       </span>
@@ -319,7 +319,7 @@ const MoreOption = ({ item, mutate }: any) => {
                         src={data}
                         alt="Branch"
                       />
-                      <span className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 bg-zinc-500 bg-transparent transition-opacity duration-300 group-hover:opacity-70">
+                      <span className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-70">
                         <Visibility className=" !text-white" />
                       </span>
                     </span>
@@ -486,7 +486,9 @@ const MoreOption = ({ item, mutate }: any) => {
             </p>
 
             <div className="flex bottom-0 ">
-              {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+              {user?.role?.name === "CEO" ||
+              user?.role?.name === "HR" ||
+              user?.role?.name === "COO" ? (
                 <Tooltip title="Delete Asset">
                   <span
                     onClick={() => handleDelete(item?.id)}
@@ -508,7 +510,9 @@ const MoreOption = ({ item, mutate }: any) => {
                       <Visibility fontSize="small" color="secondary" />
                     </div>
                   </Tooltip>
-                  {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+                  {user?.role?.name === "CEO" ||
+                  user?.role?.name === "HR" ||
+                  user?.role?.name === "COO" ? (
                     <Tooltip title="Return Asset">
                       <span
                         onClick={() => {
@@ -523,7 +527,9 @@ const MoreOption = ({ item, mutate }: any) => {
                 </>
               ) : (
                 <>
-                  {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+                  {user?.role?.name === "CEO" ||
+                  user?.role?.name === "HR" ||
+                  user?.role?.name === "COO" ? (
                     <Tooltip title="Assign Employee">
                       <span
                         onClick={() => {
@@ -537,7 +543,9 @@ const MoreOption = ({ item, mutate }: any) => {
                   ) : null}
                 </>
               )}
-              {user?.role?.name == "CEO" || user?.role?.name == "HR" ? (
+              {user?.role?.name === "CEO" ||
+              user?.role?.name === "HR" ||
+              user?.role?.name === "COO" ? (
                 <>
                   <Tooltip title="Edit Asset">
                     <span
