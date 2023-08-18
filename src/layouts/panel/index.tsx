@@ -370,7 +370,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
                         href={
                           user?.isClient
                             ? `/admin/clients/client-profile?id=${user?.id}`
-                            : `/admin/employees/profile/${user?.id}`
+                            : `/admin/employees/my-profile`
                         }
                       >
                         <MenuItem>
