@@ -84,8 +84,10 @@ const EmpAttendanceIndividual = ({ employData }: Props) => {
           </TextField>
         </div>
       </div>
-      <div className="flex justify-between items-center py-10 px-4">
-        {progress && <CircularProgressWithLabel value={progress} />}
+      <div className="grid justify-items-center items-center py-10 px-4">
+        <div className="flex justify-between items-center ">
+          {progress && <CircularProgressWithLabel value={progress} />}
+        </div>
         <div className="flex gap-7 items-center">
           <div>
             <p className="font-semibold">{attendanceData?.length} </p>

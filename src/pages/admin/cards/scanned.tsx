@@ -214,6 +214,8 @@ const usertypes: Array<UserTypeItem> = [
 ];
 
 const short = [
+  { id: 1, value: "name:asc", name: "Name Ascending" },
+  { id: 2, value: "name:desc", name: "Name descending" },
   { id: 3, value: "createdAt:asc", name: "CARD CREATED ASCENDING" },
   { id: 4, value: "createdAt:desc", name: "CARD CREATED DESCENDING" },
 ];
