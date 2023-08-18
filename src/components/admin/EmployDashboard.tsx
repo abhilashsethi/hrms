@@ -91,9 +91,11 @@ const EmployDashboard = () => {
           </div>
 
           <div className="grid grid-cols-12 content-between gap-10 m-5 !mb-6">
-            <div className="col-span-12 bg-white pt-20 w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
+            <div className="col-span-12 bg-white w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
+              <div className="font-semibold flex justify-center py-4 pl-2 ">
+                <p>Last Week Employee's Report </p>
+              </div>
               <DailyAttendance
-                text="Last Week Employee's Report"
                 type="area"
                 data={employeeDetails?.lastWeekAttendanceArr}
                 totalUsers={employeeDetails?.totalUsers}
