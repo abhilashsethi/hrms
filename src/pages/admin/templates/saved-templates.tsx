@@ -21,7 +21,11 @@ const SavedTemplates = () => {
   const [isUse, setIsUse] = useState(false);
 
   const links = [
-    { id: 1, page: "Saved Templates", link: "/admin/saved-templates" },
+    {
+      id: 1,
+      page: "Saved Templates",
+      link: "/admin/templates/saved-templates",
+    },
   ];
   const emailEditorRef = useRef<any>(null);
   const onLoad = () => {};

@@ -40,7 +40,6 @@ const TodayAttendance = () => {
     setSelectedDate(date);
   }
   const links = [
-    { id: 1, page: "Attendances", link: "/admin/attendances" },
     {
       id: 2,
       page: "Date Wise",

@@ -128,7 +128,6 @@ const UploadEmployeeData = () => {
 export default UploadEmployeeData;
 
 const links = [
-  { id: 1, page: "Employees", link: "/admin/employees" },
   {
     id: 2,
     page: "Upload Employee's Data",

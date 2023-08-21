@@ -13,6 +13,7 @@ import ICONS from "assets/icons";
 import { ChatImagePreview } from "components/dialogues";
 import { BASE_URL, useChange, useChatData, useFetch } from "hooks";
 import moment from "moment";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { deleteFile, downloadFile } from "utils";
@@ -31,12 +32,12 @@ const ChatMedia = ({
   groupId?: string;
 }) => {
   const [fileData, setFileData] = useState<any[]>([]);
-
   const [value, setValue] = React.useState("image");
   const [pageNo, setPageNo] = useState(1);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    setFileData([]);
     setPageNo(1);
   };
 
@@ -45,7 +46,6 @@ const ChatMedia = ({
   const { data, isValidating, mutate } = useFetch<any>(
     `chat/message-group/${selectedChatId}?category=${value}&limit=20&page=${pageNo}`
   );
-
   useEffect(() => {
     if (!data?.message?.length) return;
     setFileData((prev) => [...prev, ...data?.message]);
@@ -54,6 +54,7 @@ const ChatMedia = ({
   const handleNextFetch = () => {
     setPageNo((prev) => prev + 1);
   };
+  console.log({ fileData });
 
   return (
     <section
@@ -174,7 +175,6 @@ const MediaFiles = ({
     revalidate?.();
     Swal.fire("Success", "File deleted successfully", "success");
   };
-
   return (
     <>
       <ChatImagePreview
@@ -225,17 +225,11 @@ const MediaFiles = ({
                 <div className="flex justify-between w-3/4 items-center">
                   <h1 className="text-sm">{item?.link?.split("/")?.at(-1)}</h1>
                   <Tooltip title="Download">
-                    <IconButton
-                      size="small"
-                      onClick={() =>
-                        downloadFile(
-                          item?.link,
-                          item?.link?.split("/")?.at(-1) as any
-                        )
-                      }
-                    >
-                      <FileDownload />
-                    </IconButton>
+                    <Link href={item?.link} target="_blank">
+                      <IconButton size="small">
+                        <FileDownload />
+                      </IconButton>
+                    </Link>
                   </Tooltip>
                 </div>
               </div>

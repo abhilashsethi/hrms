@@ -109,27 +109,37 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
     try {
       switch (configId) {
         case 2:
-          const res = await change(
-            `chat/member/${
-              currentChatProfileDetails?.chatMembers?.find(
-                (item) => item?.user?.id === user?.id
-              )?.id
-            }`,
-            {
-              method: "DELETE",
-              BASE_URL,
-            }
-          );
-
-          if (res?.status !== 201) {
-            Swal.fire(
-              "Error",
-              res?.results?.msg || "Something went wrong!",
-              "error"
+          if (
+            !currentChatProfileDetails?.chatMembers?.find(
+              (item) => item?.user?.id === user?.id
+            )?.isPastMember
+          ) {
+            const res = await change(
+              `chat/member/${
+                currentChatProfileDetails?.chatMembers?.find(
+                  (item) => item?.user?.id === user?.id
+                )?.id
+              }`,
+              {
+                method: "DELETE",
+                BASE_URL,
+              }
             );
+
+            console.log("remove");
+            if (res?.status !== 201) {
+              Swal.fire(
+                "Error",
+                res?.results?.msg || "Something went wrong!",
+                "error"
+              );
+              return;
+            }
+            revalidateCurrentChat(selectedChatId);
+            selectedChatId && revalidateChatProfileDetails(selectedChatId);
+            break;
           }
-          revalidateCurrentChat(selectedChatId);
-          selectedChatId && revalidateChatProfileDetails(selectedChatId);
+          Swal.fire("Info", "You leave this group already", "info");
           break;
         case 1:
           const blockUser = await change(`chat/blocked/${selectedChatId}`, {
@@ -146,6 +156,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               blockUser?.results?.msg || "Something went wrong!",
               "error"
             );
+            return;
           }
           Swal.fire("Success", "Status Changed Successfully!", "success");
           selectedChatId && revalidateChatProfileDetails(selectedChatId);
@@ -163,6 +174,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               clear?.results?.msg || "Something went wrong!",
               "error"
             );
+            return;
           }
           selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
@@ -193,7 +205,9 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               {currentChatProfileDetails?.title}
             </h1>
             <h1 className="text-sm font-light">
-              {currentChatProfileDetails?.isPrivateGroup ? (
+              {currentChatProfileDetails?.isGroupBlocked ? (
+                <span className="text-red-600 font-semibold">Blocked </span>
+              ) : currentChatProfileDetails?.isPrivateGroup ? (
                 <span
                   className={`${
                     currentChatProfileDetails?.chatMembers?.find((item) =>
@@ -278,15 +292,6 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               )}
             </h1>
           </div>
-          <p className="px-6">
-            {currentChatProfileDetails?.isGroupBlocked ? (
-              <p className="text-white bg-red-500 rounded-full px-2 py-1">
-                Blocked{" "}
-              </p>
-            ) : (
-              ""
-            )}
-          </p>
         </div>
         <div>
           <Tooltip title="Menu">

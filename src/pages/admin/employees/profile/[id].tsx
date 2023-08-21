@@ -20,10 +20,11 @@ const EmployeeProfile = () => {
     return (
       <>
         <span
-          className={`flex items-center px-4 py-1 border-[1px] justify-center font-semibold ${eventInfo.event.title === "PRESENT"
+          className={`flex items-center px-4 py-1 border-[1px] justify-center font-semibold ${
+            eventInfo.event.title === "PRESENT"
               ? `bg-emerald-200 text-green-500 border-green-400`
               : `bg-red-200 text-red-500 border-red-400`
-            }`}
+          }`}
         >
           {eventInfo.event.title === "PRESENT" ? (
             <Check fontSize="small" />
@@ -63,7 +64,6 @@ const EmployeeProfile = () => {
   }, [attendanceData]);
 
   const links = [
-    { id: 1, page: "Employees", link: "/admin/employees" },
     {
       id: 2,
       page: "Employee Profile",

@@ -1,6 +1,6 @@
 import { KeyboardBackspace, East, ArrowRightAlt } from "@mui/icons-material";
 import { FormControl, IconButton, MenuItem, Select } from "@mui/material";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { MailTemplate } from "types";
@@ -9,9 +9,12 @@ interface Props {
 }
 const CreateHeader = ({ setTemplateId }: Props) => {
   const { back } = useRouter();
+  const { user } = useAuth();
   const [selectedTemplate, setSelectedTemplate] = useState("normal"); // Default value is "normal"
 
-  const { data: template } = useFetch<MailTemplate[]>(`mail-template`);
+  const { data: template } = useFetch<MailTemplate[]>(
+    `mail-template?userId=${user?.id}`
+  );
   const handleTemplateChange = (event: any) => {
     const selectedValue = event.target.value as string;
     setTemplateId(selectedValue);

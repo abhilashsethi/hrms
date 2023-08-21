@@ -18,12 +18,14 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import CopyClipboard from "./CopyCliboard";
 import EmployeeProfileImage from "./EmployeeProfileImage";
+import { useAuth } from "hooks";
 interface Props {
   employData?: any;
   mutate?: any;
 }
 const ViewEmployeeHead = ({ employData, mutate }: Props) => {
   // console.log(employData)
+  const { user } = useAuth();
   const [document, setDocument] = useState(false);
   const [projects, setProjects] = useState(false);
   const [leaves, setLeaves] = useState(false);
@@ -34,7 +36,7 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
   const router = useRouter();
   const [isProfile, setIsProfile] = useState(false);
 
-  const shortCuts: shortCutTypes[] = [
+  const nonHRShortCuts: shortCutTypes[] = [
     {
       id: 1,
       icon: <InsertDriveFileRounded />,
@@ -62,14 +64,7 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
       title: "Chat",
       onClick: () => router?.push(`/admin/chat`),
     },
-    {
-      id: 7,
-      icon: <AccountTreeRounded />,
-      title: "Projects",
-      onClick: () => {
-        setProjects(true);
-      },
-    },
+
     {
       id: 8,
       icon: <ChecklistRounded />,
@@ -79,6 +74,20 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
       },
     },
   ];
+  const hrShortCuts: shortCutTypes[] = [
+    {
+      id: 7,
+      icon: <AccountTreeRounded />,
+      title: "Projects",
+      onClick: () => {
+        setProjects(true);
+      },
+    },
+  ];
+  const shortCuts =
+    user?.role?.name === "HR"
+      ? [...nonHRShortCuts]
+      : [...nonHRShortCuts, ...hrShortCuts];
 
   return (
     <>

@@ -80,6 +80,7 @@ const Inbox = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        setAllClicked(false);
         mutate?.();
         return;
       }

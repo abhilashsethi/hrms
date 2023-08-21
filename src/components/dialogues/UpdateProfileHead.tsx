@@ -11,7 +11,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -77,6 +77,7 @@ const UpdateProfileHead = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const { user } = useAuth();
   const { data: roles } = useFetch<any>(`roles`);
   const { data: departmentsData } = useFetch<any>(`departments`);
   const { data: branchData } = useFetch<any>(`branches`);
@@ -226,24 +227,7 @@ const UpdateProfileHead = ({
                           }
                         />
                       </div>
-                      {/* <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Employee ID <span className="text-red-600">*</span>
-                        </p>
-                        <TextField
-                          name="employeeID"
-                          fullWidth
-                          placeholder="Enter Employee ID"
-                          value={values.employeeID}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.employeeID && !!errors.employeeID}
-                          helperText={
-                            Boolean(touched.employeeID) &&
-                            (errors.employeeID as any)
-                          }
-                        />
-                      </div> */}
+
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Phone No <span className="text-red-600">*</span>
@@ -337,6 +321,7 @@ const UpdateProfileHead = ({
                           sx={{ width: "100%" }}
                           options={roles || []}
                           autoHighlight
+                          disabled={user?.role?.name === "HR" ? true : false}
                           getOptionLabel={(option: any) =>
                             option.name ? option.name : ""
                           }
@@ -371,6 +356,7 @@ const UpdateProfileHead = ({
                         <Autocomplete
                           sx={{ width: "100%" }}
                           options={branchData || []}
+                          disabled={user?.role?.name === "HR" ? true : false}
                           autoHighlight
                           getOptionLabel={(option: any) =>
                             option.name ? option.name : ""
@@ -407,6 +393,7 @@ const UpdateProfileHead = ({
                         <Autocomplete
                           sx={{ width: "100%" }}
                           options={departmentsData || []}
+                          disabled={user?.role?.name === "HR" ? true : false}
                           autoHighlight
                           getOptionLabel={(option: any) =>
                             option.name ? option.name : ""
