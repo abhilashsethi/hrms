@@ -9,6 +9,7 @@ const DashboardChartsGuest = ({ data }: Props) => {
     date.setMonth(monthNumber - 1);
     return date.toLocaleString("default", { month: "long" });
   };
+  console.log(data);
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
@@ -38,8 +39,8 @@ const DashboardChartsGuest = ({ data }: Props) => {
           <GuestDonutChart
             labels={
               data?.GuestInfo?.guestCountByGender?.length
-                ? data?.GuestInfo?.guestCountByGender?.map(
-                    (item: any) => item?.gender
+                ? data?.GuestInfo?.guestCountByGender?.map((item: any) =>
+                    item?.gender ? item?.gender : "Not specified"
                   )
                 : []
             }
