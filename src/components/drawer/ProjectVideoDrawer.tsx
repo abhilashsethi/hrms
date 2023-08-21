@@ -98,25 +98,29 @@ const ProjectVideoDrawer = ({ open, onClose }: Props) => {
           </div>
           <div className="flex justify-center w-full">
             <div className="flex gap-2 flex-wrap">
-              {documentDetails?.docs?.length ? (
-                documentDetails?.docs?.map((item: any) => (
-                  <div
-                    key={item?.id}
-                    className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
-                  >
-                    <a
-                      className="cursor-pointer flex flex-col items-center justify-center"
-                      href={`${item?.link}`}
+              {documentDetails?.docs?.filter(
+                (item: any) => item.docType === "video"
+              )?.length ? (
+                documentDetails?.docs
+                  .filter((item: any) => item.docType === "video")
+                  .map((item: any) => (
+                    <div
+                      key={item?.id}
+                      className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
                     >
-                      <img className="w-12" src={Video.src} alt="" />
-                    </a>
-                    <p className="text-xs">
-                      {item?.title?.slice(0, 9)}
-                      {item?.title?.length > 9 ? "..." : null}
-                    </p>
-                    <DeleteButton id={item?.id} mutate={mutate} />
-                  </div>
-                ))
+                      <a
+                        className="cursor-pointer flex flex-col items-center justify-center"
+                        href={`${item?.link}`}
+                      >
+                        <img className="w-12" src={Video.src} alt="" />
+                      </a>
+                      <p className="text-xs">
+                        {item?.title?.slice(0, 9)}
+                        {item?.title?.length > 9 ? "..." : null}
+                      </p>
+                      <DeleteButton id={item?.id} mutate={mutate} />
+                    </div>
+                  ))
               ) : (
                 <div className="md:w-[27vw] w-[100vw] mt-28 flex justify-center items-center">
                   <LoaderAnime
