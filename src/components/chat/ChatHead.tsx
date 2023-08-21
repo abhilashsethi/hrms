@@ -202,7 +202,9 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               {currentChatProfileDetails?.title}
             </h1>
             <h1 className="text-sm font-light">
-              {currentChatProfileDetails?.isPrivateGroup ? (
+              {currentChatProfileDetails?.isGroupBlocked ? (
+                <span className="text-red-600 font-semibold">Blocked </span>
+              ) : currentChatProfileDetails?.isPrivateGroup ? (
                 <span
                   className={`${
                     currentChatProfileDetails?.chatMembers?.find((item) =>
@@ -287,15 +289,6 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               )}
             </h1>
           </div>
-          <p className="px-6">
-            {currentChatProfileDetails?.isGroupBlocked ? (
-              <p className="text-white bg-red-500 rounded-full px-2 py-1">
-                Blocked{" "}
-              </p>
-            ) : (
-              ""
-            )}
-          </p>
         </div>
         <div>
           <Tooltip title="Menu">
