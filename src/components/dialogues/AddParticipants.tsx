@@ -29,11 +29,10 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
   const [activeMembers, setActiveMembers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const { data: employeesData } = useFetch<{ users: User[] }>(
+  const { data: employeesData, mutate } = useFetch<{ users: User[] }>(
     `chat/user/not-connected?chatId=${profileData?.id}&page=1&limit=20` +
       (searchText ? `&searchTitle=${searchText}` : "")
   );
-
   const { revalidateChatProfileDetails } = useChatData();
   const { socketRef } = useSocket();
   const { user } = useAuth();
@@ -67,6 +66,7 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
           return;
         }
         Swal.fire(`Success`, `Added successfully!`, `success`);
+        mutate();
         setLoading(false);
         revalidateChatProfileDetails(profileData?.id);
         handleClose();
@@ -117,7 +117,7 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
         <div className="md:w-[27rem] w-[72vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-2">
           <Autocomplete
             fullWidth
-            options={activeMembers ? activeMembers : []}
+            options={employeesData?.users ? employeesData?.users : []}
             getOptionLabel={(option) => option.name}
             onChange={(e, r) => setMemberId(r?.id)}
             renderOption={(props, option) => (

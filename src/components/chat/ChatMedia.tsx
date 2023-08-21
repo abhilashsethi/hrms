@@ -54,7 +54,6 @@ const ChatMedia = ({
   const handleNextFetch = () => {
     setPageNo((prev) => prev + 1);
   };
-  console.log({ fileData });
 
   return (
     <section
