@@ -133,6 +133,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
                 res?.results?.msg || "Something went wrong!",
                 "error"
               );
+              return;
             }
             revalidateCurrentChat(selectedChatId);
             selectedChatId && revalidateChatProfileDetails(selectedChatId);
@@ -155,6 +156,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               blockUser?.results?.msg || "Something went wrong!",
               "error"
             );
+            return;
           }
           Swal.fire("Success", "Status Changed Successfully!", "success");
           selectedChatId && revalidateChatProfileDetails(selectedChatId);
@@ -172,6 +174,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               clear?.results?.msg || "Something went wrong!",
               "error"
             );
+            return;
           }
           selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
