@@ -1,12 +1,13 @@
 import { FileDownload, Visibility } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { ChatImagePreview } from "components/dialogues";
+import Link from "next/link";
 import { useState } from "react";
 import { IChatMessages } from "types";
 import { downloadFile } from "utils";
 
 interface Props {
-  data?: IChatMessages;
+  data?: any;
 }
 
 const ImageMessage = ({ data }: Props) => {
@@ -33,17 +34,11 @@ const ImageMessage = ({ data }: Props) => {
       </div>
       <div className="flex justify-end mt-2">
         <Tooltip title="Download">
-          <IconButton
-            onClick={() =>
-              downloadFile(
-                String(data?.link),
-                data?.link?.split("/")?.at(-1) as any
-              )
-            }
-            size="small"
-          >
-            <FileDownload />
-          </IconButton>
+          <Link href={data?.link} target="_blank">
+            <IconButton size="small">
+              <FileDownload />
+            </IconButton>
+          </Link>
         </Tooltip>
       </div>
       <p className="tracking-wide whitespace-pre-line break-words ">

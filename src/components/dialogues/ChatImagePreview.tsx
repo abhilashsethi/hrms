@@ -10,6 +10,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { TransitionProps } from "@mui/material/transitions";
 import { downloadFile } from "utils";
 import { forwardRef } from "react";
+import Link from "next/link";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -47,20 +48,16 @@ const ChatImagePreview = ({ open, handleClose, activePreview }: Props) => {
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
             {activePreview?.split("/")?.at(-1)}
           </Typography>
-          <Button
-            variant="contained"
-            autoFocus
-            className="!bg-emerald-600"
-            onClick={() =>
-              downloadFile(
-                activePreview,
-                activePreview?.split("/")?.at(-1) as any
-              )
-            }
-            startIcon={<FileDownload />}
-          >
-            DOWNLOAD
-          </Button>
+          <Link href={activePreview} target="_blank">
+            <Button
+              variant="contained"
+              autoFocus
+              className="!bg-emerald-600"
+              startIcon={<FileDownload />}
+            >
+              DOWNLOAD
+            </Button>
+          </Link>
         </Toolbar>
       </AppBar>
       <section className="h-[90vh] w-full flex justify-center items-center">
