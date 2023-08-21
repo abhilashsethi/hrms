@@ -201,7 +201,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                             profileData?.chatMembers?.filter(
                               (item) => !item?.isPastMember
                             )?.length
-                          }
+                          }{" "}
                           Participants
                         </span>
                       </h1>
