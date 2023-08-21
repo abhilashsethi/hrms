@@ -16,7 +16,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import { DEFAULTPROFILE } from "assets/home";
+import { DEFAULTPROFILE, GROUP } from "assets/home";
 import { ChatMedia } from "components/chat";
 import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
 import { AddParticipants, ChatDescription } from "components/dialogues";
@@ -176,44 +176,68 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                 <h1>Profile Info</h1>
               </div>
               {/* ------------------Image section----------------- */}
-              <div className="flex flex-col items-center gap-3 my-8">
-                <PhotoUpdateView
-                  photo={
-                    profileData?.photo ? profileData?.photo : DEFAULTPROFILE.src
-                  }
-                  chatId={profileData?.id}
-                  editable={
-                    !profileData?.isPrivateGroup &&
-                    profileData?.chatMembers?.find(
-                      (item) => item?.user?.id === user?.id
-                    )?.isAdmin
-                  }
-                />
-                <div className="flex flex-col gap-1 items-center">
-                  <h1 className="font-semibold">{profileData?.title}</h1>
-                  {!profileData?.isPrivateGroup ? (
-                    <h1 className="flex">
-                      Group
-                      <span className="ml-2">
-                        {
-                          profileData?.chatMembers?.filter(
-                            (item) => !item?.isPastMember
-                          )?.length
-                        }
-                        Participants
-                      </span>
-                    </h1>
-                  ) : (
-                    <h1 className="">
-                      {
-                        profileData?.chatMembers?.find(
-                          (item) => item?.user?.id !== user?.id
-                        )?.user?.email
+              {!profileData?.isPrivateGroup ? (
+                <>
+                  <div className="flex flex-col items-center gap-3 my-8">
+                    <PhotoUpdateView
+                      photo={
+                        profileData?.photo ? profileData?.photo : GROUP.src
                       }
-                    </h1>
-                  )}
-                </div>
-              </div>
+                      chatId={profileData?.id}
+                      editable={
+                        !profileData?.isPrivateGroup &&
+                        profileData?.chatMembers?.find(
+                          (item) => item?.user?.id === user?.id
+                        )?.isAdmin
+                      }
+                    />
+                    <div className="flex flex-col gap-1 items-center">
+                      <h1 className="font-semibold">{profileData?.title}</h1>
+
+                      <h1 className="flex">
+                        Group
+                        <span className="ml-2">
+                          {
+                            profileData?.chatMembers?.filter(
+                              (item) => !item?.isPastMember
+                            )?.length
+                          }
+                          Participants
+                        </span>
+                      </h1>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex flex-col items-center gap-3 my-8">
+                    <PhotoUpdateView
+                      photo={
+                        profileData?.photo
+                          ? profileData?.photo
+                          : DEFAULTPROFILE.src
+                      }
+                      chatId={profileData?.id}
+                      editable={
+                        !profileData?.isPrivateGroup &&
+                        profileData?.chatMembers?.find(
+                          (item) => item?.user?.id === user?.id
+                        )?.isAdmin
+                      }
+                    />
+                    <div className="flex flex-col gap-1 items-center">
+                      <h1 className="">
+                        {
+                          profileData?.chatMembers?.find(
+                            (item) => item?.user?.id !== user?.id
+                          )?.user?.email
+                        }
+                      </h1>
+                    </div>
+                  </div>
+                </>
+              )}
+
               {/* ------------------About Section-------------------- */}
               {!profileData?.isPrivateGroup &&
                 profileData?.chatMembers?.find(

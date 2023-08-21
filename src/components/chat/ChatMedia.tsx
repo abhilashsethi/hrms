@@ -37,6 +37,7 @@ const ChatMedia = ({
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    setFileData([]);
     setPageNo(1);
   };
 
@@ -45,7 +46,6 @@ const ChatMedia = ({
   const { data, isValidating, mutate } = useFetch<any>(
     `chat/message-group/${selectedChatId}?category=${value}&limit=20&page=${pageNo}`
   );
-
   useEffect(() => {
     if (!data?.message?.length) return;
     setFileData((prev) => [...prev, ...data?.message]);
