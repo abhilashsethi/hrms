@@ -159,10 +159,7 @@ const MenuComponent = ({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { user } = useAuth();
-  console.log(selectedDate);
   const todayFormatted = moment().format("YYYY-MM-DD");
-
-  // Check if selectedDate matches today's date
   const isToday = moment(selectedDate).isSame(todayFormatted, "day");
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
