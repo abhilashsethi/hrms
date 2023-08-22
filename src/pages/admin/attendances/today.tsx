@@ -257,6 +257,7 @@ const TodayAttendance = () => {
               {isGrid ? (
                 <AttendanceGrid
                   data={attendance}
+                  selectedDate={selectedDate}
                   mutate={mutate}
                   absentMutate={absentMutate}
                   presentMutate={presentMutate}

@@ -23,6 +23,7 @@ interface Props {
   absentMutate?: any;
   presentMutate?: any;
   allMutate?: any;
+  selectedDate?: string;
 }
 
 const AttendanceGrid = ({
@@ -31,6 +32,7 @@ const AttendanceGrid = ({
   absentMutate,
   presentMutate,
   allMutate,
+  selectedDate,
 }: Props) => {
   return (
     <div className="mt-6">
@@ -52,6 +54,7 @@ const AttendanceGrid = ({
                 <MenuComponent
                   id={item?.userId}
                   wfh={item}
+                  selectedDate={selectedDate}
                   mutate={mutate}
                   presentMutate={presentMutate}
                   absentMutate={absentMutate}
@@ -140,6 +143,7 @@ interface Props {
   presentMutate?: any;
   absentMutate?: any;
   allMutate?: any;
+  selectedDate?: string;
 }
 
 const MenuComponent = ({
@@ -149,11 +153,18 @@ const MenuComponent = ({
   presentMutate,
   absentMutate,
   allMutate,
+  selectedDate,
 }: Props) => {
   const { change } = useChange();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { user } = useAuth();
+  console.log(selectedDate);
+  const todayFormatted = moment().format("YYYY-MM-DD");
+
+  // Check if selectedDate matches today's date
+  const isToday = moment(selectedDate).isSame(todayFormatted, "day");
+
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -242,7 +253,7 @@ const MenuComponent = ({
             Visit Profile
           </MenuItem>
         </Link>
-        {wfh?.status === "absent" && (
+        {wfh?.status === "absent" && isToday && (
           <>
             {user?.role?.name === "CEO" ||
             user?.role?.name === "HR" ||
