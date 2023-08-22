@@ -6,7 +6,6 @@ import { EmailType, EmailUser } from "types";
 
 const ReplyToEmail = ({ data }: { data?: EmailType }) => {
   const { push } = useRouter();
-  console.log({ data });
   return (
     <div
       onClick={() => push(`/admin/email/${data?.replyTo?.id}`)}
