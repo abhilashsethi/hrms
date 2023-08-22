@@ -253,7 +253,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
 								}
 								size="small"
 							>
-								DECLINE
+								REJECT
 							</Button>
 						</div>
 						<div>
