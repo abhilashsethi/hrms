@@ -205,9 +205,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               {currentChatProfileDetails?.title}
             </h1>
             <h1 className="text-sm font-light">
-              {currentChatProfileDetails?.isGroupBlocked ? (
-                <span className="text-red-600 font-semibold">Blocked </span>
-              ) : currentChatProfileDetails?.isPrivateGroup ? (
+              {currentChatProfileDetails?.isGroupBlocked ? null : currentChatProfileDetails?.isPrivateGroup ? (
                 <span
                   className={`${
                     currentChatProfileDetails?.chatMembers?.find((item) =>
