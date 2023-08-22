@@ -185,7 +185,10 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
 								) : null} */}
               </div>
             </div>
-            {user?.role?.name === "CEO" || user?.role?.name === "COO" ? (
+
+            {user?.role?.name === "CEO" ||
+            user?.role?.name === "COO" ||
+            user?.role?.name === "DIRECTOR" ? (
               <div className="mt-2 flex justify-center gap-2">
                 <Link
                   href={`/admin/clients/client-profile?id=${projectData?.clientId}`}
@@ -219,6 +222,7 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
               Client details not specified.{" "}
               {user?.role?.name === "CEO" ||
               user?.role?.name === "HR" ||
+              user?.role?.name === "DIRECTOR" ||
               user?.role?.name === "COO" ||
               user?.role?.name === "PROJECT MANAGER" ? (
                 <span> Click here to add clients</span>
@@ -227,6 +231,7 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
             {user?.role?.name === "CEO" ||
             user?.role?.name === "HR" ||
             user?.role?.name === "COO" ||
+            user?.role?.name === "DIRECTOR" ||
             user?.role?.name === "PROJECT MANAGER" ? (
               <Button
                 size="small"

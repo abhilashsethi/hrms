@@ -104,6 +104,7 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
         {(projectData?.technologies?.length && user?.role?.name === "CEO") ||
         user?.role?.name === "CEO" ||
         user?.role?.name === "HR" ||
+        user?.role?.name === "DIRECTOR" ||
         user?.role?.name === "COO" ||
         user?.role?.name === "PROJECT MANAGER" ? (
           <Tooltip title="Add Technology">
@@ -173,6 +174,7 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
               className="px-4 py-4 relative mt-3 rounded-md shadow-jubilation"
             >
               {user?.role?.name === "CEO" ||
+              user?.role?.name === "DIRECTOR" ||
               user?.role?.name === "HR" ||
               user?.role?.name === "COO" ||
               user?.role?.name === "PROJECT MANAGER" ? (
@@ -201,6 +203,7 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
             {user?.role?.name === "CEO" ||
             user?.role?.name === "HR" ||
             user?.role?.name === "COO" ||
+            user?.role?.name === "DIRECTOR" ||
             user?.role?.name === "PROJECT MANAGER" ? (
               <Button
                 size="small"

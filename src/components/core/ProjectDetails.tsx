@@ -140,6 +140,7 @@ const ProjectDetails = () => {
               </h1>
               {user?.role?.name === "CEO" ||
               user?.role?.name === "HR" ||
+              user?.role?.name === "DIRECTOR" ||
               user?.role?.name === "COO" ||
               user?.role?.name === "PROJECT MANAGER" ? (
                 <Button

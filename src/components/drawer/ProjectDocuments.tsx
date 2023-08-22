@@ -93,6 +93,7 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
             </p>
             {user?.role?.name === "CEO" ||
             user?.role?.name === "HR" ||
+            user?.role?.name === "DIRECTOR" ||
             user?.role?.name === "COO" ||
             user?.role?.name === "PROJECT MANAGER" ? (
               <button
