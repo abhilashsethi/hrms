@@ -15,7 +15,6 @@ const initialValues = {
   TechStackIds: "",
 };
 const ClientDocument = ({ projectData, mutate }: Props) => {
-  console.log(projectData);
   const { user } = useAuth();
   const [isUpdate, setIsUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -77,7 +76,6 @@ const ClientDocument = ({ projectData, mutate }: Props) => {
       <>
         {projectData?.clientId ? (
           <>
-            {console.log(projectData)}
             <div className="flex justify-between items-center">
               <h1 className="font-semibold text-gray-600 underline">
                 Client Document Details
