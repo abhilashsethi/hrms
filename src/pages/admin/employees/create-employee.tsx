@@ -11,6 +11,7 @@ import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import moment from "moment";
 import router from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -23,6 +24,7 @@ const initialValues = {
   roleId: "",
   departmentId: "",
   employeeOfBranchId: "",
+  joiningDate: null,
 };
 
 const validationSchema = Yup.object().shape({
@@ -56,6 +58,7 @@ const validationSchema = Yup.object().shape({
   roleId: Yup.string().required("Required!"),
   departmentId: Yup.string().required("Required!"),
   employeeOfBranchId: Yup.string().required("Required!"),
+  joiningDate: Yup.string().required("Required!"),
 });
 
 const CreateEmployee = () => {
@@ -217,43 +220,7 @@ const CreateEmployee = () => {
                         )}
                       />
                     </div>
-                    {/* <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="password">
-                          Password <span className="text-red-600">*</span>
-                        </InputLabel>
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        placeholder="Password"
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.password && !!errors.password}
-                        helperText={touched.password && errors.password}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              {"password" === "password" && (
-                                <IconButton
-                                  onClick={() => setShowPassword(!showPassword)}
-                                >
-                                  {showPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              )}
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div> */}
+
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="phone">
@@ -271,6 +238,31 @@ const CreateEmployee = () => {
                         onBlur={handleBlur}
                         error={touched.phone && !!errors.phone}
                         helperText={touched.phone && errors.phone}
+                      />
+                    </div>
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="py-2">
+                        <InputLabel htmlFor="joiningDate">
+                          Joining Date <span className="text-red-600">*</span>
+                        </InputLabel>
+                      </div>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        type="date"
+                        placeholder="joiningDate"
+                        id="joiningDate"
+                        name="joiningDate"
+                        value={moment(values?.joiningDate).format("YYYY-MM-DD")}
+                        onChange={(e: any) => {
+                          setFieldValue(
+                            "joiningDate",
+                            new Date(e.target.value)
+                          );
+                        }}
+                        onBlur={handleBlur}
+                        error={touched.joiningDate && !!errors.joiningDate}
+                        helperText={touched.joiningDate && errors.joiningDate}
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">

@@ -71,27 +71,35 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
     try {
       switch (configId) {
         case 2:
-          const res = await change(
-            `chat/member/${
-              profileData?.chatMembers?.find(
-                (item) => item?.user?.id === user?.id
-              )?.id
-            }`,
-            {
-              method: "DELETE",
-              BASE_URL,
-            }
-          );
-
-          if (res?.status !== 201) {
-            Swal.fire(
-              "Error",
-              res?.results?.msg || "Something went wrong!",
-              "error"
+          if (
+            !profileData?.chatMembers?.find(
+              (item) => item?.user?.id === user?.id
+            )?.isPastMember
+          ) {
+            const res = await change(
+              `chat/member/${
+                profileData?.chatMembers?.find(
+                  (item) => item?.user?.id === user?.id
+                )?.id
+              }`,
+              {
+                method: "DELETE",
+                BASE_URL,
+              }
             );
+
+            if (res?.status !== 201) {
+              Swal.fire(
+                "Error",
+                res?.results?.msg || "Something went wrong!",
+                "error"
+              );
+            }
+            selectedChatId && revalidateChatProfileDetails(selectedChatId);
+            revalidateCurrentChat(selectedChatId);
+            break;
           }
-          selectedChatId && revalidateChatProfileDetails(selectedChatId);
-          revalidateCurrentChat(selectedChatId);
+          Swal.fire("Info", "You leave this group already", "info");
           break;
         case 1:
           const blockUser = await change(`chat/blocked/${selectedChatId}`, {

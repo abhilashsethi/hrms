@@ -126,7 +126,6 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               }
             );
 
-            console.log("remove");
             if (res?.status !== 201) {
               Swal.fire(
                 "Error",

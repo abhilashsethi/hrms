@@ -47,13 +47,18 @@ const AllEmployees = () => {
     }${empId ? `&employeeID=${empId}` : ""}${isRole ? `&role=${isRole}` : ""}${
       isDepartment ? `&departmentName=${isDepartment}` : ""
     }${
-      user?.role?.name === "CEO" || user?.role?.name === "HR"
+      user?.role?.name === "CEO" ||
+      user?.role?.name === "HR" ||
+      user?.role?.name === "COO" ||
+      user?.role?.name === "DIRECTOR"
         ? ``
         : `&userId=${user?.id}`
     }`
   );
   const links =
-    user?.role?.name === "CEO"
+    user?.role?.name === "CEO" ||
+    user?.role?.name === "DIRECTOR" ||
+    user?.role?.name === "COO"
       ? [
           { id: 1, page: "Employees", link: "/admin/employees" },
           {
@@ -94,6 +99,7 @@ const AllEmployees = () => {
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             {user?.role?.name === "CEO" ||
             user?.role?.name === "HR" ||
+            user?.role?.name === "DIRECTOR" ||
             user?.role?.name === "COO" ? (
               <div className="flex md:gap-4 gap-2 mt-2 flex-row items-center">
                 <Link href="/admin/employees/create-employee">
@@ -120,6 +126,7 @@ const AllEmployees = () => {
         </div>
 
         {user?.role?.name === "CEO" ||
+        user?.role?.name === "DIRECTOR" ||
         user?.role?.name === "HR" ||
         user?.role?.name === "COO" ? (
           <div className="md:flex gap-4 justify-between w-full py-2">
