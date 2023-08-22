@@ -58,7 +58,10 @@ const TodayAttendance = () => {
     }?page=${pageNumber}&limit=8${userName ? `&employeeName=${userName}` : ""}${
       user?.role?.name === "HR" ? `&branchId=${user?.employeeOfBranchId}` : ``
     }${status === "wfh" ? `&isWFH=true` : ``}${
-      user?.role?.name === "CEO" || user?.role?.name === "HR"
+      user?.role?.name === "CEO" ||
+      user?.role?.name === "HR" ||
+      user?.role?.name === "COO" ||
+      user?.role?.name === "DIRECTOR"
         ? ""
         : `&userId=${user?.id}`
     }${empId ? `&employeeId=${empId}` : ""}${order ? `&orderBy=${order}` : ""}`

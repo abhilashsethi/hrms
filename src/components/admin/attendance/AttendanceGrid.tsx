@@ -244,7 +244,10 @@ const MenuComponent = ({
         </Link>
         {wfh?.status === "absent" && (
           <>
-            {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+            {user?.role?.name === "CEO" ||
+            user?.role?.name === "HR" ||
+            user?.role?.name === "DIRECTOR" ||
+            user?.role?.name === "COO" ? (
               <MenuItem onClick={() => handleWorkFromHome(wfh?.userId)}>
                 <ListItemIcon>
                   <AddHomeWork fontSize="small" />
