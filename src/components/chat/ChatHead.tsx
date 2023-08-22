@@ -184,6 +184,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
       }
     } catch (error) {}
   };
+  console.log({ currentChatProfileDetails });
   return (
     <>
       <ChatProfileDrawer
