@@ -104,6 +104,7 @@ const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
   return (
     <Dialog
       onClose={() => {
+        formik.resetForm();
         handleClose();
         setIsFile(null);
       }}

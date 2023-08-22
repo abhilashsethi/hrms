@@ -13,8 +13,8 @@ export const getAccessToken = () => {
 };
 
 // export const BASE_URL: "https://api.yardone.live/api/v1" = `https://api.yardone.live/api/v1`;
-// export const BASE_URL = Public_BASE_URL;
-export const BASE_URL: "http://192.168.29.25:8080/api/v1" = `http://192.168.29.25:8080/api/v1`;
+export const BASE_URL = Public_BASE_URL;
+// export const BASE_URL: "http://192.168.29.25:8080/api/v1" = `http://192.168.29.25:8080/api/v1`;
 
 type useFetchOptions = {
 	BASE_URL: typeof BASE_URL | "/api";

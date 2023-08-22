@@ -126,7 +126,6 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               }
             );
 
-            console.log("remove");
             if (res?.status !== 201) {
               Swal.fire(
                 "Error",
@@ -184,6 +183,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
       }
     } catch (error) {}
   };
+  console.log({ currentChatProfileDetails });
   return (
     <>
       <ChatProfileDrawer
@@ -205,9 +205,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
               {currentChatProfileDetails?.title}
             </h1>
             <h1 className="text-sm font-light">
-              {currentChatProfileDetails?.isGroupBlocked ? (
-                <span className="text-red-600 font-semibold">Blocked </span>
-              ) : currentChatProfileDetails?.isPrivateGroup ? (
+              {currentChatProfileDetails?.isGroupBlocked ? null : currentChatProfileDetails?.isPrivateGroup ? (
                 <span
                   className={`${
                     currentChatProfileDetails?.chatMembers?.find((item) =>
