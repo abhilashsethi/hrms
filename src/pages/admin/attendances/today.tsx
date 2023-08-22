@@ -266,6 +266,7 @@ const TodayAttendance = () => {
               ) : (
                 <AttendanceList
                   data={attendance}
+                  selectedDate={selectedDate}
                   mutate={mutate}
                   absentMutate={absentMutate}
                   presentMutate={presentMutate}

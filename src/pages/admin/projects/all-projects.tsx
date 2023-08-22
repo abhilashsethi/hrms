@@ -41,6 +41,8 @@ const AllProjects = () => {
     }${
       user?.role?.name === "CEO" ||
       user?.role?.name === "HR" ||
+      user?.role?.name === "COO" ||
+      user?.role?.name === "DIRECTOR" ||
       user?.role?.name === "MANAGER"
         ? ""
         : `&memberId=${user?.id}`
@@ -70,6 +72,7 @@ const AllProjects = () => {
         />
         {user?.role?.name === "CEO" ||
         user?.role?.name === "HR" ||
+        user?.role?.name === "DIRECTOR" ||
         user?.role?.name === "COO" ? (
           <div className="flex md:justify-between justify-start md:items-center items-start py-4 md:flex-row flex-col">
             <AdminBreadcrumbs links={links} />

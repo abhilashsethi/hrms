@@ -178,6 +178,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
               {user?.role?.name === "CEO" ||
               user?.role?.name === "HR" ||
               user?.role?.name === "COO" ||
+              user?.role?.name === "DIRECTOR" ||
               user?.role?.name === "PROJECT MANAGER" ? (
                 <span>
                   <Button
@@ -255,6 +256,7 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
                     {user?.role?.name === "CEO" ||
                     user?.role?.name === "HR" ||
                     user?.role?.name === "COO" ||
+                    user?.role?.name === "DIRECTOR" ||
                     user?.role?.name === "PROJECT MANAGER" ? (
                       <div>
                         <Tooltip title="Delete">

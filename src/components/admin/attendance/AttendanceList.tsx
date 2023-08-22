@@ -13,6 +13,7 @@ interface Props {
   absentMutate: () => void;
   presentMutate: () => void;
   allMutate: () => void;
+  selectedDate: string;
 }
 
 const AttendanceList = ({
@@ -21,8 +22,11 @@ const AttendanceList = ({
   absentMutate,
   presentMutate,
   allMutate,
+  selectedDate,
 }: Props) => {
   const { change } = useChange();
+  const todayFormatted = moment().format("YYYY-MM-DD");
+  const isToday = moment(selectedDate).isSame(todayFormatted, "day");
   const handleWorkFromHome = (userId: any) => {
     Swal.fire({
       title: "Are you sure?",
@@ -126,6 +130,7 @@ const AttendanceList = ({
           {
             title: "Action",
             field: "WFH",
+            hidden: !isToday,
             render: (item) => {
               return item?.status === "ABSENT" ? (
                 <>

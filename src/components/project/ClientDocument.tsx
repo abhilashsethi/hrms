@@ -85,6 +85,7 @@ const ClientDocument = ({ projectData, mutate }: Props) => {
               user?.role?.name === "CEO" ||
               user?.role?.name === "HR" ||
               user?.role?.name === "COO" ||
+              user?.role?.name === "DIRECTOR" ||
               user?.role?.name === "PROJECT MANAGER" ? (
                 <Tooltip title="Add Document">
                   <IconButton
@@ -106,6 +107,7 @@ const ClientDocument = ({ projectData, mutate }: Props) => {
                   >
                     {user?.role?.name === "CEO" ||
                     user?.role?.name === "HR" ||
+                    user?.role?.name === "DIRECTOR" ||
                     user?.role?.name === "COO" ||
                     user?.role?.name === "PROJECT MANAGER" ? (
                       <div
@@ -134,6 +136,7 @@ const ClientDocument = ({ projectData, mutate }: Props) => {
                   <h1 className="text-center">No document Added </h1>
                   {user?.role?.name === "CEO" ||
                   user?.role?.name === "HR" ||
+                  user?.role?.name === "DIRECTOR" ||
                   user?.role?.name === "COO" ||
                   user?.role?.name === "PROJECT MANAGER" ? (
                     <Button
