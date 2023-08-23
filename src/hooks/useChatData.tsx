@@ -33,18 +33,15 @@ const useChatData = create<ChatState>((set, get) => ({
   revalidateChatCount: async () => {
     try {
       const token = getAccessToken();
-      console.log(token);
       const response = await fetch(BASE_URL + `/chat/unread`, {
         method: "GET",
         headers: {
           "x-access-token": token,
         },
       });
-      console.log(response);
       const data = await response.json();
-      console.log(data);
       set({
-        getUnreadChatCount: data?.totalUnread,
+        getUnreadChatCount: data?.data?.totalUnread,
       });
     } catch (error) {
       set({

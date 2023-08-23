@@ -46,14 +46,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
   const MenuItems: any = useMenuItems();
   const [isOpen, setIsOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const {
-    data: chatCount,
-    mutate: refetchChatCount,
-    isValidating: chatCountLoading,
-  } = useFetch<NewMessageCountType>(`chat/unread`);
-
   const { getUnreadChatCount, revalidateChatCount } = useChatData();
-  console.log({ getUnreadChatCount });
   const { data: mailCount } = useFetch<any>(
     `emails/getMyInbox/${user?.id}?isRead=false&isReceiverDelete=false`
   );
@@ -75,6 +68,8 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
       setUser(currentUser);
       //connect to socket
       connect();
+      //fetch current chat count
+      revalidateChatCount();
     })();
   }, []);
 
@@ -106,7 +101,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
             //call message delivered
             item?.chatGroupId &&
               (await handleUpdateMessageDelivered(item?.chatGroupId));
-            !chatCountLoading && refetchChatCount?.();
+            revalidateChatCount();
           }
         );
       });
@@ -260,10 +255,10 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
                     <Tooltip title="Chats">
                       <Badge
                         badgeContent={
-                          (chatCount?.totalUnread &&
-                            (chatCount?.totalUnread > 99
+                          (getUnreadChatCount &&
+                            (getUnreadChatCount > 99
                               ? "99+"
-                              : chatCount?.totalUnread)) ||
+                              : getUnreadChatCount)) ||
                           undefined
                         }
                         color="warning"
