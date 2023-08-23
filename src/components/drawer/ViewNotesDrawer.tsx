@@ -9,7 +9,7 @@ import {
 	IconButton,
 	Tooltip,
 } from "@mui/material";
-import { Loader } from "components/core";
+import { Loader, LoaderAnime } from "components/core";
 import { DocPreview } from "components/dialogues";
 import AddMeetingNotes from "components/dialogues/AddMeetingNotes";
 import { useAuth, useChange, useFetch } from "hooks";
@@ -181,89 +181,93 @@ const ViewNotesDrawer = ({ open, onClose, meetingDetails, mutate }: Props) => {
 					{isLoading && <Loader />}
 					<div className="mt-4 flex flex-col gap-4">
 						<div className="">
-							{meetingDetails?.notes?.map((item: any, i: any) => {
-								console.log(item);
-								return (
-									<div
-										key={i}
-										className="w-full relative rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 mb-8"
-									>
-										<div className="absolute -top-4">
-											<Avatar
-												onClick={() => handleInfoOpen()}
-												variant="rounded"
-												className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
-											>
-												<EventNote
-													sx={{ padding: "0px !important" }}
-													fontSize="large"
-												/>
-											</Avatar>
-										</div>
-										<div className="mt-7">
-											<div className="flex w-full justify-between items-center gap-5">
-												<img
-													className="h-20 w-20 "
-													src={"/writing.png"}
-													alt=""
-												/>
-												<div className="">
-													<p className="font-semibold">
-														Notes :{" "}
-														<span className="text-sm text-gray-600">
-															{item?.text}
-														</span>
-														<span className="font-semibold text-sm text-gray-500">
-															{/* {item?.name} */}
-														</span>
-													</p>
-													<p className="font-semibold">
-														Added By :{" "}
-														<span className="font-semibold text-sm text-gray-500">
-															{item?.addedBy?.name}
-														</span>
-													</p>
-
-													<p className="font-semibold">
-														Note Link :{" "}
-														<a
-															className="text-sm font-medium text-blue-500 underline"
-															href={`${item?.link}`}
-														>
-															Note Link
-														</a>
-													</p>
-												</div>
-												<Tooltip title="Details">
-													<div
-														onClick={() =>
-															setIsPreview({
-																dialogue: true,
-																title: "Doc 53426",
-															})
-														}
-													>
-														<div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
-															{item?.img}
-														</div>
-													</div>
-												</Tooltip>
-											</div>
-
-											{user?.role?.name === "CEO" ||
-											user?.role?.name === "PROJECT MANAGER" ? (
-												<div className="flex justify-end">
-													<DeleteButton
-														meetingId={meetingDetails?.id}
-														id={item?.id}
-														mutate={mutate}
+							{meetingDetails?.notes?.length ? (
+								meetingDetails?.notes?.map((item: any, i: any) => {
+									console.log(item);
+									return (
+										<div
+											key={i}
+											className="w-full relative rounded-l-xl shadow-xl px-2 py-2 bg-gradient-to-r from-rose-100 to-teal-100 mb-8"
+										>
+											<div className="absolute -top-4">
+												<Avatar
+													onClick={() => handleInfoOpen()}
+													variant="rounded"
+													className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-700 !p-0"
+												>
+													<EventNote
+														sx={{ padding: "0px !important" }}
+														fontSize="large"
 													/>
+												</Avatar>
+											</div>
+											<div className="mt-7">
+												<div className="flex w-full justify-between items-center gap-5">
+													<img
+														className="h-20 w-20 "
+														src={"/writing.png"}
+														alt=""
+													/>
+													<div className="">
+														<p className="font-semibold">
+															Notes :{" "}
+															<span className="text-sm text-gray-600">
+																{item?.text}
+															</span>
+															<span className="font-semibold text-sm text-gray-500">
+																{/* {item?.name} */}
+															</span>
+														</p>
+														<p className="font-semibold">
+															Added By :{" "}
+															<span className="font-semibold text-sm text-gray-500">
+																{item?.addedBy?.name}
+															</span>
+														</p>
+
+														<p className="font-semibold">
+															Note Link :{" "}
+															<a
+																className="text-sm font-medium text-blue-500 underline"
+																href={`${item?.link}`}
+															>
+																Note Link
+															</a>
+														</p>
+													</div>
+													<Tooltip title="Details">
+														<div
+															onClick={() =>
+																setIsPreview({
+																	dialogue: true,
+																	title: "Doc 53426",
+																})
+															}
+														>
+															<div className="w-24 rounded-full group flex justify-start items-center hover:scale-105 ease-in-out transition-all duration-400 cursor-pointer !text-blue-600 flex-col gap-2">
+																{item?.img}
+															</div>
+														</div>
+													</Tooltip>
 												</div>
-											) : null}
+
+												{user?.role?.name === "CEO" ||
+												user?.role?.name === "PROJECT MANAGER" ? (
+													<div className="flex justify-end">
+														<DeleteButton
+															meetingId={meetingDetails?.id}
+															id={item?.id}
+															mutate={mutate}
+														/>
+													</div>
+												) : null}
+											</div>
 										</div>
-									</div>
-								);
-							})}
+									);
+								})
+							) : (
+								<LoaderAnime />
+							)}
 						</div>
 					</div>
 				</Container>

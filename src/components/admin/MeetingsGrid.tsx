@@ -80,27 +80,27 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 									{/* <AccessTime /> */}
 									<span className="text-sm md:text-base">{`${moment(
 										items?.meetingDate
-									).format("LL")}, ${moment(items?.meetingStartTime).format(
-										"LT"
-									)}`}</span>
+									).format("DD/MM/YYYY")}, ${items?.meetingStartTime}`}</span>
 								</div>
 
 								<div className="flex py-2 md:py-0">
 									<p className="font-semibold text-sm md:text-base">
-										Meeting End Dt :{" "}
+										Meeting End Dt:
 									</p>
 									{/* <AccessTime /> */}
 									<span className="text-sm md:text-base">
-										{`${moment(items?.meetingDate).format("LL")}, ${moment(
-											items?.meetingEndTime
-										).format("LT")}`}
+										{`${moment(items?.meetingDate).format("DD/MM/YYYY")}, ${
+											items?.meetingEndTime ? items?.meetingEndTime : "---"
+										}`}
 									</span>
 								</div>
 								<div className="py-2 text-lg tracking-wide">
 									<span className="font-semibold text-sm md:text-base">
 										Purpose :
 									</span>
-									<p className="text-sm md:text-base">{items?.purpose}</p>
+									<p className="text-sm md:text-base">
+										{items?.purpose ? items?.purpose : "---"}
+									</p>
 								</div>
 								<div className="flex gap-2 py-2 md:py-0">
 									<p className="font-semibold text-sm md:text-base">
@@ -112,13 +112,17 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 									<p className="font-semibold text-sm md:text-base">
 										Client Email :
 									</p>
-									<p className="text-sm md:text-base">{items?.clientEmail}</p>
+									<p className="text-sm md:text-base">
+										{items?.clientEmail ? items?.clientEmail : "---"}
+									</p>
 								</div>
 								<div className="flex gap-2 py-2 md:py-0">
 									<p className="font-semibold text-sm md:text-base">
 										Client Phone :
 									</p>
-									<p className="text-sm md:text-base">{items?.clientPhone}</p>
+									<p className="text-sm md:text-base">
+										{items?.clientPhone ? items?.clientPhone : "---"}
+									</p>
 								</div>
 								<div className="flex gap-2 py-2 md:py-0">
 									<p className="font-semibold text-sm md:text-base">
@@ -132,7 +136,9 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 									<span className=" font-semibold text-sm md:text-base">
 										Address :
 									</span>
-									<p className="text-sm md:text-base">{items?.address}</p>
+									<p className="text-sm md:text-base">
+										{items?.address ? items?.address : "---"}
+									</p>
 								</div>
 
 								<div className=" group flex items-center py-2 text-md tracking-wide text-lg">

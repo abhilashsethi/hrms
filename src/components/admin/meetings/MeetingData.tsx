@@ -33,7 +33,7 @@ const MeetingData = () => {
 		isLoading,
 	} = useFetch<any>(`meetings/${router?.query?.id}`);
 
-	// console.log(meetingDetails);
+	console.log(meetingDetails);
 
 	if (isLoading) {
 		return <Loader />;
@@ -100,10 +100,10 @@ const MeetingData = () => {
 											</p>
 											{/* <AccessTime /> */}
 											<span className="text-sm md:text-base">{`${moment(
+												meetingDetails?.meetingDate
+											).format("LL")},${
 												meetingDetails?.meetingStartTime
-											).format("LL")}, ${moment(
-												meetingDetails?.meetingStartTime
-											).format("LT")}`}</span>
+											}`}</span>
 										</div>
 									</div>
 									<div className="md:flex py-2 md:py-0">
@@ -112,11 +112,11 @@ const MeetingData = () => {
 										</p>
 										{/* <AccessTime /> */}
 										<span className="text-sm md:text-base">
-											{`${moment(meetingDetails?.meetingEndTime).format(
-												"LL"
-											)}, ${moment(meetingDetails?.meetingEndTime).format(
-												"LT"
-											)}`}
+											{`${moment(meetingDetails?.meetingDate).format("LL")}, ${
+												meetingDetails?.meetingEndTime
+													? meetingDetails?.meetingEndTime
+													: "---"
+											}`}
 										</span>
 									</div>
 									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">

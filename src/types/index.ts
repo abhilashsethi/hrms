@@ -209,6 +209,7 @@ export type Role = {
 	users: User[];
 	departments: string;
 	accessPages: Pages[];
+	_count: { users: number };
 };
 export type Pages = {
 	pageId: string;

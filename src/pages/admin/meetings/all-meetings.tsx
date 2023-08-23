@@ -87,7 +87,7 @@ const AllMeetings = () => {
 			selectDate ? `&date=${selectDate}` : ""
 		}${currentRange?.startDate ? `&startDate=${currentRange?.startDate}` : ""}${
 			currentRange?.endDate ? `&endDate=${currentRange?.endDate}` : ""
-		}`
+		}&orderBy=createdAt=asc`
 	);
 	console.log(meetingData);
 	// console.log(currentRange);
