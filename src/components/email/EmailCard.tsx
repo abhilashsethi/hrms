@@ -32,7 +32,7 @@ const EmailCard = ({
 
   return (
     <tr
-      className={`flex-col flex lg:flex-row border-b cursor-pointer border-gray-200   w-full items-center ${
+      className={`flex-col flex lg:flex-row border-b cursor-pointer border-gray-200 w-full items-center ${
         isRead ? "bg-white" : "bg-theme/20"
       } `}
     >
@@ -52,12 +52,14 @@ const EmailCard = ({
             <p className="text-gray-900 text-xs whitespace-nowrap">
               {userName}
             </p>
-            <p className="text-gray-600 min-w-fit text-xs ">{subject}</p>
+            <p className="text-gray-600 min-w-fit text-xs break-all">
+              {subject}
+            </p>
           </div>
         </div>
       </td>
       <td
-        className="px-5 lg:py-5 w-full   text-sm"
+        className="px-5 lg:py-5 w-full text-sm"
         onClick={() => {
           onclick ? onclick() : push(`/admin/email/${Date.now()}`);
         }}
