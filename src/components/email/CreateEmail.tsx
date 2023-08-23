@@ -66,32 +66,30 @@ const CreateEmail = (templateId: any) => {
       let attachmentUrl: string[] = [];
       try {
         //if attachments are present then upload the file and get ur
-        console.log(value?.attachments);
-        if (!value?.attachments === undefined) {
-          if (value?.attachments?.length) {
-            await Promise.all(
-              value?.attachments?.map((item: any) => {
-                return new Promise(async (resolve, reject) => {
-                  try {
-                    if (typeof item === "string") {
-                      attachmentUrl.push(item);
-                    } else {
-                      let url = await uploadFile(
-                        item,
-                        `${Date.now()}.${item.name.split(".").at(-1)}`
-                      );
-                      url && attachmentUrl.push(url);
-                    }
 
-                    resolve(true);
-                  } catch (error) {
-                    reject(error);
+        if (value?.attachments?.length) {
+          await Promise.all(
+            value?.attachments?.map((item: any) => {
+              console.log("inside undeifine");
+              return new Promise(async (resolve, reject) => {
+                try {
+                  if (typeof item === "string") {
+                    attachmentUrl.push(item);
+                  } else {
+                    let url = await uploadFile(
+                      item,
+                      `${Date.now()}.${item.name.split(".").at(-1)}`
+                    );
+                    url && attachmentUrl.push(url);
                   }
-                });
-              })
-            );
-          }
-          return;
+
+                  resolve(true);
+                } catch (error) {
+                  reject(error);
+                }
+              });
+            })
+          );
         }
         let draftQuery: any = {};
 
