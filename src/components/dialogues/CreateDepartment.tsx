@@ -20,7 +20,6 @@ interface Props {
   handleClose: () => void;
   mutate: () => void;
 }
-
 const CreateDepartment = ({ open, handleClose, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
