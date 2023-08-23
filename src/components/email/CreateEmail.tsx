@@ -65,12 +65,10 @@ const CreateEmail = (templateId: any) => {
     onSubmit: async (value) => {
       let attachmentUrl: string[] = [];
       try {
-        //if attachments are present then upload the file and get ur
-
         if (value?.attachments?.length) {
           await Promise.all(
             value?.attachments?.map((item: any) => {
-              console.log("inside undeifine");
+              console.log(item);
               return new Promise(async (resolve, reject) => {
                 try {
                   if (typeof item === "string") {
@@ -192,7 +190,7 @@ const CreateEmail = (templateId: any) => {
   const { data: template, isLoading } = useFetch<MailTemplate>(
     `mail-template/get-by-id?templateId=${templateId?.templateId}`
   );
-
+  console.log(formik?.values?.attachments);
   return (
     <>
       {draftData?.replyTo?.id && (
@@ -508,37 +506,35 @@ const CreateEmail = (templateId: any) => {
               Attachments -
             </h3>
             <div className="flex flex-wrap gap-4 px-4 pb-4 ">
-              {formik?.values?.attachments?.map((item: any, i) =>
-                item ? (
-                  <div
-                    className="flex flex-col items-center relative p-4 rounded-md bg-themeBlue shadow-lg"
-                    key={i}
-                  >
-                    <span className="absolute -top-5 -right-5 z-10">
-                      <IconButton
-                        className="!bg-red-500 !text-white"
-                        onClick={() => handleRemoveFile(i)}
-                      >
-                        <Close className="!text-xl" />
-                      </IconButton>
-                    </span>
-                    <a
-                      href={
-                        typeof item === "string"
-                          ? item
-                          : URL?.createObjectURL(item)
-                      }
-                      target="_blank"
-                      rel="noopener noreferrer"
+              {formik?.values?.attachments?.map((item: any, i) => (
+                <div
+                  className="flex flex-col items-center relative p-4 rounded-md bg-themeBlue shadow-lg"
+                  key={i}
+                >
+                  <span className="absolute -top-5 -right-5 z-10">
+                    <IconButton
+                      className="!bg-red-500 !text-white"
+                      onClick={() => handleRemoveFile(i)}
                     >
-                      <InsertDriveFile className="!text-7xl !text-theme" />
-                    </a>
-                    <p className="text-center py-2 text-xs font-medium  break-words">
-                      {item?.name || item?.split("/")?.at(-1)}
-                    </p>
-                  </div>
-                ) : null
-              )}
+                      <Close className="!text-xl" />
+                    </IconButton>
+                  </span>
+                  <a
+                    href={
+                      typeof item === "string"
+                        ? item
+                        : item && URL.createObjectURL(item)
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <InsertDriveFile className="!text-7xl !text-theme" />
+                  </a>
+                  <p className="text-center py-2 text-xs font-medium  break-words">
+                    {item?.name || item?.split("/")?.at(-1)}
+                  </p>
+                </div>
+              ))}
             </div>
           </>
         ) : null}
