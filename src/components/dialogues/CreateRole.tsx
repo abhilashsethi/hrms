@@ -31,7 +31,6 @@ const CreateRole = ({ open, handleClose, mutate }: Props) => {
         .string()
         .required("Required!")
         .test("is-uppercase", "Must contain only capital letters", (value) => {
-          // Custom validation logic to check if the value consists of only capital letters
           return /^[A-Z]+$/.test(value);
         }),
     }),

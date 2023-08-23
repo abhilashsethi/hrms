@@ -26,7 +26,14 @@ const CreateDepartment = ({ open, handleClose, mutate }: Props) => {
   const { change } = useChange();
   const formik = useFormik({
     initialValues: { name: "" },
-    validationSchema: yup.object({ name: yup.string().required("Required!") }),
+    validationSchema: yup.object({
+      name: yup
+        .string()
+        .required("Required!")
+        .test("is-uppercase", "Must contain only capital letters", (value) => {
+          return /^[A-Z]+$/.test(value);
+        }),
+    }),
     onSubmit: async (values) => {
       setLoading(true);
       try {
