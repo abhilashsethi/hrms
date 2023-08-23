@@ -178,10 +178,6 @@ const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
                     />
                   )}
                 />
-                <p className="font-medium text-gray-700 mt-2">
-                  Select Quotation Branch
-                  <span className="text-red-600">*</span>
-                </p>
 
                 {isStatus === "Rejected" || data?.status === "Rejected" ? (
                   <div className="my-4">

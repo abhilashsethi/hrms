@@ -21,12 +21,37 @@ type ChatState = {
   handleReadMessage: (chatId: string) => Promise<void>;
   chatPageNo: number;
   totalChatCount: number;
+  getUnreadChatCount: any;
+  revalidateChatCount: () => Promise<void>;
   setChatPageNo: (num: number) => void;
 };
 const useChatData = create<ChatState>((set, get) => ({
   allGroupChat: [],
   allPrivateChat: [],
   currentChatMessage: [],
+  getUnreadChatCount: 0,
+  revalidateChatCount: async () => {
+    try {
+      const token = getAccessToken();
+      console.log(token);
+      const response = await fetch(BASE_URL + `/chat/unread`, {
+        method: "GET",
+        headers: {
+          "x-access-token": token,
+        },
+      });
+      console.log(response);
+      const data = await response.json();
+      console.log(data);
+      set({
+        getUnreadChatCount: data?.totalUnread,
+      });
+    } catch (error) {
+      set({
+        getUnreadChatCount: 0,
+      });
+    }
+  },
   chatPageNo: 1,
   totalChatCount: 0,
   setChatPageNo: async (num: number) => {
