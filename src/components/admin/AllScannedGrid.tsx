@@ -218,6 +218,7 @@ const CardComponent = ({ item, mutate }: Props) => {
                       <div className="flex items-center gap-4">
                         {user?.role?.name === "CEO" ||
                         user?.role?.name === "HR" ||
+                        user?.role?.name === "DIRECTOR" ||
                         user?.role?.name === "COO" ? (
                           <>
                             <Tooltip title="Delete Card">
@@ -257,6 +258,7 @@ const CardComponent = ({ item, mutate }: Props) => {
                       </div>
                       {user?.role?.name === "CEO" ||
                       user?.role?.name === "HR" ||
+                      user?.role?.name === "DIRECTOR" ||
                       user?.role?.name === "COO" ? (
                         <div className="flex flex-col items-center gap-1">
                           <p className="font-semibold tracking-wide text-sm">
@@ -303,6 +305,7 @@ const CardComponent = ({ item, mutate }: Props) => {
                       <div className="flex items-center gap-4">
                         {user?.role?.name === "CEO" ||
                         user?.role?.name === "HR" ||
+                        user?.role?.name === "DIRECTOR" ||
                         user?.role?.name === "COO" ? (
                           <>
                             <Tooltip title="Delete Card">

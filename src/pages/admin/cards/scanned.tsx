@@ -32,6 +32,7 @@ const Cards = () => {
   const links =
     user?.role?.name === "CEO" ||
     user?.role?.name === "HR" ||
+    user?.role?.name === "DIRECTOR" ||
     user?.role?.name === "COO"
       ? [
           { id: 1, page: "Cards", link: "/admin/cards" },
@@ -47,6 +48,7 @@ const Cards = () => {
     `cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${
       user?.role?.name === "CEO" ||
       user?.role?.name === "HR" ||
+      user?.role?.name === "DIRECTOR" ||
       user?.role?.name === "COO"
         ? ""
         : `&userId=${user?.id}`
@@ -67,6 +69,7 @@ const Cards = () => {
         </div>
         {user?.role?.name === "CEO" ||
         user?.role?.name === "HR" ||
+        user?.role?.name === "DIRECTOR" ||
         user?.role?.name === "COO" ? (
           <div className="md:flex gap-4 justify-between w-full py-2">
             <div
@@ -220,8 +223,6 @@ const usertypes: Array<UserTypeItem> = [
 ];
 
 const short = [
-  { id: 1, value: "name:asc", name: "Name Ascending" },
-  { id: 2, value: "name:desc", name: "Name descending" },
   { id: 3, value: "createdAt:asc", name: "CARD CREATED ASCENDING" },
   { id: 4, value: "createdAt:desc", name: "CARD CREATED DESCENDING" },
 ];
