@@ -37,8 +37,6 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
     dialogue: false,
     title: "Preview",
   });
-  console.log({ data });
-  // const { data: myData } = useFetch(`leaves/${data?.id}`);
   return (
     <>
       <DocPreview
