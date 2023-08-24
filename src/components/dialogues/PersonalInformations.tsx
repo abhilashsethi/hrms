@@ -231,7 +231,14 @@ const PersonalInformations = ({
 												type="submit"
 												className="!bg-theme"
 												variant="contained"
-												disabled={loading}
+												disabled={
+													loading ||
+													(!values?.aadharNo &&
+														!values?.github &&
+														!values?.linkedin &&
+														!values?.panNo &&
+														!values?.uanNo)
+												}
 												startIcon={
 													loading ? <CircularProgress size={20} /> : <Check />
 												}
