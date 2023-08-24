@@ -408,11 +408,11 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
             <div className="flex w-full justify-center gap-2">
               <div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
                 <p className="font-semibold">Total approved leave</p>
-                <p>{item?.totalLeaveThisMonth | 0}</p>
+                <p>{item?.totalLeaveThisMonth || 0}</p>
               </div>
               <div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
                 <p className="font-semibold">This Year Leaves</p>
-                <p>{item?.totalLeaveThisYear | 0}</p>
+                <p>{item?.totalLeaveThisYear || 0}</p>
               </div>
             </div>
           </div>
