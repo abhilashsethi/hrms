@@ -94,7 +94,12 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
 					data={
 						!data?.length
 							? []
-							: data?.map((_: any, i: number) => ({ ..._, sn: i + 1 }))
+							: data?.map((_: any, i: number) => ({
+									..._,
+									sn: i + 1,
+									meetingDate: moment(_?.meetingDate).format("DD/MM/YYYY"),
+									createdAt: moment(_?.createdAt).format("ll"),
+							  }))
 					}
 					options={{
 						...MuiTblOptions(),
@@ -104,7 +109,7 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
 							title: "#",
 							field: "sn",
 							editable: "never",
-							width: "2%",
+							// width: "2%",
 						},
 						{
 							title: "Meeting Title",
@@ -117,6 +122,7 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
 							tooltip: "Client Email",
 							searchable: true,
 							field: "clientEmail",
+							render: (data) => (data?.clientEmail ? data?.clientEmail : "---"),
 						},
 						{
 							title: "Client Name",
@@ -129,27 +135,29 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
 							tooltip: "Client Phone",
 							searchable: true,
 							field: "clientPhone",
+							render: (data) => (data?.clientPhone ? data?.clientPhone : "---"),
 						},
 						{
 							title: "Meeting Date",
 							tooltip: "Meeting Date",
 							searchable: true,
 							field: "meetingDate",
-							render: (data) => moment(data?.meetingDate).format("ll"),
+							// render: (data) => moment(data?.meetingDate).format("ll"),
 						},
 						{
 							title: "Meeting Start Time",
 							tooltip: "Meeting Start Time",
 							searchable: true,
 							field: "meetingStartTime",
-							render: (data) => moment(data?.meetingStartTime).format("LT"),
+							render: (data) => data?.meetingStartTime,
 						},
 						{
 							title: "Meeting End Time",
 							tooltip: "MeetingEnd Time",
 							searchable: true,
 							field: "meetingEndTime",
-							render: (data) => moment(data?.meetingEndTime).format("LT"),
+							render: (data) =>
+								data?.meetingEndTime ? data?.meetingEndTime : "---",
 						},
 						{
 							title: "Status",
@@ -174,7 +182,7 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
 							render: (row) => (
 								<>
 									<div className="flex">
-										<Tooltip title="Edit">
+										<Tooltip title="More">
 											<Avatar
 												// onClick={() => setOpenAddCustomerDrawer(row)}
 												onClick={() =>

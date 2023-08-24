@@ -51,7 +51,7 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 							(new Date(b?.createdAt) as any) - (new Date(a?.createdAt) as any)
 					)
 					?.map((items: any) => (
-						<div className="relative py-4 bg-white w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
+						<div className="relative border-2 border-b-theme py-4 bg-white w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
 							<CardComponent items={items} mutate={mutate} />
 							<div className="md:px-4 px-2">
 								<div className="flex justify-between items-center">

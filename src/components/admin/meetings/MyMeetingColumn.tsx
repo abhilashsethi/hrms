@@ -150,7 +150,7 @@ const MyMeetingColumn = ({ data, mutate }: Props) => {
 							tooltip: "Meeting Start Time",
 							searchable: true,
 							field: "meetingStartTime",
-							render: (data) => moment(data?.meetingStartTime).format("LT"),
+							render: (data) => data?.meetingStartTime,
 						},
 						{
 							title: "Meeting End Time",
