@@ -4,7 +4,7 @@ import { LoaderAnime } from "components/core";
 import EmailCard from "./EmailCard";
 import InboxHeader from "./InboxHeader";
 import { useState } from "react";
-import { useAuth, useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch, useMailData } from "hooks";
 import { useRouter } from "next/router";
 import { InboxEmailType, SentEmailType } from "types";
 import Swal from "sweetalert2";
@@ -33,13 +33,10 @@ const Inbox = () => {
   const [pageNo, setPageNo] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [sortBy, setSortBy] = useState(true);
-
+  const { getUnreadMailCount, revalidateMailCount } = useMailData();
   const { user } = useAuth();
-
   const { push } = useRouter();
-
   const { change } = useChange();
-
   const { data, isValidating, mutate, error } = useFetch<InboxDataType>(
     `emails/getMyInbox/${user?.id}?page=${pageNo}&limit=20&isReceiverDelete=false` +
       (searchText?.trim()?.length ? `&userName=${searchText}` : "") +
@@ -169,6 +166,7 @@ const Inbox = () => {
                     onclick={() => {
                       push(`/admin/email/${item?.id}`);
                       handleReadEmail(item?.id);
+                      revalidateMailCount(user?.id);
                     }}
                     messageDate={item?.sentAt || new Date()}
                     messages={item?.content}
