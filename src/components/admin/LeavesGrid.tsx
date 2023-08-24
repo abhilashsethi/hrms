@@ -407,7 +407,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
           <div className="mb-2 text-sm group flex items-center justify-center gap-2 pb-2">
             <div className="flex w-full justify-center gap-2">
               <div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
-                <p className="font-semibold">This Month Leaves</p>
+                <p className="font-semibold">Total approved leave</p>
                 <p>{item?.totalLeaveThisMonth | 0}</p>
               </div>
               <div className="text-xs cursor-pointer bg-[#bbcbff] rounded-lg shadow-lg py-1 px-2">
