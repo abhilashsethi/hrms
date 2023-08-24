@@ -21,7 +21,7 @@ type ChatState = {
   handleReadMessage: (chatId: string) => Promise<void>;
   chatPageNo: number;
   totalChatCount: number;
-  getUnreadChatCount: any;
+  getUnreadChatCount: number;
   revalidateChatCount: () => Promise<void>;
   setChatPageNo: (num: number) => void;
 };

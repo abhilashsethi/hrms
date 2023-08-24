@@ -18,6 +18,7 @@ import {
   useChatData,
   useFCMToken,
   useFetch,
+  useMailData,
   useMenuItems,
   useSocket,
 } from "hooks";
@@ -46,13 +47,10 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
   const MenuItems: any = useMenuItems();
   const [isOpen, setIsOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { getUnreadChatCount, revalidateChatCount } = useChatData();
-  const { data: mailCount } = useFetch<any>(
-    `emails/getMyInbox/${user?.id}?isRead=false&isReceiverDelete=false`
-  );
+  const { getUnreadChatCount, revalidateChatCount, selectedChatId } =
+    useChatData();
+  const { getUnreadMailCount, revalidateMailCount } = useMailData();
   const { change } = useChange();
-  const { selectedChatId } = useChatData();
-
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -70,6 +68,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
       connect();
       //fetch current chat count
       revalidateChatCount();
+      revalidateMailCount(user?.id);
     })();
   }, []);
 
@@ -233,10 +232,10 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
                     <Tooltip title="Mail">
                       <Badge
                         badgeContent={
-                          (mailCount?.inboxData?.length &&
-                            (mailCount?.inboxData?.length > 99
+                          (getUnreadMailCount &&
+                            (getUnreadMailCount > 99
                               ? "99+"
-                              : mailCount?.inboxData?.length)) ||
+                              : getUnreadMailCount)) ||
                           undefined
                         }
                         color="warning"
