@@ -138,313 +138,314 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
 		}
 	};
 	return (
-		<Dialog
-			onClose={handleClose}
-			aria-labelledby="customized-dialog-title"
-			maxWidth="lg"
-			open={open}
-		>
-			<DialogTitle id="customized-dialog-title" sx={{ p: 2 }}>
-				<p className="text-center text-xl font-bold text-theme tracking-wide">
-					ADD LEAVE
-				</p>
-				<IconButton
-					aria-label="close"
-					onClick={handleClose}
-					sx={{
-						top: 10,
-						right: 10,
-						position: "absolute",
-						color: (theme) => theme.palette.grey[500],
-					}}
-				>
-					<Tooltip title="Close">
-						<Close />
-					</Tooltip>
-				</IconButton>
-			</DialogTitle>
-			<DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-				<div className="md:w-[40rem] w-[72vw] md:px-4 px-2 tracking-wide">
-					<Formik
-						initialValues={initialValues}
-						validationSchema={validationSchema}
-						enableReinitialize={true}
-						onSubmit={handleSubmit}
-					>
-						{({
-							values,
-							errors,
-							touched,
-							handleChange,
-							handleBlur,
-							setFieldValue,
-						}) => (
-							<Form className="w-full">
-								<p className="font-medium text-gray-700 mb-2">
-									Select Employee <span className="text-red-600">*</span>
-								</p>
-								<Autocomplete
-									options={usersData as any}
-									fullWidth
-									size="small"
-									autoHighlight
-									getOptionLabel={(option: any) => option.name}
-									onChange={(e, r) => {
-										setFieldValue("userId", r?.id);
-									}}
-									renderOption={(props, option) => (
-										<Box
-											component="li"
-											sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-											{...props}
-										>
-											<div className="mr-2">
-												<PhotoViewerSmall
-													size="2rem"
-													name={option.name}
-													photo={option.photo}
-												/>
-											</div>
-											{option.name}
-										</Box>
-									)}
-									renderInput={(params) => (
-										<TextField
-											{...params}
-											label="Select Employee"
-											onBlur={handleBlur}
-											error={touched.userId && !!errors.userId}
-											helperText={touched.userId && errors.userId}
-											inputProps={{
-												...params.inputProps,
-												autoComplete: "", // disable autocomplete and autofill
-											}}
-										/>
-									)}
-								/>
-								<p className="font-medium text-gray-700 my-2">
-									Leave Type <span className="text-red-600">*</span>
-								</p>
-								<div className="w-full">
-									<TextField
-										size="small"
-										select
-										fullWidth
-										name="type"
-										placeholder="Leave Type"
-										value={values.type}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										error={touched.type && !!errors.type}
-										helperText={touched.type && errors.type}
-									>
-										{types.map((option) => (
-											<MenuItem key={option.value} value={option.value}>
-												{option.value}
-											</MenuItem>
-										))}
-									</TextField>
-								</div>
-								<h1 className="mt-4">
-									Leave Variant <span className="text-red-600">*</span>
-								</h1>
-								<div className="flex justify-center pt-2">
-									<FormControl>
-										<RadioGroup
-											row
-											defaultValue={value}
-											name="row-radio-buttons-group"
-											value={value}
-											onChange={(e: any) => {
-												handleRadioChange(e);
-												// setFieldValue("leave", e.target.value);
-												setFieldValue("variant", e.target.value);
-											}}
-										>
-											<FormControlLabel
-												value="FirstHalf"
-												control={<Radio />}
-												label="Half Day"
-											/>
-											<FormControlLabel
-												value="FullDay"
-												control={<Radio />}
-												label="Full Day"
-											/>
-											<FormControlLabel
-												value="MultipleDays"
-												control={<Radio />}
-												label="Multiple Days"
-											/>
-										</RadioGroup>
-									</FormControl>
-								</div>
-								{errors?.variant && (
-									<h1 className="text-red-500 text-sm text-center">
-										{/* {errors?.variant} */}
-										{errors?.variant}
-									</h1>
-								)}
-								{value == "FullDay" ? (
-									<>
-										<p className="font-medium text-gray-700 my-2">
-											Date <span className="text-red-600">*</span>
-										</p>
-										<TextField
-											size="small"
-											fullWidth
-											placeholder="Date"
-											inputProps={{
-												min: today.toISOString().split("T")[0],
-												max: "9999-12-31",
-											}}
-											type="date"
-											name="startDate"
-											value={values.startDate}
-											onChange={handleChange}
-											onBlur={handleBlur}
-											error={touched.startDate && !!errors.startDate}
-											helperText={touched.startDate && errors.startDate}
-										/>
-									</>
-								) : value == "MultipleDays" ? (
-									<>
-										<p className="font-medium text-gray-700 my-2">
-											Start Date<span className="text-red-600">*</span>
-										</p>
-										<TextField
-											size="small"
-											fullWidth
-											placeholder="Start Date"
-											type="date"
-											name="startDate"
-											inputProps={{
-												min: moment().format("YYYY-MM-DD"),
-											}}
-											value={values.startDate}
-											onChange={handleChange}
-											onBlur={handleBlur}
-											error={touched.startDate && !!errors.startDate}
-											helperText={touched.startDate && errors.startDate}
-										/>
-										<p className="font-medium text-gray-700 my-2">End Date </p>
-										<TextField
-											size="small"
-											fullWidth
-											placeholder="End Date"
-											type="date"
-											name="endDate"
-											value={
-												values.endDate
-													? moment(values?.endDate).format("YYYY-MM-DD")
-													: ``
-											}
-											inputProps={{
-												min: values?.startDate
-													? moment(values?.startDate).format("YYYY-MM-DD")
-													: moment().format("YYYY-MM-DD"),
-											}}
-											onChange={(e) => {
-												setFieldValue(
-													"endDate",
-													new Date(e.target.value).toISOString()
-												);
-											}}
-											onBlur={handleBlur}
-											error={touched.endDate && !!errors.endDate}
-											helperText={touched.endDate && errors.endDate}
-										/>
-									</>
-								) : (
-									<>
-										<p className="font-medium text-gray-700 my-2">
-											Date <span className="text-red-600">*</span>
-										</p>
-										<div className="w-full">
-											<TextField
-												size="small"
-												fullWidth
-												name="startDate"
-												type="date"
-												placeholder="Date"
-												value={values.startDate}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.startDate && !!errors.startDate}
-												helperText={touched.startDate && errors.startDate}
-											/>
-										</div>
-										<p className="font-medium text-gray-700 my-2">Leave for</p>
-										<div className="w-full">
-											<TextField
-												size="small"
-												select
-												fullWidth
-												name="variant"
-												placeholder="Select"
-												value={values.variant}
-												onChange={handleChange}
-												onBlur={handleBlur}
-												error={touched.variant && !!errors.variant}
-												helperText={touched.variant && errors.variant}
-											>
-												{variants.map((option) => (
-													<MenuItem key={option.value} value={option.value}>
-														{option.value}
-													</MenuItem>
-												))}
-											</TextField>
-										</div>
-									</>
-								)}
-								<p className="font-medium text-gray-700 my-2">
-									Reason <span className="text-red-600">*</span>
-								</p>
-								<TextField
-									size="small"
-									fullWidth
-									multiline
-									rows={4}
-									placeholder="Reason"
-									name="reason"
-									value={values.reason}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									error={touched.reason && !!errors.reason}
-									helperText={touched.reason && errors.reason}
-								/>
-								<p className="font-medium text-gray-700 my-2">Choose File</p>
-								<TextField
-									type="file"
-									name="link"
-									fullWidth
-									size="small"
-									placeholder="Choose Document"
-									// value={values?.link}
-									onChange={(e: any) =>
-										setFieldValue("link", e?.target?.files[0])
-									}
-								/>
-								<div className="flex justify-center mt-4">
-									<Button
-										type="submit"
-										className="!bg-theme"
-										variant="contained"
-										disabled={loading}
-										startIcon={
-											loading ? <CircularProgress size={20} /> : <Check />
-										}
-									>
-										SUBMIT
-									</Button>
-								</div>
-							</Form>
-						)}
-					</Formik>
-				</div>
-			</DialogContent>
-		</Dialog>
-	);
+    <Dialog
+      onClose={handleClose}
+      aria-labelledby="customized-dialog-title"
+      maxWidth="lg"
+      open={open}
+    >
+      <DialogTitle id="customized-dialog-title" sx={{ p: 2 }}>
+        <p className="text-center text-xl font-bold text-theme tracking-wide">
+          ADD LEAVE
+        </p>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            top: 10,
+            right: 10,
+            position: "absolute",
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <Tooltip title="Close">
+            <Close />
+          </Tooltip>
+        </IconButton>
+      </DialogTitle>
+      <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
+        <div className="md:w-[40rem] w-[72vw] md:px-4 px-2 tracking-wide">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              setFieldValue,
+            }) => (
+              <Form className="w-full">
+                <p className="font-medium text-gray-700 mb-2">
+                  Select Employee <span className="text-red-600">*</span>
+                </p>
+                <Autocomplete
+                  options={usersData as any}
+                  fullWidth
+                  size="small"
+                  autoHighlight
+                  getOptionLabel={(option: any) => option.name}
+                  onChange={(e, r) => {
+                    setFieldValue("userId", r?.id);
+                  }}
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      <div className="mr-2">
+                        <PhotoViewerSmall
+                          size="2rem"
+                          name={option.name}
+                          photo={option.photo}
+                        />
+                      </div>
+                      {option.name}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Select Employee"
+                      onBlur={handleBlur}
+                      error={touched.userId && !!errors.userId}
+                      helperText={touched.userId && errors.userId}
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "", // disable autocomplete and autofill
+                      }}
+                    />
+                  )}
+                />
+                <p className="font-medium text-gray-700 my-2">
+                  Leave Type <span className="text-red-600">*</span>
+                </p>
+                <div className="w-full">
+                  <TextField
+                    size="small"
+                    select
+                    fullWidth
+                    name="type"
+                    placeholder="Leave Type"
+                    value={values.type}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.type && !!errors.type}
+                    helperText={touched.type && errors.type}
+                  >
+                    {types.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.value}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+                <h1 className="mt-4">
+                  Leave Variant <span className="text-red-600">*</span>
+                </h1>
+                <div className="flex justify-center pt-2">
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      defaultValue={value}
+                      name="row-radio-buttons-group"
+                      value={value}
+                      onChange={(e: any) => {
+                        handleRadioChange(e);
+                        // setFieldValue("leave", e.target.value);
+                        setFieldValue("variant", e.target.value);
+                        setFieldValue("startDate", "");
+                      }}
+                    >
+                      <FormControlLabel
+                        value="FirstHalf"
+                        control={<Radio />}
+                        label="Half Day"
+                      />
+                      <FormControlLabel
+                        value="FullDay"
+                        control={<Radio />}
+                        label="Full Day"
+                      />
+                      <FormControlLabel
+                        value="MultipleDays"
+                        control={<Radio />}
+                        label="Multiple Days"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+                {errors?.variant && (
+                  <h1 className="text-red-500 text-sm text-center">
+                    {/* {errors?.variant} */}
+                    {errors?.variant}
+                  </h1>
+                )}
+                {value == "FullDay" ? (
+                  <>
+                    <p className="font-medium text-gray-700 my-2">
+                      Date <span className="text-red-600">*</span>
+                    </p>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      placeholder="Date"
+                      inputProps={{
+                        min: today.toISOString().split("T")[0],
+                        max: "9999-12-31",
+                      }}
+                      type="date"
+                      name="startDate"
+                      value={values.startDate}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.startDate && !!errors.startDate}
+                      helperText={touched.startDate && errors.startDate}
+                    />
+                  </>
+                ) : value == "MultipleDays" ? (
+                  <>
+                    <p className="font-medium text-gray-700 my-2">
+                      Start Date<span className="text-red-600">*</span>
+                    </p>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      placeholder="Start Date"
+                      type="date"
+                      name="startDate"
+                      inputProps={{
+                        min: moment().format("YYYY-MM-DD"),
+                      }}
+                      value={values.startDate}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.startDate && !!errors.startDate}
+                      helperText={touched.startDate && errors.startDate}
+                    />
+                    <p className="font-medium text-gray-700 my-2">End Date </p>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      placeholder="End Date"
+                      type="date"
+                      name="endDate"
+                      value={
+                        values.endDate
+                          ? moment(values?.endDate).format("YYYY-MM-DD")
+                          : ``
+                      }
+                      inputProps={{
+                        min: values?.startDate
+                          ? moment(values?.startDate).format("YYYY-MM-DD")
+                          : moment().format("YYYY-MM-DD"),
+                      }}
+                      onChange={(e) => {
+                        setFieldValue(
+                          "endDate",
+                          new Date(e.target.value).toISOString()
+                        );
+                      }}
+                      onBlur={handleBlur}
+                      error={touched.endDate && !!errors.endDate}
+                      helperText={touched.endDate && errors.endDate}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <p className="font-medium text-gray-700 my-2">
+                      Date <span className="text-red-600">*</span>
+                    </p>
+                    <div className="w-full">
+                      <TextField
+                        size="small"
+                        fullWidth
+                        name="startDate"
+                        type="date"
+                        placeholder="Date"
+                        value={values.startDate}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.startDate && !!errors.startDate}
+                        helperText={touched.startDate && errors.startDate}
+                      />
+                    </div>
+                    <p className="font-medium text-gray-700 my-2">Leave for</p>
+                    <div className="w-full">
+                      <TextField
+                        size="small"
+                        select
+                        fullWidth
+                        name="variant"
+                        placeholder="Select"
+                        value={values.variant}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.variant && !!errors.variant}
+                        helperText={touched.variant && errors.variant}
+                      >
+                        {variants.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.value}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
+                  </>
+                )}
+                <p className="font-medium text-gray-700 my-2">
+                  Reason <span className="text-red-600">*</span>
+                </p>
+                <TextField
+                  size="small"
+                  fullWidth
+                  multiline
+                  rows={4}
+                  placeholder="Reason"
+                  name="reason"
+                  value={values.reason}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.reason && !!errors.reason}
+                  helperText={touched.reason && errors.reason}
+                />
+                <p className="font-medium text-gray-700 my-2">Choose File</p>
+                <TextField
+                  type="file"
+                  name="link"
+                  fullWidth
+                  size="small"
+                  placeholder="Choose Document"
+                  // value={values?.link}
+                  onChange={(e: any) =>
+                    setFieldValue("link", e?.target?.files[0])
+                  }
+                />
+                <div className="flex justify-center mt-4">
+                  <Button
+                    type="submit"
+                    className="!bg-theme"
+                    variant="contained"
+                    disabled={loading}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
+                  >
+                    SUBMIT
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 };
 
 export default CreateLeave;
