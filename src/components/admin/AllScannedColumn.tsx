@@ -33,7 +33,6 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
     drawer: false,
     activeCardId: null,
   });
-  const { data: users, isLoading: isUsersFetching } = useFetch<User[]>(`users`);
   const { change, isChanging } = useChange();
   const handleBlock = async (e: any, cardId: string) => {
     Swal.fire({
@@ -199,6 +198,7 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
               hidden:
                 user?.role?.name === "CEO" ||
                 user?.role?.name === "HR" ||
+                user?.role?.name === "DIRECTOR" ||
                 user?.role?.name === "COO"
                   ? false
                   : true,
@@ -210,6 +210,7 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
               hidden:
                 user?.role?.name === "CEO" ||
                 user?.role?.name === "HR" ||
+                user?.role?.name === "DIRECTOR" ||
                 user?.role?.name === "COO"
                   ? false
                   : true,
@@ -270,6 +271,7 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
               hidden:
                 user?.role?.name === "CEO" ||
                 user?.role?.name === "HR" ||
+                user?.role?.name === "DIRECTOR" ||
                 user?.role?.name === "COO"
                   ? true
                   : false,
@@ -355,6 +357,7 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
             onRowDelete:
               user?.role?.name === "CEO" ||
               user?.role?.name === "HR" ||
+              user?.role?.name === "DIRECTOR" ||
               user?.role?.name === "COO"
                 ? async (oldData) => {
                     try {
