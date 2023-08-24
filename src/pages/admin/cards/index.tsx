@@ -12,7 +12,6 @@ import {
 } from "assets/dashboard_Icons";
 import { BranchBarChart } from "components/analytics";
 import CardStatus from "components/analytics/CardStatus";
-import CardsAreaChart from "components/analytics/CardsAreaChart";
 import { AdminBreadcrumbs, DashboardCard } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -38,7 +37,7 @@ const Cards = () => {
 			title: "Assigned to Guests",
 			img: CARDICON1.src,
 			bg: "from-blue-500 to-blue-300",
-			link: "/admin/cards/scanned?isGuest=true",
+			link: "/admin/cards/scanned",
 		},
 		{
 			id: 2,
@@ -77,15 +76,15 @@ const Cards = () => {
 
 	return (
 		<PanelLayout title="Cards Dashboard - Admin Panel">
-			<section className="px-8 py-4">
+			<section className="md:px-8 px-2 py-4">
 				<AdminBreadcrumbs links={links} />
 				<div className="mt-4">
 					<div className="flex gap-2 py-4">
 						<DashboardCard data={cards} />
 					</div>
 				</div>
-				<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
-					<div className="col-span-12 pt-9 w-full bg-white  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
+				<div className="grid grid-cols-12 content-between gap-6 m-5 !mb-6">
+					<div className="col-span-12 pt-9 w-full bg-white gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
 						<p className="text-lg font-bold text-center">
 							Scanned Users Assigned Overview
 						</p>
