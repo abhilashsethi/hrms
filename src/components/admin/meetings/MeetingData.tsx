@@ -168,7 +168,7 @@ const MeetingData = () => {
 												View Notes
 											</Button>
 										</div>
-										<p className="font-semibold pb-3">Documents :</p>
+										{/* <p className="font-semibold pb-3">Documents :</p>
 										<div className="grid grid-cols-3 w-2/3 gap-6">
 											{meetingDetails?.docs.map((item: any, i: any) => {
 												return (
@@ -197,7 +197,7 @@ const MeetingData = () => {
 													</Tooltip>
 												);
 											})}
-										</div>
+										</div> */}
 									</div>
 								</div>
 							</div>
