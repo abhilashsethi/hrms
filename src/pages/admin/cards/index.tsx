@@ -38,7 +38,7 @@ const Cards = () => {
 			title: "Assigned to Guests",
 			img: CARDICON1.src,
 			bg: "from-blue-500 to-blue-300",
-			link: "/admin/cards/scanned",
+			link: "/admin/cards/scanned?isGuest=true",
 		},
 		{
 			id: 2,
