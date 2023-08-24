@@ -33,7 +33,12 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
     `chat/user/not-connected?chatId=${profileData?.id}&page=1&limit=20` +
       (searchText ? `&searchTitle=${searchText}` : "")
   );
-  const { revalidateChatProfileDetails } = useChatData();
+  const {
+    revalidateChatProfileDetails,
+    reValidateGroupChat,
+    reValidatePrivateChat,
+    revalidateCurrentChat,
+  } = useChatData();
   const { socketRef } = useSocket();
   const { user } = useAuth();
 
@@ -69,6 +74,9 @@ const AddParticipants = ({ open, handleClose, profileData }: Props) => {
         mutate();
         setLoading(false);
         revalidateChatProfileDetails(profileData?.id);
+        reValidateGroupChat();
+        reValidatePrivateChat();
+        revalidateCurrentChat(profileData?.id);
         handleClose();
         socketRef?.emit("REFETCH_DATA", {
           groupId: profileData?.id,
