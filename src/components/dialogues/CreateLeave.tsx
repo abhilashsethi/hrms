@@ -310,7 +310,7 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
 								) : value == "MultipleDays" ? (
 									<>
 										<p className="font-medium text-gray-700 my-2">
-											Start Date{" "}
+											Start Date<span className="text-red-600">*</span>
 										</p>
 										<TextField
 											size="small"
