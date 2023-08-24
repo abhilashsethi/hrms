@@ -1,5 +1,3 @@
-import { Grid } from "@mui/material";
-import { useFetch } from "hooks";
 import Link from "next/link";
 
 interface ARRAY {
