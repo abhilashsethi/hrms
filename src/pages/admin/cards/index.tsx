@@ -37,7 +37,7 @@ const Cards = () => {
 			title: "Assigned to Guests",
 			img: CARDICON1.src,
 			bg: "from-blue-500 to-blue-300",
-			link: "/admin/cards/scanned",
+			link: "/admin/cards/scanned?isGuest=true",
 		},
 		{
 			id: 2,
@@ -48,7 +48,7 @@ const Cards = () => {
 			title: "Assigned to Employees",
 			bg: "from-yellow-500 to-yellow-300",
 			img: CARDICON2.src,
-			link: "/admin/cards/scanned",
+			link: "/admin/cards/scanned?isGuest=false",
 		},
 		{
 			id: 3,

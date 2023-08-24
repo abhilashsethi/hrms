@@ -48,7 +48,7 @@ const Cards = () => {
 		mutate,
 		pagination,
 	} = useFetch<Card[]>(
-		`cards?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${
+		`cards?page=${pageNumber}&limit=12${userName ? `&name=${userName}` : ""}${
 			user?.role?.name === "CEO" ||
 			user?.role?.name === "HR" ||
 			user?.role?.name === "DIRECTOR" ||
@@ -59,7 +59,11 @@ const Cards = () => {
 			cardId ? `&cardId=${cardId}` : ""
 		}${userType ? `&assignedTo=${userType}` : ""}${
 			isOrderBy ? `&orderBy=${isOrderBy}` : ""
-		}${router?.query?.isGuest ? `&assignedTo=Guest` : ""}`
+		}${
+			router?.query?.isGuest === "true"
+				? `&assignedTo=Guest`
+				: `&assignedTo=Employee`
+		}`
 	);
 	console.log(router?.query?.isGuest);
 	return (
