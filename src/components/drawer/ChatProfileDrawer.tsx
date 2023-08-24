@@ -39,6 +39,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
   const {
     revalidateCurrentChat,
     revalidateChatProfileDetails,
+    reValidateGroupChat,
     selectedChatId,
   } = useChatData();
   const configs = [
@@ -97,6 +98,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
             }
             selectedChatId && revalidateChatProfileDetails(selectedChatId);
             revalidateCurrentChat(selectedChatId);
+            reValidateGroupChat();
             break;
           }
           Swal.fire("Info", "You leave this group already", "info");
@@ -119,6 +121,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
           }
           selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
+          reValidateGroupChat();
           onClose();
           break;
 
@@ -140,6 +143,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
           }
           selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
+          reValidateGroupChat();
           onClose();
           break;
         default:
@@ -412,7 +416,11 @@ interface MenuProps {
 }
 
 const MoreMenu = ({ data, profileData }: MenuProps) => {
-  const { revalidateChatProfileDetails } = useChatData();
+  const {
+    revalidateChatProfileDetails,
+    revalidateCurrentChat,
+    reValidateGroupChat,
+  } = useChatData();
   const { change } = useChange();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -443,6 +451,8 @@ const MoreMenu = ({ data, profileData }: MenuProps) => {
             return;
           }
           revalidateChatProfileDetails(profileData?.id);
+          revalidateCurrentChat(profileData?.id);
+          reValidateGroupChat();
           Swal.fire(`Success`, "Member removed!", "success");
           return;
         } catch (error) {
@@ -476,6 +486,8 @@ const MoreMenu = ({ data, profileData }: MenuProps) => {
             return;
           }
           revalidateChatProfileDetails(profileData?.id);
+          reValidateGroupChat();
+          revalidateCurrentChat(profileData?.id);
           Swal.fire(`Success`, "Created as admin", "success");
           return;
         } catch (error) {

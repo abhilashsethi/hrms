@@ -105,8 +105,11 @@ const Chats = () => {
     allPrivateChat,
     setSelectedChatId,
     selectedChatId,
-    revalidateChatProfileDetails,
+    handleReadMessage,
+    revalidateChatCount,
+    reValidateGroupChat,
     reValidatePrivateChat,
+    revalidateChatProfileDetails,
   } = useChatData();
 
   const { socketRef } = useSocket();
@@ -152,6 +155,9 @@ const Chats = () => {
           <PrivateChatCard
             item={item}
             key={item?.id}
+            revalidateChatCount={revalidateChatCount}
+            handleReadMessage={handleReadMessage}
+            reValidatePrivateChat={reValidatePrivateChat}
             revalidateChatProfileDetails={revalidateChatProfileDetails}
             selectedChatId={selectedChatId}
             setSelectedChatId={setSelectedChatId}
@@ -166,11 +172,17 @@ const PrivateChatCard = ({
   item,
   revalidateChatProfileDetails,
   selectedChatId,
+  handleReadMessage,
   setSelectedChatId,
+  reValidatePrivateChat,
+  revalidateChatCount,
 }: {
   setSelectedChatId: (arg: any) => void;
   revalidateChatProfileDetails: (arg: any) => void;
   selectedChatId?: string;
+  handleReadMessage?: (arg: any) => Promise<void>;
+  revalidateChatCount: () => void;
+  reValidatePrivateChat: () => void;
   item: IGroupChatData;
 }) => {
   const [isTyping, setIsTyping] = useState(false);
@@ -196,6 +208,10 @@ const PrivateChatCard = ({
       onClick={() => {
         setSelectedChatId(item?.id);
         revalidateChatProfileDetails(item?.id);
+        handleReadMessage?.(item?.id).then(() => {
+          revalidateChatCount();
+          reValidatePrivateChat();
+        });
       }}
       className={`h-16 w-full px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${
         selectedChatId === item?.id ? `bg-blue-100` : ``
@@ -255,6 +271,7 @@ const GroupChats = () => {
     allGroupChat,
     setSelectedChatId,
     selectedChatId,
+    handleReadMessage,
     revalidateChatProfileDetails,
     reValidateGroupChat,
     revalidateChatCount,
@@ -332,6 +349,8 @@ const GroupChats = () => {
             item={item}
             revalidateChatProfileDetails={revalidateChatProfileDetails}
             selectedChatId={selectedChatId}
+            handleReadMessage={handleReadMessage}
+            reValidateGroupChat={reValidateGroupChat}
             setSelectedChatId={setSelectedChatId}
             revalidateChatCount={revalidateChatCount}
           />
@@ -346,17 +365,20 @@ const GroupChatCard = ({
   revalidateChatProfileDetails,
   selectedChatId,
   setSelectedChatId,
+  handleReadMessage,
   revalidateChatCount,
+  reValidateGroupChat,
 }: {
   setSelectedChatId: (arg: any) => void;
   revalidateChatProfileDetails: (arg: any) => void;
   selectedChatId?: string;
+  reValidateGroupChat: () => void;
+  handleReadMessage?: (arg: any) => Promise<void>;
   revalidateChatCount: () => void;
   item: IGroupChatData;
 }) => {
   const [isTyping, setIsTyping] = useState(false);
   const { socketRef } = useSocket();
-  const { reValidateGroupChat } = useChatData();
 
   useEffect(() => {
     (() => {
@@ -379,7 +401,10 @@ const GroupChatCard = ({
       onClick={() => {
         setSelectedChatId(item?.id);
         revalidateChatProfileDetails(item?.id);
-        revalidateChatCount();
+        handleReadMessage?.(item?.id).then(() => {
+          revalidateChatCount();
+          reValidateGroupChat();
+        });
       }}
       key={item?.id}
       className={`h-16 w-full transition-all ease-in-out duration-300 px-2 flex gap-2 items-center hover:bg-blue-100 cursor-pointer rounded-md ${

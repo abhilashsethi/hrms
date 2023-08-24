@@ -10,7 +10,6 @@ const MainHrDashboardCharts = () => {
   const { data: hrDetails, isLoading: hrIsLoading } = useFetch<any>(
     `dashboards/hr-dashInfo?branchId=${user?.employeeOfBranchId}`
   );
-  console.log(hrDetails);
   const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
   return (
     <div className="w-full">

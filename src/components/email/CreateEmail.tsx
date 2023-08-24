@@ -40,6 +40,7 @@ const CreateEmail = (templateId: any) => {
   const { data: draftData, isValidating } = useFetch<EmailType>(
     `emails/${query?.draftId}?draft=true`
   );
+  console.log(draftData);
   const formik = useFormik({
     initialValues: {
       recipients: draftData?.receiver?.id ? [draftData?.receiver] : "",
@@ -64,6 +65,7 @@ const CreateEmail = (templateId: any) => {
     }),
     onSubmit: async (value) => {
       let attachmentUrl: string[] = [];
+      let validAttachments: any[] = [];
       try {
         if (value?.attachments?.length) {
           await Promise.all(
@@ -73,12 +75,20 @@ const CreateEmail = (templateId: any) => {
                 try {
                   if (typeof item === "string") {
                     attachmentUrl.push(item);
-                  } else {
+                    validAttachments.push(item);
+                  } else if (item instanceof File || item instanceof Blob) {
+                    const file = new File([item], item.name, {
+                      type: item.type,
+                      lastModified: Date.now(),
+                    });
                     let url = await uploadFile(
-                      item,
-                      `${Date.now()}.${item.name.split(".").at(-1)}`
+                      file,
+                      `${Date.now()}.${file.name.split(".").at(-1)}`
                     );
-                    url && attachmentUrl.push(url);
+                    if (url) {
+                      attachmentUrl.push(url);
+                      validAttachments.push(file);
+                    }
                   }
 
                   resolve(true);
@@ -190,7 +200,6 @@ const CreateEmail = (templateId: any) => {
   const { data: template, isLoading } = useFetch<MailTemplate>(
     `mail-template/get-by-id?templateId=${templateId?.templateId}`
   );
-  console.log(formik?.values?.attachments);
   return (
     <>
       {draftData?.replyTo?.id && (
@@ -506,35 +515,50 @@ const CreateEmail = (templateId: any) => {
               Attachments -
             </h3>
             <div className="flex flex-wrap gap-4 px-4 pb-4 ">
-              {formik?.values?.attachments?.map((item: any, i) => (
-                <div
-                  className="flex flex-col items-center relative p-4 rounded-md bg-themeBlue shadow-lg"
-                  key={i}
-                >
-                  <span className="absolute -top-5 -right-5 z-10">
-                    <IconButton
-                      className="!bg-red-500 !text-white"
-                      onClick={() => handleRemoveFile(i)}
-                    >
-                      <Close className="!text-xl" />
-                    </IconButton>
-                  </span>
-                  <a
-                    href={
-                      typeof item === "string"
-                        ? item
-                        : item && URL.createObjectURL(item)
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
+              {formik?.values?.attachments
+                ?.filter(
+                  (item: any) =>
+                    typeof item === "string" ||
+                    item instanceof Blob ||
+                    item instanceof File
+                )
+                .map((item: any, i) => (
+                  <div
+                    className="flex flex-col items-center relative p-4 rounded-md bg-themeBlue shadow-lg"
+                    key={i}
                   >
-                    <InsertDriveFile className="!text-7xl !text-theme" />
-                  </a>
-                  <p className="text-center py-2 text-xs font-medium  break-words">
-                    {item?.name || item?.split("/")?.at(-1)}
-                  </p>
-                </div>
-              ))}
+                    <span className="absolute -top-5 -right-5 z-10">
+                      <IconButton
+                        className="!bg-red-500 !text-white"
+                        onClick={() => handleRemoveFile(i)}
+                      >
+                        <Close className="!text-xl" />
+                      </IconButton>
+                    </span>
+                    {typeof item === "string" ||
+                    item instanceof Blob ||
+                    item instanceof File ? (
+                      <a
+                        href={
+                          typeof item === "string"
+                            ? item
+                            : URL.createObjectURL(item)
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <InsertDriveFile className="!text-7xl !text-theme" />
+                      </a>
+                    ) : null}
+                    <p className="text-center py-2 text-xs font-medium break-words">
+                      {typeof item === "string"
+                        ? item.split("/").at(-1) // Extract filename from URL
+                        : item instanceof Blob || item instanceof File
+                        ? item?.name
+                        : ""}
+                    </p>
+                  </div>
+                ))}
             </div>
           </>
         ) : null}
@@ -574,7 +598,7 @@ const CreateEmail = (templateId: any) => {
 
             <button
               className="flex gap-4 items-center hover:scale-95 transition-all border border-secondary-500 ease-in-out duration-300 hover:bg-secondary-600 justify-center bg-secondary-500 text-white px-4 py-2 rounded-md shadow-lg "
-              onClick={() => {
+              onClick={async () => {
                 formik?.setFieldValue("isDraft", true);
                 formik?.submitForm();
               }}

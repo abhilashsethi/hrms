@@ -9,7 +9,7 @@ type Props = {
 
 const EmployLeaves = ({ employData }: Props) => {
   const { data: leaveData } = useFetch<any>(`leaves/details/${employData?.id}`);
-
+  console.log({ leaveData });
   const { data: leaveDetails } = useFetch<any[]>(
     `leaves?employeeID=${employData?.employeeID}`
   );
