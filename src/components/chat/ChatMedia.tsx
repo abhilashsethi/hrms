@@ -36,9 +36,9 @@ const ChatMedia = ({
   const [pageNo, setPageNo] = useState(1);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setFileData([]);
     setValue(newValue);
     setPageNo(1);
+    setFileData([]);
   };
 
   const { selectedChatId } = useChatData();

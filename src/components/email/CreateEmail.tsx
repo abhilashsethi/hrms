@@ -31,9 +31,10 @@ const CreateEmail = (templateId: any) => {
   const [searchText, setSearchText] = useState("");
   const attachRef = useRef<HTMLInputElement | null>(null);
   const { data: users, isValidating: userLoading } = useFetch<User[]>(
-    `users?${pageLimit ? "page=1&limit=" + pageLimit + "&" : ""}` +
+    `users?${pageLimit ? pageLimit + "&" : ""}` +
       (searchText ? `name=${searchText}` : "")
   );
+  console.log(users);
   const { change, isChanging } = useChange();
   const { user } = useAuth();
   const { push, query } = useRouter();
@@ -59,7 +60,11 @@ const CreateEmail = (templateId: any) => {
       bccRecipients: Yup.array(Yup.object()).optional().nullable(),
       attachments: Yup.array().optional().nullable(),
       subject: Yup.string(),
-      message: Yup.string().required("Message is required*"),
+      message: Yup.string().when("templateId", (templateId: any, schema) => {
+        return templateId?.templateId !== "normal"
+          ? schema
+          : schema.required("Message is required*");
+      }),
       isDraft: Yup.boolean(),
     }),
     onSubmit: async (value) => {
@@ -124,7 +129,10 @@ const CreateEmail = (templateId: any) => {
                   value?.bccRecipients?.map((item: EmailUser) => item?.id)) ||
                 undefined,
               subject: value?.subject,
-              content: value?.message,
+              content:
+                templateId?.templateId === "normal"
+                  ? value?.message
+                  : template?.content,
               attachments: attachmentUrl,
               isSend: !value?.isDraft,
               ...draftQuery,
