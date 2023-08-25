@@ -28,6 +28,7 @@ const LeaveDashboard = () => {
 	const { data: leaveData, isLoading } = useFetch<any>(
 		`leaves/dashboard/details`
 	);
+	console.log(leaveData);
 
 	const cards = [
 		{
@@ -78,10 +79,8 @@ const LeaveDashboard = () => {
 
 	return (
 		<>
-			<div className="flex gap-2 py-4">
-				<div className="full px-2 ">
-					<DashboardCard data={cards} />
-				</div>
+			<div className="flex gap-2 py-4 px-2">
+				<DashboardCard data={cards} />
 			</div>
 			<div className="grid grid-cols-12 content-between gap-6 px-2 !mb-6">
 				<div className="col-span-12 bg-white pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-7 !border-gray-500 rounded-xl !shadow-xl">
@@ -103,7 +102,7 @@ const LeaveDashboard = () => {
 							},
 						]}
 						categories={leaveData?.leaves?.leaveCountMonthWiseArr[1]?.leaveCounts?.map(
-							(item: any) => item?.month
+							(item: any) => item?.month?.slice(0, 3)
 						)}
 						type="bar"
 						text=""
