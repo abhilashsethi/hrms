@@ -199,6 +199,7 @@ const CreateEmail = (templateId: any) => {
   const { data: template, isLoading } = useFetch<MailTemplate>(
     `mail-template/get-by-id?templateId=${templateId?.templateId}`
   );
+
   return (
     <>
       {draftData?.replyTo?.id && (
