@@ -36,17 +36,17 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 		kpi: 0,
 		tds: 0,
 		salaryInfoNewFields: null,
-		inputFields: [{ title: "", value: 0 }],
+		// inputFields: [{ title: "", value: 0 }],
 	};
 	const validationSchema = Yup.object().shape({
-		inputFields: Yup.array().of(
-			Yup.object()
-				.shape({
-					title: Yup.string().required("Document Title is required"),
-					value: Yup.mixed().required("File is required"),
-				})
-				.nullable()
-		),
+		// inputFields: Yup.array().of(
+		// 	Yup.object()
+		// 		.shape({
+		// 			title: Yup.string().required("Document Title is required"),
+		// 			value: Yup.mixed().required("File is required"),
+		// 		})
+		// 		.nullable()
+		// ),
 		grossSalary: Yup.number().required("Required"),
 		kpi: Yup.number().required("Required"),
 		tds: Yup.number().required("Required"),
