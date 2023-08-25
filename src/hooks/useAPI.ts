@@ -39,6 +39,8 @@ export const useFetch = <T>(path: string, options?: useFetchOptions) => {
 		const headers: HeadersInit = {};
 		if (token) headers["x-access-token"] = token;
 		return fetch(args, { headers }).then((_) => _.json());
+	}, {
+		revalidateOnFocus: false
 	});
 	return {
 		...data,

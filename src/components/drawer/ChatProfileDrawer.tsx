@@ -321,6 +321,14 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                                 <button className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
                                   Group Admin
                                 </button>
+                                {profileData?.chatMembers?.find(
+                                  (item) => item?.user?.id === user?.id
+                                )?.isAdmin && (
+                                  <MoreMenu
+                                    data={item}
+                                    profileData={profileData}
+                                  />
+                                )}
                               </div>
                             ) : (
                               profileData?.chatMembers?.find(
