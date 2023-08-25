@@ -8,7 +8,6 @@ const Employees = () => {
   return (
     <PanelLayout title="Employees Dashboard - Admin Panel">
       <>
-        <WelcomeUser title={`Welcome ${user?.role?.name}`} />
         <div className="px-4 pt-4">
           <AdminBreadcrumbs links={links} />
         </div>

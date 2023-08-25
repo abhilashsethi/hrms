@@ -84,14 +84,14 @@ const EmployDashboard = () => {
 
   return (
     <>
-      <div className="flex gap-2 py-4">
-        <div className="w-2/3 px-4 ">
+      <div className="md:flex gap-2 py-6">
+        <div className="md:w-2/3 w-full px-4 ">
           <div className="flex gap-2 py-4">
             <DashboardCard data={cards} />
           </div>
 
-          <div className="grid grid-cols-12 content-between gap-10 m-5 !mb-6">
-            <div className="col-span-12 bg-white w-full  gap-5 md:col-span-12 lg:col-span-12 !border-grey-500 rounded-xl !shadow-xl">
+          <div className="grid content-between !mb-6">
+            <div className=" bg-white w-full py-3 !border-grey-500 rounded-xl !shadow-xl">
               <div className="font-semibold flex justify-center py-4 pl-2 ">
                 <p>Last Week Employee's Report </p>
               </div>
@@ -103,7 +103,7 @@ const EmployDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="w-1/3 p-3 bg-white rounded-xl shadow-xl flex flex-col gap-3">
+        <div className="md:w-1/3 w-full py-4 p-3 bg-white rounded-xl shadow-xl flex flex-col gap-3">
           <h1 className="mt-2 font-bold text-theme">PROJECTS</h1>
           <div className="h-40 w-full border-2 rounded-xl py-4 px-6 flex tracking-wide">
             <div className="w-1/2 border-r-2 h-full flex flex-col gap-3 justify-center items-center">
@@ -132,8 +132,8 @@ const EmployDashboard = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-12 content-between gap-6 mx-5 -mt-7 !mb-6">
-        <div className="col-span-12 pt-9 w-full bg-white  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
+      <div className="grid grid-cols-12 content-between gap-6 ">
+        <div className="col-span-12 pt-9 px-3 w-full bg-white  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">
             Department-wise Strength
           </p>
