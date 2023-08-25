@@ -42,15 +42,22 @@ const ChatMedia = ({
   };
 
   const { selectedChatId } = useChatData();
-
+  useEffect(() => {
+    setFileData([]);
+  }, []);
   const { data, isValidating, mutate } = useFetch<any>(
     `chat/message-group/${selectedChatId}?category=${value}&limit=20&page=${pageNo}`
   );
   useEffect(() => {
     if (!data?.message?.length) return;
-    setFileData((prev) => [...prev, ...data?.message]);
-  }, [data?.message]);
 
+    setFileData((prev) => {
+      const newData = data.message.filter((newItem: any) =>
+        prev.every((prevItem) => prevItem.id !== newItem.id)
+      );
+      return [...prev, ...newData];
+    });
+  }, [data?.message]);
   const handleNextFetch = () => {
     setPageNo((prev) => prev + 1);
   };
