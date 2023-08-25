@@ -5,12 +5,7 @@ import {
 	PENDING_PROJECT,
 	PROJECT,
 } from "assets/dashboard_Icons";
-import {
-	ProgressBarDealsDashboard,
-	ProjectBarGraph,
-	ProjectsPieChart,
-	ProjectsRadialBar,
-} from "components/analytics";
+import { ProjectBarGraph, ProjectsRadialBar } from "components/analytics";
 import { DashboardCard } from "components/core";
 import { useFetch } from "hooks";
 import { MouseEvent, useEffect, useState } from "react";
@@ -125,10 +120,10 @@ const ProjectDashBoard = () => {
 
 	return (
 		<>
-			<div className="flex gap-2 py-4">
-				<div className="w-3/4 px-4 ">
+			<div className="flex md:flex-row flex-col gap-2 py-4">
+				<div className="md:w-3/4 px-4">
 					<DashboardCard data={cards} />
-					<div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
+					<div className="grid grid-cols-12 content-between gap-6  md:m-5 !mb-6">
 						<div className="px-2 col-span-12 pt-9 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
 							{/* <ProgressBarDealsDashboard /> */}
 							<p className="text-lg text-center font-bold">
@@ -170,7 +165,7 @@ const ProjectDashBoard = () => {
 						</div>
 					</div>
 				</div>
-				<div className="w-1/4 p-2 rounded-xl shadow-xl flex flex-col justify-around cursor-pointer">
+				<div className="md:w-1/4 p-2 rounded-xl shadow-xl flex flex-col justify-around cursor-pointer">
 					{stats.map((item) => (
 						<div
 							key={item?.id}
