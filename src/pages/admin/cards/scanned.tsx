@@ -59,10 +59,8 @@ const Cards = () => {
 			cardId ? `&cardId=${cardId}` : ""
 		}${userType ? `&assignedTo=${userType}` : ""}${
 			isOrderBy ? `&orderBy=${isOrderBy}` : ""
-		}${
-			router?.query?.isGuest === "true"
-				? `&assignedTo=Guest`
-				: `&assignedTo=Employee`
+		}${router?.query?.isGuest === "true" ? `&assignedTo=Guest` : ``}${
+			router?.query?.isEmployee === "true" ? `&assignedTo=Employee` : ``
 		}`
 	);
 	console.log(router?.query?.isGuest);

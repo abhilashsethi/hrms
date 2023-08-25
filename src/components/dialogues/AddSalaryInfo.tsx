@@ -94,7 +94,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 		>
 			<DialogTitle
 				id="customized-dialog-title"
-				sx={{ p: 2, minWidth: "40rem !important" }}
+				// sx={{ p: 2, minWidth: "40rem !important" }}
 			>
 				<p className="text-center text-xl font-bold text-theme tracking-wide">
 					ADD SALARY INFO
@@ -165,7 +165,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 								</div>
 
 								<p className="font-medium text-gray-700 my-2">
-									TDS <span className="text-red-600">*</span>
+									TDS (%) <span className="text-red-600">*</span>
 								</p>
 								<div className="w-full">
 									<TextField
@@ -182,7 +182,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 									/>
 								</div>
 
-								<p className="font-medium text-gray-700 my-2">More</p>
+								{/* <p className="font-medium text-gray-700 my-2">More</p>
 								<FieldArray name="inputFields">
 									{({ remove, push }) => (
 										<div className="grid gap-2 w-full">
@@ -248,7 +248,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 											</button>
 										</div>
 									)}
-								</FieldArray>
+								</FieldArray> */}
 
 								<div className="flex justify-center mt-4">
 									<Button
