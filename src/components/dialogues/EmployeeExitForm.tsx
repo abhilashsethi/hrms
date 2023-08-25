@@ -163,7 +163,7 @@ const EmployeeExitForm = ({ open, handleClose, userId, mutate }: Props) => {
 				</IconButton>
 			</DialogTitle>
 			<DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-				<div className="md:w-[40rem] w-[72vw] md:px-4 px-2 tracking-wide">
+				<div className="md:w-[50rem] w-[72vw] md:px-4 px-2 tracking-wide">
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}
