@@ -73,7 +73,6 @@ const TypeEmailContainer = ({
       let attachmentUrl: string[] = [];
       try {
         //if attachments are present then upload the file and get ur
-
         if (value?.attachments?.length) {
           await Promise.all(
             value?.attachments?.map((item: any) => {

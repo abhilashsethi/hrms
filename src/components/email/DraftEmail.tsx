@@ -58,7 +58,7 @@ const DraftEmail = () => {
   const { data, isValidating, mutate, error } = useFetch<SentEmailData>(
     `emails/get/draftEmails/${user?.id}?page=${pageNo}&limit=20` +
       (searchText?.trim()?.length ? `&username=${searchText}` : "") +
-      (sortBy ? `&sortBy=${sortBy}` : "")
+      (sortBy ? `&isRead=${sortBy}` : "")
   );
 
   const handleSelect = (emailId: string) => {

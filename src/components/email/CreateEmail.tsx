@@ -40,7 +40,6 @@ const CreateEmail = (templateId: any) => {
   const { data: draftData, isValidating } = useFetch<EmailType>(
     `emails/${query?.draftId}?draft=true`
   );
-  console.log(draftData);
   const formik = useFormik({
     initialValues: {
       recipients: draftData?.receiver?.id ? [draftData?.receiver] : "",
@@ -265,7 +264,9 @@ const CreateEmail = (templateId: any) => {
               renderInput={(params) => (
                 <TextField
                   value={searchText}
-                  onChange={(e) => setSearchText(e?.target?.value)}
+                  onChange={(e) => {
+                    setSearchText(e?.target?.value), setSearchText("");
+                  }}
                   {...params}
                   size="small"
                   fullWidth
@@ -357,7 +358,9 @@ const CreateEmail = (templateId: any) => {
               renderInput={(params) => (
                 <TextField
                   value={searchText}
-                  onChange={(e) => setSearchText(e?.target?.value)}
+                  onChange={(e) => {
+                    setSearchText(e?.target?.value), setSearchText("");
+                  }}
                   {...params}
                   size="small"
                   fullWidth
@@ -431,7 +434,9 @@ const CreateEmail = (templateId: any) => {
               renderInput={(params) => (
                 <TextField
                   value={searchText}
-                  onChange={(e) => setSearchText(e?.target?.value)}
+                  onChange={(e) => {
+                    setSearchText(e?.target?.value), setSearchText("");
+                  }}
                   {...params}
                   size="small"
                   fullWidth
