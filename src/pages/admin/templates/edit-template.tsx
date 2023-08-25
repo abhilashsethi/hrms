@@ -1,14 +1,12 @@
+import { RemoveRedEye, SendToMobile } from "@mui/icons-material";
 import { Breadcrumbs, Typography } from "@mui/material";
-import Link from "next/link";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useRef } from "react";
 import EmailEditor from "react-email-editor";
-import { RemoveRedEye, SendToMobile } from "@mui/icons-material";
-import { useRouter } from "next/router";
-import { MailTemplate } from "types";
-import { useChange, useFetch } from "hooks";
 import Swal from "sweetalert2";
-import { Loader } from "components/core";
 
 const EditTemplate = () => {
   const emailEditorRef = useRef<any>(null);

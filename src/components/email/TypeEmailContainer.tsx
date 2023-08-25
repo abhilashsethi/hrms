@@ -144,7 +144,6 @@ const TypeEmailContainer = ({
             })
           );
         }
-
         if (error instanceof Error) {
           Swal.fire({
             title: "Error",
@@ -161,7 +160,7 @@ const TypeEmailContainer = ({
       }
     },
   });
-
+  console.log(formik?.values?.attachments);
   const handleRemoveFile = (slNumber: number) => {
     //filter out this number of index and set other value
     formik?.setFieldValue(
@@ -319,7 +318,10 @@ const TypeEmailContainer = ({
           />
           <button
             className="flex gap-4 items-center hover:scale-95 transition-all border border-secondary-500 ease-in-out duration-300 hover:bg-secondary-600 justify-center bg-secondary-500 text-white px-4 py-2 rounded-md shadow-lg "
-            onClick={() => attachRef?.current?.click()}
+            onClick={() => {
+              attachRef?.current?.click();
+              console.log("button clicked");
+            }}
           >
             <AttachFile />
             <span className="text-sm hidden md:flex">Attach</span>
@@ -330,7 +332,6 @@ const TypeEmailContainer = ({
             onClick={() => {
               formik?.setFieldValue("isDraft", true);
               formik?.submitForm();
-              console.log("button clicked");
             }}
             type="submit"
           >
