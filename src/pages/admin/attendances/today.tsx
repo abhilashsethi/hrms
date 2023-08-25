@@ -107,7 +107,7 @@ const TodayAttendance = () => {
   }
   return (
     <PanelLayout title="Today Attendance - Admin Panel">
-      <section className="px-8 py-4">
+      <section className="md:px-8 px-4 py-4">
         <div className="mt-4 lg:flex justify-between">
           <AdminBreadcrumbs links={links} />
           <div className="lg:flex gap-4 items-center">

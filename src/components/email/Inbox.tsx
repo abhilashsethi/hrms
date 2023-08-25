@@ -40,7 +40,7 @@ const Inbox = () => {
   const { data, isValidating, mutate, error } = useFetch<InboxDataType>(
     `emails/getMyInbox/${user?.id}?page=${pageNo}&limit=20&isReceiverDelete=false` +
       (searchText?.trim()?.length ? `&userName=${searchText}` : "") +
-      (typeof sortBy !== "undefined" ? `&sortBy=${sortBy}` : "")
+      (typeof sortBy !== "undefined" ? `&isRead=${sortBy}` : "")
   );
 
   const handleSelect = (emailId: string) => {

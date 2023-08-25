@@ -6,7 +6,6 @@ import { EmailType } from "types";
 const EmailReplyContainer = ({ data }: { data?: EmailType }) => {
   const [replay, setReply] = useState(false);
   const [isForwarding, setIsForwarding] = useState(false);
-
   return (
     <>
       <TypeEmailContainer
