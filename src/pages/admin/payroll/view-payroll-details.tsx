@@ -87,11 +87,9 @@ const ViewPayrollDetails = () => {
 		  Configs?.conveyanceAllowances +
 		  Configs?.medicalAllowances
 		: "---";
-	// console.log(All_Allowances);
 
 	const Special_Allowance =
 		Gross_Salary > All_Allowances ? Gross_Salary - All_Allowances : 0;
-
 	const payroll = [
 		{
 			id: 1,

@@ -122,11 +122,7 @@ const MainChatViewContainer = () => {
           )}
         </>
       ))}
-      {totalChatCount === currentChatMessage?.length ? (
-        <h3 className="w-full flex items-centre pt-2 justify-center text-center">
-          No more messages
-        </h3>
-      ) : (
+      {totalChatCount === currentChatMessage?.length ? null : (
         <div className="w-full flex items-centre pt-2 justify-center">
           <Chip
             avatar={

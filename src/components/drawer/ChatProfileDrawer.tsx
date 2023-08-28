@@ -317,10 +317,20 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                               </h1>
                             </div>
                             {item?.isAdmin ? (
-                              <div className="w-2/5">
-                                <button className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
-                                  Group Admin
-                                </button>
+                              <div className="flex gap-3 w-2/5">
+                                <div className="">
+                                  <button className="text-xs text-green-500 bg-green-200 px-2 py-1 rounded-md">
+                                    Group Admin
+                                  </button>
+                                </div>
+                                {profileData?.chatMembers?.find(
+                                  (item) => item?.user?.id === user?.id
+                                )?.isAdmin && (
+                                  <MoreMenuAdmin
+                                    data={item}
+                                    profileData={profileData}
+                                  />
+                                )}
                               </div>
                             ) : (
                               profileData?.chatMembers?.find(
@@ -513,6 +523,109 @@ const MoreMenu = ({ data, profileData }: MenuProps) => {
         }}
       >
         <MenuItem onClick={() => createAdmin()}>Create Admin</MenuItem>
+        <MenuItem onClick={() => handleRemove()}>Remove Member</MenuItem>
+      </Menu>
+    </div>
+  );
+};
+const MoreMenuAdmin = ({ data, profileData }: MenuProps) => {
+  const {
+    revalidateChatProfileDetails,
+    revalidateCurrentChat,
+    reValidateGroupChat,
+  } = useChatData();
+  const { change } = useChange();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleRemove = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to remove this member!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await change(`chat/member/${data?.id}`, {
+            method: "DELETE",
+          });
+          if (res?.status !== 201) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          revalidateChatProfileDetails(profileData?.id);
+          revalidateCurrentChat(profileData?.id);
+          reValidateGroupChat();
+          Swal.fire(`Success`, "Member removed!", "success");
+          return;
+        } catch (error) {
+          console.log(error);
+        } finally {
+        }
+      }
+    });
+  };
+
+  const createAdmin = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to make admin!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, make!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await change(`chat/member/${profileData?.id}`, {
+            body: {
+              memberId: data?.user?.id,
+              role: "user",
+            },
+          });
+          if (res?.status !== 201) {
+            Swal.fire(`Error`, "Something went wrong!", "error");
+            return;
+          }
+          revalidateChatProfileDetails(profileData?.id);
+          reValidateGroupChat();
+          revalidateCurrentChat(profileData?.id);
+          Swal.fire(`Success`, "Created as admin", "success");
+          return;
+        } catch (error) {
+          console.log(error);
+        } finally {
+        }
+      }
+    });
+  };
+
+  return (
+    <div className="">
+      <IconButton onClick={handleClick} size="small">
+        <KeyboardArrowDown />
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={() => createAdmin()}>Dismiss as admin</MenuItem>
         <MenuItem onClick={() => handleRemove()}>Remove Member</MenuItem>
       </Menu>
     </div>
