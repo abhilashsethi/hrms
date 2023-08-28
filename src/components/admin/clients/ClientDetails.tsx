@@ -31,7 +31,6 @@ const ClientDetails = () => {
     mutate,
     isLoading,
   } = useFetch<Client>(`clients/${router?.query?.id}`);
-  console.log(clientData);
   const { data: ticketsData } = useFetch<any>(
     `tickets?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
   );
@@ -52,7 +51,6 @@ const ClientDetails = () => {
         <RenderIconRow
           value={`${clientData?.email ? clientData?.email : "---"}`}
           isEmail
-          longText
         />
       ),
     },
@@ -123,8 +121,8 @@ const ClientDetails = () => {
       <section className="">
         <div className="grid lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
-            <div className="w-full rounded-lg bg-white shadow-xl p-4">
-              <div className="w-full bg-blue-100/50 rounded-lg p-8">
+            <div className="w-full rounded-lg bg-white shadow-xl md:p-4 p-1">
+              <div className="w-full bg-blue-100/50 rounded-lg md:p-8 p-3">
                 <div className="grid lg:grid-cols-2 gap-4">
                   <div className="tracking-wide w-full h-full">
                     <p className="font-semibold tracking-wide">

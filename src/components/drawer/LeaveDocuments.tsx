@@ -37,7 +37,6 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
     dialogue: false,
     title: "Preview",
   });
-  console.log(data);
   return (
     <>
       <DocPreview
