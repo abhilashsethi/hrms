@@ -157,7 +157,6 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
     });
   };
   const approveLeave = (id: string) => {
-    console.log(isValue);
     Swal.fire({
       title: "Are you sure?",
       text: "You want to approve!",
