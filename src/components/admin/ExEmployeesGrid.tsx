@@ -100,34 +100,7 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
       console.log(error);
     }
   };
-  // const handleBlock = async (
-  // 	e: ChangeEvent<HTMLInputElement>,
-  // 	userId: string
-  // ) => {
-  // 	Swal.fire({
-  // 		title: "Are you sure?",
-  // 		text: "You want to update status?",
-  // 		icon: "warning",
-  // 		showCancelButton: true,
-  // 		confirmButtonColor: "#3085d6",
-  // 		cancelButtonColor: "#d33",
-  // 		confirmButtonText: "Yes, update!",
-  // 	}).then(async (result) => {
-  // 		if (result.isConfirmed) {
-  // 			const res = await change(`users/${userId}`, {
-  // 				method: "PATCH",
-  // 				body: { isBlocked: !e.target?.checked },
-  // 			});
-  // 			mutate();
-  // 			if (res?.status !== 200) {
-  // 				Swal.fire(`Error`, "Something went wrong!", "error");
-  // 				return;
-  // 			}
-  // 			Swal.fire(`Success`, "Status updated successfully!", "success");
-  // 			return;
-  // 		}
-  // 	});
-  // };
+
   return (
     <div className="h-full relative bg-white w-full rounded-xl flex flex-col gap-1.5 py-6 tracking-wide items-center justify-center shadow-xl hover:scale-105 ease-in-out transition-all duration-200">
       <ExitEmployeeDetails
