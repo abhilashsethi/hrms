@@ -25,7 +25,6 @@ const AssetHistoryMoreOption = ({ open, data, item, handleClose }: Props) => {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 	const { change } = useChange();
-	// console.log(item);
 	return (
 		<Dialog
 			onClose={handleClose}
