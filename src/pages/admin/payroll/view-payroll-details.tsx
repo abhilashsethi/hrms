@@ -43,7 +43,7 @@ const ViewPayrollDetails = () => {
 	const { data: lossOfPay } = useFetch<any>(
 		`leaves/loss-of-pay/${router?.query?.id}?month=${month}&year=${year}`
 	);
-	console.log(lossOfPay);
+	// console.log(lossOfPay);
 	const totalDaysInMonth = getDaysInMonth(year, month);
 	const totalWorkingDay =
 		totalDaysInMonth === 31 ? 22 : totalDaysInMonth === 30 ? 21 : 20;
@@ -62,9 +62,9 @@ const ViewPayrollDetails = () => {
 	const Professional_Tax = Configs?.ptTaxes?.find(
 		(item: any) =>
 			Gross_Salary >= item?.startGrossSalary &&
-			Gross_Salary <= item?.endGrossSalary
+			Gross_Salary <= (item?.endGrossSalary ? item.endGrossSalary : Infinity)
 	);
-
+	console.log(Configs);
 	const Tds: any = employData?.tds;
 	const Tds_Amount =
 		Gross_Salary - (Configs?.conveyanceAllowances + Configs?.medicalAllowances);
