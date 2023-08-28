@@ -82,7 +82,7 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
                 </h2>
                 <h1 className="font-semibold mt-4">Ends At</h1>
                 <h2 className="text-gray-600 tracking-wide">
-                  {moment(data?.endDate).format("ll")}
+                  {moment.utc(data?.endDate).format("ll")}
                 </h2>
               </>
             ) : (

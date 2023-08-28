@@ -77,7 +77,9 @@ export function RenderIconRow({
       </div>
 
       {isCopied && (
-        <div className="bg-green-500 text-sm rounded-lg text-white font-semibold p-1">Copied!</div>
+        <div className="bg-green-500 text-sm rounded-lg text-white font-semibold p-1">
+          Copied!
+        </div>
       )}
     </>
   );

@@ -21,7 +21,7 @@ const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
         ticket={ticketsData}
         isLoading={isLoading}
       />
-      <div className="md:flex justify-between">
+      <div className="flex justify-between">
         <HeadText
           title={`Tickets (${ticketsData ? ticketsData?.length : 0})`}
         />
