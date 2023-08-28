@@ -13,7 +13,6 @@ import {
   AdminBreadcrumbs,
   GridAndList,
   Loader,
-  LoaderAnime,
   SkeletonLoader,
 } from "components/core";
 import { CreateTechnology } from "components/dialogues";
