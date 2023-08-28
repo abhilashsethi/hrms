@@ -1,20 +1,20 @@
 import { Check, Close } from "@mui/icons-material";
 import {
-	Autocomplete,
-	Box,
-	Button,
-	CircularProgress,
-	Dialog,
-	DialogContent,
-	DialogTitle,
-	FormControl,
-	FormControlLabel,
-	IconButton,
-	MenuItem,
-	Radio,
-	RadioGroup,
-	TextField,
-	Tooltip,
+  Autocomplete,
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  FormControlLabel,
+  IconButton,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  TextField,
+  Tooltip,
 } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { Form, Formik } from "formik";
@@ -27,117 +27,118 @@ import { uploadFile } from "utils";
 import * as Yup from "yup";
 
 interface Props {
-	open: boolean;
-	handleClose: any;
-	mutate?: any;
+  open: boolean;
+  handleClose: any;
+  mutate?: any;
 }
 
 const validationSchema = Yup.object({
-	userId: Yup.string().required("Select an employee"),
-	startDate: Yup.string()
-		.required("Please enter date")
-		.test("minimum-date", "You Can apply leave only 1 day before!", (value) => {
-			const currentDate = new Date();
-			const selectedDate = new Date(value);
-			const minDate = new Date();
-			minDate.setDate(currentDate.getDate());
-			return selectedDate >= minDate;
-		}),
-	reason: Yup.string().required("Required!"),
-	type: Yup.string().required("Required!"),
+  userId: Yup.string().required("Select an employee"),
+  startDate: Yup.string()
+    .required("Please enter date")
+    .test("minimum-date", "You Can apply leave only 1 day before!", (value) => {
+      const currentDate = new Date();
+      const selectedDate = new Date(value);
+      const minDate = new Date();
+      minDate.setDate(currentDate.getDate());
+      return selectedDate >= minDate;
+    }),
+  reason: Yup.string().required("Required!"),
+  type: Yup.string().required("Required!"),
 });
 const CreateLeave = ({ open, handleClose, mutate }: Props) => {
-	const initialValues = {
-		type: "",
-		startDate: "",
-		reason: "",
-		link: "",
-		endDate: null,
-		userId: "",
-		variant: "FullDay",
-		leaveMonth: `${moment(new Date().toISOString()).format("MMMM")}`,
-		leaveYear: `${moment(new Date().toISOString()).format("YYYY")}`,
-	};
-	const { change } = useChange();
-	const [loading, setLoading] = useState(false);
-	const [value, setValue] = useState("FullDay");
-	const { data: usersData } = useFetch<User>(`users`);
-	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue((event.target as HTMLInputElement).value);
-	};
-	const today = new Date();
-	today.setDate(today.getDate() + 1); // Get the next day's date
+  const initialValues = {
+    type: "",
+    startDate: "",
+    reason: "",
+    link: "",
+    endDate: null,
+    userId: "",
+    variant: "FullDay",
+    leaveMonth: `${moment(new Date().toISOString()).format("MMMM")}`,
+    leaveYear: `${moment(new Date().toISOString()).format("YYYY")}`,
+  };
+  const { change } = useChange();
+  const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState("FullDay");
+  const { data: usersData } = useFetch<User>(`users`);
+  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setValue((event.target as HTMLInputElement).value);
+  };
+  const today = new Date();
+  today.setDate(today.getDate() + 1); // Get the next day's date
 
-	const handleSubmit = async (values: any, { resetForm }: any) => {
-		const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
-			if (key !== "link" && value) {
-				acc[key] = value;
-			}
-			return acc;
-		}, {});
-		setLoading(true);
-		try {
-			if (values?.link) {
-				const dtype = values?.link && values?.link?.type.split("/")[1];
-				const url =
-					values?.link &&
-					(await uploadFile(values?.link, `${Date.now()}.${dtype}`));
-				const res = await change(`leaves`, {
-					body: {
-						...reqValue,
-						startDate: new Date(values?.startDate).toISOString(),
-						docs: [{ link: url, docType: dtype }],
-					},
-				});
-				setLoading(false);
-				if (res?.status !== 201) {
-					Swal.fire(
-						"Error",
-						res?.results?.msg || "Something went wrong!",
-						"error"
-					);
-					setLoading(false);
-					return;
-				}
-				Swal.fire(`Success`, `Leave Added Successfully!`, `success`);
-				mutate();
-				setValue("FullDay");
-				resetForm();
-				handleClose();
-				return;
-			} else {
-				const res = await change(`leaves`, {
-					body: {
-						...reqValue,
-						startDate: new Date(values?.startDate).toISOString(),
-					},
-				});
-				console.log(res);
-				setLoading(false);
-				if (res?.status !== 201) {
-					Swal.fire(
-						"Error",
-						res?.results?.msg || "Something went wrong!",
-						"error"
-					);
-					setLoading(false);
-					return;
-				}
-				Swal.fire(`Success`, `Leave Added Successfully!`, `success`);
-				mutate();
-				setValue("FullDay");
-				resetForm();
-				handleClose();
-				return;
-			}
-		} catch (error) {
-			console.log(error);
-			setLoading(false);
-		} finally {
-			setLoading(false);
-		}
-	};
-	return (
+  const handleSubmit = async (values: any, { resetForm }: any) => {
+    const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
+      if (key !== "link" && value) {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+    setLoading(true);
+    console.log(reqValue);
+    try {
+      if (values?.link) {
+        const dtype = values?.link && values?.link?.type.split("/")[1];
+        const url =
+          values?.link &&
+          (await uploadFile(values?.link, `${Date.now()}.${dtype}`));
+        const res = await change(`leaves`, {
+          body: {
+            ...reqValue,
+            startDate: new Date(values?.startDate).toISOString(),
+            docs: [{ link: url, docType: dtype }],
+          },
+        });
+        setLoading(false);
+        if (res?.status !== 201) {
+          Swal.fire(
+            "Error",
+            res?.results?.msg || "Something went wrong!",
+            "error"
+          );
+          setLoading(false);
+          return;
+        }
+        Swal.fire(`Success`, `Leave Added Successfully!`, `success`);
+        mutate();
+        setValue("FullDay");
+        resetForm();
+        handleClose();
+        return;
+      } else {
+        const res = await change(`leaves`, {
+          body: {
+            ...reqValue,
+            startDate: new Date(values?.startDate).toISOString(),
+          },
+        });
+        console.log(res);
+        setLoading(false);
+        if (res?.status !== 201) {
+          Swal.fire(
+            "Error",
+            res?.results?.msg || "Something went wrong!",
+            "error"
+          );
+          setLoading(false);
+          return;
+        }
+        Swal.fire(`Success`, `Leave Added Successfully!`, `success`);
+        mutate();
+        setValue("FullDay");
+        resetForm();
+        handleClose();
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return (
     <Dialog
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
@@ -391,7 +392,7 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
                       >
                         {variants.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
-                            {option.value}
+                            {option.name}
                           </MenuItem>
                         ))}
                       </TextField>
@@ -450,10 +451,10 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
 
 export default CreateLeave;
 const variants = [
-	{ id: 1, value: "First Half" },
-	{ id: 2, value: "Second Half" },
+  { id: 1, value: "FirstHalf", name: "First Half" },
+  { id: 2, value: "SecondHalf", name: "Second Half" },
 ];
 const types = [
-	{ id: 1, value: "Casual" },
-	{ id: 2, value: "Sick" },
+  { id: 1, value: "Casual" },
+  { id: 2, value: "Sick" },
 ];
