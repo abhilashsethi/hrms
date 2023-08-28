@@ -246,6 +246,7 @@ const LeavesColumn = ({ data, mutate }: Props) => {
                   name: _?.user?.name,
                   photo: _?.user?.photo ? _?.user?.photo : null,
                   role: _?.user?.role,
+                  createdAt: moment(_?.createdAt).format("lll"),
                 }))
           }
           options={{
@@ -263,6 +264,7 @@ const LeavesColumn = ({ data, mutate }: Props) => {
               title: "Photo",
               tooltip: "Photo",
               searchable: true,
+              export: false,
               field: "photo",
               render: (item) => (
                 <PhotoViewerSmall
