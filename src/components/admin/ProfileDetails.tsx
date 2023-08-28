@@ -89,14 +89,26 @@ const ProfileDetails = () => {
       {
         id: 19,
         title: "Email",
-        value: employData?.username ? employData?.username : "---",
+        value: (
+          <RenderIconRow
+            value={employData?.username ? employData?.username : "---"}
+            isEmail
+            longText
+          />
+        ),
         copy: true,
         isCut: false,
       },
       {
         id: 2,
         title: "Personal Email",
-        value: employData?.email ? employData?.email : "---",
+        value: (
+          <RenderIconRow
+            value={employData?.email ? employData?.email : "---"}
+            isEmail
+            longText
+          />
+        ),
         copy: true,
         isCut: false,
       },
@@ -119,17 +131,11 @@ const ProfileDetails = () => {
       {
         id: 4,
         title: "Date Of Joining",
-        value: (
-          <RenderIconRow
-            value={`${
-              employData?.joiningDate
-                ? moment(employData?.joiningDate).format("ll")
-                : "---"
-            }`}
-            isEmail
-            longText
-          />
-        ),
+        value: `${
+          employData?.joiningDate
+            ? moment(employData?.joiningDate).format("ll")
+            : "---"
+        }`,
       },
       {
         id: 5,
