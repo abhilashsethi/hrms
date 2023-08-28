@@ -18,11 +18,11 @@ import { useState } from "react";
 
 const AllProjects = () => {
 	const { user } = useAuth();
-	const [clientName, setClientName] = useState<any>([]);
+	const [clientName, setClientName] = useState<any>(null);
 	const [projectName, setProjectName] = useState(null);
 	const [bugStatus, setBugStatus] = useState(null);
-	const [Technologies, setTechnologies] = useState<any>([]);
-	const [empName, setEmpName] = useState<any>([]);
+	const [Technologies, setTechnologies] = useState<any>(null);
+	const [empName, setEmpName] = useState<any>(null);
 	const [isTech, setIsTech] = useState(false);
 	const [pageNumber, setPageNumber] = useState<number>(1);
 	const [status, setStatus] = useState(null);
@@ -101,7 +101,7 @@ const AllProjects = () => {
 								setProjectName(null);
 								setTechnologies(null);
 								setEmpName(null);
-								setIsBug(null);
+								// setIsBug(null);
 								setStatus(null);
 								setBugStatus(null);
 							}}
@@ -113,7 +113,7 @@ const AllProjects = () => {
 									status !== null ||
 									bugStatus !== null ||
 									Technologies != null ||
-									isBug != null ||
+									// isBug != null ||
 									empName != null
 										? `Remove Filters`
 										: `Filter`
@@ -124,7 +124,7 @@ const AllProjects = () => {
 								status !== null ||
 								bugStatus !== null ||
 								Technologies != null ||
-								isBug != null ||
+								// isBug != null ||
 								empName != null ? (
 									<Close className={"!text-white"} />
 								) : (
@@ -191,7 +191,7 @@ const AllProjects = () => {
 									setProjectName(null);
 									setTechnologies(null);
 									setEmpName(null);
-									setIsBug(null);
+									// setIsBug(null);
 									setStatus(null);
 									setBugStatus(null);
 								}}
@@ -204,7 +204,7 @@ const AllProjects = () => {
 								status !== null ||
 								bugStatus !== null ||
 								Technologies != null ||
-								isBug != null ||
+								// isBug != null ||
 								empName != null ? (
 									<Close className={"!text-white"} />
 								) : (
