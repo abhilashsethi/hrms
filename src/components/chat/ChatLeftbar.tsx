@@ -473,6 +473,7 @@ const Contacts = () => {
         totalMembers: 2,
         isNewChat: true,
         id: user?.id,
+        role: user?.role?.name,
       });
     } catch (error) {}
   };

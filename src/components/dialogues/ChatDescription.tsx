@@ -27,7 +27,7 @@ const ChatDescription = ({ open, handleClose }: Props) => {
   const { change } = useChange();
   const formik = useFormik({
     initialValues: {
-      description: currentChatProfileDetails?.description || "",
+      description: currentChatProfileDetails?.description?.trim() || "",
     },
     enableReinitialize: true,
     validationSchema: yup.object({

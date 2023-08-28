@@ -34,7 +34,9 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
     {
       id: 1,
       title: `${
-        currentChatProfileDetails?.isGroupBlocked ? "Unblock" : "Block User"
+        currentChatProfileDetails?.blockedBy?.includes(String(user?.id))
+          ? "Unblock"
+          : "Block User"
       }`,
       icon: <Block fontSize="small" />,
       privateOnly: true,
@@ -144,7 +146,9 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
           const blockUser = await change(`chat/blocked/${selectedChatId}`, {
             method: "PATCH",
             body: {
-              isBlocked: !currentChatProfileDetails?.isGroupBlocked,
+              isBlocked: !currentChatProfileDetails?.blockedBy?.includes(
+                String(user?.id)
+              ),
             },
           });
           revalidateCurrentChat(selectedChatId);
@@ -203,15 +207,39 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
             <h1 className="font-semibold">
               {currentChatProfileDetails?.title}
             </h1>
-            <h1 className="text-sm font-light">
-              {currentChatProfileDetails?.isGroupBlocked ? null : currentChatProfileDetails?.isPrivateGroup ? (
-                <span
-                  className={`${
-                    currentChatProfileDetails?.chatMembers?.find((item) =>
-                      item?.isClient
-                        ? item?.client?.id !== user?.id
-                        : item?.user?.id !== user?.id
-                    )?.isClient
+            {currentChatProfileDetails?.isNewChat ? (
+              currentChatProfileDetails?.role
+            ) : (
+              <h1 className="text-sm font-light">
+                {currentChatProfileDetails?.isGroupBlocked ? null : currentChatProfileDetails?.isPrivateGroup ? (
+                  <span
+                    className={`${
+                      currentChatProfileDetails?.chatMembers?.find((item) =>
+                        item?.isClient
+                          ? item?.client?.id !== user?.id
+                          : item?.user?.id !== user?.id
+                      )?.isClient
+                        ? currentChatProfileDetails?.chatMembers?.find((item) =>
+                            item?.isClient
+                              ? item?.client?.id !== user?.id
+                              : item?.user?.id !== user?.id
+                          )?.client?.isOnline
+                        : currentChatProfileDetails?.chatMembers?.find((item) =>
+                            item?.isClient
+                              ? item?.client?.id !== user?.id
+                              : item?.user?.id !== user?.id
+                          )?.user?.isOnline
+                        ? "text-green-500"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {typingUser?.length
+                      ? "Typing..."
+                      : currentChatProfileDetails?.chatMembers?.find((item) =>
+                          item?.isClient
+                            ? item?.client?.id !== user?.id
+                            : item?.user?.id !== user?.id
+                        )?.isClient
                       ? currentChatProfileDetails?.chatMembers?.find((item) =>
                           item?.isClient
                             ? item?.client?.id !== user?.id
@@ -222,72 +250,53 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
                             ? item?.client?.id !== user?.id
                             : item?.user?.id !== user?.id
                         )?.user?.isOnline
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
-                >
-                  {typingUser?.length
-                    ? "Typing..."
-                    : currentChatProfileDetails?.chatMembers?.find((item) =>
-                        item?.isClient
-                          ? item?.client?.id !== user?.id
-                          : item?.user?.id !== user?.id
-                      )?.isClient
-                    ? currentChatProfileDetails?.chatMembers?.find((item) =>
-                        item?.isClient
-                          ? item?.client?.id !== user?.id
-                          : item?.user?.id !== user?.id
-                      )?.client?.isOnline
-                    : currentChatProfileDetails?.chatMembers?.find((item) =>
-                        item?.isClient
-                          ? item?.client?.id !== user?.id
-                          : item?.user?.id !== user?.id
-                      )?.user?.isOnline
-                    ? "Active Now"
-                    : `Last seen at ${
-                        (currentChatProfileDetails?.chatMembers?.find((item) =>
-                          item?.isClient
-                            ? item?.client?.id !== user?.id
-                            : item?.user?.id !== user?.id
-                        )?.isClient
-                          ? formatChatTime(
-                              currentChatProfileDetails?.chatMembers?.find(
-                                (item) =>
-                                  item?.isClient
-                                    ? item?.client?.id !== user?.id
-                                    : item?.user?.id !== user?.id
-                              )?.client?.lastActiveTime
-                            )
-                          : formatChatTime(
-                              currentChatProfileDetails?.chatMembers?.find(
-                                (item) =>
-                                  item?.user
-                                    ? item?.user?.id !== user?.id
-                                    : item?.client?.id !== user?.id
-                              )?.user?.lastActiveTime
-                            )) || "unknown"
-                      }`}
-                </span>
-              ) : (
-                <span className="">
-                  {typingUser?.length
-                    ? `${typingUser} is typing`
-                    : currentChatProfileDetails?.chatMembers
-                        ?.filter((item) => !item?.isPastMember)
-                        ?.slice(0, 5)
-                        ?.map((item) => item?.user?.name)
-                        .join(", ") +
-                      (currentChatProfileDetails?.chatMembers?.filter(
-                        (item) => !item?.isPastMember
-                      )?.length &&
-                      currentChatProfileDetails?.chatMembers?.filter(
-                        (item) => !item?.isPastMember
-                      )?.length > 5
-                        ? " and others."
-                        : "")}{" "}
-                </span>
-              )}
-            </h1>
+                      ? "Active Now"
+                      : `Last seen  ${
+                          (currentChatProfileDetails?.chatMembers?.find(
+                            (item) =>
+                              item?.isClient
+                                ? item?.client?.id !== user?.id
+                                : item?.user?.id !== user?.id
+                          )?.isClient
+                            ? formatChatTime(
+                                currentChatProfileDetails?.chatMembers?.find(
+                                  (item) =>
+                                    item?.isClient
+                                      ? item?.client?.id !== user?.id
+                                      : item?.user?.id !== user?.id
+                                )?.client?.lastActiveTime
+                              )
+                            : formatChatTime(
+                                currentChatProfileDetails?.chatMembers?.find(
+                                  (item) =>
+                                    item?.user
+                                      ? item?.user?.id !== user?.id
+                                      : item?.client?.id !== user?.id
+                                )?.user?.lastActiveTime
+                              )) || "unknown"
+                        }`}
+                  </span>
+                ) : (
+                  <span className="">
+                    {typingUser?.length
+                      ? `${typingUser} is typing`
+                      : currentChatProfileDetails?.chatMembers
+                          ?.filter((item) => !item?.isPastMember)
+                          ?.slice(0, 5)
+                          ?.map((item) => item?.user?.name)
+                          .join(", ") +
+                        (currentChatProfileDetails?.chatMembers?.filter(
+                          (item) => !item?.isPastMember
+                        )?.length &&
+                        currentChatProfileDetails?.chatMembers?.filter(
+                          (item) => !item?.isPastMember
+                        )?.length > 5
+                          ? " and others."
+                          : "")}{" "}
+                  </span>
+                )}
+              </h1>
+            )}
           </div>
         </div>
         <div>

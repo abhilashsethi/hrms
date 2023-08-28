@@ -47,8 +47,11 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
       if (values?.image) {
         try {
           setLoading(true);
-          const dtype = values?.image?.type.split("/")[1];
-          const url = await uploadFile(values?.image, `${Date.now()}.${dtype}`);
+          const dtype = values?.image?.name?.split(".")?.at(-1);
+          const url = await uploadFile(
+            values?.image,
+            `${values?.image?.name?.split(".")[0]}-${Date.now()}.${dtype}`
+          );
 
           if (currentChatProfileDetails?.isNewChat) {
             handleSendNewMessage({

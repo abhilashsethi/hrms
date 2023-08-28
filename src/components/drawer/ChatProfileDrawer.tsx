@@ -41,11 +41,16 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
     revalidateChatProfileDetails,
     reValidateGroupChat,
     selectedChatId,
+    currentChatProfileDetails,
   } = useChatData();
   const configs = [
     {
       id: 1,
-      title: `${profileData?.isGroupBlocked ? "Unblock" : "Block User"}`,
+      title: `${
+        profileData?.blockedBy?.includes(String(user?.id))
+          ? "Unblock"
+          : "Block User"
+      }`,
       icon: <Block fontSize="small" />,
       privateOnly: true,
     },
@@ -107,7 +112,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
           const blockUser = await change(`chat/blocked/${selectedChatId}`, {
             method: "PATCH",
             body: {
-              isBlocked: !profileData?.isGroupBlocked,
+              isBlocked: !profileData?.blockedBy?.includes(String(user?.id)),
             },
           });
           revalidateCurrentChat(selectedChatId);
@@ -149,6 +154,20 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
         default:
           break;
       }
+    } catch (error) {}
+  };
+
+  const removeChatDescription = async () => {
+    try {
+      await change(`chat/${currentChatProfileDetails?.id}`, {
+        method: "PATCH",
+        body: {
+          description: "      ",
+        },
+      });
+      currentChatProfileDetails?.id &&
+        revalidateChatProfileDetails(currentChatProfileDetails?.id);
+      Swal.fire(`Success`, `Description removed!`, `success`);
     } catch (error) {}
   };
 
@@ -258,14 +277,24 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                   <div className="my-4">
                     <div className="flex justify-between items-center">
                       <SectionTitle title="Group Description" />
-                      <Tooltip title="Edit">
-                        <IconButton
-                          onClick={() => setIsDescription(true)}
-                          size="small"
-                        >
-                          <Edit />
-                        </IconButton>
-                      </Tooltip>
+                      <div className="flex gap-4 pr-4 items-center">
+                        <Tooltip title="Edit">
+                          <IconButton
+                            onClick={() => setIsDescription(true)}
+                            size="small"
+                          >
+                            <Edit />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                          <IconButton
+                            onClick={removeChatDescription}
+                            size="small"
+                          >
+                            <Delete />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
                     </div>
                     <p className="mt-2 pl-4 text-gray-600">
                       {profileData?.description}
@@ -325,12 +354,13 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                                 </div>
                                 {profileData?.chatMembers?.find(
                                   (item) => item?.user?.id === user?.id
-                                )?.isAdmin && (
-                                  <MoreMenuAdmin
-                                    data={item}
-                                    profileData={profileData}
-                                  />
-                                )}
+                                )?.isAdmin &&
+                                  item?.user?.id !== user?.id && (
+                                    <MoreMenuAdmin
+                                      data={item}
+                                      profileData={profileData}
+                                    />
+                                  )}
                               </div>
                             ) : (
                               profileData?.chatMembers?.find(
