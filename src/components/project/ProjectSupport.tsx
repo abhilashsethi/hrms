@@ -56,7 +56,7 @@ const ProjectSupport = () => {
 								<span
 									className={`${
 										data?.isResolved ? `bg-green-500` : `bg-red-500`
-									}  font-semibold text-white px-4 rounded-md`}
+									}  font-semibold text-white lg:text-md text-sm px-4 rounded-md`}
 								>
 									{data?.isResolved ? "Yes" : "No"}
 								</span>
@@ -71,12 +71,10 @@ const ProjectSupport = () => {
 						<h1 className="font-semibold text-slate-700 text-sm">
 							{data?.title}
 						</h1>
-						<div className="flex justify-between">
-							<h1 className="text-sm font-semibold text-theme mt-2">
-								User Info :
-							</h1>
+						<div className="flex justify-between items-center">
+							<h1 className="text-sm font-semibold text-theme">User Info :</h1>
 							<Link href={`/admin/clients/view-ticket-details?id=${data?.id}`}>
-								<button className="bg-theme-400 hover:bg-theme-500 px-3 py-1 rounded-lg shadow-md text-white font-semibold hover:translate-x-1 delay-75 transition-all">
+								<button className="bg-theme-400 hover:bg-theme-500 lg:px-3 lg:py-1 px-1 py-0 rounded-lg shadow-md text-white font-semibold hover:translate-x-1 delay-75 transition-all lg:text-md text-xs">
 									View details
 								</button>
 							</Link>

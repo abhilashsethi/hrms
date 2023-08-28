@@ -496,7 +496,11 @@ const CreateAssets = () => {
 													className="!bg-theme"
 													disabled={loading}
 													startIcon={
-														loading ? <CircularProgress size={20} /> : <Check />
+														loading ? (
+															<CircularProgress color="secondary" size={20} />
+														) : (
+															<Check />
+														)
 													}
 												>
 													SUBMIT
