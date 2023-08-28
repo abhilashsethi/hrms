@@ -81,7 +81,7 @@ const UpdateGuestBasicDetails = ({ open, handleClose, mutate }: Props) => {
       >
         <DialogTitle
           id="customized-dialog-title"
-          sx={{ p: 2, minWidth: "40rem !important" }}
+          // sx={{ p: 2, minWidth: "40rem !important" }}
         >
           <p className="text-center text-md font-bold text-theme te tracking-wide">
             UPDATE
@@ -102,7 +102,7 @@ const UpdateGuestBasicDetails = ({ open, handleClose, mutate }: Props) => {
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 3 }}>
-          <div className="md:w-[50rem] w-[72vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-4">
+          <div className="md:w-[50rem] w-full md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-4">
             <div className="flex flex-col items-center w-full">
               <Formik
                 initialValues={initialValues}
