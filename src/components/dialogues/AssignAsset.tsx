@@ -57,7 +57,6 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 	const { data: userData } = useFetch<User[]>(
 		`users?branchId=${assetData?.branchId}`
 	);
-	// console.log(assetData);
 	const handleSubmit = async (values: any, { resetForm }: any) => {
 		setLoading(true);
 		try {
