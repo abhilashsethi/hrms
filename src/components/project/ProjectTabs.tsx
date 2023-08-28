@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import {
 	AssignmentTurnedIn,
 	BugReport,
@@ -14,19 +14,44 @@ import { useAuth } from "hooks";
 interface Props {
 	projectId?: any;
 }
+type Orientation = "horizontal" | "vertical"; // Define the custom type
 const ProjectTabs = ({ projectId }: Props) => {
 	const { user } = useAuth();
 	const [value, setValue] = useState("2");
+	const [orientation, setOrientation] = useState<Orientation>("horizontal");
 	const handleChange = (event: SyntheticEvent, newValue: string) => {
 		setValue(newValue);
 	};
+
+	useEffect(() => {
+		// Check screen width and set orientation
+		const handleResize = () => {
+			if (window.innerWidth <= 768) {
+				setOrientation("vertical");
+			} else {
+				setOrientation("horizontal");
+			}
+		};
+
+		handleResize(); // Set initial orientation
+		window.addEventListener("resize", handleResize);
+
+		// Clean up event listener on unmount
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
 
 	return (
 		<div className="w-full border-2 mt-8 rounded-md">
 			<div>
 				<TabContext value={value}>
 					<Box sx={{ borderColor: "divider" }}>
-						<TabList onChange={handleChange} aria-label="lab API tabs example">
+						<TabList
+							orientation={orientation}
+							onChange={handleChange}
+							aria-label="lab API tabs example"
+						>
 							{user?.isClient ? null : (
 								<Tab
 									sx={{ width: "30%" }}
