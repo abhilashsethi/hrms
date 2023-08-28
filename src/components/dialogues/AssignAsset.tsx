@@ -149,7 +149,6 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 									setFieldValue,
 								}) => (
 									<Form>
-										{/* {console.log(values)} */}
 										<div className="grid lg:grid-cols-2">
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="py-2">
