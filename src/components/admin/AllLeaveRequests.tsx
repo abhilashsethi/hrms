@@ -35,7 +35,6 @@ const AllLeaveRequests = () => {
   };
   const handleInfoCloseModal = () => setOpenInfoModal(false);
   const { data: leaveData } = useFetch<User[]>(`leaves/credits`);
-  console.log(leaveData);
   return (
     <section className="mt-8">
       <MaterialTable

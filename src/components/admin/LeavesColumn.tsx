@@ -42,11 +42,10 @@ const LeavesColumn = ({ data, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const [rloading, setRLoading] = useState(false);
   const [isDocuments, setIsDocuments] = useState(false);
-  const [value, setValue] = useState("unPaid");
-  const [isValue, setIsValue] = useState(false);
+  const [isValue, setIsValue] = useState(true);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsValue(event.target.value === "paid");
   };
   const approveLeave = (id: string) => {
     Swal.fire({
@@ -247,6 +246,7 @@ const LeavesColumn = ({ data, mutate }: Props) => {
                   name: _?.user?.name,
                   photo: _?.user?.photo ? _?.user?.photo : null,
                   role: _?.user?.role,
+                  createdAt: moment(_?.createdAt).format("lll"),
                 }))
           }
           options={{
@@ -264,6 +264,7 @@ const LeavesColumn = ({ data, mutate }: Props) => {
               title: "Photo",
               tooltip: "Photo",
               searchable: true,
+              export: false,
               field: "photo",
               render: (item) => (
                 <PhotoViewerSmall

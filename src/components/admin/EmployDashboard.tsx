@@ -30,12 +30,9 @@ const EmployDashboard = () => {
   }>(`cards/dashboard/details`);
 
   const { data: projectData } = useFetch<Projects[]>(`projects`);
-
   const { data: employeeData } = useFetch<User[]>(`users`);
-
   const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
   const roleData = employeeDetails?.departmentWiseUsers;
-  // console.log(employeeDetails);
   const cards = [
     {
       id: 1,

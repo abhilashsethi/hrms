@@ -20,6 +20,7 @@ import { User } from "types";
 import EmpAttendanceIndividual from "./EmpAttendanceIndividual";
 import EmployProjects from "./EmployProjects";
 import EmployLeaves from "./EmployLeaves";
+import { RenderIconRow } from "components/common";
 
 const ProfileDetails = () => {
   const { user } = useAuth();
@@ -88,14 +89,26 @@ const ProfileDetails = () => {
       {
         id: 19,
         title: "Email",
-        value: employData?.username ? employData?.username : "---",
+        value: (
+          <RenderIconRow
+            value={employData?.username ? employData?.username : "---"}
+            isEmail
+            longText
+          />
+        ),
         copy: true,
         isCut: false,
       },
       {
         id: 2,
         title: "Personal Email",
-        value: employData?.email ? employData?.email : "---",
+        value: (
+          <RenderIconRow
+            value={employData?.email ? employData?.email : "---"}
+            isEmail
+            longText
+          />
+        ),
         copy: true,
         isCut: false,
       },
