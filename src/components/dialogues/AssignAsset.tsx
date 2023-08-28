@@ -1,30 +1,26 @@
+import { Check, Close, CloudUpload } from "@mui/icons-material";
 import {
 	Autocomplete,
 	Box,
 	Button,
-	Checkbox,
 	CircularProgress,
 	Dialog,
 	DialogContent,
 	DialogTitle,
-	FormControlLabel,
-	FormGroup,
 	IconButton,
 	InputLabel,
-	MenuItem,
 	TextField,
 	Tooltip,
 } from "@mui/material";
+import { ErrorMessage, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
-import { useRouter } from "next/router";
-import { Formik, Form, FieldArray, ErrorMessage, Field } from "formik";
-import * as Yup from "yup";
-import { Check, Close, CloudUpload } from "@mui/icons-material";
-import Swal from "sweetalert2";
 import moment from "moment";
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { uploadFile } from "utils";
+import Swal from "sweetalert2";
 import { User } from "types";
+import { uploadFile } from "utils";
+import * as Yup from "yup";
 
 interface Props {
 	open: any;
@@ -112,8 +108,8 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 	return (
 		<>
 			<Dialog
+				className=""
 				onClose={handleClose}
-				maxWidth="xl"
 				aria-labelledby="customized-dialog-title"
 				open={open}
 			>
@@ -136,7 +132,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 						</Tooltip>
 					</IconButton>
 				</DialogTitle>
-				<DialogContent className="app-scrollbar" sx={{ p: 3 }}>
+				<DialogContent className="p-3 app-scrollbar" sx={{ p: 2 }}>
 					<div className="w-full tracking-wide flex flex-col gap-3 text-sm py-4">
 						<div className="flex flex-col items-center w-full">
 							<Formik
@@ -170,7 +166,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 													getOptionLabel={(option: any) =>
 														option.name ? option.name : ""
 													}
-													isOptionEqualToValue={(option:any, value) =>
+													isOptionEqualToValue={(option: any, value) =>
 														option?.id === value?.userId
 													}
 													value={
@@ -281,7 +277,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 													helperText={touched.returnDate && errors.returnDate}
 												/>
 											</div> */}
-											<div className="md:px-4 px-2 md:py-2 py-1 col-span-2">
+											<div className="md:px-4 px-2 md:py-2 py-1 md:col-span-2">
 												<div className="py-2">
 													<InputLabel htmlFor="reason">
 														Reason
@@ -301,7 +297,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 													helperText={touched.reason && errors.reason}
 												/>
 											</div>
-											<div className="md:px-4 px-2 md:py-2 py-1 col-span-2">
+											<div className="md:px-4 px-2 md:py-2 py-1 md:col-span-2">
 												<div className="py-2">
 													<InputLabel htmlFor="remarks">
 														Remarks<span className="text-red-600">*</span>
@@ -325,7 +321,7 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 												/>
 											</div>
 
-											<div className="col-span-2 md:px-4 px-2 md:py-2 py-1">
+											<div className="md:col-span-2 md:px-4 px-2 md:py-2 py-1">
 												<p className="text-gray-500 mb-2">
 													Assigned Time Photos
 													<span className="text-red-600">*</span>
@@ -387,7 +383,11 @@ const AssignAsset = ({ open, handleClose, mutate, assetData }: Props) => {
 												className="!bg-theme"
 												disabled={loading}
 												startIcon={
-													loading ? <CircularProgress size={20} /> : <Check />
+													loading ? (
+														<CircularProgress size={20} color="secondary" />
+													) : (
+														<Check />
+													)
 												}
 											>
 												SUBMIT
