@@ -12,6 +12,7 @@ const EmployLeaves = ({ employData }: Props) => {
   const { data: leaveDetails } = useFetch<any[]>(
     `leaves?employeeID=${employData?.employeeID}`
   );
+
   console.log(leaveData);
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
@@ -64,7 +65,7 @@ const EmployLeaves = ({ employData }: Props) => {
       <HeadText title="Recent" />
       {leaveDetails?.length === 0 && <NoDatas title="No leaves yet!" />}
       <div className="mt-2 flex flex-col gap-1 py-2 max-h-60 overflow-y-auto px-2">
-        {leaveDetails?.slice(0, 4)?.map((item, i) => (
+        {leaveDetails?.slice(0, 6)?.map((item, i) => (
           <div
             key={i}
             className="h-20 w-full border-2 rounded-md p-2 flex gap-4"
@@ -100,5 +101,3 @@ const EmployLeaves = ({ employData }: Props) => {
 };
 
 export default EmployLeaves;
-
-const leaves = [1, 2, 3, 4];

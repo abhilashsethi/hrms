@@ -20,6 +20,7 @@ import { User } from "types";
 import EmpAttendanceIndividual from "./EmpAttendanceIndividual";
 import EmployProjects from "./EmployProjects";
 import EmployLeaves from "./EmployLeaves";
+import { RenderIconRow } from "components/common";
 
 const ProfileDetails = () => {
   const { user } = useAuth();
@@ -118,11 +119,17 @@ const ProfileDetails = () => {
       {
         id: 4,
         title: "Date Of Joining",
-        value: `${
-          employData?.joiningDate
-            ? moment(employData?.joiningDate).format("ll")
-            : "---"
-        }`,
+        value: (
+          <RenderIconRow
+            value={`${
+              employData?.joiningDate
+                ? moment(employData?.joiningDate).format("ll")
+                : "---"
+            }`}
+            isEmail
+            longText
+          />
+        ),
       },
       {
         id: 5,
