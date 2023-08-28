@@ -107,7 +107,7 @@ const AllAssets = () => {
             />
             {branchId ? (
               <>
-                <section className=" px-8 py-4">
+                <section className=" md:px-8 px-4 py-4">
                   <div className="lg:flex justify-between items-center py-4">
                     <AdminBreadcrumbs links={links} />
                     <div className="md:flex gap-4 items-center">
