@@ -509,7 +509,9 @@ const Contacts = () => {
           <div
             key={item?.id}
             className={` ${
-              selectedChatId === item?.id ? "bg-slate-100" : ""
+              selectedChatId === (item?.id || item?.alreadyConnected?.groupId)
+                ? "bg-slate-100"
+                : ""
             } h-16 w-full hover:bg-slate-100 transition-all ease-in-out duration-200 cursor-pointer flex gap-2 items-center px-2 py-2`}
             onClick={() => handleClickNewUser(item)}
           >
