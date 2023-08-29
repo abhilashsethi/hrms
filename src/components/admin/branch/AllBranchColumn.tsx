@@ -20,6 +20,8 @@ interface Props {
 }
 
 const AllBranchColumn = ({ data, mutate }: Props) => {
+	console.log(data);
+
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
 	const { user } = useAuth();
@@ -114,6 +116,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
 								sl: i + 1,
 								updatedAt: new Date(_?.updatedAt).toLocaleString(),
 								createdAt: new Date(_?.createdAt).toLocaleString(),
+								manager: _?.manager?.name,
 						  }))
 						: []
 				}
@@ -133,11 +136,12 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
 					{
 						title: "Manager",
 						tooltip: "Manager",
-						render: (data) => {
-							return (
-								<span>{data?.manager?.name ? data?.manager?.name : "---"}</span>
-							);
-						},
+						field: "manager",
+						// render: (data) => {
+						// 	return (
+						// 		<span>{data?.manager?.name ? data?.manager?.name : "---"}</span>
+						// 	);
+						// },
 					},
 					{
 						title: "Email",

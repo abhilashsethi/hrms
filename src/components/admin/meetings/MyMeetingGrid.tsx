@@ -41,7 +41,10 @@ const MyMeetingGrid = ({ data, mutate }: Props) => {
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
 				{data?.map((items: any) => (
-					<div className="relative py-4 bg-white w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
+					<div
+						key={items?.id}
+						className="relative py-4 bg-white w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl"
+					>
 						<CardComponent items={items} mutate={mutate} />
 						<div className="md:px-4 px-2">
 							<div className="flex justify-between items-center">
