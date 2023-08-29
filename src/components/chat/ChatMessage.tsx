@@ -43,7 +43,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
         onClose={() => setIsSeen(false)}
       />
 
-      <div className="max-w-[70%] min-w-[30%] flex gap-1">
+      <div className=" max-w-[95%] md:max-w-[70%] min-w-[30%] flex gap-1">
         <div className="w-[15%] h-10 flex justify-center items-start">
           <div className="h-8 w-8 rounded-full overflow-hidden">
             {data?.sender?.id === user?.id ? null : (
