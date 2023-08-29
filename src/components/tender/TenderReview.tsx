@@ -17,7 +17,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { CHATDOC } from "assets/home";
+import { CHATDOC, PDF } from "assets/home";
 import { Loader, PhotoViewerSmall } from "components/core";
 import {
   AddTenderDocument,
@@ -205,8 +205,8 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
       {tenderData?.members?.length ? (
         <>
           {filteredMember ? (
-            <div className="w-80 rounded-md border-theme border-2 mt-3 p-4">
-              <div className="mt-2 rounded-md p-2 flex gap-4 items-center">
+            <div className="md:w-80 w-full rounded-md border-theme border-2 mt-3 md:p-4 p-2">
+              <div className="md:mt-2 rounded-md p-2 md:flex grid justify-items-center gap-4 items-center">
                 <PhotoViewerSmall
                   name={filteredMember?.member?.name}
                   size="3.5rem"
@@ -219,7 +219,7 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                   </h1>
                 </div>
               </div>
-              <div className="mt-2 flex justify-center gap-2">
+              <div className="mt-2 md:flex grid justify-center gap-2">
                 <Link
                   href={`/admin/employees/profile/${filteredMember?.member?.id}`}
                 >
@@ -247,7 +247,7 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
               </div>
             </div>
           ) : (
-            <div className="w-80">
+            <div className="md:w-80 w-full">
               <div className="grid py-6 justify-center justify-items-center">
                 <p className="text-lg font-semibold">No Member Assigned</p>
                 <div className="flex justify-end mb-2">
@@ -270,7 +270,7 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
           )}
         </>
       ) : (
-        <div className="w-80">
+        <div className="md:w-80 w-full">
           <div className="grid py-6 justify-center justify-items-center">
             <p className="text-lg font-semibold">No Member Assigned</p>
             <div className="flex justify-end mb-2">
@@ -303,92 +303,173 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                 Add Document
               </Button>
             </div>
-            <table className="w-full">
-              <tbody className="border-2">
-                <tr className="border-b-2">
-                  <th className="w-[10%] text-sm font-semibold py-2 border-r-2">
-                    S.No
-                  </th>
-                  <th className="w-[40%] text-sm border-r-2">Document Name</th>
-                  <th className="w-[30%] text-sm border-r-2">Document</th>
-                  <th className="w-[20%] text-sm">Actions</th>
-                </tr>
+            <div className="overflow-x-auto hidden md:block">
+              <table className="w-full">
+                <tbody className="border-2">
+                  <tr className="border-b-2">
+                    <th className="w-[10%] text-sm font-semibold py-2 border-r-2">
+                      S.No
+                    </th>
+                    <th className="w-[40%] text-sm border-r-2">
+                      Document Name
+                    </th>
+                    <th className="w-[30%] text-sm border-r-2">Document</th>
+                    <th className="w-[20%] text-sm">Actions</th>
+                  </tr>
+                  {tenderData?.documents?.length ? (
+                    <>
+                      {tenderData?.documents?.map((item, index) => (
+                        <tr key={item?.id} className="border-b-2">
+                          <td
+                            align="center"
+                            className="w-[10%] text-sm py-2 border-r-2"
+                          >
+                            {Number(index) + 1}
+                          </td>
+                          <td
+                            align="center"
+                            className="w-[40%] text-sm border-r-2"
+                          >
+                            {item?.title}
+                          </td>
+                          <td
+                            align="center"
+                            className="w-[30%] text-sm border-r-2"
+                          >
+                            <div className="flex gap-2 items-center justify-center">
+                              <img
+                                className="h-6 object-contain"
+                                src={CHATDOC.src}
+                                alt=""
+                              />
+                              <p className="text-xs">
+                                {item?.link?.slice(0, 9)}
+                                {item?.link?.length > 9 ? "..." : null}
+                              </p>
+                            </div>
+                          </td>
+                          <td align="center" className="w-[20%] text-sm">
+                            <div className="flex gap-1 py-2 justify-center">
+                              <Tooltip title="Download Document">
+                                <a
+                                  className="cursor-pointer flex flex-col items-center justify-center"
+                                  href={`${item?.link}`}
+                                >
+                                  <IconButton size="small">
+                                    <Download />
+                                  </IconButton>
+                                </a>
+                              </Tooltip>
+                              <Tooltip title="Edit Document">
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    setIsUpdateDocument({
+                                      dialogue: true,
+                                      tenderData: item,
+                                    });
+                                  }}
+                                >
+                                  <Edit />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Delete Document">
+                                <IconButton size="small">
+                                  <Delete onClick={() => handleDelete(item)} />
+                                </IconButton>
+                              </Tooltip>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </>
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="flex justify-center px-2 py-6">
+                        No Document
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+            <div className="block md:hidden w-full">
+              <div className="grid grid-cols-1 gap-4 py-6">
                 {tenderData?.documents?.length ? (
                   <>
                     {tenderData?.documents?.map((item, index) => (
-                      <tr key={item?.id} className="border-b-2">
-                        <td
-                          align="center"
-                          className="w-[10%] text-sm py-2 border-r-2"
-                        >
-                          {Number(index) + 1}
-                        </td>
-                        <td
-                          align="center"
-                          className="w-[40%] text-sm border-r-2"
-                        >
-                          {item?.title}
-                        </td>
-                        <td
-                          align="center"
-                          className="w-[30%] text-sm border-r-2"
-                        >
-                          <div className="flex gap-2 items-center justify-center">
-                            <img
-                              className="h-6 object-contain"
-                              src={CHATDOC.src}
-                              alt=""
-                            />
-                            <p className="text-xs">
-                              {item?.link?.slice(0, 9)}
-                              {item?.link?.length > 9 ? "..." : null}
-                            </p>
+                      <>
+                        <div className="bg-white text-sm rounded-lg shadow-lg">
+                          <div className="h-36 rounded-t-lg bg-gradient-to-r from-theme-400 to-cyan-300 flex gap-4 justify-center items-center justify-items-center">
+                            <div>
+                              <img src={PDF.src} className="h-14 w-14" />
+                              <p className="text-xs text-white">
+                                {item?.link?.slice(0, 9)}
+                                {item?.link?.length > 9 ? "..." : null}
+                              </p>
+                            </div>
                           </div>
-                        </td>
-                        <td align="center" className="w-[20%] text-sm">
-                          <div className="flex gap-1 py-2 justify-center">
-                            <Tooltip title="Download Document">
-                              <a
-                                className="cursor-pointer flex flex-col items-center justify-center"
-                                href={`${item?.link}`}
-                              >
-                                <IconButton size="small">
-                                  <Download />
-                                </IconButton>
-                              </a>
-                            </Tooltip>
-                            <Tooltip title="Edit Document">
-                              <IconButton
-                                size="small"
-                                onClick={() => {
-                                  setIsUpdateDocument({
-                                    dialogue: true,
-                                    tenderData: item,
-                                  });
-                                }}
-                              >
-                                <Edit />
-                              </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Delete Document">
-                              <IconButton size="small">
-                                <Delete onClick={() => handleDelete(item)} />
-                              </IconButton>
-                            </Tooltip>
+                          <div className="px-4 py-2">
+                            <div className="flex gap-3 pt-2">
+                              <span className=" font-semibold">S.No :</span>
+                              <span>{Number(index) + 1}</span>
+                            </div>
+                            <div className="grid gap-2">
+                              <span className=" font-semibold">
+                                Document Name :
+                              </span>
+                              <span>{item?.title}</span>
+                            </div>
+
+                            <div className="grid gap-2">
+                              <span className=" font-semibold">Actions :</span>
+                              <div className="flex gap-1 py-2 justify-center">
+                                <Tooltip title="Download Document">
+                                  <a
+                                    className="cursor-pointer flex flex-col items-center justify-center"
+                                    href={`${item?.link}`}
+                                  >
+                                    <IconButton size="small">
+                                      <Download />
+                                    </IconButton>
+                                  </a>
+                                </Tooltip>
+                                <Tooltip title="Edit Document">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => {
+                                      setIsUpdateDocument({
+                                        dialogue: true,
+                                        tenderData: item,
+                                      });
+                                    }}
+                                  >
+                                    <Edit />
+                                  </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Delete Document">
+                                  <IconButton size="small">
+                                    <Delete
+                                      onClick={() => handleDelete(item)}
+                                    />
+                                  </IconButton>
+                                </Tooltip>
+                              </div>
+                            </div>
                           </div>
-                        </td>
-                      </tr>
+                        </div>
+                      </>
                     ))}
                   </>
                 ) : (
-                  <tr>
-                    <td colSpan={4} className="flex justify-center px-2 py-6">
+                  <div>
+                    <span className="flex justify-center px-2 py-6">
                       No Document
-                    </td>
-                  </tr>
+                    </span>
+                  </div>
                 )}
-              </tbody>
-            </table>
+              </div>
+            </div>
           </div>
         </TenderLayout>
       </div>
@@ -421,7 +502,7 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                 </RadioGroup>
               </div>
             </div>
-            <div className="w-1/2">
+            <div className="md:w-1/2 w-full">
               <h1 className="font-semibold">Reason </h1>
               <TextField
                 multiline

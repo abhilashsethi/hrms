@@ -59,6 +59,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
   const { data: leaveData } = useFetch<any>(
     `leaves/credits?userId=${user?.id}`
   );
+  console.log({ leaveData });
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
@@ -191,7 +192,9 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
                       CL Credits Left -
                     </p>
                     <span className="bg-red-500 text-white font-semibold px-2 rounded-lg">
-                      {leaveData[0]?.leavesData?.casualLeaveCarryOver}
+                      {leaveData?.length
+                        ? leaveData[0]?.leavesData?.casualLeaveCarryOver
+                        : 0}
                     </span>
                   </div>
                   <div className="flex gap-x-4 my-2">
@@ -199,7 +202,9 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
                       SL Credits Left -
                     </p>
                     <span className="bg-red-500 text-white font-semibold px-2 rounded-lg">
-                      {leaveData[0]?.leavesData?.sickLeaveCarryOver}
+                      {leaveData?.length
+                        ? leaveData[0]?.leavesData?.sickLeaveCarryOver
+                        : 0}
                     </span>
                   </div>
                 </div>
