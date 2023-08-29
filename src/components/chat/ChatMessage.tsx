@@ -286,6 +286,7 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
           <div className="flex gap-2 items-center py-1 px-2">
             {emojis?.map((item) => (
               <span
+                key={item?.id}
                 onClick={() => {
                   handleReact(item?.text);
                 }}

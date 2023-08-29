@@ -325,6 +325,7 @@ const ReturnAsset = ({
 														{assetData?.assetType == "Laptop"
 															? checkListForLaptop?.map((item, i) => (
 																	<FormControlLabel
+																		key={i}
 																		control={<Checkbox />}
 																		label={item?.label}
 																		name={item?.value}
@@ -343,6 +344,7 @@ const ReturnAsset = ({
 															: assetData?.assetType == "Mouse"
 															? checkListForMouse?.map((item, i) => (
 																	<FormControlLabel
+																		key={i}
 																		control={<Checkbox />}
 																		label={item?.label}
 																		name={item?.value}
@@ -361,6 +363,7 @@ const ReturnAsset = ({
 															: assetData?.assetType == "Monitor"
 															? checkListForMonitor?.map((item, i) => (
 																	<FormControlLabel
+																		key={i}
 																		control={<Checkbox />}
 																		label={item?.label}
 																		name={item?.value}
@@ -379,6 +382,7 @@ const ReturnAsset = ({
 															: assetData?.assetType == "KeyBoard"
 															? checkListForKeyboard?.map((item, i) => (
 																	<FormControlLabel
+																		key={i}
 																		control={<Checkbox />}
 																		label={item?.label}
 																		name={item?.value}
@@ -397,6 +401,7 @@ const ReturnAsset = ({
 															: assetData?.assetType == "other"
 															? other?.map((item, i) => (
 																	<FormControlLabel
+																		key={i}
 																		control={<Checkbox />}
 																		label={item?.label}
 																		name={item?.value}
@@ -414,6 +419,7 @@ const ReturnAsset = ({
 															  ))
 															: other?.map((item, i) => (
 																	<FormControlLabel
+																		key={i}
 																		control={<Checkbox />}
 																		label={item?.label}
 																		name={item?.value}

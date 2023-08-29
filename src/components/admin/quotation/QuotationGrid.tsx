@@ -116,7 +116,10 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
 				{data?.map((item: any) => (
-					<div className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl bg-gradient-to-r from-rose-100 to-teal-100">
+					<div
+						key={item?.id}
+						className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl bg-gradient-to-r from-rose-100 to-teal-100"
+					>
 						<div className="relative">
 							<p
 								className={`absolute top-2 z-50 rounded-r-xl 

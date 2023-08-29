@@ -83,7 +83,10 @@ const ViewConfig = () => {
 									<div className="pt-3">
 										{configData[0]?.ptTaxes?.map((item: any) => {
 											return (
-												<div className="flex py-1 gap-3 w-full text-lg">
+												<div
+													key={item?.id}
+													className="flex py-1 gap-3 w-full text-lg"
+												>
 													<p>
 														<span className="text-gray-700">Form : </span>
 														{item?.startGrossSalary}

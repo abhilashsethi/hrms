@@ -57,6 +57,7 @@ const SingleImage = ({ values, setImageValue, children }: Props) => {
 					{imagePreviewUrls?.length &&
 						imagePreviewUrls?.map((item: any) => (
 							<img
+								key={item?.id}
 								className="w-24 object-contain"
 								src={URL?.createObjectURL(item)}
 								alt="Preview"

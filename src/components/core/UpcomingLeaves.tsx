@@ -40,17 +40,19 @@ const UpcomingLeaves = ({ data, employeeDetails }: any) => {
 					return (
 						<div
 							key={i}
-							className={`md:w-1/3 h-28 flex justify-center shadow-md items-center flex-col gap-3 rounded-lg ${item?.type === "Casual"
-								? "bg-gradient-to-br from-emerald-400 to-emerald-200"
-								: "bg-gradient-to-br from-red-400 to-red-200"
-								}`}
+							className={`md:w-1/3 h-28 flex justify-center shadow-md items-center flex-col gap-3 rounded-lg ${
+								item?.type === "Casual"
+									? "bg-gradient-to-br from-emerald-400 to-emerald-200"
+									: "bg-gradient-to-br from-red-400 to-red-200"
+							}`}
 						>
 							<p className="text-lg font-semibold tracking-wide">
 								{item?._count ? item?._count : 0}
 							</p>
 							<p
-								className={`text-sm font-semibold tracking-wide ${item?.type === "Casual" ? "text-green-700" : "text-red-700"
-									}`}
+								className={`text-sm font-semibold tracking-wide ${
+									item?.type === "Casual" ? "text-green-700" : "text-red-700"
+								}`}
 							>
 								{item?.type && `${(item?.type).toUpperCase()} LEAVE`}
 							</p>
@@ -70,7 +72,10 @@ const UpcomingLeaves = ({ data, employeeDetails }: any) => {
 				<div className="w-full mt-4 md:flex flex-col gap-2">
 					{employeeDetails?.allAbsentUsers?.length &&
 						employeeDetails?.allAbsentUsers?.map((item: any) => (
-							<div className="w-full border-2 tracking-wide p-4 rounded-lg">
+							<div
+								key={item?.id}
+								className="w-full border-2 tracking-wide p-4 rounded-lg"
+							>
 								<div className="flex gap-4 items-center">
 									<div className="h-12 w-12 bg-slate-300 rounded-full overflow-hidden shadow-lg">
 										<img

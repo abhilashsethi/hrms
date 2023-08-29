@@ -175,7 +175,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
 								</td>
 							</tr>
 							{basicDetails?.map((item) => (
-								<tr>
+								<tr key={item?.id}>
 									<td className="w-1/5 text-sm font-semibold py-2">
 										{item?.title}
 									</td>
@@ -217,7 +217,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
 								{quotationData?.works?.length ? (
 									<>
 										{quotationData?.works?.map((item) => (
-											<tr className="border-b-2">
+											<tr key={item?.id} className="border-b-2">
 												<td
 													align="center"
 													className="w-[40%] text-sm border-r-2"
