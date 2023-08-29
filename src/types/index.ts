@@ -127,6 +127,10 @@ export type User = {
   uanNo?: string;
   clientId?: string;
   uanNumber?: string;
+  alreadyConnected?: {
+    blockedBy: string[];
+    groupId: string;
+  };
 };
 
 interface urlTypes {
@@ -570,6 +574,10 @@ export interface IChatGroup {
   isNewChat: boolean;
   role?: string;
   blockedBy?: string[];
+  alreadyConnected: {
+    groupId: string;
+    blockedBy: string[];
+  };
 }
 export interface IChatMember {
   isAdmin: boolean;

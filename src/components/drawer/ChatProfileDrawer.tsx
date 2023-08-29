@@ -42,6 +42,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
     reValidateGroupChat,
     selectedChatId,
     currentChatProfileDetails,
+    reValidatePrivateChat,
   } = useChatData();
   const configs = [
     {
@@ -104,6 +105,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
             selectedChatId && revalidateChatProfileDetails(selectedChatId);
             revalidateCurrentChat(selectedChatId);
             reValidateGroupChat();
+            reValidatePrivateChat();
             break;
           }
           Swal.fire("Info", "You leave this group already", "info");
@@ -127,10 +129,11 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
           selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
           reValidateGroupChat();
+          reValidatePrivateChat();
           onClose();
           break;
 
-        case 4 || 3:
+        case 4:
           const clearChat = await change(
             `chat/message-clear/${selectedChatId}`,
             {
@@ -149,6 +152,27 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
           selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
           reValidateGroupChat();
+          reValidatePrivateChat();
+
+          onClose();
+          break;
+        case 3:
+          const clear = await change(`chat/message-clear/${selectedChatId}`, {
+            method: "POST",
+            BASE_URL,
+          });
+
+          if (clear?.status !== 200) {
+            Swal.fire(
+              "Error",
+              clear?.results?.msg || "Something went wrong!",
+              "error"
+            );
+          }
+          selectedChatId && revalidateChatProfileDetails(selectedChatId);
+          revalidateCurrentChat(selectedChatId);
+          reValidateGroupChat();
+          reValidatePrivateChat();
           onClose();
           break;
         default:

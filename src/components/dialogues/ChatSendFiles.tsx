@@ -33,6 +33,8 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
     handleSendNewMessage,
     currentChatProfileDetails,
     revalidateCurrentChat,
+    reValidateGroupChat,
+    reValidatePrivateChat,
   } = useChatData();
 
   const { socketRef } = useSocket();
@@ -50,7 +52,10 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
           const dtype = values?.image?.name?.split(".")?.at(-1);
           const url = await uploadFile(
             values?.image,
-            `${values?.image?.name?.split(".")[0]}-${Date.now()}.${dtype}`
+            `${values?.image?.name
+              ?.split(".")[0]
+              ?.split(" ")
+              .join("-")}-${Date.now()}.${dtype}`
           );
 
           if (currentChatProfileDetails?.isNewChat) {
@@ -99,6 +104,8 @@ const ChatSendFiles = ({ open, handleClose, sendId }: Props) => {
           setLoading(false);
         } finally {
           setLoading(false);
+          reValidateGroupChat();
+          reValidatePrivateChat();
         }
       }
     },

@@ -30,6 +30,8 @@ const ChatSendCode = ({ open, handleClose, sendId }: Props) => {
     handleSendNewMessage,
     currentChatProfileDetails,
     revalidateCurrentChat,
+    reValidateGroupChat,
+    reValidatePrivateChat,
   } = useChatData();
 
   const { socketRef } = useSocket();
@@ -85,6 +87,8 @@ const ChatSendCode = ({ open, handleClose, sendId }: Props) => {
         setLoading(false);
       } finally {
         setLoading(false);
+        reValidateGroupChat();
+        reValidatePrivateChat();
       }
     }
   };
