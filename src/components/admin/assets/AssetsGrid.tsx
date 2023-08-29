@@ -279,7 +279,7 @@ const MoreOption = ({ item, mutate }: any) => {
 							<>
 								<Slider {...settings} className="">
 									{item?.photos?.map((data: any, k: any) => (
-										<>
+										<div key={k}>
 											<span
 												onClick={() => {
 													setOpen(true), setIsData(data);
@@ -287,7 +287,6 @@ const MoreOption = ({ item, mutate }: any) => {
 												className="lg:h-56 group md:h-36 w-full cursor-pointer relative"
 											>
 												<img
-													key={k}
 													className="lg:h-56 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
 													src={data}
@@ -297,14 +296,14 @@ const MoreOption = ({ item, mutate }: any) => {
 													<Visibility className=" !text-white" />
 												</span>
 											</span>
-										</>
+										</div>
 									))}
 								</Slider>
 							</>
 						) : (
 							<>
-								{item?.photos?.map((data: any, k: any) => (
-									<>
+								{item?.photos?.map((data: any, k: number) => (
+									<div key={k}>
 										<span
 											onClick={() => {
 												setOpen(true), setIsData(data);
@@ -322,7 +321,7 @@ const MoreOption = ({ item, mutate }: any) => {
 												<Visibility className=" !text-white" />
 											</span>
 										</span>
-									</>
+									</div>
 								))}
 							</>
 						)
@@ -354,7 +353,7 @@ const MoreOption = ({ item, mutate }: any) => {
 											)?.();
 										},
 									}}
-									slides={item?.photos?.map((data: any, k: any) => {
+									slides={item?.photos?.map((data: any, k: number) => {
 										return { src: data, download: `${data}?DownloadYet` };
 									})}
 									plugins={[

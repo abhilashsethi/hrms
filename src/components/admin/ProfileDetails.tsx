@@ -1,5 +1,6 @@
 import { Grid, IconButton, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
+import { RenderIconRow } from "components/common";
 import {
   CopyClipboard,
   EmployeeProfileCopyLink,
@@ -14,13 +15,11 @@ import {
 } from "components/dialogues";
 import { useAuth, useFetch } from "hooks";
 import moment from "moment";
-import { useRouter } from "next/router";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { User } from "types";
 import EmpAttendanceIndividual from "./EmpAttendanceIndividual";
-import EmployProjects from "./EmployProjects";
 import EmployLeaves from "./EmployLeaves";
-import { RenderIconRow } from "components/common";
+import EmployProjects from "./EmployProjects";
 
 const ProfileDetails = () => {
   const { user } = useAuth();

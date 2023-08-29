@@ -11,7 +11,7 @@ import {
   SupportAgent,
   WebAsset,
 } from "@mui/icons-material";
-import { Avatar, Grid, Tooltip } from "@mui/material";
+import { Grid, Tooltip } from "@mui/material";
 import { CardAsset } from "assets/home";
 import { NoDatas, PhotoViewer } from "components/core";
 import { useAuth, useFetch } from "hooks";
@@ -110,37 +110,11 @@ const UserDashboardCards = ({ data }: Props) => {
       link: `/admin/support/create-support`,
     },
   ];
-  const leave_status = [
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Pending",
-    },
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Approved",
-    },
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Approved",
-    },
-    {
-      id: 1234,
-      name: "Abhilash",
-      date: "4 May 2023",
-      status: "Approved",
-    },
-  ];
   return (
     <div className="flex gap-2 py-4">
       <div className="w-3/4 ">
         <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
-          {cards?.map((item, index) => (
+          {cards?.map((item) => (
             <Grid key={item?.id} item lg={3} md={6} sm={12} xs={12}>
               <Link href={item?.link}>
                 <div
@@ -168,7 +142,7 @@ const UserDashboardCards = ({ data }: Props) => {
           <div className="flex justify-between px-8 flex-wrap">
             {Quick_Access?.map((item, index) => {
               return (
-                <Tooltip title={item?.title}>
+                <Tooltip title={item?.title} key={index}>
                   <Link
                     href={item?.link}
                     // onClick={item?.onClick}

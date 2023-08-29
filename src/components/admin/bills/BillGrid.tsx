@@ -126,7 +126,10 @@ const BillGrid = ({ data, mutate }: Props) => {
 		<>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
 				{data?.map((item) => (
-					<div className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl">
+					<div
+						key={item?.id}
+						className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl"
+					>
 						<div className="relative">
 							{item?.status ? (
 								<p className="absolute top-2 z-50 rounded-r-xl bg-green-500 text-white text-sm px-2 pr-3 py-1 font-semibold">
