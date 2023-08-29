@@ -9,7 +9,7 @@ import {
   IconButton,
   InputLabel,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
@@ -27,7 +27,12 @@ interface Props {
 interface Input {
   memberId?: string;
 }
-const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Props) => {
+const AddTenderSubmissionMember = ({
+  open,
+  handleClose,
+  mutate,
+  tenderData,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { data: employees } = useFetch<User[]>(`users?departmentName=BID`);
@@ -52,17 +57,13 @@ const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Pr
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
       Swal.fire(`Success`, `You have successfully Created Member!`, `success`);
-      mutate()
-      handleClose()
+      mutate();
+      handleClose();
       return;
     } catch (error) {
       console.log(error);
@@ -78,9 +79,7 @@ const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Pr
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle
-          id="customized-dialog-title"
-        >
+        <DialogTitle id="customized-dialog-title">
           <p className="text-center text-xl font-bold text-theme tracking-wide">
             ADD MEMBER
           </p>
@@ -100,7 +99,7 @@ const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Pr
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-          <div className="md:w-[25rem] w-full md:px-4 px-2 tracking-wide">
+          <div className="md:w-[25rem] w-[72vw] md:px-4 px-2 tracking-wide">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -119,7 +118,8 @@ const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Pr
                   <div className="md:px-4 px-2 md:py-2 py-1">
                     <div className="py-2">
                       <InputLabel htmlFor="note">
-                        Submission Member <span className="text-red-600">*</span>
+                        Submission Member{" "}
+                        <span className="text-red-600">*</span>
                       </InputLabel>
                     </div>
                     <div className="">
@@ -127,22 +127,23 @@ const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Pr
                         options={employees || []}
                         fullWidth
                         size="small"
-                        getOptionLabel={(option) => option.name ? option?.name : ""}
-
-                        onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
-                          setFieldValue("memberId", r?.id)
+                        getOptionLabel={(option) =>
+                          option.name ? option?.name : ""
                         }
+                        onChange={(
+                          e: SyntheticEvent<Element, Event>,
+                          r: User | null
+                        ) => setFieldValue("memberId", r?.id)}
                         renderInput={(params) => (
                           <TextField
                             {...params}
                             name="memberId"
                             placeholder="Select Member"
                             onBlur={handleBlur}
-                            error={
-                              touched.memberId && !!errors.memberId
-                            }
+                            error={touched.memberId && !!errors.memberId}
                             helperText={
-                              Boolean(touched.memberId) && errors.memberId as string
+                              Boolean(touched.memberId) &&
+                              (errors.memberId as string)
                             }
                           />
                         )}
@@ -167,7 +168,6 @@ const AddTenderSubmissionMember = ({ open, handleClose, mutate, tenderData }: Pr
               )}
             </Formik>
           </div>
-
         </DialogContent>
       </Dialog>
     </>

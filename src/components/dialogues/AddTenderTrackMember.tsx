@@ -9,7 +9,7 @@ import {
   IconButton,
   InputLabel,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
@@ -27,7 +27,12 @@ interface Props {
 interface Input {
   memberId?: string;
 }
-const AddTenderTrackMember = ({ open, handleClose, mutate, tenderData }: Props) => {
+const AddTenderTrackMember = ({
+  open,
+  handleClose,
+  mutate,
+  tenderData,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { data: employees } = useFetch<User[]>(`users?departmentName=BID`);
@@ -52,17 +57,13 @@ const AddTenderTrackMember = ({ open, handleClose, mutate, tenderData }: Props) 
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
       Swal.fire(`Success`, `You have successfully Created Member!`, `success`);
-      mutate()
-      handleClose()
+      mutate();
+      handleClose();
       return;
     } catch (error) {
       console.log(error);
@@ -78,9 +79,7 @@ const AddTenderTrackMember = ({ open, handleClose, mutate, tenderData }: Props) 
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle
-          id="customized-dialog-title"
-        >
+        <DialogTitle id="customized-dialog-title">
           <p className="text-center text-xl font-bold text-theme tracking-wide">
             ADD MEMBER
           </p>
@@ -100,7 +99,7 @@ const AddTenderTrackMember = ({ open, handleClose, mutate, tenderData }: Props) 
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-          <div className="md:w-[25rem] w-full md:px-4 px-2 tracking-wide">
+          <div className="md:w-[25rem] w-[72vw] md:px-4 px-2 tracking-wide">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -127,22 +126,23 @@ const AddTenderTrackMember = ({ open, handleClose, mutate, tenderData }: Props) 
                         options={employees || []}
                         fullWidth
                         size="small"
-                        getOptionLabel={(option) => option.name ? option?.name : ""}
-
-                        onChange={(e: SyntheticEvent<Element, Event>, r: User | null) =>
-                          setFieldValue("memberId", r?.id)
+                        getOptionLabel={(option) =>
+                          option.name ? option?.name : ""
                         }
+                        onChange={(
+                          e: SyntheticEvent<Element, Event>,
+                          r: User | null
+                        ) => setFieldValue("memberId", r?.id)}
                         renderInput={(params) => (
                           <TextField
                             {...params}
                             name="memberId"
                             placeholder="Select Member"
                             onBlur={handleBlur}
-                            error={
-                              touched.memberId && !!errors.memberId
-                            }
+                            error={touched.memberId && !!errors.memberId}
                             helperText={
-                              Boolean(touched.memberId) && errors.memberId as string
+                              Boolean(touched.memberId) &&
+                              (errors.memberId as string)
                             }
                           />
                         )}
@@ -167,7 +167,6 @@ const AddTenderTrackMember = ({ open, handleClose, mutate, tenderData }: Props) 
               )}
             </Formik>
           </div>
-
         </DialogContent>
       </Dialog>
     </>
