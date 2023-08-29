@@ -20,7 +20,6 @@ import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useState } from "react";
 import { Tender } from "types";
-
 const TenderDetails = () => {
   const [value, setValue] = useState("1");
   const { user } = useAuth();
