@@ -13,7 +13,7 @@ const EmployLeaves = ({ employData }: Props) => {
     `leaves?employeeID=${employData?.employeeID}`
   );
 
-  console.log(leaveData);
+  console.log({ leaveData });
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
       <HeadText title="Employee Leaves" />
