@@ -221,6 +221,12 @@ export type Pages = {
   createdAt: Date;
   updatedAt: Date;
 };
+export type LeaveCredit = {
+  id?: string;
+  leavesData?: {casualLeaveCarryOver?:number,sickLeaveCarryOver?:number,};
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 
 export type Leave = {
   id?: string;

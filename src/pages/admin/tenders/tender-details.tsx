@@ -116,7 +116,6 @@ const TenderDetails = () => {
             <TabContext value={value}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList
-                  // variant="fullWidth"
                   variant={"scrollable"}
                   scrollButtons={true}
                   onChange={handleChange}

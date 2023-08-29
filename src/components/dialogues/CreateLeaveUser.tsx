@@ -19,13 +19,14 @@ import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
+import { LeaveCredit } from "types";
 import { uploadFile } from "utils";
 import * as Yup from "yup";
 
 interface Props {
   open: boolean;
-  handleClose: any;
-  mutate?: any;
+  handleClose: () => void;
+  mutate: () => void;
 }
 
 const validationSchema = Yup.object({
@@ -56,10 +57,9 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("FullDay");
-  const { data: leaveData } = useFetch<any>(
+  const { data: leaveData } = useFetch<LeaveCredit[]>(
     `leaves/credits?userId=${user?.id}`
   );
-  console.log({ leaveData });
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
   };
@@ -179,13 +179,13 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
               setFieldValue,
             }) => (
               <Form className="w-full">
-                {/* <div className="border-2 border-dashed animate-border border-theme p-2 inline-block rounded-md mb-4">
-									<PriorityHigh className="text-red-600 animate-bounce" />
-									If You are applying{" "}
-									<span className="font-semibold">Sick Leave</span> for next
-									month then , 2 leave-credits will be deduced from your credits
-									.
-								</div> */}
+                <div className="border-2 border-dashed animate-border border-theme p-2 inline-block rounded-md mb-4">
+                  <PriorityHigh className="text-red-600 animate-bounce" />
+                  If You are applying{" "}
+                  <span className="font-semibold">Sick Leave</span> for next
+                  month then , 2 leave-credits will be deduced from your credits
+                  .
+                </div>
                 <div className="flex justify-between">
                   <div className="flex gap-x-4 my-2">
                     <p className="font-medium text-gray-700">
@@ -241,7 +241,6 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
                       value={value}
                       onChange={(e: any) => {
                         handleRadioChange(e);
-                        // setFieldValue("leave", e.target.value);
                         setFieldValue("variant", e.target.value);
                         setFieldValue("startDate", "");
                       }}
@@ -266,7 +265,6 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
                 </div>
                 {errors?.variant && (
                   <h1 className="text-red-500 text-sm text-center">
-                    {/* {errors?.variant} */}
                     {errors?.variant}
                   </h1>
                 )}
@@ -405,7 +403,6 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
                   type="file"
                   name="link"
                   placeholder="Choose Document"
-                  // value={values?.link}
                   onChange={(e: any) =>
                     setFieldValue("link", e?.target?.files[0])
                   }
