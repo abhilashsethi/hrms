@@ -339,11 +339,11 @@ const CreateBills = () => {
 					<AdminBreadcrumbs links={links} />
 				</div>
 				<section className="w-full px-0 md:py-4 py-2 flex justify-center items-center">
-					<div className="md:w-[60rem] w-full bg-white md:px-4 py-4 px-2 tracking-wide rounded-lg shadow-xl">
+					<div className="md:w-[60rem] w-full bg-white md:px-4 py-4 tracking-wide rounded-lg shadow-xl">
 						<p className="text-center text-2xl font-bold text-theme tracking-wide">
 							Create Bill
 						</p>
-						<div className="w-full my-6 py-6  px-20">
+						<div className="w-full my-6 py-6 lg:px-20">
 							<Formik
 								initialValues={initialValues}
 								onSubmit={handleSubmit}
@@ -359,7 +359,7 @@ const CreateBills = () => {
 									setFieldValue,
 								}) => (
 									<Form>
-										<div className="px-4 py-2">
+										<div className="lg:px-4 px-2 py-2">
 											<div className="py-2">
 												<InputLabel htmlFor="billType">
 													Select Bill Type{" "}
@@ -389,7 +389,7 @@ const CreateBills = () => {
 												)}
 											/>
 										</div>
-										<div className="px-4 py-2">
+										<div className="lg:px-4 px-2 py-2">
 											<div className="py-2">
 												<InputLabel htmlFor="branchId">
 													Select Branch
@@ -783,10 +783,10 @@ const CreateBills = () => {
 										) : null}
 										<FieldArray name="inputFields">
 											{({ remove, push }) => (
-												<div className="px-4 py-2 grid gap-2 w-full">
+												<div className="lg:px-4 px-2 py-2 grid gap-2 w-full">
 													{values.inputFields.map((field, index) => (
 														<div
-															className="grid grid-cols-4 gap-2 items-center"
+															className="grid lg:grid-cols-4 gap-2 items-center"
 															key={index}
 														>
 															<Field
