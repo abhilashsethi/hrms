@@ -248,7 +248,10 @@ const CreateProjects = () => {
 													{selectedMembers?.length ? (
 														<div className="flex flex-col gap-2 w-full px-2">
 															{membersData?.map((item: any) => (
-																<div className="h-16 w-full rounded-md shadow-xl bg-white px-2 flex gap-3 items-center">
+																<div
+																	key={item?.id}
+																	className="h-16 w-full rounded-md shadow-xl bg-white px-2 flex gap-3 items-center"
+																>
 																	<div className="h-[2.5rem] w-[2.5rem] rounded-full overflow-hidden shadow-md">
 																		<img
 																			className="h-full w-full object-cover"

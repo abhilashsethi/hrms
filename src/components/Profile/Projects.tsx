@@ -60,9 +60,9 @@ const Projects = ({ projectData, mutate, isLoading, userDetails }: PROPS) => {
 			{isLoading && (
 				<div className="w-full flex gap-2 mb-4">
 					{skeletons?.map((item) => (
-						<>
+						<div key={item?.id}>
 							<SkeletonsStructure key={item?.id} />
-						</>
+						</div>
 					))}
 				</div>
 			)}

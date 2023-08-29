@@ -86,7 +86,10 @@ const SelectManager = ({ open, onClose, setSelectedManager }: Props) => {
 						{searchedUser
 							?.filter((item: any) => item?.role?.name === "PROJECT MANAGER")
 							?.map((item: any) => (
-								<div className="w-full rounded-l-full shadow-xl border-t flex items-center gap-2 px-4 py-2">
+								<div
+									key={item?.id}
+									className="w-full rounded-l-full shadow-xl border-t flex items-center gap-2 px-4 py-2"
+								>
 									<div className="w-1/5">
 										<div className="h-[4rem] w-[4rem] rounded-full overflow-hidden shadow-lg">
 											{item?.photo && (

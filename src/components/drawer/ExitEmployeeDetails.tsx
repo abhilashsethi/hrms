@@ -70,7 +70,7 @@ const ExitEmployeeDetails = ({ open, onClose, data }: Props) => {
 						<div className="flex gap-2 flex-wrap">
 							{data?.exitDocs?.length ? (
 								data?.exitDocs?.map((item: any, i: number) => (
-									<Tooltip title="Click to download">
+									<Tooltip key={i} title="Click to download">
 										<div
 											key={i}
 											onClick={() => window.open(item)}
