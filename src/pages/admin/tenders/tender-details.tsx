@@ -20,6 +20,7 @@ import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { SyntheticEvent, useState } from "react";
 import { Tender } from "types";
+
 const TenderDetails = () => {
   const [value, setValue] = useState("1");
   const { user } = useAuth();
@@ -108,14 +109,16 @@ const TenderDetails = () => {
   ];
   return (
     <PanelLayout title="Tender Details - Admin Panel">
-      <section className="px-8 py-4">
+      <section className="md:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
         <section className="mt-4">
           <Box sx={{ width: "100%", typography: "body1" }}>
             <TabContext value={value}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList
-                  variant="fullWidth"
+                  // variant="fullWidth"
+                  variant={"scrollable"}
+                  scrollButtons={true}
                   onChange={handleChange}
                   aria-label="lab API tabs example"
                 >
@@ -130,8 +133,8 @@ const TenderDetails = () => {
                   ))}
                 </TabList>
               </Box>
-              {tenderSections?.map((item) => (
-                <TabPanel key={item?.id} value={item?.id}>
+              {tenderSections?.map((item, i) => (
+                <TabPanel key={i} value={item?.id}>
                   {item?.component}
                 </TabPanel>
               ))}
