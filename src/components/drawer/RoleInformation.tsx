@@ -1,5 +1,6 @@
-import { EmailRounded, PeopleRounded } from "@mui/icons-material";
-import { Container, Drawer, Grid } from "@mui/material";
+import { makeStyles } from "@material-ui/core";
+import { Close, EmailRounded, PeopleRounded } from "@mui/icons-material";
+import { Container, Drawer, Grid, IconButton } from "@mui/material";
 import { DEFAULTPROFILE } from "assets/home";
 import { Loader, UserLoaderAnime } from "components/core";
 import { useFetch } from "hooks";
@@ -11,16 +12,41 @@ type Props = {
   roleId?: any;
 };
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    width: "100vw",
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: "50vw",
+    },
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "80vw",
+    },
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: "30vw",
+    },
+  },
+}));
 const RoleInformation = ({ open, onClose, roleId }: Props) => {
+  const classes = useStyles();
   const { data: roleInfo, isLoading } = useFetch<Role>(`roles/${roleId}`);
   return (
     <>
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
-        <Container className="lg:w-[30vw] w-full mt-[3.5vh]">
-          <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
-            <PeopleRounded />
-            MEMBERS
-          </p>
+        <Container style={{ marginTop: "1rem" }} className={classes.container}>
+          {/* Drawer Element */}
+          <div className="flex items-center justify-between ">
+            <p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
+              <PeopleRounded />
+              MEMBERS
+            </p>
+            <IconButton onClick={() => onClose()}>
+              <Close
+                fontSize="small"
+                className="text-red-500 block md:hidden"
+              />
+            </IconButton>
+          </div>
+
           {/* {role && (
             <span className="text-sm">
               All Members with{" "}
