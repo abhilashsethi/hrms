@@ -461,7 +461,13 @@ const Contacts = () => {
       (searchText ? `&searchTitle=${searchText}` : "")
   );
 
-  const { selectedChatId, setSelectedChatProfileDetails } = useChatData();
+  const {
+    selectedChatId,
+    setSelectedChatProfileDetails,
+    revalidateChatProfileDetails,
+    setSelectedChatId,
+    revalidateCurrentChat,
+  } = useChatData();
 
   const handleClickNewUser = (user: User) => {
     try {
@@ -471,10 +477,19 @@ const Contacts = () => {
         photo: user?.photo,
         title: user?.name,
         totalMembers: 2,
-        isNewChat: true,
-        id: user?.id,
+        isNewChat: user?.alreadyConnected?.groupId ? false : true,
+        id: user?.alreadyConnected?.groupId || user?.id,
         role: user?.role?.name,
+        alreadyConnected: user?.alreadyConnected,
+        blockedBy: user?.alreadyConnected?.blockedBy || [],
       });
+
+      user?.alreadyConnected?.groupId &&
+        setSelectedChatId(user?.alreadyConnected?.groupId);
+      user?.alreadyConnected?.groupId &&
+        revalidateChatProfileDetails(user?.alreadyConnected?.groupId);
+      user?.alreadyConnected?.groupId &&
+        revalidateCurrentChat(user?.alreadyConnected?.groupId);
     } catch (error) {}
   };
 

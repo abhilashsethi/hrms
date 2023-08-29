@@ -28,6 +28,8 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
     selectedChatId,
     revalidateChatProfileDetails,
     revalidateCurrentChat,
+    reValidatePrivateChat,
+    reValidateGroupChat,
   } = useChatData();
   const { user } = useAuth();
   const configs = [
@@ -138,6 +140,8 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
             }
             revalidateCurrentChat(selectedChatId);
             selectedChatId && revalidateChatProfileDetails(selectedChatId);
+            reValidatePrivateChat();
+            reValidateGroupChat();
             break;
           }
           Swal.fire("Info", "You leave this group already", "info");
@@ -164,6 +168,8 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
           Swal.fire("Success", "Status Changed Successfully!", "success");
           selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
+          reValidatePrivateChat();
+          reValidateGroupChat();
           break;
         case 3:
           const clear = await change(`chat/message-clear/${selectedChatId}`, {
@@ -181,6 +187,9 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
           }
           selectedChatId && revalidateChatProfileDetails(selectedChatId);
           revalidateCurrentChat(selectedChatId);
+          reValidatePrivateChat();
+          reValidateGroupChat();
+
           break;
         default:
           break;
@@ -189,11 +198,14 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
   };
   return (
     <>
-      <ChatProfileDrawer
-        profileData={currentChatProfileDetails}
-        open={isDrawer}
-        onClose={() => setIsDrawer(false)}
-      />
+      {currentChatProfileDetails?.isNewChat ? null : (
+        <ChatProfileDrawer
+          profileData={currentChatProfileDetails}
+          open={isDrawer}
+          onClose={() => setIsDrawer(false)}
+        />
+      )}
+
       <div className="py-2 px-4 w-full border-b-2 flex justify-between items-center sticky top-0 z-[999] bg-white ">
         <div className="flex gap-3 items-center">
           <div className="cursor-pointer" onClick={() => setIsDrawer(true)}>
@@ -299,43 +311,45 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
             )}
           </div>
         </div>
-        <div>
-          <Tooltip title="Menu">
-            <IconButton onClick={handleClick} size="small">
-              <MoreVert />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-          >
-            <MenuItem
-              onClick={() => {
-                setIsDrawer(true);
-                handleClose();
+        {currentChatProfileDetails?.isNewChat ? null : (
+          <div>
+            <Tooltip title="Menu">
+              <IconButton onClick={handleClick} size="small">
+                <MoreVert />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
               }}
             >
-              Details
-            </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setIsDrawer(true);
+                  handleClose();
+                }}
+              >
+                Details
+              </MenuItem>
 
-            {configs
-              ?.filter((item) =>
-                currentChatProfileDetails?.isPrivateGroup
-                  ? item?.privateOnly || !item?.groupOnly
-                  : !item?.privateOnly || item?.groupOnly
-              )
-              ?.map((item) => (
-                <MenuItem onClick={() => handleGroupAction(item?.id)}>
-                  {item?.title}
-                </MenuItem>
-              ))}
-          </Menu>
-        </div>
+              {configs
+                ?.filter((item) =>
+                  currentChatProfileDetails?.isPrivateGroup
+                    ? item?.privateOnly || !item?.groupOnly
+                    : !item?.privateOnly || item?.groupOnly
+                )
+                ?.map((item) => (
+                  <MenuItem onClick={() => handleGroupAction(item?.id)}>
+                    {item?.title}
+                  </MenuItem>
+                ))}
+            </Menu>
+          </div>
+        )}
       </div>
     </>
   );
