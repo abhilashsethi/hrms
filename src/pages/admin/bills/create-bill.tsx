@@ -343,7 +343,7 @@ const CreateBills = () => {
 						<p className="text-center text-2xl font-bold text-theme tracking-wide">
 							Create Bill
 						</p>
-						<div className="w-full my-6 py-6 lg:px-20">
+						<div className="w-full lg:my-6 lg:py-6 lg:px-20">
 							<Formik
 								initialValues={initialValues}
 								onSubmit={handleSubmit}
@@ -889,7 +889,7 @@ const CreateBills = () => {
 												helperText={touched.invoiceDate && errors.invoiceDate}
 											/>
 										</div>
-										<div className="flex justify-center md:py-4 py-2 mt-10">
+										<div className="flex justify-center md:py-4 py-2 lg:mt-10 mt-1">
 											<Button
 												type="submit"
 												variant="contained"
