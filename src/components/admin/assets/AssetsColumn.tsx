@@ -381,6 +381,7 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 														rowData?.photos?.map((item: any, i: any) => {
 															return (
 																<img
+																	key={i}
 																	className="w-36 cursor-pointer"
 																	src={item}
 																	alt=""
@@ -399,7 +400,7 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 													{rowData?.docs?.length ? (
 														rowData?.docs?.map((item: any, i: any) => {
 															return (
-																<a href={item?.link}>
+																<a href={item?.link} key={i}>
 																	<img className="w-10" src={PDF.src} alt="" />
 																</a>
 															);

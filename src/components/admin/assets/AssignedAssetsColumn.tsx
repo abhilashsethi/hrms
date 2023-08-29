@@ -277,7 +277,7 @@ const AssignedAssetsColumn = ({ data, mutate }: Props) => {
 													{rowData?.docs?.length ? (
 														rowData?.docs?.map((item: any, i: any) => {
 															return (
-																<a href={item?.link}>
+																<a href={item?.link} key={i}>
 																	<img className="w-10" src={PDF.src} alt="" />
 																</a>
 															);

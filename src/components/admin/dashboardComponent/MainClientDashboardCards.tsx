@@ -101,7 +101,7 @@ const MainClientDashboardCards = ({ data }: Props) => {
 			<div className=" ">
 				<div className="grid xl:grid-cols-4 w-full lg:grid-cols-3 md:grid-cols-2 gap-4">
 					{cards?.map((item, index) => (
-						<Grid key={item?.id} item lg={3} md={6} sm={12} xs={12}>
+						<Grid key={index} item lg={3} md={6} sm={12} xs={12}>
 							<Link href={item?.link}>
 								<div
 									className={`h-40 ${item?.color} w-full p-4 flex flex-col rounded-xl shadow-xl cursor-pointer hover:scale-105 transition duration-500 ease-in-out relative overflow-hidden`}
@@ -128,7 +128,7 @@ const MainClientDashboardCards = ({ data }: Props) => {
 					<div className="flex justify-between px-8 flex-wrap">
 						{Quick_Access?.map((item, index) => {
 							return (
-								<Tooltip title={item?.title}>
+								<Tooltip title={item?.title} key={index}>
 									<Link
 										href={item?.link}
 										// onClick={item?.onClick}

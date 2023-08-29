@@ -287,6 +287,7 @@ const MoreOption = ({ item, mutate }: any) => {
 									{item?.docs?.map((item: any, i: any) => {
 										return (
 											<a
+												key={i}
 												className="border border-theme rounded-md text-xs p-[2px]"
 												href={item?.link}
 											>
