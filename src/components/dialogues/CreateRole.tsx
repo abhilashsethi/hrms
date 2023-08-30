@@ -41,7 +41,9 @@ const CreateRole = ({ open, handleClose, mutate }: Props) => {
 				const access_pages = [] as any;
 				const resData = {
 					link:
-						values?.name === "CEO"
+						values?.name === "CEO" ||
+						values?.name === "DIRECTOR" ||
+						values?.name === "COO"
 							? PageList?.map((item) => {
 									access_pages?.push({ link: item?.value });
 							  })
