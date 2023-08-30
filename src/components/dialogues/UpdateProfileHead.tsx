@@ -19,6 +19,7 @@ import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import moment from "moment";
 import { useState } from "react";
+import CountrySelector from "components/core/CountrySelector";
 
 interface Props {
 	open?: any;
@@ -47,6 +48,7 @@ const validationSchema = Yup.object().shape({
 		.email("Invalid email address")
 		.required("Personal Email Required!"),
 	// employeeID: Yup.string().required("Employee ID is required!"),
+	countryCode: Yup.string().required("Country Code Required."),
 	phone: Yup.string().required("Phone No is required!"),
 	dob: Yup.string().test(
 		"minimum-age",
@@ -97,6 +99,7 @@ const UpdateProfileHead = ({
 		joiningDate: employData?.joiningDate || null,
 		bloodGroup: employData?.bloodGroup || null,
 		employeeOfBranchId: employData?.employeeOfBranchId || null,
+		countryCode: employData?.countryCode || null,
 	};
 	const handleSubmit = async (values: any) => {
 		setLoading(true);
@@ -116,6 +119,7 @@ const UpdateProfileHead = ({
 					joiningDate: values?.joiningDate,
 					bloodGroup: values?.bloodGroup,
 					employeeOfBranchId: values?.employeeOfBranchId,
+					countryCode: values?.countryCode,
 				},
 			});
 			setLoading(false);
@@ -234,18 +238,30 @@ const UpdateProfileHead = ({
 												<p className="text-theme font-semibold my-2">
 													Phone No <span className="text-red-600">*</span>
 												</p>
-												<TextField
-													fullWidth
-													name="phone"
-													placeholder="Enter Phone No"
-													value={values.phone}
-													onChange={handleChange}
-													onBlur={handleBlur}
-													error={touched.phone && !!errors.phone}
-													helperText={
-														Boolean(touched.phone) && (errors.phone as any)
-													}
-												/>
+												<div className="flex justify-center items-center">
+													<div className=" w-full md:w-1/4 lg:w-32">
+														<CountrySelector
+															className="bg-white border border-gray-400 py-4"
+															defaultValue="91"
+															name="countryCode"
+															onChange={handleChange}
+															onBlur={handleBlur}
+															value={values.countryCode}
+														/>
+													</div>
+													<TextField
+														fullWidth
+														name="phone"
+														placeholder="Enter Phone No"
+														value={values.phone}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={touched.phone && !!errors.phone}
+														helperText={
+															Boolean(touched.phone) && (errors.phone as any)
+														}
+													/>
+												</div>
 											</div>
 											<div className="w-full">
 												<p className="text-theme font-semibold my-2">
