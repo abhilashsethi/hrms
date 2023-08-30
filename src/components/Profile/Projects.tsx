@@ -33,7 +33,7 @@ interface PROPS {
 	userDetails?: any;
 }
 const Projects = ({ projectData, mutate, isLoading, userDetails }: PROPS) => {
-	console.log(userDetails);
+	console.log(projectData);
 	const [url, setUrl] = useState<{
 		dialogue?: boolean;
 		projectId?: string | null;

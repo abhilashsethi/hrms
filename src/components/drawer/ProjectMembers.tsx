@@ -423,7 +423,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
 										<div>
 											<p className="font-semibold">{item?.name}</p>
 											<p className="text-sm flex items-center gap-2 mt-1">
-												<EmailRounded fontSize="small" /> {item?.email}
+												<EmailRounded fontSize="small" /> {item?.username}
 											</p>
 										</div>
 									</div>
