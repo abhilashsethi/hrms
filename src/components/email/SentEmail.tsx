@@ -56,9 +56,9 @@ const SentEmail = () => {
   const { push } = useRouter();
 
   const { data, isValidating, mutate, error } = useFetch<SentEmailData>(
-    `emails/get/sendMails/${user?.id}?page=${pageNo}&limit=20` +
+    `emails/get/sendMails/${user?.id}?isSend=true&page=${pageNo}&limit=20` +
       (searchText?.trim()?.length ? `&username=${searchText}` : "") +
-      (sortBy ? `&isRead=${sortBy}` : "")
+      (sortBy ? `&sortBy=${sortBy}` : "")
   );
 
   const handleSelect = (emailId: string) => {
@@ -269,7 +269,7 @@ const SentEmail = () => {
                     subject={item?.subject}
                     email={item?.receiver?.username}
                     onclick={() => push(`/admin/email/${item?.id}`)}
-                    messageDate={item?.sentAt || new Date()}
+                    messageDate={item?.sentAt || item?.createdAt}
                     messages={item?.content}
                     photo={item?.receiver?.photo}
                   />

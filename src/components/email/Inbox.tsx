@@ -32,8 +32,8 @@ const Inbox = () => {
   const [allClicked, setAllClicked] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const [searchText, setSearchText] = useState("");
-  const [sortBy, setSortBy] = useState(true);
-  const { getUnreadMailCount, revalidateMailCount } = useMailData();
+  const [sortBy, setSortBy] = useState();
+  const { revalidateMailCount } = useMailData();
   const { user } = useAuth();
   const { push } = useRouter();
   const { change } = useChange();
@@ -168,7 +168,7 @@ const Inbox = () => {
                       handleReadEmail(item?.id);
                       revalidateMailCount(user?.id);
                     }}
-                    messageDate={item?.sentAt || new Date()}
+                    messageDate={item?.sentAt || item?.createdAt}
                     messages={item?.content}
                     photo={item?.sender?.photo}
                   />

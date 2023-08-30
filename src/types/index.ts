@@ -223,7 +223,7 @@ export type Pages = {
 };
 export type LeaveCredit = {
   id?: string;
-  leavesData?: {casualLeaveCarryOver?:number,sickLeaveCarryOver?:number,};
+  leavesData?: { casualLeaveCarryOver?: number; sickLeaveCarryOver?: number };
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -650,6 +650,7 @@ export type SentEmailType = {
   attachments: string[];
   id: string;
   sentAt: string;
+  createdAt: string;
 };
 export type InboxEmailType = {
   bcc: EmailUser[];
@@ -663,6 +664,7 @@ export type InboxEmailType = {
   id: string;
   sentAt: string;
   sender: EmailUser;
+  createdAt: string;
 };
 
 export type EmailType = {
