@@ -59,7 +59,6 @@ const ProjectTasks = () => {
       }
     });
   };
-  // console.log(projectData);
   return (
     <>
       <ProjectCreateTask
@@ -196,10 +195,10 @@ const ProjectTasks = () => {
               </div>
             ))
         ) : (
-          <p>No task available</p>
+          <p>No task available.....</p>
         )}
       </section>
-      {projectData?.tasks?.length === 0 ? <p>No Tasks found...</p> : null}
+      {/* {projectData?.tasks?.length === 0 ? <p>No Tasks found...</p> : null} */}
     </>
   );
 };
