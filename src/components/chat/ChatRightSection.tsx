@@ -190,7 +190,7 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
       />
       <div className="md:w-[68%] w-full h-full">
         {!currentChatProfileDetails?.id ? (
-          <DefaultChatView />
+          <DefaultChatView setChatLeftBar={setChatLeftBar} />
         ) : (
           <div className="w-full h-full relative">
             <ChatHead
