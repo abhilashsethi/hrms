@@ -86,6 +86,7 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
   photo?: string | null;
+  countryCode?: string;
   dob?: Date | null;
   joiningDate?: Date | null;
   linkedin?: string | null;

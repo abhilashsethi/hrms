@@ -26,6 +26,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 	const { data: projectDashboard } = useFetch<any>(
 		`dashboards/project/manager/dashboard/${user?.id}`
 	);
+	console.log(projectDashboard);
 	const router = useRouter();
 	const cards = [
 		{
@@ -42,7 +43,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 			icon: <PendingActions fontSize="medium" className="text-theme" />,
 			name: "Total Pending Leave Requests",
 			count: projectDashboard?.totalPendingLeaveCount?.totalLeaveCount || 0,
-			link: "admin/leaves/leave-requests",
+			link: "/admin/leaves/manager-leave-requests",
 		},
 		{
 			id: 3,

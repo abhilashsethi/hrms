@@ -33,7 +33,7 @@ const EmployeeDetails = () => {
 		mutate,
 		isLoading,
 	} = useFetch<User>(`users/${router?.query?.id}`);
-
+	console.log(employData);
 	const { data: projectDetails } = useFetch<any>(
 		`projects?memberId=${router?.query?.id}`
 	);
@@ -125,6 +125,12 @@ const EmployeeDetails = () => {
 				}`,
 			},
 			{
+				id: 11,
+				title: "Country Code",
+				value: `${employData?.countryCode ? employData?.countryCode : "---"}`,
+				copy: false,
+			},
+			{
 				id: 5,
 				title: "Phone",
 				value: `${employData?.phone ? employData?.phone : "---"}`,
@@ -155,7 +161,7 @@ const EmployeeDetails = () => {
 					: "---",
 			},
 			{
-				id: 9,
+				id: 10,
 				title: "Department",
 				value: `${
 					employData?.department?.name ? employData?.department?.name : "---"
