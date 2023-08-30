@@ -73,7 +73,8 @@ const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
           deadLine: new Date(values?.date).toISOString(),
         },
       ],
-    };
+	};
+	 
     try {
       const res = await change(`projects/add-tasks/${id}`, {
         method: "PATCH",
