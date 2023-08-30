@@ -680,6 +680,8 @@ export type EmailType = {
   sentAt: string;
   replyTo: InboxEmailType;
   isSenderUser: boolean;
+  isUsingTemplate: boolean;
+  templateId?: string;
 };
 export type MailTemplate = {
   content: string;
