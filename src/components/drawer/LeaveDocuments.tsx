@@ -4,6 +4,7 @@ import { Container, Drawer, IconButton, Tooltip } from "@mui/material";
 import { CHATDOC, PDF } from "assets/home";
 import { PhotoViewer } from "components/core";
 import { DocPreview } from "components/dialogues";
+import { useAuth } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import { downloadFile } from "utils";
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LeaveDocuments = ({ open, onClose, data }: Props) => {
+	const { user } = useAuth();
 	const classes = useStyles();
 	const [isPreview, setIsPreview] = useState<{
 		dialogue?: boolean;
@@ -64,16 +66,22 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
 						</h2>
 						<h1 className="font-semibold mt-4">Leave variant</h1>
 						<h2 className="text-gray-600">{data?.variant}</h2>
-						<h1 className="font-semibold mt-4">
-							Leave Casual Credit Remaining
-						</h1>
-						<h2 className="text-gray-600">{data?.casualCreditRemaining}</h2>
-						<h1 className="font-semibold mt-4">Sick Leave Credit Remaining</h1>
-						<h2 className="text-gray-600">{data?.sickCreditRemaining}</h2>
-						<h1 className="font-semibold mt-4">Total approved leave</h1>
-						<h2 className="text-gray-600">{data?.totalLeaveThisMonth}</h2>
-						<h1 className="font-semibold mt-4">Total Leave This Year</h1>
-						<h2 className="text-gray-600">{data?.totalLeaveThisYear}</h2>
+						{user?.role?.name === "PROJECT MANAGER" ? null : (
+							<>
+								<h1 className="font-semibold mt-4">
+									Leave Casual Credit Remaining
+								</h1>
+								<h2 className="text-gray-600">{data?.casualCreditRemaining}</h2>
+								<h1 className="font-semibold mt-4">
+									Sick Leave Credit Remaining
+								</h1>
+								<h2 className="text-gray-600">{data?.sickCreditRemaining}</h2>
+								<h1 className="font-semibold mt-4">Total approved leave</h1>
+								<h2 className="text-gray-600">{data?.totalLeaveThisMonth}</h2>
+								<h1 className="font-semibold mt-4">Total Leave This Year</h1>
+								<h2 className="text-gray-600">{data?.totalLeaveThisYear}</h2>
+							</>
+						)}
 						{data?.variant === "MultipleDays" ? (
 							<>
 								<h1 className="font-semibold mt-4">Starts From</h1>
