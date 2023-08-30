@@ -7,7 +7,7 @@ import {
 	HeadText,
 	PhotoViewer,
 } from "components/core";
-import { downloadFile, useChange, useFetch } from "hooks";
+import { downloadFile, useAuth, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -18,6 +18,7 @@ import { NumInWords } from "utils";
 
 const ViewPayrollDetails = () => {
 	const router = useRouter();
+	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [status, setStatus] = useState(null);
 	const handleChange = (event: any) => {
@@ -197,7 +198,12 @@ const ViewPayrollDetails = () => {
 	];
 
 	const links = [
-		{ id: 1, page: "Employees", link: "/admin/employees" },
+		user?.role?.name === "CEO" ||
+		user?.role?.name === "HR" ||
+		user?.role?.name === "DIRECTOR"
+			? { id: 1, page: "Employees", link: "/admin/employees" }
+			: { id: 1, page: "My Profile", link: "/admin/employees/my-profile" },
+
 		{
 			id: 2,
 			page: "Payroll Detail",
