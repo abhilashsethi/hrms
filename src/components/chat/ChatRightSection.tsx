@@ -173,52 +173,54 @@ const ChatRightSection = () => {
                 </div>
               )
             ) : (
-              <div className="md:h-20 h-24 w-full border-2 md:flex items-center py-2 px-8 justify-between">
-                <div className="h-10 px-3 rounded-full md:w-[70%] w-full border-2 flex justify-between items-center">
-                  <div className="flex gap-2 items-center w-full">
-                    {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
-                    <input
-                      onKeyDown={handleKeyDown}
-                      onChange={handleTyping}
-                      ref={textRef}
-                      value={isMessage ? isMessage : ""}
-                      className="bg-white text-sm w-4/5"
-                      placeholder="Type a message"
-                      type="text"
-                      onBlur={handleTypingBlur}
-                    />
+              <>
+                <div className="md:h-20 h-24 w-full border-2 md:flex items-center py-2 px-8 justify-between">
+                  <div className="h-10 px-3 rounded-full md:w-[70%] w-full border-2 flex justify-between items-center">
+                    <div className="flex gap-2 items-center w-full">
+                      {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
+                      <input
+                        onKeyDown={handleKeyDown}
+                        onChange={handleTyping}
+                        ref={textRef}
+                        value={isMessage ? isMessage : ""}
+                        className="bg-white text-sm w-4/5"
+                        placeholder="Type a message"
+                        type="text"
+                        onBlur={handleTypingBlur}
+                      />
+                    </div>
+                    <Tooltip title="Send">
+                      <IconButton
+                        onClick={() => handleSend()}
+                        disabled={isLoading}
+                        size="small"
+                      >
+                        {isLoading ? <CircularProgress size={20} /> : <Send />}
+                      </IconButton>
+                    </Tooltip>
                   </div>
-                  <Tooltip title="Send">
-                    <IconButton
-                      onClick={() => handleSend()}
-                      disabled={isLoading}
-                      size="small"
-                    >
-                      {isLoading ? <CircularProgress size={20} /> : <Send />}
+                  <Tooltip title="Image">
+                    <IconButton onClick={() => setIsImage(true)} size="small">
+                      <ImageOutlined />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Attach">
+                    <IconButton onClick={() => setIsUpload(true)} size="small">
+                      <AttachFile className="!rotate-45" />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Code">
+                    <IconButton onClick={() => setIsCode(true)} size="small">
+                      <Code />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Insert link">
+                    <IconButton onClick={() => setIsLink(true)} size="small">
+                      <InsertLink />
                     </IconButton>
                   </Tooltip>
                 </div>
-                <Tooltip title="Image">
-                  <IconButton onClick={() => setIsImage(true)} size="small">
-                    <ImageOutlined />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Attach">
-                  <IconButton onClick={() => setIsUpload(true)} size="small">
-                    <AttachFile className="!rotate-45" />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Code">
-                  <IconButton onClick={() => setIsCode(true)} size="small">
-                    <Code />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Insert link">
-                  <IconButton onClick={() => setIsLink(true)} size="small">
-                    <InsertLink />
-                  </IconButton>
-                </Tooltip>
-              </div>
+              </>
             )}
           </div>
         )}

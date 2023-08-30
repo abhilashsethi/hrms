@@ -7,6 +7,7 @@ import { MouseEvent, useState } from "react";
 import { formatChatTime } from "utils";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
+import ICONS from "assets/icons";
 
 const ChatHead = ({ isNew }: { isNew?: boolean }) => {
   const [typingUser, setTypingUser] = useState("");
@@ -26,6 +27,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
   const {
     currentChatProfileDetails,
     selectedChatId,
+    setSelectedChatId,
     revalidateChatProfileDetails,
     revalidateCurrentChat,
     reValidatePrivateChat,
@@ -208,6 +210,12 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
 
       <div className="py-2 px-4 w-full border-b-2 flex justify-between items-center sticky top-0 z-[999] bg-white ">
         <div className="flex gap-3 items-center">
+          <span
+            className="cursor-pointer block md:hidden"
+            onClick={() => setSelectedChatId("")}
+          >
+            <ICONS.ChevronLeft />{" "}
+          </span>
           <div className="cursor-pointer" onClick={() => setIsDrawer(true)}>
             <PhotoViewerSmall
               photo={currentChatProfileDetails?.photo}
