@@ -15,19 +15,21 @@ import { useAuth, useChatData, useFetch, useSocket } from "hooks";
 import moment from "moment";
 import { MouseEvent, useEffect, useState } from "react";
 import { IGroupChatData, User } from "types";
-
-const ChatLeftbar = () => {
+interface Props {
+  setChatLeftBar: any;
+}
+const ChatLeftbar = ({ setChatLeftBar }: any) => {
   const [currentMenu, setCurrentMenu] = useState("Chats");
   const ActiveSection = (currentMenu: string) => {
     switch (currentMenu) {
       case "Chats":
-        return <Chats />;
+        return <Chats setChatLeftBar={setChatLeftBar} />;
       case "Groups":
-        return <GroupChats />;
+        return <GroupChats setChatLeftBar={setChatLeftBar} />;
       case "New Chat":
-        return <Contacts />;
+        return <Contacts setChatLeftBar={setChatLeftBar} />;
       case "Other":
-        return <Chats />;
+        return <Chats setChatLeftBar={setChatLeftBar} />;
     }
   };
   return (
@@ -98,7 +100,7 @@ const quickLinks = [
   // },
 ];
 
-const Chats = () => {
+const Chats = ({ setChatLeftBar }: any) => {
   const [afterSearchable, setAfterSearchable] = useState<IGroupChatData[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
   const {
@@ -161,6 +163,7 @@ const Chats = () => {
             revalidateChatProfileDetails={revalidateChatProfileDetails}
             selectedChatId={selectedChatId}
             setSelectedChatId={setSelectedChatId}
+            setChatLeftBar={setChatLeftBar}
           />
         ))}
       </div>
@@ -176,6 +179,7 @@ const PrivateChatCard = ({
   setSelectedChatId,
   reValidatePrivateChat,
   revalidateChatCount,
+  setChatLeftBar,
 }: {
   setSelectedChatId: (arg: any) => void;
   revalidateChatProfileDetails: (arg: any) => void;
@@ -184,6 +188,7 @@ const PrivateChatCard = ({
   revalidateChatCount: () => void;
   reValidatePrivateChat: () => void;
   item: IGroupChatData;
+  setChatLeftBar: any;
 }) => {
   const [isTyping, setIsTyping] = useState(false);
   const { socketRef } = useSocket();
@@ -208,6 +213,7 @@ const PrivateChatCard = ({
       onClick={() => {
         setSelectedChatId(item?.id);
         revalidateChatProfileDetails(item?.id);
+        setChatLeftBar(true);
         handleReadMessage?.(item?.id).then(() => {
           revalidateChatCount();
           reValidatePrivateChat();
@@ -254,7 +260,7 @@ const PrivateChatCard = ({
   );
 };
 
-const GroupChats = () => {
+const GroupChats = ({ setChatLeftBar }: any) => {
   const [isCreate, setIsCreate] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -353,6 +359,7 @@ const GroupChats = () => {
             reValidateGroupChat={reValidateGroupChat}
             setSelectedChatId={setSelectedChatId}
             revalidateChatCount={revalidateChatCount}
+            setChatLeftBar={setChatLeftBar}
           />
         ))}
       </div>
@@ -368,6 +375,7 @@ const GroupChatCard = ({
   handleReadMessage,
   revalidateChatCount,
   reValidateGroupChat,
+  setChatLeftBar,
 }: {
   setSelectedChatId: (arg: any) => void;
   revalidateChatProfileDetails: (arg: any) => void;
@@ -376,6 +384,7 @@ const GroupChatCard = ({
   handleReadMessage?: (arg: any) => Promise<void>;
   revalidateChatCount: () => void;
   item: IGroupChatData;
+  setChatLeftBar: any;
 }) => {
   const [isTyping, setIsTyping] = useState(false);
   const { socketRef } = useSocket();
@@ -400,6 +409,7 @@ const GroupChatCard = ({
     <div
       onClick={() => {
         setSelectedChatId(item?.id);
+        setChatLeftBar(true);
         revalidateChatProfileDetails(item?.id);
         handleReadMessage?.(item?.id).then(() => {
           revalidateChatCount();
@@ -454,7 +464,7 @@ type FetchData = {
   users: User[];
 };
 
-const Contacts = () => {
+const Contacts = ({ setChatLeftBar }: any) => {
   const [searchText, setSearchText] = useState("");
   const { data: employeesData } = useFetch<FetchData>(
     `chat/user/not-connected?limit=20&page=1` +
@@ -470,6 +480,7 @@ const Contacts = () => {
   } = useChatData();
 
   const handleClickNewUser = (user: User) => {
+    setChatLeftBar(true);
     try {
       setSelectedChatProfileDetails?.({
         chatMembers: [user],
