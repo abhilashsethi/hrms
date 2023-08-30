@@ -251,7 +251,6 @@ const DeleteButton = ({ id, mutate }: ButtonProps) => {
 				setLoading(true);
 				if (result.isConfirmed) {
 					Swal.fire(`Info`, "It will take some time", "info");
-					console.log(user?.id);
 					const response = await change(`users/delete-doc/${user?.id}/${id}`, {
 						method: "DELETE",
 					});
