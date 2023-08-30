@@ -126,7 +126,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
       confirmButtonText: "Yes, approve!",
     }).then(async (result) => {
       if (result?.isConfirmed) {
-        setLoading(true);
+        setRLoading(true);
         try {
           const res = await change(`leaves/manager/request/${mainId}`, {
             method: "PATCH",
@@ -134,14 +134,14 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
               status: "Rejected",
             },
           });
-          setLoading(false);
+          setRLoading(false);
           if (res?.status !== 200) {
             Swal.fire(
               "Error",
               res?.results?.msg || "Something went wrong!",
               "error"
             );
-            setLoading(false);
+            setRLoading(false);
             return;
           }
           Swal.fire(`Success`, `Status changed successfully!`, `success`);
@@ -149,9 +149,9 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
           return;
         } catch (error) {
           console.log(error);
-          setLoading(false);
+          setRLoading(false);
         } finally {
-          setLoading(false);
+          setRLoading(false);
         }
       }
     });
