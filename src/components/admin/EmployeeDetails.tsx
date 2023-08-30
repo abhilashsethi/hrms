@@ -128,7 +128,7 @@ const EmployeeDetails = () => {
 				id: 11,
 				title: "Country Code",
 				value: `${employData?.countryCode ? employData?.countryCode : "---"}`,
-				copy: true,
+				copy: false,
 			},
 			{
 				id: 5,
