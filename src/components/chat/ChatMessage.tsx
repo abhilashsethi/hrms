@@ -43,7 +43,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
         onClose={() => setIsSeen(false)}
       />
 
-      <div className=" max-w-[95%] md:max-w-[70%] min-w-[30%] flex gap-1">
+      <div className=" max-w-[95%] md:max-w-[70%] md:min-w-[30%] flex gap-1">
         <div className="w-[15%] h-10 flex justify-center items-start">
           <div className="h-8 w-8 rounded-full overflow-hidden">
             {data?.sender?.id === user?.id ? null : (
@@ -55,7 +55,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
             )}
           </div>
         </div>
-        <div className="w-[85%] relative group">
+        <div className="lg:w-[85%] w-full relative group">
           <div
             className={`flex gap-1 items-center text-slate-600 ${
               data?.sender?.id === user?.id ? `justify-end` : ``
@@ -86,10 +86,10 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
               </div>
             </div>
           ) : null}
-          <div className="w-full bg-blue-100 py-2 px-4 tracking-wide rounded-md text-sm">
+          <div className="w-full bg-blue-100 py-2 px-4 md:tracking-wide rounded-md text-sm">
             <div>
               {data?.category === "text" ? (
-                <p className="tracking-wide whitespace-pre-line break-words ">
+                <p className="tracking-wide min-w-fit break-all whitespace-pre-line break-words ">
                   {data?.text}
                 </p>
               ) : data?.category === "image" ? (
@@ -135,8 +135,8 @@ const DocFormat = ({ data }: { data?: IChatMessages }) => {
     <>
       <div className="flex gap-2 items-center">
         <img className="h-12 object-contain" src={CHATDOC.src} alt="" />
-        <div className="flex w-4/5 justify-between items-center">
-          <h1>{data?.link?.split("/")?.at(-1)}</h1>
+        <div className="md:flex grid w-4/5 justify-between items-center">
+          <h1 className="md:block hidden">{data?.link?.split("/")?.at(-1)}</h1>
           <Tooltip title="Download">
             <IconButton
               onClick={() =>
@@ -152,7 +152,7 @@ const DocFormat = ({ data }: { data?: IChatMessages }) => {
           </Tooltip>
         </div>
       </div>
-      <p className="tracking-wide whitespace-pre-line break-words ">
+      <p className="tracking-wide min-w-fit break-all whitespace-pre-line  break-words ">
         {data?.text}
       </p>
     </>
@@ -165,10 +165,9 @@ interface CodeMsgProps {
 
 const CodeFormat = ({ data }: CodeMsgProps) => {
   const [language, changeLanguage] = useState("jsx");
-  const [languageDemo, changeDemo] = useState(sample["jsx"]);
   const [lineNumbers, toggleLineNumbers] = useState(true);
   return (
-    <div>
+    <div className="md:w-full w-48">
       <CopyBlock
         language={language}
         text={data?.text}
@@ -176,6 +175,7 @@ const CodeFormat = ({ data }: CodeMsgProps) => {
         theme={dracula}
         wrapLines={true}
         codeBlock
+        className="min-w-fit !break-all whitespace-pre-line"
       />
     </div>
   );
@@ -333,10 +333,12 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
 
 const LinkFormat = ({ data }: any) => {
   return (
-    <div className="flex gap-2 items-start">
+    <div className="md:flex gap-2 items-start">
       <InsertLink />
       <Link target="_blank" href={data?.text}>
-        <h1 className="cursor-pointer">{data?.text}</h1>
+        <h1 className="cursor-pointer min-w-fit break-all whitespace-pre-line">
+          {data?.text}
+        </h1>
       </Link>
     </div>
   );

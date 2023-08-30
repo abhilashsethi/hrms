@@ -116,12 +116,9 @@ const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
       aria-labelledby="customized-dialog-title"
       open={open}
     >
-      <DialogTitle
-        id="customized-dialog-title"
-        sx={{ p: 2, minWidth: "27rem !important" }}
-      >
+      <DialogTitle id="customized-dialog-title">
         <p className="text-center text-md font-bold text-theme tracking-wide">
-          UPLOAD FILE
+          UPLOAD IMAGE
         </p>
         <IconButton
           aria-label="close"
@@ -141,7 +138,7 @@ const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
       <DialogContent className="app-scrollbar" sx={{ p: 3 }}>
         <form
           onSubmit={formik.handleSubmit}
-          className="md:w-[27rem] w-[72vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-2"
+          className="md:w-[27rem] w-full md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-2"
         >
           <input
             type="file"
