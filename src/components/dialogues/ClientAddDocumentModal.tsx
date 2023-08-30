@@ -28,7 +28,7 @@ interface Props {
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required("Document title is required"),
 	link: Yup.string().required("Document is required"),
-	type: Yup.string().required("Document type is required"),
+	// type: Yup.string().required("Document type is required"),
 });
 const ClientAddDocumentModal = ({
 	open,
@@ -44,7 +44,7 @@ const ClientAddDocumentModal = ({
 	const initialValues = {
 		title: "",
 		link: "",
-		type: "",
+		// type: "",
 	};
 
 	const { change } = useChange();
@@ -142,8 +142,8 @@ const ClientAddDocumentModal = ({
 									helperText={touched.title && errors.title}
 								/>
 
-								<p className="font-medium text-gray-700 my-2">Document Type</p>
-								<div className="w-full">
+								{/* <p className="font-medium text-gray-700 my-2">Document Type</p> */}
+								{/* <div className="w-full">
 									<TextField
 										size="small"
 										select
@@ -162,7 +162,7 @@ const ClientAddDocumentModal = ({
 											</MenuItem>
 										))}
 									</TextField>
-								</div>
+								</div> */}
 
 								<p className="font-medium text-gray-700 my-2">Choose File</p>
 								<TextField
@@ -185,7 +185,11 @@ const ClientAddDocumentModal = ({
 										variant="contained"
 										disabled={loading}
 										startIcon={
-											loading ? <CircularProgress size={20} /> : <Check />
+											loading ? (
+												<CircularProgress size={20} color="secondary" />
+											) : (
+												<Check />
+											)
 										}
 									>
 										SUBMIT
