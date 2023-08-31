@@ -42,8 +42,6 @@ const CreateEmail = (templateId: any) => {
     `emails/${query?.draftId}?draft=true`
   );
 
-  console.log({ draftData });
-
   const emailEditorRef = useRef<EditorRef>(null);
 
   const formik = useFormik({
@@ -120,7 +118,8 @@ const CreateEmail = (templateId: any) => {
         }
 
         const editorData: { content?: string; json?: any } | undefined =
-          (templateId?.templateId !== "normal" &&
+          ((templateId?.templateId !== "normal" ||
+            draftData?.isUsingTemplate) &&
             (await new Promise((re, rej) => {
               try {
                 emailEditorRef?.current?.exportHtml((data) => {
@@ -146,22 +145,24 @@ const CreateEmail = (templateId: any) => {
               value?.bccRecipients?.map((item: EmailUser) => item?.id)) ||
             undefined,
           subject: value?.subject,
-          content:
-            templateId?.templateId === "normal"
-              ? value?.message
-              : editorData?.content,
+          content: draftData?.isUsingTemplate
+            ? editorData?.content
+            : templateId?.templateId !== "normal"
+            ? editorData?.content
+            : value?.message,
           attachments: attachmentUrl,
           isSend: !value?.isDraft,
           sentAt: value?.isDraft ? undefined : new Date().toISOString(),
-          isUsingTemplate: templateId?.templateId !== "normal",
-          templateJson:
-            templateId?.templateId !== "normal"
-              ? JSON.stringify(editorData?.json)
-              : undefined,
+          isUsingTemplate: draftData?.isUsingTemplate
+            ? draftData?.isUsingTemplate
+            : templateId?.templateId !== "normal",
+          templateJson: draftData?.isUsingTemplate
+            ? JSON.stringify(editorData?.json)
+            : templateId?.templateId !== "normal"
+            ? JSON.stringify(editorData?.json)
+            : undefined,
           ...draftQuery,
         };
-
-        console.log({ bodyData });
 
         const response = await change(
           query?.draftId ? `emails/${query?.draftId}` : `emails`,

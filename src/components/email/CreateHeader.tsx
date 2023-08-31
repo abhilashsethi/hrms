@@ -8,7 +8,7 @@ interface Props {
   setTemplateId: (templateId: string) => void;
 }
 const CreateHeader = ({ setTemplateId }: Props) => {
-  const { back } = useRouter();
+  const { back, query } = useRouter();
   const { user } = useAuth();
   const [selectedTemplate, setSelectedTemplate] = useState("normal"); // Default value is "normal"
 
@@ -31,28 +31,30 @@ const CreateHeader = ({ setTemplateId }: Props) => {
           <span className="text-gray-100/20 ">|</span>
           <p className="font-medium  tracking-wide">New Email</p>
         </div>
-        <div className="flex gap-4 items-center">
-          <p className="font-medium text-xs  tracking-wide">
-            Choose Template <ArrowRightAlt />{" "}
-          </p>
-          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <Select
-              className="!border-white !text-white "
-              defaultValue={"normal"}
-              value={selectedTemplate}
-              onChange={handleTemplateChange}
-            >
-              <MenuItem value="normal">
-                <em>Normal</em>
-              </MenuItem>
-              {template?.map((item, i) => (
-                <MenuItem key={i} value={item?.id}>
-                  {item?.title}
+        {!query?.draftId && (
+          <div className="flex gap-4 items-center">
+            <p className="font-medium text-xs  tracking-wide">
+              Choose Template <ArrowRightAlt />{" "}
+            </p>
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <Select
+                className="!border-white !text-white "
+                defaultValue={"normal"}
+                value={selectedTemplate}
+                onChange={handleTemplateChange}
+              >
+                <MenuItem value="normal">
+                  <em>Normal</em>
                 </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
+                {template?.map((item, i) => (
+                  <MenuItem key={i} value={item?.id}>
+                    {item?.title}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+        )}
       </div>
     </section>
   );
