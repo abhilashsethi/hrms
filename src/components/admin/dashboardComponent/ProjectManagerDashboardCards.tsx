@@ -26,6 +26,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 	const { data: projectDashboard } = useFetch<any>(
 		`dashboards/project/manager/dashboard/${user?.id}`
 	);
+	console.log(leavesData);
 	console.log(projectDashboard);
 	const router = useRouter();
 	const cards = [
@@ -59,7 +60,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 			icon: <Construction fontSize="medium" className="text-theme" />,
 			name: "Total Technology",
 			count: projectDashboard?.totalTechnologies || 0,
-			link: "/admin/technologies/all-technologies",
+			link: "admin/projects/my-projects",
 		},
 	];
 	const Quick_Access = [
@@ -141,8 +142,8 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 		},
 	];
 	return (
-		<div className="flex gap-2 py-4">
-			<div className="w-3/4 ">
+		<div className="flex flex-col gap-2 py-4">
+			<div className="md:w-3/4 ">
 				<div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
 					{cards?.map((item, index) => (
 						<Grid key={item?.id} item lg={3} md={6} sm={12} xs={12}>
@@ -193,7 +194,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 					</div>
 				</div>
 			</div>
-			<div className="w-1/4">
+			<div className="md:w-1/4">
 				<div className="px-2 col-span-12 w-full flex flex-col justify-center gap-2 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
 					<div className="font-semibold pl-2 py-3 space-y-2">
 						<p>Recent Leave Requests </p>

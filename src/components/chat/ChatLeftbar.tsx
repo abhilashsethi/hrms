@@ -323,7 +323,7 @@ const GroupChats = ({ setChatLeftBar }: any) => {
             onChange={(e) => setSearchTitle(e?.target?.value)}
           />
         </div>
-        <div className="w-[10%]">
+        <div className="lg:w-[10%]">
           <IconButton onClick={handleClick} size="small">
             <MoreVert />
           </IconButton>
@@ -429,26 +429,43 @@ const GroupChatCard = ({
         <PhotoViewerSmall
           name={item?.title}
           photo={item?.photo || ""}
-          size="3rem"
+          size="2.8rem"
         />
       </Badge>
-      <div className="w-[80%] flex justify-between ">
+      <div className="md:w-[80%] w-full flex justify-between ">
         <div>
-          <h1 className="text-sm font-semibold">{item?.title}</h1>
+          <h1 className="text-sm font-semibold  hidden md:block break-all pl-2">
+            {item?.title}
+          </h1>
+          <h1 className="text-sm font-semibold block md:hidden break-all pl-2">
+            {item?.title.length > 10
+              ? `${item?.title.slice(0, 10)} ...`
+              : item?.title}
+          </h1>
           <span
             className={`text-sm font-light ${
               item?.lastMessage?.isRead ? "font-light" : "font-bold"
             } `}
           >
-            {isTyping
-              ? "Typing..."
-              : item?.lastMessage?.message?.length > 15
-              ? item?.lastMessage?.message.slice(0, 15) + " ..."
-              : item?.lastMessage?.category === "file"
-              ? item?.lastMessage?.link?.split("/").at(-1)
-              : item?.lastMessage?.category === "link"
-              ? "Link"
-              : item?.lastMessage?.message}
+            {isTyping ? (
+              "Typing..."
+            ) : item?.lastMessage?.message?.length > 15 ? (
+              <span>{item?.lastMessage?.message.slice(0, 15) + " ..."}</span>
+            ) : item?.lastMessage?.category === "file" ? (
+              <>
+                <span className="text-sm hidden md:block">
+                  {item?.lastMessage?.link?.split("/").at(-1)}
+                </span>
+                <span className="text-sm md:hidden block">
+                  {item?.lastMessage?.link?.split("/").at(-1)?.slice(0, 10) +
+                    " ..."}
+                </span>
+              </>
+            ) : item?.lastMessage?.category === "link" ? (
+              "Link"
+            ) : (
+              item?.lastMessage?.message
+            )}
           </span>
         </div>
 
