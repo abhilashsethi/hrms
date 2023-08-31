@@ -234,13 +234,18 @@ const CardComponent = ({
 						>
 							{item?.status}
 						</span>
-						<span>
-							<Tooltip title="Screenshot">
-								<IconButton onClick={() => setIsScreenshot(true)} size="small">
-									<InsertDriveFile />
-								</IconButton>
-							</Tooltip>
-						</span>
+						{item?.pictures?.length ? (
+							<span>
+								<Tooltip title="Screenshot">
+									<IconButton
+										onClick={() => setIsScreenshot(true)}
+										size="small"
+									>
+										<InsertDriveFile />
+									</IconButton>
+								</Tooltip>
+							</span>
+						) : null}
 						<div className="md:flex hidden">
 							<ProfileImage id={item?.bugs?.detectedBy} />
 						</div>
