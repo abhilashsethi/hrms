@@ -121,7 +121,7 @@ const ClientDocument = ({ projectData, mutate }: Props) => {
 											<Link href={item?.link}>
 												<img
 													className="h-14 object-contain"
-													src={item?.docType === "pdf" ? PDF.src : DOC.src}
+													src={DOC.src}
 													alt="doc"
 												/>
 											</Link>

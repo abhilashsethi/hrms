@@ -142,7 +142,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 		},
 	];
 	return (
-		<div className="flex flex-col gap-2 py-4">
+		<div className="flex md:flex-row flex-col gap-2 py-4">
 			<div className="md:w-3/4 ">
 				<div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
 					{cards?.map((item, index) => (
