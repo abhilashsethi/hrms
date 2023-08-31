@@ -18,7 +18,7 @@ import { useFormik } from "formik";
 import { useAuth, useChange, useFetch } from "hooks";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EmailEditor, { EditorRef } from "react-email-editor";
 import Swal from "sweetalert2";
 import { EmailType, EmailUser, MailTemplate, User } from "types";
@@ -29,6 +29,7 @@ const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 const CreateEmail = (templateId: any) => {
   const [pageLimit, setPageLimit] = useState<number | undefined>(20);
+  const [isRendered, setIsRendered] = useState(false);
   const [searchText, setSearchText] = useState("");
   const attachRef = useRef<HTMLInputElement | null>(null);
   const { data: users, isValidating: userLoading } = useFetch<User[]>(
@@ -43,6 +44,8 @@ const CreateEmail = (templateId: any) => {
   );
 
   const emailEditorRef = useRef<EditorRef>(null);
+
+  useEffect(() => {}, []);
 
   const formik = useFormik({
     initialValues: {
@@ -242,16 +245,23 @@ const CreateEmail = (templateId: any) => {
     `mail-template/get-by-id?templateId=${templateId?.templateId}`
   );
 
+  useEffect(() => {
+    setIsRendered(false);
+  }, [templateId?.templateId]);
+
   const onReady = () => {
     // editor is ready
-    template?.json?.length &&
+    !isRendered &&
+      template?.json?.length &&
       emailEditorRef?.current?.loadDesign?.(JSON.parse(template?.json));
     // editor is ready
-    draftData?.isUsingTemplate &&
+    !isRendered &&
+      draftData?.isUsingTemplate &&
       draftData?.templateJson &&
       emailEditorRef?.current?.loadDesign?.(
         JSON.parse(draftData?.templateJson)
       );
+    setIsRendered(true);
   };
 
   return (
