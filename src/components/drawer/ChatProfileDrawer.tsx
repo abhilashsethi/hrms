@@ -24,17 +24,33 @@ import { BASE_URL, useAuth, useChange, useChatData } from "hooks";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { IChatGroup } from "types";
+import { makeStyles } from "@material-ui/core";
 
 type Props = {
   open?: boolean | any;
   onClose: () => void;
   profileData?: Partial<IChatGroup>;
 };
+const useStyles = makeStyles((theme) => ({
+  container: {
+    width: "100vw",
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: "50vw",
+    },
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "80vw",
+    },
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: "30vw",
+    },
+  },
+}));
 const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
   const [isAdd, setIsAdd] = useState(false);
   const [isDescription, setIsDescription] = useState(false);
   const [isMedia, setIsMedia] = useState(false);
   const { user } = useAuth();
+  const classes = useStyles();
   const { change } = useChange();
   const {
     revalidateCurrentChat,
@@ -217,13 +233,9 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
           },
         }}
       >
-        <Container
-          style={{
-            width: "30vw",
-          }}
-        >
+        <Container className={classes.container}>
           <section className="relative w-full overflow-hidden overflow-y-auto">
-            <section className="py-4 h-full w-full">
+            <section className="py-4  w-full">
               <div className="flex gap-2 items-center">
                 <span className="cursor-pointer" onClick={() => onClose()}>
                   <Close fontSize="small" className="!text-red-600" />
@@ -247,7 +259,9 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                       }
                     />
                     <div className="flex flex-col gap-1 items-center">
-                      <h1 className="font-semibold">{profileData?.title}</h1>
+                      <h1 className="font-semibold break-all text-center">
+                        {profileData?.title}
+                      </h1>
 
                       <h1 className="flex">
                         Group

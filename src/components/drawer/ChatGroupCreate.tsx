@@ -1,4 +1,5 @@
 import { ArrowBack, Check, People } from "@mui/icons-material";
+import { makeStyles } from "@material-ui/core";
 import {
   Autocomplete,
   Box,
@@ -37,11 +38,26 @@ const validationSchema = yup.object().shape({
     .of(yup.string().required("Required!"))
     .min(1, "At least include one member!"),
 });
+const useStyles = makeStyles((theme) => ({
+  container: {
+    width: "100vw",
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: "50vw",
+    },
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "80vw",
+    },
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: "30vw",
+    },
+  },
+}));
 const ChatGroupCreate = ({ open, onClose }: Props) => {
   const { reValidateGroupChat } = useChatData();
   const { user } = useAuth();
   const { data: employeeData } = useFetch<User[]>(`users`);
   const [loading, setLoading] = useState(false);
+  const classes = useStyles();
   const { change } = useChange();
   const handleSubmit = async (values: any, { resetForm }: any) => {
     setLoading(true);
@@ -74,11 +90,7 @@ const ChatGroupCreate = ({ open, onClose }: Props) => {
 
   return (
     <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
-      <Container
-        style={{
-          width: "30vw",
-        }}
-      >
+      <Container className={classes.container}>
         <section className="relative w-full overflow-hidden py-6">
           <div className="font-semibold flex gap-2 items-center">
             <IconButton size="small" onClick={() => onClose()}>
