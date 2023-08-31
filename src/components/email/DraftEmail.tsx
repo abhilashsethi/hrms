@@ -7,15 +7,15 @@ import {
   Search,
 } from "@mui/icons-material";
 import { Checkbox, IconButton, Menu, MenuItem, TextField } from "@mui/material";
-import { MouseEvent, useState } from "react";
-import EmailCard from "./EmailCard";
-import { useAuth, useChange, useFetch } from "hooks";
-import { SentEmailType } from "types";
-import { useRouter } from "next/router";
-import Lottie from "react-lottie";
 import { EMAILSENT } from "assets/animations";
 import { LoaderAnime } from "components/core";
+import { useAuth, useChange, useFetch } from "hooks";
+import { useRouter } from "next/router";
+import { MouseEvent, useState } from "react";
+import Lottie from "react-lottie";
 import Swal from "sweetalert2";
+import { SentEmailType } from "types";
+import EmailCard from "./EmailCard";
 
 type SentEmailData = {
   allSendEmails: SentEmailType[];
@@ -135,6 +135,7 @@ const DraftEmail = () => {
       });
     }
   };
+
   return (
     <div className="w-full flex flex-col">
       <div className="flex flex-col md:flex-row gap-2 shadow-md rounded-lg justify-between p-4 bg-white py-4  w-full items-center ">

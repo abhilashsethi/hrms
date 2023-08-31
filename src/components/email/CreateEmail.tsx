@@ -18,13 +18,13 @@ import { useFormik } from "formik";
 import { useAuth, useChange, useFetch } from "hooks";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import EmailEditor, { EditorRef } from "react-email-editor";
 import Swal from "sweetalert2";
 import { EmailType, EmailUser, MailTemplate, User } from "types";
 import { deleteFile, uploadFile } from "utils";
 import * as Yup from "yup";
 import ReplyToEmail from "./ReplyToEmail";
-import EmailEditor, { EditorRef } from "react-email-editor";
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 const CreateEmail = (templateId: any) => {
@@ -41,6 +41,8 @@ const CreateEmail = (templateId: any) => {
   const { data: draftData, isValidating } = useFetch<EmailType>(
     `emails/${query?.draftId}?draft=true`
   );
+
+  console.log({ draftData });
 
   const emailEditorRef = useRef<EditorRef>(null);
 
@@ -117,20 +119,21 @@ const CreateEmail = (templateId: any) => {
             value?.recipients?.map((item: EmailUser) => item?.id);
         }
 
-        const editorData: { content?: string; json?: any } = await new Promise(
-          (re, rej) => {
-            try {
-              emailEditorRef?.current?.exportHtml((data) => {
-                return re({
-                  content: data?.html,
-                  json: data?.design,
+        const editorData: { content?: string; json?: any } | undefined =
+          (templateId?.templateId !== "normal" &&
+            (await new Promise((re, rej) => {
+              try {
+                emailEditorRef?.current?.exportHtml((data) => {
+                  return re({
+                    content: data?.html,
+                    json: data?.design,
+                  });
                 });
-              });
-            } catch (error) {
-              re({});
-            }
-          }
-        );
+              } catch (error) {
+                re({});
+              }
+            }))) ||
+          undefined;
 
         const bodyData = {
           senderId: user?.id,
@@ -242,6 +245,12 @@ const CreateEmail = (templateId: any) => {
     // editor is ready
     template?.json?.length &&
       emailEditorRef?.current?.loadDesign?.(JSON.parse(template?.json));
+    // editor is ready
+    draftData?.isUsingTemplate &&
+      draftData?.templateJson &&
+      emailEditorRef?.current?.loadDesign?.(
+        JSON.parse(draftData?.templateJson)
+      );
   };
 
   return (
