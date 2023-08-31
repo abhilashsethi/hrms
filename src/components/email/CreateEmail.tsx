@@ -268,14 +268,14 @@ const CreateEmail = (templateId: any) => {
               multiple
               fullWidth
               limitTags={2}
-              options={users || []}
+              options={users?.filter((item) => item?.id !== user?.id) || []}
               value={
                 Array.isArray(formik?.values?.recipients)
                   ? formik?.values?.recipients
                   : []
               }
               isOptionEqualToValue={(option, value) =>
-                option?.name === value.name
+                option?.name === value?.name
               }
               clearOnBlur={false}
               getOptionLabel={(option: any) => option.name}
@@ -301,7 +301,7 @@ const CreateEmail = (templateId: any) => {
                     label={
                       <div className="flex flex-col">
                         <h3 className="font-semibold tracking-wide  !text-sm">
-                          {option.name}
+                          {option?.name}
                         </h3>
                         <p className="!text-xs whitespace-nowrap ">
                           {option?.username}
@@ -371,7 +371,17 @@ const CreateEmail = (templateId: any) => {
               isOptionEqualToValue={(option, value) =>
                 option?.name === value?.name
               }
-              options={users || []}
+              options={
+                users?.filter(
+                  (item) =>
+                    ![
+                      user?.id,
+                      ...(Array.isArray(formik?.values?.recipients)
+                        ? formik?.values?.recipients?.map((item) => item?.id)
+                        : [formik?.values?.recipients]),
+                    ]?.includes(String(item?.id))
+                ) || []
+              }
               getOptionLabel={(option: any) => option.name}
               filterSelectedOptions
               noOptionsText={
@@ -439,7 +449,20 @@ const CreateEmail = (templateId: any) => {
               fullWidth
               clearOnBlur={false}
               limitTags={2}
-              options={users || []}
+              options={
+                users?.filter(
+                  (item) =>
+                    ![
+                      user?.id,
+                      ...(Array.isArray(formik?.values?.recipients)
+                        ? formik?.values?.recipients?.map((item) => item?.id)
+                        : [formik?.values?.recipients]),
+                      ...(Array.isArray(formik?.values?.ccRecipients)
+                        ? formik?.values?.ccRecipients?.map((item) => item?.id)
+                        : [formik?.values?.ccRecipients]),
+                    ]?.includes(String(item?.id))
+                ) || []
+              }
               value={
                 Array.isArray(formik?.values?.bccRecipients)
                   ? formik?.values?.bccRecipients
