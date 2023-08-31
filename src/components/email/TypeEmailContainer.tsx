@@ -8,8 +8,6 @@ import {
 } from "@mui/icons-material";
 import {
   Autocomplete,
-  Avatar,
-  Chip,
   FormHelperText,
   IconButton,
   InputLabel,
@@ -53,7 +51,7 @@ const TypeEmailContainer = ({
   const formik = useFormik({
     initialValues: {
       isForwarded: forwardedTo,
-      forwardedToId: "",
+      forwardedToId: [],
       attachments: [],
       message: "",
       isDraft: false,
@@ -64,9 +62,9 @@ const TypeEmailContainer = ({
       message: Yup.string().required("Message is required*"),
       isDraft: Yup.boolean(),
       isForwarded: Yup.boolean(),
-      forwardedToId: Yup.string().when("isForwarded", {
+      forwardedToId: Yup.array(Yup.string()).when("isForwarded", {
         is: true,
-        then: () => Yup.string().required("Required"),
+        then: () => Yup.array(Yup.string()).required("Required"),
       }),
     }),
     onSubmit: async (value) => {
@@ -97,6 +95,9 @@ const TypeEmailContainer = ({
           );
         }
 
+        if (!value?.forwardedToId?.length)
+          throw new Error("Choose user(s) to forward");
+
         const response = await change(`emails`, {
           method: "POST",
           body: {
@@ -104,18 +105,17 @@ const TypeEmailContainer = ({
             subject: value?.isForwarded
               ? `Forwarded | ${data?.subject}`
               : `Reply | ${data?.subject}`,
-            content: value?.forwardedToId
+            content: value?.forwardedToId?.length
               ? `Forwarded Message &lt;&lt;${data?.sender?.username}&gt;&gt; <br/> ${data?.content} &lt;&lt;${user?.username}&gt;&gt; <br/> ${value?.message} `
               : value?.message,
             attachments: attachmentUrl,
             isSend: !value?.isDraft,
-            receiverIds: value?.forwardedToId
-              ? [value?.forwardedToId]
+            receiverIds: value?.forwardedToId?.length
+              ? value?.forwardedToId
               : [data?.sender?.id],
             replyId: value?.isForwarded ? undefined : data?.id,
           },
         });
-
         if (response?.status !== 200) throw new Error(response?.results?.msg);
 
         Swal.fire({
@@ -160,7 +160,7 @@ const TypeEmailContainer = ({
       }
     },
   });
-  console.log(formik?.values?.attachments);
+
   const handleRemoveFile = (slNumber: number) => {
     //filter out this number of index and set other value
     formik?.setFieldValue(
@@ -182,13 +182,18 @@ const TypeEmailContainer = ({
             <Autocomplete
               loading={userLoading}
               clearOnBlur={false}
+              multiple={true}
               fullWidth
               value={selectedAutoComplete}
               isOptionEqualToValue={(option, value) => option?.id === value?.id}
-              options={users || []}
+              options={users?.filter((item) => item?.id !== user?.id) || []}
               getOptionLabel={(option: any) => option.username}
               onChange={(e, v) => {
-                formik?.setFieldValue("forwardedToId", v?.id);
+                console.log({ v });
+                formik?.setFieldValue(
+                  "forwardedToId",
+                  v?.map((item) => item?.id)
+                );
                 setSelectedAutocomplete(v);
               }}
               renderInput={(params) => (
