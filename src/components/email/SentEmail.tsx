@@ -119,6 +119,7 @@ const SentEmail = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        setSelectedEmails([]);
       }
     } catch (error) {
       if (error instanceof Error) {

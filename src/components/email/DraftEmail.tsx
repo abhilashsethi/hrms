@@ -118,6 +118,7 @@ const DraftEmail = () => {
           timer: 1500,
         });
         mutate?.();
+        setSelectedEmails([]);
       }
     } catch (error) {
       if (error instanceof Error) {

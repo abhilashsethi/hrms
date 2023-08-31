@@ -18,7 +18,7 @@ import { useFormik } from "formik";
 import { useAuth, useChange, useFetch } from "hooks";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EmailEditor, { EditorRef } from "react-email-editor";
 import Swal from "sweetalert2";
 import { EmailType, EmailUser, MailTemplate, User } from "types";
@@ -29,6 +29,7 @@ const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 const CreateEmail = (templateId: any) => {
   const [pageLimit, setPageLimit] = useState<number | undefined>(20);
+  const [isRendered, setIsRendered] = useState(false);
   const [searchText, setSearchText] = useState("");
   const attachRef = useRef<HTMLInputElement | null>(null);
   const { data: users, isValidating: userLoading } = useFetch<User[]>(
@@ -42,9 +43,9 @@ const CreateEmail = (templateId: any) => {
     `emails/${query?.draftId}?draft=true`
   );
 
-  console.log({ draftData });
-
   const emailEditorRef = useRef<EditorRef>(null);
+
+  useEffect(() => {}, []);
 
   const formik = useFormik({
     initialValues: {
@@ -120,7 +121,8 @@ const CreateEmail = (templateId: any) => {
         }
 
         const editorData: { content?: string; json?: any } | undefined =
-          (templateId?.templateId !== "normal" &&
+          ((templateId?.templateId !== "normal" ||
+            draftData?.isUsingTemplate) &&
             (await new Promise((re, rej) => {
               try {
                 emailEditorRef?.current?.exportHtml((data) => {
@@ -146,22 +148,24 @@ const CreateEmail = (templateId: any) => {
               value?.bccRecipients?.map((item: EmailUser) => item?.id)) ||
             undefined,
           subject: value?.subject,
-          content:
-            templateId?.templateId === "normal"
-              ? value?.message
-              : editorData?.content,
+          content: draftData?.isUsingTemplate
+            ? editorData?.content
+            : templateId?.templateId !== "normal"
+            ? editorData?.content
+            : value?.message,
           attachments: attachmentUrl,
           isSend: !value?.isDraft,
           sentAt: value?.isDraft ? undefined : new Date().toISOString(),
-          isUsingTemplate: templateId?.templateId !== "normal",
-          templateJson:
-            templateId?.templateId !== "normal"
-              ? JSON.stringify(editorData?.json)
-              : undefined,
+          isUsingTemplate: draftData?.isUsingTemplate
+            ? draftData?.isUsingTemplate
+            : templateId?.templateId !== "normal",
+          templateJson: draftData?.isUsingTemplate
+            ? JSON.stringify(editorData?.json)
+            : templateId?.templateId !== "normal"
+            ? JSON.stringify(editorData?.json)
+            : undefined,
           ...draftQuery,
         };
-
-        console.log({ bodyData });
 
         const response = await change(
           query?.draftId ? `emails/${query?.draftId}` : `emails`,
@@ -241,16 +245,23 @@ const CreateEmail = (templateId: any) => {
     `mail-template/get-by-id?templateId=${templateId?.templateId}`
   );
 
+  useEffect(() => {
+    setIsRendered(false);
+  }, [templateId?.templateId]);
+
   const onReady = () => {
     // editor is ready
-    template?.json?.length &&
+    !isRendered &&
+      template?.json?.length &&
       emailEditorRef?.current?.loadDesign?.(JSON.parse(template?.json));
     // editor is ready
-    draftData?.isUsingTemplate &&
+    !isRendered &&
+      draftData?.isUsingTemplate &&
       draftData?.templateJson &&
       emailEditorRef?.current?.loadDesign?.(
         JSON.parse(draftData?.templateJson)
       );
+    setIsRendered(true);
   };
 
   return (
@@ -267,14 +278,14 @@ const CreateEmail = (templateId: any) => {
               multiple
               fullWidth
               limitTags={2}
-              options={users || []}
+              options={users?.filter((item) => item?.id !== user?.id) || []}
               value={
                 Array.isArray(formik?.values?.recipients)
                   ? formik?.values?.recipients
                   : []
               }
               isOptionEqualToValue={(option, value) =>
-                option?.name === value.name
+                option?.name === value?.name
               }
               clearOnBlur={false}
               getOptionLabel={(option: any) => option.name}
@@ -300,7 +311,7 @@ const CreateEmail = (templateId: any) => {
                     label={
                       <div className="flex flex-col">
                         <h3 className="font-semibold tracking-wide  !text-sm">
-                          {option.name}
+                          {option?.name}
                         </h3>
                         <p className="!text-xs whitespace-nowrap ">
                           {option?.username}
@@ -370,7 +381,17 @@ const CreateEmail = (templateId: any) => {
               isOptionEqualToValue={(option, value) =>
                 option?.name === value?.name
               }
-              options={users || []}
+              options={
+                users?.filter(
+                  (item) =>
+                    ![
+                      user?.id,
+                      ...(Array.isArray(formik?.values?.recipients)
+                        ? formik?.values?.recipients?.map((item) => item?.id)
+                        : [formik?.values?.recipients]),
+                    ]?.includes(String(item?.id))
+                ) || []
+              }
               getOptionLabel={(option: any) => option.name}
               filterSelectedOptions
               noOptionsText={
@@ -438,7 +459,20 @@ const CreateEmail = (templateId: any) => {
               fullWidth
               clearOnBlur={false}
               limitTags={2}
-              options={users || []}
+              options={
+                users?.filter(
+                  (item) =>
+                    ![
+                      user?.id,
+                      ...(Array.isArray(formik?.values?.recipients)
+                        ? formik?.values?.recipients?.map((item) => item?.id)
+                        : [formik?.values?.recipients]),
+                      ...(Array.isArray(formik?.values?.ccRecipients)
+                        ? formik?.values?.ccRecipients?.map((item) => item?.id)
+                        : [formik?.values?.ccRecipients]),
+                    ]?.includes(String(item?.id))
+                ) || []
+              }
               value={
                 Array.isArray(formik?.values?.bccRecipients)
                   ? formik?.values?.bccRecipients
