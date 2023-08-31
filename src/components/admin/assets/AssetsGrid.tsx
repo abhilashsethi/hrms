@@ -329,7 +329,7 @@ const MoreOption = ({ item, mutate }: any) => {
 						<img
 							className="lg:h-56 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-							src="https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg"
+							src="/no_IMG.jpg"
 							alt="Branch"
 						/>
 					)}
