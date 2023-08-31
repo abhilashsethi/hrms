@@ -12,8 +12,6 @@ import { useRouter } from "next/router";
 import { useState, MouseEvent } from "react";
 
 const InboxHeader = ({
-  setAllClicked,
-  allClicked,
   setPageNo,
   setSearchText,
   setSelectedEmails,
@@ -23,9 +21,9 @@ const InboxHeader = ({
   pageNo,
   searchText,
   handleDeleteEmail,
+  allEmails,
+  selectedEmails,
 }: {
-  setAllClicked: (arg: any) => void;
-  allClicked: boolean;
   mutate?: any;
   setPageNo: (arg: any) => void;
   setSelectedEmails: (arg: any) => void;
@@ -35,6 +33,8 @@ const InboxHeader = ({
   pageNo: number;
   searchText: string;
   handleDeleteEmail?: () => void;
+  allEmails?: string[];
+  selectedEmails?: string[];
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -47,7 +47,6 @@ const InboxHeader = ({
 
   const handleReset = () => {
     setPageNo(1);
-    setAllClicked(false);
     setSelectedEmails([]);
     setSortBy(undefined);
     setSearchText("");
@@ -55,13 +54,18 @@ const InboxHeader = ({
 
   const { push } = useRouter();
 
+  const handleAllClicked = () => {
+    if (selectedEmails?.length === allEmails?.length) setSelectedEmails([]);
+    else setSelectedEmails(allEmails);
+  };
+
   return (
     <div className="flex flex-col lg:flex-row gap-2 shadow-md rounded-lg justify-between p-4 bg-white py-4  w-full items-center">
       <div className="flex flex-wrap lg:flex-nowrap justify-center gap-2 items-center">
         <Checkbox
           size="small"
-          checked={allClicked}
-          onClick={() => setAllClicked((prev: boolean) => !prev)}
+          checked={selectedEmails?.length === allEmails?.length}
+          onClick={handleAllClicked}
         />{" "}
         <span className="text-gray-800/20">|</span>
         <IconButton onClick={handleDeleteEmail}>

@@ -29,7 +29,6 @@ type InboxDataType = {
 
 const Inbox = () => {
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
-  const [allClicked, setAllClicked] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [sortBy, setSortBy] = useState();
@@ -63,24 +62,6 @@ const Inbox = () => {
 
   const handleDeleteEmail = async () => {
     try {
-      if (allClicked) {
-        const response = await change(`emails/delete/all?isInbox=true`, {
-          method: "DELETE",
-        });
-
-        if (response?.status !== 200) throw new Error(response?.results?.msg);
-
-        Swal.fire({
-          title: "Success",
-          text: "Email deleted successfully",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        setAllClicked(false);
-        mutate?.();
-        return;
-      }
       if (selectedEmails?.length) {
         await Promise.all(
           selectedEmails?.map(
@@ -130,8 +111,6 @@ const Inbox = () => {
   return (
     <div className="w-full flex flex-col">
       <InboxHeader
-        setAllClicked={setAllClicked}
-        allClicked={allClicked}
         setPageNo={setPageNo}
         setSearchText={setSearchText}
         setSelectedEmails={setSelectedEmails}
@@ -141,6 +120,8 @@ const Inbox = () => {
         totalPage={data?.pagination?.total}
         searchText={searchText}
         handleDeleteEmail={handleDeleteEmail}
+        allEmails={data?.inboxData?.map((item) => item?.id)}
+        selectedEmails={selectedEmails}
       />
 
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -157,7 +138,7 @@ const Inbox = () => {
               ) : data?.inboxData?.length ? (
                 data?.inboxData?.map((item, i) => (
                   <EmailCard
-                    selected={allClicked || selectedEmails?.includes(item?.id)}
+                    selected={selectedEmails?.includes(item?.id)}
                     onSelect={() => handleSelect(item?.id)}
                     key={item?.id}
                     isRead={item?.isRead}

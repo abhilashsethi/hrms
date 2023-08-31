@@ -95,7 +95,7 @@ const TypeEmailContainer = ({
           );
         }
 
-        if (!value?.forwardedToId?.length)
+        if (value?.isForwarded && !value?.forwardedToId?.length)
           throw new Error("Choose user(s) to forward");
 
         const response = await change(`emails`, {
