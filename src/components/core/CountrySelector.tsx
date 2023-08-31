@@ -1,5 +1,6 @@
 // import { countries } from "configs";
 
+import { FormHelperText } from "@mui/material";
 import { countries } from "schemas/Countries";
 
 const CountrySelector = ({
@@ -9,6 +10,8 @@ const CountrySelector = ({
 	value,
 	defaultValue,
 	className,
+	error,
+	helperText,
 }: any) => {
 	return (
 		<>
@@ -19,7 +22,7 @@ const CountrySelector = ({
 				onBlur={onBlur}
 				value={value}
 				id=""
-				className={`flex w-full gap-3 rounded-lg border  p-3 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 ${className}`}
+				className={`flex w-full gap-3 rounded-lg border p-3 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 ${className}`}
 			>
 				{countries.map((item, index) => (
 					<option key={index} value={item.phone}>
@@ -27,6 +30,9 @@ const CountrySelector = ({
 					</option>
 				))}
 			</select>
+			{error ? (
+				<FormHelperText error={true}>{helperText}</FormHelperText>
+			) : null}
 		</>
 	);
 };

@@ -1,6 +1,7 @@
+import { Button } from "@mui/material";
 import { CHATDEFAULT } from "assets/home";
 
-const DefaultChatView = () => {
+const DefaultChatView = ({ setChatLeftBar }: any) => {
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4">
       <img className="h-60 object-contain" src={CHATDEFAULT.src} alt="" />
@@ -8,6 +9,7 @@ const DefaultChatView = () => {
         Elevate Your Business Communication. Connect, Collaborate, Succeed.
         Empower Your Team with Seamless Chat Experience.
       </p>
+      <button onClick={setChatLeftBar(false)}>Start Chat</button>
     </div>
   );
 };

@@ -9,7 +9,13 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 import ICONS from "assets/icons";
 
-const ChatHead = ({ isNew }: { isNew?: boolean }) => {
+const ChatHead = ({
+  isNew,
+  setChatLeftBar,
+}: {
+  isNew?: boolean;
+  setChatLeftBar: any;
+}) => {
   const [typingUser, setTypingUser] = useState("");
   const [isDrawer, setIsDrawer] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -212,7 +218,9 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
         <div className="flex gap-3 items-center">
           <span
             className="cursor-pointer block md:hidden"
-            onClick={() => setSelectedChatId("")}
+            onClick={() => {
+              setSelectedChatId(""), setChatLeftBar(false);
+            }}
           >
             <ICONS.ChevronLeft />{" "}
           </span>
@@ -297,7 +305,7 @@ const ChatHead = ({ isNew }: { isNew?: boolean }) => {
                         }`}
                   </span>
                 ) : (
-                  <span className="">
+                  <span className="md:block hidden">
                     {typingUser?.length
                       ? `${typingUser} is typing`
                       : currentChatProfileDetails?.chatMembers

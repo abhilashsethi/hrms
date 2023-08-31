@@ -41,7 +41,7 @@ const ImageMessage = ({ data }: Props) => {
           </Link>
         </Tooltip>
       </div>
-      <p className="tracking-wide whitespace-pre-line break-words ">
+      <p className="tracking-wide min-w-fit break-all  whitespace-pre-line break-words ">
         {data?.text}
       </p>
     </>

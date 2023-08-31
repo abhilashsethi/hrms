@@ -173,6 +173,7 @@ const ProjectTasks = () => {
 									{user?.role?.name === "CEO" ||
 									user?.role?.name === "HR" ||
 									user?.role?.name === "DIRECTOR" ||
+									user?.role?.name === "PROJECT MANAGER" ||
 									user?.role?.name === "COO" ? (
 										<div className="flex gap-2 items-center">
 											<Tooltip title="Edit">

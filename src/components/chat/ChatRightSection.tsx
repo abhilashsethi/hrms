@@ -5,7 +5,14 @@ import {
   InsertLink,
   Send,
 } from "@mui/icons-material";
-import { CircularProgress, IconButton, Tooltip } from "@mui/material";
+import {
+  CircularProgress,
+  IconButton,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
+  Tooltip,
+} from "@mui/material";
 import {
   ChatSendCode,
   ChatSendFiles,
@@ -24,9 +31,10 @@ interface Props {
   photo?: string;
   name?: string;
   message?: string;
+  setChatLeftBar?: any;
 }
 
-const ChatRightSection = () => {
+const ChatRightSection = ({ setChatLeftBar }: Props) => {
   const [isTyping, setIsTyping] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
@@ -38,7 +46,40 @@ const ChatRightSection = () => {
   const { change } = useChange();
   const { socketRef } = useSocket();
   const { user } = useAuth();
-
+  const actions = [
+    {
+      icon: (
+        <IconButton onClick={() => setIsImage(true)} size="small">
+          <ImageOutlined className="text-white" />
+        </IconButton>
+      ),
+      name: "Image",
+    },
+    {
+      icon: (
+        <IconButton onClick={() => setIsUpload(true)} size="small">
+          <AttachFile className="!rotate-45 text-white" />
+        </IconButton>
+      ),
+      name: "Attach",
+    },
+    {
+      icon: (
+        <IconButton onClick={() => setIsCode(true)} size="small">
+          <Code className="text-white" />
+        </IconButton>
+      ),
+      name: "Code",
+    },
+    {
+      icon: (
+        <IconButton onClick={() => setIsLink(true)} size="small">
+          <InsertLink className="text-white" />
+        </IconButton>
+      ),
+      name: "Link",
+    },
+  ];
   const {
     currentChatProfileDetails,
     handleSendNewMessage,
@@ -149,10 +190,13 @@ const ChatRightSection = () => {
       />
       <div className="md:w-[68%] w-full h-full">
         {!currentChatProfileDetails?.id ? (
-          <DefaultChatView />
+          <DefaultChatView setChatLeftBar={setChatLeftBar} />
         ) : (
           <div className="w-full h-full relative">
-            <ChatHead key={currentChatProfileDetails?.id} />
+            <ChatHead
+              key={currentChatProfileDetails?.id}
+              setChatLeftBar={setChatLeftBar}
+            />
             <div className="h-[calc(100%-153px)] overflow-y-auto">
               <MainChatViewContainer key={currentChatProfileDetails?.id} />
             </div>
@@ -174,8 +218,8 @@ const ChatRightSection = () => {
               )
             ) : (
               <>
-                <div className="md:h-20 h-24 w-full border-2 md:flex items-center py-2 px-8 justify-between">
-                  <div className="h-10 px-3 rounded-full md:w-[70%] w-full border-2 flex justify-between items-center">
+                <div className="md:h-20 h-24 w-full border-2 md:flex hidden items-center py-2 px-8 justify-between">
+                  <div className="h-10 px-3 rounded-full md:w-[70%] w-full border-2 md:flex justify-between items-center">
                     <div className="flex gap-2 items-center w-full">
                       {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
                       <input
@@ -219,6 +263,61 @@ const ChatRightSection = () => {
                       <InsertLink />
                     </IconButton>
                   </Tooltip>
+                </div>
+                {/* MOBILE SCREEN */}
+                <div className="md:h-20 h-24 w-full border-2 md:hidden grid items-center py-2 pr-14 pl-2 justify-between">
+                  <div className="h-10 px-3 rounded-full md:w-[70%] w-full border-2 flex justify-between items-center">
+                    <div className="flex gap-2 items-center w-full mx-8 ">
+                      {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
+                      <input
+                        onKeyDown={handleKeyDown}
+                        onChange={handleTyping}
+                        ref={textRef}
+                        value={isMessage ? isMessage : ""}
+                        className="bg-white text-sm md:w-4/5 !w-full"
+                        placeholder="Type a message"
+                        type="text"
+                        onBlur={handleTypingBlur}
+                      />
+                    </div>
+
+                    <Tooltip title="Send">
+                      <IconButton
+                        onClick={() => handleSend()}
+                        disabled={isLoading}
+                        size="small"
+                      >
+                        {isLoading ? <CircularProgress size={20} /> : <Send />}
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                  <div>
+                    <SpeedDial
+                      ariaLabel="SpeedDial"
+                      sx={{
+                        position: "absolute",
+                        bottom: 22,
+                        right: 0,
+                      }}
+                      icon={<SpeedDialIcon />}
+                      FabProps={{
+                        size: "small",
+                        style: {
+                          backgroundColor: "#ddd", // Set the desired button color
+                        },
+                      }}
+                    >
+                      {actions.map((action) => (
+                        <SpeedDialAction
+                          className="bg-theme"
+                          key={action.name}
+                          icon={action.icon}
+                          tooltipTitle={action.name}
+                          tooltipOpen
+                        />
+                      ))}
+                    </SpeedDial>
+                  </div>
                 </div>
               </>
             )}

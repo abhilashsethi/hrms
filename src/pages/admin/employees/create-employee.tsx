@@ -239,6 +239,10 @@ const CreateEmployee = () => {
 														onChange={handleChange}
 														onBlur={handleBlur}
 														value={values.countryCode}
+														error={touched.countryCode && !!errors.countryCode}
+														helperText={
+															touched.countryCode && errors.countryCode
+														}
 													/>
 												</div>
 												<TextField
