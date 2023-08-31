@@ -66,7 +66,7 @@ const ChatHead = ({
       groupOnly: false,
     },
   ];
-
+  1;
   useEffect(() => {
     (() => {
       if (!socketRef || !user?.id || !selectedChatId) return;
@@ -232,8 +232,14 @@ const ChatHead = ({
             />
           </div>
           <div>
-            <h1 className="font-semibold">
+            <h1 className="font-semibold hidden md:block">
               {currentChatProfileDetails?.title}
+            </h1>
+            <h1 className="font-semibold block md:hidden">
+              {currentChatProfileDetails?.title?.length &&
+              currentChatProfileDetails?.title?.length > 10
+                ? `${currentChatProfileDetails?.title?.slice(0, 10)} ...`
+                : currentChatProfileDetails?.title}
             </h1>
             {currentChatProfileDetails?.isNewChat ? (
               currentChatProfileDetails?.role
