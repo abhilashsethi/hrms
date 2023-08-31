@@ -24,7 +24,7 @@ import { EmailType, EmailUser, MailTemplate, User } from "types";
 import { deleteFile, uploadFile } from "utils";
 import * as Yup from "yup";
 import ReplyToEmail from "./ReplyToEmail";
-import EmailEditor from "react-email-editor";
+import EmailEditor, { EditorRef } from "react-email-editor";
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 const CreateEmail = (templateId: any) => {
@@ -42,7 +42,7 @@ const CreateEmail = (templateId: any) => {
     `emails/${query?.draftId}?draft=true`
   );
 
-  const emailEditorRef = useRef<any>(null);
+  const emailEditorRef = useRef<EditorRef>(null);
 
   const formik = useFormik({
     initialValues: {
@@ -117,43 +117,54 @@ const CreateEmail = (templateId: any) => {
             value?.recipients?.map((item: EmailUser) => item?.id);
         }
 
-        let content;
-        let json;
+        const editorData: { content?: string; json?: any } = await new Promise(
+          (re, rej) => {
+            try {
+              emailEditorRef?.current?.exportHtml((data) => {
+                return re({
+                  content: data?.html,
+                  json: data?.design,
+                });
+              });
+            } catch (error) {
+              re({});
+            }
+          }
+        );
 
-        emailEditorRef?.current?.editor?.exportHtml((data: any) => {
-          const { design, html } = data;
-          content = html;
-          json = design;
-        });
+        const bodyData = {
+          senderId: user?.id,
+          cc:
+            (Array.isArray(value?.ccRecipients) &&
+              value?.ccRecipients?.map((item: EmailUser) => item?.id)) ||
+            undefined,
+          bcc:
+            (Array.isArray(value?.bccRecipients) &&
+              value?.bccRecipients?.map((item: EmailUser) => item?.id)) ||
+            undefined,
+          subject: value?.subject,
+          content:
+            templateId?.templateId === "normal"
+              ? value?.message
+              : editorData?.content,
+          attachments: attachmentUrl,
+          isSend: !value?.isDraft,
+          sentAt: value?.isDraft ? undefined : new Date().toISOString(),
+          isUsingTemplate: templateId?.templateId !== "normal",
+          templateJson:
+            templateId?.templateId !== "normal"
+              ? JSON.stringify(editorData?.json)
+              : undefined,
+          ...draftQuery,
+        };
 
-        console.log({ content });
-        console.log({ json });
+        console.log({ bodyData });
 
         const response = await change(
           query?.draftId ? `emails/${query?.draftId}` : `emails`,
           {
             method: query?.draftId ? "PATCH" : "POST",
-            body: {
-              senderId: user?.id,
-              cc:
-                (Array.isArray(value?.ccRecipients) &&
-                  value?.ccRecipients?.map((item: EmailUser) => item?.id)) ||
-                undefined,
-              bcc:
-                (Array.isArray(value?.bccRecipients) &&
-                  value?.bccRecipients?.map((item: EmailUser) => item?.id)) ||
-                undefined,
-              subject: value?.subject,
-              content:
-                templateId?.templateId === "normal" ? value?.message : content,
-              attachments: attachmentUrl,
-              isSend: !value?.isDraft,
-              sentAt: value?.isDraft ? undefined : new Date().toISOString(),
-              isUsingTemplate: templateId?.templateId !== "normal",
-              templateJson:
-                templateId?.templateId !== "normal" ? json : undefined,
-              ...draftQuery,
-            },
+            body: bodyData,
           }
         );
 
@@ -203,6 +214,8 @@ const CreateEmail = (templateId: any) => {
         });
       }
     },
+
+    /////
   });
   const handleRemoveFile = async (slNumber: number) => {
     //checkout what is the type of attachment
