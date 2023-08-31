@@ -59,7 +59,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
 			icon: <Construction fontSize="medium" className="text-theme" />,
 			name: "Total Technology",
 			count: projectDashboard?.totalTechnologies || 0,
-			link: "/admin/technologies/all-technologies",
+			link: "admin/projects/my-projects",
 		},
 	];
 	const Quick_Access = [
