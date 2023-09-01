@@ -37,7 +37,6 @@ const defaultOptions = {
 
 const SentEmail = () => {
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
-  const [allClicked, setAllClicked] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [sortBy, setSortBy] = useState("");
@@ -72,26 +71,14 @@ const SentEmail = () => {
 
   const { change } = useChange();
 
+  const handleAllClicked = () => {
+    if (selectedEmails?.length === data?.allSendEmails?.length)
+      setSelectedEmails([]);
+    else setSelectedEmails(data?.allSendEmails?.map((item) => item?.id) || []);
+  };
+
   const handleDeleteEmail = async () => {
     try {
-      if (allClicked) {
-        const response = await change(`emails/delete/all?isSend=true`, {
-          method: "DELETE",
-        });
-
-        if (response?.status !== 200) throw new Error(response?.results?.msg);
-
-        Swal.fire({
-          title: "Success",
-          text: "Email deleted successfully",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        setAllClicked(false);
-        mutate?.();
-        return;
-      }
       if (selectedEmails?.length) {
         await Promise.all(
           selectedEmails?.map(
@@ -144,8 +131,8 @@ const SentEmail = () => {
         <div className="flex gap-2 items-center">
           <Checkbox
             size="small"
-            checked={allClicked}
-            onClick={() => setAllClicked((prev) => !prev)}
+            checked={data?.allSendEmails?.length === selectedEmails?.length}
+            onClick={handleAllClicked}
           />{" "}
           <span className="text-gray-800/20">|</span>
           <IconButton onClick={handleDeleteEmail}>
@@ -155,7 +142,6 @@ const SentEmail = () => {
             onClick={() => {
               mutate?.();
               setPageNo(1);
-              setAllClicked(false);
               setSelectedEmails([]);
               setSortBy("");
               setSearchText("");
@@ -248,7 +234,7 @@ const SentEmail = () => {
         </div>
       </div>
 
-      <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+      <div className="-mx-4 md:-mx-8 px-4 md:px-8 py-4 overflow-x-auto">
         <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
           <table className="min-w-full leading-normal table-fixed ">
             <tbody>
@@ -262,7 +248,7 @@ const SentEmail = () => {
               ) : data?.allSendEmails?.length ? (
                 data?.allSendEmails?.map((item, i) => (
                   <EmailCard
-                    selected={allClicked || selectedEmails?.includes(item?.id)}
+                    selected={selectedEmails?.includes(item?.id)}
                     onSelect={() => handleSelect(item?.id)}
                     key={item?.id}
                     isRead={true}

@@ -14,7 +14,7 @@ const ChatHead = ({
   setChatLeftBar,
 }: {
   isNew?: boolean;
-  setChatLeftBar: any;
+  setChatLeftBar: (value: boolean) => void;
 }) => {
   const [typingUser, setTypingUser] = useState("");
   const [isDrawer, setIsDrawer] = useState(false);
@@ -217,7 +217,7 @@ const ChatHead = ({
       <div className="py-2 px-4 w-full border-b-2 flex justify-between items-center sticky top-0 z-[999] bg-white ">
         <div className="flex gap-3 items-center">
           <span
-            className="cursor-pointer block md:hidden"
+            className="cursor-pointer block lg:hidden"
             onClick={() => {
               setSelectedChatId(""), setChatLeftBar(false);
             }}

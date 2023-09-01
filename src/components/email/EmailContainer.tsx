@@ -49,28 +49,32 @@ const EmailContainer = ({
                   <h3 className="text-xs font-bold tracking-wide text-black ">
                     CC-
                   </h3>
-                  <div className="flex flex-col gap-1">
-                    {data?.cc?.map((item) => (
-                      <Chip
-                        avatar={
-                          <Avatar alt={item?.name} src={item?.photo}>
-                            {item?.name[0]}
-                          </Avatar>
-                        }
-                        label={
-                          <div className="flex flex-col">
-                            <h3 className="text-xs font-bold tracking-wide">
-                              {item?.name}
-                            </h3>
-                            <h3 className="text-xs font-medium tracking-wide">
-                              {item?.username}
-                            </h3>
-                          </div>
-                        }
-                        variant="outlined"
-                      />
-                    ))}
-                  </div>
+                  {data?.cc?.length ? (
+                    <div className="flex flex-col gap-1">
+                      {data?.cc?.map((item) => (
+                        <Chip
+                          avatar={
+                            <Avatar alt={item?.name} src={item?.photo}>
+                              {item?.name[0]}
+                            </Avatar>
+                          }
+                          label={
+                            <div className="flex flex-col">
+                              <h3 className="text-xs font-bold tracking-wide">
+                                {item?.name}
+                              </h3>
+                              <h3 className="text-xs font-medium tracking-wide">
+                                {item?.username}
+                              </h3>
+                            </div>
+                          }
+                          variant="outlined"
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    "No CC"
+                  )}
                 </div>
               </div>
             }

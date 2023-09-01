@@ -2,9 +2,11 @@ import { Check, Close, KeyboardArrowLeftRounded } from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   FormControl,
   FormControlLabel,
-  FormLabel,
   Grid,
   IconButton,
   Radio,
@@ -12,15 +14,17 @@ import {
   Step,
   StepLabel,
   Stepper,
+  TextField,
   Tooltip,
 } from "@mui/material";
 import { PhotoViewer } from "components/core";
 import { LeaveDocuments } from "components/drawer";
 import { useAuth, useChange } from "hooks";
-import { useState, ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
+import { Leave } from "types";
 interface Props {
-  data?: any;
+  data?: Leave[];
   mutate: () => void;
 }
 const LeavesGrid = ({ data, mutate }: Props) => {
@@ -29,7 +33,7 @@ const LeavesGrid = ({ data, mutate }: Props) => {
     <>
       <section className="md:py-2 py-2">
         <Grid container spacing={3}>
-          {data?.map((item: any) => (
+          {data?.map((item) => (
             <>
               {user?.role?.name === "PROJECT MANAGER" ? (
                 <CardComponent
@@ -58,7 +62,7 @@ export default LeavesGrid;
 const steps = ["Team Manager", "Hr"];
 
 interface Props {
-  item?: any;
+  item?: Leave;
   mutate: () => void;
   mainId?: string;
 }
@@ -69,12 +73,9 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const [rloading, setRLoading] = useState(false);
   const [isDocuments, setIsDocuments] = useState(false);
-  const [isValue, setIsValue] = useState(true);
+  const [isApproveLeave, setApproveLeave] = useState(false);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsValue(event.target.value === "paid");
-  };
-  const managerApproveLeave = (id: string) => {
+  const managerApproveLeave = (id?: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to approve!",
@@ -115,7 +116,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
       }
     });
   };
-  const managerRejectLeave = (id: string) => {
+  const managerRejectLeave = (id?: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to approve!",
@@ -156,49 +157,8 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
       }
     });
   };
-  const approveLeave = (id: string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to approve!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, approve!",
-    }).then(async (result) => {
-      if (result?.isConfirmed) {
-        setLoading(true);
-        try {
-          const res = await change(`leaves/${id}`, {
-            method: "PATCH",
-            body: {
-              status: "Approved",
-              isPaidLeave: isValue,
-            },
-          });
-          setLoading(false);
-          if (res?.status !== 200) {
-            Swal.fire(
-              "Error",
-              res?.results?.msg || "Something went wrong!",
-              "error"
-            );
-            setLoading(false);
-            return;
-          }
-          Swal.fire(`Success`, `Status changed successfully!`, `success`);
-          mutate();
-          return;
-        } catch (error) {
-          console.log(error);
-          setLoading(false);
-        } finally {
-          setLoading(false);
-        }
-      }
-    });
-  };
-  const rejectLeave = (id: string) => {
+
+  const rejectLeave = (id?: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to reject!",
@@ -237,7 +197,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
       }
     });
   };
-  const renderStatus = (item: any) => {
+  const renderStatus = (item?: Leave) => {
     switch (item?.status) {
       case "Approved":
         return (
@@ -283,7 +243,10 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
             ) : (
               <div className="md:flex items-center justify-center mt-2 pt-2 space-x-3">
                 <Button
-                  onClick={() => approveLeave(item?.id)}
+                  onClick={
+                    () => setApproveLeave(true)
+                    // approveLeave(item?.id)
+                  }
                   className="!bg-green-600"
                   variant="contained"
                   disabled={loading}
@@ -309,46 +272,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
               </div>
             )}
 
-            <div>
-              {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
-                <FormControl>
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="controlled-radio-buttons-group"
-                    value={isValue ? "paid" : "unPaid"}
-                    onChange={handleChange}
-                  >
-                    <FormControlLabel
-                      value="paid"
-                      control={
-                        <Radio
-                          sx={{
-                            "& .MuiSvgIcon-root": {
-                              fontSize: 20,
-                            },
-                          }}
-                        />
-                      }
-                      label="Paid"
-                    />
-                    <FormControlLabel
-                      value="unPaid"
-                      control={
-                        <Radio
-                          sx={{
-                            "& .MuiSvgIcon-root": {
-                              fontSize: 20,
-                            },
-                          }}
-                        />
-                      }
-                      label="UnPaid"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              ) : null}
-            </div>
+            <div></div>
           </>
         );
       case "Rejected":
@@ -379,6 +303,12 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
 
   return (
     <Grid item lg={3} sm={12} xs={12}>
+      <IsSandwichLeave
+        item={item}
+        open={isApproveLeave}
+        handleClose={() => setApproveLeave(false)}
+        mutate={mutate}
+      />
       <div
         className={`relative h-full mt-7 flex flex-col px-2 justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-gradient-to-r from-rose-100 to-teal-100 hover:scale-105 ease-in-out transition-all duration-200 md:mt-0`}
       >
@@ -419,5 +349,340 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
         </div>
       </div>
     </Grid>
+  );
+};
+
+interface ModalProps {
+  open: boolean;
+  handleClose: () => void;
+  mutate: () => void;
+  item?: Leave;
+}
+
+const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
+  const [loading, setLoading] = useState(false);
+  const { change } = useChange();
+  const { user } = useAuth();
+  const [isTotalSandwichDay, setTotalSandwichDay] = useState("0");
+  const [isTotalDay, setTotalDay] = useState("0");
+  const [isSandwichLeave, setSandwichLeave] = useState(false);
+  const [isValue, setIsValue] = useState(true);
+  const [validationError, setValidationError] = useState("");
+  const [dayValidationError, setDayValidationError] = useState("");
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
+    if (inputValue === "" || /^\d+$/.test(inputValue)) {
+      const numericValue = parseInt(inputValue, 10);
+      if (inputValue === "" || (numericValue >= 0 && numericValue <= 15)) {
+        setTotalSandwichDay(inputValue);
+        setValidationError("");
+      } else {
+        setValidationError("Value must be between 0 and 15");
+      }
+    } else {
+      setValidationError("Please enter a valid non-negative number");
+    }
+  };
+  const handleDayInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
+    if (inputValue === "" || /^\d+$/.test(inputValue)) {
+      const numericValue = parseInt(inputValue, 10);
+      if (inputValue === "" || (numericValue >= 0 && numericValue <= 12)) {
+        setTotalDay(inputValue);
+        setDayValidationError("");
+      } else {
+        setDayValidationError("Value must be between 0 and 12");
+      }
+    } else {
+      setDayValidationError("Please enter a valid number");
+    }
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsValue(event.target.value === "paid");
+    setTotalDay("0");
+  };
+  const approveLeave = (id?: string) => {
+    // console.log({ id });
+    // console.log({ isValue });
+    // console.log({ isTotalDay });
+    // console.log({ isSandwichLeave });
+    // console.log({ isTotalSandwichDay });
+    // return;
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to approve!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, approve!",
+    }).then(async (result) => {
+      if (result?.isConfirmed) {
+        setLoading(true);
+        try {
+          // Leave Approve for Non Sandwich Leave
+          if (!isSandwichLeave) {
+            // Leave Approve For Paid Leave
+            if (isValue) {
+              const res = await change(`leaves/${id}`, {
+                method: "PATCH",
+                body: {
+                  status: "Approved",
+                  isPaidLeave: isValue,
+                },
+              });
+              setLoading(false);
+              if (res?.status !== 200) {
+                Swal.fire(
+                  "Error",
+                  res?.results?.msg || "Something went wrong!",
+                  "error"
+                );
+                setLoading(false);
+                return;
+              }
+            }
+            // Leave Approve For Unpaid Leave
+            else {
+              console.log("NOn sandwich Unpaid Leave");
+              const res = await change(`leaves/${id}`, {
+                method: "PATCH",
+                body: {
+                  status: "Approved",
+                  isPaidLeave: isValue,
+                  unpaidLeaveCount: Number(isTotalDay),
+                },
+              });
+              setLoading(false);
+              if (res?.status !== 200) {
+                Swal.fire(
+                  "Error",
+                  res?.results?.msg || "Something went wrong!",
+                  "error"
+                );
+                setLoading(false);
+                return;
+              }
+            }
+          }
+
+          // Leave Approve For Sandwich Leave
+          else {
+            // Leave Approve For Paid Leave
+            if (isValue) {
+              const res = await change(`leaves/${id}`, {
+                method: "PATCH",
+                body: {
+                  status: "Approved",
+                  isPaidLeave: isValue,
+                },
+              });
+              setLoading(false);
+              if (res?.status !== 200) {
+                Swal.fire(
+                  "Error",
+                  res?.results?.msg || "Something went wrong!",
+                  "error"
+                );
+                setLoading(false);
+                return;
+              }
+            }
+            // Leave Approve For Unpaid Leave
+            else {
+              const res = await change(`leaves/${id}`, {
+                method: "PATCH",
+                body: {
+                  status: "Approved",
+                  isPaidLeave: isValue,
+                  paidLeaveCount: Number(isTotalSandwichDay),
+                },
+              });
+              setLoading(false);
+              if (res?.status !== 200) {
+                Swal.fire(
+                  "Error",
+                  res?.results?.msg || "Something went wrong!",
+                  "error"
+                );
+                setLoading(false);
+                return;
+              }
+            }
+          }
+          Swal.fire(`Success`, `Status changed successfully!`, `success`);
+          mutate();
+          setSandwichLeave(false);
+          setTotalDay("0");
+          setTotalSandwichDay("0");
+          handleClose();
+          return;
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
+  };
+  return (
+    <Dialog
+      onClose={handleClose}
+      aria-labelledby="customized-dialog-title"
+      open={open}
+    >
+      <DialogTitle
+        id="customized-dialog-title"
+        sx={{ p: 2, minWidth: "18rem !important" }}
+      >
+        <p className="text-center text-xl font-bold text-theme tracking-wide">
+          APPROVE LEAVE
+        </p>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            top: 10,
+            right: 10,
+            position: "absolute",
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <Tooltip title="Close">
+            <Close />
+          </Tooltip>
+        </IconButton>
+      </DialogTitle>
+      <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
+        <div className="md:w-[22rem] w-[70vw] md:px-4 px-2 tracking-wide">
+          <div className="flex flex-col gap-4">
+            <div className="flex py-2 justify-between gap-2">
+              <button
+                onClick={() => {
+                  setSandwichLeave(false),
+                    setIsValue(true),
+                    setTotalDay("0"),
+                    setTotalSandwichDay("0");
+                }}
+                className={
+                  isSandwichLeave
+                    ? "hover:scale-105 ease-in-out transition-all duration-200 px-2 py-1 rounded-lg hover:bg-theme-200 hover:text-white"
+                    : "hover:scale-105 ease-in-out transition-all duration-200 border-2 border-theme px-2 py-1 rounded-lg bg-theme text-white"
+                }
+              >
+                No Sandwich Leave
+              </button>
+              <button
+                onClick={() => {
+                  setSandwichLeave(true), setIsValue(true), setTotalDay("0");
+                }}
+                className={
+                  isSandwichLeave
+                    ? "border-2 border-theme px-2 py-1 rounded-lg bg-theme text-white"
+                    : "hover:scale-105 ease-in-out transition-all duration-200 px-2 py-1 rounded-lg hover:bg-theme-200 hover:text-white"
+                }
+              >
+                Sandwich Leave
+              </button>
+            </div>
+            {isSandwichLeave ? (
+              <div className="grid gap-2 ">
+                <p>Enter Total Sandwich Day</p>
+                <TextField
+                  fullWidth
+                  size="small"
+                  placeholder="Enter Total Sandwich Day"
+                  name="sandwich"
+                  value={isTotalSandwichDay}
+                  onChange={handleInputChange}
+                  error={Boolean(validationError)}
+                  helperText={validationError}
+                />
+              </div>
+            ) : null}
+            {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
+              <>
+                <div className="flex pt-2 justify-center">
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      aria-labelledby="demo-controlled-radio-buttons-group"
+                      name="controlled-radio-buttons-group"
+                      value={isValue ? "paid" : "unPaid"}
+                      onChange={handleChange}
+                    >
+                      <FormControlLabel
+                        value="paid"
+                        control={
+                          <Radio
+                            sx={{
+                              "& .MuiSvgIcon-root": {
+                                fontSize: 20,
+                              },
+                            }}
+                          />
+                        }
+                        label="Paid"
+                      />
+                      <FormControlLabel
+                        value="unPaid"
+                        control={
+                          <Radio
+                            sx={{
+                              "& .MuiSvgIcon-root": {
+                                fontSize: 20,
+                              },
+                            }}
+                          />
+                        }
+                        label="UnPaid"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+              </>
+            ) : null}
+            {isValue ? null : (
+              <div className="grid gap-2 justify-center">
+                <p>Enter Total Unpaid Day</p>
+                <TextField
+                  fullWidth
+                  size="small"
+                  placeholder="Enter Day"
+                  name="unpaid"
+                  value={isTotalDay}
+                  onChange={handleDayInputChange}
+                  error={Boolean(dayValidationError)}
+                  helperText={dayValidationError}
+                />
+              </div>
+            )}
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              className="!bg-theme"
+              disabled={loading}
+              onClick={() => approveLeave(item?.id)}
+              startIcon={
+                loading ? (
+                  <CircularProgress color="secondary" size={20} />
+                ) : (
+                  <Check />
+                )
+              }
+            >
+              SUBMIT
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
