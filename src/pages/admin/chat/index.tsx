@@ -1,4 +1,4 @@
-import { useAuth, useChatData, useSocket } from "hooks";
+import { useChatData } from "hooks";
 
 import { ChatLeftBar, ChatRightSection } from "components/chat";
 import PanelLayout from "layouts/panel";

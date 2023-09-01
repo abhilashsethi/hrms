@@ -237,7 +237,7 @@ export type Leave = {
   role?: string | undefined;
   status?: string | undefined;
   credit?: number | undefined;
-  user?: {role?:string, id?:string, name?:string, photo?:string};
+  user?: {role?:string, id?:string, name?:string, photo?:string, employeeID?:string};
   createdAt?: Date;
   updatedAt?: Date;
   type?: string;
