@@ -47,9 +47,7 @@ const ProjectManagerDashboardCharts = ({ data }: Props) => {
 				</div>
 
 				<div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
-					<p className="text-lg font-bold text-center">
-						Current Month Projects Overview
-					</p>
+					<p className="text-lg font-bold text-center">Projects Overview</p>
 					<GuestDonutChart
 						labels={
 							projectDashboard?.projectCountStatusWise?.length
