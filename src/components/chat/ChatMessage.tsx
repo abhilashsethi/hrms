@@ -1,10 +1,12 @@
 import {
+  Check,
   Delete,
   DoneAll,
   FileDownloadOutlined,
   InsertLink,
   MoreHoriz,
   Reply,
+  Shortcut,
 } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import { CHATDOC } from "assets/home";
@@ -17,13 +19,14 @@ import { useState } from "react";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { downloadFile, sample } from "utils";
 import ImageMessage from "./ImageMessage";
-import { IChatMessages } from "types";
+import { IChatGroup, IChatMessages } from "types";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import ChatForward from "./ChatForward";
 
 interface textProps {
-  data?: any;
-  activeProfile?: any;
+  data?: IChatMessages;
+  activeProfile?: Partial<IChatGroup>;
 }
 const ChatMessage = ({ data, activeProfile }: textProps) => {
   const [isReactions, setIsReactions] = useState(false);
@@ -107,7 +110,23 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
             {data?.sender?.id === user?.id && (
               <div className="flex justify-end">
                 <IconButton onClick={() => setIsSeen(true)} size="small">
-                  <DoneAll className="text-emerald-600" fontSize="small" />
+                  {data?.deliveredTo?.length ===
+                  activeProfile?.chatMembers?.filter(
+                    (item) => item?.isPastMember === false
+                  )?.length ? (
+                    <DoneAll
+                      className={
+                        data?.readUsers?.length ===
+                        activeProfile?.chatMembers?.filter(
+                          (item) => item?.isPastMember === false
+                        )?.length
+                          ? "!text-teal-500 !text-base "
+                          : "!text-gay-700 !text-base"
+                      }
+                    />
+                  ) : (
+                    <Check className="!text-base" />
+                  )}
                 </IconButton>
               </div>
             )}
@@ -189,6 +208,7 @@ interface EmojiProps {
 const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isReply, setIsReply] = useState(false);
+  const [isForward, setIsForward] = useState(false);
   const { change } = useChange();
   const [isOptions, setIsOptions] = useState<boolean>(false);
   const { user } = useAuth();
@@ -281,6 +301,12 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
         activeProfile={activeProfile}
         handleClose={() => setIsReply(false)}
       />
+      <ChatForward
+        chatData={data}
+        open={isForward}
+        activeProfile={activeProfile}
+        handleClose={() => setIsForward(false)}
+      />
       <div className="rounded-md hidden shadow-md absolute top-[-8px] right-0 group-hover:flex border-[1px] bg-white">
         <div className="relative">
           <div className="flex gap-2 items-center py-1 px-2">
@@ -313,6 +339,12 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
                 className="flex gap-2 items-center hover:bg-slate-200 px-2 py-1 cursor-pointer text-sm tracking-wide"
               >
                 <Reply fontSize="small" /> <span>Reply</span>
+              </div>
+              <div
+                onClick={() => setIsForward(true)}
+                className="flex gap-2 items-center hover:bg-slate-200 px-2 py-1 cursor-pointer text-sm tracking-wide"
+              >
+                <Shortcut fontSize="small" /> <span>Forward</span>
               </div>
               {data?.sender?.id === user?.id &&
                 !moment(moment(data?.createdAt).add(1, "hour")).isBefore() && (

@@ -247,7 +247,9 @@ const PrivateChatCard = ({
               ? item?.lastMessage?.link?.split("/").at(-1)
               : item?.lastMessage?.category === "link"
               ? "Link"
-              : item?.lastMessage?.message}
+              : item?.lastMessage?.category === "text"
+              ? item?.lastMessage?.message
+              : `${item?.lastMessage?.sender} sent a/an ${item?.lastMessage?.category}`}
           </span>
         </div>
         <div className="flex flex-col gap-2">
@@ -434,9 +436,9 @@ const GroupChatCard = ({
       </Badge>
       <div className="md:w-[80%] w-full flex justify-between ">
         <div>
-          <h1 className="text-sm font-semibold  hidden md:block break-all pl-2">
+          <h3 className="text-sm font-semibold  hidden md:block break-all pl-2">
             {item?.title}
-          </h1>
+          </h3>
           <h1 className="text-sm font-semibold block md:hidden break-all pl-2">
             {item?.title.length > 10
               ? `${item?.title.slice(0, 10)} ...`
@@ -463,8 +465,12 @@ const GroupChatCard = ({
               </>
             ) : item?.lastMessage?.category === "link" ? (
               "Link"
-            ) : (
+            ) : item?.lastMessage?.category === "text" ? (
               item?.lastMessage?.message
+            ) : (
+              `${
+                item?.lastMessage?.sender
+              } sent a/an ${item?.lastMessage?.category?.toLowerCase()}`
             )}
           </span>
         </div>

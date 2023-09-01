@@ -567,6 +567,7 @@ export interface IChatMessages {
   text: string;
   updatedAt: string;
   link: string;
+  replyTo: IChatMessages;
 }
 export interface IChatGroup {
   chatMembers: IChatMember[];
