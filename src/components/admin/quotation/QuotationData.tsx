@@ -222,7 +222,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
       </div>
       <div className="mt-14">
         <TenderLayout title="Additional Details">
-          <div>
+          <div className="">
             <div className="flex justify-end mb-2">
               <Button
                 onClick={() => {
@@ -310,12 +310,15 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
             </table>
 
             {/* Mobile view start */}
-            <div className="block md:hidden">
-              <div className=" rounded-lg bg-green-100 shadow-md px-5 py-4">
+            <div className="block md:hidden max-h-80 overflow-scroll">
+              <div className="grid gap-4">
                 {quotationData?.works?.length ? (
                   <>
                     {quotationData?.works?.map((item) => (
-                      <div key={item?.id} className="grid gap-2 text-sm">
+                      <div
+                        key={item?.id}
+                        className=" bg-green-100 rounded-lg shadow-md px-5 py-4 text-sm"
+                      >
                         <div className="grid py-2">
                           <span className="font-semibold">Description :</span>
                           <span className=" text-gray-600">
