@@ -32,9 +32,15 @@ const initialValues = {
 };
 const validationSchema = Yup.object().shape({
 	// title: Yup.string().required("Document title is Required"),
+	type: Yup.string().required("Choose document type"),
 	link: Yup.string().required("Choose Document"),
 });
-const TicketAddDocumentDialogue = ({ open, ticketsData, handleClose, mutate }: Props) => {
+const TicketAddDocumentDialogue = ({
+	open,
+	ticketsData,
+	handleClose,
+	mutate,
+}: Props) => {
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
@@ -130,7 +136,9 @@ const TicketAddDocumentDialogue = ({ open, ticketsData, handleClose, mutate }: P
 									error={touched.title && !!errors.title}
 									helperText={touched.title && errors.title}
 								/> */}
-								<p className="font-medium text-gray-700 my-2">Document Type</p>
+								<p className="font-medium text-gray-700 my-2">
+									Document Type <span className="text-red-500">*</span>
+								</p>
 								<div className="w-full">
 									<TextField
 										size="small"
