@@ -12,7 +12,7 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
@@ -28,23 +28,27 @@ interface Props {
   tenderData?: Tender;
 }
 
-
-const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props) => {
+const UpdateTenderEMDDetails = ({
+  open,
+  handleClose,
+  mutate,
+  tenderData,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const [isEmdValue, setIsEmdValue] = useState(tenderData?.isEmdExemption)
+  const [isEmdValue, setIsEmdValue] = useState(tenderData?.isEmdExemption);
 
   const initialValues = {
     EmdAmount: tenderData?.EmdAmount ? tenderData?.EmdAmount : 0,
-    EmdPaymentMode: `${tenderData?.EmdPaymentMode ? tenderData?.EmdPaymentMode : ""}`,
+    EmdPaymentMode: `${
+      tenderData?.EmdPaymentMode ? tenderData?.EmdPaymentMode : ""
+    }`,
   };
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsEmdValue(event.target.value === 'yes');
+    setIsEmdValue(event.target.value === "yes");
   };
   const validationSchema = Yup.object().shape({
-    EmdAmount: Yup.number()
-      .positive('Must be a positive number'),
-
+    EmdAmount: Yup.number().positive("Must be a positive number"),
   });
 
   const handleSubmit = async (values: Tender) => {
@@ -64,17 +68,13 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
       Swal.fire(`Success`, `EMD Details updated successfully!`, `success`);
-      mutate()
-      handleClose()
+      mutate();
+      handleClose();
       return;
     } catch (error) {
       console.log(error);
@@ -95,7 +95,7 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
           sx={{ p: 2, minWidth: "18rem !important" }}
         >
           <p className="text-center text-xl font-bold text-theme tracking-wide">
-            UPDATE EMD DETAILS
+            EMD DETAILS
           </p>
           <IconButton
             aria-label="close"
@@ -134,21 +134,30 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
                       <h1 className="mb-2">EMD Exemption</h1>
 
                       <RadioGroup
-                        defaultValue={tenderData?.isEmdExemption ? 'yes' : 'no'}
+                        defaultValue={tenderData?.isEmdExemption ? "yes" : "no"}
                         row
                         name="isEmdValue"
                         onChange={handleOptionChange}
                       >
-                        <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                        <FormControlLabel value="no" control={<Radio />} label="No" />
+                        <FormControlLabel
+                          value="yes"
+                          control={<Radio />}
+                          label="Yes"
+                        />
+                        <FormControlLabel
+                          value="no"
+                          control={<Radio />}
+                          label="No"
+                        />
                       </RadioGroup>
                     </div>
-                    {!isEmdValue &&
+                    {!isEmdValue && (
                       <>
                         <div className="md:px-4 px-2 md:py-2 py-1">
                           <div className="py-2">
                             <InputLabel htmlFor="EmdAmount">
-                              Tender Fees <span className="text-red-600">*</span>
+                              Tender Fees{" "}
+                              <span className="text-red-600">*</span>
                             </InputLabel>
                           </div>
                           <TextField
@@ -168,7 +177,8 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
                         <div className="md:px-4 px-2 md:py-2 py-1">
                           <div className="py-2">
                             <InputLabel htmlFor="portal">
-                              Payment Mode <span className="text-red-600">*</span>
+                              Payment Mode{" "}
+                              <span className="text-red-600">*</span>
                             </InputLabel>
                           </div>
                           <TextField
@@ -180,8 +190,12 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
                             value={values.EmdPaymentMode}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            error={touched.EmdPaymentMode && !!errors.EmdPaymentMode}
-                            helperText={touched.EmdPaymentMode && errors.EmdPaymentMode}
+                            error={
+                              touched.EmdPaymentMode && !!errors.EmdPaymentMode
+                            }
+                            helperText={
+                              touched.EmdPaymentMode && errors.EmdPaymentMode
+                            }
                           >
                             {EmdPaymentMode.map((option) => (
                               <MenuItem key={option.id} value={option.title}>
@@ -191,7 +205,7 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
                           </TextField>
                         </div>
                       </>
-                    }
+                    )}
                   </div>
                   <div className="flex justify-center md:py-4 py-2">
                     <Button
@@ -211,7 +225,6 @@ const UpdateTenderEMDDetails = ({ open, handleClose, mutate, tenderData }: Props
               )}
             </Formik>
           </div>
-
         </DialogContent>
       </Dialog>
     </>

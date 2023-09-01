@@ -22,8 +22,9 @@ import { LeaveDocuments } from "components/drawer";
 import { useAuth, useChange } from "hooks";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
+import { Leave } from "types";
 interface Props {
-  data?: any;
+  data?: Leave[];
   mutate: () => void;
 }
 const LeavesGrid = ({ data, mutate }: Props) => {
@@ -32,7 +33,7 @@ const LeavesGrid = ({ data, mutate }: Props) => {
     <>
       <section className="md:py-2 py-2">
         <Grid container spacing={3}>
-          {data?.map((item: any) => (
+          {data?.map((item) => (
             <>
               {user?.role?.name === "PROJECT MANAGER" ? (
                 <CardComponent
@@ -61,7 +62,7 @@ export default LeavesGrid;
 const steps = ["Team Manager", "Hr"];
 
 interface Props {
-  item?: any;
+  item?: Leave;
   mutate: () => void;
   mainId?: string;
 }
@@ -74,7 +75,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
   const [isDocuments, setIsDocuments] = useState(false);
   const [isApproveLeave, setApproveLeave] = useState(false);
 
-  const managerApproveLeave = (id: string) => {
+  const managerApproveLeave = (id?: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to approve!",
@@ -115,7 +116,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
       }
     });
   };
-  const managerRejectLeave = (id: string) => {
+  const managerRejectLeave = (id?: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to approve!",
@@ -157,7 +158,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
     });
   };
 
-  const rejectLeave = (id: string) => {
+  const rejectLeave = (id?: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to reject!",
@@ -196,7 +197,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
       }
     });
   };
-  const renderStatus = (item: any) => {
+  const renderStatus = (item?: Leave) => {
     switch (item?.status) {
       case "Approved":
         return (
@@ -355,7 +356,7 @@ interface ModalProps {
   open: boolean;
   handleClose: () => void;
   mutate: () => void;
-  item?: any;
+  item?: Leave;
 }
 
 const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
@@ -404,7 +405,7 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
     setIsValue(event.target.value === "paid");
     setTotalDay("0");
   };
-  const approveLeave = (id: string) => {
+  const approveLeave = (id?: string) => {
     // console.log({ id });
     // console.log({ isValue });
     // console.log({ isTotalDay });

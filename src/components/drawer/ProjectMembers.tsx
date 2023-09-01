@@ -83,6 +83,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
 							return;
 						}
 						mutate();
+						onClose();
 						Swal.fire("Removed!", "Manager removed successfully!", "success");
 						return;
 					} catch (error) {
@@ -231,7 +232,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
 					</IconButton>
 					<p className="text-lg font-bold text-theme flex gap-3 items-center pb-4">
 						<PeopleRounded />
-						Project Membersaa
+						Project Members
 					</p>
 
 					<div>

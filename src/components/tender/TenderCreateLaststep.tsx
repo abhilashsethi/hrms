@@ -80,16 +80,9 @@ const TenderCreateLaststep = () => {
         enableReinitialize={true}
         onSubmit={handleSubmit}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          setFieldValue,
-        }) => (
+        {({ values, errors, touched, handleChange, handleBlur }) => (
           <Form>
-            <div className="px-20 my-8">
+            <div className="md:px-20 my-8">
               <h1 className="text-theme font-semibold">Tender Fee Details</h1>
               <div className="grid lg:grid-cols-2 gap-4">
                 <div className="md:py-2 py-1">
@@ -204,7 +197,7 @@ const TenderCreateLaststep = () => {
                 </div>
               )}
             </div>
-            <div className="flex justify-end items-center px-20">
+            <div className="flex md:justify-end justify-center items-center md:px-20">
               <Button
                 type="submit"
                 variant="contained"

@@ -401,14 +401,16 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                 </tbody>
               </table>
             </div>
-            <div className="block md:hidden w-full">
+
+            {/* Mobile view */}
+            <div className="block md:hidden w-full max-h-96 overflow-scroll">
               <div className="grid grid-cols-1 gap-4 py-6">
                 {tenderData?.documents?.length ? (
                   <>
                     {tenderData?.documents?.map((item, index) => (
-                      <>
+                      <div key={index}>
                         <div className="bg-white text-sm rounded-lg shadow-lg">
-                          <div className="h-36 rounded-t-lg bg-gradient-to-r from-theme-400 to-cyan-300 flex gap-4 justify-center items-center justify-items-center">
+                          <div className="h-28 rounded-t-lg bg-gradient-to-r from-theme-400 to-cyan-300 flex gap-4 justify-center items-center justify-items-center">
                             <div>
                               <img src={PDF.src} className="h-14 w-14" />
                               <p className="text-xs text-white">
@@ -466,7 +468,7 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </div>
                     ))}
                   </>
                 ) : (
@@ -542,7 +544,7 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
             Create Note
           </Button>
         </div>
-        <div className="border-2 py-4 px-2 grid gap-2 h-[60vh] overflow-scroll w-full rounded-md p-2">
+        <div className="border-2 py-4 px-2 grid gap-2 md:h-[96] h-80 overflow-scroll w-full rounded-md p-2">
           {tenderData?.notes?.length ? (
             <>
               {tenderData?.notes
@@ -552,7 +554,7 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                     (new Date(a?.createdAt) as any)
                 )
                 ?.map((item) => (
-                  <>
+                  <div key={item?.id}>
                     <div className="w-full p-4 border-[1px] border-theme rounded-md">
                       <p className="text-sm tracking-wide">
                         {item?.description}
@@ -570,7 +572,7 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                         </span>
                       </div>
                     </div>
-                  </>
+                  </div>
                 ))}
             </>
           ) : (

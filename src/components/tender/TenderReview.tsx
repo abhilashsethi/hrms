@@ -393,14 +393,16 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                 </tbody>
               </table>
             </div>
-            <div className="block md:hidden w-full">
-              <div className="grid grid-cols-1 gap-4 py-6">
+            {/* Mobile View */}
+
+            <div className="block md:hidden w-full max-h-96 overflow-scroll">
+              <div className="grid grid-cols-1 gap-4 py-4">
                 {tenderData?.documents?.length ? (
                   <>
                     {tenderData?.documents?.map((item, index) => (
-                      <>
+                      <div key={index}>
                         <div className="bg-white text-sm rounded-lg shadow-lg">
-                          <div className="h-36 rounded-t-lg bg-gradient-to-r from-theme-400 to-cyan-300 flex gap-4 justify-center items-center justify-items-center">
+                          <div className="h-28 rounded-t-lg bg-gradient-to-r from-theme-400 to-cyan-300 flex gap-4 justify-center items-center justify-items-center">
                             <div>
                               <img src={PDF.src} className="h-14 w-14" />
                               <p className="text-xs text-white">
@@ -458,7 +460,7 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </div>
                     ))}
                   </>
                 ) : (
@@ -470,6 +472,8 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                 )}
               </div>
             </div>
+
+            {/* Mobile View end */}
           </div>
         </TenderLayout>
       </div>

@@ -1,3 +1,4 @@
+import { type } from "os";
 import { SVGProps } from "react";
 export type IconType = JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>;
 
@@ -236,11 +237,15 @@ export type Leave = {
   role?: string | undefined;
   status?: string | undefined;
   credit?: number | undefined;
-  user?: User;
+  user?: {role?:string, id?:string, name?:string, photo?:string, employeeID?:string};
   createdAt?: Date;
   updatedAt?: Date;
   type?: string;
+  leave?: Leave;
+  totalLeaveThisMonth?: number;
+  totalLeaveThisYear?: number;
 };
+
 
 export type Client = {
   id: string;

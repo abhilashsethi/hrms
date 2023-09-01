@@ -211,7 +211,7 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
               </Tooltip>
             ) : null}
           </div>
-          <table className="w-full">
+          <table className="w-full hidden md:block">
             <tbody>
               <tr>
                 <td className="md:w-1/5 w-full text-sm font-semibold py-2">
@@ -223,8 +223,8 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
                   </span>
                 </td>
               </tr>
-              {basicDetails?.map((item) => (
-                <tr>
+              {basicDetails?.map((item, i) => (
+                <tr key={i}>
                   <td className="md:w-1/5 w-full text-sm font-semibold py-2">
                     {item?.title}
                   </td>
@@ -237,6 +237,27 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
               ))}
             </tbody>
           </table>
+
+          {/* Mobile view basic details start */}
+          <div className="grid md:hidden">
+            <div className="grid py-2">
+              <span className=" w-full text-sm font-semibold">Status :</span>
+              <span className="text-sm py-1 px-2 text-white divacking-wide shadow-md bg-yellow-500 rounded-md">
+                {tenderData?.status}
+              </span>
+            </div>
+            {basicDetails?.map((item, i) => (
+              <div className="grid py-2" key={i}>
+                <span className=" w-full text-sm font-semibold ">
+                  {item?.title} :
+                </span>
+                <span className=" w-full">
+                  <span className="text-sm text-gray-600 ">{item?.value}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+          {/* Mobile view basic details end */}
         </TenderLayout>
       </div>
       <div className="mt-14">
@@ -256,10 +277,10 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
               </Tooltip>
             ) : null}
           </div>
-          <table className="w-full">
+          <table className="w-full hidden md:block">
             <tbody>
-              {tenderFees?.map((item) => (
-                <tr>
+              {tenderFees?.map((item, i) => (
+                <tr key={i}>
                   <td className="md:w-1/5 w-full text-sm font-semibold py-2">
                     {item?.title}
                   </td>
@@ -272,6 +293,21 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
               ))}
             </tbody>
           </table>
+
+          {/* Mobile view fee details start */}
+          <div className="grid md:hidden">
+            {tenderFees?.map((item, i) => (
+              <div className="grid py-2" key={i}>
+                <span className=" w-full text-sm font-semibold ">
+                  {item?.title} :
+                </span>
+                <span className=" w-full">
+                  <span className="text-sm text-gray-600 ">{item?.value}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+          {/* Mobile view fee details end */}
         </TenderLayout>
       </div>
       <div className="mt-14">
@@ -291,10 +327,10 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
               </Tooltip>
             ) : null}
           </div>
-          <table className="w-full">
+          <table className="w-full hidden md:block">
             <tbody>
-              {emdFees?.map((item) => (
-                <tr>
+              {emdFees?.map((item, i) => (
+                <tr key={i}>
                   <td className="md:w-1/5 w-full text-sm font-semibold py-2">
                     {item?.title}
                   </td>
@@ -307,6 +343,21 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
               ))}
             </tbody>
           </table>
+
+          {/* Mobile view fee details start */}
+          <div className="grid md:hidden">
+            {emdFees?.map((item, i) => (
+              <div className="grid py-2" key={i}>
+                <span className=" w-full text-sm font-semibold ">
+                  {item?.title} :
+                </span>
+                <span className=" w-full">
+                  <span className="text-sm text-gray-600 ">{item?.value}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+          {/* Mobile view fee details end */}
         </TenderLayout>
       </div>
       <div className="mt-14">
@@ -417,14 +468,15 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
                 </tbody>
               </table>
             </div>
-            <div className="block md:hidden w-full">
-              <div className="grid grid-cols-1 gap-4 py-6">
+            {/* Mobile View all doc */}
+            <div className="block md:hidden w-full max-h-96 overflow-scroll ">
+              <div className="grid grid-cols-1 gap-4 py-2">
                 {tenderData?.documents?.length ? (
                   <>
                     {tenderData?.documents?.map((item, index) => (
-                      <>
+                      <div key={index}>
                         <div className="bg-white text-sm rounded-lg shadow-lg">
-                          <div className="h-36 rounded-t-lg bg-gradient-to-r from-theme-400 to-cyan-300 flex gap-4 justify-center items-center justify-items-center">
+                          <div className="h-28 rounded-t-lg bg-gradient-to-r from-theme-400 to-cyan-300 flex gap-4 justify-center items-center justify-items-center">
                             <div>
                               <img src={PDF.src} className="h-14 w-14" />
                               <p className="text-xs text-white">
@@ -482,7 +534,7 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </div>
                     ))}
                   </>
                 ) : (

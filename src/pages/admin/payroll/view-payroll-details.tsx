@@ -7,6 +7,7 @@ import {
 	HeadText,
 	PhotoViewer,
 } from "components/core";
+import { Form, Formik } from "formik";
 import { downloadFile, useAuth, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
@@ -15,12 +16,27 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 import { NumInWords } from "utils";
+import * as Yup from "yup";
 
+const validationSchema = Yup.object().shape({});
 const ViewPayrollDetails = () => {
+	// Get the current year
+	const currentYear = new Date().getFullYear();
+
+	// Create an array of objects with the desired format
+	const yearsArray = Array.from({ length: currentYear - 1999 }, (_, index) => {
+		const year = 2000 + index;
+		return { id: index, value: year.toString(), label: year.toString() };
+	});
+	console.log(yearsArray);
+
 	const router = useRouter();
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const [status, setStatus] = useState(null);
+	const initialValues = {
+		status: "",
+	};
 	const handleChange = (event: any) => {
 		setStatus(event.target.value);
 	};
@@ -29,6 +45,16 @@ const ViewPayrollDetails = () => {
 		setSelectMonth(event.target.value);
 	};
 	const { change } = useChange();
+	const currentDate = new Date();
+	const year: number = currentDate.getFullYear();
+	const month: number = currentDate.getMonth() + 1; // January is 0, so we add 1 to get the current month.
+	// Function to get total days in a month
+	const { data: lossOfPay } = useFetch<any>(
+		`leaves/loss-of-pay/${router?.query?.id}?month=${month}&year=${year}`
+	);
+	const { data: configData, mutate: payRollMutate } = useFetch<any>(
+		`payrolls/getAllPayrollConfigs`
+	);
 	const { data: employData, mutate } = useFetch<User>(
 		`users/${router?.query?.id}`
 	);
@@ -37,13 +63,7 @@ const ViewPayrollDetails = () => {
 		return new Date(year, month, 0).getDate();
 	}
 	console.log({ employData });
-	const currentDate = new Date();
-	const year: number = currentDate.getFullYear();
-	const month: number = currentDate.getMonth() + 1; // January is 0, so we add 1 to get the current month.
-	// Function to get total days in a month
-	const { data: lossOfPay } = useFetch<any>(
-		`leaves/loss-of-pay/${router?.query?.id}?month=${month}&year=${year}`
-	);
+
 	// console.log(lossOfPay);
 	const totalDaysInMonth = getDaysInMonth(year, month);
 	const totalWorkingDay =
@@ -56,9 +76,6 @@ const ViewPayrollDetails = () => {
 	const totalLossOfPay =
 		(Gross_Salary / totalWorkingDay) * lossOfPay?.totalUnPaidLeave || 0;
 
-	const { data: configData, mutate: payRollMutate } = useFetch<any>(
-		`payrolls/getAllPayrollConfigs`
-	);
 	const Configs = configData?.length ? configData[0] : null;
 	const Professional_Tax = Configs?.ptTaxes?.find(
 		(item: any) =>
@@ -304,6 +321,9 @@ const ViewPayrollDetails = () => {
 			setLoading(false);
 		}
 	};
+	// const handleSubmit = async (values:any) => {
+	// 	console.log(values)
+	// }
 	return (
 		<PanelLayout title="PayRoll Details - Admin Panel">
 			<section className="md:px-8 px-2 md:py-4 py-2">
@@ -315,6 +335,7 @@ const ViewPayrollDetails = () => {
 						<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
 							Employee Pay Roll Details
 						</h1>
+
 						<div className="w-1/2 gap-2 flex justify-end items-center">
 							<TextField
 								fullWidth
@@ -324,7 +345,7 @@ const ViewPayrollDetails = () => {
 								value={status ? status : ""}
 								onChange={handleChange}
 							>
-								{statuses?.map((option: any) => (
+								{yearsArray?.map((option: any) => (
 									<MenuItem key={option.id} value={option.value}>
 										{option.label}
 									</MenuItem>
@@ -345,6 +366,7 @@ const ViewPayrollDetails = () => {
 								))}
 							</TextField>
 						</div>
+
 						<div className="px-4 py-4 text-lg">
 							<div className="grid lg:grid-cols-2 my-2 gap-x-24 gap-y-1 w-full">
 								<div className=" bg-theme rounded-lg shadow-lg px-4 py-4">

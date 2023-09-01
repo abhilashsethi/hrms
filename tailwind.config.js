@@ -6,8 +6,15 @@ module.exports = {
     "./src/layouts/**/*.{js,ts,jsx,tsx}",
     "./src/app/**/*.{js,ts,jsx,tsx}",
   ],
+
   theme: {
     extend: {
+       screens: {
+        'sm': '340px',
+        'md': '770px',
+        'lg': '1024px',
+        'xl': '1280px',
+      },
       colors: {
         theme: {
           DEFAULT: "#106EAD",
@@ -47,6 +54,7 @@ module.exports = {
         youtube: "#cd201f",
         pinterest: "#E60023",
       },
+     
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
