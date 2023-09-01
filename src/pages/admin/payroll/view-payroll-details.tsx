@@ -20,6 +20,16 @@ import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({});
 const ViewPayrollDetails = () => {
+	// Get the current year
+	const currentYear = new Date().getFullYear();
+
+	// Create an array of objects with the desired format
+	const yearsArray = Array.from({ length: currentYear - 1999 }, (_, index) => {
+		const year = 2000 + index;
+		return { id: index, value: year.toString(), label: year.toString() };
+	});
+	console.log(yearsArray);
+
 	const router = useRouter();
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
@@ -325,54 +335,38 @@ const ViewPayrollDetails = () => {
 						<h1 className="text-lg uppercase md:text-xl lg:text-2xl text-theme flex justify-center font-extrabold py-2">
 							Employee Pay Roll Details
 						</h1>
-						<Formik
-							initialValues={initialValues}
-							validationSchema={validationSchema}
-							enableReinitialize={true}
-							onSubmit={handleSubmit}
-						>
-							{({
-								values,
-								errors,
-								touched,
-								handleChange,
-								handleBlur,
-								setFieldValue,
-							}) => (
-								<Form>
-									<div className="w-1/2 gap-2 flex justify-end items-center">
-										<TextField
-											fullWidth
-											select
-											label="Select Year"
-											size="small"
-											value={status ? status : ""}
-											onChange={handleChange}
-										>
-											{statuses?.map((option: any) => (
-												<MenuItem key={option.id} value={option.value}>
-													{option.label}
-												</MenuItem>
-											))}
-										</TextField>
-										<TextField
-											fullWidth
-											select
-											label="Select Month"
-											size="small"
-											value={selectMonth ? selectMonth : ""}
-											onChange={handleMonthChange}
-										>
-											{monthSelect?.map((option: any) => (
-												<MenuItem key={option.id} value={option.value}>
-													{option.label}
-												</MenuItem>
-											))}
-										</TextField>
-									</div>
-								</Form>
-							)}
-						</Formik>
+
+						<div className="w-1/2 gap-2 flex justify-end items-center">
+							<TextField
+								fullWidth
+								select
+								label="Select Year"
+								size="small"
+								value={status ? status : ""}
+								onChange={handleChange}
+							>
+								{yearsArray?.map((option: any) => (
+									<MenuItem key={option.id} value={option.value}>
+										{option.label}
+									</MenuItem>
+								))}
+							</TextField>
+							<TextField
+								fullWidth
+								select
+								label="Select Month"
+								size="small"
+								value={selectMonth ? selectMonth : ""}
+								onChange={handleMonthChange}
+							>
+								{monthSelect?.map((option: any) => (
+									<MenuItem key={option.id} value={option.value}>
+										{option.label}
+									</MenuItem>
+								))}
+							</TextField>
+						</div>
+
 						<div className="px-4 py-4 text-lg">
 							<div className="grid lg:grid-cols-2 my-2 gap-x-24 gap-y-1 w-full">
 								<div className=" bg-theme rounded-lg shadow-lg px-4 py-4">
