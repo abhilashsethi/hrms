@@ -31,7 +31,7 @@ interface Props {
   photo?: string;
   name?: string;
   message?: string;
-  setChatLeftBar?: any;
+  setChatLeftBar: (value: boolean) => void;
 }
 
 const ChatRightSection = ({ setChatLeftBar }: Props) => {
@@ -188,7 +188,7 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
         handleClose={() => setIsLink(false)}
         sendId={currentChatProfileDetails?.id}
       />
-      <div className="md:w-[68%] w-full h-full">
+      <div className="lg:w-[68%] w-full h-full">
         {!currentChatProfileDetails?.id ? (
           <DefaultChatView setChatLeftBar={setChatLeftBar} />
         ) : (
@@ -265,9 +265,9 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
                   </Tooltip>
                 </div>
                 {/* MOBILE SCREEN */}
-                <div className="md:h-20 h-24 w-full border-2 md:hidden grid items-center py-2 pr-14 pl-2 justify-between">
-                  <div className="h-10 px-3 rounded-full md:w-[70%] w-full border-2 flex justify-between items-center">
-                    <div className="flex gap-2 items-center w-full mx-8 ">
+                <div className="md:h-20 h-24 w-full border-2 md:hidden flex items-center py-2 pr-14 pl-2 justify-between">
+                  <div className="h-10 px-3 rounded-full md:w-[70%] mx-2 w-full border-2 flex justify-between items-center">
+                    <div className="flex gap-2 items-center w-full  ">
                       {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
                       <input
                         onKeyDown={handleKeyDown}
@@ -296,7 +296,7 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
                       ariaLabel="SpeedDial"
                       sx={{
                         position: "absolute",
-                        bottom: 22,
+                        bottom: 12,
                         right: 0,
                       }}
                       icon={<SpeedDialIcon />}

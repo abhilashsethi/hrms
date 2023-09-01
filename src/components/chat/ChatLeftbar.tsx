@@ -16,9 +16,9 @@ import moment from "moment";
 import { MouseEvent, useEffect, useState } from "react";
 import { IGroupChatData, User } from "types";
 interface Props {
-  setChatLeftBar: any;
+  setChatLeftBar: (value: boolean) => void;
 }
-const ChatLeftbar = ({ setChatLeftBar }: any) => {
+const ChatLeftbar = ({ setChatLeftBar }: Props) => {
   const [currentMenu, setCurrentMenu] = useState("Chats");
   const ActiveSection = (currentMenu: string) => {
     switch (currentMenu) {
@@ -33,7 +33,7 @@ const ChatLeftbar = ({ setChatLeftBar }: any) => {
     }
   };
   return (
-    <div className="md:w-[32%] w-full h-full border-r-2 px-4 rounded-md">
+    <div className="lg:w-[32%] w-full h-full border-r-2 px-4 rounded-md">
       <div className={`h-20 w-full flex justify-between items-center px-8`}>
         {quickLinks?.map((item) => (
           <div
@@ -100,7 +100,7 @@ const quickLinks = [
   // },
 ];
 
-const Chats = ({ setChatLeftBar }: any) => {
+const Chats = ({ setChatLeftBar }: Props) => {
   const [afterSearchable, setAfterSearchable] = useState<IGroupChatData[]>([]);
   const [searchTitle, setSearchTitle] = useState("");
   const {
@@ -188,7 +188,7 @@ const PrivateChatCard = ({
   revalidateChatCount: () => void;
   reValidatePrivateChat: () => void;
   item: IGroupChatData;
-  setChatLeftBar: any;
+  setChatLeftBar: (arg: boolean) => void;
 }) => {
   const [isTyping, setIsTyping] = useState(false);
   const { socketRef } = useSocket();
@@ -384,7 +384,7 @@ const GroupChatCard = ({
   handleReadMessage?: (arg: any) => Promise<void>;
   revalidateChatCount: () => void;
   item: IGroupChatData;
-  setChatLeftBar: any;
+  setChatLeftBar: (arg: boolean) => void;
 }) => {
   const [isTyping, setIsTyping] = useState(false);
   const { socketRef } = useSocket();
