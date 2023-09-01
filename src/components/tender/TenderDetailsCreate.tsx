@@ -80,21 +80,14 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
 
   return (
     <section className="w-full flex justify-center items-center mt-6">
-      <div className="px-12 w-full">
+      <div className="md:px-12  w-full">
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
           enableReinitialize={true}
           onSubmit={handleSubmit}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            setFieldValue,
-          }) => (
+          {({ values, errors, touched, handleChange, handleBlur }) => (
             <Form>
               <div className="grid lg:grid-cols-2">
                 <div className="md:px-4 px-2 md:py-2 py-1">
@@ -254,7 +247,7 @@ const TenderDetailsCreate = ({ handleNext }: Props) => {
                   />
                 </div>
               </div>
-              <div className="flex justify-end md:py-4 py-2">
+              <div className="flex md:justify-end justify-center md:py-4 py-2">
                 <Button
                   type="submit"
                   variant="contained"

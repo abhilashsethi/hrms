@@ -1,8 +1,4 @@
-import {
-  Add,
-  Delete,
-  KeyboardArrowRight
-} from "@mui/icons-material";
+import { Add, Delete, KeyboardArrowRight } from "@mui/icons-material";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { Field, FieldArray, Form, Formik, FormikErrors } from "formik";
 import { useChange, useForm } from "hooks";
@@ -26,10 +22,12 @@ interface FormValues {
 
 const validationSchema = Yup.object().shape({
   inputFields: Yup.array().of(
-    Yup.object().shape({
-      docTitle: Yup.string().required('Document Title is required'),
-      doc: Yup.mixed().required('File is required'),
-    }).nullable()
+    Yup.object()
+      .shape({
+        docTitle: Yup.string().required("Document Title is required"),
+        doc: Yup.mixed().required("File is required"),
+      })
+      .nullable()
   ),
 });
 
@@ -38,27 +36,22 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
   const { change } = useChange();
   const { tender } = useForm();
   const initialValues = {
-    inputFields: [{ docTitle: "", doc: null }]
+    inputFields: [{ docTitle: "", doc: null }],
   };
 
   const handleSubmit = async (values: FormValues) => {
     setLoading(true);
     try {
       for (const docs of values?.inputFields) {
-        const uniId = docs?.doc?.split('.').pop();
-        const url = docs?.doc ? await uploadFile(
-          docs?.doc,
-          `${Date.now()}.${uniId}`
-        ) : undefined;
+        const uniId = docs?.doc?.split(".").pop();
+        const url = docs?.doc
+          ? await uploadFile(docs?.doc, `${Date.now()}.${uniId}`)
+          : undefined;
         const res = await change(`tenders/add-doc/to-tender`, {
           body: { title: docs?.docTitle, link: url, tenderId: tender?.id },
         });
         if (res?.status !== 200) {
-          Swal.fire(
-            "Error",
-            res?.results?.msg || "Unable to Submit",
-            "error"
-          );
+          Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
           setLoading(false);
           return;
         }
@@ -85,13 +78,13 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
       >
         {({ values, errors, handleBlur, touched }) => (
           <Form>
-            <div className="w-full my-6 py-6 px-20 flex justify-center">
+            <div className="w-full my-6 py-6 md:px-20 flex justify-center">
               <FieldArray name="inputFields">
                 {({ remove, push }) => (
                   <div>
                     {values.inputFields.map((field, index) => (
                       <div key={index} className="my-2">
-                        <div className="px-8 py-4 w-full grid gap-2 border-2 border-theme">
+                        <div className="md:px-8 py-4 w-full grid gap-2 md:border-2 border-theme">
                           <h1 className="">Document Title </h1>
                           <Field
                             as={TextField}
@@ -100,9 +93,16 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
                             type="text"
                             onBlur={handleBlur}
                             name={`inputFields[${index}].docTitle`}
-                            error={touched.inputFields?.[index]?.docTitle && !!(errors.inputFields?.[index] as InputField)?.docTitle}
-                            helperText={touched.inputFields?.[index]?.docTitle && (errors.inputFields?.[index] as InputField)?.docTitle}
-
+                            error={
+                              touched.inputFields?.[index]?.docTitle &&
+                              !!(errors.inputFields?.[index] as InputField)
+                                ?.docTitle
+                            }
+                            helperText={
+                              touched.inputFields?.[index]?.docTitle &&
+                              (errors.inputFields?.[index] as InputField)
+                                ?.docTitle
+                            }
                           />
                           <h1 className="">Upload file </h1>
                           <Field
@@ -112,10 +112,16 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
                             type="file"
                             name={`inputFields[${index}].doc`}
                             onBlur={handleBlur}
-                            error={touched.inputFields?.[index]?.doc && !!(errors.inputFields?.[index] as InputField)?.doc}
-                            helperText={touched.inputFields?.[index]?.doc && (errors.inputFields?.[index] as InputField)?.doc}
+                            error={
+                              touched.inputFields?.[index]?.doc &&
+                              !!(errors.inputFields?.[index] as InputField)?.doc
+                            }
+                            helperText={
+                              touched.inputFields?.[index]?.doc &&
+                              (errors.inputFields?.[index] as InputField)?.doc
+                            }
                           />
-                          <div className="flex justify-end w-full">
+                          <div className="flex md:justify-end w-full">
                             <Button
                               type="button"
                               variant="contained"
@@ -134,7 +140,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
                       variant="contained"
                       startIcon={<Add />}
                       className="!bg-blue-600"
-                      onClick={() => push({ docTitle: '', doc: null })}
+                      onClick={() => push({ docTitle: "", doc: null })}
                     >
                       ADD MORE FIELD
                     </Button>
@@ -142,13 +148,17 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
                 )}
               </FieldArray>
             </div>
-            <div className="flex justify-end items-center px-20">
+            <div className="flex justify-end items-center md:px-20">
               <Button
                 type="submit"
                 variant="contained"
                 disabled={loading}
                 startIcon={
-                  loading ? <CircularProgress size={20} /> : <KeyboardArrowRight />
+                  loading ? (
+                    <CircularProgress size={20} />
+                  ) : (
+                    <KeyboardArrowRight />
+                  )
                 }
                 className="!bg-green-600"
               >

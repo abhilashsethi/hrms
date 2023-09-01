@@ -41,7 +41,7 @@ const CreateTender = () => {
   };
   return (
     <PanelLayout title="Create Tender - Admin Panel">
-      <section className="px-8 py-4">
+      <section className="md:px-8 px-2 py-4">
         <AdminBreadcrumbs links={links} />
         <section>
           <div className="w-full">
@@ -56,13 +56,15 @@ const CreateTender = () => {
                 >
                   CREATE TENDER
                 </Typography>
-                <Stepper activeStep={activeStep} alternativeLabel>
-                  {steps?.map((label) => (
-                    <Step key={label}>
-                      <StepLabel>{label}</StepLabel>
-                    </Step>
-                  ))}
-                </Stepper>
+                <div className="md:block hidden">
+                  <Stepper activeStep={activeStep} alternativeLabel>
+                    {steps?.map((label) => (
+                      <Step key={label}>
+                        <StepLabel>{label}</StepLabel>
+                      </Step>
+                    ))}
+                  </Stepper>
+                </div>
                 {handleSteps(activeStep)}
               </Box>
             </Container>
