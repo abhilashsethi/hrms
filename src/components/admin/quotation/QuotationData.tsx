@@ -315,7 +315,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
                 {quotationData?.works?.length ? (
                   <>
                     {quotationData?.works?.map((item) => (
-                      <div key={item?.id} className="grid text-sm">
+                      <div key={item?.id} className="grid gap-2 text-sm">
                         <div className="grid py-2">
                           <span className="font-semibold">Description :</span>
                           <span className=" text-gray-600">
@@ -360,15 +360,15 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
                     ))}
                   </>
                 ) : (
-                  <tr>
-                    <td colSpan={4} className="py-2">
+                  <div>
+                    <div className="py-2">
                       <LoaderAnime
                         animeWidth={150}
                         animeHight={150}
-                        text="No Documents Found"
+                        text="No Data Found"
                       />
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
