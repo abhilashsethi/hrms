@@ -230,7 +230,7 @@ const PrivateChatCard = ({
       >
         <PhotoViewerSmall name={item?.title} photo={item?.photo} size="3rem" />
       </Badge>
-      <div className="w-[80%] flex justify-between ">
+      <div className="md:w-[80%] w-full sm:flex justify-between ">
         <div>
           <h1 className="text-sm font-semibold">{item?.title}</h1>
 
