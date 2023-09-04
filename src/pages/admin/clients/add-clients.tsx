@@ -88,7 +88,6 @@ const AddClients = () => {
     if (values?.image) {
       try {
         setLoading(true);
-        // delete values.confirmPassword;
         const url: any = await uploadFile(values?.image, `${uniId}.png`);
         delete values.image;
         const res = await change(`clients`, {
@@ -134,11 +133,11 @@ const AddClients = () => {
   };
   return (
     <PanelLayout title="All Clients - Admin Panel">
-      <div className="pt-4  px-2 ">
+      <div className="pt-4 px-2 ">
         <AdminBreadcrumbs links={links} />
       </div>
       <section className="w-full px-2 py-4 flex justify-center items-center">
-        <div className="p-6 lg:w-3/4 rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
+        <div className="md:p-6 p-2 lg:w-3/4 rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -299,7 +298,7 @@ const AddClients = () => {
                     <div className="py-2">
                       <InputLabel htmlFor="phone">Phone</InputLabel>
                     </div>
-                    <div className="md:flex justify-center items-center">
+                    <div className="md:flex grid gap-2 justify-center items-center">
                       <div className=" w-full md:w-1/4 lg:w-32">
                         <CountrySelector
                           className="bg-white border border-gray-400"

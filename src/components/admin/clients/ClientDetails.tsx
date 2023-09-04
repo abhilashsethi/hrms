@@ -232,7 +232,7 @@ const ClientDetails = () => {
                 </div>
               </div>
               {/* --------------------Basic Details-------------------- */}
-              <section className="py-4 px-8">
+              <section className="py-4 md:px-8 px-2">
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Basic Details" />
                   <Tooltip title="Edit">

@@ -156,7 +156,7 @@ const CreateGuest = () => {
                           Phone<span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
-                      <div className="md:flex justify-center items-center">
+                      <div className="md:flex grid gap-2 justify-center items-center">
                         <div className=" w-full md:w-1/4 lg:w-32">
                           <CountrySelector
                             className="bg-white border border-gray-400"
