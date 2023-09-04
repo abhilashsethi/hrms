@@ -7,7 +7,6 @@ import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
-import router from "next/router";
 const initialValues = {
 	startDate: "",
 	endDate: "",
@@ -16,7 +15,17 @@ const initialValues = {
 
 const validationSchema = Yup.object().shape({
 	startDate: Yup.string().required("Required!"),
-	endDate: Yup.string().required("Required!"),
+	endDate: Yup.string()
+		.required("Required!")
+		.test(
+			"endDateAfterStartDate",
+			"End date should be greater than or equal to start date",
+			function (endDate) {
+				const { startDate } = this.parent; // Get the value of startDate field
+				if (!startDate || !endDate) return true; // If either date is not provided, skip validation
+				return new Date(endDate) >= new Date(startDate);
+			}
+		),
 	title: Yup.string().required("Required!"),
 });
 
