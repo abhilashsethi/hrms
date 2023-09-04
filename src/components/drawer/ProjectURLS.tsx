@@ -70,7 +70,6 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
     mutate,
     isLoading,
   } = useFetch<Projects>(`projects/${id}`);
-  // console.log(projectData);
   const removeURL = (urlId: string) => {
     try {
       Swal.fire({

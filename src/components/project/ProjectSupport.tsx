@@ -48,8 +48,8 @@ const ProjectSupport = () => {
             key={data?.id}
             className="w-full rounded-md p-6 shadow-jubilation"
           >
-            <div className="md:flex justify-between">
-              <div>
+            <div className="md:flex hidden justify-between">
+              <div className="">
                 <h1 className="text-sm font-semibold text-theme mt-2">
                   Ticket Issue isResolved :
                 </h1>
@@ -65,21 +65,38 @@ const ProjectSupport = () => {
                 {clock(data?.createdAt).fromNow()}
               </span>
             </div>
+            <div className="md:hidden block justify-between">
+              <span className="text-xs mb-1">
+                {clock(data?.createdAt).fromNow()}
+              </span>
+              <div className="grid justify-between">
+                <h1 className="text-sm font-semibold text-theme mt-2">
+                  Ticket Issue isResolved :
+                </h1>
+                <span
+                  className={`${
+                    data?.isResolved ? `bg-green-500` : `bg-red-500`
+                  }  font-semibold text-white lg:text-md text-sm px-4 rounded-md`}
+                >
+                  {data?.isResolved ? "Yes" : "No"}
+                </span>
+              </div>
+            </div>
             <h1 className="text-sm font-semibold text-theme mt-2">
               Ticket Title :
             </h1>
             <h1 className="font-semibold text-slate-700 text-sm">
               {data?.title}
             </h1>
-            <div className="flex justify-between items-center">
+            <div className="md:flex justify-between items-center">
               <h1 className="text-sm font-semibold text-theme">User Info :</h1>
               <Link href={`/admin/clients/view-ticket-details?id=${data?.id}`}>
-                <button className="bg-theme-400 hover:bg-theme-500 lg:px-3 lg:py-1 px-1 py-0 rounded-lg shadow-md text-white font-semibold hover:translate-x-1 delay-75 transition-all lg:text-md text-xs">
+                <button className="bg-theme-400 hover:bg-theme-500 lg:px-3 lg:py-1 px-1 py-1 rounded-lg shadow-md text-white font-semibold hover:translate-x-1 delay-75 transition-all lg:text-md text-xs">
                   View details
                 </button>
               </Link>
             </div>
-            <p>{data?.description}</p>
+            <p className="md:text-lg text-xs pt-2">{data?.description}</p>
           </div>
         ))}
         {ticketsData?.length === 0 ? (

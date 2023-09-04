@@ -97,7 +97,7 @@ const ProjectVideoDrawer = ({ open, onClose }: Props) => {
               </button>
             ) : null}
           </div>
-          <div className="flex justify-center w-full">
+          <div className="md:flex justify-center w-full">
             <div className="flex gap-2 flex-wrap">
               {documentDetails?.docs?.filter(
                 (item: any) => item.docType === "video"
@@ -107,7 +107,7 @@ const ProjectVideoDrawer = ({ open, onClose }: Props) => {
                   .map((item: any) => (
                     <div
                       key={item?.id}
-                      className="h-28 w-28 border-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
+                      className=" border-2 py-2 px-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"
                     >
                       <a
                         className="cursor-pointer flex flex-col items-center justify-center"

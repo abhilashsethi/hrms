@@ -167,29 +167,23 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
       {projectData?.clientId ? (
         <>
           <div className="w-full rounded-md border-2 mt-3 p-4">
-            <div className=" flex gap-4">
-              <div className="w-1/4">
+            <div className="md:flex justify-center items-center justify-items-center grid gap-4">
+              <div className="md:w-1/4 text-center">
                 <PhotoViewer
                   name={projectData?.client?.name}
                   photo={projectData?.client?.photo}
                 />
               </div>
-              <div className="text-sm tracking-wide w-3/4">
-                <p className="font-semibold">Name : </p>
+              <div className="text-sm px-2 text-center tracking-wide w-full md:w-3/4">
+                <p className="font-semibold md:block hidden">Name </p>
                 <p>{projectData?.client?.name}</p>
-                {/* {user?.role?.name === "CEO" ? (
-									<>
-										<p className="font-semibold">Email : </p>
-										<p>{projectData?.client?.email}</p>
-									</>
-								) : null} */}
               </div>
             </div>
 
             {user?.role?.name === "CEO" ||
             user?.role?.name === "COO" ||
             user?.role?.name === "DIRECTOR" ? (
-              <div className="mt-2 flex justify-center gap-2">
+              <div className="mt-2 md:flex grid justify-center gap-2">
                 <Link
                   href={`/admin/clients/client-profile?id=${projectData?.clientId}`}
                 >
