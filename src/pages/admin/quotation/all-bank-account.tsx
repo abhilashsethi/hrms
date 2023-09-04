@@ -17,8 +17,8 @@ const AllQuotation = () => {
   return (
     <>
       <PanelLayout title="All Bank Account - Admin Panel">
-        <section className="px-8">
-          <div className="flex justify-between items-center py-4">
+        <section className="md:px-8 px-4">
+          <div className="md:flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
             <Link href={"/admin/quotation/bank-account-config"}>
               <Button

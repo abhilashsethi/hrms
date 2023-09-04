@@ -129,7 +129,7 @@ const EmployDashboard = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-12 content-between gap-6 ">
+      <div className="grid grid-cols-12 py-4 content-between gap-6 ">
         <div className="col-span-12 pt-9 px-3 w-full bg-white  gap-5 md:col-span-12 lg:col-span-7 !border-grey-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">
             Department-wise Strength

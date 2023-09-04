@@ -1,4 +1,4 @@
-import { Close, CloudUpload, Send } from "@mui/icons-material";
+import { Close, CloudUpload, PermMedia, Send } from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
@@ -40,71 +40,86 @@ const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
   const { user } = useAuth();
 
   const formik = useFormik({
-    initialValues: { image: null, message: "" },
+    initialValues: { image: [], message: "" },
     validationSchema: yup.object().shape({
       image: yup
         .mixed()
         .required("Please select an image")
         .test(
           "fileType",
-          "Only image files are allowed",
-          (value: any) => value && value.type.startsWith("image/")
+          "Only image(s) files are allowed",
+          (value: any) =>
+            value?.length &&
+            Array.from(value)?.every((item: any) =>
+              item?.type?.startsWith("image/")
+            )
         ),
     }),
     onSubmit: async (values: any) => {
       if (values?.image) {
         try {
           setLoading(true);
-          const dtype = values?.image?.type.split("/")[1];
-          const url = await uploadFile(values?.image, `${Date.now()}.${dtype}`);
-          if (currentChatProfileDetails?.isNewChat) {
-            handleSendNewMessage({
-              messageTo: currentChatProfileDetails?.id,
-              message: values?.message,
-              category: "image",
-              link: url,
-            });
-            handleClose();
-            setLoading(false);
-            socketRef?.emit("SENT_MESSAGE", {
-              groupId: currentChatProfileDetails?.id,
-              userId: user?.id,
-            });
-            revalidateCurrentChat(currentChatProfileDetails?.id);
-            return;
-          } else {
-            const res = await change(`chat/message/${sendId}`, {
-              body: {
-                link: url,
-                category: "image",
-                message: values?.message,
-              },
-            });
-            if (res?.status !== 200) {
-              Swal.fire(`Error`, "Something went wrong!", "error");
-              return;
-            }
-            socketRef?.emit("SENT_MESSAGE", {
-              groupId: currentChatProfileDetails?.id,
-              userId: user?.id,
-            });
-            revalidateCurrentChat(currentChatProfileDetails?.id);
-            handleClose();
-            setLoading(false);
-            formik.resetForm();
-            return;
-          }
+          await Promise.all(
+            Array.from(values?.image)?.map(
+              (element: any, index: number) =>
+                new Promise(async (resolve, reject) => {
+                  try {
+                    const dtype = element?.type.split("/")[1];
+                    const url = await uploadFile(
+                      element,
+                      `${Date.now()}.${dtype}`
+                    );
+                    if (currentChatProfileDetails?.isNewChat) {
+                      handleSendNewMessage({
+                        messageTo: currentChatProfileDetails?.id,
+                        message: (index === 0 && values?.message) || undefined,
+                        category: "image",
+                        link: url,
+                      });
+                      resolve(true);
+                    } else {
+                      const res = await change(`chat/message/${sendId}`, {
+                        body: {
+                          link: url,
+                          category: "image",
+                          message:
+                            (index === 0 && values?.message) || undefined,
+                        },
+                      });
+                      if (res?.status !== 200) {
+                        Swal.fire(`Error`, "Something went wrong!", "error");
+                        return resolve(true);
+                      }
+
+                      resolve(true);
+                    }
+                  } catch (error) {
+                    resolve(true);
+                  }
+                })
+            )
+          );
+
+          formik.resetForm();
+          handleClose();
+          setLoading(false);
+          socketRef?.emit("SENT_MESSAGE", {
+            groupId: currentChatProfileDetails?.id,
+            userId: user?.id,
+          });
+          revalidateCurrentChat(currentChatProfileDetails?.id);
         } catch (error) {
-          console.log(error);
           setLoading(false);
         } finally {
           setLoading(false);
           reValidateGroupChat();
           reValidatePrivateChat();
+          setIsFile(null);
         }
       }
     },
   });
+
   return (
     <Dialog
       onClose={() => {
@@ -144,27 +159,33 @@ const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
             type="file"
             className="hidden"
             ref={fileRef}
+            multiple
             onChange={(e: any) => {
-              formik.setFieldValue("image", e?.target?.files[0]);
-              setIsFile(e?.target?.files[0]);
+              formik.setFieldValue("image", e?.target?.files);
+              setIsFile(e?.target?.files);
             }}
           />
           <div
             onClick={() => fileRef?.current?.click()}
             className="min-h-[10rem] py-4 w-full cursor-pointer border-2 rounded-lg border-dashed border-theme-200 flex flex-col gap-2 items-center justify-center"
           >
-            {formik?.values?.image ? (
+            {formik?.values?.image?.length === 1 ? (
               <img
                 className="h-32 object-contain"
-                src={URL.createObjectURL(formik?.values?.image)}
+                src={URL.createObjectURL(formik?.values?.image[0])}
                 alt=""
               />
+            ) : formik?.values?.image?.length > 1 ? (
+              <PermMedia fontSize="large" />
             ) : (
               <CloudUpload fontSize="large" />
             )}
 
             {!isFile && <p>Upload file.</p>}
-            {isFile && isFile?.name}
+            {isFile?.length &&
+              Array.from(isFile)
+                ?.map((item: any) => item?.name)
+                ?.join(", ")}
             <span className="text-red-500">
               {formik?.errors?.image && formik?.errors?.image?.toString()}
             </span>

@@ -3,6 +3,7 @@ import {
   Code,
   ImageOutlined,
   InsertLink,
+  KeyboardVoice,
   Send,
 } from "@mui/icons-material";
 import {
@@ -14,6 +15,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import {
+  ChatSendAudio,
   ChatSendCode,
   ChatSendFiles,
   ChatSendImage,
@@ -40,6 +42,7 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
   const [isCode, setIsCode] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isImage, setIsImage] = useState(false);
+  const [isVoice, setIsVoice] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMessage, setIsMessage] = useState<string | null>(null);
   const textRef = useRef<HTMLInputElement | null>(null);
@@ -47,6 +50,14 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
   const { socketRef } = useSocket();
   const { user } = useAuth();
   const actions = [
+    {
+      icon: (
+        <IconButton onClick={() => setIsVoice(true)} size="small">
+          <KeyboardVoice className="text-white" />
+        </IconButton>
+      ),
+      name: "Voice",
+    },
     {
       icon: (
         <IconButton onClick={() => setIsImage(true)} size="small">
@@ -173,6 +184,11 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
         handleClose={() => setIsUpload(false)}
         sendId={currentChatProfileDetails?.id}
       />
+      <ChatSendAudio
+        open={isVoice}
+        handleClose={() => setIsVoice(false)}
+        sendId={currentChatProfileDetails?.id}
+      />
       <ChatSendImage
         open={isImage}
         handleClose={() => setIsImage(false)}
@@ -243,6 +259,11 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
                       </IconButton>
                     </Tooltip>
                   </div>
+                  <Tooltip title="Voice">
+                    <IconButton onClick={() => setIsVoice(true)} size="small">
+                      <KeyboardVoice />
+                    </IconButton>
+                  </Tooltip>
                   <Tooltip title="Image">
                     <IconButton onClick={() => setIsImage(true)} size="small">
                       <ImageOutlined />

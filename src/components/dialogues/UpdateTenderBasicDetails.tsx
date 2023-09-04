@@ -9,7 +9,7 @@ import {
   InputLabel,
   MenuItem,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
@@ -36,7 +36,12 @@ interface TenderUpdate {
   submissionDate: string | Date;
 }
 
-const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Props) => {
+const UpdateTenderBasicDetails = ({
+  open,
+  handleClose,
+  mutate,
+  tenderData,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const initialValues = {
@@ -46,11 +51,12 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
     portal: `${tenderData?.portal ? tenderData?.portal : ""}`,
     bidValue: tenderData?.bidValue ? tenderData?.bidValue : 0,
     category: `${tenderData?.category ? tenderData?.category : ""}`,
-    submissionTime: `${tenderData?.submissionTime ? tenderData?.submissionTime : ""}`,
+    submissionTime: `${
+      tenderData?.submissionTime ? tenderData?.submissionTime : ""
+    }`,
     submissionDate: tenderData?.submissionDate
       ? moment(tenderData?.submissionDate).format("YYYY-MM-DD")
       : new Date(),
-
   };
 
   const validationSchema = Yup.object().shape({
@@ -64,8 +70,9 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
     category: Yup.string().required("Tender Category is required!"),
     submissionDate: Yup.date().required("Submission date is required!"),
     submissionTime: Yup.string().required("Submission time is required!"),
-    bidValue: Yup.number().required('Bid Value is required!')
-      .positive('Must be a positive number'),
+    bidValue: Yup.number()
+      .required("Bid Value is required!")
+      .positive("Must be a positive number"),
   });
   const handleSubmit = async (values: TenderUpdate) => {
     setLoading(true);
@@ -85,17 +92,13 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
       Swal.fire(`Success`, `Basic details updated successfully!`, `success`);
-      mutate()
-      handleClose()
+      mutate();
+      handleClose();
       return;
     } catch (error) {
       console.log(error);
@@ -116,7 +119,7 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
           sx={{ p: 2, minWidth: "18rem !important" }}
         >
           <p className="text-center text-xl font-bold text-theme tracking-wide">
-            UPDATE BASIC DETAILS
+            BASIC DETAILS
           </p>
           <IconButton
             aria-label="close"
@@ -236,7 +239,8 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="portal">
-                          Tender Category <span className="text-red-600">*</span>
+                          Tender Category{" "}
+                          <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
@@ -255,7 +259,8 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="submissionDate">
-                          Date Of Submission <span className="text-red-600">*</span>
+                          Date Of Submission{" "}
+                          <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
@@ -268,14 +273,20 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         value={values.submissionDate}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.submissionDate && !!errors.submissionDate}
-                        helperText={String(touched.submissionDate) && errors.submissionDate}
+                        error={
+                          touched.submissionDate && !!errors.submissionDate
+                        }
+                        helperText={
+                          String(touched.submissionDate) &&
+                          errors.submissionDate
+                        }
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="submissionDate">
-                          Time Of Submission <span className="text-red-600">*</span>
+                          Time Of Submission{" "}
+                          <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
@@ -288,8 +299,12 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         value={values.submissionTime}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.submissionTime && !!errors.submissionTime}
-                        helperText={touched.submissionTime && errors.submissionTime}
+                        error={
+                          touched.submissionTime && !!errors.submissionTime
+                        }
+                        helperText={
+                          touched.submissionTime && errors.submissionTime
+                        }
                       />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
@@ -312,7 +327,6 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
                         helperText={touched.bidValue && errors.bidValue}
                       />
                     </div>
-
                   </div>
                   <div className="flex justify-center md:py-4 py-2">
                     <Button
@@ -332,7 +346,6 @@ const UpdateTenderBasicDetails = ({ open, handleClose, mutate, tenderData }: Pro
               )}
             </Formik>
           </div>
-
         </DialogContent>
       </Dialog>
     </>
