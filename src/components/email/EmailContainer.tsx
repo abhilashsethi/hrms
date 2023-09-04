@@ -45,7 +45,7 @@ const EmailContainer = ({
           <Tooltip
             title={
               <div className="flex flex-col p-4 bg-white rounded-lg shadow-lg ">
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 text-black min-w-[200px]">
                   <h3 className="text-xs font-bold tracking-wide text-black ">
                     CC-
                   </h3>
