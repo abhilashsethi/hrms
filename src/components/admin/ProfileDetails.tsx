@@ -88,26 +88,15 @@ const ProfileDetails = () => {
       {
         id: 19,
         title: "Email",
-        value: (
-          <RenderIconRow
-            value={employData?.username ? employData?.username : "---"}
-            isEmail
-            longText
-          />
-        ),
+        value: employData?.username ? employData?.username : "---",
         copy: true,
         isCut: false,
       },
       {
         id: 2,
         title: "Personal Email",
-        value: (
-          <RenderIconRow
-            value={employData?.email ? employData?.email : "---"}
-            isEmail
-            longText
-          />
-        ),
+        value: employData?.email ? employData?.email : "---",
+
         copy: true,
         isCut: false,
       },
@@ -135,6 +124,12 @@ const ProfileDetails = () => {
             ? moment(employData?.joiningDate).format("ll")
             : "---"
         }`,
+      },
+      {
+        id: 11,
+        title: "Country Code",
+        value: `${employData?.countryCode ? employData?.countryCode : "---"}`,
+        copy: false,
       },
       {
         id: 5,
@@ -167,17 +162,17 @@ const ProfileDetails = () => {
           : "---",
       },
       {
-        id: 9,
+        id: 10,
         title: "Department",
         value: `${
           employData?.department?.name ? employData?.department?.name : "---"
         }`,
       },
-      //   {
-      //     id: 9,
-      //     title: "Wallet",
-      //     value: `${employData?.wallet ? employData?.wallet : "---"}`,
-      //   },
+      // {
+      // 	id: 9,
+      // 	title: "Wallet",
+      // 	value: `${employData?.wallet ? employData?.wallet : "---"}`,
+      // },
     ],
     [employData]
   );
@@ -286,12 +281,12 @@ const ProfileDetails = () => {
                 {basicDetails?.map((item) => (
                   <div
                     key={item?.id}
-                    className="flex gap-2 items-center font-medium py-1.5"
+                    className="md:flex gap-2 items-center font-medium py-1.5"
                   >
-                    <div className="w-[30%]">
+                    <div className="md:w-[30%] w-full">
                       <p className="text-sm text-gray-600">{item?.title} :</p>
                     </div>
-                    <div className="w-2/3">
+                    <div className="md:w-2/3 w-full break-all">
                       {item?.copy ? (
                         <CopyClipboard
                           value={item?.value}
@@ -317,12 +312,12 @@ const ProfileDetails = () => {
                 {personalDetails?.map((item) => (
                   <div
                     key={item?.id}
-                    className="flex gap-2 items-center font-medium py-1.5"
+                    className="md:flex grid gap-2 items-center font-medium py-1.5"
                   >
-                    <div className="w-[30%]">
+                    <div className="md:w-[30%] w-full">
                       <p className="text-sm text-gray-600">{item?.title} :</p>
                     </div>
-                    <div className="w-2/3">
+                    <div className="md:w-2/3 w-full break-all">
                       <EmployeeProfileCopyLink value={item?.value} />
                     </div>
                   </div>
@@ -345,12 +340,12 @@ const ProfileDetails = () => {
                 {bankDetails?.map((item) => (
                   <div
                     key={item?.id}
-                    className="flex gap-2 items-center font-medium py-1.5"
+                    className="md:flex grid gap-2 items-center font-medium py-1.5"
                   >
-                    <div className="w-[30%]">
+                    <div className="md:w-[30%] w-full">
                       <p className="text-sm text-gray-600">{item?.title} :</p>
                     </div>
-                    <div className="w-2/3">
+                    <div className="md:w-2/3 w-full break-all">
                       <p className="text-sm">{item?.value}</p>
                     </div>
                   </div>
