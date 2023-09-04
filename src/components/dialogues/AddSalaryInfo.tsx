@@ -34,7 +34,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 	const initialValues = {
 		grossSalary: "",
 		kpi: 0,
-		tds: 0,
+		tds: "",
 		salaryInfoNewFields: null,
 		// inputFields: [{ title: "", value: 0 }],
 	};
@@ -49,7 +49,12 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 		// ),
 		grossSalary: Yup.number().required("Required"),
 		kpi: Yup.number().required("Required"),
-		tds: Yup.number().required("Required"),
+		tds: Yup.number()
+			.positive("Value must be a positive number")
+			.integer("Value must be an integer")
+			.min(0, "Value must be greater than or equal to 0")
+			.max(99, "Value must be less than or equal to 99")
+			.required("This field is required"),
 	});
 	const handleSubmit = async (values: any) => {
 		setLoading(true);
@@ -58,10 +63,12 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 				grossSalary: values?.grossSalary,
 				kpi: values?.kpi,
 				tds: values?.tds,
-				salaryInfoNewFields: values?.inputFields,
+				userId: userId,
+				month: new Date()?.getMonth(),
+				year: new Date()?.getFullYear(),
 			};
-			const res = await change(`users/addSalaryInfo/${userId}`, {
-				method: "PATCH",
+			const res = await change(`user-salaryInfo`, {
+				method: "POST",
 				body: ticketText,
 			});
 			setLoading(false);
@@ -170,8 +177,8 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 								<div className="w-full">
 									<TextField
 										size="small"
-										type="number"
 										fullWidth
+										type="number"
 										name="tds"
 										placeholder="Document tds"
 										value={values.tds}
@@ -181,8 +188,8 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 										helperText={touched.tds && errors.tds}
 									/>
 								</div>
-
-								{/* <p className="font-medium text-gray-700 my-2">More</p>
+								<>
+									{/* <p className="font-medium text-gray-700 my-2">More</p>
 								<FieldArray name="inputFields">
 									{({ remove, push }) => (
 										<div className="grid gap-2 w-full">
@@ -249,6 +256,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 										</div>
 									)}
 								</FieldArray> */}
+								</>
 
 								<div className="flex justify-center mt-4">
 									<Button
