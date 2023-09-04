@@ -16,7 +16,6 @@ const ChatForward = ({ open, handleClose, chatData, activeProfile }: any) => {
     `chat/user/not-connected?limit=20&page=1` +
       (searchText ? `&searchTitle=${searchText}` : "")
   );
-  console.log({ allUsers });
   const [selectedGroup, setSelectedGroup] = useState<string[]>([]);
 
   const {
@@ -76,6 +75,8 @@ const ChatForward = ({ open, handleClose, chatData, activeProfile }: any) => {
       revalidateCurrentChat(currentChatProfileDetails?.id);
       reValidatePrivateChat();
       handleClose();
+      setSearchText("");
+      setSelectedGroup([]);
     } catch (error) {
       if (error instanceof Error) {
         Swal.fire({
