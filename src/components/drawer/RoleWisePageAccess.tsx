@@ -709,6 +709,18 @@ const PageList = [
 		icon: <ICONS.Create_Announcement />,
 		name: "Create Announcements",
 	},
+	{
+		id: 77,
+		value: "/admin/holiday",
+		icon: <ICONS.Create_Announcement />,
+		name: "Holiday",
+	},
+	{
+		id: 78,
+		value: "/admin/holiday/create-holiday",
+		icon: <ICONS.Create_Announcement />,
+		name: "Create Holiday",
+	},
 
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },

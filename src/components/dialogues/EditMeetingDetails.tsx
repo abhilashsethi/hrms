@@ -1,20 +1,15 @@
 import { Check, Close } from "@mui/icons-material";
 import {
 	Button,
+	CircularProgress,
 	Dialog,
 	DialogContent,
 	DialogTitle,
 	IconButton,
 	TextField,
 	Tooltip,
-	FormControlLabel,
-	Radio,
-	RadioGroup,
-	CircularProgress,
-	MenuItem,
 } from "@mui/material";
-import { FileUpload } from "components/core";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { ChangeEvent, useState } from "react";
@@ -61,10 +56,14 @@ const EditMeetingDetails = ({
 			meetingDetails?.meetingDate ? meetingDetails?.meetingDate : ""
 		}`,
 		meetingStartTime: `${
-			meetingDetails?.meetingStartTime ? meetingDetails?.meetingStartTime : ""
+			meetingDetails?.meetingStartTime
+				? moment(meetingDetails?.meetingStartTime).format("HH:mm")
+				: ""
 		}`,
 		meetingEndTime: `${
-			meetingDetails?.meetingEndTime ? meetingDetails?.meetingEndTime : ""
+			meetingDetails?.meetingEndTime
+				? moment(meetingDetails?.meetingEndTime)?.format("HH:mm")
+				: ""
 		}`,
 		clientName: `${
 			meetingDetails?.clientName ? meetingDetails?.clientName : ""
@@ -215,7 +214,7 @@ const EditMeetingDetails = ({
 										// placeholder="Client Address"
 										id="meetingStartTime"
 										name="meetingStartTime"
-										value={moment(values.meetingStartTime)?.format("HH:mm")}
+										value={values.meetingStartTime}
 										onChange={handleChange}
 										onBlur={handleBlur}
 										error={
@@ -238,7 +237,7 @@ const EditMeetingDetails = ({
 										// placeholder="Client Address"
 										id="meetingEndTime"
 										name="meetingEndTime"
-										value={moment(values.meetingEndTime)?.format("HH:mm")}
+										value={values.meetingEndTime}
 										onChange={handleChange}
 										onBlur={handleBlur}
 										error={touched.meetingEndTime && !!errors.meetingEndTime}
