@@ -32,7 +32,7 @@ const ViewPayrollDetails = () => {
 		new Date().getFullYear().toString()
 	);
 	const [selectMonth, setSelectMonth] = useState(
-		(new Date().getMonth() + 1).toString()
+		new Date().getMonth().toString()
 	);
 
 	const [salaryInfo, setSalaryInfo] = useState<any>();
@@ -69,7 +69,7 @@ const ViewPayrollDetails = () => {
 	const { data: getMonthYearSalary, isLoading } = useFetch<any>(
 		`user-salaryinfo/get-by-userId-and-month-and-year?userId=${router?.query?.id}&month=${selectMonth}&year=${yearStatus}`
 	);
-	console.log(getMonthYearSalary);
+	// console.log(getMonthYearSalary);
 	const isMounted = useRef(false);
 
 	useEffect(() => {
@@ -89,7 +89,7 @@ const ViewPayrollDetails = () => {
 			isMounted.current = false;
 		};
 	}, [getMonthYearSalary]);
-	console.log(salaryInfo);
+	// console.log(salaryInfo);
 
 	const joiningYear = new Date(employData?.joiningDate as any)?.getFullYear();
 	// Get the current year
@@ -157,7 +157,9 @@ const ViewPayrollDetails = () => {
 	const pf =
 		(Configs?.pfEmployee * ((Configs?.basicSalary * Gross_Salary) / 100)) / 100;
 	const esi = (Configs?.esiEmployee * Gross_Salary) / 100;
-	const Total_Deduction = pf + esi + Professional_Tax?.tax + Tds_Monthly;
+	const Total_Deduction = Number(
+		(pf + esi + Professional_Tax?.tax + Tds_Monthly).toFixed(2)
+	);
 
 	const Employer_Pf =
 		(Configs?.pfEmployer * ((Configs?.basicSalary * Gross_Salary) / 100)) / 100;
@@ -444,7 +446,7 @@ const ViewPayrollDetails = () => {
 							</TextField>
 						</div>
 
-						{!isLoading ? (
+						{isLoading ? (
 							<PayrollSkeleton />
 						) : (
 							<div className="px-4 py-4 text-lg">
