@@ -12,17 +12,18 @@ import Link from "next/link";
 import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { useAuth, useChange } from "hooks";
+import { Attendance } from "types";
 
 interface ARRAY {
   id?: string;
 }
 
 interface Props {
-  data?: ARRAY[];
-  mutate: any;
-  absentMutate?: any;
-  presentMutate?: any;
-  allMutate?: any;
+  data?: Attendance[];
+  mutate: () => void;
+  absentMutate: () => void;
+  presentMutate: () => void;
+  allMutate: () => void;
   selectedDate?: string;
 }
 
@@ -37,7 +38,7 @@ const AttendanceGrid = ({
   return (
     <div className="mt-6">
       <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
-        {data?.map((item: any) => (
+        {data?.map((item) => (
           <div key={item?.id}>
             <div className="h-full w-full bg-white shadow-xl rounded-2xl flex flex-col items-center gap-4 py-4 px-4 hover:scale-105 ease-in-out transition-all duration-150">
               <div className="w-full flex justify-between items-center">
@@ -137,12 +138,12 @@ const AttendanceGrid = ({
 export default AttendanceGrid;
 
 interface Props {
-  id?: any;
-  wfh?: any;
-  mutate: any;
-  presentMutate?: any;
-  absentMutate?: any;
-  allMutate?: any;
+  id?: string;
+  wfh?: Attendance;
+  mutate: () => void;
+  absentMutate: () => void;
+  presentMutate: () => void;
+  allMutate: () => void;
   selectedDate?: string;
 }
 
@@ -168,7 +169,7 @@ const MenuComponent = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleWorkFromHome = (userId: any) => {
+  const handleWorkFromHome = (userId: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to update status?",

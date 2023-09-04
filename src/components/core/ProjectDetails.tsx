@@ -133,7 +133,7 @@ const ProjectDetails = () => {
       />
       <div className="grid gap-4 md:grid-cols-3">
         <div className="md:col-span-2">
-          <div className="w-full bg-white rounded-md shadow-jubilation p-6">
+          <div className="w-full bg-white rounded-md shadow-jubilation md:p-6 p-2">
             <div className="flex justify-between items-center">
               <h1 className="font-semibold tracking-wide text-lg text-secondary">
                 {projectData?.name}

@@ -110,7 +110,7 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
                 <CopyClipboard value={employData?.employeeID} />
               </span>
             </p>
-            <p className="text-sm text-slate-600 font-medium mt-1 flex items-center gap-3">
+            <p className="text-sm text-slate-600 break-all font-medium mt-1 flex items-center gap-3">
               <RenderIconRow
                 value={employData?.email || "---"}
                 isEmail

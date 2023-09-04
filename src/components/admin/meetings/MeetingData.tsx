@@ -53,7 +53,6 @@ const MeetingData = () => {
 				meetingId={router?.query?.id}
 				mutate={mutate}
 			/>
-
 			<UpdateClient
 				mutate={mutate}
 				open={isDialogue}
@@ -66,6 +65,7 @@ const MeetingData = () => {
 				meetingDetails={meetingDetails}
 				mutate={mutate}
 			/>
+
 			<section className="mb-12 flex gap-3">
 				<div className="w-full m-auto rounded-lg bg-white shadow-xl lg:p-4 p-1 px-2">
 					<div className="w-full bg-blue-100/50 rounded-lg lg:p-4 p-1">
@@ -101,9 +101,9 @@ const MeetingData = () => {
 											{/* <AccessTime /> */}
 											<span className="text-sm md:text-base">{`${moment(
 												meetingDetails?.meetingDate
-											).format("LL")},${
+											).format("LL")},${moment(
 												meetingDetails?.meetingStartTime
-											}`}</span>
+											).format("LT")}`}</span>
 										</div>
 									</div>
 									<div className="md:flex py-2 md:py-0">
@@ -114,7 +114,7 @@ const MeetingData = () => {
 										<span className="text-sm md:text-base">
 											{`${moment(meetingDetails?.meetingDate).format("LL")}, ${
 												meetingDetails?.meetingEndTime
-													? meetingDetails?.meetingEndTime
+													? moment(meetingDetails?.meetingEndTime).format("LT")
 													: "---"
 											}`}
 										</span>
