@@ -4,6 +4,7 @@ import {
   DoneAll,
   FileDownloadOutlined,
   InsertLink,
+  KeyboardVoice,
   MoreHoriz,
   Reply,
   Shortcut,
@@ -85,7 +86,21 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
                       : null}
                     {data?.replyTo?.text?.length > 20 ? "..." : ""}
                   </p>
-                ) : null}
+                ) : data?.replyTo?.category === "image" ? (
+                  <ImageMessage data={data?.replyTo} />
+                ) : data?.replyTo?.category === "code" ? (
+                  <CodeFormat data={data?.replyTo} />
+                ) : data?.replyTo?.category === "file" ? (
+                  <DocFormat data={data?.replyTo} />
+                ) : data?.replyTo?.category === "link" ? (
+                  <LinkFormat data={data?.replyTo} />
+                ) : data?.replyTo?.category === "audio" ? (
+                  <AudioFormat data={data?.replyTo} />
+                ) : (
+                  <p className="tracking-wide min-w-fit break-all whitespace-pre-line break-words ">
+                    {data?.text}
+                  </p>
+                )}
               </div>
             </div>
           ) : null}
@@ -103,8 +118,12 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
                 <DocFormat data={data} />
               ) : data?.category === "link" ? (
                 <LinkFormat data={data} />
+              ) : data?.category === "audio" ? (
+                <AudioFormat data={data} />
               ) : (
-                ""
+                <p className="tracking-wide min-w-fit break-all whitespace-pre-line break-words ">
+                  {data?.text}
+                </p>
               )}
             </div>
             {data?.sender?.id === user?.id && (
@@ -372,6 +391,15 @@ const LinkFormat = ({ data }: any) => {
           {data?.text}
         </h1>
       </Link>
+    </div>
+  );
+};
+const AudioFormat = ({ data }: any) => {
+  return (
+    <div className="md:flex gap-2 items-start">
+      <audio controls src={data?.link}>
+        <a href={data?.link}> Download audio </a>
+      </audio>
     </div>
   );
 };

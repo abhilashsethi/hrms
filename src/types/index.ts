@@ -237,7 +237,13 @@ export type Leave = {
   role?: string | undefined;
   status?: string | undefined;
   credit?: number | undefined;
-  user?: {role?:string, id?:string, name?:string, photo?:string, employeeID?:string};
+  user?: {
+    role?: string;
+    id?: string;
+    name?: string;
+    photo?: string;
+    employeeID?: string;
+  };
   createdAt?: Date;
   updatedAt?: Date;
   type?: string;
@@ -245,7 +251,6 @@ export type Leave = {
   totalLeaveThisMonth?: number;
   totalLeaveThisYear?: number;
 };
-
 
 export type Client = {
   id: string;
@@ -557,7 +562,15 @@ export interface IGroupChatData {
 }
 
 export interface IChatMessages {
-  category: "text" | "link" | "image" | "code" | "markup" | "file" | "event";
+  category:
+    | "text"
+    | "link"
+    | "image"
+    | "code"
+    | "markup"
+    | "file"
+    | "event"
+    | "audio";
   createdAt: string;
   deliveredTo: User[];
   id: string;
