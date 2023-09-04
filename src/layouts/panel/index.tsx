@@ -162,8 +162,8 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
           } dashboard-main `}
         >
           <header className={`h-16 bg-white`}>
-            <div className="flex h-16 items-center justify-between px-4">
-              <h1 className="lg:text-xl text-sm uppercase lg:block font-semibold text-theme">
+            <div className="flex h-16 items-center md:justify-between justify-end px-4">
+              <h1 className="lg:text-xl text-sm uppercase lg:block hidden font-semibold text-theme">
                 {
                   MenuItems?.find(
                     (item: any) =>
@@ -220,7 +220,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
                   )?.title
                 }
               </h1>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center  gap-4">
                 <div className="flex gap-4 items-center">
                   <Link href={"/admin/email"}>
                     <Tooltip title="Mail">
@@ -280,13 +280,6 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
                 </div>
                 <Tooltip title="Profile">
                   <div className="flex w-fit  items-center justify-start gap-2 overflow-hidden bg-white">
-                    {/* <Chip
-                      className=""
-                      onClick={handleClick}
-                      avatar={<Avatar alt="" src="" />}
-                      label="Profile"
-                      variant="outlined"
-                    /> */}
                     <div
                       onClick={handleClick}
                       className="flex gap-2 items-center cursor-pointer"
