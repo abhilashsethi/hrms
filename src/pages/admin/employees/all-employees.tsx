@@ -101,7 +101,7 @@ const AllEmployees = () => {
             user?.role?.name === "HR" ||
             user?.role?.name === "DIRECTOR" ||
             user?.role?.name === "COO" ? (
-              <div className="flex md:gap-4 gap-2 mt-2 flex-row items-center">
+              <div className="md:flex grid md:gap-4 gap-2 mt-2 flex-row items-center">
                 <Link href="/admin/employees/create-employee">
                   <Button
                     fullWidth
@@ -129,7 +129,7 @@ const AllEmployees = () => {
         user?.role?.name === "DIRECTOR" ||
         user?.role?.name === "HR" ||
         user?.role?.name === "COO" ? (
-          <div className="md:flex gap-4 justify-between w-full py-2">
+          <div className="md:flex  grid gap-4 md:justify-between w-full py-2">
             <div
               className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}

@@ -10,7 +10,7 @@ import PanelLayout from "layouts/panel";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const EmployeeProfile = () => {
   const [activeMonth, setActiveMonth] = useState();
@@ -26,15 +26,22 @@ const EmployeeProfile = () => {
               : `bg-red-200 text-red-500 border-red-400`
           }`}
         >
-          {eventInfo.event.title === "PRESENT" ? (
-            <Check fontSize="small" />
-          ) : (
-            <Close fontSize="small" />
-          )}
-          {eventInfo.event.title === "PRESENT" ? "PRESENT" : "ABSENT"}
+          <span className="md:block hidden">
+            {eventInfo.event.title === "PRESENT" ? (
+              <Check fontSize="small" />
+            ) : (
+              <Close fontSize="small" />
+            )}
+            {eventInfo.event.title === "PRESENT" ? "PRESENT" : "ABSENT"}
+          </span>
+          {/* Mobile View start */}
+          <span className="md:hidden px-2 block">
+            {eventInfo.event.title === "PRESENT" ? "P" : "A"}
+          </span>
+          {/* Mobile View end */}
         </span>
         {eventInfo.event.title === "PRESENT" && (
-          <div className="flex flex-col">
+          <div className="md:flex flex-col hidden">
             <span>
               IN TIME :
               {moment(eventInfo.event.extendedProps.inTime).format("hh:mm A")}
@@ -70,18 +77,36 @@ const EmployeeProfile = () => {
       link: `/admin/employees/profile/${router?.query?.id}`,
     },
   ];
+  const calendarClassName = "responsive-calendar";
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Function to update the screen width state
+    const updateScreenWidth = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Check if window is available (client-side) before adding the event listener
+    if (typeof window !== "undefined") {
+      updateScreenWidth();
+      window.addEventListener("resize", updateScreenWidth); // Listen for window resize events
+      return () => {
+        window.removeEventListener("resize", updateScreenWidth); // Remove event listener to prevent memory leaks
+      };
+    }
+  }, []);
   return (
     <PanelLayout title={`Employee Profile - SY HR Management System`}>
-      <section className="md:px-8 px-2 mx-auto">
+      <section className="md:px-8 px-2 py-4 mx-auto">
         <div className="pb-4 mt-4">
           <AdminBreadcrumbs links={links} />
         </div>
         <EmployeeDetails />
         {isLoading ? null : (
-          <div className="flex gap-3">
+          <div className="md:flex grid gap-3">
             <div className="w-full">
-              <div className="mb-4 flex justify-between">
+              <div className="mb-4 md:flex py-2 justify-between">
                 <HeadText title="Month wise attendance" />
                 <Link
                   href={`/admin/employees/attendance-report?empId=${router?.query?.id}&month=${activeMonth}`}
@@ -95,18 +120,29 @@ const EmployeeProfile = () => {
                   </Button>
                 </Link>
               </div>
-              <FullCalendar
-                plugins={[dayGridPlugin, interactionPlugin]}
-                initialView="dayGridMonth"
-                weekends={true}
-                eventContent={renderEventContent}
-                events={attendances}
-                datesSet={(dateInfo: any) =>
-                  setActiveMonth(dateInfo?.view?.currentStart?.getMonth())
-                }
-              />
+              <div className={calendarClassName}>
+                <FullCalendar
+                  plugins={[dayGridPlugin, interactionPlugin]}
+                  initialView="dayGridMonth"
+                  weekends={true}
+                  eventContent={renderEventContent}
+                  events={attendances}
+                  datesSet={(dateInfo: any) =>
+                    setActiveMonth(dateInfo?.view?.currentStart?.getMonth())
+                  }
+                />
+              </div>
             </div>
           </div>
+        )}
+        {typeof window !== "undefined" && (
+          <style>
+            {`
+            .fc-header-toolbar {
+              flex-direction: ${isMobile ? "column" : "row"} !important;
+            }
+          `}
+          </style>
         )}
       </section>
     </PanelLayout>
