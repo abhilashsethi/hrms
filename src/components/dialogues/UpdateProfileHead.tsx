@@ -162,7 +162,7 @@ const UpdateProfileHead = ({
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 3 }}>
-          <div className="md:w-[50rem] w-[72vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-4">
+          <div className="md:w-[50rem] w-[65vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-4">
             <div className="flex flex-col items-center w-full">
               <Formik
                 initialValues={initialValues}
@@ -238,7 +238,7 @@ const UpdateProfileHead = ({
                         <p className="text-theme font-semibold my-2">
                           Phone No <span className="text-red-600">*</span>
                         </p>
-                        <div className="flex justify-center gap-2 items-center">
+                        <div className="md:flex justify-center gap-2 items-center">
                           <div className=" w-full md:w-1/4 lg:w-32">
                             <CountrySelector
                               className="bg-white border border-gray-400 py-4"
