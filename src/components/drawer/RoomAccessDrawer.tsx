@@ -1,5 +1,11 @@
-import { Done, MeetingRoomRounded } from "@mui/icons-material";
-import { Button, CircularProgress, Container, Drawer } from "@mui/material";
+import { Close, Done, MeetingRoomRounded } from "@mui/icons-material";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  Drawer,
+  IconButton,
+} from "@mui/material";
 import { ReverseIOSSwitch } from "components/core";
 import { makeStyles } from "@material-ui/core";
 import { useState, useEffect } from "react";
@@ -105,10 +111,16 @@ const RoomAccessDrawer = ({ open, onClose, cardId, mutate }: Props) => {
   return (
     <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
       <Container style={{ marginTop: "1rem" }} className={classes.container}>
-        <h1 className="md:text-lg text-sm font-bold text-theme flex gap-3 items-center pb-4">
-          <MeetingRoomRounded />
-          ROOM ACCESS
-        </h1>
+        <div className="flex items-center justify-between ">
+          <h1 className="md:text-lg text-sm font-bold text-theme flex gap-3 items-center pb-4">
+            <MeetingRoomRounded />
+            ROOM ACCESS
+          </h1>
+          <IconButton onClick={() => onClose()}>
+            <Close fontSize="small" className="text-red-500 block md:hidden" />
+          </IconButton>
+        </div>
+
         {isLoading ? (
           <h1>Loading...</h1>
         ) : (
