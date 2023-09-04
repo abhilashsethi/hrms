@@ -51,7 +51,6 @@ interface Props {
 }
 
 const CardComponent = ({ item, mutate }: Props) => {
-  const [isValidity, setIsValidity] = useState(false);
   const { user } = useAuth();
   const [isAccess, setIsAccess] = useState<{
     dialogue?: boolean;

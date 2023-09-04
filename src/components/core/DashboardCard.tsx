@@ -17,14 +17,14 @@ interface Props {
 
 const DashboardCard = ({ data }: Props) => {
   return (
-    <div className="w-full md:px-4 px-1 ">
+    <div className="w-full ">
       <div className="grid lg:grid-cols-4 grid-cols-1 gap-4">
         {data?.map((item) => (
           <div key={item?.id}>
             {item?.link ? (
               <Link href={item?.link}>
                 <div
-                  className={`${item?.className} w-ful flex flex-col border-[1px] rounded-lg p-4 hover:scale-105 transition-all ease-in-out duration-300 cursor-pointer hover:bg-theme group shadow-next`}
+                  className={`${item?.className} w-ful md:h-44 flex flex-col border-[1px] rounded-lg p-4 hover:scale-105 transition-all ease-in-out duration-300 cursor-pointer hover:bg-theme group shadow-next`}
                 >
                   <div
                     className={`h-12 border-b-[3px] border-slate-300 w-12 rounded-lg shadow-md bg-gradient-to-r flex justify-center items-center ${item?.bg}`}
