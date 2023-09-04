@@ -81,7 +81,7 @@ const TypeEmailContainer = ({
                   } else {
                     let url = await uploadFile(
                       item,
-                      Date.now() + "-" + item?.name
+                      Date.now() + "-" + item?.name?.split(" ")?.join("-")
                     );
                     url && attachmentUrl.push(url);
                   }
@@ -108,7 +108,9 @@ const TypeEmailContainer = ({
             content: value?.forwardedToId?.length
               ? `Forwarded Message &lt;&lt;${data?.sender?.username}&gt;&gt; <br/> ${data?.content} &lt;&lt;${user?.username}&gt;&gt; <br/> ${value?.message} `
               : value?.message,
-            attachments: attachmentUrl,
+            attachments: attachmentUrl?.length
+              ? [...attachmentUrl, ...(data?.attachments || [])]
+              : [...(data?.attachments || [])],
             isSend: !value?.isDraft,
             receiverIds: value?.forwardedToId?.length
               ? value?.forwardedToId

@@ -40,7 +40,7 @@ const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
   const { user } = useAuth();
 
   const formik = useFormik({
-    initialValues: { image: null, message: "" },
+    initialValues: { image: [], message: "" },
     validationSchema: yup.object().shape({
       image: yup
         .mixed()
