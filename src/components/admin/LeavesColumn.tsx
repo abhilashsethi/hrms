@@ -141,7 +141,7 @@ const LeavesColumn = ({ data, mutate }: Props) => {
       case "Pending":
         return (
           <>
-            <div className="md:flex items-center justify-center mt-2 pt-2 space-x-3">
+            <div className="md:flex grid gap-2 items-center justify-center mt-2 pt-2 space-x-3">
               <Button
                 onClick={() => approveLeave(item?.id)}
                 className="!bg-green-600"
@@ -165,7 +165,7 @@ const LeavesColumn = ({ data, mutate }: Props) => {
                 DECLINE
               </Button>
             </div>
-            <div>
+            <div className="md:flex grid justify-center gap-4">
               {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
                 <FormControl>
                   <RadioGroup

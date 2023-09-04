@@ -53,9 +53,38 @@ export type Attendance = {
   userId: string;
   createdAt: Date;
   updatedAt: Date;
+  username: string;
+  status: string;
+  inTime: Date;
+  outTime: Date;
   user: User;
+  email: string;
+  employeeID: string
+  isWFH: boolean
+  name:string
+  photo: string;
+  
 };
+export type PayRoll = {
+  id: string;
+  basicSalary: number;
+  hra: number;
+  conveyanceAllowances: number;
+  medicalAllowances: number;
+  pfEmployee: number;
+  pfEmployer: number;
+  esiEmployee: number;
+  esiEmployer: number;
+  ptTaxes: PtTax[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+export type PtTax = {
+  startGrossSalary: number;
+  endGrossSalary: number;
+  tax: number;
 
+}
 export interface Guest {
   id?: string;
   company?: string | null;

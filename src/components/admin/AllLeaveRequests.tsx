@@ -30,11 +30,10 @@ const style = {
 
 const AllLeaveRequests = () => {
   const [openInfoModal, setOpenInfoModal] = useState(false);
-  const handleInfoOpen = () => {
-    setOpenInfoModal(true);
-  };
+
   const handleInfoCloseModal = () => setOpenInfoModal(false);
   const { data: leaveData } = useFetch<User[]>(`leaves/credits`);
+  console.log(leaveData);
   return (
     <section className="mt-8">
       <MaterialTable
@@ -150,12 +149,12 @@ const AllLeaveRequests = () => {
             field: "totalDaysLeave",
             editable: "never",
           },
-          {
-            title: "Total Paid Leave",
-            tooltip: "Total Paid Leave",
-            field: "totalPaidLeave",
-            editable: "never",
-          },
+          // {
+          //   title: "Total Paid Leave",
+          //   tooltip: "Total Paid Leave",
+          //   field: "totalPaidLeave",
+          //   editable: "never",
+          // },
           {
             title: "Total Pending",
             tooltip: "Total Pending",
@@ -182,7 +181,7 @@ const AllLeaveRequests = () => {
           },
         ]}
       />
-      <Modal
+      {/* <Modal
         open={openInfoModal}
         onClose={handleInfoCloseModal}
         aria-labelledby="modal-modal-title"
@@ -253,7 +252,7 @@ const AllLeaveRequests = () => {
             </div>
           </div>
         </Card>
-      </Modal>
+      </Modal> */}
     </section>
   );
 };

@@ -5,10 +5,11 @@ import { CopyClipboard } from "components/core";
 import { useChange } from "hooks";
 import moment from "moment";
 import Swal from "sweetalert2";
+import { Attendance } from "types";
 import { MuiTblOptions } from "utils";
 
 interface Props {
-  data: any;
+  data?: Attendance[];
   mutate: () => void;
   absentMutate: () => void;
   presentMutate: () => void;
@@ -27,7 +28,7 @@ const AttendanceList = ({
   const { change } = useChange();
   const todayFormatted = moment().format("YYYY-MM-DD");
   const isToday = moment(selectedDate).isSame(todayFormatted, "day");
-  const handleWorkFromHome = (userId: any) => {
+  const handleWorkFromHome = (userId: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to update status?",
@@ -61,6 +62,7 @@ const AttendanceList = ({
       }
     });
   };
+  console.log(data);
   return (
     <div className="mt-4">
       <MaterialTable
@@ -69,19 +71,20 @@ const AttendanceList = ({
         data={
           !data
             ? []
-            : data?.map((_: any, i: number) => ({
-                ..._,
+            : data?.map((attendanceData, i: number) => ({
+                ...attendanceData,
                 sl: i + 1,
-                email: _?.username,
+                email: attendanceData?.username,
                 intime:
-                  _?.status === "present"
-                    ? moment(_?.inTime).format("hh:mm A")
+                  attendanceData?.status === "present"
+                    ? moment(attendanceData?.inTime).format("hh:mm A")
                     : "---",
                 outtime:
-                  _?.status === "present"
-                    ? moment(_?.outTime).format("hh:mm A")
+                  attendanceData?.status === "present"
+                    ? moment(attendanceData?.outTime).format("hh:mm A")
                     : "---",
-                status: _?.status === "present" ? `PRESENT` : `ABSENT`,
+                status:
+                  attendanceData?.status === "present" ? `PRESENT` : `ABSENT`,
               }))
         }
         options={{ ...MuiTblOptions(), selection: false, paging: false }}
