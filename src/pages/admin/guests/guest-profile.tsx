@@ -94,7 +94,7 @@ const GuestProfile = () => {
   }
   return (
     <PanelLayout title="Guest Profile - Admin Panel">
-      <section className="lg:px-8 px-3  py-4">
+      <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
 
         <ChangeGuestProfile

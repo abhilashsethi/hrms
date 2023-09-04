@@ -9,7 +9,9 @@ const DefaultChatView = ({ setChatLeftBar }: any) => {
         Elevate Your Business Communication. Connect, Collaborate, Succeed.
         Empower Your Team with Seamless Chat Experience.
       </p>
-      <button onClick={setChatLeftBar(false)}>Start Chat</button>
+      <button className="md:hidden block" onClick={setChatLeftBar(false)}>
+        Start Chat
+      </button>
     </div>
   );
 };
