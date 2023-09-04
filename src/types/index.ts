@@ -234,7 +234,15 @@ export type Projects = {
     createdAt?: string;
     updatedAt?: string;
   };
+  docs?: ProjectDoc[];
 };
+export type ProjectDoc = {
+  id: string;
+  title: string;
+  docType: string;
+  link: string;
+
+}
 export type Role = {
   id: string;
   name: string;

@@ -167,15 +167,14 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
       {projectData?.clientId ? (
         <>
           <div className="w-full rounded-md border-2 mt-3 p-4">
-            <div className="md:flex justify-center items-center justify-items-center grid gap-4">
-              <div className="md:w-1/4 text-center">
+            <div className="justify-center items-center justify-items-center grid gap-4">
+              <div className=" text-center">
                 <PhotoViewer
                   name={projectData?.client?.name}
                   photo={projectData?.client?.photo}
                 />
               </div>
-              <div className="text-sm px-2 text-center tracking-wide w-full md:w-3/4">
-                <p className="font-semibold md:block hidden">Name </p>
+              <div className="text-sm px-2 text-center tracking-wide w-full ">
                 <p>{projectData?.client?.name}</p>
               </div>
             </div>

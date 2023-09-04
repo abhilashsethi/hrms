@@ -21,7 +21,6 @@ import {
   LoaderAnime,
   SkeletonLoader,
 } from "components/core";
-import { UploadEmployData } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";

@@ -20,9 +20,10 @@ import { useAuth, useChange, useFetch } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { Projects } from "types";
 
 type Props = {
-  open?: boolean | any;
+  open: boolean;
   onClose: () => void;
 };
 
@@ -44,27 +45,16 @@ const useStyles = makeStyles((theme) => ({
 const ProjectVideoDrawer = ({ open, onClose }: Props) => {
   const { user } = useAuth();
   const router = useRouter();
-  const [isPreview, setIsPreview] = useState<{
-    dialogue?: boolean;
-    title?: string;
-  }>({
-    dialogue: false,
-    title: "Preview",
-  });
   const [getDocument, setGetDocument] = useState<boolean>(false);
-
-  const { data: documentDetails, mutate } = useFetch<any>(
+  const { data: documentDetails, mutate } = useFetch<Projects>(
     `projects/${router?.query?.id}`
   );
-
   const classes = useStyles();
-
   return (
     <>
       <AddVideoModal
         open={getDocument}
         handleClose={() => setGetDocument(false)}
-        // details={meetingDetails}
         mutate={mutate}
       />
       <Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
@@ -99,12 +89,11 @@ const ProjectVideoDrawer = ({ open, onClose }: Props) => {
           </div>
           <div className="md:flex justify-center w-full">
             <div className="flex gap-2 flex-wrap">
-              {documentDetails?.docs?.filter(
-                (item: any) => item.docType === "video"
-              )?.length ? (
+              {documentDetails?.docs?.filter((item) => item.docType === "video")
+                ?.length ? (
                 documentDetails?.docs
-                  .filter((item: any) => item.docType === "video")
-                  .map((item: any) => (
+                  .filter((item) => item.docType === "video")
+                  .map((item) => (
                     <div
                       key={item?.id}
                       className=" border-2 py-2 px-2 rounded-md flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-200 transition-all ease-in-out duration-200"

@@ -4,6 +4,7 @@ import ICONS from "assets/icons";
 import { RenderIconRow } from "components/common";
 import {
   ClientProfileImage,
+  CopyClipboard,
   CountryNameFlag,
   HeadText,
   IOSSwitch,
@@ -48,10 +49,12 @@ const ClientDetails = () => {
       id: 2,
       title: "Email",
       value: (
-        <RenderIconRow
-          value={`${clientData?.email ? clientData?.email : "---"}`}
-          isEmail
-        />
+        <span className="break-all">
+          <CopyClipboard
+            value={`${clientData?.email ? clientData?.email : "---"}`}
+            isCut={false}
+          />
+        </span>
       ),
     },
 
@@ -241,13 +244,15 @@ const ClientDetails = () => {
                 {basicDetails?.map((item) => (
                   <div
                     key={item?.id}
-                    className="flex gap-2 items-center font-medium py-1.5"
+                    className="md:flex gap-2 items-center font-medium py-1.5"
                   >
-                    <div className="w-[30%]">
-                      <p className="text-sm text-gray-600">{item?.title} :</p>
+                    <div className="md:w-[30%] w-full">
+                      <p className="text-sm font-semibold text-gray-800">
+                        {item?.title} :
+                      </p>
                     </div>
-                    <div className="w-2/3">
-                      <p className="text-sm">{item?.value}</p>
+                    <div className="md:w-2/3 w-full">
+                      <p className="text-sm text-gray-500">{item?.value}</p>
                     </div>
                   </div>
                 ))}
