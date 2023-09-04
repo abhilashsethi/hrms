@@ -605,6 +605,21 @@ export interface IChatGroup {
     blockedBy: string[];
   };
 }
+export interface IChatUsers {
+  createdAt: string;
+  description: string;
+  photo: string;
+  name: string;
+  totalMembers: number;
+  id: string;
+  role?: { name: string };
+  blockedBy?: string[];
+  gender: string;
+  alreadyConnected: {
+    groupId: string;
+    blockedBy: string[];
+  };
+}
 export interface IChatMember {
   isAdmin: boolean;
   user: Partial<User>;
