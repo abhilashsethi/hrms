@@ -48,7 +48,7 @@ const validationSchema = Yup.object().shape({
 		.email("Invalid email address")
 		.required("Personal Email Required!"),
 	// employeeID: Yup.string().required("Employee ID is required!"),
-	countryCode: Yup.string().required("Country Code Required."),
+	// countryCode: Yup.string().required("Country Code Required."),
 	phone: Yup.string().required("Phone No is required!"),
 	dob: Yup.string().test(
 		"minimum-age",
@@ -99,7 +99,7 @@ const UpdateProfileHead = ({
 		joiningDate: employData?.joiningDate || null,
 		bloodGroup: employData?.bloodGroup || null,
 		employeeOfBranchId: employData?.employeeOfBranchId || null,
-		countryCode: employData?.countryCode || null,
+		countryCode: employData?.countryCode || "91",
 	};
 	const handleSubmit = async (values: any) => {
 		setLoading(true);
@@ -242,7 +242,7 @@ const UpdateProfileHead = ({
 													<div className=" w-full md:w-1/4 lg:w-32">
 														<CountrySelector
 															className="bg-white border border-gray-400 py-4"
-															defaultValue="91"
+															// defaultValue="91"
 															name="countryCode"
 															onChange={handleChange}
 															onBlur={handleBlur}

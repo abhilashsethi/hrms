@@ -1,10 +1,14 @@
 import { CurrencyRupee, Download } from "@mui/icons-material";
+import { useEffect, useMemo } from "react";
+
 import { Button, CircularProgress, MenuItem, TextField } from "@mui/material";
 import { RenderIconRow } from "components/common";
 import {
 	AdminBreadcrumbs,
 	CopyClipboard,
 	HeadText,
+	Loader,
+	LoaderAnime,
 	PhotoViewer,
 } from "components/core";
 import { Form, Formik } from "formik";
@@ -12,38 +16,37 @@ import { downloadFile, useAuth, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 import { NumInWords } from "utils";
 import * as Yup from "yup";
+import PayrollSkeleton from "components/core/PayrollSkeleton";
 
 const validationSchema = Yup.object().shape({});
 const ViewPayrollDetails = () => {
-	// Get the current year
-	const currentYear = new Date().getFullYear();
-
-	// Create an array of objects with the desired format
-	const yearsArray = Array.from({ length: currentYear - 1999 }, (_, index) => {
-		const year = 2000 + index;
-		return { id: index, value: year.toString(), label: year.toString() };
-	});
-	console.log(yearsArray);
-
 	const router = useRouter();
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
-	const [status, setStatus] = useState(null);
-	const initialValues = {
-		status: "",
-	};
+	const [yearStatus, setYearStatus] = useState(
+		new Date().getFullYear().toString()
+	);
+	const [selectMonth, setSelectMonth] = useState(
+		(new Date().getMonth() + 1).toString()
+	);
+
+	const [salaryInfo, setSalaryInfo] = useState<any>();
+	const [salaryData, setSalaryData] = useState<any>();
+
 	const handleChange = (event: any) => {
-		setStatus(event.target.value);
+		setYearStatus(event.target.value);
 	};
-	const [selectMonth, setSelectMonth] = useState(null);
+	// console.log(yearStatus);
 	const handleMonthChange = (event: any) => {
 		setSelectMonth(event.target.value);
 	};
+	// console.log(selectMonth);
+
 	const { change } = useChange();
 	const currentDate = new Date();
 	const year: number = currentDate.getFullYear();
@@ -55,35 +58,96 @@ const ViewPayrollDetails = () => {
 	const { data: configData, mutate: payRollMutate } = useFetch<any>(
 		`payrolls/getAllPayrollConfigs`
 	);
+	// const { data: yearMonthData } = useFetch<any>(
+	// 	`user-salaryinfo/get-by-userId?userId=${router?.query?.id}`
+	// );
+	// console.log({ yearMonthData });
+
 	const { data: employData, mutate } = useFetch<User>(
 		`users/${router?.query?.id}`
 	);
+	const { data: getMonthYearSalary, isLoading } = useFetch<any>(
+		`user-salaryinfo/get-by-userId-and-month-and-year?userId=${router?.query?.id}&month=${selectMonth}&year=${yearStatus}`
+	);
+	console.log(getMonthYearSalary);
+	const isMounted = useRef(false);
+
+	useEffect(() => {
+		isMounted.current = true;
+
+		if (isMounted.current) {
+			// setSelectMonth(getMonthYearSalary?.month);
+			// setYearStatus(getMonthYearSalary?.year);
+			setSalaryInfo({
+				grossSalary: getMonthYearSalary?.grossSalary,
+				kpi: getMonthYearSalary?.kpi,
+				tds: getMonthYearSalary?.tds,
+			});
+		}
+
+		return () => {
+			isMounted.current = false;
+		};
+	}, [getMonthYearSalary]);
+	console.log(salaryInfo);
+
+	const joiningYear = new Date(employData?.joiningDate as any)?.getFullYear();
+	// Get the current year
+	const currentYear = new Date().getFullYear();
+
+	// Create an array of objects with the desired format
+	const yearsArray = Array.from({ length: currentYear - 1999 }, (_, index) => {
+		const year = joiningYear + index;
+		return { id: index, value: year.toString(), label: year.toString() };
+	});
+	// console.log(yearsArray);
+
+	// const { data: grossSalaryData, mutate: grossMutate } = useFetch<User>(
+	// 	`users/${router?.query?.id}`
+	// );
 	// Function to get total days in a month
 	function getDaysInMonth(year: number, month: number): number {
 		return new Date(year, month, 0).getDate();
 	}
-	console.log({ employData });
 
 	// console.log(lossOfPay);
 	const totalDaysInMonth = getDaysInMonth(year, month);
 	const totalWorkingDay =
 		totalDaysInMonth === 31 ? 22 : totalDaysInMonth === 30 ? 21 : 20;
 
-	const Gross_Salary: any = employData?.grossSalary;
-	const New_Fields: any = employData?.salaryInfoNewFields?.length
-		? employData?.salaryInfoNewFields
-		: [];
+	const Gross_Salary: any = salaryInfo?.grossSalary;
+	// const New_Fields: any = employData?.salaryInfoNewFields?.length
+	// 	? employData?.salaryInfoNewFields
+	// 	: [];
 	const totalLossOfPay =
 		(Gross_Salary / totalWorkingDay) * lossOfPay?.totalUnPaidLeave || 0;
 
 	const Configs = configData?.length ? configData[0] : null;
+
+	const Tds: any = salaryInfo?.tds;
+	const tdsData = useMemo(() => {
+		const Tds_Amount =
+			Gross_Salary -
+			(Configs?.conveyanceAllowances + Configs?.medicalAllowances);
+		const Tds_Amount_Yearly = Tds_Amount * 12;
+		const Tds_Yearly = (Tds_Amount_Yearly * Tds) / 100;
+		const Tds_Monthly = Tds_Yearly / 12;
+
+		return {
+			tdsAmount: Tds_Amount,
+			tdsAmountYearly: Tds_Amount_Yearly,
+			tdsYearly: Tds_Yearly,
+			tdsMonthly: Tds_Monthly,
+		};
+	}, [Configs?.conveyanceAllowances, Configs?.medicalAllowances]);
+
 	const Professional_Tax = Configs?.ptTaxes?.find(
 		(item: any) =>
 			Gross_Salary >= item?.startGrossSalary &&
 			Gross_Salary <= (item?.endGrossSalary ? item.endGrossSalary : Infinity)
 	);
-	console.log(Configs);
-	const Tds: any = employData?.tds;
+	// console.log(Configs);
+
 	const Tds_Amount =
 		Gross_Salary - (Configs?.conveyanceAllowances + Configs?.medicalAllowances);
 	const Tds_Amount_Yearly = Tds_Amount * 12;
@@ -108,111 +172,124 @@ const ViewPayrollDetails = () => {
 
 	const Special_Allowance =
 		Gross_Salary > All_Allowances ? Gross_Salary - All_Allowances : 0;
-	const payroll = [
-		{
-			id: 1,
-			name: "Gross Salary Per Month",
-			count: `${Gross_Salary ? Gross_Salary : "---"}`,
-		},
-		{
-			id: 2,
-			name: "Basic Salary",
-			count: `${
-				Gross_Salary ? (Configs?.basicSalary * Gross_Salary) / 100 : "---"
-			}`,
-		},
-		{
-			id: 2,
-			name: "HRA",
-			count: `${Gross_Salary ? (Configs?.hra * Gross_Salary) / 100 : "---"}`,
-		},
-		{
-			id: 2,
-			name: "Conveyance Allowance",
-			count: `${
-				Gross_Salary
-					? Configs?.conveyanceAllowances
-					: Gross_Salary
-					? (Configs?.basicSalary * Gross_Salary) / 100
-					: "---"
-			}`,
-		},
-		{
-			id: 2,
-			name: "Medical Allowance",
-			count: `${Gross_Salary ? Configs?.medicalAllowances : "---"}`,
-		},
-		{
-			id: 2,
-			name: "Special Allowance",
-			count: `${Gross_Salary ? Special_Allowance : "---"}`,
-		},
-	];
-	const deduction = [
-		{
-			id: 1,
-			name: "PF Contribution by Employee",
-			count: `${
-				Gross_Salary
-					? (Configs?.pfEmployee *
-							((Configs?.basicSalary * Gross_Salary) / 100)) /
-					  100
-					: "---"
-			}`,
-		},
-		{
-			id: 2,
-			name: "ESI Contribution by Employee",
-			count: `${
-				Gross_Salary ? (Configs?.esiEmployee * Gross_Salary) / 100 : "---"
-			}`,
-		},
-		{
-			id: 2,
-			name: "Professional Tax",
-			count: `${Gross_Salary ? Professional_Tax?.tax : "---"}`,
-		},
-		{ id: 3, name: "TDS", count: `${Gross_Salary ? Tds_Monthly : "---"}` },
-		{
-			id: 4,
-			name: "Total Deduction",
-			count: `${Gross_Salary ? Total_Deduction : "---"}`,
-		},
-		{
-			id: 5,
-			name: "Net Salary",
-			count: `${Gross_Salary ? Gross_Salary - Total_Deduction : "---"}`,
-		},
-	];
+	const payroll = useMemo(
+		() => [
+			{
+				id: 1,
+				name: "Gross Salary Per Month",
+				count: `${Gross_Salary ? Gross_Salary : "---"}`,
+			},
+			{
+				id: 2,
+				name: "Basic Salary",
+				count: `${
+					Gross_Salary ? (Configs?.basicSalary * Gross_Salary) / 100 : "---"
+				}`,
+			},
+			{
+				id: 2,
+				name: "HRA",
+				count: `${Gross_Salary ? (Configs?.hra * Gross_Salary) / 100 : "---"}`,
+			},
+			{
+				id: 2,
+				name: "Conveyance Allowance",
+				count: `${
+					Gross_Salary
+						? Configs?.conveyanceAllowances
+						: Gross_Salary
+						? (Configs?.basicSalary * Gross_Salary) / 100
+						: "---"
+				}`,
+			},
+			{
+				id: 2,
+				name: "Medical Allowance",
+				count: `${Gross_Salary ? Configs?.medicalAllowances : "---"}`,
+			},
+			{
+				id: 2,
+				name: "Special Allowance",
+				count: `${Gross_Salary ? Special_Allowance : "---"}`,
+			},
+		],
+		[Gross_Salary]
+	);
+	const deduction = useMemo(
+		() => [
+			{
+				id: 1,
+				name: "PF Contribution by Employee",
+				count: `${
+					Gross_Salary
+						? (Configs?.pfEmployee *
+								((Configs?.basicSalary * Gross_Salary) / 100)) /
+						  100
+						: "---"
+				}`,
+			},
+			{
+				id: 2,
+				name: "ESI Contribution by Employee",
+				count: `${
+					Gross_Salary ? (Configs?.esiEmployee * Gross_Salary) / 100 : "---"
+				}`,
+			},
+			{
+				id: 2,
+				name: "Professional Tax",
+				count: `${Gross_Salary ? Professional_Tax?.tax : "---"}`,
+			},
+			{ id: 3, name: "TDS", count: `${Gross_Salary ? Tds_Monthly : "---"}` },
+			{
+				id: 4,
+				name: "Total Deduction",
+				count: `${Gross_Salary ? Total_Deduction : "---"}`,
+			},
+			{
+				id: 5,
+				name: "Net Salary",
+				count: `${Gross_Salary ? Gross_Salary - Total_Deduction : "---"}`,
+			},
+		],
+		[Gross_Salary]
+	);
 
-	const ctc = [
-		{
-			id: 1,
-			name: "PF Contribution by Employer",
-			count: `${
-				Gross_Salary
-					? (Configs?.pfEmployer *
-							((Configs?.basicSalary * Gross_Salary) / 100)) /
-					  100
-					: "---"
-			}`,
-		},
-		{
-			id: 2,
-			name: "ESI Contribution by Employer",
-			count: `${
-				Gross_Salary ? (Configs?.esiEmployer * Gross_Salary) / 100 : "---"
-			}`,
-		},
-		{ id: 2, name: "KPI", count: `${Gross_Salary ? employData?.kpi : "---"}` },
-		{
-			id: 2,
-			name: "CTC",
-			count: `${
-				Gross_Salary ? Gross_Salary + Employer_Pf + Employer_Esi : "---"
-			}`,
-		},
-	];
+	const ctc = useMemo(
+		() => [
+			{
+				id: 1,
+				name: "PF Contribution by Employer",
+				count: `${
+					Gross_Salary
+						? (Configs?.pfEmployer *
+								((Configs?.basicSalary * Gross_Salary) / 100)) /
+						  100
+						: "---"
+				}`,
+			},
+			{
+				id: 2,
+				name: "ESI Contribution by Employer",
+				count: `${
+					Gross_Salary ? (Configs?.esiEmployer * Gross_Salary) / 100 : "---"
+				}`,
+			},
+			{
+				id: 2,
+				name: "KPI",
+				count: `${Gross_Salary ? salaryInfo?.kpi : "---"}`,
+			},
+			{
+				id: 2,
+				name: "CTC",
+				count: `${
+					Gross_Salary ? Gross_Salary + Employer_Pf + Employer_Esi : "---"
+				}`,
+			},
+		],
+		[Gross_Salary]
+	);
 
 	const links = [
 		user?.role?.name === "CEO" ||
@@ -342,7 +419,7 @@ const ViewPayrollDetails = () => {
 								select
 								label="Select Year"
 								size="small"
-								value={status ? status : ""}
+								value={yearStatus ? yearStatus : ""}
 								onChange={handleChange}
 							>
 								{yearsArray?.map((option: any) => (
@@ -360,129 +437,132 @@ const ViewPayrollDetails = () => {
 								onChange={handleMonthChange}
 							>
 								{monthSelect?.map((option: any) => (
-									<MenuItem key={option.id} value={option.value}>
+									<MenuItem key={option.id} value={option.id}>
 										{option.label}
 									</MenuItem>
 								))}
 							</TextField>
 						</div>
 
-						<div className="px-4 py-4 text-lg">
-							<div className="grid lg:grid-cols-2 my-2 gap-x-24 gap-y-1 w-full">
-								<div className=" bg-theme rounded-lg shadow-lg px-4 py-4">
-									<div className="grid text-white text-lg justify-items-center">
-										<PhotoViewer size="7rem" photo={employData?.photo} />
-										<p className="font-semibold tracking-wide">
-											{employData?.name || "---"}
-										</p>
-										<p className="text-sm lg:pl-4 mt-1 font-bold flex gap-2">
-											EMP ID :
-											<span className="">
-												<CopyClipboard
-													value={employData?.employeeID || "---"}
+						{!isLoading ? (
+							<PayrollSkeleton />
+						) : (
+							<div className="px-4 py-4 text-lg">
+								<div className="grid lg:grid-cols-2 my-2 gap-x-24 gap-y-1 w-full">
+									<div className=" bg-theme rounded-lg shadow-lg px-4 py-4">
+										<div className="grid text-white text-lg justify-items-center">
+											<PhotoViewer size="7rem" photo={employData?.photo} />
+											<p className="font-semibold tracking-wide">
+												{employData?.name || "---"}
+											</p>
+											<p className="text-sm lg:pl-4 mt-1 font-bold flex gap-2">
+												EMP ID :
+												<span className="">
+													<CopyClipboard
+														value={employData?.employeeID || "---"}
+													/>
+												</span>
+											</p>
+											<p className="text-sm font-medium mt-1 flex items-center gap-3">
+												<RenderIconRow
+													value={employData?.email || "---"}
+													isEmail
+													longText={false}
 												/>
-											</span>
-										</p>
-										<p className="text-sm font-medium mt-1 flex items-center gap-3">
-											<RenderIconRow
-												value={employData?.email || "---"}
-												isEmail
-												longText={false}
-											/>
-										</p>
-										<p className="text-sm font-medium mt-1 flex items-center gap-3">
-											<RenderIconRow
-												value={employData?.phone || "---"}
-												isPhone
-											/>
-										</p>
+											</p>
+											<p className="text-sm font-medium mt-1 flex items-center gap-3">
+												<RenderIconRow
+													value={employData?.phone || "---"}
+													isPhone
+												/>
+											</p>
+										</div>
 									</div>
-								</div>
-								<div>
-									<HeadText className={"bg-green-600"} title="Gains" />
-									<div className=" my-2 grid gap-y-1 w-full">
-										{payroll.map((item) => (
-											<div
-												key={item?.id}
-												className="md:flex gap-4 justify-between"
-											>
-												<p className="text-gray-700">{item?.name} :</p>
-												<span className="text-blue-700">
-													<CurrencyRupee fontSize="small" />
-													{item.count}
-												</span>
-											</div>
-										))}
+									<div>
+										<HeadText className={"bg-green-600"} title="Gains" />
+										<div className=" my-2 grid gap-y-1 w-full">
+											{payroll.map((item) => (
+												<div
+													key={item?.id}
+													className="md:flex gap-4 justify-between"
+												>
+													<p className="text-gray-700">{item?.name} :</p>
+													<span className="text-blue-700">
+														<CurrencyRupee fontSize="small" />
+														{item.count}
+													</span>
+												</div>
+											))}
+										</div>
 									</div>
-								</div>
-								<div className="pt-4">
-									<HeadText className="bg-red-500" title="Deduction" />
-									<div className=" my-2 grid gap-y-1 w-full">
-										{deduction.map((item) => (
-											<div
-												key={item?.id}
-												className="md:flex gap-4 justify-between"
-											>
-												<p className="text-gray-700">{item?.name} :</p>
-												<span className="text-blue-700">
-													<CurrencyRupee fontSize="small" />
-													{item?.count}
-												</span>
-											</div>
-										))}
-										{New_Fields?.length > 0 &&
+									<div className="pt-4">
+										<HeadText className="bg-red-500" title="Deduction" />
+										<div className=" my-2 grid gap-y-1 w-full">
+											{deduction.map((item) => (
+												<div
+													key={item?.id}
+													className="md:flex gap-4 justify-between"
+												>
+													<p className="text-gray-700">{item?.name} :</p>
+													<span className="text-blue-700">
+														<CurrencyRupee fontSize="small" />
+														{item?.count}
+													</span>
+												</div>
+											))}
+											{/* {New_Fields?.length > 0 &&
 											New_Fields?.map((item: any) => (
 												<div
 													key={item?.id}
 													className="md:flex gap-4 justify-between"
 												>
 													<p className="text-gray-700">{item?.title} :</p>
-													{/* <p className="text-gray-700">{item?.name} :</p> */}
 													<span className="text-blue-700">
 														<CurrencyRupee fontSize="small" />
 														{item?.value}
 													</span>
 												</div>
+											))} */}
+										</div>
+									</div>
+									<div className="pt-4">
+										<HeadText className={"bg-yellow-500"} title="CTC" />
+										<div className=" my-2 grid gap-y-1 w-full">
+											{ctc.map((item) => (
+												<div
+													key={item?.id}
+													className="md:flex gap-4 justify-between"
+												>
+													<p className="text-gray-700">{item?.name} :</p>
+													<span className="text-blue-700">
+														<CurrencyRupee fontSize="small" />
+														{item.count}
+													</span>
+												</div>
 											))}
+										</div>
 									</div>
 								</div>
-								<div className="pt-4">
-									<HeadText className={"bg-yellow-500"} title="CTC" />
-									<div className=" my-2 grid gap-y-1 w-full">
-										{ctc.map((item) => (
-											<div
-												key={item?.id}
-												className="md:flex gap-4 justify-between"
-											>
-												<p className="text-gray-700">{item?.name} :</p>
-												<span className="text-blue-700">
-													<CurrencyRupee fontSize="small" />
-													{item.count}
-												</span>
-											</div>
-										))}
-									</div>
+								<div className="flex justify-center items-center w-full">
+									<Button
+										type="submit"
+										variant="contained"
+										className="!bg-theme hover:!scale-95 ease-in-out transition-all duration-300"
+										disabled={loading || !Gross_Salary}
+										startIcon={
+											loading ? (
+												<CircularProgress color="warning" size={20} />
+											) : (
+												<Download />
+											)
+										}
+										onClick={() => handleSubmit()}
+									>
+										Download Salary Slip
+									</Button>
 								</div>
 							</div>
-							<div className="flex justify-center items-center w-full">
-								<Button
-									type="submit"
-									variant="contained"
-									className="!bg-theme hover:!scale-95 ease-in-out transition-all duration-300"
-									disabled={loading || !Gross_Salary}
-									startIcon={
-										loading ? (
-											<CircularProgress color="warning" size={20} />
-										) : (
-											<Download />
-										)
-									}
-									onClick={() => handleSubmit()}
-								>
-									Download Salary Slip
-								</Button>
-							</div>
-						</div>
+						)}
 					</div>
 				</div>
 			</section>
@@ -492,13 +572,6 @@ const ViewPayrollDetails = () => {
 
 export default ViewPayrollDetails;
 
-const statuses = [
-	{ id: 1, value: "2023", label: "2023" },
-	{ id: 2, value: "2022", label: "2022" },
-	{ id: 3, value: "2021", label: "2021" },
-	{ id: 4, value: "2020", label: "2020" },
-	// { id: 4, value: null, label: "All" },
-];
 const monthSelect = [
 	{ id: 1, value: "Jan", label: "Jan" },
 	{ id: 2, value: "Feb", label: "Feb" },
