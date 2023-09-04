@@ -1,12 +1,13 @@
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { Check } from "@mui/icons-material";
 import { AdminBreadcrumbs } from "components/core";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
+import { HOLIDAY } from "types";
 const initialValues = {
 	startDate: "",
 	endDate: "",
@@ -34,7 +35,10 @@ const CreateHoliday = () => {
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
 
-	const handleSubmit = async (values: any, { resetForm }: any) => {
+	const handleSubmit = async (
+		values: HOLIDAY,
+		{ resetForm }: FormikHelpers<HOLIDAY>
+	) => {
 		setLoading(true);
 		try {
 			const res = await change(`holidays`, {
@@ -56,7 +60,9 @@ const CreateHoliday = () => {
 
 			return;
 		} catch (error) {
-			console.log(error);
+			if (error instanceof Error) {
+				Swal.fire(`Error`, error?.message, `error`);
+			}
 			setLoading(false);
 		} finally {
 			setLoading(false);
@@ -181,16 +187,4 @@ export default CreateHoliday;
 
 const links = [
 	{ id: 1, page: "Create Holiday", link: "/admin/holiday/create-holiday" },
-];
-const Status_Type = [
-	{
-		id: 1,
-		name: "Completed",
-		value: "completed",
-	},
-	{
-		id: 2,
-		name: "Pending",
-		value: "pending",
-	},
 ];
