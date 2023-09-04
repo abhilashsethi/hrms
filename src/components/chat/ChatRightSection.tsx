@@ -37,6 +37,28 @@ interface Props {
 }
 
 const ChatRightSection = ({ setChatLeftBar }: Props) => {
+  const { currentChatProfileDetails } = useChatData();
+
+  return (
+    <>
+      <div className="lg:w-[68%] w-full h-full">
+        {!currentChatProfileDetails?.id ? (
+          <DefaultChatView setChatLeftBar={setChatLeftBar} />
+        ) : (
+          <CurrentChatView setChatLeftBar={setChatLeftBar} />
+        )}
+      </div>
+    </>
+  );
+};
+
+export default ChatRightSection;
+
+const CurrentChatView = ({
+  setChatLeftBar,
+}: {
+  setChatLeftBar: (arg: boolean) => void;
+}) => {
   const [isTyping, setIsTyping] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
@@ -142,21 +164,6 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
     }
   };
 
-  const handleKeyDown = (e: any) => {
-    if (e.key === "Enter") {
-      !isLoading && handleSend();
-    }
-  };
-
-  const handleTyping = (e: any) => {
-    setIsTyping(true);
-    setIsMessage(e.target.value);
-    socketRef?.emit("USER_TYPING", {
-      groupId: currentChatProfileDetails?.id,
-      userId: user?.id,
-    });
-  };
-
   const handleTypingEnd = () => {
     socketRef?.emit("USER_TYPING_STOP", {
       groupId: currentChatProfileDetails?.id,
@@ -175,6 +182,21 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
   const handleTypingBlur = () => {
     setIsTyping(false);
     handleTypingEnd();
+  };
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === "Enter") {
+      !isLoading && handleSend();
+    }
+  };
+
+  const handleTyping = (e: any) => {
+    setIsTyping(true);
+    setIsMessage(e.target.value);
+    socketRef?.emit("USER_TYPING", {
+      groupId: currentChatProfileDetails?.id,
+      userId: user?.id,
+    });
   };
 
   return (
@@ -204,149 +226,139 @@ const ChatRightSection = ({ setChatLeftBar }: Props) => {
         handleClose={() => setIsLink(false)}
         sendId={currentChatProfileDetails?.id}
       />
-      <div className="lg:w-[68%] w-full h-full">
-        {!currentChatProfileDetails?.id ? (
-          <DefaultChatView setChatLeftBar={setChatLeftBar} />
-        ) : (
-          <div className="w-full h-full relative">
-            <ChatHead
-              key={currentChatProfileDetails?.id}
-              setChatLeftBar={setChatLeftBar}
-            />
-            <div className="h-[calc(100%-153px)] overflow-y-auto">
-              <MainChatViewContainer key={currentChatProfileDetails?.id} />
+      <div className="w-full h-full relative">
+        <ChatHead
+          key={currentChatProfileDetails?.id}
+          setChatLeftBar={setChatLeftBar}
+        />
+        <div className="h-[calc(100%-153px)] overflow-y-auto">
+          <MainChatViewContainer key={currentChatProfileDetails?.id} />
+        </div>
+        {currentChatProfileDetails?.isGroupBlocked ? (
+          currentChatProfileDetails?.blockedBy?.includes(String(user?.id)) ? (
+            <div className="md:h-20 h-24 w-full border-2 md:flex items-center py-2 px-8 justify-center">
+              <h3 className="font-medium tracking text-center">
+                You have to unblock the user to be able to send message.
+              </h3>
             </div>
-            {currentChatProfileDetails?.isGroupBlocked ? (
-              currentChatProfileDetails?.blockedBy?.includes(
-                String(user?.id)
-              ) ? (
-                <div className="md:h-20 h-24 w-full border-2 md:flex items-center py-2 px-8 justify-center">
-                  <h3 className="font-medium tracking text-center">
-                    You have to unblock the user to be able to send message.
-                  </h3>
+          ) : (
+            <div className="md:h-20 h-24 w-full border-2 md:flex items-center py-2 px-8 justify-center">
+              <h3 className="font-medium tracking text-center">
+                You have been blocked by the user messaging unavailable.
+              </h3>
+            </div>
+          )
+        ) : (
+          <>
+            <div className="md:h-20 h-24 w-full border-2 md:flex hidden items-center py-2 px-8 justify-between">
+              <div className="h-10 px-3 rounded-full md:w-[70%] w-full border-2 md:flex justify-between items-center">
+                <div className="flex gap-2 items-center w-full">
+                  {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
+                  <input
+                    onKeyDown={handleKeyDown}
+                    onChange={handleTyping}
+                    ref={textRef}
+                    value={isMessage ? isMessage : ""}
+                    className="bg-white text-sm w-4/5"
+                    placeholder="Type a message"
+                    type="text"
+                    onBlur={handleTypingBlur}
+                  />
                 </div>
-              ) : (
-                <div className="md:h-20 h-24 w-full border-2 md:flex items-center py-2 px-8 justify-center">
-                  <h3 className="font-medium tracking text-center">
-                    You have been blocked by the user messaging unavailable.
-                  </h3>
+                <Tooltip title="Send">
+                  <IconButton
+                    onClick={() => handleSend()}
+                    disabled={isLoading}
+                    size="small"
+                  >
+                    {isLoading ? <CircularProgress size={20} /> : <Send />}
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <Tooltip title="Voice">
+                <IconButton onClick={() => setIsVoice(true)} size="small">
+                  <KeyboardVoice />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Image">
+                <IconButton onClick={() => setIsImage(true)} size="small">
+                  <ImageOutlined />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Attach">
+                <IconButton onClick={() => setIsUpload(true)} size="small">
+                  <AttachFile className="!rotate-45" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Code">
+                <IconButton onClick={() => setIsCode(true)} size="small">
+                  <Code />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Insert link">
+                <IconButton onClick={() => setIsLink(true)} size="small">
+                  <InsertLink />
+                </IconButton>
+              </Tooltip>
+            </div>
+            {/* MOBILE SCREEN */}
+            <div className="md:h-20 h-24 w-full border-2 md:hidden flex items-center py-2 pr-14 pl-2 justify-between">
+              <div className="h-10 px-3 rounded-full md:w-[70%] mx-2 w-full border-2 flex justify-between items-center">
+                <div className="flex gap-2 items-center w-full  ">
+                  {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
+                  <input
+                    onKeyDown={handleKeyDown}
+                    onChange={handleTyping}
+                    ref={textRef}
+                    value={isMessage ? isMessage : ""}
+                    className="bg-white text-sm md:w-4/5 !w-full"
+                    placeholder="Type a message"
+                    type="text"
+                    onBlur={handleTypingBlur}
+                  />
                 </div>
-              )
-            ) : (
-              <>
-                <div className="md:h-20 h-24 w-full border-2 md:flex hidden items-center py-2 px-8 justify-between">
-                  <div className="h-10 px-3 rounded-full md:w-[70%] w-full border-2 md:flex justify-between items-center">
-                    <div className="flex gap-2 items-center w-full">
-                      {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
-                      <input
-                        onKeyDown={handleKeyDown}
-                        onChange={handleTyping}
-                        ref={textRef}
-                        value={isMessage ? isMessage : ""}
-                        className="bg-white text-sm w-4/5"
-                        placeholder="Type a message"
-                        type="text"
-                        onBlur={handleTypingBlur}
-                      />
-                    </div>
-                    <Tooltip title="Send">
-                      <IconButton
-                        onClick={() => handleSend()}
-                        disabled={isLoading}
-                        size="small"
-                      >
-                        {isLoading ? <CircularProgress size={20} /> : <Send />}
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                  <Tooltip title="Voice">
-                    <IconButton onClick={() => setIsVoice(true)} size="small">
-                      <KeyboardVoice />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Image">
-                    <IconButton onClick={() => setIsImage(true)} size="small">
-                      <ImageOutlined />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Attach">
-                    <IconButton onClick={() => setIsUpload(true)} size="small">
-                      <AttachFile className="!rotate-45" />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Code">
-                    <IconButton onClick={() => setIsCode(true)} size="small">
-                      <Code />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Insert link">
-                    <IconButton onClick={() => setIsLink(true)} size="small">
-                      <InsertLink />
-                    </IconButton>
-                  </Tooltip>
-                </div>
-                {/* MOBILE SCREEN */}
-                <div className="md:h-20 h-24 w-full border-2 md:hidden flex items-center py-2 pr-14 pl-2 justify-between">
-                  <div className="h-10 px-3 rounded-full md:w-[70%] mx-2 w-full border-2 flex justify-between items-center">
-                    <div className="flex gap-2 items-center w-full  ">
-                      {/* <SentimentSatisfiedAlt className="!cursor-pointer" /> */}
-                      <input
-                        onKeyDown={handleKeyDown}
-                        onChange={handleTyping}
-                        ref={textRef}
-                        value={isMessage ? isMessage : ""}
-                        className="bg-white text-sm md:w-4/5 !w-full"
-                        placeholder="Type a message"
-                        type="text"
-                        onBlur={handleTypingBlur}
-                      />
-                    </div>
 
-                    <Tooltip title="Send">
-                      <IconButton
-                        onClick={() => handleSend()}
-                        disabled={isLoading}
-                        size="small"
-                      >
-                        {isLoading ? <CircularProgress size={20} /> : <Send />}
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                  <div>
-                    <SpeedDial
-                      ariaLabel="SpeedDial"
-                      sx={{
-                        position: "absolute",
-                        bottom: 12,
-                        right: 0,
-                      }}
-                      icon={<SpeedDialIcon />}
-                      FabProps={{
-                        size: "small",
-                        style: {
-                          backgroundColor: "#ddd", // Set the desired button color
-                        },
-                      }}
-                    >
-                      {actions.map((action) => (
-                        <SpeedDialAction
-                          className="bg-theme"
-                          key={action.name}
-                          icon={action.icon}
-                          tooltipTitle={action.name}
-                          tooltipOpen
-                        />
-                      ))}
-                    </SpeedDial>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
+                <Tooltip title="Send">
+                  <IconButton
+                    onClick={() => handleSend()}
+                    disabled={isLoading}
+                    size="small"
+                  >
+                    {isLoading ? <CircularProgress size={20} /> : <Send />}
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div>
+                <SpeedDial
+                  ariaLabel="SpeedDial"
+                  sx={{
+                    position: "absolute",
+                    bottom: 12,
+                    right: 0,
+                  }}
+                  icon={<SpeedDialIcon />}
+                  FabProps={{
+                    size: "small",
+                    style: {
+                      backgroundColor: "#ddd", // Set the desired button color
+                    },
+                  }}
+                >
+                  {actions.map((action) => (
+                    <SpeedDialAction
+                      className="bg-theme"
+                      key={action.name}
+                      icon={action.icon}
+                      tooltipTitle={action.name}
+                      tooltipOpen
+                    />
+                  ))}
+                </SpeedDial>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </>
   );
 };
-
-export default ChatRightSection;

@@ -232,6 +232,13 @@ export type Projects = {
 		createdAt?: string;
 		updatedAt?: string;
 	};
+	docs?: ProjectDoc[];
+};
+export type ProjectDoc = {
+	id: string;
+	title: string;
+	docType: string;
+	link: string;
 };
 export type Role = {
 	id: string;
@@ -627,6 +634,21 @@ export interface IChatGroup {
 	isNewChat: boolean;
 	role?: string;
 	blockedBy?: string[];
+	alreadyConnected: {
+		groupId: string;
+		blockedBy: string[];
+	};
+}
+export interface IChatUsers {
+	createdAt: string;
+	description: string;
+	photo: string;
+	name: string;
+	totalMembers: number;
+	id: string;
+	role?: { name: string };
+	blockedBy?: string[];
+	gender: string;
 	alreadyConnected: {
 		groupId: string;
 		blockedBy: string[];

@@ -44,7 +44,7 @@ const ChatSendAudio = ({ open, handleClose, sendId }: Props) => {
   const formik = useFormik({
     initialValues: { image: null, message: "" },
     validationSchema: yup.object().shape({
-      image: yup.mixed().required("Please select file"),
+      image: yup.mixed().required("Please record an audio to send."),
     }),
     onSubmit: async (values: any) => {
       if (values?.image) {

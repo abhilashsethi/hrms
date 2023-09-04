@@ -21,7 +21,6 @@ import {
   LoaderAnime,
   SkeletonLoader,
 } from "components/core";
-import { UploadEmployData } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import Link from "next/link";
@@ -86,7 +85,7 @@ const AllClients = () => {
               </Link>
             </div>
           </div>
-          <div className="md:flex gap-4 justify-between w-full py-2">
+          <div className="md:flex grid gap-4 md:justify-between w-full py-2">
             <div
               className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}
@@ -189,10 +188,7 @@ const short = [
   { id: 3, value: "createdAt:desc", name: "CreatedAt Ascending" },
   { id: 4, value: "createdAt:asc", name: "CreatedAt Descending" },
 ];
-const ticket = [
-  { id: 1, value: "true", name: "Yes" },
-  { id: 2, value: "false", name: "No " },
-];
+
 const links = [
   { id: 1, page: "Clients", link: "/admin/clients" },
   { id: 2, page: "All Clients", link: "/admin/clients/all-clients" },
