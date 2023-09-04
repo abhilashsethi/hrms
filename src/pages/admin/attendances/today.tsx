@@ -25,6 +25,7 @@ import moment from "moment";
 import { useRef, useState, ChangeEvent } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Attendance } from "types";
 
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
@@ -36,7 +37,7 @@ const TodayAttendance = () => {
   const [empId, setEmpId] = useState<string | null>(null);
   const { user } = useAuth();
   const dateRef = useRef<any>();
-  function handleDateChange(date: any) {
+  function handleDateChange(date: Date) {
     setSelectedDate(date);
   }
   const links = [
@@ -46,13 +47,12 @@ const TodayAttendance = () => {
       link: "/admin/attendances/today",
     },
   ];
-  const { data: newAttendance } = useFetch<any>(`attendances`);
   const {
     data: attendance,
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any>(
+  } = useFetch<Attendance[]>(
     `attendances/${selectedDate.toISOString().slice(0, 10)}/${
       status === "wfh" ? `present` : status
     }?page=${pageNumber}&limit=8${userName ? `&employeeName=${userName}` : ""}${
@@ -67,17 +67,17 @@ const TodayAttendance = () => {
     }${empId ? `&employeeId=${empId}` : ""}${order ? `&orderBy=${order}` : ""}`
   );
 
-  const { data: absentData, mutate: absentMutate } = useFetch<any>(
+  const { data: absentData, mutate: absentMutate } = useFetch<Attendance[]>(
     `attendances/${selectedDate.toISOString().slice(0, 10)}/absent${
       user?.role?.name === "HR" ? `?branchId=${user?.employeeOfBranchId}` : ``
     }`
   );
-  const { data: presentData, mutate: presentMutate } = useFetch<any>(
+  const { data: presentData, mutate: presentMutate } = useFetch<Attendance[]>(
     `attendances/${selectedDate.toISOString().slice(0, 10)}/present${
       user?.role?.name === "HR" ? `?branchId=${user?.employeeOfBranchId}` : ``
     }`
   );
-  const { data: allUser, mutate: allMutate } = useFetch<any>(
+  const { data: allUser, mutate: allMutate } = useFetch<Attendance[]>(
     `attendances/${selectedDate.toISOString().slice(0, 10)}/all${
       user?.role?.name === "HR" ? `?branchId=${user?.employeeOfBranchId}` : ``
     }`
@@ -114,7 +114,6 @@ const TodayAttendance = () => {
             <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
             {/* -----------------Date select section---------------- */}
             <div className="md:flex gap-3 items-center">
-              {/* <ChevronLeftRounded /> */}
               <div className="tracking-wide flex gap-4 items-center font-semibold">
                 {moment(selectedDate).format("ll")}
                 <IconButton onClick={() => dateRef.current.setOpen(true)}>
@@ -126,14 +125,12 @@ const TodayAttendance = () => {
                     selected={selectedDate}
                     onChange={handleDateChange}
                     dateFormat="dd/MM/yyyy"
-                    // isClearable
                     showYearDropdown
                     excludeDates={disabledDates}
                     className="hidden"
                   />
                 </div>
               </div>
-              {/* <ChevronRightRounded /> */}
             </div>
           </div>
         </div>
@@ -154,7 +151,7 @@ const TodayAttendance = () => {
             </div>
           </div>
           <section className="mt-4">
-            <div className="md:flex gap-4 justify-between w-full py-2">
+            <div className="md:flex grid gap-4 md:justify-between w-full py-2">
               <div
                 className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}
@@ -221,7 +218,7 @@ const TodayAttendance = () => {
                     setPageNumber(1), setStatus(e.target.value);
                   }}
                 >
-                  {selects.map((option: any) => (
+                  {selects.map((option) => (
                     <MenuItem key={option.id} value={option.value}>
                       {option.label}
                     </MenuItem>
@@ -233,12 +230,11 @@ const TodayAttendance = () => {
                   select
                   value={order ? order : ""}
                   label="Order By"
-                  // defaultValue="all"
                   onChange={(e: ChangeEvent<HTMLInputElement>) => {
                     setPageNumber(1), setOrder(e.target.value);
                   }}
                 >
-                  {orderBy.map((option: any) => (
+                  {orderBy.map((option) => (
                     <MenuItem key={option.id} value={option.value}>
                       {option.name}
                     </MenuItem>

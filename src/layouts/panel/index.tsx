@@ -52,7 +52,25 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+  const isMobileView = () => {
+    return window.innerWidth < 768; // You can adjust the breakpoint as needed
+  };
 
+  useEffect(() => {
+    // Check the screen width on initial load and set the drawer accordingly
+    setIsOpen(!isMobileView());
+
+    // Add a listener to update the drawer state when the window is resized
+    const handleResize = () => {
+      setIsOpen(!isMobileView());
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      // Remove the resize listener when the component unmounts
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   useEffect(() => {
     (async () => {
       const currentUser = await validateUser();
