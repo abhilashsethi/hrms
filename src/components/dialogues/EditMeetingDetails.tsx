@@ -57,6 +57,9 @@ const EditMeetingDetails = ({
 
 	const initialValues = {
 		title: `${meetingDetails?.title ? meetingDetails?.title : ""}`,
+		meetingDate: `${
+			meetingDetails?.meetingDate ? meetingDetails?.meetingDate : ""
+		}`,
 		meetingStartTime: `${
 			meetingDetails?.meetingStartTime ? meetingDetails?.meetingStartTime : ""
 		}`,
@@ -99,6 +102,7 @@ const EditMeetingDetails = ({
 						clientEmail: values?.clientEmail,
 						clientPhone: values?.clientPhone,
 						meetingPersonName: values?.meetingPersonName,
+						meetingDate: values?.meetingDate,
 						meetingStartTime: new Date(values?.meetingStartTime).toISOString(),
 						meetingEndTime: new Date(values?.meetingEndTime).toISOString(),
 					},
@@ -162,6 +166,7 @@ const EditMeetingDetails = ({
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
+								{/* {console.log(values)} */}
 								<p className="font-medium text-gray-700 mb-2">Meeting Name</p>
 								<TextField
 									size="small"
@@ -175,38 +180,71 @@ const EditMeetingDetails = ({
 									helperText={touched.title && errors.title}
 								/>
 
-								<p className="font-medium text-gray-700 my-2">Start Time</p>
-								<TextField
-									size="small"
-									fullWidth
-									placeholder="Start Time"
-									name="meetingStartTime"
-									type="datetime-local"
-									value={moment(values.meetingStartTime).format(
-										"YYYY-MM-DDTHH:mm"
-									)}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									error={touched.meetingStartTime && !!errors.meetingStartTime}
-									helperText={
-										touched.meetingStartTime && errors.meetingStartTime
-									}
-								/>
-								<p className="font-medium text-gray-700 my-2">End Time</p>
-								<TextField
-									size="small"
-									fullWidth
-									placeholder="End Time"
-									name="meetingEndTime"
-									type="datetime-local"
-									value={moment(values.meetingEndTime).format(
-										"YYYY-MM-DDTHH:mm"
-									)}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									error={touched.meetingEndTime && !!errors.meetingEndTime}
-									helperText={touched.meetingEndTime && errors.meetingEndTime}
-								/>
+								<div className="md:px-4 px-2 md:py-2 py-1">
+									<div className="py-2">
+										<p>
+											Meeting Date <span className="text-red-600">*</span>
+										</p>
+									</div>
+									<TextField
+										size="small"
+										fullWidth
+										type="date"
+										// placeholder="Client Address"
+										id="meetingDate"
+										name="meetingDate"
+										value={moment(values.meetingDate)?.format("YYYY-MM-DD")}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										error={touched.meetingDate && !!errors.meetingDate}
+										helperText={touched.meetingDate && errors.meetingDate}
+									/>
+								</div>
+
+								<div className="px-4 py-2">
+									<div className="py-2">
+										<p>
+											Meeting Start Time <span className="text-red-600">*</span>
+										</p>
+									</div>
+
+									<TextField
+										size="small"
+										fullWidth
+										type="time"
+										// placeholder="Client Address"
+										id="meetingStartTime"
+										name="meetingStartTime"
+										value={moment(values.meetingStartTime)?.format("HH:mm")}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										error={
+											touched.meetingStartTime && !!errors.meetingStartTime
+										}
+										helperText={
+											touched.meetingStartTime && errors.meetingStartTime
+										}
+									/>
+								</div>
+								<div className="px-4 py-2">
+									<div className="py-2">
+										<p>Meeting End Time</p>
+									</div>
+
+									<TextField
+										size="small"
+										fullWidth
+										type="time"
+										// placeholder="Client Address"
+										id="meetingEndTime"
+										name="meetingEndTime"
+										value={moment(values.meetingEndTime)?.format("HH:mm")}
+										onChange={handleChange}
+										onBlur={handleBlur}
+										error={touched.meetingEndTime && !!errors.meetingEndTime}
+										helperText={touched.meetingEndTime && errors.meetingEndTime}
+									/>
+								</div>
 								<p className="font-medium text-gray-700 my-2">Client Name</p>
 								<TextField
 									size="small"
