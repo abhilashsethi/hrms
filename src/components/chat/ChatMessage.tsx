@@ -397,7 +397,7 @@ const LinkFormat = ({ data }: any) => {
 const AudioFormat = ({ data }: any) => {
   return (
     <div className="md:flex gap-2 items-start">
-      <audio controls src={data?.link} className="w-full min-w-[200px]">
+      <audio controls src={data?.link} className="w-full h-9 min-w-[200px]">
         <a href={data?.link}> Download audio </a>
       </audio>
     </div>

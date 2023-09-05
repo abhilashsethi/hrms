@@ -205,7 +205,7 @@ const ChatSendAudio = ({ open, handleClose, sendId }: Props) => {
       <DialogContent className="app-scrollbar" sx={{ p: 3 }}>
         <form
           onSubmit={formik.handleSubmit}
-          className="md:w-[27rem] w-full md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-2"
+          className="md:w-[27rem] w-[65vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-2"
         >
           <div
             onClick={() => fileRef?.current?.click()}
