@@ -216,6 +216,9 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
       currentChatProfileDetails?.id &&
         revalidateChatProfileDetails(currentChatProfileDetails?.id);
       Swal.fire(`Success`, `Description removed!`, `success`);
+      revalidateCurrentChat(selectedChatId);
+      reValidateGroupChat();
+      reValidatePrivateChat();
     } catch (error) {}
   };
   const changeChatTitle = async () => {
@@ -230,11 +233,15 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
       currentChatProfileDetails?.id &&
         revalidateChatProfileDetails(currentChatProfileDetails?.id);
       Swal.fire(`Success`, `Title Changed!`, `success`);
+      revalidateCurrentChat(selectedChatId);
+      reValidateGroupChat();
+      reValidatePrivateChat();
     } catch (error) {}
   };
 
   const removeChatImage = async () => {
     try {
+      if (!currentChatProfileDetails?.photo) return;
       await change(`chat/${currentChatProfileDetails?.id}`, {
         method: "PATCH",
         body: {
@@ -244,6 +251,9 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
       currentChatProfileDetails?.id &&
         revalidateChatProfileDetails(currentChatProfileDetails?.id);
       Swal.fire(`Success`, `Image removed!`, `success`);
+      revalidateCurrentChat(selectedChatId);
+      reValidateGroupChat();
+      reValidatePrivateChat();
     } catch (error) {}
   };
 
