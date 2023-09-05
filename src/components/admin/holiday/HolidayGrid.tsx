@@ -46,7 +46,7 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 			}).then(async (result) => {
 				if (result.isConfirmed) {
 					Swal.fire(`Info`, "It will take some time", "info");
-					const res = await change(`quotations/${id}`, {
+					const res = await change(`holidays/${id}`, {
 						method: "DELETE",
 					});
 
@@ -156,10 +156,6 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 								</div>
 								<div className="flex flex-col justify-center my-3">
 									<p className="font-semibold">{item?.title}</p>
-									<p className="text-sm">
-										Lorem ipsum dolor sit amet consectetur adipisicing elit.
-										Aliquam, nulla?
-									</p>
 								</div>
 							</div>
 						</div>

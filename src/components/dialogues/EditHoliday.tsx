@@ -59,36 +59,45 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 
 	const { change } = useChange();
 	const handleSubmit = async (values: HOLIDAY) => {
-		// console.log(meetingId);
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to update status?",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, update!",
-		}).then(async (result) => {
-			if (result.isConfirmed) {
-				const res = await change(`holidays/${holidayData?.id}`, {
-					method: "PUT",
-					body: {
-						title: values?.title,
-						startDate: new Date(values?.startDate)?.toISOString(),
-						endDate: new Date(values?.endDate)?.toISOString(),
-					},
-				});
-				mutate();
-				// handleClose();
-				handleClose();
-				if (res?.status !== 200) {
-					Swal.fire(`Error`, "Something went wrong!", "error");
+		setLoading(true);
+		try {
+			Swal.fire({
+				title: "Are you sure?",
+				text: "You want to update status?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, update!",
+			}).then(async (result) => {
+				if (result.isConfirmed) {
+					const res = await change(`holidays/${holidayData?.id}`, {
+						method: "PUT",
+						body: {
+							title: values?.title,
+							startDate: new Date(values?.startDate)?.toISOString(),
+							endDate: new Date(values?.endDate)?.toISOString(),
+						},
+					});
+					mutate();
+					// handleClose();
+					handleClose();
+					if (res?.status !== 200) {
+						Swal.fire(`Error`, "Something went wrong!", "error");
+						return;
+					}
+					Swal.fire(`Success`, "Holiday updated successfully!!", "success");
 					return;
 				}
-				Swal.fire(`Success`, "Status updated successfully!!", "success");
-				return;
+			});
+		} catch (error) {
+			if (error instanceof Error) {
+				Swal.fire(`Error`, error?.message, `error`);
 			}
-		});
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -207,7 +216,11 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 										variant="contained"
 										disabled={loading}
 										startIcon={
-											loading ? <CircularProgress size={20} /> : <Check />
+											loading ? (
+												<CircularProgress color="secondary" size={20} />
+											) : (
+												<Check />
+											)
 										}
 									>
 										SUBMIT
