@@ -22,37 +22,50 @@ const MainChatViewContainer = () => {
   const { user } = useAuth();
   const { socketRef } = useSocket();
 
+  const isMounted = useRef(false);
+
   useEffect(() => {
-    if (!socketRef || !selectedChatId) return;
-    socketRef.on(`MESSAGE_RECEIVED_${selectedChatId}`, async () => {
-      //when receive to refetch data we will refetch
-      await Promise.all([
-        revalidateCurrentChat(selectedChatId),
-        selectedChatId && (await revalidateChatProfileDetails(selectedChatId)),
-        //after message received send a message read
-        selectedChatId && handleReadMessage(selectedChatId),
-      ]);
+    isMounted.current = true;
+    (() => {
+      if (!socketRef || !selectedChatId || !isMounted.current) return;
 
-      divRef.current?.scrollTo({
-        top: -divRef?.current?.clientHeight,
-        behavior: "smooth",
+      socketRef.on(`MESSAGE_RECEIVED_${selectedChatId}`, async () => {
+        //when receive to refetch data we will refetch
+        await Promise.all([
+          revalidateCurrentChat(selectedChatId),
+          selectedChatId &&
+            (await revalidateChatProfileDetails(selectedChatId)),
+          //after message received send a message read
+          selectedChatId && handleReadMessage(selectedChatId),
+        ]);
+
+        divRef.current?.scrollTo({
+          top: -divRef?.current?.clientHeight,
+          behavior: "smooth",
+        });
+
+        //emit an re fetch event
+        socketRef.emit("REFETCH_DATA", {
+          groupId: selectedChatId,
+          userId: user?.id,
+        });
+        setChanging((prev) => !prev);
       });
 
-      //emit an re fetch event
-      socketRef.emit("REFETCH_DATA", {
-        groupId: selectedChatId,
-        userId: user?.id,
+      socketRef.on(`REVALIDATE_${selectedChatId}`, async () => {
+        console.log("revalidatingggggg", selectedChatId);
+        //when receive to refetch data we will refetch
+        await Promise.all([
+          revalidateCurrentChat(selectedChatId),
+          selectedChatId &&
+            (await revalidateChatProfileDetails(selectedChatId)),
+        ]);
       });
-      setChanging((prev) => !prev);
-    });
-
-    socketRef.on(`REVALIDATE_${selectedChatId}`, async () => {
-      //when receive to refetch data we will refetch
-      await Promise.all([
-        revalidateCurrentChat(selectedChatId),
-        selectedChatId && (await revalidateChatProfileDetails(selectedChatId)),
-      ]);
-    });
+    })();
+    console.log("socket handling due to id change", selectedChatId);
+    return () => {
+      isMounted.current = false;
+    };
   }, [socketRef, selectedChatId, user?.id]);
 
   const handleFetchNext = () => {
@@ -78,6 +91,7 @@ const MainChatViewContainer = () => {
             <div
               ref={divRef}
               key={item?.id}
+              id={item?.id}
               className={`mt-4 flex w-full ${
                 item?.category === "event"
                   ? `justify-center`
