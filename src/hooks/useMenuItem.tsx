@@ -671,13 +671,19 @@ export default () => {
 		{
 			key: "17A",
 			title: "Holiday",
-			icon: <ICONS.Support />,
+			icon: <ICONS.Holiday />,
 			submenus: [
 				{
 					key: "17A-1",
 					title: "Create Holiday",
-					icon: <ICONS.Create_Supports />,
+					icon: <ICONS.Add_Holiday />,
 					route: "/admin/holiday/create-holiday",
+				},
+				{
+					key: "17A-2",
+					title: "View All Holidays",
+					icon: <ICONS.View_Holiday />,
+					route: "/admin/holiday/all-holidays",
 				},
 			],
 		},

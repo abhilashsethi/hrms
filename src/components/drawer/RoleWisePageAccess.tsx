@@ -712,13 +712,13 @@ const PageList = [
 	{
 		id: 77,
 		value: "/admin/holiday",
-		icon: <ICONS.Create_Announcement />,
+		icon: <ICONS.Holiday />,
 		name: "Holiday",
 	},
 	{
 		id: 78,
 		value: "/admin/holiday/create-holiday",
-		icon: <ICONS.Create_Announcement />,
+		icon: <ICONS.Add_Holiday />,
 		name: "Create Holiday",
 	},
 
