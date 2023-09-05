@@ -27,7 +27,7 @@ import PanelLayout from "layouts/panel";
 import Link from "next/link";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { Quotation } from "types";
+import { HOLIDAY, Quotation } from "types";
 
 const AllHolidays = () => {
 	const [isGrid, setIsGrid] = useState(true);
@@ -35,15 +35,16 @@ const AllHolidays = () => {
 	const [clientName, setClientName] = useState<string | null>(null);
 
 	const {
-		data: quotationData,
+		data: holidayData,
 		mutate,
 		pagination,
 		isLoading,
-	} = useFetch<any>(
-		`quotations?page=${pageNumber}&limit=6&orderBy=createdAt:desc${
+	} = useFetch<HOLIDAY[]>(
+		`holidays?page=${pageNumber}&limit=6&orderBy=createdAt:desc${
 			clientName ? `&clientName=${clientName}` : ""
 		}`
 	);
+	console.log(holidayData);
 	return (
 		<>
 			<PanelLayout title="All Quotation - Admin Panel">
@@ -71,7 +72,7 @@ const AllHolidays = () => {
 									<TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
 								</div>
 							</IconButton>
-							<Link href={"/admin/quotation/create-quotation"}>
+							<Link href={"/admin/holiday/create-holiday"}>
 								<Button
 									variant="contained"
 									className="!bg-theme"
@@ -123,12 +124,12 @@ const AllHolidays = () => {
 						{isGrid ? (
 							<>
 								{isLoading && <SkeletonLoader />}
-								<HolidayGrid data={quotationData} mutate={mutate} />
+								<HolidayGrid data={holidayData} mutate={mutate} />
 							</>
 						) : (
 							<>
 								{isLoading && <Loader />}
-								<HolidayColumn data={quotationData} mutate={mutate} />
+								<HolidayColumn data={holidayData} mutate={mutate} />
 							</>
 						)}
 						<section className="mb-6">

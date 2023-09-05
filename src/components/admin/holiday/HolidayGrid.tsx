@@ -1,4 +1,5 @@
 import {
+	BorderColor,
 	Business,
 	Delete,
 	Download,
@@ -12,11 +13,12 @@ import { downloadFile, useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import { Quotation } from "types";
+import { HOLIDAY, Quotation } from "types";
 import { useState } from "react";
+import { EditHoliday } from "components/dialogues";
 
 interface Props {
-	data: Quotation[];
+	data?: HOLIDAY[];
 	mutate: () => void;
 }
 
@@ -24,6 +26,8 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
 	const [isActive, setIsActive] = useState<string | undefined>("");
+	const [editDetails, setEditDetails] = useState<boolean>(false);
+	const [holidays, setHolidays] = useState();
 	const router = useRouter();
 	const { data: bankAccountsDetails, mutate: bankAccountMutate } =
 		useFetch<any>(`quotations/get-all/accounts`);
@@ -66,6 +70,12 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 
 	return (
 		<>
+			<EditHoliday
+				open={editDetails}
+				handleClose={() => setEditDetails(false)}
+				holidayData={holidays}
+				mutate={mutate}
+			/>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
 				{data?.map((item: any) => (
 					<div
@@ -75,6 +85,29 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 						<div className="relative">
 							<div className="absolute right-0 rounded-tl-lg top-[6.2rem] z-50 bg-gradient-to-r from-rose-100 to-teal-100 p-2">
 								<div className="flex">
+									<Tooltip title="Edit">
+										<Avatar
+											variant="rounded"
+											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-500 !p-0"
+											sx={{
+												mr: ".1vw",
+												padding: "0px !important",
+												backgroundColor: "Highlight",
+												cursor: "pointer",
+												color: "",
+												width: 30,
+												height: 30,
+											}}
+										>
+											<BorderColor
+												sx={{ padding: "0px !important" }}
+												fontSize="small"
+												onClick={() => {
+													setEditDetails((prev) => !prev), setHolidays(item);
+												}}
+											/>
+										</Avatar>
+									</Tooltip>
 									<Tooltip title="Delete">
 										<Avatar
 											variant="rounded"
@@ -100,15 +133,29 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 							</div>
 							<div className="h-36 bg-contain flex justify-center bg-[url('https://img.freepik.com/premium-vector/summer-beach-background-top-view-panoramic_8087-3858.jpg?w=1380')] py-3 rounded-t-lg w-full border" />
 							<div className="p-2">
-								<div className="flex items-center gap-4">
-									<p className="order-2 font-semibold text-theme">January</p>
-									<div className="bg-blue-500 h-16 w-16 flex flex-col justify-center items-center rounded-md text-white">
-										<p className="font-semibold text-xl">2</p>
-										<p className="text-sm">Mon</p>
+								<div className="flex justify-start">
+									<div className="flex flex-col items-center gap-1">
+										<div className="bg-blue-500 p-1 text-sm flex flex-col justify-center items-center rounded-md text-white">
+											<p className="font-semibold">
+												{moment(item?.startDate).format("LL")}
+											</p>
+										</div>
+										{item?.endDate ? (
+											<>
+												<div className="text-sm">TO</div>
+												<div className="bg-blue-500 p-1 text-sm flex flex-col justify-center items-center rounded-md text-white">
+													<p className="font-semibold">
+														{moment(item?.endDate).format("LL")}
+													</p>
+												</div>
+											</>
+										) : (
+											<div className="h-10"></div>
+										)}
 									</div>
 								</div>
 								<div className="flex flex-col justify-center my-3">
-									<p className="font-semibold">New Year's Day</p>
+									<p className="font-semibold">{item?.title}</p>
 									<p className="text-sm">
 										Lorem ipsum dolor sit amet consectetur adipisicing elit.
 										Aliquam, nulla?
