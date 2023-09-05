@@ -243,10 +243,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
             ) : (
               <div className="md:flex items-center justify-center mt-2 pt-2 space-x-3">
                 <Button
-                  onClick={
-                    () => setApproveLeave(true)
-                    // approveLeave(item?.id)
-                  }
+                  onClick={() => setApproveLeave(true)}
                   className="!bg-green-600"
                   variant="contained"
                   disabled={loading}
@@ -363,28 +360,10 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { user } = useAuth();
-  const [isTotalSandwichDay, setTotalSandwichDay] = useState("0");
   const [isTotalDay, setTotalDay] = useState("0");
-  const [isSandwichLeave, setSandwichLeave] = useState(false);
   const [isValue, setIsValue] = useState(true);
-  const [validationError, setValidationError] = useState("");
   const [dayValidationError, setDayValidationError] = useState("");
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-
-    if (inputValue === "" || /^\d+$/.test(inputValue)) {
-      const numericValue = parseInt(inputValue, 10);
-      if (inputValue === "" || (numericValue >= 0 && numericValue <= 15)) {
-        setTotalSandwichDay(inputValue);
-        setValidationError("");
-      } else {
-        setValidationError("Value must be between 0 and 15");
-      }
-    } else {
-      setValidationError("Please enter a valid non-negative number");
-    }
-  };
   const handleDayInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
 
@@ -440,7 +419,6 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
           }
           // Leave Approve For Unpaid Leave
           else {
-            console.log("NOn sandwich Unpaid Leave");
             const res = await change(`leaves/${id}`, {
               method: "PATCH",
               body: {
@@ -463,9 +441,7 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
 
           Swal.fire(`Success`, `Status changed successfully!`, `success`);
           mutate();
-          setSandwichLeave(false);
           setTotalDay("0");
-          setTotalSandwichDay("0");
           handleClose();
           return;
         } catch (error) {

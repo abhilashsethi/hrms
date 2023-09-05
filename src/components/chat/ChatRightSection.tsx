@@ -59,6 +59,7 @@ const CurrentChatView = ({
 }: {
   setChatLeftBar: (arg: boolean) => void;
 }) => {
+  console.log("in currrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
   const [isTyping, setIsTyping] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
   const [isCode, setIsCode] = useState(false);
