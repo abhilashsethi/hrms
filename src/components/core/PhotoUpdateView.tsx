@@ -63,6 +63,7 @@ const PhotoUpdateView = ({
         src={isImage ? URL.createObjectURL(isImage) : photo || GROUP.src}
         alt="image"
       />
+
       {editable && (
         <div
           onClick={handleButtonClick}
@@ -79,6 +80,7 @@ const PhotoUpdateView = ({
               }}
               type="file"
               className="hidden"
+              accept="image/*"
             />
           </div>
         </div>

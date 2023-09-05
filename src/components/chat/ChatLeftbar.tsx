@@ -467,10 +467,12 @@ const GroupChatCard = ({
               "Link"
             ) : item?.lastMessage?.category === "text" ? (
               item?.lastMessage?.message
-            ) : (
+            ) : item?.lastMessage?.sender ? (
               `${
                 item?.lastMessage?.sender
               } sent a/an ${item?.lastMessage?.category?.toLowerCase()}`
+            ) : (
+              ""
             )}
           </span>
         </div>

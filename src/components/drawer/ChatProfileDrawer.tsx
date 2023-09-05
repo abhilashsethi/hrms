@@ -1,19 +1,24 @@
 import {
   Block,
+  Cancel,
   Close,
   Delete,
+  Done,
   Edit,
   KeyboardArrowDown,
   KeyboardArrowRight,
   Logout,
 } from "@mui/icons-material";
 import {
+  Badge,
   Button,
+  Chip,
   Container,
   Drawer,
   IconButton,
   Menu,
   MenuItem,
+  TextField,
   Tooltip,
 } from "@mui/material";
 import { DEFAULTPROFILE, GROUP } from "assets/home";
@@ -21,7 +26,7 @@ import { ChatMedia } from "components/chat";
 import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
 import { AddParticipants, ChatDescription } from "components/dialogues";
 import { BASE_URL, useAuth, useChange, useChatData } from "hooks";
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import Swal from "sweetalert2";
 import { IChatGroup } from "types";
 import { makeStyles } from "@material-ui/core";
@@ -47,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
   const [isAdd, setIsAdd] = useState(false);
+  const [changeTitle, setChangeTitle] = useState(false);
   const [isDescription, setIsDescription] = useState(false);
   const [isMedia, setIsMedia] = useState(false);
   const { user } = useAuth();
@@ -60,6 +66,8 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
     currentChatProfileDetails,
     reValidatePrivateChat,
   } = useChatData();
+  const [titleText, setTitleText] = useState(currentChatProfileDetails?.title);
+
   const configs = [
     {
       id: 1,
@@ -210,6 +218,34 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
       Swal.fire(`Success`, `Description removed!`, `success`);
     } catch (error) {}
   };
+  const changeChatTitle = async () => {
+    try {
+      if (!titleText) return;
+      await change(`chat/${currentChatProfileDetails?.id}`, {
+        method: "PATCH",
+        body: {
+          title: titleText,
+        },
+      });
+      currentChatProfileDetails?.id &&
+        revalidateChatProfileDetails(currentChatProfileDetails?.id);
+      Swal.fire(`Success`, `Title Changed!`, `success`);
+    } catch (error) {}
+  };
+
+  const removeChatImage = async () => {
+    try {
+      await change(`chat/${currentChatProfileDetails?.id}`, {
+        method: "PATCH",
+        body: {
+          imageRemove: true,
+        },
+      });
+      currentChatProfileDetails?.id &&
+        revalidateChatProfileDetails(currentChatProfileDetails?.id);
+      Swal.fire(`Success`, `Image removed!`, `success`);
+    } catch (error) {}
+  };
 
   return (
     <>
@@ -258,10 +294,64 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
                         )?.isAdmin
                       }
                     />
+                    {profileData?.chatMembers?.find(
+                      (item) => item?.user?.id === user?.id
+                    )?.isAdmin ? (
+                      <div className="flex w-full items-center justify-center">
+                        <Chip
+                          label="Delete icon"
+                          onClick={removeChatImage}
+                          onDelete={removeChatImage}
+                          deleteIcon={<Delete />}
+                          variant="outlined"
+                          color="error"
+                        />
+                      </div>
+                    ) : null}
+
                     <div className="flex flex-col gap-1 items-center">
-                      <h1 className="font-semibold break-all text-center">
-                        {profileData?.title}
-                      </h1>
+                      {changeTitle ? (
+                        <div className="flex gap-4 items-center">
+                          <TextField
+                            value={titleText}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                              setTitleText(e?.target?.value)
+                            }
+                            placeholder="Enter title"
+                            size="small"
+                          />
+                          <IconButton
+                            onClick={() => changeChatTitle()}
+                            size="small"
+                          >
+                            <Done className="text-theme" />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => setChangeTitle(false)}
+                            size="small"
+                          >
+                            <Cancel className="text-red-500" />
+                          </IconButton>
+                        </div>
+                      ) : (
+                        <div className="flex gap-4 items-center">
+                          <h1 className="font-semibold break-all text-center">
+                            {profileData?.title}
+                          </h1>
+                          {profileData?.chatMembers?.find(
+                            (item) => item?.user?.id === user?.id
+                          )?.isAdmin ? (
+                            <Tooltip title="Edit Title">
+                              <IconButton
+                                onClick={() => setChangeTitle(true)}
+                                size="small"
+                              >
+                                <Edit />
+                              </IconButton>
+                            </Tooltip>
+                          ) : null}
+                        </div>
+                      )}
 
                       <h1 className="flex">
                         Group
@@ -647,7 +737,7 @@ const MoreMenuAdmin = ({ data, profileData }: MenuProps) => {
   const createAdmin = async () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You want to make admin!",
+      text: "You want to demote as user!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -669,7 +759,7 @@ const MoreMenuAdmin = ({ data, profileData }: MenuProps) => {
           revalidateChatProfileDetails(profileData?.id);
           reValidateGroupChat();
           revalidateCurrentChat(profileData?.id);
-          Swal.fire(`Success`, "Created as admin", "success");
+          Swal.fire(`Success`, "Updated as user", "success");
           return;
         } catch (error) {
           console.log(error);
