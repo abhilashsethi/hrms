@@ -35,19 +35,7 @@ const AllMeetings = () => {
     endDate: null,
   });
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [dateRange, setDateRange] = useState({
-    startDate: moment().toDate(),
-    endDate: moment().toDate(),
-  });
-  const [open, setOpen] = useState(true);
 
-  const [openInfoModal, setOpenInfoModal] = useState(false);
-  const handleInfoOpen = () => {
-    setOpenInfoModal(true);
-  };
-  const handleInfoCloseModal = () => setOpenInfoModal(false);
-
-  const toggle = () => setOpen(!open);
   const [isGrid, setIsGrid] = useState(true);
 
   const [meetingPerson, setMeetingPerson] = useState<string | null>("");
@@ -98,7 +86,7 @@ const AllMeetings = () => {
               </div>
             </div>
           </div>
-          <div className="md:flex gap-4 justify-between w-full py-2">
+          <div className="md:flex grid gap-4 md:justify-between w-full py-2">
             <div
               className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}

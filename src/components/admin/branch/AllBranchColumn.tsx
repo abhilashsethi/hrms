@@ -21,8 +21,6 @@ interface Props {
 }
 
 const AllBranchColumn = ({ data, mutate }: Props) => {
-  console.log(data);
-
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { user } = useAuth();
@@ -31,7 +29,7 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
     dialogue: boolean;
     branchId?: string;
   }>({ dialogue: false, branchId: "" });
-  const handleDelete = async (item?: Branch) => {
+  const handleDelete = async (item?: any) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete?",
@@ -112,11 +110,15 @@ const AllBranchColumn = ({ data, mutate }: Props) => {
         isLoading={!data}
         data={
           data
-            ? data?.map((item: any, i: number) => ({
+            ? data?.map((item, i: number) => ({
                 ...item,
                 sl: i + 1,
-                updatedAt: new Date(item?.updatedAt).toLocaleString(),
-                createdAt: new Date(item?.createdAt).toLocaleString(),
+                updatedAt: item?.updatedAt
+                  ? new Date(item.updatedAt).toLocaleString()
+                  : "",
+                createdAt: item?.createdAt
+                  ? new Date(item.createdAt).toLocaleString()
+                  : "",
                 manager: item?.manager?.name,
               }))
             : []
