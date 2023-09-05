@@ -853,3 +853,12 @@ export type HOLIDAY = {
 	endDate: string;
 	title: string;
 };
+export type Support = {
+	id?: string;
+	reqUser?: User;
+	status?: string;
+	isResolved?: boolean;
+	createdAt?: string;
+	updatedAt?: string;
+	message?: string;
+};

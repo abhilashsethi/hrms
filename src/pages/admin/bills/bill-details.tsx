@@ -1,10 +1,9 @@
 import { BillData } from "components/admin/bills";
-import { QuotationData } from "components/admin/quotation";
 import { AdminBreadcrumbs } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
-import { Bills, Quotation } from "types";
+import { Bills } from "types";
 
 const BillDetails = () => {
   const router = useRouter();
@@ -15,7 +14,7 @@ const BillDetails = () => {
   } = useFetch<Bills>(`bills/${router?.query?.id}`);
   return (
     <PanelLayout title="Bill Details - Admin Panel">
-      <section className="px-8 mx-auto p-4">
+      <section className="md:px-8 px-4 py-4">
         <div className="pb-4">
           <AdminBreadcrumbs links={links} />
         </div>

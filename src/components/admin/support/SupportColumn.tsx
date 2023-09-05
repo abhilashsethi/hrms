@@ -7,21 +7,20 @@ import { useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { Support } from "types";
 import { MuiTblOptions } from "utils";
 interface Props {
-  data?: any;
-  mutate?: any;
+  data?: Support[];
+  mutate: () => void;
 }
 const SupportColumn = ({ data, mutate }: Props) => {
-  const [loading, setLoading] = useState(false);
-  const { change, isChanging } = useChange();
+  const { change } = useChange();
   const [isReply, setIsReply] = useState<any>({
     dialogue: false,
     departmentData: null,
   });
-  console.log(data);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id?: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete!",
@@ -48,7 +47,7 @@ const SupportColumn = ({ data, mutate }: Props) => {
       }
     });
   };
-  const handleSubmit = async (e: any, id: any) => {
+  const handleSubmit = async (e: any, id?: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to update status?",
@@ -92,11 +91,11 @@ const SupportColumn = ({ data, mutate }: Props) => {
         isLoading={!data}
         data={
           data
-            ? data?.map((_: any, i: number) => ({
-                ..._,
+            ? data?.map((item, i: number) => ({
+                ...item,
                 sl: i + 1,
-                name: _?.reqUser?.name,
-                email: _?.reqUser?.email,
+                name: item?.reqUser?.name,
+                email: item?.reqUser?.email,
               }))
             : []
         }
@@ -117,9 +116,6 @@ const SupportColumn = ({ data, mutate }: Props) => {
             title: "Name",
             tooltip: "Name",
             field: "name",
-            // render: (data) => {
-            // 	return <div>{data?.reqUser?.name}</div>;
-            // },
           },
 
           {
@@ -131,7 +127,6 @@ const SupportColumn = ({ data, mutate }: Props) => {
           {
             title: "Resolved",
             tooltip: "Resolved",
-            // field: "isResolved",
             render: (data) => {
               return (
                 <div>
@@ -164,8 +159,7 @@ const SupportColumn = ({ data, mutate }: Props) => {
               textAlign: "right",
             },
             export: true,
-            // width: "18%",
-            // field: "pick",
+
             render: (data) => (
               <>
                 <div className="flex">

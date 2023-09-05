@@ -1,6 +1,6 @@
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { Button, IconButton, Tooltip } from "@mui/material";
-import { Loader } from "components/core";
+import { Loader, LoaderAnime } from "components/core";
 import {
   AddAdditionalBillDetails,
   EditBasicBillDetails,
@@ -161,7 +161,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
               </IconButton>
             </Tooltip>
           </div>
-          <table className="w-full">
+          <table className="w-full hidden md:block">
             <tbody>
               <tr>
                 <td className="w-1/5 text-sm font-semibold py-2">Status</td>
@@ -198,6 +198,40 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
               ))}
             </tbody>
           </table>
+
+          {/* Mobile View start */}
+          <div className="block md:hidden">
+            <div className="grid">
+              <span className=" text-sm font-semibold py-2">Status :</span>
+              {billData?.status ? (
+                <span
+                  className={`text-sm py-1 px-2 text-white tracking-wide shadow-md 
+                  ${
+                    billData?.status === "Unpaid"
+                      ? "bg-red-500"
+                      : billData?.status === "Paid"
+                      ? "bg-green-500"
+                      : null
+                  } rounded-md`}
+                >
+                  {billData?.status}
+                </span>
+              ) : (
+                "---"
+              )}
+            </div>
+            {basicDetails?.map((item) => (
+              <div key={item?.id} className="grid py-2">
+                <span className="text-sm font-semibold">{item?.title} :</span>
+                <span className="">
+                  <span className="text-sm text-gray-600 break-all">
+                    {item?.value}
+                  </span>
+                </span>
+              </div>
+            ))}
+          </div>
+          {/* Mobile View end */}
         </TenderLayout>
       </div>
       <div className="mt-14">
@@ -216,16 +250,19 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
                 Add New
               </Button>
             </div>
-            <table className="w-full">
-              <tbody className="border-2">
-                <tr className="border-b-2">
-                  <th className="w-[40%] text-sm border-r-2">Description</th>
-                  <th className="w-[30%] text-sm border-r-2">SAC Code</th>
-                  <th className="w-[30%] text-sm border-r-2">Amount</th>
-                  <th className="w-[30%] text-sm">Actions</th>
-                </tr>
-                {billData?.works?.length ? (
-                  <>
+            <table className="w-full hidden md:block">
+              {billData?.works?.length ? (
+                <>
+                  <tbody className="border-2">
+                    <tr className="border-b-2">
+                      <th className="w-[40%] text-sm border-r-2">
+                        Description
+                      </th>
+                      <th className="w-[30%] text-sm border-r-2">SAC Code</th>
+                      <th className="w-[30%] text-sm border-r-2">Amount</th>
+                      <th className="w-[30%] text-sm">Actions</th>
+                    </tr>
+
                     {billData?.works?.map((item) => (
                       <tr className="border-b-2">
                         <td
@@ -272,14 +309,85 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
                         </td>
                       </tr>
                     ))}
+                  </tbody>
+                </>
+              ) : (
+                <div>
+                  <div className="py-2">
+                    <LoaderAnime
+                      animeWidth={150}
+                      animeHight={150}
+                      text="No Data Found"
+                    />
+                  </div>
+                </div>
+              )}
+            </table>
+            {/* Mobile view start */}
+            <div className="block md:hidden max-h-80 overflow-scroll">
+              <div className="grid gap-4">
+                {billData?.works?.length ? (
+                  <>
+                    {billData?.works?.map((item) => (
+                      <div
+                        key={item?.id}
+                        className=" bg-green-100 rounded-lg shadow-md px-5 py-4 text-sm"
+                      >
+                        <div className="grid py-1">
+                          <span className="font-semibold ">SAC Code :</span>
+                          <span className=" ">
+                            <p className="text-gray-600">{item?.SACcode}</p>
+                          </span>
+                        </div>
+                        <div className="grid py-1">
+                          <span className="font-semibold">Amount :</span>
+                          <span className=" ">
+                            <p className="text-gray-600">{item?.Amount}</p>
+                          </span>
+                        </div>
+                        <div className="grid py-1">
+                          <span className="font-semibold">Description :</span>
+                          <span className=" text-gray-600">
+                            {item?.description}
+                          </span>
+                        </div>
+                        <div className="grid pt-2">
+                          <div className="flex gap-1 justify-center">
+                            <Tooltip title="Edit Document">
+                              <IconButton
+                                size="small"
+                                onClick={() => {
+                                  setQuotationWorkData(item),
+                                    setAdditionDetails(true);
+                                }}
+                              >
+                                <Edit />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Delete Document">
+                              <IconButton size="small">
+                                <Delete onClick={() => handleDelete(item)} />
+                              </IconButton>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </>
                 ) : (
-                  <tr>
-                    <td colSpan={4}>No Data</td>
-                  </tr>
+                  <div>
+                    <div className="py-2">
+                      <LoaderAnime
+                        animeWidth={150}
+                        animeHight={150}
+                        text="No Data Found"
+                      />
+                    </div>
+                  </div>
                 )}
-              </tbody>
-            </table>
+              </div>
+            </div>
+            {/* Mobile view end */}
           </div>
         </TenderLayout>
       </div>
@@ -298,7 +406,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
                 </IconButton>
               </Tooltip>
             </div>
-            <p className="text-gray-500 text-justify text-sm">
+            <p className="text-gray-500 text-justify break-all text-sm">
               {billData?.termsAndConditions ? (
                 <div
                   dangerouslySetInnerHTML={{

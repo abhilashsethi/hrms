@@ -43,8 +43,8 @@ const AllBills = () => {
   return (
     <>
       <PanelLayout title="Bills - Admin Panel">
-        <section className="px-8">
-          <div className="flex justify-between items-center py-4">
+        <section className="md:px-8 px-4">
+          <div className="md:flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
             <Link href="/admin/bills/create-bill">
               <Button
@@ -57,7 +57,7 @@ const AllBills = () => {
               </Button>
             </Link>
           </div>
-          <div className="md:flex gap-4 justify-between w-full py-2">
+          <div className="md:flex grid gap-4 md:justify-between w-full py-2">
             <div
               className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}

@@ -22,7 +22,13 @@ const PhotoUpdateView = ({
     }
   };
 
-  const { revalidateChatProfileDetails } = useChatData();
+  const {
+    revalidateChatProfileDetails,
+    revalidateCurrentChat,
+    selectedChatId,
+    reValidateGroupChat,
+    reValidatePrivateChat,
+  } = useChatData();
 
   const { change } = useChange();
 
@@ -41,12 +47,15 @@ const PhotoUpdateView = ({
         body: { photo: url },
       });
 
-      // if (!res?.result?.msg) throw new Error("Image Update failed.");
       chatId && revalidateChatProfileDetails(chatId);
+
       Swal.fire({
         title: "Success",
         icon: "success",
       });
+      revalidateCurrentChat(selectedChatId);
+      reValidateGroupChat();
+      reValidatePrivateChat();
     } catch (error) {
       Swal.fire({
         title: "Update Failed.",
