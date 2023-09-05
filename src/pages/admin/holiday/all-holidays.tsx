@@ -24,6 +24,7 @@ import {
 } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import moment from "moment";
 import Link from "next/link";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -32,8 +33,8 @@ import { HOLIDAY, Quotation } from "types";
 const AllHolidays = () => {
 	const [isGrid, setIsGrid] = useState(true);
 	const [pageNumber, setPageNumber] = useState<number>(1);
-	const [clientName, setClientName] = useState<string | null>(null);
-
+	const [holidayName, setHolidayName] = useState<string | null>(null);
+	const [selectStartDate, setSelectStartDate] = useState<string | null>("");
 	const {
 		data: holidayData,
 		mutate,
@@ -41,8 +42,8 @@ const AllHolidays = () => {
 		isLoading,
 	} = useFetch<HOLIDAY[]>(
 		`holidays?page=${pageNumber}&limit=6&orderBy=createdAt:desc${
-			clientName ? `&clientName=${clientName}` : ""
-		}`
+			holidayName ? `&title=${holidayName}` : ""
+		}${selectStartDate ? `&startDate=${selectStartDate}` : ""}`
 	);
 	console.log(holidayData);
 	return (
@@ -91,13 +92,18 @@ const AllHolidays = () => {
 						>
 							<IconButton
 								onClick={() => {
-									setClientName(null);
+									setHolidayName(null);
+									setSelectStartDate("");
 								}}
 							>
 								<Tooltip
-									title={clientName != null ? `Remove Filters` : `Filter`}
+									title={
+										selectStartDate != "" || holidayName != null
+											? `Remove Filters`
+											: `Filter`
+									}
 								>
-									{clientName != null ? (
+									{selectStartDate != "" || holidayName != null ? (
 										<Close className={"!text-white"} />
 									) : (
 										<FilterListRounded className={"!text-white"} />
@@ -110,50 +116,71 @@ const AllHolidays = () => {
 							<TextField
 								fullWidth
 								size="small"
-								id="clientName"
-								placeholder="Client Name"
-								value={clientName ? clientName : ""}
-								name="clientName"
+								id="holidayName"
+								placeholder="Holiday Name"
+								value={holidayName ? holidayName : ""}
+								name="holidayName"
 								onChange={(e) => {
-									setPageNumber(1), setClientName(e.target.value);
+									setPageNumber(1), setHolidayName(e.target.value);
+								}}
+							/>
+							<TextField
+								fullWidth
+								size="small"
+								id="date"
+								placeholder="Select Start Date"
+								name="date"
+								type="date"
+								value={
+									selectStartDate
+										? moment(selectStartDate).format("YYYY-MM-DD")
+										: ""
+								}
+								onChange={(e) => {
+									setSelectStartDate(new Date(e.target.value).toISOString());
 								}}
 							/>
 						</div>
 					</div>
-					<section className="mt-4">
-						{isGrid ? (
-							<>
-								{isLoading && <SkeletonLoader />}
-								<HolidayGrid data={holidayData} mutate={mutate} />
-							</>
-						) : (
-							<>
-								{isLoading && <Loader />}
-								<HolidayColumn data={holidayData} mutate={mutate} />
-							</>
-						)}
-						<section className="mb-6">
-							{Math.ceil(
-								Number(pagination?.total || 1) / Number(pagination?.limit || 1)
-							) > 1 ? (
-								<div className="flex justify-center md:py-8 py-4">
-									<Stack spacing={2}>
-										<Pagination
-											count={Math.ceil(
-												Number(pagination?.total || 1) /
-													Number(pagination?.limit || 1)
-											)}
-											onChange={(e, v: number) => {
-												setPageNumber(v);
-											}}
-											page={pageNumber}
-											variant="outlined"
-										/>
-									</Stack>
-								</div>
-							) : null}
+					{holidayData?.length ? (
+						<section className="mt-4">
+							{isGrid ? (
+								<>
+									{isLoading && <SkeletonLoader />}
+									<HolidayGrid data={holidayData} mutate={mutate} />
+								</>
+							) : (
+								<>
+									{isLoading && <Loader />}
+									<HolidayColumn data={holidayData} mutate={mutate} />
+								</>
+							)}
+							<section className="mb-6">
+								{Math.ceil(
+									Number(pagination?.total || 1) /
+										Number(pagination?.limit || 1)
+								) > 1 ? (
+									<div className="flex justify-center md:py-8 py-4">
+										<Stack spacing={2}>
+											<Pagination
+												count={Math.ceil(
+													Number(pagination?.total || 1) /
+														Number(pagination?.limit || 1)
+												)}
+												onChange={(e, v: number) => {
+													setPageNumber(v);
+												}}
+												page={pageNumber}
+												variant="outlined"
+											/>
+										</Stack>
+									</div>
+								) : null}
+							</section>
 						</section>
-					</section>
+					) : (
+						<LoaderAnime text="No Holidays Available" />
+					)}
 				</section>
 			</PanelLayout>
 		</>
