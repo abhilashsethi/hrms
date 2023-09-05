@@ -495,17 +495,34 @@ const GroupChatCard = ({
         selectedChatId === item?.id ? `bg-blue-100` : ``
       }`}
     >
-      <Badge
-        color="secondary"
-        overlap="circular"
-        badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
-      >
-        <PhotoViewerSmall
-          name={item?.title}
-          photo={item?.photo || ""}
-          size="2.8rem"
-        />
-      </Badge>
+      <span className="md:block hidden">
+        <Badge
+          color="secondary"
+          overlap="circular"
+          badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
+        >
+          <PhotoViewerSmall
+            name={item?.title}
+            photo={item?.photo}
+            size="3rem"
+          />
+        </Badge>
+      </span>
+      {/* Mobile View start */}
+      <span className="md:hidden block">
+        <Badge
+          color="secondary"
+          overlap="circular"
+          badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
+        >
+          <PhotoViewerSmall
+            name={item?.title}
+            photo={item?.photo}
+            size="2.3rem"
+          />
+        </Badge>
+      </span>
+      {/* Mobile View end */}
 
       <div className="md:w-[80%] w-full flex justify-between ">
         <div>
