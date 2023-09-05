@@ -1,21 +1,12 @@
-import {
-	BorderColor,
-	Business,
-	Delete,
-	Download,
-	Email,
-	Info,
-	Person,
-} from "@mui/icons-material";
-import { Avatar, Button, CircularProgress, Tooltip } from "@mui/material";
-import { QUOTATION } from "assets/home";
-import { downloadFile, useChange, useFetch } from "hooks";
+import { BorderColor, Delete } from "@mui/icons-material";
+import { Avatar, Tooltip } from "@mui/material";
+import { EditHoliday } from "components/dialogues";
+import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
-import Swal from "sweetalert2";
-import { HOLIDAY, Quotation } from "types";
 import { useState } from "react";
-import { EditHoliday } from "components/dialogues";
+import Swal from "sweetalert2";
+import { HOLIDAY } from "types";
 
 interface Props {
 	data?: HOLIDAY[];
@@ -131,10 +122,10 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 									</Tooltip>
 								</div>
 							</div>
-							<div className="h-36 bg-contain flex justify-center bg-[url('https://img.freepik.com/premium-vector/summer-beach-background-top-view-panoramic_8087-3858.jpg?w=1380')] py-3 rounded-t-lg w-full border" />
+							<div className="h-36 bg-cover flex justify-center bg-[url('/holiday.png')] py-3 rounded-t-lg w-full border" />
 							<div className="p-2">
 								<div className="flex justify-start">
-									<div className="flex flex-col items-center gap-1">
+									<div className="flex items-center gap-1">
 										<div className="bg-blue-500 p-1 text-sm flex flex-col justify-center items-center rounded-md text-white">
 											<p className="font-semibold">
 												{moment(item?.startDate).format("LL")}

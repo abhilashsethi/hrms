@@ -1,154 +1,181 @@
 import MaterialTable from "@material-table/core";
-import { PeopleRounded, PersonRounded } from "@mui/icons-material";
-import { Tooltip } from "@mui/material";
-import { CopyClipboard, HeadStyle, IOSSwitch } from "components/core";
+import {
+	BorderColor,
+	Delete,
+	HolidayVillage,
+	PeopleRounded,
+} from "@mui/icons-material";
+import { Avatar, Tooltip } from "@mui/material";
+import { HeadStyle } from "components/core";
 import { useChange } from "hooks";
-import moment from "moment";
-import Link from "next/link";
 import Swal from "sweetalert2";
-import { MuiTblOptions, clock, getDataWithSL } from "utils";
-interface ARRAY {
-	id?: string;
-	name?: string;
-	email?: string;
-	phone?: string;
-	gender?: string;
-	visitInfo?: string;
-	company?: string;
-	designation?: string;
-}
+import { HOLIDAY } from "types";
+import { useState } from "react";
+import { MuiTblOptions } from "utils";
+import { EditHoliday } from "components/dialogues";
 interface Props {
-	data?: ARRAY[];
-	mutate?: any;
+	data?: HOLIDAY[];
+	mutate: () => void;
 }
 const HolidayColumn = ({ data, mutate }: Props) => {
+	const [holidays, setHolidays] = useState();
+	const [editDetails, setEditDetails] = useState<boolean>(false);
+
 	const { change, isChanging } = useChange();
-	const handleBlock = async (e: any, userId: string) => {
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to update status?",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, update!",
-		}).then(async (result) => {
-			if (result.isConfirmed) {
-				const res = await change(`users/${userId}`, {
-					method: "PATCH",
-					body: { isBlocked: !e.target?.checked },
-				});
-				mutate();
-				if (res?.status !== 200) {
-					Swal.fire(`Error`, "Something went wrong!", "error");
+	const handleDelete = (id?: string) => {
+		try {
+			Swal.fire({
+				title: "Are you sure?",
+				text: "You want to delete!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, delete it!",
+			}).then(async (result) => {
+				if (result.isConfirmed) {
+					Swal.fire(`Info`, "It will take some time", "info");
+					const res = await change(`holidays/${id}`, {
+						method: "DELETE",
+					});
+
+					if (res?.status !== 200) {
+						Swal.fire(
+							"Error",
+							res?.results?.msg || "Something went wrong!",
+							"error"
+						);
+						return;
+					}
+					Swal.fire(`Success`, "Deleted Successfully!", "success");
+					mutate();
 					return;
 				}
-				Swal.fire(`Success`, "Status updated successfully!", "success");
-				return;
-			}
-		});
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
 		<section className="mt-8">
+			<EditHoliday
+				open={editDetails}
+				handleClose={() => setEditDetails(false)}
+				holidayData={holidays}
+				mutate={mutate}
+			/>
 			<MaterialTable
-				title={<HeadStyle name="All Guests" icon={<PeopleRounded />} />}
+				title={<HeadStyle name="All Holidays" icon={<HolidayVillage />} />}
 				isLoading={!data}
 				data={
 					data
-						? (data?.map((_: any, i: number) => ({
+						? data?.map((_: any, i: number) => ({
 								..._,
 								sl: i + 1,
-						  })) as any)
+								startDate: new Date(_?.startDate).toDateString(),
+								endDate: _?.endDate
+									? new Date(_?.endDate).toDateString()
+									: "---",
+						  }))
 						: []
 				}
-				options={{ ...MuiTblOptions(), selection: false, paging: false }}
+				options={{
+					...MuiTblOptions(),
+					selection: false,
+					paging: false,
+					search: true,
+				}}
 				columns={[
 					{
 						title: "#",
 						field: "sl",
 						editable: "never",
-						width: "2%",
+						searchable: true,
 					},
 					{
-						title: "Name",
-						tooltip: "Name",
-						field: "name",
-						editable: "never",
-					},
-					{
-						title: "Email",
-						tooltip: "Email",
-						field: "email",
-						editable: "never",
-						render: ({ email }) => <CopyClipboard value={email} />,
-					},
-					{
-						title: "Designation",
-						field: "designation",
-						// render: (data) => clock(data.updatedAt).fromNow(),
-						editable: "never",
-					},
-					{
-						title: "Valid From",
-						field: "validFrom",
-						render: (data) => {
-							return <div></div>;
-						},
-						editable: "never",
-					},
-					{
-						title: "Valid Till",
-						field: "validTill",
-						render: (data) => {
-							return <div></div>;
-						},
-						editable: "never",
+						title: "Title",
+						tooltip: "Title",
+						field: "title",
+						searchable: true,
 					},
 
 					{
-						title: "Created",
-						field: "createdAt",
-						render: (data) => new Date(data.createdAt).toDateString(),
+						title: "Start Date",
+						field: "startDate",
+						// render: (data) => new Date(data.startDate).toDateString(),
 						editable: "never",
 					},
 					{
-						title: "Updated",
-						field: "updatedAt",
-						render: (data) => new Date(data.updatedAt).toDateString(),
+						title: "End Date",
+						field: "endDate",
+						// render: (data) =>
+						// 	data?.endDate ? new Date(data.endDate).toDateString() : "---",
 						editable: "never",
 					},
 					{
-						title: "Details",
-						tooltip: "Details",
+						title: "Actions",
+						width: "5%",
+						tooltip: "Actions",
+						headerStyle: {
+							textAlign: "center",
+						},
+						cellStyle: {
+							textAlign: "center",
+						},
 						render: (item) => {
 							return (
-								<Link href={`/admin/guests/guest-profile?id=${item?.id}`}>
-									<Tooltip title="Details">
-										<div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
-											<PersonRounded className="!text-white" />
-										</div>
+								<div className="flex items-center justify-center gap-1">
+									<Tooltip title="Edit">
+										<Avatar
+											variant="rounded"
+											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-500 !p-0"
+											sx={{
+												mr: ".1vw",
+												padding: "0px !important",
+												backgroundColor: "Highlight",
+												cursor: "pointer",
+												color: "",
+												width: 30,
+												height: 30,
+											}}
+										>
+											<BorderColor
+												sx={{ padding: "0px !important" }}
+												fontSize="small"
+												onClick={() => {
+													setEditDetails((prev) => !prev), setHolidays(item);
+												}}
+											/>
+										</Avatar>
 									</Tooltip>
-								</Link>
+									<Tooltip title="Delete">
+										<Avatar
+											variant="rounded"
+											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-500 !p-0"
+											sx={{
+												mr: "0.1vw",
+												padding: "0px !important",
+												backgroundColor: "Highlight",
+												cursor: "pointer",
+												color: "",
+												width: 30,
+												height: 30,
+											}}
+										>
+											<Delete
+												sx={{ padding: "0px !important" }}
+												fontSize="small"
+												onClick={() => handleDelete(item?.id)}
+											/>
+										</Avatar>
+									</Tooltip>
+								</div>
 							);
 						},
 						editable: "never",
 					},
 				]}
-				editable={{
-					onRowDelete: async (oldData) => {
-						const res = await change(`guests/${oldData.id}`, {
-							method: "DELETE",
-						});
-						if (res?.status !== 200) {
-							Swal.fire(`Error`, "Something went wrong!", "error");
-							return;
-						}
-						Swal.fire(`Success`, "Deleted Successfully!", "success");
-						mutate();
-						return;
-					},
-				}}
 			/>
 		</section>
 	);
