@@ -15,7 +15,7 @@ interface Props {
 const HolidayGrid = ({ data, mutate }: Props) => {
 	const { change } = useChange();
 	const [editDetails, setEditDetails] = useState<boolean>(false);
-	const [holidays, setHolidays] = useState();
+	const [holidays, setHolidays] = useState<HOLIDAY>();
 
 	const handleDelete = (id?: string) => {
 		try {
@@ -61,7 +61,7 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 				mutate={mutate}
 			/>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
-				{data?.map((item: any) => (
+				{data?.map((item) => (
 					<div
 						key={item?.id}
 						className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl bg-gradient-to-r from-rose-100 to-teal-100"
