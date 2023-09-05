@@ -582,7 +582,7 @@ export interface IGroupChatData {
 	isGroupBlocked: boolean;
 	isPrivateGroup: boolean;
 	lastMessage: {
-		category: "text" | "link" | "image" | "code" | "markup" | "file" | "event";
+		category: "text" | "link" | "image" | "code" | "markup" | "file" | "event" | "audio";
 		createdAt: string;
 		isRead: boolean;
 		isSenderIsUser: boolean;
