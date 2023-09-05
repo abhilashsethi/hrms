@@ -17,6 +17,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { HOLIDAY } from "types";
 import * as Yup from "yup";
+import { useMemo } from "react";
 
 interface Props {
 	open: boolean;
@@ -33,15 +34,17 @@ const validationSchema = Yup.object().shape({
 const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
 
-	const initialValues = {
-		startDate: holidayData?.startDate
-			? moment(holidayData.startDate)?.format("YYYY-MM-DD")
-			: "",
-		endDate: holidayData?.endDate
-			? moment(holidayData.endDate)?.format("YYYY-MM-DD")
-			: "",
-		title: holidayData?.title ? holidayData?.title : "",
-	};
+	const initialValues = useMemo(() => {
+		return {
+			startDate: holidayData?.startDate
+				? moment(holidayData.startDate)?.format("YYYY-MM-DD")
+				: "",
+			endDate: holidayData?.endDate
+				? moment(holidayData.endDate)?.format("YYYY-MM-DD")
+				: "",
+			title: holidayData?.title ? holidayData?.title : "",
+		};
+	}, [holidayData?.id]);
 
 	const { change } = useChange();
 	const handleSubmit = async (values: HOLIDAY) => {
@@ -70,10 +73,7 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 					mutate();
 					// handleClose();
 					handleClose();
-					if (res?.status !== 200) {
-						Swal.fire(`Error`, "Something went wrong!", "error");
-						return;
-					}
+					if (res?.status !== 200) throw new Error("Something went wrong");
 					Swal.fire(`Success`, "Holiday updated successfully!!", "success");
 					return;
 				}
@@ -222,7 +222,3 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 };
 
 export default EditHoliday;
-const leavesType = [
-	{ id: 1, value: "First_Half" },
-	{ id: 2, value: "Second_Half" },
-];
