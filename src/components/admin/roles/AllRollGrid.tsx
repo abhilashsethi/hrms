@@ -9,17 +9,17 @@ import { Role } from "types";
 
 interface Props {
   data?: Role[];
-  mutate?: any;
+  mutate: () => void;
 }
 
 const AllRollGrid = ({ data, mutate }: Props) => {
   const [assetHistory, setAssetHistory] = useState(false);
   const [roleId, setRoleId] = useState("");
-  const [roleData, setRoleData] = useState("");
+  const [roleData, setRoleData] = useState<Role>();
   const [loading, setLoading] = useState(false);
   const [isInfo, setIsInfo] = useState<{
     dialogue?: boolean;
-    role?: any;
+    role?: Role | null;
   }>({
     dialogue: false,
     role: null,
@@ -87,7 +87,7 @@ const AllRollGrid = ({ data, mutate }: Props) => {
       />
       <div className="mt-4">
         <div className="grid xl:grid-cols-4 gap-4 lg:grid-cols-2">
-          {data?.map((item: any) => (
+          {data?.map((item) => (
             <div key={item?.id}>
               <div className="py-4 w-full bg-gradient-to-b from-theme-50/50 via-white to-white shadow-lg rounded-lg flex justify-center items-center">
                 <div className="flex flex-col items-center gap-3">

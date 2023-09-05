@@ -17,7 +17,7 @@ interface Props {
 type Orientation = "horizontal" | "vertical"; // Define the custom type
 const ProjectTabs = ({ projectId }: Props) => {
   const { user } = useAuth();
-  const [value, setValue] = useState("2");
+  const [value, setValue] = useState(`${user?.isClient ? `2` : `1`}`);
   const [orientation, setOrientation] = useState<Orientation>("horizontal");
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue);

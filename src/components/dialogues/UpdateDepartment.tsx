@@ -78,7 +78,7 @@ const UpdateDepartment = ({
         sx={{ p: 2, minWidth: "18rem !important" }}
       >
         <p className="text-center text-xl font-bold text-theme tracking-wide">
-          UPDATE DEPARTMENT
+          UPDATE
         </p>
         <IconButton
           aria-label="close"
