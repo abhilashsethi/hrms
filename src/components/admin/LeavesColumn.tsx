@@ -41,7 +41,6 @@ const LeavesColumn = ({ data, mutate }: Props) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [rloading, setRLoading] = useState(false);
-  const [isDocuments, setIsDocuments] = useState(false);
   const [isValue, setIsValue] = useState(true);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
