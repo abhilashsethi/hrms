@@ -51,28 +51,26 @@ const AllHolidays = () => {
 					<div className="md:flex justify-between items-center py-4">
 						<div className="md:flex gap-4 items-center">
 							<AdminBreadcrumbs links={links} />
-							<div className="flex gap-1">
-								<IconButton onClick={() => setIsGrid(true)} size="small">
-									<div
-										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-											isGrid && `border-2 border-theme`
-										}`}
-									>
-										<GridViewRounded className={`${isGrid && `!text-theme`}`} />
-									</div>
-								</IconButton>
-								<IconButton onClick={() => setIsGrid(false)} size="small">
-									<div
-										className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
-											!isGrid && `border-2 border-theme`
-										}`}
-									>
-										<TableRowsRounded
-											className={`${!isGrid && `!text-theme`}`}
-										/>
-									</div>
-								</IconButton>
-							</div>
+						</div>
+						<div className="flex gap-1  items-center justify-end">
+							<IconButton onClick={() => setIsGrid(true)} size="small">
+								<div
+									className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+										isGrid && `border-2 border-theme`
+									}`}
+								>
+									<GridViewRounded className={`${isGrid && `!text-theme`}`} />
+								</div>
+							</IconButton>
+							<IconButton onClick={() => setIsGrid(false)} size="small">
+								<div
+									className={` p-2 rounded-md grid place-items-center transition-all ease-in-out duration-500 ${
+										!isGrid && `border-2 border-theme`
+									}`}
+								>
+									<TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
+								</div>
+							</IconButton>
 							<Link href={"/admin/quotation/create-quotation"}>
 								<Button
 									variant="contained"
@@ -163,18 +161,6 @@ const AllHolidays = () => {
 
 export default AllHolidays;
 
-const status = [
-	{ id: 1, value: "Accepted" },
-	{ id: 2, value: "Rejected" },
-	{ id: 3, value: "Modified" },
-];
-const short = [
-	{ id: 1, value: "quotationTitle:asc", name: "Name Ascending" },
-	{ id: 2, value: "quotationTitle:desc", name: "Name Descending" },
-	{ id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
-	{ id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
-];
 const links = [
-	{ id: 1, page: "Quotation", link: "/admin/quotation" },
-	{ id: 2, page: "All Quotation", link: "/admin/quotation/all-quotation" },
+	{ id: 2, page: "All Holidays", link: "/admin/holiday/all-holidays" },
 ];
