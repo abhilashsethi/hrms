@@ -406,12 +406,6 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
     setTotalDay("0");
   };
   const approveLeave = (id?: string) => {
-    // console.log({ id });
-    // console.log({ isValue });
-    // console.log({ isTotalDay });
-    // console.log({ isSandwichLeave });
-    // console.log({ isTotalSandwichDay });
-    // return;
     Swal.fire({
       title: "Are you sure?",
       text: "You want to approve!",
