@@ -101,9 +101,9 @@ const EditMeetingDetails = ({
 						clientEmail: values?.clientEmail,
 						clientPhone: values?.clientPhone,
 						meetingPersonName: values?.meetingPersonName,
-						meetingDate: values?.meetingDate,
-						meetingStartTime: new Date(values?.meetingStartTime).toISOString(),
-						meetingEndTime: new Date(values?.meetingEndTime).toISOString(),
+						meetingDate: new Date(values?.meetingDate)?.toISOString(),
+						meetingStartTime: values?.meetingStartTime,
+						meetingEndTime: values?.meetingEndTime,
 					},
 				});
 				mutate();
