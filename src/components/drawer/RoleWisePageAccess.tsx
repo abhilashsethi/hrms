@@ -721,6 +721,12 @@ const PageList = [
 		icon: <ICONS.Add_Holiday />,
 		name: "Create Holiday",
 	},
+	{
+		id: 79,
+		value: "/admin/holiday/all-holidays",
+		icon: <ICONS.View_Holiday />,
+		name: "View All Holidays",
+	},
 
 	// { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
 	// { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
