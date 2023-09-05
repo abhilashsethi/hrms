@@ -478,6 +478,7 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
                 method: "PATCH",
                 body: {
                   status: "Approved",
+                  isSandwichLeave: true,
                   isPaidLeave: isValue,
                 },
               });
@@ -498,6 +499,7 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
                 method: "PATCH",
                 body: {
                   status: "Approved",
+                  isSandwichLeave: true,
                   isPaidLeave: isValue,
                   paidLeaveCount: Number(isTotalSandwichDay),
                 },
