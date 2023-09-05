@@ -45,8 +45,6 @@ const CreateEmail = (templateId: any) => {
 
   const emailEditorRef = useRef<EditorRef>(null);
 
-  useEffect(() => {}, []);
-
   const formik = useFormik({
     initialValues: {
       recipients: draftData?.receiver?.id ? [draftData?.receiver] : "",
