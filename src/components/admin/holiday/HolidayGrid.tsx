@@ -1,9 +1,8 @@
 import { BorderColor, Delete } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { EditHoliday } from "components/dialogues";
-import { useChange, useFetch } from "hooks";
+import { useChange } from "hooks";
 import moment from "moment";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { HOLIDAY } from "types";
@@ -15,14 +14,8 @@ interface Props {
 
 const HolidayGrid = ({ data, mutate }: Props) => {
 	const { change } = useChange();
-	const [loading, setLoading] = useState(false);
-	const [isActive, setIsActive] = useState<string | undefined>("");
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 	const [holidays, setHolidays] = useState();
-	const router = useRouter();
-	const { data: bankAccountsDetails, mutate: bankAccountMutate } =
-		useFetch<any>(`quotations/get-all/accounts`);
-	// console.log(bankAccountsDetails);
 
 	const handleDelete = (id?: string) => {
 		try {

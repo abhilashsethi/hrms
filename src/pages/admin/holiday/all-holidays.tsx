@@ -8,14 +8,12 @@ import {
 import {
 	Button,
 	IconButton,
-	MenuItem,
 	Pagination,
 	Stack,
 	TextField,
 	Tooltip,
 } from "@mui/material";
 import { HolidayColumn, HolidayGrid } from "components/admin/holiday";
-import { QuotationGrid } from "components/admin/quotation";
 import {
 	AdminBreadcrumbs,
 	Loader,
@@ -28,7 +26,7 @@ import moment from "moment";
 import Link from "next/link";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { HOLIDAY, Quotation } from "types";
+import { HOLIDAY } from "types";
 
 const AllHolidays = () => {
 	const [isGrid, setIsGrid] = useState(true);

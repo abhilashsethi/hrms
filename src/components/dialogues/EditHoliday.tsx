@@ -13,7 +13,7 @@ import {
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
 import moment from "moment";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { HOLIDAY } from "types";
 import * as Yup from "yup";
@@ -32,10 +32,6 @@ const validationSchema = Yup.object().shape({
 });
 const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
-	const [value, setValue] = useState("one");
-	const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue((event.target as HTMLInputElement).value);
-	};
 
 	const initialValues = {
 		startDate: holidayData?.startDate

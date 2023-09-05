@@ -1,24 +1,19 @@
 import MaterialTable from "@material-table/core";
-import {
-	BorderColor,
-	Delete,
-	HolidayVillage,
-	PeopleRounded,
-} from "@mui/icons-material";
+import { BorderColor, Delete, HolidayVillage } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { HeadStyle } from "components/core";
+import { EditHoliday } from "components/dialogues";
 import { useChange } from "hooks";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { HOLIDAY } from "types";
-import { useState } from "react";
 import { MuiTblOptions } from "utils";
-import { EditHoliday } from "components/dialogues";
 interface Props {
 	data?: HOLIDAY[];
 	mutate: () => void;
 }
 const HolidayColumn = ({ data, mutate }: Props) => {
-	const [holidays, setHolidays] = useState();
+	const [holidays, setHolidays] = useState<HOLIDAY>();
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 
 	const { change, isChanging } = useChange();
@@ -70,7 +65,7 @@ const HolidayColumn = ({ data, mutate }: Props) => {
 				isLoading={!data}
 				data={
 					data
-						? data?.map((_: any, i: number) => ({
+						? data?.map((_: HOLIDAY, i: number) => ({
 								..._,
 								sl: i + 1,
 								startDate: new Date(_?.startDate).toDateString(),
@@ -103,14 +98,11 @@ const HolidayColumn = ({ data, mutate }: Props) => {
 					{
 						title: "Start Date",
 						field: "startDate",
-						// render: (data) => new Date(data.startDate).toDateString(),
 						editable: "never",
 					},
 					{
 						title: "End Date",
 						field: "endDate",
-						// render: (data) =>
-						// 	data?.endDate ? new Date(data.endDate).toDateString() : "---",
 						editable: "never",
 					},
 					{
