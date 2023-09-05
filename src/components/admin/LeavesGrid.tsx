@@ -424,98 +424,49 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
       if (result?.isConfirmed) {
         setLoading(true);
         try {
-          // Leave Approve for Non Sandwich Leave
-          if (!isSandwichLeave) {
-            // Leave Approve For Paid Leave
-            if (isValue) {
-              const res = await change(`leaves/${id}`, {
-                method: "PATCH",
-                body: {
-                  status: "Approved",
-                  isPaidLeave: isValue,
-                },
-              });
+          // Leave Approve For Paid Leave
+          if (isValue) {
+            const res = await change(`leaves/${id}`, {
+              method: "PATCH",
+              body: {
+                status: "Approved",
+                isPaidLeave: isValue,
+              },
+            });
+            setLoading(false);
+            if (res?.status !== 200) {
+              Swal.fire(
+                "Error",
+                res?.results?.msg || "Something went wrong!",
+                "error"
+              );
               setLoading(false);
-              if (res?.status !== 200) {
-                Swal.fire(
-                  "Error",
-                  res?.results?.msg || "Something went wrong!",
-                  "error"
-                );
-                setLoading(false);
-                return;
-              }
+              return;
             }
-            // Leave Approve For Unpaid Leave
-            else {
-              console.log("NOn sandwich Unpaid Leave");
-              const res = await change(`leaves/${id}`, {
-                method: "PATCH",
-                body: {
-                  status: "Approved",
-                  isPaidLeave: isValue,
-                  unpaidLeaveCount: Number(isTotalDay),
-                },
-              });
+          }
+          // Leave Approve For Unpaid Leave
+          else {
+            console.log("NOn sandwich Unpaid Leave");
+            const res = await change(`leaves/${id}`, {
+              method: "PATCH",
+              body: {
+                status: "Approved",
+                isPaidLeave: isValue,
+                unpaidLeaveCount: Number(isTotalDay),
+              },
+            });
+            setLoading(false);
+            if (res?.status !== 200) {
+              Swal.fire(
+                "Error",
+                res?.results?.msg || "Something went wrong!",
+                "error"
+              );
               setLoading(false);
-              if (res?.status !== 200) {
-                Swal.fire(
-                  "Error",
-                  res?.results?.msg || "Something went wrong!",
-                  "error"
-                );
-                setLoading(false);
-                return;
-              }
+              return;
             }
           }
 
-          // Leave Approve For Sandwich Leave
-          else {
-            // Leave Approve For Paid Leave
-            if (isValue) {
-              const res = await change(`leaves/${id}`, {
-                method: "PATCH",
-                body: {
-                  status: "Approved",
-                  isSandwichLeave: true,
-                  isPaidLeave: isValue,
-                },
-              });
-              setLoading(false);
-              if (res?.status !== 200) {
-                Swal.fire(
-                  "Error",
-                  res?.results?.msg || "Something went wrong!",
-                  "error"
-                );
-                setLoading(false);
-                return;
-              }
-            }
-            // Leave Approve For Unpaid Leave
-            else {
-              const res = await change(`leaves/${id}`, {
-                method: "PATCH",
-                body: {
-                  status: "Approved",
-                  isSandwichLeave: true,
-                  isPaidLeave: isValue,
-                  paidLeaveCount: Number(isTotalSandwichDay),
-                },
-              });
-              setLoading(false);
-              if (res?.status !== 200) {
-                Swal.fire(
-                  "Error",
-                  res?.results?.msg || "Something went wrong!",
-                  "error"
-                );
-                setLoading(false);
-                return;
-              }
-            }
-          }
           Swal.fire(`Success`, `Status changed successfully!`, `success`);
           mutate();
           setSandwichLeave(false);
@@ -563,50 +514,6 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
         <div className="md:w-[22rem] w-[70vw] md:px-4 px-2 tracking-wide">
           <div className="flex flex-col gap-4">
-            <div className="flex py-2 justify-between gap-2">
-              <button
-                onClick={() => {
-                  setSandwichLeave(false),
-                    setIsValue(true),
-                    setTotalDay("0"),
-                    setTotalSandwichDay("0");
-                }}
-                className={
-                  isSandwichLeave
-                    ? "hover:scale-105 ease-in-out transition-all duration-200 px-2 py-1 rounded-lg hover:bg-theme-200 hover:text-white"
-                    : "hover:scale-105 ease-in-out transition-all duration-200 border-2 border-theme px-2 py-1 rounded-lg bg-theme text-white"
-                }
-              >
-                No Sandwich Leave
-              </button>
-              <button
-                onClick={() => {
-                  setSandwichLeave(true), setIsValue(true), setTotalDay("0");
-                }}
-                className={
-                  isSandwichLeave
-                    ? "border-2 border-theme px-2 py-1 rounded-lg bg-theme text-white"
-                    : "hover:scale-105 ease-in-out transition-all duration-200 px-2 py-1 rounded-lg hover:bg-theme-200 hover:text-white"
-                }
-              >
-                Sandwich Leave
-              </button>
-            </div>
-            {isSandwichLeave ? (
-              <div className="grid gap-2 ">
-                <p>Enter Total Sandwich Day</p>
-                <TextField
-                  fullWidth
-                  size="small"
-                  placeholder="Enter Total Sandwich Day"
-                  name="sandwich"
-                  value={isTotalSandwichDay}
-                  onChange={handleInputChange}
-                  error={Boolean(validationError)}
-                  helperText={validationError}
-                />
-              </div>
-            ) : null}
             {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
               <>
                 <div className="flex pt-2 justify-center">
