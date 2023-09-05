@@ -109,8 +109,17 @@ const TypeEmailContainer = ({
               ? `Forwarded Message &lt;&lt;${data?.sender?.username}&gt;&gt; <br/> ${data?.content} &lt;&lt;${user?.username}&gt;&gt; <br/> ${value?.message} `
               : value?.message,
             attachments: attachmentUrl?.length
-              ? [...attachmentUrl, ...(data?.attachments || [])]
-              : [...(data?.attachments || [])],
+              ? [
+                  ...attachmentUrl,
+                  ...(value?.isForwarded && data?.attachments
+                    ? data?.attachments
+                    : []),
+                ]
+              : [
+                  ...(value?.isForwarded && data?.attachments
+                    ? data?.attachments
+                    : []),
+                ],
             isSend: !value?.isDraft,
             receiverIds: value?.forwardedToId?.length
               ? value?.forwardedToId
@@ -122,7 +131,7 @@ const TypeEmailContainer = ({
 
         Swal.fire({
           title: "Success",
-          text: "Email sent successfully",
+          text: `Email ${value?.isDraft ? "drafted" : "sent"} successfully`,
           icon: "success",
           showConfirmButton: false,
           timer: 1500,

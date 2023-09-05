@@ -32,8 +32,8 @@ interface ARRAY {
   purpose?: string;
 }
 interface Props {
-  data?: ARRAY[] | undefined;
-  mutate?: any;
+  data?: ARRAY[];
+  mutate: () => void;
 }
 
 const MeetingsGrid = ({ data, mutate }: Props) => {
@@ -69,22 +69,17 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
                   >
                     {items?.status}
                   </div>
-                  {/* <Chip label={items?.status} onClick={handleClick} /> */}
                 </div>
-                <div className="flex py-2 md:py-0">
-                  <p className="font-semibold text-sm md:text-base">
-                    Meeting Start Dt :{" "}
-                  </p>
+                <div className="md:flex py-2 md:py-0">
+                  <p className="font-semibold text-base">Meeting Start Dt : </p>
                   {/* <AccessTime /> */}
                   <span className="text-sm md:text-base">{`${moment(
                     items?.meetingDate
                   ).format("DD/MM/YYYY")}, ${items?.meetingStartTime}`}</span>
                 </div>
 
-                <div className="flex py-2 md:py-0">
-                  <p className="font-semibold text-sm md:text-base">
-                    Meeting End Dt:
-                  </p>
+                <div className="md:flex py-2 md:py-0">
+                  <p className="font-semibold text-base">Meeting End Dt:</p>
                   {/* <AccessTime /> */}
                   <span className="text-sm md:text-base">
                     {`${moment(items?.meetingDate).format("DD/MM/YYYY")}, ${
@@ -93,53 +88,41 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
                   </span>
                 </div>
                 <div className="py-2 text-lg tracking-wide">
-                  <span className="font-semibold text-sm md:text-base">
-                    Purpose :
-                  </span>
+                  <span className="font-semibold text-base">Purpose :</span>
                   <p className="text-sm md:text-base">
                     {items?.purpose ? items?.purpose : "---"}
                   </p>
                 </div>
-                <div className="flex gap-2 py-2 md:py-0">
-                  <p className="font-semibold text-sm md:text-base">
-                    Client Name :
-                  </p>
+                <div className="md:flex gap-2 py-2 md:py-0">
+                  <p className="font-semibold text-base">Client Name :</p>
                   <p className="text-sm md:text-base">{items?.clientName}</p>
                 </div>
-                <div className="flex gap-2 py-2 md:py-0">
-                  <p className="font-semibold text-sm md:text-base">
-                    Client Email :
-                  </p>
+                <div className="md:flex gap-2 py-2 md:py-0">
+                  <p className="font-semibold text-base">Client Email :</p>
                   <p className="text-sm md:text-base">
                     {items?.clientEmail ? items?.clientEmail : "---"}
                   </p>
                 </div>
-                <div className="flex gap-2 py-2 md:py-0">
-                  <p className="font-semibold text-sm md:text-base">
-                    Client Phone :
-                  </p>
+                <div className="md:flex gap-2 py-2 md:py-0">
+                  <p className="font-semibold text-base">Client Phone :</p>
                   <p className="text-sm md:text-base">
                     {items?.clientPhone ? items?.clientPhone : "---"}
                   </p>
                 </div>
-                <div className="flex gap-2 py-2 md:py-0">
-                  <p className="font-semibold text-sm md:text-base">
-                    Member Name :
-                  </p>
+                <div className="md:flex gap-2 py-2 md:py-0">
+                  <p className="font-semibold text-base">Member Name :</p>
                   <p className="text-sm md:text-base">
                     {items?.meetingPersonName}
                   </p>
                 </div>
                 <div className="py-2 text-lg tracking-wide">
-                  <span className=" font-semibold text-sm md:text-base">
-                    Address :
-                  </span>
+                  <span className=" font-semibold text-base">Address :</span>
                   <p className="text-sm md:text-base">
                     {items?.address ? items?.address : "---"}
                   </p>
                 </div>
 
-                <div className=" group flex items-center py-2 text-md tracking-wide text-lg">
+                <div className=" group md:flex items-center py-2 text-md tracking-wide text-lg">
                   <Place />
                   <span className="text-md font-medium">Location :</span>
                 </div>

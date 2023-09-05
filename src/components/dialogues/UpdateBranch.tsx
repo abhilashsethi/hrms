@@ -23,7 +23,7 @@ import UploadBranchImage from "./UploadBranchImage";
 import { Branch, User } from "types";
 
 interface Props {
-  open: any;
+  open: boolean;
   handleClose: () => void;
   MainMutate: () => void;
   branchId?: string;
@@ -201,7 +201,7 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
           </IconButton>
         </DialogTitle>
         <DialogContent className="app-scrollbar" sx={{ p: 3 }}>
-          <div className="md:w-[50rem] w-[72vw] md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-4">
+          <div className="md:w-[50rem]  tracking-wide flex flex-col gap-3 text-sm py-4">
             <div className="flex flex-col items-center w-full">
               <form onSubmit={formik.handleSubmit} className="w-full">
                 <div className="grid lg:grid-cols-2 gap-4 pb-4">
