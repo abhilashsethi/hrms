@@ -7,18 +7,18 @@ import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { MEETING_DATA } from "types";
 
 const MeetingData = () => {
   const { user } = useAuth();
   const router = useRouter();
   const [tickets, setTickets] = useState(false);
-  const [viewTickets, setViewTickets] = useState<any>(null);
   const [editDetails, setEditDetails] = useState<boolean>(false);
   const {
     data: meetingDetails,
     mutate,
     isLoading,
-  } = useFetch<any>(`meetings/${router?.query?.id}`);
+  } = useFetch<MEETING_DATA>(`meetings/${router?.query?.id}`);
 
   console.log(meetingDetails);
 
@@ -38,7 +38,6 @@ const MeetingData = () => {
       <ViewNotesDrawer
         open={tickets}
         onClose={() => setTickets(false)}
-        setViewTickets={setViewTickets}
         meetingDetails={meetingDetails}
         mutate={mutate}
         isLoading={isLoading}

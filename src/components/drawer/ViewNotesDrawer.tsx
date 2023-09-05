@@ -18,7 +18,6 @@ import Swal from "sweetalert2";
 type Props = {
   open?: boolean;
   onClose: () => void;
-  setViewTickets?: any;
   ticket?: any;
   meetingDetails: any;
   isLoading?: boolean;
@@ -48,7 +47,6 @@ const ViewNotesDrawer = ({
   isLoading,
 }: Props) => {
   const { user } = useAuth();
-  const [openInfoModal, setOpenInfoModal] = useState(false);
 
   const [editDetails, setEditDetails] = useState<boolean>(false);
   const classes = useStyles();
