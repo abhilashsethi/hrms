@@ -1,8 +1,12 @@
 import {
   Chat,
   ChatOutlined,
+  Code,
+  CodeOff,
   Group,
   GroupOutlined,
+  Image,
+  Mic,
   MoreVert,
   Search,
   Sms,
@@ -33,8 +37,10 @@ const ChatLeftbar = ({ setChatLeftBar }: Props) => {
     }
   };
   return (
-    <div className="lg:w-[32%] w-full h-full border-r-2 px-4 rounded-md">
-      <div className={`h-20 w-full flex justify-between items-center px-8`}>
+    <div className="lg:w-[32%] w-full h-full border-r-2 md:px-4 px-2 rounded-md">
+      <div
+        className={`h-20 w-full flex justify-between items-center md:px-8 px-2`}
+      >
         {quickLinks?.map((item) => (
           <div
             onClick={() => setCurrentMenu(item?.title)}
@@ -223,13 +229,34 @@ const PrivateChatCard = ({
         selectedChatId === item?.id ? `bg-blue-100` : ``
       }`}
     >
-      <Badge
-        color="secondary"
-        overlap="circular"
-        badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
-      >
-        <PhotoViewerSmall name={item?.title} photo={item?.photo} size="3rem" />
-      </Badge>
+      <span className="md:block hidden">
+        <Badge
+          color="secondary"
+          overlap="circular"
+          badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
+        >
+          <PhotoViewerSmall
+            name={item?.title}
+            photo={item?.photo}
+            size="3rem"
+          />
+        </Badge>
+      </span>
+      {/* Mobile View start */}
+      <span className="md:hidden block">
+        <Badge
+          color="secondary"
+          overlap="circular"
+          badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
+        >
+          <PhotoViewerSmall
+            name={item?.title}
+            photo={item?.photo}
+            size="2.2rem"
+          />
+        </Badge>
+      </span>
+      {/* Mobile View end */}
       <div className="md:w-[80%] w-full sm:flex justify-between ">
         <div>
           <h1 className="text-sm font-semibold">{item?.title}</h1>
@@ -239,23 +266,68 @@ const PrivateChatCard = ({
               item?.lastMessage?.isRead ? "font-light" : "font-bold"
             } `}
           >
-            {isTyping
-              ? "Typing..."
-              : item?.lastMessage?.message?.length > 15
-              ? item?.lastMessage?.message.slice(0, 15) + " ..."
-              : item?.lastMessage?.category === "file"
-              ? item?.lastMessage?.link?.split("/").at(-1)
-              : item?.lastMessage?.category === "link"
-              ? "Link"
-              : item?.lastMessage?.category === "text"
-              ? item?.lastMessage?.message
-              : `${item?.lastMessage?.sender} sent a/an ${item?.lastMessage?.category}`}
+            {isTyping ? (
+              "Typing..."
+            ) : item?.lastMessage?.message?.length > 15 ? (
+              item?.lastMessage?.message.slice(0, 15) + " ..."
+            ) : item?.lastMessage?.category === "file" ? (
+              <>
+                <span className="text-sm hidden md:block">
+                  {item?.lastMessage?.link?.split("/").at(-1)}
+                </span>
+                <span className="text-sm md:hidden block">
+                  {item?.lastMessage?.link?.split("/").at(-1)?.slice(0, 10) +
+                    " ..."}
+                </span>
+              </>
+            ) : item?.lastMessage?.category === "link" ? (
+              "Link"
+            ) : item?.lastMessage?.category === "text" ? (
+              item?.lastMessage?.message
+            ) : item?.lastMessage?.category === "audio" ? (
+              <>
+                <span className="text-sm hidden md:block">
+                  {item?.lastMessage?.sender} sent a/an
+                  {item?.lastMessage?.category}
+                </span>
+                <span className="text-sm md:hidden block">
+                  <Mic className="h-4 w-4" /> {item?.lastMessage?.category}
+                </span>
+              </>
+            ) : item?.lastMessage?.category === "image" ? (
+              <>
+                <span className="text-sm hidden md:block">
+                  {item?.lastMessage?.sender} sent a/an
+                  {item?.lastMessage?.category}
+                </span>
+                <span className="text-sm md:hidden block">
+                  <Image className="h-4 w-4" /> {item?.lastMessage?.category}
+                </span>
+              </>
+            ) : item?.lastMessage?.category === "code" ? (
+              <>
+                <span className="text-sm hidden md:block">
+                  {item?.lastMessage?.sender} sent a/an
+                  {item?.lastMessage?.category}
+                </span>
+                <span className="text-sm md:hidden block">
+                  <Code className="h-4 w-4" /> {item?.lastMessage?.category}
+                </span>
+              </>
+            ) : (
+              `${item?.lastMessage?.sender} sent a/an ${item?.lastMessage?.category}`
+            )}
           </span>
         </div>
         <div className="flex flex-col gap-2">
-          <span className="text-xs">
+          <span className="text-xs hidden md:block">
             {moment(item?.lastMessage?.createdAt).format("ll")}
           </span>
+          {/* Mobile View Start */}
+          <span className="text-xs md:hidden block">
+            {moment(item?.lastMessage?.createdAt).format("l")}
+          </span>
+          {/* Mobile View End */}
         </div>
       </div>
     </div>
@@ -423,17 +495,35 @@ const GroupChatCard = ({
         selectedChatId === item?.id ? `bg-blue-100` : ``
       }`}
     >
-      <Badge
-        color="secondary"
-        overlap="circular"
-        badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
-      >
-        <PhotoViewerSmall
-          name={item?.title}
-          photo={item?.photo || ""}
-          size="2.8rem"
-        />
-      </Badge>
+      <span className="md:block hidden">
+        <Badge
+          color="secondary"
+          overlap="circular"
+          badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
+        >
+          <PhotoViewerSmall
+            name={item?.title}
+            photo={item?.photo}
+            size="3rem"
+          />
+        </Badge>
+      </span>
+      {/* Mobile View start */}
+      <span className="md:hidden block">
+        <Badge
+          color="secondary"
+          overlap="circular"
+          badgeContent={item?.lastMessage?.totalUnreadMessageCount || undefined}
+        >
+          <PhotoViewerSmall
+            name={item?.title}
+            photo={item?.photo}
+            size="2.3rem"
+          />
+        </Badge>
+      </span>
+      {/* Mobile View end */}
+
       <div className="md:w-[80%] w-full flex justify-between ">
         <div>
           <h3 className="text-sm font-semibold  hidden md:block break-all pl-2">
@@ -467,6 +557,48 @@ const GroupChatCard = ({
               "Link"
             ) : item?.lastMessage?.category === "text" ? (
               item?.lastMessage?.message
+            ) : item?.lastMessage?.category === "audio" ? (
+              <>
+                <span className="text-sm hidden md:block">
+                  {item?.lastMessage?.sender} sent a/an
+                  {item?.lastMessage?.category}
+                </span>
+                <span className="text-xs md:hidden flex gap-1">
+                  {item?.lastMessage?.sender?.length > 8
+                    ? item?.lastMessage?.sender?.slice(0, 8) + " ..."
+                    : item?.lastMessage?.sender}{" "}
+                  : <Mic className="h-4 w-4" />{" "}
+                  {item?.lastMessage?.category.toLowerCase()}
+                </span>
+              </>
+            ) : item?.lastMessage?.category === "image" ? (
+              <>
+                <span className="text-sm hidden md:block">
+                  {item?.lastMessage?.sender} sent a/an
+                  {item?.lastMessage?.category}
+                </span>
+                <span className="text-xs md:hidden block">
+                  {item?.lastMessage?.sender?.length > 8
+                    ? item?.lastMessage?.sender?.slice(0, 8) + " ..."
+                    : item?.lastMessage?.sender}{" "}
+                  : <Image className="h-4 w-4" />{" "}
+                  {item?.lastMessage?.category.toLowerCase()}
+                </span>
+              </>
+            ) : item?.lastMessage?.category === "code" ? (
+              <>
+                <span className="text-sm hidden md:block">
+                  {item?.lastMessage?.sender} sent a/an
+                  {item?.lastMessage?.category}
+                </span>
+                <span className="text-xs md:hidden block">
+                  {item?.lastMessage?.sender?.length > 8
+                    ? item?.lastMessage?.sender?.slice(0, 8) + " ..."
+                    : item?.lastMessage?.sender}{" "}
+                  : <Code className="h-4 w-4" />{" "}
+                  {item?.lastMessage?.category.toLowerCase()}
+                </span>
+              </>
             ) : (
               `${
                 item?.lastMessage?.sender
