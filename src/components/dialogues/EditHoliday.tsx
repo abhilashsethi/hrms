@@ -27,17 +27,7 @@ interface Props {
 
 const validationSchema = Yup.object().shape({
 	startDate: Yup.string().required("Required!"),
-	endDate: Yup.string()
-		.required("Required!")
-		.test(
-			"endDateAfterStartDate",
-			"End date should be greater than or equal to start date",
-			function (endDate) {
-				const { startDate } = this.parent; // Get the value of startDate field
-				if (!startDate || !endDate) return true; // If either date is not provided, skip validation
-				return new Date(endDate) >= new Date(startDate);
-			}
-		),
+
 	title: Yup.string().required("Required!"),
 });
 const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
@@ -76,7 +66,9 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 						body: {
 							title: values?.title,
 							startDate: new Date(values?.startDate)?.toISOString(),
-							endDate: new Date(values?.endDate)?.toISOString(),
+							endDate: values?.endDate
+								? new Date(values?.endDate)?.toISOString()
+								: undefined,
 						},
 					});
 					mutate();
@@ -170,9 +162,7 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 									</div>
 									<div className="md:px-4 px-2 md:py-2 py-1">
 										<div className="py-2">
-											<InputLabel htmlFor="endDate">
-												End Date <span className="text-red-600">*</span>
-											</InputLabel>
+											<InputLabel htmlFor="endDate">End Date</InputLabel>
 										</div>
 										<TextField
 											size="small"

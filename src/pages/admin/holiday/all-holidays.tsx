@@ -48,7 +48,7 @@ const AllHolidays = () => {
 	console.log(holidayData);
 	return (
 		<>
-			<PanelLayout title="All Quotation - Admin Panel">
+			<PanelLayout title="All Holiday - Admin Panel">
 				<section className="md:px-8 px-2">
 					<div className="md:flex justify-between items-center py-4">
 						<div className="md:flex gap-4 items-center">
