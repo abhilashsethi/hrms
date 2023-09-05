@@ -20,6 +20,7 @@ import { CreateRole } from "components/dialogues";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
+import { Role } from "types";
 const AllRoles = () => {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [isGrid, setIsGrid] = useState(true);
@@ -31,7 +32,7 @@ const AllRoles = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any>(
+  } = useFetch<Role[]>(
     `roles?page=${pageNumber}&limit=8${
       userName ? `&contains=${userName}` : ""
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
@@ -79,7 +80,7 @@ const AllRoles = () => {
           </div>
         </div>
         <div>
-          <div className="md:flex gap-4 justify-between w-full py-2">
+          <div className="md:flex grid gap-4 md:justify-between w-full py-2">
             <div
               className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}

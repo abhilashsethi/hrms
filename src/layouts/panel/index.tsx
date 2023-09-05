@@ -53,7 +53,10 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
   const handleClick = (event: any) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
   const isMobileView = () => {
-    return window.innerWidth < 768; // You can adjust the breakpoint as needed
+    if (typeof window !== "undefined") {
+      return window.innerWidth < 768; // You can adjust the breakpoint as needed
+    }
+    return false;
   };
 
   useEffect(() => {

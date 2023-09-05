@@ -8,11 +8,14 @@ import Swal from "sweetalert2";
 import { Role } from "types";
 interface Props {
   data?: Role[];
-  mutate?: any;
+  mutate: () => void;
 }
 const AllDepartmentGrid = ({ data, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [isInfo, setIsInfo] = useState<{ dialogue?: boolean; role?: any }>({
+  const [isInfo, setIsInfo] = useState<{
+    dialogue?: boolean;
+    role?: Role | null;
+  }>({
     dialogue: false,
     role: null,
   });
