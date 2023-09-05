@@ -268,22 +268,29 @@ const PrivateChatCard = ({
           >
             {isTyping ? (
               "Typing..."
-            ) : item?.lastMessage?.message?.length > 15 ? (
-              item?.lastMessage?.message.slice(0, 15) + " ..."
+            ) : item?.lastMessage?.category === "text" ? (
+              <span>
+                {" "}
+                {item?.lastMessage?.message?.length > 15
+                  ? item?.lastMessage?.message?.slice(0, 15) + " ..."
+                  : item?.lastMessage?.message}
+              </span>
+            ) : item?.lastMessage?.category === "event" ? (
+              <span>
+                {" "}
+                {item?.lastMessage?.message?.length > 15
+                  ? item?.lastMessage?.message?.slice(0, 15) + " ..."
+                  : item?.lastMessage?.message}
+              </span>
             ) : item?.lastMessage?.category === "file" ? (
               <>
-                <span className="text-sm hidden md:block">
-                  {item?.lastMessage?.link?.split("/").at(-1)}
-                </span>
-                <span className="text-sm md:hidden block">
-                  {item?.lastMessage?.link?.split("/").at(-1)?.slice(0, 10) +
-                    " ..."}
+                <span className="text-sm ">
+                  <Description className="h-4 w-4" />{" "}
+                  {item?.lastMessage?.category}
                 </span>
               </>
             ) : item?.lastMessage?.category === "link" ? (
               "Link"
-            ) : item?.lastMessage?.category === "text" ? (
-              item?.lastMessage?.message
             ) : item?.lastMessage?.category === "audio" ? (
               <>
                 <span className="text-sm ">
@@ -292,18 +299,17 @@ const PrivateChatCard = ({
               </>
             ) : item?.lastMessage?.category === "image" ? (
               <>
-                <span className="text-sm ">
+                <span className="text-sm">
                   <Image className="h-4 w-4" /> {item?.lastMessage?.category}
                 </span>
               </>
             ) : item?.lastMessage?.category === "code" ? (
               <>
-                <span className="text-sm ">
-                  <Code className="h-4 w-4" /> {item?.lastMessage?.category}
-                </span>
+                <Code className="h-4 w-4" />{" "}
+                {item?.lastMessage?.category.toLowerCase()}
               </>
             ) : (
-              `${item?.lastMessage?.sender} sent a/an ${item?.lastMessage?.category}`
+              ""
             )}
           </span>
         </div>
@@ -529,27 +535,29 @@ const GroupChatCard = ({
           >
             {isTyping ? (
               "Typing..."
-            ) : item?.lastMessage?.message?.length > 15 ? (
-              <span>{item?.lastMessage?.message.slice(0, 15) + " ..."}</span>
+            ) : item?.lastMessage?.category === "text" ? (
+              <span>
+                {" "}
+                {item?.lastMessage?.message?.length > 15
+                  ? item?.lastMessage?.message?.slice(0, 15) + " ..."
+                  : item?.lastMessage?.message}
+              </span>
+            ) : item?.lastMessage?.category === "event" ? (
+              <span>
+                {" "}
+                {item?.lastMessage?.message?.length > 15
+                  ? item?.lastMessage?.message?.slice(0, 15) + " ..."
+                  : item?.lastMessage?.message}
+              </span>
             ) : item?.lastMessage?.category === "file" ? (
               <>
-                <span className="text-sm hidden md:block">
-                  {item?.lastMessage?.sender} sent a{" "}
+                <span className="text-sm ">
                   <Description className="h-4 w-4" />{" "}
-                  {item?.lastMessage?.category}
-                </span>
-                <span className="text-xs md:hidden block">
-                  {item?.lastMessage?.sender?.length > 8
-                    ? item?.lastMessage?.sender?.slice(0, 8) + " ..."
-                    : item?.lastMessage?.sender}{" "}
-                  : <Description className="h-4 w-4" />{" "}
                   {item?.lastMessage?.category}
                 </span>
               </>
             ) : item?.lastMessage?.category === "link" ? (
               "Link"
-            ) : item?.lastMessage?.category === "text" ? (
-              item?.lastMessage?.message
             ) : item?.lastMessage?.category === "audio" ? (
               <>
                 <span className="text-sm ">
