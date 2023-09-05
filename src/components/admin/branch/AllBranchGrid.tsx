@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 import { Branch } from "types";
 import { deleteFile } from "utils";
 interface Props {
-  data?: any[];
+  data?: Branch[];
   mutate: () => void;
 }
 const settings = {
@@ -64,7 +64,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
 
 export default AllBranchGrid;
 interface PROPS {
-  item?: any;
+  item?: Branch;
   mutate: () => void;
 }
 const MoreOption = ({ item, mutate }: PROPS) => {
@@ -72,7 +72,7 @@ const MoreOption = ({ item, mutate }: PROPS) => {
   const { change } = useChange();
   const { user } = useAuth();
   const [isUpdate, setIsUpdate] = useState<{
-    dialogue?: boolean;
+    dialogue: boolean;
     branchId?: string;
   }>({ dialogue: false, branchId: "" });
 
@@ -162,7 +162,7 @@ const MoreOption = ({ item, mutate }: PROPS) => {
             item?.photos?.length > 1 ? (
               <>
                 <Slider {...settings} className="">
-                  {item?.photos?.map((data: any, k: any) => (
+                  {item?.photos?.map((data: any, k) => (
                     <img
                       key={k}
                       className="lg:h-48 md:h-36 h-28 w-full object-cover object-center 
@@ -190,7 +190,7 @@ const MoreOption = ({ item, mutate }: PROPS) => {
             <img
               className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-              src="https://as1.ftcdn.net/v2/jpg/02/48/42/64/1000_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg"
+              src="/no_IMG.jpg"
               alt="Branch"
             />
           )}
