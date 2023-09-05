@@ -286,31 +286,19 @@ const PrivateChatCard = ({
               item?.lastMessage?.message
             ) : item?.lastMessage?.category === "audio" ? (
               <>
-                <span className="text-sm hidden md:block">
-                  {item?.lastMessage?.sender} sent an{" "}
-                  <Mic className="h-4 w-4" /> {item?.lastMessage?.category}
-                </span>
-                <span className="text-sm md:hidden block">
+                <span className="text-sm ">
                   <Mic className="h-4 w-4" /> {item?.lastMessage?.category}
                 </span>
               </>
             ) : item?.lastMessage?.category === "image" ? (
               <>
-                <span className="text-sm hidden md:block">
-                  {item?.lastMessage?.sender} sent an{" "}
-                  <Image className="h-4 w-4" /> {item?.lastMessage?.category}
-                </span>
-                <span className="text-sm md:hidden block">
+                <span className="text-sm ">
                   <Image className="h-4 w-4" /> {item?.lastMessage?.category}
                 </span>
               </>
             ) : item?.lastMessage?.category === "code" ? (
               <>
-                <span className="text-sm hidden md:block">
-                  {item?.lastMessage?.sender} sent an{" "}
-                  <Code className="h-4 w-4" /> {item?.lastMessage?.category}
-                </span>
-                <span className="text-sm md:hidden block">
+                <span className="text-sm ">
                   <Code className="h-4 w-4" /> {item?.lastMessage?.category}
                 </span>
               </>
@@ -564,43 +552,20 @@ const GroupChatCard = ({
               item?.lastMessage?.message
             ) : item?.lastMessage?.category === "audio" ? (
               <>
-                <span className="text-sm hidden md:block">
-                  {item?.lastMessage?.sender} sent an{" "}
+                <span className="text-sm ">
                   <Mic className="h-4 w-4" /> {item?.lastMessage?.category}
-                </span>
-                <span className="text-xs md:hidden flex gap-1">
-                  {item?.lastMessage?.sender?.length > 8
-                    ? item?.lastMessage?.sender?.slice(0, 8) + " ..."
-                    : item?.lastMessage?.sender}{" "}
-                  : <Mic className="h-4 w-4" /> {item?.lastMessage?.category}
                 </span>
               </>
             ) : item?.lastMessage?.category === "image" ? (
               <>
-                <span className="text-sm hidden md:block">
-                  {item?.lastMessage?.sender} sent an{" "}
-                  {item?.lastMessage?.category}
-                </span>
-                <span className="text-xs md:hidden block">
-                  {item?.lastMessage?.sender?.length > 8
-                    ? item?.lastMessage?.sender?.slice(0, 8) + " ..."
-                    : item?.lastMessage?.sender}{" "}
-                  : <Image className="h-4 w-4" /> {item?.lastMessage?.category}
+                <span className="text-sm">
+                  <Image className="h-4 w-4" /> {item?.lastMessage?.category}
                 </span>
               </>
             ) : item?.lastMessage?.category === "code" ? (
               <>
-                <span className="text-sm hidden md:block">
-                  {item?.lastMessage?.sender} sent a{" "}
-                  <Code className="h-4 w-4" /> {item?.lastMessage?.category}
-                </span>
-                <span className="text-xs md:hidden block">
-                  {item?.lastMessage?.sender?.length > 8
-                    ? item?.lastMessage?.sender?.slice(0, 8) + " ..."
-                    : item?.lastMessage?.sender}{" "}
-                  : <Code className="h-4 w-4" />{" "}
-                  {item?.lastMessage?.category.toLowerCase()}
-                </span>
+                <Code className="h-4 w-4" />{" "}
+                {item?.lastMessage?.category.toLowerCase()}
               </>
             ) : (
               ""
