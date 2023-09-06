@@ -121,7 +121,7 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 									<div className="flex items-center gap-1">
 										<div className="bg-blue-500 p-1 text-sm flex flex-col justify-center items-center rounded-md text-white">
 											<p className="font-semibold">
-												{moment(item?.startDate).format("LL")}
+												{moment(item?.startDate).format("ll")}
 											</p>
 										</div>
 										{item?.endDate ? (
@@ -129,7 +129,7 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 												<div className="text-sm">TO</div>
 												<div className="bg-blue-500 p-1 text-sm flex flex-col justify-center items-center rounded-md text-white">
 													<p className="font-semibold">
-														{moment(item?.endDate).format("LL")}
+														{moment(item?.endDate).format("ll")}
 													</p>
 												</div>
 											</>
