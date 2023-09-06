@@ -1,3 +1,4 @@
+import { makeStyles } from "@material-ui/core";
 import {
   Block,
   Cancel,
@@ -10,7 +11,6 @@ import {
   Logout,
 } from "@mui/icons-material";
 import {
-  Badge,
   Button,
   Chip,
   Container,
@@ -26,10 +26,9 @@ import { ChatMedia } from "components/chat";
 import { PhotoUpdateView, PhotoViewerSmall } from "components/core";
 import { AddParticipants, ChatDescription } from "components/dialogues";
 import { BASE_URL, useAuth, useChange, useChatData } from "hooks";
-import React, { useState, ChangeEvent } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { IChatGroup } from "types";
-import { makeStyles } from "@material-ui/core";
 
 type Props = {
   open?: boolean | any;
@@ -600,9 +599,9 @@ const MoreMenu = ({ data, profileData }: MenuProps) => {
     reValidateGroupChat,
   } = useChatData();
   const { change } = useChange();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -703,9 +702,9 @@ const MoreMenuAdmin = ({ data, profileData }: MenuProps) => {
     reValidateGroupChat,
   } = useChatData();
   const { change } = useChange();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

@@ -1,5 +1,5 @@
 import { CloudUpload } from "@mui/icons-material";
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 interface Props {
   message?: string;

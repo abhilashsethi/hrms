@@ -1,6 +1,6 @@
 import { Update } from "@mui/icons-material";
 import { Button } from "@mui/material";
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 interface Props {
   values?: any;
@@ -8,7 +8,11 @@ interface Props {
   children?: JSX.Element;
 }
 
-const SingleImageUpdateBranch = ({ values, setImageValue, children }: Props) => {
+const SingleImageUpdateBranch = ({
+  values,
+  setImageValue,
+  children,
+}: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleClick = () => {
     if (inputRef.current) {
@@ -42,7 +46,7 @@ const SingleImageUpdateBranch = ({ values, setImageValue, children }: Props) => 
               className="w-24 object-contain"
               src={
                 typeof values?.image == "string" &&
-                  values?.image?.includes("https://")
+                values?.image?.includes("https://")
                   ? values?.image
                   : URL?.createObjectURL(values?.image)
               }

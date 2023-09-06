@@ -1,10 +1,9 @@
 import { Checkbox, Dialog, TextField } from "@mui/material";
 import { PhotoViewerSmall } from "components/core";
 import { useChange, useChatData, useFetch } from "hooks";
-import React from "react";
-import Swal from "sweetalert2";
-import { IChatGroup, IChatUsers, IGroupChatData } from "types";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { IChatUsers, IGroupChatData } from "types";
 
 const ChatForward = ({ open, handleClose, chatData, activeProfile }: any) => {
   const [searchText, setSearchText] = useState("");

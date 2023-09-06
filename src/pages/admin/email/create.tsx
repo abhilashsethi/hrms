@@ -1,6 +1,6 @@
 import { CreateEmail, CreateHeader } from "components/email";
 import PanelLayout from "layouts/panel";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const CreateEmailPage = () => {
   const [templateId, setTemplateId] = useState("normal");

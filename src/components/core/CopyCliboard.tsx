@@ -1,6 +1,6 @@
 import { Alert, Snackbar, Tooltip } from "@mui/material";
 import ICONS from "assets/icons";
-import React from "react";
+import { SyntheticEvent, useState } from "react";
 
 interface Props {
   value?: any;
@@ -8,16 +8,13 @@ interface Props {
 }
 
 const CopyClipboard = ({ value, isCut = true }: Props) => {
-  const [isSnackbar, setIsSnackbar] = React.useState(false);
+  const [isSnackbar, setIsSnackbar] = useState(false);
 
   const handleClick = () => {
     setIsSnackbar(true);
   };
 
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
+  const handleClose = (event?: SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }

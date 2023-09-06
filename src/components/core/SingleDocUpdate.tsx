@@ -2,7 +2,7 @@ import { Update } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { NEWPDF } from "assets/dashboard_Icons";
 import { PDF } from "assets/home";
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 interface Props {
   values?: any;
@@ -42,10 +42,10 @@ const SingleDocUpdate = ({ values, setImageValue, children }: Props) => {
           {values.docs && values.docs !== "null" && (
             <img
               className="w-24 object-contain"
-              src={typeof values?.docs == "string" &&
-                values?.docs
-                ? PDF.src
-                : NEWPDF.src
+              src={
+                typeof values?.docs == "string" && values?.docs
+                  ? PDF.src
+                  : NEWPDF.src
               }
               alt="Preview"
             />

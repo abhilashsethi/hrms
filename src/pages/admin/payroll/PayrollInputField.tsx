@@ -1,19 +1,12 @@
-import { Add, BorderColor, Delete } from '@mui/icons-material'
-import React, { useState } from 'react'
-import FormControl from '@mui/material/FormControl'
-import FormHelperText from '@mui/material/FormHelperText'
-import { TextField } from '@mui/material'
+import { TextField } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import { useState } from "react";
 
-const DrugInputField = ({
-  name,
-  onChange,
-  value,
-  title,
-  helperText,
-}: any) => {
+const DrugInputField = ({ name, onChange, value, title, helperText }: any) => {
   // const [inputs, setInputs] = useState([{ value: '', amount: '' }])
-  const [isBlur, setIsBlur] = useState(false)
-  const [isAmountBlur, setIsAmountBlur] = useState(false)
+  const [isBlur, setIsBlur] = useState(false);
+  const [isAmountBlur, setIsAmountBlur] = useState(false);
   return (
     <FormControl fullWidth>
       <div>
@@ -22,9 +15,9 @@ const DrugInputField = ({
           <div className="flex flex-col">
             <TextField
               name={name}
-              size='small'
+              size="small"
               onChange={(e) => {
-                onChange(e?.target?.value, value)
+                onChange(e?.target?.value, value);
               }}
               onBlur={() => setIsAmountBlur(true)}
               value={title}
@@ -42,9 +35,9 @@ const DrugInputField = ({
             <TextField
               name={name}
               onChange={(e) => {
-                onChange(title, e?.target?.value)
+                onChange(title, e?.target?.value);
               }}
-              size='small'
+              size="small"
               onBlur={() => setIsBlur(true)}
               value={Number(value)}
               type="number"
@@ -60,7 +53,7 @@ const DrugInputField = ({
         {/* ))} */}
       </div>
     </FormControl>
-  )
-}
+  );
+};
 
-export default DrugInputField
+export default DrugInputField;

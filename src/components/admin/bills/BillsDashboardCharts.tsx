@@ -1,5 +1,4 @@
 import { BranchBarChart, ClientLineCharts } from "components/analytics";
-import React from "react";
 import { Bills } from "types";
 interface Props {
   data?: Bills;

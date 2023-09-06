@@ -14,7 +14,7 @@ import { ChatImagePreview } from "components/dialogues";
 import { BASE_URL, useChange, useChatData, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { deleteFile, downloadFile } from "utils";
 
@@ -32,7 +32,7 @@ const ChatMedia = ({
   groupId?: string;
 }) => {
   const [fileData, setFileData] = useState<any[]>([]);
-  const [value, setValue] = React.useState("image");
+  const [value, setValue] = useState("image");
   const [pageNo, setPageNo] = useState(1);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {

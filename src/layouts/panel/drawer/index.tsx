@@ -1,6 +1,5 @@
 import {
   ChevronLeft,
-  ExitToApp,
   ExpandLessRounded,
   ExpandMoreRounded,
 } from "@mui/icons-material";
@@ -17,13 +16,12 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useAuth, useMenuItems } from "hooks";
-import { useRouter } from "next/router";
-import { Fragment, useState } from "react";
-import ICONS from "../../../assets/icons";
-
-import { Public_LOGO } from "config/env.config";
 import { CustomDrawer, CustomDrawerHeader } from "./custom";
+import { Public_LOGO } from "config/env.config";
+import { useAuth, useMenuItems } from "hooks";
+import { Fragment, useState } from "react";
+import { useRouter } from "next/router";
+import ICONS from "assets/icons";
 
 type DrawerType = {
   onToggle?: () => void;

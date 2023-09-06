@@ -1,3 +1,4 @@
+import { makeStyles } from "@material-ui/core";
 import {
   AccountTree,
   Add,
@@ -20,12 +21,10 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useAuth, useChange, useFetch } from "hooks";
-import React, { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { Projects } from "types";
 import * as yup from "yup";
-import { makeStyles } from "@material-ui/core";
-import Link from "next/link";
 
 type Props = {
   open?: boolean | any;
@@ -49,14 +48,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 const ProjectURLS = ({ open, onClose, id }: Props) => {
   const { user } = useAuth();
-  const [isSnackbar, setIsSnackbar] = React.useState(false);
+  const [isSnackbar, setIsSnackbar] = useState(false);
   const handleClick = () => {
     setIsSnackbar(true);
   };
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
+  const handleClose = (event?: SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }

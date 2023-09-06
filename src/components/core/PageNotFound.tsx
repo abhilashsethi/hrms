@@ -1,6 +1,5 @@
 import { ERROR404 } from "assets/animations";
 import Link from "next/link";
-import React from "react";
 import Lottie from "react-lottie";
 interface Props {
   image?: any;

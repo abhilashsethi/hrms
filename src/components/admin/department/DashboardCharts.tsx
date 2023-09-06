@@ -1,5 +1,4 @@
 import { DepartmentBarChart, DepartmentDonutChart } from "components/analytics";
-import React from "react";
 interface Props {
   data?: any;
 }

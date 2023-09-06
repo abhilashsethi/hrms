@@ -1,7 +1,6 @@
 import { Avatar } from "@mui/material";
 import moment from "moment";
 import { useRouter } from "next/router";
-import React from "react";
 import { EmailType, EmailUser } from "types";
 
 const ReplyToEmail = ({ data }: { data?: EmailType }) => {

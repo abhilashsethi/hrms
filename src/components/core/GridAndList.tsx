@@ -1,6 +1,5 @@
 import { GridViewRounded, TableRowsRounded } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-import React from "react";
 
 interface Props {
   isGrid?: boolean;
