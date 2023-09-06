@@ -124,7 +124,7 @@ const Inbox = () => {
         selectedEmails={selectedEmails}
       />
 
-      <div className="-mx-4 md:-mx-8 px-4 md:px-8 py-4 overflow-x-auto">
+      <div className=" md:-mx-8 md:px-8 py-4 overflow-x-auto">
         <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
           <table className="min-w-full leading-normal table-fixed ">
             <tbody>

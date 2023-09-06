@@ -219,8 +219,6 @@ const CreateEmail = (templateId: any) => {
         });
       }
     },
-
-    /////
   });
   const handleRemoveFile = async (slNumber: number) => {
     //checkout what is the type of attachment

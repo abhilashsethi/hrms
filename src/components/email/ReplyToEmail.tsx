@@ -12,7 +12,7 @@ const ReplyToEmail = ({ data }: { data?: EmailType }) => {
       onClick={() => push(`/admin/email/${data?.id}`)}
       className={`flex-col flex md:flex-row border-b cursor-pointer border-gray-200 bg-themeBlue rounded-md shadow-lg  w-full items-center `}
     >
-      <div className="px-5 py-5 max-w-[22%] w-full text-sm">
+      <div className="md:px-5 px-3 py-5 md:max-w-[22%] w-full text-sm">
         <div className="flex items-center gap-2 ">
           <Avatar
             alt={data?.isSenderUser ? data?.sender?.name : data?.receiver?.name}
@@ -24,7 +24,7 @@ const ReplyToEmail = ({ data }: { data?: EmailType }) => {
               ? data?.sender?.name[0]
               : data?.receiver?.name[0]}
           </Avatar>
-          <div className="ml-3 flex flex-col ">
+          <div className="md:ml-3 flex flex-col ">
             <p className="text-gray-800 min-w-fit text-sm font-bold ">
               {data?.isSenderUser ? data?.sender?.name : data?.receiver?.name}
             </p>
@@ -32,7 +32,7 @@ const ReplyToEmail = ({ data }: { data?: EmailType }) => {
           </div>
         </div>
       </div>
-      <div className="px-5 py-5 w-full   text-sm">
+      <div className="md:px-5 md:py-5 w-full md:text-sm text-xs">
         <p
           className="text-gray-900 break-words"
           dangerouslySetInnerHTML={{
@@ -40,9 +40,9 @@ const ReplyToEmail = ({ data }: { data?: EmailType }) => {
           }}
         ></p>
       </div>
-      <div className="px-5 py-5 min-w-fit   text-sm">
+      <div className="md:px-5 md:py-5 pb-2 min-w-fit text-sm">
         <p className="text-gray-900 whitespace-nowrap">
-          {moment(data?.sentAt).format("LLL")}
+          {moment(data?.sentAt).format("lll")}
         </p>
       </div>
     </div>

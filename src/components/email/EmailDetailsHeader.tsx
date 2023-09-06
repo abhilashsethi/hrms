@@ -57,7 +57,7 @@ const EmailDetailsHeader = ({
 
   return (
     <div className="w-full bg-theme text-white">
-      <div className="w-full flex items-center container mx-auto p-4 justify-between">
+      <div className="w-full flex items-center container mx-auto md:p-4 p-1 justify-between">
         <div className="flex gap-4 items-center">
           <IconButton onClick={back}>
             <KeyboardBackspace className="!text-white" />
@@ -70,8 +70,11 @@ const EmailDetailsHeader = ({
             <Print className="!text-white" />
           </IconButton>
           <span className="text-gray-100/20  ">|</span>
-          <p className="font-medium text-xs tracking-wide">
+          <p className="font-medium text-xs md:block hidden tracking-wide">
             {moment(sentTime).format("LL")}
+          </p>
+          <p className="font-medium text-xs md:hidden block tracking-wide">
+            {moment(sentTime).format("ll")}
           </p>
         </div>
         {/* <div className="flex gap-4 items-center">
