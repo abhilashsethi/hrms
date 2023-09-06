@@ -1,7 +1,7 @@
 import { Avatar } from "@mui/material";
 import moment from "moment";
 import { useRouter } from "next/router";
-import { EmailType, EmailUser } from "types";
+import { EmailType } from "types";
 
 const ReplyToEmail = ({ data }: { data?: EmailType }) => {
   const { push } = useRouter();

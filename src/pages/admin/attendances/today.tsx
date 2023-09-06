@@ -18,11 +18,11 @@ import {
   Loader,
   LoaderAnime,
 } from "components/core";
-import { addDays } from "date-fns";
+import { subDays } from "date-fns";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
-import { useRef, useState, ChangeEvent } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Attendance } from "types";
@@ -100,10 +100,12 @@ const TodayAttendance = () => {
       value: `${absentData?.length ? absentData?.length : `0`}`,
     },
   ];
-  const tomorrow = addDays(new Date(), 1);
+
   const disabledDates = [];
-  for (let i = 0; i < 365; i++) {
-    disabledDates.push(addDays(tomorrow, i));
+  for (let i = 1; i <= 365; i++) {
+    // Subtract i days from the current date to disable all future dates
+    const disabledDate = subDays(new Date(), -i);
+    disabledDates.push(disabledDate);
   }
   return (
     <PanelLayout title="Today Attendance - Admin Panel">

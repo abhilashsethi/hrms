@@ -1,9 +1,8 @@
 import { FileDownload, Info, InsertDriveFile } from "@mui/icons-material";
 import { Avatar, Chip, IconButton, Tooltip } from "@mui/material";
-import ReplyToEmail from "./ReplyToEmail";
 import { EmailType } from "types";
 import { downloadFile } from "utils";
-import { useState } from "react";
+import ReplyToEmail from "./ReplyToEmail";
 
 const EmailContainer = ({
   data,
