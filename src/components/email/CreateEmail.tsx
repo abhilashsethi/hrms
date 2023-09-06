@@ -542,7 +542,7 @@ const CreateEmail = (templateId: any) => {
               {isLoading ? (
                 <p>Loading.....</p>
               ) : (
-                <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full">
+                <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full overflow-scroll">
                   <EmailEditor
                     ref={emailEditorRef}
                     onReady={onReady}
@@ -559,7 +559,7 @@ const CreateEmail = (templateId: any) => {
               {isLoading ? (
                 <p>Loading.....</p>
               ) : (
-                <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full">
+                <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full overflow-scroll">
                   <EmailEditor
                     ref={emailEditorRef}
                     onReady={onReady}

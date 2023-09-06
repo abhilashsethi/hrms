@@ -101,7 +101,7 @@ const EmailContainer = ({
             {data?.subject}
           </h3>
           <p
-            className="font-medium text-gray-600 tracking-wide text-sm"
+            className="font-medium text-gray-600 tracking-wide text-sm overflow-scroll"
             dangerouslySetInnerHTML={{
               __html: String(data?.content),
             }}
