@@ -423,29 +423,3 @@ const AssetsColumn = ({ data, mutate }: Props) => {
 };
 
 export default AssetsColumn;
-const department = [
-	{
-		id: 0,
-		name: "Web Development",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-	{
-		id: 1,
-		name: "Application Development",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-	{
-		id: 2,
-		name: "IT Management",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-	{
-		id: 3,
-		name: "Accounts Management",
-		updatedAt: "25th Aug",
-		createdAt: "25th Aug",
-	},
-];
