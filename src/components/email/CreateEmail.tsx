@@ -231,9 +231,7 @@ const CreateEmail = (templateId: any) => {
       //delete the image
       await deleteFile(formik?.values?.attachments[slNumber]);
     }
-
     //filter out this number of index and set other value
-
     formik?.setFieldValue(
       "attachments",
       formik?.values?.attachments?.filter((item, index) => index !== slNumber)
@@ -542,7 +540,7 @@ const CreateEmail = (templateId: any) => {
         <div className="flex flex-col w-full gap-2">
           <InputLabel className="!font-semibold"> Message - </InputLabel>
           {query?.draftId && draftData?.isUsingTemplate ? (
-            <section className="flex justify-center w-full">
+            <section className="md:flex justify-center w-full">
               {isLoading ? (
                 <p>Loading.....</p>
               ) : (
@@ -559,7 +557,7 @@ const CreateEmail = (templateId: any) => {
               )}
             </section>
           ) : templateId?.templateId !== "normal" ? (
-            <section className="flex justify-center w-full">
+            <section className="md:flex justify-center w-full">
               {isLoading ? (
                 <p>Loading.....</p>
               ) : (

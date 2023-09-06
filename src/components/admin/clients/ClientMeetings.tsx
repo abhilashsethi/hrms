@@ -11,7 +11,6 @@ interface Props {
 const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
   const [tickets, setTickets] = useState(false);
   const [viewTickets, setViewTickets] = useState<any>(null);
-
   return (
     <section className="px-4 py-2 rounded-lg bg-white shadow-xl">
       <ViewTicketsDrawer
@@ -59,7 +58,7 @@ const ClientMeetings = ({ ticketsData, isLoading }: Props) => {
                   </p>
                 </div>
                 <p className="text-sm tracking-wide my-2">
-                  issueDate : {moment(new Date()).format("ll")}
+                  issueDate : {moment(item?.createdAt).format("ll")}
                 </p>
                 <p className="text-sm tracking-wide my-2">
                   Status :{" "}
