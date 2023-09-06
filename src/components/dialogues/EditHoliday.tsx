@@ -44,40 +44,31 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 				: "",
 			title: holidayData?.title ? holidayData?.title : "",
 		};
-	}, [holidayData?.id]);
+	}, [holidayData?.id, holidayData?.endDate]);
 
 	const { change } = useChange();
 	const handleSubmit = async (values: HOLIDAY) => {
-		setLoading(true);
 		try {
-			Swal.fire({
-				title: "Are you sure?",
-				text: "You want to update status?",
-				icon: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#3085d6",
-				cancelButtonColor: "#d33",
-				confirmButtonText: "Yes, update!",
-			}).then(async (result) => {
-				if (result.isConfirmed) {
-					const res = await change(`holidays/${holidayData?.id}`, {
-						method: "PUT",
-						body: {
-							title: values?.title,
-							startDate: new Date(values?.startDate)?.toISOString(),
-							endDate: values?.endDate
-								? new Date(values?.endDate)?.toISOString()
-								: undefined,
-						},
-					});
-					mutate();
-					// handleClose();
-					handleClose();
-					if (res?.status !== 200) throw new Error("Something went wrong");
-					Swal.fire(`Success`, "Holiday updated successfully!!", "success");
-					return;
-				}
+			setLoading(true);
+
+			const res = await change(`holidays/${holidayData?.id}`, {
+				method: "PUT",
+				body: {
+					title: values?.title,
+					startDate: new Date(values?.startDate)?.toISOString(),
+					endDate: values?.endDate
+						? new Date(values?.endDate)?.toISOString()
+						: undefined,
+				},
 			});
+
+			if (res?.status !== 200) throw new Error("Something went wrong");
+			Swal.fire(`Success`, "Holiday updated successfully!!", "success");
+			mutate();
+			handleClose();
+			setLoading(false);
+
+			return;
 		} catch (error) {
 			if (error instanceof Error) {
 				Swal.fire(`Error`, error?.message, `error`);
