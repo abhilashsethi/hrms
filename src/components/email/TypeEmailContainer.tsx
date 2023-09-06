@@ -200,7 +200,6 @@ const TypeEmailContainer = ({
               options={users?.filter((item) => item?.id !== user?.id) || []}
               getOptionLabel={(option: any) => option.username}
               onChange={(e, v) => {
-                console.log({ v });
                 formik?.setFieldValue(
                   "forwardedToId",
                   v?.map((item) => item?.id)
@@ -277,7 +276,9 @@ const TypeEmailContainer = ({
 
       {formik?.values?.attachments?.length ? (
         <>
-          <h3 className="font-medium tracking-wide mt-8 px-4">Attachments -</h3>
+          <h3 className="font-medium tracking-wide md:mt-8 mt-12 px-4">
+            Attachments -
+          </h3>
           <div className="flex flex-wrap gap-4 px-4 pb-4 ">
             {formik?.values?.attachments?.map((item: any, i) => (
               <div
@@ -299,8 +300,14 @@ const TypeEmailContainer = ({
                 >
                   <InsertDriveFile className="!text-7xl !text-theme" />
                 </a>
-                <p className="text-center py-2 text-xs font-medium  break-words">
+                <p className="text-center py-2 md:block hidden text-xs font-medium  break-words">
                   {item?.name}
+                </p>
+                {/* Mobile screen */}
+                <p className="text-center py-2 md:hidden block text-xs font-medium  break-words">
+                  {item?.name?.length > 25
+                    ? item?.name?.slice(0, 25) + "..."
+                    : item?.name}
                 </p>
               </div>
             ))}
@@ -308,7 +315,7 @@ const TypeEmailContainer = ({
         </>
       ) : null}
 
-      <div className="flex items-center gap-4 py-4 mt-5 w-full justify-between">
+      <div className="flex items-center gap-4 py-4 md:mt-5 mt-10 w-full justify-between">
         <div className="flex gap-4 items-center">
           <button
             className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg "

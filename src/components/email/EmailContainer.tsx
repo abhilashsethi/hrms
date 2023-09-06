@@ -17,7 +17,7 @@ const EmailContainer = ({
       <div className="w-full flex flex-col  gap-4" ref={printRef}>
         {data?.replyTo?.id && <ReplyToEmail data={data} />}
 
-        <div className="p-4 flex flex-wrap w-full bg-secondary-600 rounded-t-lg items-center gap-4 border-b border-white justify-between">
+        <div className="md:p-4 p-3 flex flex-wrap w-full bg-secondary-600 rounded-t-lg items-center gap-4 border-b border-white justify-between">
           <div className="flex items-center w-11/12 gap-4 justify-start">
             <Avatar
               src={
@@ -35,11 +35,23 @@ const EmailContainer = ({
               <h3 className="font-bold text-white tracking-wide">
                 {data?.isSenderUser ? data?.receiver?.name : data?.sender?.name}
               </h3>
-              <h3 className="font-medium text-xs text-gray-200">
+              <h3 className="font-medium text-xs md:block hidden text-gray-200">
                 {data?.isSenderUser
                   ? data?.receiver?.username
                   : data?.sender?.username}
               </h3>
+              {/* Mobile View Start */}
+              <h3 className="font-medium text-xs md:hidden block text-gray-200">
+                {data?.isSenderUser
+                  ? data?.receiver?.username?.length > 28
+                    ? data?.receiver?.username?.slice(0, 28) + "..."
+                    : data?.receiver?.username
+                  : data?.sender?.username &&
+                    data?.sender?.username?.length > 28
+                  ? data?.sender?.username?.slice(0, 28) + "..."
+                  : data?.sender?.username}
+              </h3>
+              {/* Mobile View End */}
             </div>
           </div>
           <Tooltip
@@ -89,7 +101,7 @@ const EmailContainer = ({
             {data?.subject}
           </h3>
           <p
-            className="font-medium text-gray-600 tracking-wide text-sm"
+            className="font-medium text-gray-600 tracking-wide text-sm overflow-scroll"
             dangerouslySetInnerHTML={{
               __html: String(data?.content),
             }}
@@ -99,10 +111,10 @@ const EmailContainer = ({
           <h3 className="font-medium tracking-wide px-4">Attachments -</h3>
         ) : null}
 
-        <div className="flex flex-wrap gap-4 px-4 pb-4 ">
+        <div className="flex flex-wrap gap-4 md:px-4 px-2 pb-4 ">
           {data?.attachments?.map((item, i) => (
             <div
-              className="flex flex-col items-center p-4 rounded-md bg-themeBlue shadow-lg"
+              className="flex flex-col items-center md:p-4 p-3 rounded-md bg-themeBlue shadow-lg"
               key={i}
             >
               <a href={item} target="_blank" rel="noopener noreferrer">

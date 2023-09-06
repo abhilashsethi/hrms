@@ -219,8 +219,6 @@ const CreateEmail = (templateId: any) => {
         });
       }
     },
-
-    /////
   });
   const handleRemoveFile = async (slNumber: number) => {
     //checkout what is the type of attachment
@@ -544,7 +542,7 @@ const CreateEmail = (templateId: any) => {
               {isLoading ? (
                 <p>Loading.....</p>
               ) : (
-                <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full">
+                <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full overflow-scroll">
                   <EmailEditor
                     ref={emailEditorRef}
                     onReady={onReady}
@@ -561,7 +559,7 @@ const CreateEmail = (templateId: any) => {
               {isLoading ? (
                 <p>Loading.....</p>
               ) : (
-                <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full">
+                <div className="shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full overflow-scroll">
                   <EmailEditor
                     ref={emailEditorRef}
                     onReady={onReady}
@@ -623,7 +621,7 @@ const CreateEmail = (templateId: any) => {
         </div>
         {formik?.values?.attachments?.length ? (
           <>
-            <h3 className="font-medium tracking-wide mt-8 px-4">
+            <h3 className="font-medium tracking-wide md:mt-8 mt-20 px-4">
               Attachments -
             </h3>
             <div className="flex flex-wrap gap-4 px-4 pb-4 ">
@@ -666,7 +664,9 @@ const CreateEmail = (templateId: any) => {
                       {typeof item === "string"
                         ? item.split("/").at(-1) // Extract filename from URL
                         : item instanceof Blob || item instanceof File
-                        ? item?.name
+                        ? item?.name?.length > 20
+                          ? item?.name?.slice(0, 20) + "..."
+                          : item?.name
                         : ""}
                     </p>
                   </div>
