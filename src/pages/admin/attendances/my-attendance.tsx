@@ -16,6 +16,7 @@ interface MyDateRef {
 
 const MyAttendance = () => {
   const [activeMonth, setActiveMonth] = useState();
+  const [isMobile, setIsMobile] = useState(false);
   const [attendances, setAttendances] = useState<any>([]);
   const { user } = useAuth();
 
@@ -56,15 +57,22 @@ const MyAttendance = () => {
               : `bg-red-200 text-red-500 border-red-400`
           }`}
         >
-          {eventInfo.event.title === "PRESENT" ? (
-            <Check fontSize="small" />
-          ) : (
-            <Close fontSize="small" />
-          )}
-          {eventInfo.event.title === "PRESENT" ? "PRESENT" : "ABSENT"}
+          <span className="md:block hidden">
+            {eventInfo.event.title === "PRESENT" ? (
+              <Check fontSize="small" />
+            ) : (
+              <Close fontSize="small" />
+            )}
+            {eventInfo.event.title === "PRESENT" ? "PRESENT" : "ABSENT"}
+          </span>
+          {/* Mobile View start */}
+          <span className="md:hidden px-2 block">
+            {eventInfo.event.title === "PRESENT" ? "P" : "A"}
+          </span>
+          {/* Mobile View end */}
         </span>
         {eventInfo.event.title === "PRESENT" && (
-          <div className="flex flex-col">
+          <div className="md:flex flex-col hidden">
             <span>
               IN TIME :
               {moment(eventInfo.event.extendedProps.inTime).format("hh:mm A")}
@@ -78,22 +86,50 @@ const MyAttendance = () => {
       </>
     );
   }
+  const calendarClassName = "responsive-calendar";
+
+  useEffect(() => {
+    // Function to update the screen width state
+    const updateScreenWidth = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Check if window is available (client-side) before adding the event listener
+    if (typeof window !== "undefined") {
+      updateScreenWidth();
+      window.addEventListener("resize", updateScreenWidth); // Listen for window resize events
+      return () => {
+        window.removeEventListener("resize", updateScreenWidth); // Remove event listener to prevent memory leaks
+      };
+    }
+  }, []);
   return (
     <PanelLayout title="Today Attendance - Admin Panel">
-      <section className="px-8 py-4">
+      <section className="md:px-8 px-3 py-4">
         <div className="mt-4 py-2 lg:flex justify-between">
           <AdminBreadcrumbs links={links} />
         </div>
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          weekends={true}
-          eventContent={renderEventContent}
-          events={attendances}
-          datesSet={(dateInfo: any) =>
-            setActiveMonth(dateInfo?.view?.currentStart?.getMonth())
-          }
-        />
+        <div className={calendarClassName}>
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            weekends={true}
+            eventContent={renderEventContent}
+            events={attendances}
+            datesSet={(dateInfo: any) =>
+              setActiveMonth(dateInfo?.view?.currentStart?.getMonth())
+            }
+          />
+        </div>
+        {typeof window !== "undefined" && (
+          <style>
+            {`
+            .fc-header-toolbar {
+              flex-direction: ${isMobile ? "column" : "row"} !important;
+            }
+          `}
+          </style>
+        )}
       </section>
     </PanelLayout>
   );
