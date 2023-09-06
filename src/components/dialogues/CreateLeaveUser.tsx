@@ -179,14 +179,14 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
               setFieldValue,
             }) => (
               <Form className="w-full">
-                <div className="border-2 border-dashed animate-border border-theme p-2 inline-block rounded-md mb-4">
+                <div className="border-2 border-dashed text-sm md:text-lg text-justify animate-border border-theme p-2 inline-block rounded-md mb-4">
                   <PriorityHigh className="text-red-600 animate-bounce" />
                   If You are applying{" "}
                   <span className="font-semibold">Sick Leave</span> for next
                   month then , 2 leave-credits will be deduced from your credits
                   .
                 </div>
-                <div className="flex justify-between">
+                <div className="md:flex justify-between">
                   <div className="flex gap-x-4 my-2">
                     <p className="font-medium text-gray-700">
                       CL Credits Left -
