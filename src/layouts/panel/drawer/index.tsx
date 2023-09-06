@@ -192,22 +192,6 @@ const Drawer = ({ open, onToggle, role }: DrawerType) => {
               )}
             </Fragment>
           ))}
-
-          <Box hidden={open}>
-            <Tooltip
-              title={"Click Here To Logout"}
-              followCursor
-              arrow
-              placement="top-end"
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <ExitToApp />
-                </ListItemIcon>
-                <ListItemText primary={"Logout"} />
-              </ListItemButton>
-            </Tooltip>
-          </Box>
         </List>
         <Box
           sx={{ textAlign: "center" }}
