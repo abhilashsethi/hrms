@@ -1,13 +1,14 @@
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
-import { Check } from "@mui/icons-material";
-import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik, FormikHelpers } from "formik";
-import { useChange } from "hooks";
+import { AdminBreadcrumbs } from "components/core";
+import { Check } from "@mui/icons-material";
 import PanelLayout from "layouts/panel";
+import { useChange } from "hooks";
 import { useState } from "react";
+import { HOLIDAY } from "types";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
-import { HOLIDAY } from "types";
+
 const initialValues = {
 	startDate: "",
 	endDate: "",
@@ -16,17 +17,17 @@ const initialValues = {
 
 const validationSchema = Yup.object().shape({
 	startDate: Yup.string().required("Required!"),
-	// endDate: Yup.string()
-	// 	.required("Required!")
-	// 	.test(
-	// 		"endDateAfterStartDate",
-	// 		"End date should be greater than or equal to start date",
-	// 		function (endDate) {
-	// 			const { startDate } = this.parent; // Get the value of startDate field
-	// 			if (!startDate || !endDate) return true; // If either date is not provided, skip validation
-	// 			return new Date(endDate) >= new Date(startDate);
-	// 		}
-	// 	),
+	endDate: Yup.string()
+		// .required("Required!")
+		.test(
+			"endDateAfterStartDate",
+			"End date should be greater than or equal to start date",
+			function (endDate) {
+				const { startDate } = this.parent; // Get the value of startDate field
+				if (!startDate || !endDate) return true; // If either date is not provided, skip validation
+				return new Date(endDate) >= new Date(startDate);
+			}
+		),
 	title: Yup.string().required("Required!"),
 });
 
