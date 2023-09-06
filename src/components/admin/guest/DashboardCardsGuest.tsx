@@ -4,8 +4,8 @@ import {
   Man,
   Woman,
 } from "@mui/icons-material";
-import Link from "next/link";
 import { Guest } from "types";
+import Link from "next/link";
 interface Props {
   data?: any;
 }
@@ -87,5 +87,4 @@ const DashboardCardsGuest = ({ data }: Props) => {
     </div>
   );
 };
-
 export default DashboardCardsGuest;

@@ -25,6 +25,8 @@ const UserLoaderAnime = ({
       <div>
         <Lottie
           options={defaultOptions}
+          isPaused={false}
+          isClickToPauseDisabled={true}
           height={animeHight}
           width={animeWidth}
         />

@@ -21,6 +21,9 @@ const LoaderAnimeLarge = ({ image, animeHight, animeWidth, text }: Props) => {
     <div className=" w-full flex flex-col justify-center items-center">
       <div className="">
         <Lottie
+          speed={1}
+          isPaused={false}
+          isClickToPauseDisabled={true}
           options={defaultOptions}
           height={animeHight ? animeHight : 250}
           width={animeWidth ? animeWidth : 250}

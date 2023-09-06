@@ -19,7 +19,13 @@ const PageNotFound = ({ image, animeHight = 450, animeWidth = 400 }: Props) => {
 
   return (
     <div className="h-[85vh] w-full flex flex-col justify-center items-center">
-      <Lottie options={defaultOptions} height={animeHight} width={animeWidth} />
+      <Lottie
+        options={defaultOptions}
+        isPaused={false}
+        isClickToPauseDisabled={true}
+        height={animeHight}
+        width={animeWidth}
+      />
       <p className="text-lg mb-4">
         We couldn't find the page you were looking for.
       </p>

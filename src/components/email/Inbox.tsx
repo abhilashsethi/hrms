@@ -132,7 +132,13 @@ const Inbox = () => {
                 <tr>
                   {" "}
                   <td className=" h-[70vh] ">
-                    <Lottie options={defaultOptions} height={300} width={300} />
+                    <Lottie
+                      options={defaultOptions}
+                      isPaused={false}
+                      isClickToPauseDisabled={true}
+                      height={300}
+                      width={300}
+                    />
                   </td>
                 </tr>
               ) : data?.inboxData?.length ? (

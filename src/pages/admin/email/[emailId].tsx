@@ -37,7 +37,13 @@ const ViewEmail = () => {
     <PanelLayout title="Email | View">
       {isValidating ? (
         <div className="w-full flex items-center min-h-[80vh] justify-center">
-          <Lottie options={defaultOptions} height={300} width={300} />
+          <Lottie
+            options={defaultOptions}
+            isPaused={false}
+            isClickToPauseDisabled={true}
+            height={300}
+            width={300}
+          />
         </div>
       ) : data?.id ? (
         <>
