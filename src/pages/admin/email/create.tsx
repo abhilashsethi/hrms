@@ -7,7 +7,7 @@ const CreateEmailPage = () => {
   return (
     <PanelLayout title="Email | Create">
       <CreateHeader setTemplateId={setTemplateId} />
-      <section className="container mx-auto px-4">
+      <section className="container mx-auto md:px-4 px-2">
         <CreateEmail templateId={templateId} />
       </section>
     </PanelLayout>
