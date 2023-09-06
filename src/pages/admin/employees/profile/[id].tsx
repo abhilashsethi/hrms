@@ -36,20 +36,36 @@ const EmployeeProfile = () => {
           </span>
           {/* Mobile View start */}
           <span className="md:hidden px-2 block">
-            {eventInfo.event.title === "PRESENT" ? "P" : "A"}
+            {eventInfo.event?.extendedProps?.WFH
+              ? "WFH"
+              : eventInfo.event.title === "PRESENT"
+              ? "P"
+              : "A"}
           </span>
           {/* Mobile View end */}
         </span>
         {eventInfo.event.title === "PRESENT" && (
           <div className="md:flex flex-col hidden">
-            <span>
-              IN TIME :
-              {moment(eventInfo.event.extendedProps.inTime).format("hh:mm A")}
-            </span>
-            <span>
-              OUT TIME :
-              {moment(eventInfo.event.extendedProps.outTime).format("hh:mm A")}
-            </span>
+            {eventInfo.event?.extendedProps?.WFH ? (
+              <>
+                <span className="px-4 py-2 text-center">Work From Home.</span>
+              </>
+            ) : (
+              <>
+                <span>
+                  IN TIME :
+                  {moment(eventInfo.event.extendedProps.inTime).format(
+                    "hh:mm A"
+                  )}
+                </span>
+                <span>
+                  OUT TIME :
+                  {moment(eventInfo.event.extendedProps.outTime).format(
+                    "hh:mm A"
+                  )}
+                </span>
+              </>
+            )}
           </div>
         )}
       </>
@@ -60,16 +76,22 @@ const EmployeeProfile = () => {
     `attendances/${router?.query?.id}`
   );
   useEffect(() => {
-    let reqData = attendanceData?.map((item: any) => {
-      return {
+    if (!attendanceData) return;
+    // Filter and format the events based on the current month
+    const currentMonthEvents = attendanceData
+      .filter((item: any) => {
+        const eventMonth = moment(item?.date).month();
+        const currentMonth = moment(activeMonth).month();
+        return eventMonth === currentMonth;
+      })
+      .map((item: any) => ({
         ...item,
         title: "PRESENT",
         date: `${moment(item?.date).format("YYYY-MM-DD")}`,
-      };
-    });
-    setAttendances(reqData);
-  }, [attendanceData]);
+      }));
 
+    setAttendances(currentMonthEvents);
+  }, [attendanceData, activeMonth]);
   const links = [
     {
       id: 2,
@@ -128,7 +150,7 @@ const EmployeeProfile = () => {
                   eventContent={renderEventContent}
                   events={attendances}
                   datesSet={(dateInfo: any) =>
-                    setActiveMonth(dateInfo?.view?.currentStart?.getMonth())
+                    setActiveMonth(dateInfo?.view?.currentStart)
                   }
                 />
               </div>
