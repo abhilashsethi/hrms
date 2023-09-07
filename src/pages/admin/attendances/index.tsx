@@ -6,18 +6,18 @@ import { AdminBreadcrumbs, DashboardCard, Loader } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useMemo } from "react";
+import { Attendance, User, UserDashboard } from "types";
 const Attendance = () => {
   const { user } = useAuth();
-  const { data: absentData } = useFetch<any>(
+  const { data: absentData } = useFetch<Attendance[]>(
     `attendances/${new Date().toISOString().slice(0, 10)}/absent`
   );
-  const { data: presentData } = useFetch<any>(
+  const { data: presentData } = useFetch<Attendance[]>(
     `attendances/${new Date().toISOString().slice(0, 10)}/present`
   );
-  const { data: dashboardDetails, isLoading } = useFetch<any>(
+  const { data: dashboardDetails, isLoading } = useFetch<UserDashboard>(
     `users/dashboard/details`
   );
-  // console.log(absentData);
   const cards = useMemo(
     () => [
       {
@@ -79,11 +79,7 @@ const Attendance = () => {
         </div>
         <div className="lg:px-8 px-4 pt-4">
           <DashboardCard data={cards} />
-          <AttendanceCharts
-            absentData={absentData}
-            presentData={presentData}
-            dashboardDetails={dashboardDetails}
-          />
+          <AttendanceCharts absentData={absentData} presentData={presentData} />
         </div>
       </>
     </PanelLayout>

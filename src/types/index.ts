@@ -106,6 +106,11 @@ export interface GuestDashboard {
 	_count: number;
 	name: string;
 }
+export interface UserDashboard {
+	totalUsers: number;
+	_count: number;
+	name: string;
+}
 export type User = {
 	firstName?: string;
 	lastName?: string;
