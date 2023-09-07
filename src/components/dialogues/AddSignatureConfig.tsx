@@ -162,7 +162,7 @@ const AddSignatureConfig = ({ open, handleClose, mutate }: Props) => {
 												setFieldValue("image", event.currentTarget.files[0]);
 											}}
 										>
-											<ErrorMessage name="image" />
+											{/* <ErrorMessage name="image" /> */}
 										</SingleImageUpload>
 									</div>
 								</div>

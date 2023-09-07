@@ -582,7 +582,15 @@ export interface IGroupChatData {
 	isGroupBlocked: boolean;
 	isPrivateGroup: boolean;
 	lastMessage: {
-		category: "text" | "link" | "image" | "code" | "markup" | "file" | "event" | "audio";
+		category:
+			| "text"
+			| "link"
+			| "image"
+			| "code"
+			| "markup"
+			| "file"
+			| "event"
+			| "audio";
 		createdAt: string;
 		isRead: boolean;
 		isSenderIsUser: boolean;
@@ -852,6 +860,10 @@ export type HOLIDAY = {
 	startDate: string;
 	endDate: string;
 	title: string;
+	description?: string;
+	image?: File | null;
+	holidayOfBranchId?: string;
+	branchId?: string;
 };
 export type Support = {
 	id?: string;

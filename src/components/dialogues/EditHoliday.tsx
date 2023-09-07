@@ -1,5 +1,6 @@
 import { Check, Close } from "@mui/icons-material";
 import {
+	Autocomplete,
 	Button,
 	CircularProgress,
 	Dialog,
@@ -10,14 +11,16 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { Form, Formik } from "formik";
-import { useChange } from "hooks";
+import { ErrorMessage, Form, Formik } from "formik";
+import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { HOLIDAY } from "types";
 import * as Yup from "yup";
 import { useMemo } from "react";
+import { SingleImageUpdateBranch, SingleImageUpload } from "components/core";
+import { uploadFile } from "utils";
 
 interface Props {
 	open: boolean;
@@ -43,9 +46,10 @@ const validationSchema = Yup.object().shape({
 });
 const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
-
+	const { data: branchData } = useFetch<any>(`branches`);
 	const initialValues = useMemo(() => {
 		return {
+			holidayOfBranchId: holidayData?.branchId,
 			startDate: holidayData?.startDate
 				? moment(holidayData.startDate)?.format("YYYY-MM-DD")
 				: "",
@@ -53,22 +57,31 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 				? moment(holidayData.endDate)?.format("YYYY-MM-DD")
 				: "",
 			title: holidayData?.title ? holidayData?.title : "",
+			description: holidayData?.description,
+			image: holidayData?.image,
 		};
-	}, [holidayData?.id, holidayData?.endDate]);
+	}, [holidayData?.id, holidayData?.endDate, holidayData?.holidayOfBranchId]);
 
 	const { change } = useChange();
 	const handleSubmit = async (values: HOLIDAY) => {
+		console.log(values);
 		try {
 			setLoading(true);
-
+			const uniId = values?.image?.type?.split("/")[1];
+			const url =
+				typeof values?.image === "object" &&
+				values?.image !== null &&
+				(await uploadFile(values?.image, `${Date.now()}.${uniId}`));
 			const res = await change(`holidays/${holidayData?.id}`, {
 				method: "PUT",
 				body: {
-					title: values?.title,
+					image: url || undefined,
 					startDate: new Date(values?.startDate)?.toISOString(),
 					endDate: values?.endDate
 						? new Date(values?.endDate)?.toISOString()
-						: undefined,
+						: new Date(values?.startDate)?.toISOString(),
+					title: values?.title,
+					description: values?.description,
 				},
 			});
 
@@ -138,6 +151,42 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 								{/* {console.log(values)} */}
 								<div className="grid lg:grid-cols-1">
 									<div className="md:px-4 px-2 md:py-2 py-1">
+										<p className="text-theme font-semibold my-2">
+											Branch <span className="text-red-600">*</span>
+										</p>
+										<Autocomplete
+											sx={{ width: "100%" }}
+											options={branchData || []}
+											autoHighlight
+											getOptionLabel={(option: any) =>
+												option.name ? option.name : ""
+											}
+											isOptionEqualToValue={(option, value) =>
+												option.id === value.holidayOfBranchId
+											}
+											value={
+												values?.holidayOfBranchId
+													? branchData?.find(
+															(option: any) =>
+																option.id === values.holidayOfBranchId
+													  )
+													: {}
+											}
+											onChange={(e: any, r: any) => {
+												setFieldValue("holidayOfBranchId", r?.id);
+											}}
+											renderInput={(params) => (
+												<TextField
+													{...params}
+													placeholder="Select Branch"
+													inputProps={{
+														...params.inputProps,
+													}}
+												/>
+											)}
+										/>
+									</div>
+									<div className="md:px-4 px-2 md:py-2 py-1">
 										<div className="py-2">
 											<InputLabel htmlFor="startDate">
 												Start Date <span className="text-red-600">*</span>
@@ -193,6 +242,38 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 											error={touched.title && !!errors.title}
 											helperText={touched.title && errors.title}
 										/>
+									</div>
+									<div className="md:px-4 px-2 md:py-2 py-1">
+										<div className="py-2">
+											<InputLabel htmlFor="description">Description</InputLabel>
+										</div>
+										<TextField
+											size="small"
+											fullWidth
+											placeholder="Description"
+											id="description"
+											name="description"
+											value={values.description}
+											onChange={handleChange}
+											onBlur={handleBlur}
+											error={touched.description && !!errors.description}
+											helperText={touched.description && errors.description}
+										/>
+									</div>
+									<div className="px-2 md:py-2 py-1">
+										<div className="md:py-2 py-1">
+											<InputLabel htmlFor="name">
+												Upload Holiday Image
+											</InputLabel>
+										</div>
+										<SingleImageUpdateBranch
+											values={values}
+											setImageValue={(event: any) => {
+												setFieldValue("image", event.currentTarget.files[0]);
+											}}
+										>
+											<ErrorMessage name="image" />
+										</SingleImageUpdateBranch>
 									</div>
 								</div>
 

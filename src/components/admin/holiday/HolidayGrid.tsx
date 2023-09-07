@@ -115,7 +115,10 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 									</Tooltip>
 								</div>
 							</div>
-							<div className="h-36 bg-cover flex justify-center bg-[url('/holiday.png')] py-3 rounded-t-lg w-full border" />
+							<div
+								className={`h-36 bg-cover flex justify-center py-3 rounded-t-lg w-full border`}
+								style={{ backgroundImage: `url(${item?.image})` }}
+							/>
 							<div className="p-2">
 								<div className="flex justify-start">
 									<div className="flex items-center gap-1">
@@ -140,6 +143,7 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 								</div>
 								<div className="flex flex-col justify-center my-3">
 									<p className="font-semibold">{item?.title}</p>
+									<p className="text-sm">{item?.description}</p>
 								</div>
 							</div>
 						</div>
