@@ -18,7 +18,7 @@ import {
 } from "components/drawer";
 import { useChange, useFetch } from "hooks";
 import Link from "next/link";
-import { useState, MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { Client } from "types";
 import { deleteFile } from "utils";
@@ -30,15 +30,6 @@ interface Props {
   mutate?: any;
 }
 const ClientsGrid = ({ data, mutate }: Props) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <>
       <section className="py-6 ">

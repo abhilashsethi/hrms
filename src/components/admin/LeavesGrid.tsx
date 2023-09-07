@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { PhotoViewer } from "components/core";
 import { LeaveDocuments } from "components/drawer";
-import { useAuth, useChange } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { Leave } from "types";
@@ -74,7 +74,13 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
   const [rloading, setRLoading] = useState(false);
   const [isDocuments, setIsDocuments] = useState(false);
   const [isApproveLeave, setApproveLeave] = useState(false);
+  const [isCurrentUserLeaveId, setCurrentUserLeaveId] = useState<any>("");
+  console.log(isCurrentUserLeaveId);
 
+  const { data: sandwichLeave, isLoading } = useFetch<any>(
+    `leaves/leave/days-info?leaveId=${isCurrentUserLeaveId}`
+  );
+  console.log(sandwichLeave);
   const managerApproveLeave = (id?: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -243,7 +249,9 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
             ) : (
               <div className="md:flex items-center justify-center mt-2 pt-2 space-x-3">
                 <Button
-                  onClick={() => setApproveLeave(true)}
+                  onClick={() => {
+                    setApproveLeave(true), setCurrentUserLeaveId(item?.id);
+                  }}
                   className="!bg-green-600"
                   variant="contained"
                   disabled={loading}

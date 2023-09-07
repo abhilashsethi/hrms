@@ -25,14 +25,14 @@ const MyTenders = () => {
   );
   return (
     <PanelLayout title="My Tenders - Admin Panel">
-      <section className="px-8 py-4">
+      <section className="md:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
 
         <section className="mt-4">
           {isLoading && <SkeletonLoader />}
           <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
-            {tenderData?.map((item) => (
-              <div key={item?.id}>
+            {tenderData?.map((item, i) => (
+              <div key={i}>
                 <CardContent
                   item={item?.tenders}
                   tenderId={item?.tenders?._id?.$oid}
@@ -77,7 +77,6 @@ interface Props {
 }
 
 const CardContent = ({ item, mutate, tenderId }: Props) => {
-  console.log({ item });
   const { user } = useAuth();
   const { change } = useChange();
   const handleDelete = (id?: string) => {

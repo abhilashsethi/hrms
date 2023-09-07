@@ -76,7 +76,6 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
       return acc;
     }, {});
     setLoading(true);
-    console.log(reqValue);
     try {
       if (values?.link) {
         const dtype = values?.link && values?.link?.type.split("/")[1];
@@ -113,7 +112,6 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
             startDate: new Date(values?.startDate).toISOString(),
           },
         });
-        console.log(res);
         setLoading(false);
         if (res?.status !== 201) {
           Swal.fire(
