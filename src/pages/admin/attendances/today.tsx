@@ -18,7 +18,7 @@ import {
   Loader,
   LoaderAnime,
 } from "components/core";
-import { subDays } from "date-fns";
+import { addDays } from "date-fns";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
@@ -101,11 +101,10 @@ const TodayAttendance = () => {
     },
   ];
 
+  const tomorrow = addDays(new Date(), 1);
   const disabledDates = [];
-  for (let i = 1; i <= 365; i++) {
-    // Subtract i days from the current date to disable all future dates
-    const disabledDate = subDays(new Date(), -i);
-    disabledDates.push(disabledDate);
+  for (let i = 0; i < 365; i++) {
+    disabledDates.push(addDays(tomorrow, i));
   }
   return (
     <PanelLayout title="Today Attendance - Admin Panel">
@@ -128,7 +127,7 @@ const TodayAttendance = () => {
                     onChange={handleDateChange}
                     dateFormat="dd/MM/yyyy"
                     showYearDropdown
-                    excludeDates={disabledDates}
+                    maxDate={new Date()} // Disable all future dates
                     className="hidden"
                   />
                 </div>

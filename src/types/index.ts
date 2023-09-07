@@ -94,8 +94,23 @@ export interface Guest {
 	phone?: string;
 	updatedAt?: Date;
 	visitInfo?: string | null;
+	GuestInfo?: GuestInfo
 }
-
+export interface GuestInfo {
+	guestCountByGender: GuestDashboard[];
+	totalGuest: number;
+	blockedGuestCount: number;
+}
+export interface GuestDashboard {
+	
+	_count: number;
+	name: string;
+}
+export interface UserDashboard {
+	totalUsers: number;
+	_count: number;
+	name: string;
+}
 export type User = {
 	firstName?: string;
 	lastName?: string;

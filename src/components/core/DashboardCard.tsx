@@ -29,7 +29,6 @@ const DashboardCard = ({ data }: Props) => {
                   <div
                     className={`h-12 border-b-[3px] border-slate-300 w-12 rounded-lg shadow-md bg-gradient-to-r flex justify-center items-center ${item?.bg}`}
                   >
-                    {/* {item?.icon} */}
                     <img
                       className="h-7 object-contain"
                       src={item?.img}
@@ -52,7 +51,6 @@ const DashboardCard = ({ data }: Props) => {
                   <div
                     className={`h-12 border-b-[3px] border-slate-300 w-12 rounded-lg shadow-md bg-gradient-to-r flex justify-center items-center ${item?.bg}`}
                   >
-                    {/* {item?.icon} */}
                     <img
                       className="h-7 object-contain"
                       src={item?.img}

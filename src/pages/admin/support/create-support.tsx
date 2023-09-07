@@ -1,5 +1,5 @@
-import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { Check } from "@mui/icons-material";
+import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
@@ -7,7 +7,6 @@ import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
-import router from "next/router";
 const initialValues = {
   message: "",
 };
@@ -22,7 +21,6 @@ const CreateSupport = () => {
   const { change } = useChange();
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
-    console.log(values);
     setLoading(true);
     try {
       const res = await change(`supports`, {

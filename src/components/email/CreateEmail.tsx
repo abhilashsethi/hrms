@@ -78,7 +78,6 @@ const CreateEmail = (templateId: any) => {
         if (value?.attachments?.length) {
           await Promise.all(
             value?.attachments?.map((item: any) => {
-              console.log(item);
               return new Promise(async (resolve, reject) => {
                 try {
                   if (typeof item === "string") {
@@ -682,6 +681,7 @@ const CreateEmail = (templateId: any) => {
               onClick={() => {
                 formik?.submitForm();
               }}
+              disabled={isChanging}
             >
               <Send />
               <span className="text-sm hidden md:flex ">Send Email</span>
@@ -703,6 +703,7 @@ const CreateEmail = (templateId: any) => {
             <button
               className="flex gap-4 items-center hover:scale-95 transition-all border border-secondary-500 ease-in-out duration-300 hover:bg-secondary-600 justify-center bg-secondary-500 text-white px-4 py-2 rounded-md shadow-lg "
               onClick={() => attachRef?.current?.click()}
+              disabled={isChanging}
             >
               <AttachFile />
               <span className="text-sm hidden md:flex">Attach</span>
@@ -715,6 +716,7 @@ const CreateEmail = (templateId: any) => {
                 formik?.submitForm();
               }}
               type="submit"
+              disabled={isChanging}
             >
               <Drafts />
               <span className="text-sm hidden md:flex">Save To Draft</span>

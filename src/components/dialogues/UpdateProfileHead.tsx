@@ -99,7 +99,9 @@ const UpdateProfileHead = ({
     joiningDate: employData?.joiningDate || null,
     bloodGroup: employData?.bloodGroup || null,
     employeeOfBranchId: employData?.employeeOfBranchId || null,
-    countryCode: employData?.countryCode || null,
+    countryCode: employData?.countryCode
+      ? employData?.countryCode
+      : "91" || null,
   };
   const handleSubmit = async (values: any) => {
     setLoading(true);
@@ -247,6 +249,12 @@ const UpdateProfileHead = ({
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.countryCode}
+                              error={
+                                touched.countryCode && !!errors.countryCode
+                              }
+                              helperText={
+                                touched.countryCode && errors.countryCode
+                              }
                             />
                           </div>
                           <TextField

@@ -1,15 +1,11 @@
 import { DailyAttendance, DonutChart } from "components/analytics";
 import { useFetch } from "hooks";
+import { Attendance } from "types";
 interface Props {
-  dashboardDetails?: any;
-  absentData?: any;
-  presentData?: any;
+  absentData?: Attendance[];
+  presentData?: Attendance[];
 }
-const AttendanceCharts = ({
-  dashboardDetails,
-  absentData,
-  presentData,
-}: Props) => {
+const AttendanceCharts = ({ absentData, presentData }: Props) => {
   const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
   console.log(employeeDetails);
   return (

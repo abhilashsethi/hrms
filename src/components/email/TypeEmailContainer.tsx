@@ -123,6 +123,8 @@ const TypeEmailContainer = ({
             isSend: !value?.isDraft,
             receiverIds: value?.forwardedToId?.length
               ? value?.forwardedToId
+              : data?.sender?.id === user?.id
+              ? [data?.receiver?.id]
               : [data?.sender?.id],
             replyId: value?.isForwarded ? undefined : data?.id,
           },

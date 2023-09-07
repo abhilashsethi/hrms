@@ -177,7 +177,7 @@ const MediaFiles = ({
       );
     }
     onClose();
-    revalidateCurrentChat;
+    revalidateCurrentChat?.();
     revalidate?.();
     Swal.fire("Success", "File deleted successfully", "success");
   };
@@ -313,7 +313,7 @@ const DocFiles = ({
     }
     revalidate?.();
     onClose();
-    revalidateCurrentChat;
+    revalidateCurrentChat?.();
     Swal.fire("Success", "File deleted successfully", "success");
   };
 
@@ -437,7 +437,7 @@ const ChatLinks = ({
     } finally {
       revalidate?.();
       onClose();
-      revalidateCurrentChat;
+      revalidateCurrentChat?.();
       Swal.fire("Success", "Link deleted", "success");
     }
   };

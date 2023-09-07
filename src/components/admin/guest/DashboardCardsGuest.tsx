@@ -4,10 +4,10 @@ import {
   Man,
   Woman,
 } from "@mui/icons-material";
-import { Guest } from "types";
 import Link from "next/link";
+import { Guest } from "types";
 interface Props {
-  data?: any;
+  data?: Guest;
 }
 const DashboardCardsGuest = ({ data }: Props) => {
   const guestData = data?.GuestInfo?.guestCountByGender || [];

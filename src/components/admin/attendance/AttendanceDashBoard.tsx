@@ -1,16 +1,14 @@
-import { Groups, HowToReg, MoreVert, PersonOff } from "@mui/icons-material";
-import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
-import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-// import RolewiseStrength from "components/analytics/RolewiseStrength";
-import { useEffect, useState } from "react";
+import FullCalendar from "@fullcalendar/react";
+import { Groups, HowToReg, PersonOff } from "@mui/icons-material";
+import { Grid, IconButton, Menu, MenuItem } from "@mui/material";
+import ICONS from "assets/icons";
+import { DailyAttendance, DonutChart } from "components/analytics";
 import { HeadText, UpcomingLeaves } from "components/core";
-import EmployeeAllAttendance from "../EmployeeAllAttendance";
 import { useFetch } from "hooks";
 import moment from "moment";
-import { DailyAttendance, DonutChart } from "components/analytics";
-import ICONS from "assets/icons";
-import { MouseEvent } from "react";
+import { MouseEvent, useEffect, useState } from "react";
+import EmployeeAllAttendance from "../EmployeeAllAttendance";
 const AttendanceDashBoard = () => {
   const [attendances, setAttendances] = useState([]);
   function renderEventContent(eventInfo: any) {
@@ -56,7 +54,6 @@ const AttendanceDashBoard = () => {
     const myData = reqData?.filter((item: any) => item?.present);
     setAttendances(myData);
   }, [attendanceData]);
-
 
   const cards = [
     {

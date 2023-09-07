@@ -1,5 +1,5 @@
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
+import interactionPlugin from "@fullcalendar/interaction";
 import FullCalendar from "@fullcalendar/react";
 import { Check, Close } from "@mui/icons-material";
 import { AdminBreadcrumbs } from "components/core";
@@ -9,6 +9,7 @@ import PanelLayout from "layouts/panel";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
+import { Attendance } from "types";
 interface MyDateRef {
   current: HTMLInputElement | null;
   setOpen: (value: boolean) => void;
@@ -28,19 +29,26 @@ const MyAttendance = () => {
     },
   ];
 
-  const { data: attendanceData, isLoading } = useFetch<any>(
+  const { data: attendanceData, isLoading } = useFetch<Attendance[]>(
     `attendances/${user?.id ? `${user?.id}` : ``}`
   );
   useEffect(() => {
-    let reqData = attendanceData?.map((item: any) => {
-      return {
+    if (!attendanceData) return;
+    // Filter and format the events based on the current month
+    const currentMonthEvents = attendanceData
+      .filter((item: any) => {
+        const eventMonth = moment(item?.date).month();
+        const currentMonth = moment(activeMonth).month();
+        return eventMonth === currentMonth;
+      })
+      .map((item: any) => ({
         ...item,
         title: "PRESENT",
         date: `${moment(item?.date).format("YYYY-MM-DD")}`,
-      };
-    });
-    setAttendances(reqData);
-  }, [attendanceData]);
+      }));
+
+    setAttendances(currentMonthEvents);
+  }, [attendanceData, activeMonth]);
 
   const tomorrow = addDays(new Date(), 1);
   const disabledDates = [];
@@ -53,7 +61,11 @@ const MyAttendance = () => {
         <span
           className={`flex items-center px-4 py-1 border-[1px] justify-center font-semibold ${
             eventInfo.event.title === "PRESENT"
-              ? `bg-emerald-200 text-green-500 border-green-400`
+              ? ` ${
+                  eventInfo.event?.extendedProps?.WFH
+                    ? "bg-green-200 text-green-500 border-green-400"
+                    : "text-green-500 border-green-400 bg-emerald-200"
+                } `
               : `bg-red-200 text-red-500 border-red-400`
           }`}
         >
@@ -67,20 +79,36 @@ const MyAttendance = () => {
           </span>
           {/* Mobile View start */}
           <span className="md:hidden px-2 block">
-            {eventInfo.event.title === "PRESENT" ? "P" : "A"}
+            {eventInfo.event?.extendedProps?.WFH
+              ? "WFH"
+              : eventInfo.event.title === "PRESENT"
+              ? "P"
+              : "A"}
           </span>
           {/* Mobile View end */}
         </span>
         {eventInfo.event.title === "PRESENT" && (
           <div className="md:flex flex-col hidden">
-            <span>
-              IN TIME :
-              {moment(eventInfo.event.extendedProps.inTime).format("hh:mm A")}
-            </span>
-            <span>
-              OUT TIME :
-              {moment(eventInfo.event.extendedProps.outTime).format("hh:mm A")}
-            </span>
+            {eventInfo.event?.extendedProps?.WFH ? (
+              <>
+                <span className="px-4 py-2 text-center">Work From Home.</span>
+              </>
+            ) : (
+              <>
+                <span>
+                  IN TIME :
+                  {moment(eventInfo.event.extendedProps.inTime).format(
+                    "hh:mm A"
+                  )}
+                </span>
+                <span>
+                  OUT TIME :
+                  {moment(eventInfo.event.extendedProps.outTime).format(
+                    "hh:mm A"
+                  )}
+                </span>
+              </>
+            )}
           </div>
         )}
       </>
@@ -97,9 +125,9 @@ const MyAttendance = () => {
     // Check if window is available (client-side) before adding the event listener
     if (typeof window !== "undefined") {
       updateScreenWidth();
-      window.addEventListener("resize", updateScreenWidth); // Listen for window resize events
+      window.addEventListener("resize", updateScreenWidth);
       return () => {
-        window.removeEventListener("resize", updateScreenWidth); // Remove event listener to prevent memory leaks
+        window.removeEventListener("resize", updateScreenWidth);
       };
     }
   }, []);
@@ -117,7 +145,7 @@ const MyAttendance = () => {
             eventContent={renderEventContent}
             events={attendances}
             datesSet={(dateInfo: any) =>
-              setActiveMonth(dateInfo?.view?.currentStart?.getMonth())
+              setActiveMonth(dateInfo?.view?.currentStart)
             }
           />
         </div>

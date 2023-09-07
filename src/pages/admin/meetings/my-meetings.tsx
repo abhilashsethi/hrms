@@ -1,5 +1,5 @@
 import { Add, GridViewRounded, TableRowsRounded } from "@mui/icons-material";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Pagination, Stack } from "@mui/material";
 import { MyMeetingColumn, MyMeetingGrid } from "components/admin/meetings";
 import {
   AdminBreadcrumbs,
@@ -16,23 +16,20 @@ import { MEETING_DATA } from "types";
 
 const MyMeetings = () => {
   const { user } = useAuth();
-  const [pageNumber, setPageNumber] = useState<number | null>(1);
-  const [open, setOpen] = useState(true);
-  const toggle = () => setOpen(!open);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const [isGrid, setIsGrid] = useState(true);
   const {
     data: meetingData,
     mutate,
     isLoading,
+    pagination,
   } = useFetch<MEETING_DATA[]>(
     `meetings?userId=${user?.id}&page=${pageNumber}&limit=8`
   );
-  console.log(meetingData);
-  // console.log(currentRange);
   return (
     <>
       <PanelLayout title="Meetings - Admin Panel">
-        <section className="px-8">
+        <section className="md:px-8 px-4">
           <div className="flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
 
@@ -85,6 +82,31 @@ const MyMeetings = () => {
           {meetingData?.length === 0 ? (
             <LoaderAnime text="No Meetings Available" />
           ) : null}
+          {meetingData?.length === 0 ? (
+            <LoaderAnime text="No Meetings Available" />
+          ) : null}
+          {meetingData?.length === 0 ? <LoaderAnime /> : null}
+          <section className="mb-6">
+            {Math.ceil(
+              Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+            ) > 1 ? (
+              <div className="flex justify-center md:py-8 py-4">
+                <Stack spacing={2}>
+                  <Pagination
+                    count={Math.ceil(
+                      Number(pagination?.total || 1) /
+                        Number(pagination?.limit || 1)
+                    )}
+                    onChange={(e, v: number) => {
+                      setPageNumber(v);
+                    }}
+                    page={pageNumber}
+                    variant="outlined"
+                  />
+                </Stack>
+              </div>
+            ) : null}
+          </section>
         </section>
       </PanelLayout>
     </>

@@ -33,7 +33,6 @@ const EmployeeDetails = () => {
     mutate,
     isLoading,
   } = useFetch<User>(`users/${router?.query?.id}`);
-  console.log(employData);
   const { data: projectDetails } = useFetch<any>(
     `projects?memberId=${router?.query?.id}`
   );
