@@ -6,16 +6,14 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  TextField,
   Tooltip,
 } from "@mui/material";
-import { ErrorMessage, Form, Formik } from "formik";
-import * as yup from "yup";
-import { useState } from "react";
-import { useChange, useFetch } from "hooks";
-import Swal from "sweetalert2";
 import { SingleImageUpdateBranch } from "components/core";
-import { deleteFile, uploadFile } from "utils";
+import { ErrorMessage, Form, Formik } from "formik";
+import { useChange } from "hooks";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import { uploadFile } from "utils";
 
 interface Props {
   open: any;
@@ -94,14 +92,7 @@ const UpdateBranchImage = ({
             enableReinitialize={true}
             onSubmit={handleSubmit}
           >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              setFieldValue,
-            }) => (
+            {({ values, setFieldValue }) => (
               <Form>
                 <div className="flex flex-col gap-4">
                   <SingleImageUpdateBranch
@@ -118,7 +109,9 @@ const UpdateBranchImage = ({
                     variant="contained"
                     className="!bg-emerald-500"
                     disabled={loading}
-                    startIcon={loading ? <CircularProgress size={20} /> : <Check />}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
                   >
                     UPDATE
                   </Button>

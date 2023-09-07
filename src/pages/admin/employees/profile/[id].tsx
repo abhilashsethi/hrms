@@ -1,22 +1,26 @@
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
-import FullCalendar from "@fullcalendar/react";
 import { BarChart, Check, Close } from "@mui/icons-material";
+import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
+import dayGridPlugin from "@fullcalendar/daygrid";
+import FullCalendar from "@fullcalendar/react";
 import { Button } from "@mui/material";
+import { Attendance, AttendanceData, EventInfo } from "types";
+import { AdminBreadcrumbs, HeadText } from "components/core";
 import { EmployeeDetails } from "components/admin";
-import { AdminBreadcrumbs, HeadText, Loader } from "components/core";
-import { useFetch } from "hooks";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import PanelLayout from "layouts/panel";
+import { useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
 
 const EmployeeProfile = () => {
-  const [activeMonth, setActiveMonth] = useState();
+  const [activeMonth, setActiveMonth] = useState<Date | null>(null);
   const router = useRouter();
-  const [attendances, setAttendances] = useState<any>([]);
-  function renderEventContent(eventInfo: any) {
+  const [attendances, setAttendances] = useState<AttendanceData[]>([]);
+  const { data: attendanceData, isLoading } = useFetch<Attendance[]>(
+    `attendances/${router?.query?.id}`
+  );
+  function renderEventContent(eventInfo: EventInfo) {
     return (
       <>
         <span
@@ -54,13 +58,13 @@ const EmployeeProfile = () => {
               <>
                 <span>
                   IN TIME :
-                  {moment(eventInfo.event.extendedProps.inTime).format(
+                  {moment(eventInfo?.event?.extendedProps?.inTime).format(
                     "hh:mm A"
                   )}
                 </span>
                 <span>
                   OUT TIME :
-                  {moment(eventInfo.event.extendedProps.outTime).format(
+                  {moment(eventInfo?.event?.extendedProps?.outTime).format(
                     "hh:mm A"
                   )}
                 </span>
@@ -72,19 +76,16 @@ const EmployeeProfile = () => {
     );
   }
 
-  const { data: attendanceData, isLoading } = useFetch<any>(
-    `attendances/${router?.query?.id}`
-  );
   useEffect(() => {
     if (!attendanceData) return;
     // Filter and format the events based on the current month
     const currentMonthEvents = attendanceData
-      .filter((item: any) => {
+      .filter((item) => {
         const eventMonth = moment(item?.date).month();
         const currentMonth = moment(activeMonth).month();
         return eventMonth === currentMonth;
       })
-      .map((item: any) => ({
+      .map((item) => ({
         ...item,
         title: "PRESENT",
         date: `${moment(item?.date).format("YYYY-MM-DD")}`,
@@ -149,7 +150,7 @@ const EmployeeProfile = () => {
                   weekends={true}
                   eventContent={renderEventContent}
                   events={attendances}
-                  datesSet={(dateInfo: any) =>
+                  datesSet={(dateInfo) =>
                     setActiveMonth(dateInfo?.view?.currentStart)
                   }
                 />

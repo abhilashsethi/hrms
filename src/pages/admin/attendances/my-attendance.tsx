@@ -9,18 +9,13 @@ import PanelLayout from "layouts/panel";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { Attendance } from "types";
-interface MyDateRef {
-  current: HTMLInputElement | null;
-  setOpen: (value: boolean) => void;
-}
+import { Attendance, AttendanceData, EventInfo } from "types";
 
 const MyAttendance = () => {
-  const [activeMonth, setActiveMonth] = useState();
+  const [activeMonth, setActiveMonth] = useState<Date | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [attendances, setAttendances] = useState<any>([]);
+  const [attendances, setAttendances] = useState<AttendanceData[]>([]);
   const { user } = useAuth();
-
   const links = [
     {
       id: 2,
@@ -36,12 +31,12 @@ const MyAttendance = () => {
     if (!attendanceData) return;
     // Filter and format the events based on the current month
     const currentMonthEvents = attendanceData
-      .filter((item: any) => {
+      .filter((item) => {
         const eventMonth = moment(item?.date).month();
         const currentMonth = moment(activeMonth).month();
         return eventMonth === currentMonth;
       })
-      .map((item: any) => ({
+      .map((item) => ({
         ...item,
         title: "PRESENT",
         date: `${moment(item?.date).format("YYYY-MM-DD")}`,
@@ -55,7 +50,7 @@ const MyAttendance = () => {
   for (let i = 0; i < 365; i++) {
     disabledDates.push(addDays(tomorrow, i));
   }
-  function renderEventContent(eventInfo: any) {
+  function renderEventContent(eventInfo: EventInfo) {
     return (
       <>
         <span
@@ -97,13 +92,13 @@ const MyAttendance = () => {
               <>
                 <span>
                   IN TIME :
-                  {moment(eventInfo.event.extendedProps.inTime).format(
+                  {moment(eventInfo?.event?.extendedProps?.inTime).format(
                     "hh:mm A"
                   )}
                 </span>
                 <span>
                   OUT TIME :
-                  {moment(eventInfo.event.extendedProps.outTime).format(
+                  {moment(eventInfo?.event?.extendedProps?.outTime).format(
                     "hh:mm A"
                   )}
                 </span>
@@ -144,7 +139,7 @@ const MyAttendance = () => {
             weekends={true}
             eventContent={renderEventContent}
             events={attendances}
-            datesSet={(dateInfo: any) =>
+            datesSet={(dateInfo) =>
               setActiveMonth(dateInfo?.view?.currentStart)
             }
           />

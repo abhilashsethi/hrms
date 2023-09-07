@@ -68,7 +68,6 @@ export const useMutation = <T>(path: string, options?: MutationOptions) => {
 	return useSWRMutation(
 		path?.includes("undefined") ? null : `${BASE_URL}/${path}`,
 		async (url: RequestInfo | URL, { arg }: any) => {
-			console.log(options);
 			return fetch(url, { method, body: JSON.stringify(arg), headers }).then(
 				(_) => _.json()
 			);

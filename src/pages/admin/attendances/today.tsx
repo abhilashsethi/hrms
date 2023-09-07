@@ -30,7 +30,7 @@ import { Attendance } from "types";
 const TodayAttendance = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [selectedDate, setSelectedDate] = useState<any>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [status, setStatus] = useState("all");
   const [order, setOrder] = useState<string | null>(null);
   const [userName, setUsername] = useState<string | null>(null);
@@ -215,7 +215,7 @@ const TodayAttendance = () => {
                   value={status != "null" ? status : "null"}
                   label="Status"
                   defaultValue="all"
-                  onChange={(e: any) => {
+                  onChange={(e) => {
                     setPageNumber(1), setStatus(e.target.value);
                   }}
                 >

@@ -313,6 +313,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
         open={isApproveLeave}
         handleClose={() => setApproveLeave(false)}
         mutate={mutate}
+        sandwichLeave={sandwichLeave}
       />
       <div
         className={`relative h-full mt-7 flex flex-col px-2 justify-center justify-items-center w-full pt-4 text-center rounded-md shadow-xl drop-shadow-lg bg-gradient-to-r from-rose-100 to-teal-100 hover:scale-105 ease-in-out transition-all duration-200 md:mt-0`}
@@ -362,9 +363,16 @@ interface ModalProps {
   handleClose: () => void;
   mutate: () => void;
   item?: Leave;
+  sandwichLeave?: any;
 }
 
-const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
+const IsSandwichLeave = ({
+  open,
+  handleClose,
+  sandwichLeave,
+  mutate,
+  item,
+}: ModalProps) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { user } = useAuth();
@@ -465,12 +473,10 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
     <Dialog
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
+      maxWidth="lg"
       open={open}
     >
-      <DialogTitle
-        id="customized-dialog-title"
-        sx={{ p: 2, minWidth: "18rem !important" }}
-      >
+      <DialogTitle id="customized-dialog-title">
         <p className="text-center text-xl font-bold text-theme tracking-wide">
           APPROVE LEAVE
         </p>
@@ -490,7 +496,21 @@ const IsSandwichLeave = ({ open, handleClose, mutate, item }: ModalProps) => {
         </IconButton>
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-        <div className="md:w-[22rem] w-[70vw] md:px-4 px-2 tracking-wide">
+        <div className="md:w-[40rem] w-[65vw] md:px-4 px-2 tracking-wide">
+          <div className="md:flex grid gap-2 md:justify-between py-3">
+            <div>
+              <span className="">Total Days : </span>
+              <span className="bg-green-600 text-white rounded-full px-2 py-1">
+                {sandwichLeave?.totalDays || 0}
+              </span>
+            </div>
+            <div>
+              <span>Total Sandwich Days : </span>
+              <span className="bg-green-600 text-white rounded-full px-2 py-1">
+                {sandwichLeave?.totalSandWitch || 0}
+              </span>
+            </div>
+          </div>
           <div className="flex flex-col gap-4">
             {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (
               <>
