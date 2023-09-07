@@ -235,6 +235,7 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
       revalidateCurrentChat(selectedChatId);
       reValidateGroupChat();
       reValidatePrivateChat();
+      setChangeTitle(false);
     } catch (error) {}
   };
 
@@ -282,7 +283,13 @@ const ChatProfileDrawer = ({ open, onClose, profileData }: Props) => {
           <section className="relative w-full overflow-hidden overflow-y-auto">
             <section className="py-4  w-full">
               <div className="flex gap-2 items-center">
-                <span className="cursor-pointer" onClick={() => onClose()}>
+                <span
+                  className="cursor-pointer"
+                  onClick={() => {
+                    onClose();
+                    setChangeTitle(false);
+                  }}
+                >
                   <Close fontSize="small" className="!text-red-600" />
                 </span>
                 <h1>Profile Info</h1>
