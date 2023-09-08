@@ -35,15 +35,15 @@ interface ARRAY {
 interface Props {
   data?: ARRAY[];
   mutate: () => void;
-  google: any;
 }
 
 interface MapProps {
+  google: any;
   latitude: number;
   longitude: number;
 }
 
-const MeetingsGrid = ({ data, mutate, google }: Props) => {
+const MeetingsGrid = ({ data, mutate }: Props) => {
   const mapStyles = {
     width: "100%",
     height: "400px",
