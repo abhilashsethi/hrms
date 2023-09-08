@@ -1,8 +1,6 @@
 import {
   DeleteRounded,
-  DriveEta,
   Info,
-  LocalActivity,
   LocationOn,
   MoreVertRounded,
   Place,
@@ -16,11 +14,10 @@ import {
 } from "@mui/material";
 import { LocationLoaderAnime } from "components/core";
 import GoogleMapReact from "google-map-react";
-// import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import { useChange } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
 
 interface ARRAY {
@@ -42,19 +39,9 @@ interface Props {
   mutate: () => void;
 }
 
-interface MapProps {
-  google: any;
-  latitude: number;
-  longitude: number;
-}
-
 const MeetingsGrid = ({ data, mutate }: Props) => {
   const AnyReactComponent = ({ icon }: any) => <div>{icon}</div>;
-  const mapStyles = {
-    width: "100%",
-    height: "400px",
-  };
-  console.log(data);
+
   return (
     <>
       <div className="grid py-4 gap-6 lg:grid-cols-3">
@@ -65,29 +52,30 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
           )
           ?.map((items: any) => (
             <div
-              className="relative border-2 border-b-theme py-4 bg-white w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl"
+              className="relative border-2 border-b-theme py-4 bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide shadow-xl"
               key={items?.id}
             >
-              <CardComponent items={items} mutate={mutate} />
-              <div className="md:px-4 py-4 px-2">
+              <div className="flex justify-between ">
+                <div
+                  className={`text-xs ${
+                    items?.status === "Completed"
+                      ? "bg-[#44bd44]"
+                      : items?.status === "Ongoing"
+                      ? "bg-amber-500"
+                      : "bg-red-500"
+                  } text-white p-1 rounded-md font-semibold px-2 md:ml-4 ml-2`}
+                >
+                  {items?.status}
+                </div>
+                <CardComponent items={items} mutate={mutate} />
+              </div>
+              <div className="md:px-4 px-2">
                 <div className="flex justify-between items-center">
                   <span className="py-1 pr-4 text-xl font-semibold capitalize tracking-wide">
                     {items?.title}
                   </span>
                 </div>
-                <div className="relative mb-3 py-1 group flex items-center gap-x-2 tracking-wide">
-                  <div
-                    className={`md:absolute -top-5 md:right-3 text-xs ${
-                      items?.status === "Completed"
-                        ? "bg-[#44bd44]"
-                        : items?.status === "Ongoing"
-                        ? "bg-amber-500"
-                        : "bg-red-500"
-                    } text-white p-1 rounded-md font-semibold px-2 md:ml-10`}
-                  >
-                    {items?.status}
-                  </div>
-                </div>
+
                 <div className="md:flex py-2 md:py-0">
                   <p className="font-semibold text-base">Meeting Date : </p>
                   {/* <AccessTime /> */}
