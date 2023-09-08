@@ -172,7 +172,7 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 												option.name ? option.name : ""
 											}
 											isOptionEqualToValue={
-												(option, value) => option.type === value.type
+												(option: any, value: any) => option.type === value.type
 												// console.log(option, value)
 											}
 											value={

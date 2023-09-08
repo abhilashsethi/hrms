@@ -256,7 +256,7 @@ const ProjectBasicDetailsUpdate = ({
 
 											<div className="px-4 py-2">
 												<div className="py-2">
-													<InputLabel htmlFor="startDate">Deadline</InputLabel>
+													<InputLabel htmlFor="endDate">Deadline</InputLabel>
 												</div>
 												<TextField
 													size="small"
