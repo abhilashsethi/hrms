@@ -1,17 +1,16 @@
-import { Button, CircularProgress } from "@mui/material";
-import { Loader, PhotoViewer } from "components/core";
-import { useAuth, useChange, useFetch } from "hooks";
-import { useRouter } from "next/router";
-import { Form, Formik } from "formik";
-import { useState } from "react";
-import { Tickets, TicketsConversations, User } from "types";
-import ClientChats from "./ClientChats";
-import dynamic from "next/dynamic";
-import "react-quill/dist/quill.snow.css";
 import { Send } from "@mui/icons-material";
-import moment from "moment";
+import { Button, CircularProgress } from "@mui/material";
+import { PhotoViewer } from "components/core";
+import { Form, Formik } from "formik";
+import { useAuth, useChange } from "hooks";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import "react-quill/dist/quill.snow.css";
 import Swal from "sweetalert2";
+import { Tickets } from "types";
 import { clock } from "utils";
+import ClientChats from "./ClientChats";
 interface Props {
   ticketsData?: Tickets | null;
   ticketLoading?: any;
