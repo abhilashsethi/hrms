@@ -13,16 +13,18 @@ import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { QuotationGst } from "types";
+import { QuotationGst, SHIFT } from "types";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-	shift: Yup.string().required("% For GST is required !"),
-	cgst: Yup.number().required("% For CGST is required !"),
-	sgst: Yup.number().required("% For SGST is required !"),
+	shiftOfBranchId: Yup.string().required("Required!"),
+	shift: Yup.string().required("Required !"),
+	startTime: Yup.string().required("Required !"),
+	endTime: Yup.string().required("Required !"),
 });
 
 const ShiftConfig = () => {
+	const { data: branchData } = useFetch<any>(`branches`);
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
 	const {
@@ -31,19 +33,25 @@ const ShiftConfig = () => {
 		isLoading,
 	} = useFetch<any>(`quotations/get/gst/info`);
 	const initialValues = {
+		shiftOfBranchId: "",
 		shift: "",
-		Cgst: gstData?.Cgst ? gstData?.Cgst : 0,
-		Sgst: gstData?.Sgst ? gstData?.Sgst : 0,
+		startTime: "",
+		endTime: "",
 	};
-	const handleSubmit = async (values: any) => {
+	const handleSubmit = async (values: SHIFT) => {
 		setLoading(true);
 		try {
-			const res = await change(`quotations/gst-info/${gstData?.id}`, {
-				method: "PATCH",
+			const res = await change(`security/shift`, {
+				method: "POST",
 				body: {
-					Igst: Number(values?.Igst),
-					Cgst: Number(values?.Cgst),
-					Sgst: Number(values?.Sgst),
+					type: values?.shift,
+					startDate: values?.startTime
+						? new Date(values?.startTime)?.toISOString()
+						: undefined,
+					endTime: values?.endTime
+						? new Date(values?.endTime)?.toISOString()
+						: undefined,
+					branchId: values?.shiftOfBranchId,
 				},
 			});
 			setLoading(false);
@@ -104,6 +112,40 @@ const ShiftConfig = () => {
 										<div className="grid lg:grid-cols-1">
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="py-2">
+													<InputLabel htmlFor="shiftOfBranchId">
+														Branch <span className="text-red-600">*</span>
+													</InputLabel>
+												</div>
+
+												<Autocomplete
+													fullWidth
+													size="small"
+													id="shiftOfBranchId"
+													options={branchData || []}
+													onChange={(e: any, r: any) => {
+														setFieldValue("shiftOfBranchId", r?.id);
+													}}
+													getOptionLabel={(option: any) => option.name}
+													renderInput={(params) => (
+														<TextField
+															{...params}
+															// label="Role"
+															placeholder="Branch"
+															onBlur={handleBlur}
+															error={
+																touched.shiftOfBranchId &&
+																!!errors.shiftOfBranchId
+															}
+															helperText={
+																touched.shiftOfBranchId &&
+																errors.shiftOfBranchId
+															}
+														/>
+													)}
+												/>
+											</div>
+											<div className="md:px-4 px-2 md:py-2 py-1">
+												<div className="py-2">
 													<InputLabel htmlFor="shift">
 														Shift <span className="text-red-600">*</span>
 													</InputLabel>
@@ -115,7 +157,7 @@ const ShiftConfig = () => {
 													id="shift"
 													options={Shift_Type || []}
 													onChange={(e: any, r: any) => {
-														setFieldValue("shift", r?.id);
+														setFieldValue("shift", r?.value);
 													}}
 													getOptionLabel={(option: any) => option.name}
 													renderInput={(params) => (
@@ -132,47 +174,47 @@ const ShiftConfig = () => {
 											</div>
 											<div className="lg:px-4 px-2 lg:py-2 py-1">
 												<div className="py-2">
-													<InputLabel htmlFor="Cgst">
-														Start Date and Time{" "}
-														<span className="text-red-600">*</span>
+													<InputLabel htmlFor="startTime">
+														Start Time <span className="text-red-600">*</span>
 													</InputLabel>
 												</div>
 												<TextField
 													size="small"
 													fullWidth
-													type="date"
-													// placeholder="% for cgst"
-													id="Cgst"
-													name="Cgst"
-													value={values.Cgst}
+													type="time"
+													// placeholder="% for startTime"
+													id="startTime"
+													name="startTime"
+													value={values.startTime}
 													onChange={handleChange}
 													onBlur={handleBlur}
-													error={touched.Cgst && !!errors.Cgst}
+													error={touched.startTime && !!errors.startTime}
 													helperText={
-														Boolean(touched.Cgst) && (errors.Cgst as string)
+														Boolean(touched.startTime) &&
+														(errors.startTime as string)
 													}
 												/>
 											</div>
 											<div className="lg:px-4 px-2 lg:py-2 py-1">
 												<div className="py-2">
-													<InputLabel htmlFor="Sgst">
-														End Date and Time{" "}
-														<span className="text-red-600">*</span>
+													<InputLabel htmlFor="endTime">
+														End Time <span className="text-red-600">*</span>
 													</InputLabel>
 												</div>
 												<TextField
 													size="small"
 													fullWidth
-													type="date"
+													type="time"
 													// placeholder="% for PF"
-													id="Sgst"
-													name="Sgst"
-													value={values.Sgst}
+													id="endTime"
+													name="endTime"
+													value={values.endTime}
 													onChange={handleChange}
 													onBlur={handleBlur}
-													error={touched.Sgst && !!errors.Sgst}
+													error={touched.endTime && !!errors.endTime}
 													helperText={
-														Boolean(touched.Sgst) && (errors.Sgst as string)
+														Boolean(touched.endTime) &&
+														(errors.endTime as string)
 													}
 												/>
 											</div>
@@ -191,7 +233,7 @@ const ShiftConfig = () => {
 													)
 												}
 											>
-												UPDATE CONFIGURE
+												SET CONFIGURE
 											</Button>
 										</div>
 									</Form>
@@ -216,16 +258,16 @@ const Shift_Type = [
 	{
 		id: 1,
 		name: "First Shift",
-		value: "first",
+		value: "FirstShift",
 	},
 	{
 		id: 2,
 		name: "Second Shift",
-		value: "second",
+		value: "SecondShift",
 	},
 	{
 		id: 3,
 		name: "Night Shift",
-		value: "night",
+		value: "NightShift",
 	},
 ];

@@ -3,8 +3,6 @@ import {
 	BorderColor,
 	Delete,
 	Info,
-	KeyboardArrowDownRounded,
-	MedicalInformationRounded,
 	MeetingRoom,
 	RadioButtonChecked,
 	Visibility,
@@ -13,22 +11,19 @@ import {
 	Avatar,
 	Card,
 	CardContent,
-	Menu,
-	MenuItem,
 	Paper,
 	Tooltip,
 	Typography,
 } from "@mui/material";
-import { SAMPLEDP } from "assets/home";
 import { AdminBreadcrumbs, HeadStyle } from "components/core";
-import { useFetch } from "hooks";
-import moment from "moment";
-import { useRouter } from "next/router";
-import { useState, MouseEvent } from "react";
-import { MuiTblOptions } from "utils";
-import Swal from "sweetalert2";
-import { useChange } from "hooks";
+import { EditShift } from "components/dialogues";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import { SHIFT } from "types";
+import { MuiTblOptions } from "utils";
 
 interface ARRAY {
 	id?: string;
@@ -49,9 +44,18 @@ interface Props {
 	mutate?: any;
 }
 
-const AllShifts = ({ data, mutate }: Props) => {
+const AllShifts = ({ data }: Props) => {
 	const [isLeave, setIsLeave] = useState<boolean>(false);
+	const [editDetails, setEditDetails] = useState<boolean>(false);
+	const [editShiftData, setEditShiftData] = useState<SHIFT>();
 
+	const {
+		data: shiftData,
+		mutate,
+		isLoading,
+		pagination,
+	} = useFetch<any>(`security/shift`);
+	console.log(shiftData);
 	const { change } = useChange();
 	const handleDelete = (id: string) => {
 		Swal.fire({
@@ -85,24 +89,28 @@ const AllShifts = ({ data, mutate }: Props) => {
 
 	return (
 		<>
-			<PanelLayout title="Meetings - Admin Panel">
+			<PanelLayout title="All Shifts - Admin Panel">
 				<section className="md:px-8 px-2">
 					<AdminBreadcrumbs links={links} />
+					<EditShift
+						open={editDetails}
+						handleClose={() => setEditDetails(false)}
+						holidayData={editShiftData}
+						mutate={mutate}
+					/>
 					<div className="mt-6">
 						<MaterialTable
 							components={{
 								Container: (props) => <Paper {...props} elevation={5} />,
 							}}
-							title={<HeadStyle name="Meetings" icon={<MeetingRoom />} />}
+							title={<HeadStyle name="All Shifts" icon={<MeetingRoom />} />}
 							// isLoading={!data}
 							data={
-								!data?.length
+								!shiftData?.length
 									? []
-									: data?.map((_: any, i: number) => ({
+									: shiftData?.map((_: any, i: number) => ({
 											..._,
 											sn: i + 1,
-											meetingDate: moment(_?.meetingDate).format("DD/MM/YYYY"),
-											createdAt: moment(_?.createdAt).format("ll"),
 									  }))
 							}
 							options={{
@@ -116,67 +124,32 @@ const AllShifts = ({ data, mutate }: Props) => {
 									// width: "2%",
 								},
 								{
-									title: "Meeting Title",
+									title: "Branch",
 									tooltip: "Meeting Title",
 									searchable: true,
 									field: "title",
 								},
 								{
-									title: "Client Email",
-									tooltip: "Client Email",
+									title: "Shift",
+									tooltip: "Shift",
 									searchable: true,
-									field: "clientEmail",
-									render: (data) =>
-										data?.clientEmail ? data?.clientEmail : "---",
+									field: "type",
 								},
 								{
-									title: "Client Name",
+									title: "Start Time",
 									tooltip: "Client Name",
 									searchable: true,
 									field: "clientName",
 								},
 								{
-									title: "Client Phone",
+									title: "End TIme",
 									tooltip: "Client Phone",
 									searchable: true,
 									field: "clientPhone",
 									render: (data) =>
 										data?.clientPhone ? data?.clientPhone : "---",
 								},
-								{
-									title: "Meeting Date",
-									tooltip: "Meeting Date",
-									searchable: true,
-									field: "meetingDate",
-									// render: (data) => moment(data?.meetingDate).format("ll"),
-								},
-								{
-									title: "Meeting Start Time",
-									tooltip: "Meeting Start Time",
-									searchable: true,
-									field: "meetingStartTime",
-									render: (data) => data?.meetingStartTime,
-								},
-								{
-									title: "Meeting End Time",
-									tooltip: "MeetingEnd Time",
-									searchable: true,
-									field: "meetingEndTime",
-									render: (data) =>
-										data?.meetingEndTime ? data?.meetingEndTime : "---",
-								},
-								{
-									title: "Status",
-									tooltip: "Status",
-									field: "status",
-									// render: (item) => <MeetingStatus />,
-								},
-								{
-									title: "Created",
-									field: "createdAt",
-									render: (data) => moment(data?.createdAt).format("ll"),
-									editable: "never",
-								},
+
 								{
 									title: "Actions",
 									cellStyle: {
@@ -185,17 +158,16 @@ const AllShifts = ({ data, mutate }: Props) => {
 									export: true,
 									// width: "18%",
 									// field: "pick",
-									render: (row) => (
+									render: (item) => (
 										<>
 											<div className="flex">
-												<Tooltip title="More">
+												<Tooltip title="Edit">
 													<Avatar
 														// onClick={() => setOpenAddCustomerDrawer(row)}
-														onClick={() =>
-															router.push(
-																`/admin/meetings/meeting-details?id=${row?.id}`
-															)
-														}
+														onClick={() => {
+															setEditDetails((prev) => !prev),
+																setEditShiftData(item);
+														}}
 														variant="rounded"
 														className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-theme !p-0"
 														sx={{
@@ -206,12 +178,12 @@ const AllShifts = ({ data, mutate }: Props) => {
 															color: "",
 														}}
 													>
-														<Info sx={{ padding: "0px !important" }} />
+														<BorderColor sx={{ padding: "0px !important" }} />
 													</Avatar>
 												</Tooltip>
 												<Tooltip title="Delete">
 													<Avatar
-														onClick={() => handleDelete(row?.id)}
+														onClick={() => handleDelete(item?.id)}
 														variant="rounded"
 														className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-700 !p-0"
 														sx={{

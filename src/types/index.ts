@@ -94,7 +94,7 @@ export interface Guest {
 	phone?: string;
 	updatedAt?: Date;
 	visitInfo?: string | null;
-	GuestInfo?: GuestInfo
+	GuestInfo?: GuestInfo;
 }
 export interface GuestInfo {
 	guestCountByGender: GuestDashboard[];
@@ -102,7 +102,6 @@ export interface GuestInfo {
 	blockedGuestCount: number;
 }
 export interface GuestDashboard {
-	
 	_count: number;
 	name: string;
 }
@@ -888,4 +887,11 @@ export type Support = {
 	createdAt?: string;
 	updatedAt?: string;
 	message?: string;
+};
+export type SHIFT = {
+	id?: string;
+	shift?: string;
+	startTime?: string;
+	endTime?: string;
+	shiftOfBranchId?: string;
 };
