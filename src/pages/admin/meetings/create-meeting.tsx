@@ -72,6 +72,12 @@ const CreateMeeting = () => {
     ),
     clientName: Yup.string().required("Client Name is required!"),
     status: Yup.string().required("Meeting Status is required!"),
+    latitude: Yup.number()
+      .min(-90, "Latitude must be greater than or equal to -90")
+      .max(90, "Latitude must be less than or equal to 90"),
+    longitude: Yup.number()
+      .min(-180, "Longitude must be greater than or equal to -180")
+      .max(180, "Longitude must be less than or equal to 180"),
   });
 
   const { data: clients } = useFetch<Client[]>(`clients`);

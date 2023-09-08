@@ -268,9 +268,7 @@ const ProfileDetails = () => {
               <section className="py-4 md:px-8 px-3">
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Basic Details" />
-                  {user?.role?.name === "CEO" ||
-                  user?.role?.name === "HR" ||
-                  user?.role?.name === "COO" ? (
+                  {user?.role?.name === "CEO" || user?.role?.name === "COO" ? (
                     <Tooltip title="Edit">
                       <IconButton onClick={() => setIsDialogue(true)}>
                         <ICONS.Edit className="h-5 w-5" />
@@ -327,9 +325,7 @@ const ProfileDetails = () => {
               <section className="md:px-8 px-3 mt-2">
                 <div className=" pb-2 flex justify-between items-center">
                   <HeadText title="Bank Details" />
-                  {user?.role?.name === "CEO" ||
-                  user?.role?.name === "HR" ||
-                  user?.role?.name === "COO" ? (
+                  {user?.role?.name === "CEO" || user?.role?.name === "COO" ? (
                     <Tooltip title="Edit">
                       <IconButton onClick={() => setIsBank(true)}>
                         <ICONS.Edit className="h-5 w-5" />

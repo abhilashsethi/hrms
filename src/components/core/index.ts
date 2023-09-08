@@ -41,3 +41,4 @@ export { default as SingleDocUpdate } from "./SingleDocUpdate";
 export { default as NoDatas } from "./NoDatas";
 export { default as PageNotFound } from "./PageNotFound";
 export { default as SearchLoaderAnime } from "./SearchLoaderAnime";
+export { default as LocationLoaderAnime } from "./LocationLoaderAnime";
