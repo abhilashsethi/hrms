@@ -16,7 +16,7 @@ import PanelLayout from "layouts/panel";
 import router from "next/router";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
-import { Branch, Role } from "types";
+import { Branch, Role, SHIFT } from "types";
 import * as Yup from "yup";
 interface FormValues {
   firstName: string;
@@ -79,8 +79,6 @@ const validationSchema = Yup.object().shape({
     .required("Email is required!"),
   branchId: Yup.string().required("Required!"),
   address: Yup.string().required("Required!"),
-  // agencyAddress: Yup.string().required("Required!"),
-  // agencyName: Yup.string().required("Required!"),
   joiningDate: Yup.string().required("Required!"),
   shiftId: Yup.string().required("Required!"),
   roleId: Yup.string().required("Required!"),
@@ -93,7 +91,7 @@ const CreateGuard = () => {
   const { data: branchData } = useFetch<Branch[]>(`branches`);
   const { data: roleData } = useFetch<Role[]>(`roles`);
   const { data: departmentsData } = useFetch<Role[]>(`departments`);
-  const { data: securityShift } = useFetch<any>(`security/shift`);
+  const { data: securityShift } = useFetch<SHIFT[]>(`security/shift`);
   const { change } = useChange();
   const handleOptionChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -417,10 +415,10 @@ const CreateGuard = () => {
                         size="small"
                         id="shiftId"
                         options={securityShift || []}
-                        onChange={(e: any, r: any) => {
-                          setFieldValue("shiftId", r?.id);
+                        onChange={(e: ChangeEvent<{}>, r: SHIFT | null) => {
+                          setFieldValue("shiftId", r?.id || "");
                         }}
-                        getOptionLabel={(option: any) => option.type}
+                        getOptionLabel={(option: SHIFT) => option.type || ""}
                         renderInput={(params) => (
                           <TextField
                             {...params}
