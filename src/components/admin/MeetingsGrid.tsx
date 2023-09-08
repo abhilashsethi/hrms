@@ -1,6 +1,9 @@
 import {
   DeleteRounded,
+  DriveEta,
   Info,
+  LocalActivity,
+  LocationOn,
   MoreVertRounded,
   Place,
 } from "@mui/icons-material";
@@ -11,11 +14,13 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
+import { LocationLoaderAnime } from "components/core";
+import GoogleMapReact from "google-map-react";
 // import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import { useChange } from "hooks";
 import moment from "moment";
 import Link from "next/link";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 interface ARRAY {
@@ -44,6 +49,7 @@ interface MapProps {
 }
 
 const MeetingsGrid = ({ data, mutate }: Props) => {
+  const AnyReactComponent = ({ icon }: any) => <div>{icon}</div>;
   const mapStyles = {
     width: "100%",
     height: "400px",
@@ -63,7 +69,7 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
               key={items?.id}
             >
               <CardComponent items={items} mutate={mutate} />
-              <div className="md:px-4 px-2">
+              <div className="md:px-4 py-4 px-2">
                 <div className="flex justify-between items-center">
                   <span className="py-1 pr-4 text-xl font-semibold capitalize tracking-wide">
                     {items?.title}
@@ -144,19 +150,26 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
                   <span className="text-md font-medium">Location :</span>
                 </div>
                 {items?.lat && items?.lng ? (
-                  <>
-                    <p>in Progrss</p>
-                    {/* <Map
-                    google={google}
-                    zoom={15}
-                    style={mapStyles}
-                    initialCenter={{ lat: items?.lat, lng: items?.lng }}
-                  >
-                    <Marker position={{ lat: items?.lat, lng: items?.lng }} />
-					    </Map> */}
-                  </>
+                  <div style={{ height: "250px", width: "100%" }}>
+                    <GoogleMapReact
+                      bootstrapURLKeys={{
+                        key: "AIzaSyAIoFnxvF-KrCNFgP3-_LcTnBSAuQ3iqfA",
+                      }}
+                      defaultCenter={{
+                        lat: items?.lat,
+                        lng: items?.lng,
+                      }}
+                      defaultZoom={15}
+                    >
+                      <AnyReactComponent
+                        icon={
+                          <LocationOn className="!text-red-600 h-10 w-10" />
+                        }
+                      />
+                    </GoogleMapReact>
+                  </div>
                 ) : (
-                  <p>No location available.</p>
+                  <LocationLoaderAnime />
                 )}
               </div>
             </div>

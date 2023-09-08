@@ -16,7 +16,6 @@ interface Props {
   mutateTicket?: any;
 }
 const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
-  console.log(ticketsData);
   const [getDocument, setGetDocument] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [tickets, setTickets] = useState(false);
