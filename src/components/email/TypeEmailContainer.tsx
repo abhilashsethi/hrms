@@ -13,15 +13,15 @@ import {
   InputLabel,
   TextField,
 } from "@mui/material";
-import dynamic from "next/dynamic";
-import { useRef, useState } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useChange, useAuth, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { EmailType, User } from "types";
-import { uploadFile, deleteFile } from "utils";
+import { deleteFile, uploadFile } from "utils";
+import * as Yup from "yup";
 
 const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
@@ -243,7 +243,7 @@ const TypeEmailContainer = ({
                 { indent: "-1" },
                 { indent: "+1" },
               ],
-              ["link", "image"],
+              ["link"],
               ["clean"],
             ],
           }}
@@ -258,7 +258,6 @@ const TypeEmailContainer = ({
             "bullet",
             "indent",
             "link",
-            "image",
           ]}
           value={formik?.values?.message}
           onChange={(value) => formik?.setFieldValue("message", value)}

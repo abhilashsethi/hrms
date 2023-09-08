@@ -584,7 +584,7 @@ const CreateEmail = (templateId: any) => {
                     { indent: "-1" },
                     { indent: "+1" },
                   ],
-                  ["link", "image"],
+                  ["link"],
                   ["clean"],
                 ],
               }}
@@ -599,7 +599,6 @@ const CreateEmail = (templateId: any) => {
                 "bullet",
                 "indent",
                 "link",
-                "image",
               ]}
               value={formik?.values?.message}
               onChange={(value) => formik?.setFieldValue("message", value)}
