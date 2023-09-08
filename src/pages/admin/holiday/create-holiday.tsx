@@ -271,9 +271,9 @@ const CreateHoliday = () => {
 												setImageValue={(event: any) => {
 													setFieldValue("image", event.currentTarget.files[0]);
 												}}
-											/>
-											{/* <ErrorMessage name="image" />
-											</SingleImageUpload> */}
+											>
+												<ErrorMessage name="image" />
+											</SingleImageUpload>
 										</div>
 									</div>
 									<div className="flex justify-center md:py-4 py-2">

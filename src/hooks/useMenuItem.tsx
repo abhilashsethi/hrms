@@ -590,6 +590,12 @@ export default () => {
 					route: "/admin/security/shift-config",
 				},
 				{
+					key: "13AS-6",
+					title: "View All Shifts",
+					icon: <ICONS.Shift_Configure />,
+					route: "/admin/security/all-shifts",
+				},
+				{
 					key: "13AS-4",
 					title: "Create Appointment",
 					icon: <ICONS.Create_Appointment />,
