@@ -56,14 +56,10 @@ const EditMeetingDetails = ({
 			meetingDetails?.meetingDate ? meetingDetails?.meetingDate : ""
 		}`,
 		meetingStartTime: `${
-			meetingDetails?.meetingStartTime
-				? moment(meetingDetails?.meetingStartTime).format("HH:mm")
-				: ""
+			meetingDetails?.meetingStartTime ? meetingDetails?.meetingStartTime : ""
 		}`,
 		meetingEndTime: `${
-			meetingDetails?.meetingEndTime
-				? moment(meetingDetails?.meetingEndTime)?.format("HH:mm")
-				: ""
+			meetingDetails?.meetingEndTime ? meetingDetails?.meetingEndTime : ""
 		}`,
 		clientName: `${
 			meetingDetails?.clientName ? meetingDetails?.clientName : ""
@@ -83,40 +79,40 @@ const EditMeetingDetails = ({
 	const { change } = useChange();
 	const handleSubmit = async (values: any) => {
 		// console.log(meetingId);
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You want to update status?",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, update!",
-		}).then(async (result) => {
-			if (result.isConfirmed) {
-				const res = await change(`meetings/${meetingId}`, {
-					method: "PATCH",
-					body: {
-						title: values?.title,
-						clientName: values?.clientName,
-						clientEmail: values?.clientEmail,
-						clientPhone: values?.clientPhone,
-						meetingPersonName: values?.meetingPersonName,
-						meetingDate: new Date(values?.meetingDate)?.toISOString(),
-						meetingStartTime: values?.meetingStartTime,
-						meetingEndTime: values?.meetingEndTime,
-					},
-				});
-				mutate();
-				// handleClose();
-				handleClose();
-				if (res?.status !== 200) {
-					Swal.fire(`Error`, "Something went wrong!", "error");
-					return;
-				}
-				Swal.fire(`Success`, "Status updated successfully!!", "success");
+		try {
+			setLoading(true);
+			const res = await change(`meetings/${meetingId}`, {
+				method: "PATCH",
+				body: {
+					title: values?.title,
+					clientName: values?.clientName,
+					clientEmail: values?.clientEmail,
+					clientPhone: values?.clientPhone,
+					meetingPersonName: values?.meetingPersonName,
+					meetingDate: new Date(values?.meetingDate)?.toISOString(),
+					meetingStartTime: values?.meetingStartTime,
+					meetingEndTime: values?.meetingEndTime,
+				},
+			});
+
+			if (res?.status !== 200) {
+				Swal.fire(`Error`, "Something went wrong!", "error");
+				setLoading(false);
 				return;
 			}
-		});
+			Swal.fire(`Success`, "Status updated successfully!!", "success");
+			setLoading(false);
+			mutate();
+			handleClose();
+			return;
+		} catch (error) {
+			if (error instanceof Error) {
+				Swal.fire(`Error`, error?.message, `error`);
+			}
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -200,7 +196,7 @@ const EditMeetingDetails = ({
 									/>
 								</div>
 
-								<div className="px-4 py-2">
+								<div className="md:px-4 px-2 md:py-2 py-1">
 									<div className="py-2">
 										<p>
 											Meeting Start Time <span className="text-red-600">*</span>
@@ -225,7 +221,7 @@ const EditMeetingDetails = ({
 										}
 									/>
 								</div>
-								<div className="px-4 py-2">
+								<div className="md:px-4 px-2 md:py-2 py-1">
 									<div className="py-2">
 										<p>Meeting End Time</p>
 									</div>

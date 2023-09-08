@@ -48,7 +48,7 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 		try {
 			setLoading(true);
 
-			const res = await change(`shift/${shiftData?._id?.$oid}`, {
+			const res = await change(`security/shift/${shiftData?._id?.$oid}`, {
 				method: "PATCH",
 				body: {
 					type: values?.type,
@@ -169,10 +169,11 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 											options={Shift_Type || []}
 											autoHighlight
 											getOptionLabel={(option: any) =>
-												option.type ? option.type : ""
+												option.name ? option.name : ""
 											}
-											isOptionEqualToValue={(option, value) =>
-												option.type === value.type
+											isOptionEqualToValue={
+												(option, value) => option.type === value.type
+												// console.log(option, value)
 											}
 											value={
 												values?.type

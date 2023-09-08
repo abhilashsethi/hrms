@@ -38,7 +38,7 @@ const AllShifts = () => {
 			try {
 				if (result.isConfirmed) {
 					Swal.fire(`Info`, "It will take some time", "info");
-					const response = await change(`shift/${id}`, {
+					const response = await change(`security/shift/${id}`, {
 						method: "DELETE",
 					});
 					if (response?.status !== 200) {
