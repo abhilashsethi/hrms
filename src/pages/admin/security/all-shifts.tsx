@@ -1,20 +1,6 @@
 import MaterialTable from "@material-table/core";
-import {
-	BorderColor,
-	Delete,
-	Info,
-	MeetingRoom,
-	RadioButtonChecked,
-	Visibility,
-} from "@mui/icons-material";
-import {
-	Avatar,
-	Card,
-	CardContent,
-	Paper,
-	Tooltip,
-	Typography,
-} from "@mui/material";
+import { BorderColor, Delete, MeetingRoom } from "@mui/icons-material";
+import { Avatar, Pagination, Paper, Stack, Tooltip } from "@mui/material";
 import { AdminBreadcrumbs, HeadStyle } from "components/core";
 import { EditShift } from "components/dialogues";
 import { useChange, useFetch } from "hooks";
@@ -25,36 +11,18 @@ import Swal from "sweetalert2";
 import { SHIFT } from "types";
 import { MuiTblOptions } from "utils";
 
-interface ARRAY {
-	id?: string;
-	title?: string;
-	address?: string;
-	clientEmail?: string;
-	clientName?: string;
-	clientPhone?: string;
-	meetingDate?: string;
-	meetingEndTime?: string;
-	meetingStartTime?: string;
-	meetingPersonName?: string;
-	status?: string;
-	purpose?: string;
-}
-interface Props {
-	data?: ARRAY[];
-	mutate?: any;
-}
-
-const AllShifts = ({ data }: Props) => {
+const AllShifts = () => {
 	const [isLeave, setIsLeave] = useState<boolean>(false);
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 	const [editShiftData, setEditShiftData] = useState<SHIFT>();
+	const [pageNumber, setPageNumber] = useState<number>(1);
 
 	const {
 		data: shiftData,
 		mutate,
 		isLoading,
 		pagination,
-	} = useFetch<any>(`security/shift`);
+	} = useFetch<any>(`security/shift?page=${pageNumber}&limit=6`);
 	console.log(shiftData);
 	const { change } = useChange();
 	const handleDelete = (id: string) => {
@@ -70,7 +38,7 @@ const AllShifts = ({ data }: Props) => {
 			try {
 				if (result.isConfirmed) {
 					Swal.fire(`Info`, "It will take some time", "info");
-					const response = await change(`meetings/${id}`, {
+					const response = await change(`shift/${id}`, {
 						method: "DELETE",
 					});
 					if (response?.status !== 200) {
@@ -111,6 +79,7 @@ const AllShifts = ({ data }: Props) => {
 									: shiftData?.map((_: any, i: number) => ({
 											..._,
 											sn: i + 1,
+											branchName: _?.branchData?.name,
 									  }))
 							}
 							options={{
@@ -127,7 +96,7 @@ const AllShifts = ({ data }: Props) => {
 									title: "Branch",
 									tooltip: "Branch",
 									searchable: true,
-									field: "title",
+									field: "branchName",
 								},
 								{
 									title: "Shift",
@@ -146,8 +115,6 @@ const AllShifts = ({ data }: Props) => {
 									tooltip: "End Time",
 									searchable: true,
 									field: "endTime",
-									render: (data) =>
-										data?.clientPhone ? data?.clientPhone : "---",
 								},
 
 								{
@@ -183,7 +150,7 @@ const AllShifts = ({ data }: Props) => {
 												</Tooltip>
 												<Tooltip title="Delete">
 													<Avatar
-														onClick={() => handleDelete(item?.id)}
+														onClick={() => handleDelete(item?._id?.$oid)}
 														variant="rounded"
 														className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-700 !p-0"
 														sx={{
@@ -204,6 +171,27 @@ const AllShifts = ({ data }: Props) => {
 							]}
 						/>
 					</div>
+					<section className="mb-6">
+						{Math.ceil(
+							Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+						) > 1 ? (
+							<div className="flex justify-center md:py-8 py-4">
+								<Stack spacing={2}>
+									<Pagination
+										count={Math.ceil(
+											Number(pagination?.total || 1) /
+												Number(pagination?.limit || 1)
+										)}
+										onChange={(e, v: number) => {
+											setPageNumber(v);
+										}}
+										page={pageNumber}
+										variant="outlined"
+									/>
+								</Stack>
+							</div>
+						) : null}
+					</section>
 				</section>
 			</PanelLayout>
 		</>
@@ -215,21 +203,4 @@ export default AllShifts;
 const links = [
 	{ id: 1, page: "Meetings", link: "/admin/meetings" },
 	{ id: 2, page: "All Meetings", link: "/admin/meetings/all-meetings" },
-];
-const status = [
-	{
-		id: 1,
-		value: "Completed",
-		icon: <RadioButtonChecked fontSize="small" className="!text-blue-500" />,
-	},
-	{
-		id: 2,
-		value: "On Progress",
-		icon: <RadioButtonChecked fontSize="small" className="!text-green-500" />,
-	},
-	{
-		id: 3,
-		value: "Cancelled",
-		icon: <RadioButtonChecked fontSize="small" className="!text-red-500" />,
-	},
 ];

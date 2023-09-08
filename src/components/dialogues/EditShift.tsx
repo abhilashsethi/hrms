@@ -11,16 +11,12 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { ErrorMessage, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
-import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { HOLIDAY, SHIFT } from "types";
+import { SHIFT } from "types";
 import * as Yup from "yup";
-import { useMemo } from "react";
-import { SingleImageUpdateBranch, SingleImageUpload } from "components/core";
-import { uploadFile } from "utils";
 
 interface Props {
 	open: boolean;
@@ -40,10 +36,10 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
 	const { data: branchData } = useFetch<any>(`branches`);
 	const initialValues = {
-		shiftOfBranchId: "",
-		type: "",
-		startTime: "",
-		endTime: "",
+		shiftOfBranchId: shiftData?.branchId?.$oid,
+		type: shiftData?.type,
+		startTime: shiftData?.startTime,
+		endTime: shiftData?.endTime,
 	};
 
 	const { change } = useChange();
@@ -52,9 +48,14 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 		try {
 			setLoading(true);
 
-			const res = await change(`holidays/${shiftData?.id}`, {
-				method: "PUT",
-				body: {},
+			const res = await change(`shift/${shiftData?._id?.$oid}`, {
+				method: "PATCH",
+				body: {
+					type: values?.type,
+					startTime: values?.startTime,
+					endTime: values?.endTime,
+					branchId: shiftData?.branchId?.$oid,
+				},
 			});
 
 			if (res?.status !== 200) throw new Error("Something went wrong");
@@ -159,29 +160,37 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 										/>
 									</div>
 									<div className="md:px-4 px-2 md:py-2 py-1">
-										<div className="py-2">
-											<InputLabel htmlFor="type">
-												Shift <span className="text-red-600">*</span>
-											</InputLabel>
-										</div>
+										<p className="text-theme font-semibold my-2">
+											Shift <span className="text-red-600">*</span>
+										</p>
 
 										<Autocomplete
-											fullWidth
-											size="small"
-											id="type"
+											sx={{ width: "100%" }}
 											options={Shift_Type || []}
+											autoHighlight
+											getOptionLabel={(option: any) =>
+												option.type ? option.type : ""
+											}
+											isOptionEqualToValue={(option, value) =>
+												option.type === value.type
+											}
+											value={
+												values?.type
+													? Shift_Type?.find(
+															(option: any) => option.type === values.type
+													  )
+													: {}
+											}
 											onChange={(e: any, r: any) => {
-												setFieldValue("type", r?.value);
+												setFieldValue("type", r?.type);
 											}}
-											getOptionLabel={(option: any) => option.name}
 											renderInput={(params) => (
 												<TextField
 													{...params}
-													// label="Role"
-													placeholder="type"
-													onBlur={handleBlur}
-													error={touched.type && !!errors.type}
-													helperText={touched.type && errors.type}
+													placeholder="Select Shift"
+													inputProps={{
+														...params.inputProps,
+													}}
 												/>
 											)}
 										/>
@@ -264,16 +273,16 @@ const Shift_Type = [
 	{
 		id: 1,
 		name: "First Shift",
-		value: "FirstShift",
+		type: "FirstShift",
 	},
 	{
 		id: 2,
 		name: "Second Shift",
-		value: "SecondShift",
+		type: "SecondShift",
 	},
 	{
 		id: 3,
 		name: "Night Shift",
-		value: "NightShift",
+		type: "NightShift",
 	},
 ];

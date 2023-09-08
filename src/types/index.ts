@@ -912,4 +912,13 @@ export type SHIFT = {
 	startTime?: string;
 	endTime?: string;
 	shiftOfBranchId?: string;
+	branchId?: {
+		$oid?: string;
+	};
+	_id?: {
+		$oid?: string;
+	};
+	branchData?: {
+		name: string;
+	};
 };

@@ -6,14 +6,14 @@ import {
 	InputLabel,
 	TextField,
 } from "@mui/material";
-import { GstConfigSkeleton } from "components/admin/skeleton";
 import { AdminBreadcrumbs } from "components/core";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { QuotationGst, SHIFT } from "types";
+import { SHIFT } from "types";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
@@ -24,6 +24,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const ShiftConfig = () => {
+	const router = useRouter();
 	const { data: branchData } = useFetch<any>(`branches`);
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
@@ -34,19 +35,18 @@ const ShiftConfig = () => {
 		startTime: "",
 		endTime: "",
 	};
-	const handleSubmit = async (values: SHIFT) => {
+	const handleSubmit = async (
+		values: SHIFT,
+		{ resetForm }: FormikHelpers<SHIFT>
+	) => {
 		setLoading(true);
 		try {
 			const res = await change(`security/shift`, {
 				method: "POST",
 				body: {
 					type: values?.type,
-					startDate: values?.startTime
-						? new Date(values?.startTime)?.toISOString()
-						: undefined,
-					endTime: values?.endTime
-						? new Date(values?.endTime)?.toISOString()
-						: undefined,
+					startTime: values?.startTime,
+					endTime: values?.endTime,
 					branchId: values?.shiftOfBranchId,
 				},
 			});
@@ -60,12 +60,13 @@ const ShiftConfig = () => {
 				setLoading(false);
 				return;
 			}
-
+			router.push("/admin/security/all-shifts");
 			Swal.fire(
 				`Success`,
 				`Gst Configuration Update Successfully !`,
 				`success`
 			);
+			resetForm();
 			return;
 		} catch (error) {
 			console.log(error);
