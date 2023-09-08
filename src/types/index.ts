@@ -46,25 +46,25 @@ export type Card = {
 	guestId?: string | null;
 	guest?: Guest | null;
 };
-export type  EventInfo ={
-  event: {
-    title: string;
-    extendedProps?: {
-      WFH?: boolean;
-      inTime?: string;
-      outTime?: string;
-    };
-  };
-}
-export type  AttendanceData ={
-  title: string;
-  date: string;
-  extendedProps?: {
-    WFH?: boolean;
-    inTime?: string;
-    outTime?: string;
-  };
-}
+export type EventInfo = {
+	event: {
+		title: string;
+		extendedProps?: {
+			WFH?: boolean;
+			inTime?: string;
+			outTime?: string;
+		};
+	};
+};
+export type AttendanceData = {
+	title: string;
+	date: string;
+	extendedProps?: {
+		WFH?: boolean;
+		inTime?: string;
+		outTime?: string;
+	};
+};
 export type Attendance = {
 	id: string;
 	date: Date;
@@ -908,7 +908,7 @@ export type Support = {
 };
 export type SHIFT = {
 	id?: string;
-	shift?: string;
+	type?: string;
 	startTime?: string;
 	endTime?: string;
 	shiftOfBranchId?: string;

@@ -25,22 +25,23 @@ import { uploadFile } from "utils";
 interface Props {
 	open: boolean;
 	handleClose: () => void;
-	holidayData?: any;
+	shiftData?: SHIFT;
 	mutate: () => void;
 }
 
 const validationSchema = Yup.object().shape({
 	shiftOfBranchId: Yup.string().required("Required!"),
-	shift: Yup.string().required("Required !"),
+	type: Yup.string().required("Required !"),
 	startTime: Yup.string().required("Required !"),
 	endTime: Yup.string().required("Required !"),
 });
-const EditShift = ({ open, handleClose, holidayData, mutate }: Props) => {
+const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
+	console.log(shiftData);
 	const [loading, setLoading] = useState(false);
 	const { data: branchData } = useFetch<any>(`branches`);
 	const initialValues = {
 		shiftOfBranchId: "",
-		shift: "",
+		type: "",
 		startTime: "",
 		endTime: "",
 	};
@@ -51,7 +52,7 @@ const EditShift = ({ open, handleClose, holidayData, mutate }: Props) => {
 		try {
 			setLoading(true);
 
-			const res = await change(`holidays/${holidayData?.id}`, {
+			const res = await change(`holidays/${shiftData?.id}`, {
 				method: "PUT",
 				body: {},
 			});
@@ -159,7 +160,7 @@ const EditShift = ({ open, handleClose, holidayData, mutate }: Props) => {
 									</div>
 									<div className="md:px-4 px-2 md:py-2 py-1">
 										<div className="py-2">
-											<InputLabel htmlFor="shift">
+											<InputLabel htmlFor="type">
 												Shift <span className="text-red-600">*</span>
 											</InputLabel>
 										</div>
@@ -167,20 +168,20 @@ const EditShift = ({ open, handleClose, holidayData, mutate }: Props) => {
 										<Autocomplete
 											fullWidth
 											size="small"
-											id="shift"
+											id="type"
 											options={Shift_Type || []}
 											onChange={(e: any, r: any) => {
-												setFieldValue("shift", r?.value);
+												setFieldValue("type", r?.value);
 											}}
 											getOptionLabel={(option: any) => option.name}
 											renderInput={(params) => (
 												<TextField
 													{...params}
 													// label="Role"
-													placeholder="Shift"
+													placeholder="type"
 													onBlur={handleBlur}
-													error={touched.shift && !!errors.shift}
-													helperText={touched.shift && errors.shift}
+													error={touched.type && !!errors.type}
+													helperText={touched.type && errors.type}
 												/>
 											)}
 										/>

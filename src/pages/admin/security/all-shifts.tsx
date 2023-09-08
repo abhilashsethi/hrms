@@ -95,7 +95,7 @@ const AllShifts = ({ data }: Props) => {
 					<EditShift
 						open={editDetails}
 						handleClose={() => setEditDetails(false)}
-						holidayData={editShiftData}
+						shiftData={editShiftData}
 						mutate={mutate}
 					/>
 					<div className="mt-6">
@@ -125,7 +125,7 @@ const AllShifts = ({ data }: Props) => {
 								},
 								{
 									title: "Branch",
-									tooltip: "Meeting Title",
+									tooltip: "Branch",
 									searchable: true,
 									field: "title",
 								},
@@ -137,15 +137,15 @@ const AllShifts = ({ data }: Props) => {
 								},
 								{
 									title: "Start Time",
-									tooltip: "Client Name",
+									tooltip: "Start Time",
 									searchable: true,
-									field: "clientName",
+									field: "startTime",
 								},
 								{
 									title: "End TIme",
-									tooltip: "Client Phone",
+									tooltip: "End Time",
 									searchable: true,
-									field: "clientPhone",
+									field: "endTime",
 									render: (data) =>
 										data?.clientPhone ? data?.clientPhone : "---",
 								},
@@ -197,82 +197,6 @@ const AllShifts = ({ data }: Props) => {
 														<Delete sx={{ padding: "0px !important" }} />
 													</Avatar>
 												</Tooltip>
-											</div>
-										</>
-									),
-								},
-							]}
-							detailPanel={[
-								{
-									tooltip: "info",
-									icon: () => <Info />,
-									openIcon: () => <Visibility />,
-									render: ({ rowData }) => (
-										<>
-											<div
-												style={{
-													padding: "12px",
-													margin: "auto",
-													backgroundColor: "#eef5f9",
-												}}
-											>
-												<Card
-													sx={{
-														minWidth: 450,
-														maxWidth: 500,
-														transition: "0.3s",
-														margin: "auto",
-														borderRadius: "10px",
-														boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
-														"&:hover": {
-															boxShadow:
-																"0 16px 70px -12.125px rgba(0,0,0,0.3)",
-														},
-													}}
-												>
-													<CardContent>
-														<Typography gutterBottom align="left">
-															Location :
-															<span
-																style={{
-																	color: "rgb(30, 136, 229)",
-																	fontSize: "15px",
-																	wordBreak: "break-word",
-																	wordWrap: "break-word",
-																}}
-															>
-																<iframe
-																	className="w-full py-2"
-																	src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.0498150250405!2d85.77649581162628!3d20.25676868112798!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a740ae304117%3A0x629ce9db127f69ef!2sSearchingYard%20Software%20Group!5e0!3m2!1sen!2sin!4v1682685199057!5m2!1sen!2sin"
-																	loading="lazy"
-																	referrerPolicy="no-referrer-when-downgrade"
-																></iframe>
-																{/* <iframe
-															className="w-full py-2"
-															src={`https://maps.google.com/maps?q='+20.2961+','+85.8245+'&hl=es&z=14&amp;output=embed`}
-															loading="lazy"
-															referrerPolicy="no-referrer-when-downgrade"
-														></iframe> */}
-																{/* <iframe
-															src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d${rowData?.lat}!2d${rowData?.lng}!3d[Latitude]&output=embed`}
-														></iframe> */}
-															</span>
-														</Typography>
-														<Typography gutterBottom align="left">
-															Purpose :
-															<p
-																style={{
-																	color: "rgb(30, 136, 229)",
-																	fontSize: "15px",
-																	wordBreak: "break-word",
-																	wordWrap: "break-word",
-																}}
-															>
-																{rowData?.purpose}
-															</p>
-														</Typography>
-													</CardContent>
-												</Card>
 											</div>
 										</>
 									),
