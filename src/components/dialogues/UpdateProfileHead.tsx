@@ -349,7 +349,6 @@ const UpdateProfileHead = ({
                           sx={{ width: "100%" }}
                           options={roles || []}
                           autoHighlight
-                          disabled={user?.role?.name === "HR" ? true : false}
                           getOptionLabel={(option: any) =>
                             option.name ? option.name : ""
                           }
@@ -384,7 +383,6 @@ const UpdateProfileHead = ({
                         <Autocomplete
                           sx={{ width: "100%" }}
                           options={branchData || []}
-                          disabled={user?.role?.name === "HR" ? true : false}
                           autoHighlight
                           getOptionLabel={(option: any) =>
                             option.name ? option.name : ""
@@ -421,7 +419,6 @@ const UpdateProfileHead = ({
                         <Autocomplete
                           sx={{ width: "100%" }}
                           options={departmentsData || []}
-                          disabled={user?.role?.name === "HR" ? true : false}
                           autoHighlight
                           getOptionLabel={(option: any) =>
                             option.name ? option.name : ""
