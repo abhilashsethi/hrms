@@ -64,8 +64,25 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
             <h2 className="text-gray-600">
               {data?.isPaidLeave ? "Yes" : "No"}
             </h2>
-            <h1 className="font-semibold mt-4">Leave variant</h1>
+            <h1 className="font-semibold mt-4">Sand Witch Leave</h1>
+            <h2 className="text-gray-600">
+              {data?.isSandWitch ? "Yes" : "No"}
+            </h2>
+            <h1 className="font-semibold mt-4">Leave Variant</h1>
             <h2 className="text-gray-600">{data?.variant}</h2>
+            {data?.status === "Approved" ? (
+              <>
+                <h1 className="font-semibold mt-4">Total Paid Leave</h1>
+                <h2 className="text-gray-600">
+                  {data?.paidLeaveCount ? data?.paidLeaveCount : 0}
+                </h2>
+                <h1 className="font-semibold mt-4">Total Unpaid Leave</h1>
+                <h2 className="text-gray-600">
+                  {data?.unpaidLeaveCount ? data?.unpaidLeaveCount : 0}
+                </h2>
+              </>
+            ) : null}
+
             {user?.role?.name === "PROJECT MANAGER" ? null : (
               <>
                 <h1 className="font-semibold mt-4">
@@ -76,7 +93,7 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
                   Sick Leave Credit Remaining
                 </h1>
                 <h2 className="text-gray-600">{data?.sickCreditRemaining}</h2>
-                <h1 className="font-semibold mt-4">Total approved leave</h1>
+                <h1 className="font-semibold mt-4">Total Approved Leave</h1>
                 <h2 className="text-gray-600">{data?.totalLeaveThisMonth}</h2>
                 <h1 className="font-semibold mt-4">Total Leave This Year</h1>
                 <h2 className="text-gray-600">{data?.totalLeaveThisYear}</h2>

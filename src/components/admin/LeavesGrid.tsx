@@ -74,13 +74,12 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
   const [rloading, setRLoading] = useState(false);
   const [isDocuments, setIsDocuments] = useState(false);
   const [isApproveLeave, setApproveLeave] = useState(false);
-  const [isCurrentUserLeaveId, setCurrentUserLeaveId] = useState<any>("");
-  console.log(isCurrentUserLeaveId);
+  const [isCurrentUserLeaveId, setCurrentUserLeaveId] = useState<string>();
+  const [isCurrentData, setCurrentData] = useState<Leave>();
 
   const { data: sandwichLeave, isLoading } = useFetch<any>(
     `leaves/leave/days-info?leaveId=${isCurrentUserLeaveId}`
   );
-  console.log(sandwichLeave);
   const managerApproveLeave = (id?: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -250,7 +249,9 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
               <div className="md:flex items-center justify-center mt-2 pt-2 space-x-3">
                 <Button
                   onClick={() => {
-                    setApproveLeave(true), setCurrentUserLeaveId(item?.id);
+                    setApproveLeave(true),
+                      setCurrentUserLeaveId(item?.id),
+                      setCurrentData(item);
                   }}
                   className="!bg-green-600"
                   variant="contained"
@@ -313,6 +314,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
         open={isApproveLeave}
         handleClose={() => setApproveLeave(false)}
         mutate={mutate}
+        isCurrentData={isCurrentData}
         sandwichLeave={sandwichLeave}
       />
       <div
@@ -360,6 +362,7 @@ const CardComponent = ({ item, mainId, mutate }: Props) => {
 
 interface ModalProps {
   open: boolean;
+  isCurrentData: any;
   handleClose: () => void;
   mutate: () => void;
   item?: Leave;
@@ -370,6 +373,7 @@ const IsSandwichLeave = ({
   open,
   handleClose,
   sandwichLeave,
+  isCurrentData,
   mutate,
   item,
 }: ModalProps) => {
@@ -469,6 +473,7 @@ const IsSandwichLeave = ({
       }
     });
   };
+
   return (
     <Dialog
       onClose={handleClose}
@@ -497,6 +502,7 @@ const IsSandwichLeave = ({
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
         <div className="md:w-[40rem] w-[65vw] md:px-4 px-2 tracking-wide">
+          <span>{isCurrentData?.isSandWitch ? "Sandwich Leave" : null}</span>
           <div className="md:flex grid gap-2 md:justify-between py-3">
             <div>
               <span className="">Total Days : </span>

@@ -96,7 +96,6 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
     }
   };
   const removeMember = (item: any) => {
-    console.log(item);
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -253,7 +252,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
                           (option: any) => option.name === values.managerId
                         )}
                         onChange={(e: any, r: any) => {
-                          setFieldValue("managerId", r.id);
+                          setFieldValue("managerId", r?.id);
                         }}
                         id="managerId"
                         renderInput={(params) => (
@@ -271,7 +270,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
                           size="small"
                           variant="contained"
                           className="!bg-theme"
-                          disabled={loading}
+                          disabled={loading || !values?.managerId}
                           startIcon={
                             loading ? <CircularProgress size={20} /> : <Check />
                           }
@@ -382,7 +381,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
                           size="small"
                           variant="contained"
                           className="!bg-theme"
-                          disabled={loading}
+                          disabled={loading || !values?.userId}
                           startIcon={
                             loading ? <CircularProgress size={20} /> : <Check />
                           }
