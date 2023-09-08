@@ -19,16 +19,27 @@ import * as Yup from "yup";
 
 interface FormValues {
   inputFields: InputField[];
-  clientName: string;
-  clientEmail: string;
-  clientAddress: string;
-  quotationTitle: string;
-  text: string;
-  branchId: string;
+  clientName?: string;
+  clientEmail?: string;
+  clientAddress?: string;
+  quotationTitle?: string;
+  text?: string;
+  branchId?: string;
+  meetingTitle?: string;
+  meetingPurpose?: string;
+  meetingDate?: string;
+  meetingStartTime?: string;
+  meetingEndTime?: string;
+  meetingPersonName?: string;
+  clientPhone?: string;
+  address?: string;
+  lat?: number;
+  lon?: number;
+  status?: string;
 }
 interface InputField {
-  docTitle: string;
-  doc: any;
+  docTitle?: string;
+  doc?: any;
 }
 
 interface Props {
@@ -72,10 +83,10 @@ const CreateMeeting = () => {
     ),
     clientName: Yup.string().required("Client Name is required!"),
     status: Yup.string().required("Meeting Status is required!"),
-    latitude: Yup.number()
+    lat: Yup.number()
       .min(-90, "Latitude must be greater than or equal to -90")
       .max(90, "Latitude must be less than or equal to 90"),
-    longitude: Yup.number()
+    lon: Yup.number()
       .min(-180, "Longitude must be greater than or equal to -180")
       .max(180, "Longitude must be less than or equal to 180"),
   });
@@ -88,7 +99,7 @@ const CreateMeeting = () => {
       const resData = {
         title: values?.meetingTitle,
         purpose: values?.meetingPurpose,
-        meetingDate: new Date(values?.meetingDate)?.toISOString(),
+        meetingDate: new Date(values?.meetingDate || "")?.toISOString(),
         meetingStartTime: values?.meetingStartTime,
         meetingEndTime: values?.meetingEndTime,
         meetingPersonName: values?.meetingPersonName,
@@ -161,7 +172,6 @@ const CreateMeeting = () => {
                 }) => (
                   <Form>
                     <div className="grid lg:grid-cols-2">
-                      {/* {console.log(touched)} */}
                       <div className="md:px-4 px-2 md:py-2 py-1">
                         <div className="md:py-2 py-1">
                           <InputLabel htmlFor="meetingTitle">
@@ -173,7 +183,6 @@ const CreateMeeting = () => {
                           fullWidth
                           size="small"
                           id="meetingTitle"
-                          // placeholder="meetingTitle"
                           name="meetingTitle"
                           value={values.meetingTitle}
                           onChange={handleChange}
@@ -194,7 +203,6 @@ const CreateMeeting = () => {
                         <TextField
                           size="small"
                           fullWidth
-                          // placeholder="Client Address"
                           id="meetingPurpose"
                           name="meetingPurpose"
                           value={values.meetingPurpose}
@@ -218,7 +226,6 @@ const CreateMeeting = () => {
                           size="small"
                           fullWidth
                           type="date"
-                          // placeholder="Client Address"
                           id="meetingDate"
                           name="meetingDate"
                           value={values.meetingDate}
@@ -241,7 +248,6 @@ const CreateMeeting = () => {
                           size="small"
                           fullWidth
                           type="time"
-                          // placeholder="Client Address"
                           id="meetingStartTime"
                           name="meetingStartTime"
                           value={values.meetingStartTime}
@@ -267,7 +273,6 @@ const CreateMeeting = () => {
                           size="small"
                           fullWidth
                           type="time"
-                          // placeholder="Client Address"
                           id="meetingEndTime"
                           name="meetingEndTime"
                           value={values.meetingEndTime}
@@ -292,7 +297,6 @@ const CreateMeeting = () => {
                         <TextField
                           size="small"
                           fullWidth
-                          // placeholder="Quotation Title"
                           id="meetingPersonName"
                           name="meetingPersonName"
                           value={values.meetingPersonName}
@@ -328,7 +332,6 @@ const CreateMeeting = () => {
                             <TextField
                               {...params}
                               label="Select Client Name"
-                              // placeholder="Selected Gender"
                               onBlur={handleBlur}
                               error={touched.clientName && !!errors.clientName}
                               helperText={
@@ -357,7 +360,6 @@ const CreateMeeting = () => {
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              // label="Role"
                               placeholder="status"
                               onBlur={handleBlur}
                               error={touched.status && !!errors.status}
@@ -377,7 +379,6 @@ const CreateMeeting = () => {
                           size="small"
                           fullWidth
                           type="number"
-                          // placeholder="Client clientPhone"
                           id="clientPhone"
                           name="clientPhone"
                           value={values.clientPhone}
@@ -396,7 +397,6 @@ const CreateMeeting = () => {
                         <TextField
                           size="small"
                           fullWidth
-                          // placeholder="Client Address"
                           id="clientEmail"
                           name="clientEmail"
                           value={values.clientEmail}
@@ -413,7 +413,6 @@ const CreateMeeting = () => {
                         <TextField
                           size="small"
                           fullWidth
-                          // placeholder="Client Address"
                           id="address"
                           name="address"
                           value={values.address}
@@ -430,7 +429,6 @@ const CreateMeeting = () => {
                         <TextField
                           size="small"
                           fullWidth
-                          // placeholder="Client Address"
                           id="lat"
                           name="lat"
                           value={values.lat}
@@ -447,7 +445,6 @@ const CreateMeeting = () => {
                         <TextField
                           size="small"
                           fullWidth
-                          // placeholder="Client Address"
                           id="lon"
                           name="lon"
                           value={values.lon}
@@ -458,78 +455,6 @@ const CreateMeeting = () => {
                         />
                       </div>
                     </div>
-                    {/* <FieldArray name="inputFields">
-											{({ remove, push }) => (
-												<div>
-													{values.inputFields.map((field, index) => (
-														<div key={index} className="my-2">
-															<div className="px-8 py-4 w-full grid gap-2 border-2 border-theme">
-																<h1 className="">Document Title </h1>
-																<Field
-																	as={TextField}
-																	fullWidth
-																	size="small"
-																	type="text"
-																	onBlur={handleBlur}
-																	name={`inputFields[${index}].docTitle`}
-																	error={
-																		touched.inputFields?.[index]?.docTitle &&
-																		!!(
-																			errors.inputFields?.[index] as InputField
-																		)?.docTitle
-																	}
-																	helperText={
-																		touched.inputFields?.[index]?.docTitle &&
-																		(errors.inputFields?.[index] as InputField)
-																			?.docTitle
-																	}
-																/>
-																<h1 className="">Upload file </h1>
-																<Field
-																	as={TextField}
-																	fullWidth
-																	size="small"
-																	type="file"
-																	name={`inputFields[${index}].doc`}
-																	onBlur={handleBlur}
-																	error={
-																		touched.inputFields?.[index]?.doc &&
-																		!!(
-																			errors.inputFields?.[index] as InputField
-																		)?.doc
-																	}
-																	helperText={
-																		touched.inputFields?.[index]?.doc &&
-																		(errors.inputFields?.[index] as InputField)
-																			?.doc
-																	}
-																/>
-																<div className="flex justify-end w-full">
-																	<Button
-																		type="button"
-																		variant="contained"
-																		startIcon={<Delete />}
-																		className="!bg-red-600"
-																		onClick={() => remove(index)}
-																	>
-																		Remove
-																	</Button>
-																</div>
-															</div>
-														</div>
-													))}
-													<Button
-														type="button"
-														variant="contained"
-														startIcon={<Add />}
-														className="!bg-blue-600"
-														onClick={() => push({ docTitle: "", doc: null })}
-													>
-														ADD MORE FIELD
-													</Button>
-												</div>
-											)}
-										</FieldArray> */}
 
                     <div className="flex justify-center md:py-4 py-2 mt-10">
                       <Button
@@ -557,7 +482,6 @@ const CreateMeeting = () => {
 
 export default CreateMeeting;
 const links = [
-  // { id: 1, page: "Payroll", link: "/admin/payroll" },
   {
     id: 2,
     page: "Create Meeting",
