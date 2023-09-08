@@ -24,7 +24,7 @@ interface Props {
   absentMutate: () => void;
   presentMutate: () => void;
   allMutate: () => void;
-  selectedDate?: string;
+  selectedDate?: Date;
 }
 
 const AttendanceGrid = ({
@@ -42,7 +42,6 @@ const AttendanceGrid = ({
           <div key={item?.id}>
             <div className="h-full w-full bg-white shadow-xl rounded-2xl flex flex-col items-center gap-4 py-4 px-4 hover:scale-105 ease-in-out transition-all duration-150">
               <div className="w-full flex justify-between items-center">
-                {/* <div className="flex gap-2 items-center"> */}
                 <span
                   className={`border-[1px] rounded-lg font-medium tracking-wide text-sm px-3 py-0.5 ${
                     item?.status === "present"
@@ -144,7 +143,7 @@ interface Props {
   absentMutate: () => void;
   presentMutate: () => void;
   allMutate: () => void;
-  selectedDate?: string;
+  selectedDate?: Date;
 }
 
 const MenuComponent = ({

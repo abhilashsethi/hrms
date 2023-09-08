@@ -6,7 +6,7 @@ import { AdminBreadcrumbs, DashboardCard, Loader } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useMemo } from "react";
-import { Attendance, User, UserDashboard } from "types";
+import { Attendance, UserDashboard } from "types";
 const Attendance = () => {
   const { user } = useAuth();
   const { data: absentData } = useFetch<Attendance[]>(

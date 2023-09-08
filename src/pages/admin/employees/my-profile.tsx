@@ -10,13 +10,17 @@ import PanelLayout from "layouts/panel";
 import moment from "moment";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Attendance, AttendanceData, EventInfo } from "types";
 
 const MyProfile = () => {
-  const [activeMonth, setActiveMonth] = useState();
+  const [activeMonth, setActiveMonth] = useState<Date | null>(null);
   const { user } = useAuth();
   const [isMobile, setIsMobile] = useState(false);
-  const [attendances, setAttendances] = useState<any>([]);
-  function renderEventContent(eventInfo: any) {
+  const [attendances, setAttendances] = useState<AttendanceData[]>([]);
+  const { data: attendanceData, isLoading } = useFetch<Attendance[]>(
+    `attendances/${user?.id}`
+  );
+  function renderEventContent(eventInfo: EventInfo) {
     return (
       <>
         <span
@@ -54,13 +58,13 @@ const MyProfile = () => {
               <>
                 <span>
                   IN TIME :
-                  {moment(eventInfo.event.extendedProps.inTime).format(
+                  {moment(eventInfo?.event?.extendedProps?.inTime).format(
                     "hh:mm A"
                   )}
                 </span>
                 <span>
                   OUT TIME :
-                  {moment(eventInfo.event.extendedProps.outTime).format(
+                  {moment(eventInfo?.event?.extendedProps?.outTime).format(
                     "hh:mm A"
                   )}
                 </span>
@@ -72,19 +76,16 @@ const MyProfile = () => {
     );
   }
 
-  const { data: attendanceData, isLoading } = useFetch<any>(
-    `attendances/${user?.id}`
-  );
   useEffect(() => {
     if (!attendanceData) return;
     // Filter and format the events based on the current month
     const currentMonthEvents = attendanceData
-      .filter((item: any) => {
+      .filter((item) => {
         const eventMonth = moment(item?.date).month();
         const currentMonth = moment(activeMonth).month();
         return eventMonth === currentMonth;
       })
-      .map((item: any) => ({
+      .map((item) => ({
         ...item,
         title: "PRESENT",
         date: `${moment(item?.date).format("YYYY-MM-DD")}`,
@@ -148,7 +149,7 @@ const MyProfile = () => {
                   weekends={true}
                   eventContent={renderEventContent}
                   events={attendances}
-                  datesSet={(dateInfo: any) =>
+                  datesSet={(dateInfo) =>
                     setActiveMonth(dateInfo?.view?.currentStart)
                   }
                 />

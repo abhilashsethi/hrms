@@ -97,7 +97,6 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
             photos: values?.photos,
           },
         });
-        console.log(res);
         setLoading(false);
         if (res?.status !== 200) {
           Swal.fire(

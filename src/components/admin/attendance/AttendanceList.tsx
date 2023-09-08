@@ -14,7 +14,7 @@ interface Props {
   absentMutate: () => void;
   presentMutate: () => void;
   allMutate: () => void;
-  selectedDate: string;
+  selectedDate: Date;
 }
 
 const AttendanceList = ({
