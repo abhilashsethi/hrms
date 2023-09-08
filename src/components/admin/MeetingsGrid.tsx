@@ -156,7 +156,7 @@ const MeetingsGrid = ({ data, mutate, google }: Props) => {
 					    </Map> */}
                   </>
                 ) : (
-                  <p>No latitude and longitude available for this location.</p>
+                  <p>No location available.</p>
                 )}
               </div>
             </div>
