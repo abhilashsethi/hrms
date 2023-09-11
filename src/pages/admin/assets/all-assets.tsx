@@ -80,7 +80,6 @@ const AllAssets = () => {
         : `&branchId=${user?.employeeOfBranchId}`
     }`
   );
-  console.log(assetsData);
   useEffect(() => {
     setTimeout(() => {
       setIsView(true);

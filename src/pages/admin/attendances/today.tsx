@@ -82,7 +82,6 @@ const TodayAttendance = () => {
       user?.role?.name === "HR" ? `?branchId=${user?.employeeOfBranchId}` : ``
     }`
   );
-
   const cards = [
     {
       id: 1,

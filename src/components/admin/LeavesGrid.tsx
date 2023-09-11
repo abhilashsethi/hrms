@@ -473,7 +473,6 @@ const IsSandwichLeave = ({
       }
     });
   };
-  console.log(isCurrentData);
   return (
     <Dialog
       onClose={handleClose}
@@ -502,11 +501,10 @@ const IsSandwichLeave = ({
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
         <div className="md:w-[40rem] w-[65vw] md:px-4 px-2 tracking-wide">
-          <span>{isCurrentData?.isSandWitch ? "Sandwich Leave" : null}</span>
           <div className="md:flex grid gap-2 md:justify-between py-3">
             <div>
               {isCurrentData?.variant === "FirstHalf" ||
-              isCurrentData?.variant === "FirstHalf" ? (
+              isCurrentData?.variant === "SecondHalf" ? (
                 <span className="bg-green-600 text-white rounded-full px-2 py-1">
                   Half Day
                 </span>
@@ -520,7 +518,7 @@ const IsSandwichLeave = ({
               )}
             </div>
             <div>
-              {sandwichLeave?.isSandWitch ? (
+              {isCurrentData?.isSandWitch ? (
                 <>
                   <span>Total Sandwich Days : </span>
                   <span className="bg-green-600 text-white rounded-full px-2 py-1">
