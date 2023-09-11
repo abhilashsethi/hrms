@@ -13,11 +13,8 @@ import {
 import { LeaveBarChart, LeaveDonutChart } from "components/analytics";
 import { DashboardCard } from "components/core";
 import { useFetch } from "hooks";
-import { MouseEvent, useEffect, useState } from "react";
 
 const LeaveDashboard = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
   const { data: leaveData, isLoading } = useFetch<any>(
     `leaves/dashboard/details`
   );

@@ -64,7 +64,7 @@ const LeaveDocuments = ({ open, onClose, data }: Props) => {
             <h2 className="text-gray-600">
               {data?.isPaidLeave ? "Yes" : "No"}
             </h2>
-            <h1 className="font-semibold mt-4">Sand Witch Leave</h1>
+            <h1 className="font-semibold mt-4">Sandwich Leave</h1>
             <h2 className="text-gray-600">
               {data?.isSandWitch ? "Yes" : "No"}
             </h2>
