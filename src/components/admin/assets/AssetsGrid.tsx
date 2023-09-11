@@ -486,6 +486,7 @@ const MoreOption = ({ item, mutate }: any) => {
 						<div className="flex bottom-0 ">
 							{user?.role?.name === "CEO" ||
 							user?.role?.name === "HR" ||
+							user?.role?.name === "MANAGER" ||
 							user?.role?.name === "COO" ? (
 								<Tooltip title="Delete Asset">
 									<span
@@ -510,6 +511,7 @@ const MoreOption = ({ item, mutate }: any) => {
 									</Tooltip>
 									{user?.role?.name === "CEO" ||
 									user?.role?.name === "HR" ||
+									user?.role?.name === "MANAGER" ||
 									user?.role?.name === "COO" ? (
 										<Tooltip title="Return Asset">
 											<span
@@ -527,6 +529,7 @@ const MoreOption = ({ item, mutate }: any) => {
 								<>
 									{user?.role?.name === "CEO" ||
 									user?.role?.name === "HR" ||
+									user?.role?.name === "MANAGER" ||
 									user?.role?.name === "COO" ? (
 										<Tooltip title="Assign Employee">
 											<span
@@ -543,6 +546,7 @@ const MoreOption = ({ item, mutate }: any) => {
 							)}
 							{user?.role?.name === "CEO" ||
 							user?.role?.name === "HR" ||
+							user?.role?.name === "MANAGER" ||
 							user?.role?.name === "COO" ? (
 								<>
 									<Tooltip title="Edit Asset">
