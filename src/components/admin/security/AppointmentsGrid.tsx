@@ -77,7 +77,13 @@ const AppointmentsGrid = ({ data, mutate }: Props) => {
             className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl"
           >
             <div className="relative">
-              <p className="absolute top-2 rounded-r-xl bg-green-500 text-white text-sm px-2 pr-3 py-1 font-semibold">
+              <p
+                className={`absolute top-2 rounded-r-xl text-white text-sm px-2 pr-3 py-1 font-semibold ${
+                  item?.status === "Completed"
+                    ? "bg-green-500"
+                    : "bg-yellow-500"
+                }`}
+              >
                 {item?.status}
               </p>
 
