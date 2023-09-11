@@ -3,7 +3,6 @@ import {
   Button,
   IconButton,
   Link,
-  MenuItem,
   Pagination,
   Stack,
   TextField,
@@ -13,7 +12,6 @@ import { AppointmentsGrid } from "components/admin/security";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import moment from "moment";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { APPOINTMENT } from "types";
