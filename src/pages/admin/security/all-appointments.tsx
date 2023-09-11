@@ -28,12 +28,12 @@ const AllAppointments = () => {
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
   console.log({ selectDate });
   const {
-    data: billData,
+    data: appointmentData,
     mutate,
     isLoading,
     pagination,
-  } = useFetch<Bills[]>(
-    `bills?page=${pageNumber}&limit=6${
+  } = useFetch<any[]>(
+    `appointments?page=${pageNumber}&limit=6${
       clientName ? `&clientName=${clientName}` : ""
     }${BillStatus ? `&billType=${BillStatus}` : ""}${
       billNumber ? `&billNumber=${billNumber}` : ""
@@ -41,9 +41,10 @@ const AllAppointments = () => {
       isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }`
   );
+  console.log(appointmentData);
   return (
     <>
-      <PanelLayout title="Bills ">
+      <PanelLayout title="All - Appointments ">
         <section className="px-8">
           <div className="flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />
@@ -179,8 +180,8 @@ const AllAppointments = () => {
             <SkeletonLoader />
           ) : (
             <>
-              {billData?.length ? (
-                <AppointmentsGrid data={billData} mutate={mutate} />
+              {appointmentData?.length ? (
+                <AppointmentsGrid data={appointmentData} mutate={mutate} />
               ) : (
                 <LoaderAnime text="No data" />
               )}
@@ -222,8 +223,8 @@ const status = [
 ];
 
 const links = [
-  { id: 1, page: "Bills", link: "/admin/bills" },
-  { id: 2, page: "All Bills", link: "/admin/bills/all-bills" },
+  { id: 1, page: "Appointments", link: "/admin/security" },
+  { id: 2, page: "All Appointments", link: "/admin/security/all-appointments" },
 ];
 const short = [
   { id: 1, value: "name:asc", name: "Client Name Ascending" },

@@ -922,3 +922,21 @@ export type SHIFT = {
 		name: string;
 	};
 };
+
+export type APPOINTMENT = {
+	address: string;
+	branch: Branch;
+	branchId: string;
+	createdAt: string;
+	email: string;
+	id: string;
+	name: string;
+	phone: number;
+	photo: string;
+	reason: string;
+	startDate:string
+	status: string;
+	user: User
+	whomToVisitId:string
+
+}
