@@ -129,7 +129,7 @@ const CreateAppointment = () => {
 			router?.push("/admin/security/all-appointments");
 			Swal.fire(
 				`Success!`,
-				`${res?.results?.msg || `Employee Created Successfully`}`,
+				`${res?.results?.msg || `Appointment Created Successfully`}`,
 				`success`
 			);
 			return;
