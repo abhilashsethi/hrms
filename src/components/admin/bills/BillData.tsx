@@ -61,14 +61,14 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
       id: 6,
       title: "Invoice Date",
       value: billData?.invoiceDate
-        ? moment(billData?.invoiceDate).format("lll")
+        ? moment(billData?.invoiceDate).format("ll")
         : "Not Specified",
     },
     {
       id: 7,
       title: "Invoice Due Date",
       value: billData?.dueDate
-        ? moment(billData?.dueDate).format("lll")
+        ? moment(billData?.dueDate).format("ll")
         : "Not Specified",
     },
     {

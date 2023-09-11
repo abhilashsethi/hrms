@@ -416,7 +416,7 @@ const CreateGuard = () => {
                         id="shiftId"
                         options={securityShift || []}
                         onChange={(e: ChangeEvent<{}>, r: SHIFT | null) => {
-                          setFieldValue("shiftId", r?.id || "");
+                          setFieldValue("shiftId", r?._id?.$oid || "");
                         }}
                         getOptionLabel={(option: SHIFT) => option.type || ""}
                         renderInput={(params) => (
@@ -537,21 +537,4 @@ export default CreateGuard;
 const links = [
   { id: 1, page: "Security", link: "/admin/security" },
   { id: 2, page: "Create Guard", link: "/admin/security/create-guard" },
-];
-const Shift_Type = [
-  {
-    id: 1,
-    name: "First Shift",
-    value: "first",
-  },
-  {
-    id: 2,
-    name: "Second Shift",
-    value: "second",
-  },
-  {
-    id: 3,
-    name: "Night Shift",
-    value: "night",
-  },
 ];
