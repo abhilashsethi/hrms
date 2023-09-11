@@ -24,7 +24,7 @@ const MyMeetings = () => {
     isLoading,
     pagination,
   } = useFetch<MEETING_DATA[]>(
-    `meetings?userId=${user?.id}&page=${pageNumber}&limit=8`
+    `meetings?userId=${user?.id}&page=${pageNumber}&limit=6&orderBy=createdAt=asc`
   );
   return (
     <>
@@ -82,10 +82,7 @@ const MyMeetings = () => {
           {meetingData?.length === 0 ? (
             <LoaderAnime text="No Meetings Available" />
           ) : null}
-          {meetingData?.length === 0 ? (
-            <LoaderAnime text="No Meetings Available" />
-          ) : null}
-          {meetingData?.length === 0 ? <LoaderAnime /> : null}
+
           <section className="mb-6">
             {Math.ceil(
               Number(pagination?.total || 1) / Number(pagination?.limit || 1)
