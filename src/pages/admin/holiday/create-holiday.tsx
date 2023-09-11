@@ -22,7 +22,7 @@ const initialValues = {
 	endDate: "",
 	title: "",
 	description: "",
-	image: "" || null,
+	image: undefined,
 	holidayOfBranchId: "",
 };
 
@@ -61,7 +61,8 @@ const validationSchema = Yup.object().shape({
 				return supportedFormats.includes(value.type);
 			}
 			return true;
-		}),
+		})
+		.nullable(),
 });
 
 const CreateHoliday = () => {
@@ -75,8 +76,8 @@ const CreateHoliday = () => {
 		{ resetForm }: FormikHelpers<HOLIDAY>
 	) => {
 		setLoading(true);
-		const uniId = values?.image?.type.split("/")[1];
 		try {
+			const uniId = values?.image?.type?.split("/")[1];
 			const url =
 				values?.image &&
 				(await uploadFile(values?.image, `${Date.now()}.${uniId}`));

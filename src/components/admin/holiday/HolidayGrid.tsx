@@ -117,7 +117,12 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 							</div>
 							<div
 								className={`h-36 bg-cover flex justify-center py-3 rounded-t-lg w-full border`}
-								style={{ backgroundImage: `url(${item?.image})` }}
+								style={{
+									backgroundImage:
+										item?.image === null
+											? `url("/holiday.png")`
+											: `url(${item?.image})`,
+								}}
 							/>
 							<div className="p-2">
 								<div className="flex justify-start">
