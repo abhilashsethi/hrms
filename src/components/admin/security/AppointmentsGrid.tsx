@@ -1,13 +1,12 @@
-import { Delete, Edit, Info } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { PhotoViewer } from "components/core";
 import { UpdateAppointmentDetails } from "components/dialogues";
 import { useChange } from "hooks";
 import moment from "moment";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { APPOINTMENT, Bills } from "types";
+import { APPOINTMENT } from "types";
 interface Props {
   data: APPOINTMENT[];
   mutate: () => void;
@@ -17,7 +16,6 @@ const AppointmentsGrid = ({ data, mutate }: Props) => {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [isAppointmentData, setIsAppointmentData] = useState<APPOINTMENT>();
   const { change } = useChange();
-  const router = useRouter();
   const handleDelete = (id?: string) => {
     try {
       Swal.fire({

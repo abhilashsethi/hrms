@@ -14,8 +14,7 @@ import {
 import { useFormik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
-import { useRef, useState } from "react";
-import { countries } from "schemas/Countries";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { APPOINTMENT, User } from "types";
 import * as yup from "yup";
