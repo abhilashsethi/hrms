@@ -80,3 +80,4 @@ export { default as EmployeeExitForm } from "./EmployeeExitForm";
 export { default as ExitEmployeeMoreInfo } from "./ExitEmployeeMoreInfo";
 export { default as EditHoliday } from "./EditHoliday";
 export { default as EditShift } from "./EditShift";
+export { default as UpdateAppointmentDetails } from "./UpdateAppointmentDetails";

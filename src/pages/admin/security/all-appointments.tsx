@@ -9,7 +9,6 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { BillGrid } from "components/admin/bills";
 import { AppointmentsGrid } from "components/admin/security";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useFetch } from "hooks";
@@ -17,31 +16,29 @@ import PanelLayout from "layouts/panel";
 import moment from "moment";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { Bills } from "types";
+import { APPOINTMENT } from "types";
 
 const AllAppointments = () => {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [clientName, setClientName] = useState<string | null>(null);
-  const [billNumber, setBillNumber] = useState<string | null>(null);
+  const [searchTitle, setSearchTitle] = useState<string | null>(null);
   const [BillStatus, setBillStatus] = useState<string | null>(null);
   const [selectDate, setSelectDate] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
-  console.log({ selectDate });
   const {
     data: appointmentData,
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any[]>(
+  } = useFetch<APPOINTMENT[]>(
     `appointments?page=${pageNumber}&limit=6${
       clientName ? `&clientName=${clientName}` : ""
     }${BillStatus ? `&billType=${BillStatus}` : ""}${
-      billNumber ? `&billNumber=${billNumber}` : ""
+      searchTitle ? `&searchTitle=${searchTitle}` : ""
     }${selectDate ? `&dueDate=${selectDate}` : ""}${
       isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }`
   );
-  console.log(appointmentData);
   return (
     <>
       <PanelLayout title="All - Appointments ">
@@ -66,29 +63,13 @@ const AllAppointments = () => {
             >
               <IconButton
                 onClick={() => {
-                  setIsOrderBy(null);
-                  setSelectDate(null);
-                  setBillStatus(null);
-                  setBillNumber(null);
-                  setClientName(null);
+                  setSearchTitle(null);
                 }}
               >
                 <Tooltip
-                  title={
-                    selectDate != null ||
-                    isOrderBy != null ||
-                    BillStatus != null ||
-                    clientName != null ||
-                    billNumber != null
-                      ? `Remove Filters`
-                      : `Filter`
-                  }
+                  title={searchTitle != null ? `Remove Filters` : `Filter`}
                 >
-                  {selectDate != null ||
-                  isOrderBy != null ||
-                  clientName != null ||
-                  BillStatus != null ||
-                  billNumber != null ? (
+                  {searchTitle != null ? (
                     <Close className={"!text-white"} />
                   ) : (
                     <FilterListRounded className={"!text-white"} />
@@ -100,80 +81,14 @@ const AllAppointments = () => {
               <TextField
                 fullWidth
                 size="small"
-                id="invoiceNumber"
-                placeholder="Invoice Number"
-                value={billNumber ? billNumber : null}
-                name="invoiceNumber"
+                id="searchTitle"
+                placeholder="Title"
+                value={searchTitle ? searchTitle : null}
+                name="searchTitle"
                 onChange={(e) => {
-                  setPageNumber(1), setBillNumber(e.target.value);
+                  setPageNumber(1), setSearchTitle(e.target.value);
                 }}
               />
-
-              <TextField
-                fullWidth
-                size="small"
-                id="clientName"
-                placeholder="Client Name"
-                value={clientName ? clientName : null}
-                name="clientName"
-                onChange={(e) => {
-                  setPageNumber(1), setClientName(e.target.value);
-                }}
-              />
-
-              <TextField
-                fullWidth
-                select
-                label="Bill Type"
-                size="small"
-                value={BillStatus ? BillStatus : null}
-                onChange={(e) => {
-                  setPageNumber(1), setBillStatus(e?.target?.value);
-                }}
-              >
-                {status.map((option) => (
-                  <MenuItem key={option.id} value={option.value}>
-                    {option.value}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                fullWidth
-                size="small"
-                id="date"
-                label="Due Date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                placeholder="Select Date"
-                name="date"
-                type="date"
-                value={
-                  selectDate ? moment(selectDate).format("YYYY-MM-DD") : null
-                }
-                onChange={(e) => {
-                  {
-                    setPageNumber(1),
-                      setSelectDate(new Date(e.target.value).toISOString());
-                  }
-                }}
-              />
-              <TextField
-                fullWidth
-                select
-                label="Ascending/Descending"
-                size="small"
-                value={isOrderBy ? isOrderBy : ""}
-                onChange={(e) => {
-                  setPageNumber(1), setIsOrderBy(e?.target?.value);
-                }}
-              >
-                {short.map((option) => (
-                  <MenuItem key={option.id} value={option.value}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </TextField>
             </div>
           </div>
           {isLoading ? (
