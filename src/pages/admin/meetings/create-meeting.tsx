@@ -124,7 +124,6 @@ const CreateMeeting = () => {
 				body: reqValue,
 			});
 
-<<<<<<< HEAD
 			setLoading(false);
 			if (res?.status !== 201) {
 				Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
@@ -147,7 +146,7 @@ const CreateMeeting = () => {
 		}
 	};
 	return (
-		<PanelLayout title="Create Quotation - Admin Panel">
+		<PanelLayout title="Create Quotation ">
 			<section className="md:px-8 px-2 md:py-4 py-2">
 				<div className="px-2 md:px-0">
 					<AdminBreadcrumbs links={links} />
@@ -196,79 +195,6 @@ const CreateMeeting = () => {
 													}
 												/>
 											</div>
-=======
-      setLoading(false);
-      if (res?.status !== 201) {
-        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
-        setLoading(false);
-        return;
-      }
-      Swal.fire(`Success`, `Meeting created successfully!`, `success`);
-      resetForm();
-      user?.role?.name === "CEO" ||
-      user?.role?.name === "COO" ||
-      user?.role?.name === "DIRECTOR"
-        ? router.push("/admin/meetings/all-meetings")
-        : router.push("/admin/meetings/my-meetings");
-      return;
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-  return (
-    <PanelLayout title="Create Quotation ">
-      <section className="md:px-8 px-2 md:py-4 py-2">
-        <div className="px-2 md:px-0">
-          <AdminBreadcrumbs links={links} />
-        </div>
-        <section className="w-full px-0 md:py-4 py-2 flex justify-center items-center">
-          <div className="md:w-[60rem] w-full bg-white md:px-4 py-4 px-2 tracking-wide rounded-lg shadow-xl">
-            <p className="text-center text-2xl font-bold text-theme tracking-wide">
-              Create Meeting
-            </p>
-            <div className="w-full my-6 py-6 md:px-20 px-2">
-              <Formik
-                initialValues={initialValues}
-                onSubmit={handleSubmit}
-                validationSchema={validationSchema}
-                enableReinitialize={true}
-              >
-                {({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  setFieldValue,
-                  setFieldTouched,
-                }) => (
-                  <Form>
-                    <div className="grid lg:grid-cols-2">
-                      <div className="md:px-4 px-2 md:py-2 py-1">
-                        <div className="md:py-2 py-1">
-                          <InputLabel htmlFor="meetingTitle">
-                            Meeting Title{" "}
-                            <span className="text-red-600">*</span>
-                          </InputLabel>
-                        </div>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          id="meetingTitle"
-                          name="meetingTitle"
-                          value={values.meetingTitle}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.meetingTitle && !!errors.meetingTitle}
-                          helperText={
-                            touched.meetingTitle && errors.meetingTitle
-                          }
-                        />
-                      </div>
->>>>>>> 53c15d0acaff9d49c405605f831cd92d3f95d895
 
 											<div className="md:px-4 px-2 md:py-2 py-1">
 												<div className="py-2">
