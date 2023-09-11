@@ -17,13 +17,6 @@ import { MouseEvent, useEffect, useState } from "react";
 
 const LeaveDashboard = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const { data: leaveData, isLoading } = useFetch<any>(
     `leaves/dashboard/details`
@@ -101,7 +94,7 @@ const LeaveDashboard = () => {
                 ),
               },
             ]}
-            categories={leaveData?.leaves?.leaveCountMonthWiseArr[1]?.leaveCounts?.map(
+            categories={leaveData?.leaves?.leaveCountMonthWiseArr[0]?.leaveCounts?.map(
               (item: any) => item?.month?.slice(0, 3)
             )}
             type="bar"
