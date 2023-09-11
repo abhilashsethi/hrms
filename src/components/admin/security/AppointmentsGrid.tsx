@@ -1,7 +1,10 @@
 import { Delete, Edit } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { PhotoViewer } from "components/core";
-import { UpdateAppointmentDetails } from "components/dialogues";
+import {
+  ChangeAppointmentPhoto,
+  UpdateAppointmentDetails,
+} from "components/dialogues";
 import { useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
@@ -13,8 +16,11 @@ interface Props {
 }
 
 const AppointmentsGrid = ({ data, mutate }: Props) => {
+  const [isProfile, setIsProfile] = useState(false);
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [isAppointmentData, setIsAppointmentData] = useState<APPOINTMENT>();
+  const [isAppointmentProfile, setIsAppointmentProfile] =
+    useState<APPOINTMENT>();
   const { change } = useChange();
   const handleDelete = (id?: string) => {
     try {
@@ -52,6 +58,12 @@ const AppointmentsGrid = ({ data, mutate }: Props) => {
   };
   return (
     <>
+      <ChangeAppointmentPhoto
+        open={isProfile}
+        handleClose={() => setIsProfile(false)}
+        mutate={mutate}
+        employData={isAppointmentProfile}
+      />
       <UpdateAppointmentDetails
         open={isUpdate}
         handleClose={() => setIsUpdate(false)}
@@ -122,11 +134,32 @@ const AppointmentsGrid = ({ data, mutate }: Props) => {
                 </div>
               </div>
               <div className="flex justify-center bg-gradient-to-bl from-indigo-900 via-indigo-400 to-indigo-900 py-3 rounded-t-lg w-full border">
-                <PhotoViewer
-                  size={"6rem"}
-                  photo={item?.photo}
-                  name={item?.name}
-                />
+                <div className="h-24 w-24 rounded-full border-[4px] border-white flex justify-center items-center text-3xl">
+                  <div className="relative h-full w-full flex justify-center items-center group">
+                    {item?.photo && (
+                      <div className="h-full w-full bg-slate-300 rounded-full">
+                        <img
+                          className="h-full w-full object-cover rounded-full shadow-md"
+                          src={item?.photo}
+                          alt="Image"
+                        />
+                      </div>
+                    )}
+                    {!item?.photo && (
+                      <div className="h-full w-full text-white rounded-full uppercase shadow-lg flex justify-center items-center text-4xl font-bold bg-gradient-to-br from-theme-100 via-theme-50 to-secondary-100">
+                        {item?.name.slice(0, 1)}
+                      </div>
+                    )}
+                    <div
+                      onClick={() => {
+                        setIsProfile(true), setIsAppointmentProfile(item);
+                      }}
+                      className="absolute cursor-pointer rounded-full w-full h-full group-hover:flex transition-all ease-in-out duration-300 justify-center items-center hidden  bg-[#0007]"
+                    >
+                      <Edit className="!text-white" />
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="px-4 bg-gradient-to-r from-rose-100 to-teal-100 ">
                 <div className="flex flex-col  justify-star t">
