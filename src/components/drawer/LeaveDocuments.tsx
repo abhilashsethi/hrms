@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const LeaveDocuments = ({ open, onClose, data }: Props) => {
-  console.log(data?.paidLeaveCount);
   const { user } = useAuth();
   const classes = useStyles();
   const [isPreview, setIsPreview] = useState<{

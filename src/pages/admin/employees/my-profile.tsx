@@ -119,7 +119,7 @@ const MyProfile = () => {
     }
   }, []);
   return (
-    <PanelLayout title={`Employee Profile - SY HR Management System`}>
+    <PanelLayout title={`Employee Profile`}>
       <section className="md:px-8 px-2 py-4 mx-auto">
         <div className="pb-4 mt-4">
           <AdminBreadcrumbs links={links} />
