@@ -33,7 +33,7 @@ const MyAssets = () => {
   }, []);
 
   return (
-    <PanelLayout title="My Assets - Admin Panel">
+    <PanelLayout title="My Assets">
       <>
         <section className="md:px-8 px-3 py-4">
           <div className="lg:flex justify-between items-center py-4">

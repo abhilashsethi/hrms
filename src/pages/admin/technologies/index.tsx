@@ -13,15 +13,17 @@ const Technologies = () => {
     `technologies/dashboard/details`
   );
   return (
-    <PanelLayout title="Technologies - Admin Panel">
+    <PanelLayout title="Technologies ">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
-        {isLoading ? <DashboardSkeletonLoading />
-          : (
-            <>
-              <DashBoardCardTech dashboardData={techDashboard} />
-              <DashboardChartsTech dashboardData={techDashboard} />
-            </>)}
+        {isLoading ? (
+          <DashboardSkeletonLoading />
+        ) : (
+          <>
+            <DashBoardCardTech dashboardData={techDashboard} />
+            <DashboardChartsTech dashboardData={techDashboard} />
+          </>
+        )}
       </section>
     </PanelLayout>
   );

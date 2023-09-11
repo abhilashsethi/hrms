@@ -132,7 +132,7 @@ const AddClients = () => {
     }
   };
   return (
-    <PanelLayout title="All Clients - Admin Panel">
+    <PanelLayout title="All Clients ">
       <div className="pt-4 px-2 ">
         <AdminBreadcrumbs links={links} />
       </div>

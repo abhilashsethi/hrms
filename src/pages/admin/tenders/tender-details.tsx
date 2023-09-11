@@ -108,7 +108,7 @@ const TenderDetails = () => {
         },
   ];
   return (
-    <PanelLayout title="Tender Details - Admin Panel">
+    <PanelLayout title="Tender Details ">
       <section className="md:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
         <section className="mt-4">

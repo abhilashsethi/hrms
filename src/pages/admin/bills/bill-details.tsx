@@ -13,7 +13,7 @@ const BillDetails = () => {
     isLoading,
   } = useFetch<Bills>(`bills/${router?.query?.id}`);
   return (
-    <PanelLayout title="Bill Details - Admin Panel">
+    <PanelLayout title="Bill Details">
       <section className="md:px-8 px-4 py-4">
         <div className="pb-4">
           <AdminBreadcrumbs links={links} />

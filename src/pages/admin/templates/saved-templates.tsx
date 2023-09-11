@@ -77,7 +77,7 @@ const SavedTemplates = () => {
   };
 
   return (
-    <PanelLayout title="Saved Templates - Admin Panel">
+    <PanelLayout title="Saved Templates ">
       <section className="px-8 py-4">
         {isLoading ? (
           <Loader />

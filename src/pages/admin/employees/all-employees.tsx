@@ -84,7 +84,7 @@ const AllEmployees = () => {
         ];
 
   return (
-    <PanelLayout title="All Users - Admin Panel">
+    <PanelLayout title="All Users ">
       <section className="md:px-8 px-4">
         <UploadEmployData
           open={isUpload}

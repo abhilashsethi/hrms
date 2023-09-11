@@ -71,7 +71,7 @@ const Attendance = () => {
     return <Loader />;
   }
   return (
-    <PanelLayout title="Attendance Dashboard - Admin Panel">
+    <PanelLayout title="Attendance Dashboard">
       <>
         <WelcomeUser title={`Welcome ${user?.role?.name}`} />
         <div className="lg:px-8 px-4 pt-4">

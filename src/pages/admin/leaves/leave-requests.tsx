@@ -44,7 +44,7 @@ const LeaveRequests = () => {
     }${leaveType ? `&type=${leaveType}` : ""}&orderBy=createdAt:asc`
   );
   return (
-    <PanelLayout title="Leave Requests - Admin Panel">
+    <PanelLayout title="Leave Requests ">
       <section className="md:px-8 px-4 py-2">
         <CreateLeave
           mutate={mutate}

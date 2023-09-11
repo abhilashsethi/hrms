@@ -26,7 +26,7 @@ const MyCard = () => {
     mutate,
   } = useFetch<Card[]>(`cards?${user?.id ? `&userId=${user?.id}` : ""}`);
   return (
-    <PanelLayout title="My Card - Admin Panel">
+    <PanelLayout title="My Card">
       <section className="md:px-8 px-2 md:py-4 py-2">
         <div className="flex justify-between md:items-center md:flex-row flex-col items-start">
           <AdminBreadcrumbs links={links} />

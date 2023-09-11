@@ -387,7 +387,7 @@ const IsSandwichLeave = ({
   const handleDayInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
 
-    if (inputValue === "" || /^\d+$/.test(inputValue)) {
+    if (inputValue === "" || /^\d+(\.\d*)?$/.test(inputValue)) {
       const numericValue = parseInt(inputValue, 10);
       if (inputValue === "" || (numericValue >= 0 && numericValue <= 12)) {
         setTotalDay(inputValue);
@@ -473,7 +473,7 @@ const IsSandwichLeave = ({
       }
     });
   };
-
+  console.log(isCurrentData);
   return (
     <Dialog
       onClose={handleClose}
@@ -505,16 +505,29 @@ const IsSandwichLeave = ({
           <span>{isCurrentData?.isSandWitch ? "Sandwich Leave" : null}</span>
           <div className="md:flex grid gap-2 md:justify-between py-3">
             <div>
-              <span className="">Total Days : </span>
-              <span className="bg-green-600 text-white rounded-full px-2 py-1">
-                {sandwichLeave?.totalDays || 0}
-              </span>
+              {isCurrentData?.variant === "FirstHalf" ||
+              isCurrentData?.variant === "FirstHalf" ? (
+                <span className="bg-green-600 text-white rounded-full px-2 py-1">
+                  Half Day
+                </span>
+              ) : (
+                <>
+                  <span className="">Total Days : </span>
+                  <span className="bg-green-600 text-white rounded-full px-2 py-1">
+                    {sandwichLeave?.totalDays || 0}
+                  </span>
+                </>
+              )}
             </div>
             <div>
-              <span>Total Sandwich Days : </span>
-              <span className="bg-green-600 text-white rounded-full px-2 py-1">
-                {sandwichLeave?.totalSandWitch || 0}
-              </span>
+              {sandwichLeave?.isSandWitch ? (
+                <>
+                  <span>Total Sandwich Days : </span>
+                  <span className="bg-green-600 text-white rounded-full px-2 py-1">
+                    {sandwichLeave?.totalSandWitch || 0}
+                  </span>
+                </>
+              ) : null}
             </div>
           </div>
           <div className="flex flex-col gap-4">

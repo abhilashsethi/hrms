@@ -87,13 +87,13 @@ const GuestProfile = () => {
   };
   if (isLoading) {
     return (
-      <PanelLayout title="Guest Profile - Admin Panel">
+      <PanelLayout title="Guest Profile ">
         <Loader />
       </PanelLayout>
     );
   }
   return (
-    <PanelLayout title="Guest Profile - Admin Panel">
+    <PanelLayout title="Guest Profile ">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
 

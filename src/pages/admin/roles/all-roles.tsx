@@ -38,7 +38,7 @@ const AllRoles = () => {
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
-    <PanelLayout title="All Roles - Admin Panel">
+    <PanelLayout title="All Roles ">
       <section className="md:px-8 px-4 py-4">
         <CreateRole
           open={isCreate}

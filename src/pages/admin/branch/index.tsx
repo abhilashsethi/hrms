@@ -12,7 +12,7 @@ const index = () => {
     `branches/dashboardInfo/data`
   );
   return (
-    <PanelLayout title="All Branches - Admin Panel">
+    <PanelLayout title="All Branches">
       <>
         <section className="lg:px-8 px-4 py-4">
           <AdminBreadcrumbs links={links} />

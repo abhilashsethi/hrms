@@ -75,7 +75,7 @@ const Cards = () => {
   ];
 
   return (
-    <PanelLayout title="Cards Dashboard - Admin Panel">
+    <PanelLayout title="Cards Dashboard">
       <section className="lg:px-8 px-2 py-4">
         <AdminBreadcrumbs links={links} />
         <div className="mt-4">

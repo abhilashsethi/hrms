@@ -37,7 +37,7 @@ const AllTechnologies = () => {
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
   return (
-    <PanelLayout title="All Technologies - Admin Panel">
+    <PanelLayout title="All Technologies ">
       <CreateTechnology
         open={isCreate}
         handleClose={() => setIsCreate(false)}

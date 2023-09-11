@@ -57,7 +57,7 @@ const Meetings = () => {
   ];
 
   return (
-    <PanelLayout title="Meetings - Admin Panel">
+    <PanelLayout title="Meetings ">
       <div>
         <div className="flex gap-2 px-2 py-4">
           <DashboardCard data={cards} />

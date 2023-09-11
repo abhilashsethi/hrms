@@ -14,20 +14,22 @@ const index = () => {
   );
 
   return (
-    <PanelLayout title="Clients Dashboard - Admin Panel">
+    <PanelLayout title="Clients Dashboard ">
       <div className="px-4 pt-4">
         <AdminBreadcrumbs links={links} />
       </div>
-      {isLoading ? <DashboardSkeletonLoading />
-        : (
-          <>
-            <div className="flex gap-2 py-4">
-              <div className="w-full px-4 ">
-                <ClientDashboardCard cards={clientData} />
-                <ClientDashboardCharts cards={clientData} />
-              </div>
+      {isLoading ? (
+        <DashboardSkeletonLoading />
+      ) : (
+        <>
+          <div className="flex gap-2 py-4">
+            <div className="w-full px-4 ">
+              <ClientDashboardCard cards={clientData} />
+              <ClientDashboardCharts cards={clientData} />
             </div>
-          </>)}
+          </div>
+        </>
+      )}
     </PanelLayout>
   );
 };

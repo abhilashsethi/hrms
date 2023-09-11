@@ -12,7 +12,7 @@ const index = () => {
   const { data: billDashboard, isLoading } =
     useFetch<Bills>(`bills/dashboard/info`);
   return (
-    <PanelLayout title="All Bills - Admin Panel">
+    <PanelLayout title="All Bills">
       <>
         <section className="lg:px-8 px-4 py-4">
           <AdminBreadcrumbs links={links} />

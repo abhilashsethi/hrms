@@ -106,7 +106,7 @@ const CreateTemplate = () => {
   };
 
   return (
-    <PanelLayout title="Send Email - Admin Panel">
+    <PanelLayout title="Send Email ">
       <section className="px-8 py-4">
         <>
           <div className="md:w-auto w-full">

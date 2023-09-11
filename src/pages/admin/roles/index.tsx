@@ -14,18 +14,23 @@ const Roles = () => {
   );
 
   return (
-    <PanelLayout title="Roles - Admin Panel">
+    <PanelLayout title="Roles ">
       <section className="lg:px-8 px-2 py-4">
         <AdminBreadcrumbs links={links} />
-        {isLoading ? <DashboardSkeletonLoading />
-          : (
-            <>
-              <DashboardCards dashboardData={roleDashboard} roleCard={roleDataCard} />
-              <DashboardCharts
-                dashboardData={roleDashboard}
-                roleCard={roleDataCard}
-              />
-            </>)}
+        {isLoading ? (
+          <DashboardSkeletonLoading />
+        ) : (
+          <>
+            <DashboardCards
+              dashboardData={roleDashboard}
+              roleCard={roleDataCard}
+            />
+            <DashboardCharts
+              dashboardData={roleDashboard}
+              roleCard={roleDataCard}
+            />
+          </>
+        )}
       </section>
     </PanelLayout>
   );

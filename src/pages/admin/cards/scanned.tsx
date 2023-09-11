@@ -65,7 +65,7 @@ const Cards = () => {
   );
   console.log(router?.query?.isGuest);
   return (
-    <PanelLayout title="Scanned Cards - Admin Panel">
+    <PanelLayout title="Scanned Cards">
       <section className="md:px-8 px-2 md:py-4 py-2">
         <div className="flex justify-between md:items-center md:flex-row flex-col items-start">
           <AdminBreadcrumbs links={links} />

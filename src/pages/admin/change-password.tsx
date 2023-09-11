@@ -62,7 +62,7 @@ const ChangePassword = ({ resetForm }: any) => {
     }
   };
   return (
-    <PanelLayout title="Change Password - Admin Panel">
+    <PanelLayout title="Change Password">
       <section className="w-full px-2 py-6 lg:py-24 flex justify-center items-center">
         <div className="p-6 md:w-1/2 w-full rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
           <Formik

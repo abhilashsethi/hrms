@@ -39,7 +39,7 @@ const ManagerLeaveRequests = () => {
     }${leaveType ? `&type=${leaveType}` : ""}&orderBy=createdAt:asc`
   );
   return (
-    <PanelLayout title="Leave Requests - Admin Panel">
+    <PanelLayout title="Leave Requests ">
       <section className="md:px-8 px-4 py-2">
         <div className="flex justify-between items-center py-4 md:flex-row flex-col">
           <AdminBreadcrumbs links={links} />

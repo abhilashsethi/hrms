@@ -24,7 +24,7 @@ const AllBranch = () => {
   console.log(branchData);
 
   return (
-    <PanelLayout title="My Branch - Admin Panel">
+    <PanelLayout title="My Branch">
       <section className="lg:px-8 px-2 py-4">
         <div className="lg:flex justify-between items-center py-4">
           <AdminBreadcrumbs links={links} />

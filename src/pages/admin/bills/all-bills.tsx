@@ -42,7 +42,7 @@ const AllBills = () => {
   );
   return (
     <>
-      <PanelLayout title="Bills - Admin Panel">
+      <PanelLayout title="All Bills">
         <section className="md:px-8 px-4">
           <div className="md:flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />

@@ -9,7 +9,7 @@ const Notification = () => {
   const [notification, setNotification] = useState<boolean>(false);
   return (
     <>
-      <PanelLayout title="Notification Requests - Admin Panel">
+      <PanelLayout title="Notification Requests ">
         <NotificationInfo
           open={notification}
           handleClose={() => setNotification(false)}

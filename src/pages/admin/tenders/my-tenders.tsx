@@ -24,7 +24,7 @@ const MyTenders = () => {
     `tenders/all-tender/by-memberId?userId=${user?.id}&page=${pageNumber}&limit=8`
   );
   return (
-    <PanelLayout title="My Tenders - Admin Panel">
+    <PanelLayout title="My Tenders ">
       <section className="md:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
 

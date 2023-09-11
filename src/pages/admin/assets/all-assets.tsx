@@ -88,7 +88,7 @@ const AllAssets = () => {
   }, []);
 
   return (
-    <PanelLayout title="All Assets - Admin Panel">
+    <PanelLayout title="All Assets">
       <>
         <ChooseBranch
           open={isChoose}

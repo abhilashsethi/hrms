@@ -47,7 +47,7 @@ const MyLeaves = () => {
     }&orderBy=createdAt:asc`
   );
   return (
-    <PanelLayout title="My Leaves - Admin Panel">
+    <PanelLayout title="My Leaves ">
       <section className="md:px-8 px-4 py-2">
         <CreateLeaveUser
           mutate={mutate}

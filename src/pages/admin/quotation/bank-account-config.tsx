@@ -74,7 +74,7 @@ const BankAccountConfig = () => {
   };
 
   return (
-    <PanelLayout title="Account configure - Admin Panel">
+    <PanelLayout title="Account configure ">
       <section className="lg:px-8 px-2 lg:py-4 py-2">
         <div className="px-2 lg:px-0">
           <AdminBreadcrumbs links={links} />

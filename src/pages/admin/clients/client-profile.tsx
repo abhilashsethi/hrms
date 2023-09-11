@@ -17,7 +17,7 @@ const ClientProfile = () => {
     // },
   ];
   return (
-    <PanelLayout title="Client Profile - Admin Panel">
+    <PanelLayout title="Client Profile">
       <section className="lg:px-8 md:px-4 px-2 py-4">
         <div className="pb-4">
           <AdminBreadcrumbs links={links} />
