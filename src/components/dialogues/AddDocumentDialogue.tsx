@@ -72,7 +72,6 @@ const AddDocumentDialogue = ({
 					Swal.fire(`Error`, "Something went wrong!", "error");
 					return;
 				}
-				console.log(res);
 				mutate();
 				Swal.fire(`Success`, "Document Added successfully!!", "success");
 				handleClose();
