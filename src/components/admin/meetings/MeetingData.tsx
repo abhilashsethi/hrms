@@ -53,7 +53,7 @@ const MeetingData = () => {
 							<div>
 								{user?.role?.name === "CEO" ||
 								user?.role?.name === "PROJECT MANAGER" ? (
-									<div className="flex justify-end">
+									<div className="flex justify-end mb-3">
 										<Button
 											variant="contained"
 											className="!bg-blue-500 "
@@ -66,6 +66,22 @@ const MeetingData = () => {
 									</div>
 								) : null}
 								<div>
+									<div className="relative mb-3 py-1 group flex items-center gap-x-2 tracking-wide">
+										<div
+											className={`absolute -top-1 right-3 text-xs ${
+												meetingDetails?.status === "QuotationSent"
+													? "bg-[#44bd44]"
+													: meetingDetails?.status === "Ongoing"
+													? "bg-amber-500"
+													: meetingDetails?.status === "InPipeline"
+													? "bg-purple-500"
+													: "bg-red-500"
+											} text-white p-1 rounded-md font-semibold px-2 ml-10`}
+										>
+											{meetingDetails?.status}
+										</div>
+										{/* <Chip label={items?.status} onClick={handleClick} /> */}
+									</div>
 									<div className="pb-1 lg:text-base text-sm font-semibold md:flex">
 										<p>Meeting Name : </p>
 										<span className="md:text-base text-sm font-normal">

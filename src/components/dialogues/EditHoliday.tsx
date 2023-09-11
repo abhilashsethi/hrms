@@ -157,47 +157,43 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 							<Form className="w-full">
 								{/* {console.log(values)} */}
 								<div className="grid lg:grid-cols-1">
-									{user?.role?.name === "CEO" ||
-									user?.role?.name === "COO" ||
-									user?.role?.name === "HR" ||
-									user?.role?.name === "DIRECTOR" ? (
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<p className="text-theme font-semibold my-2">
-												Branch <span className="text-red-600">*</span>
-											</p>
-											<Autocomplete
-												sx={{ width: "100%" }}
-												options={branchData || []}
-												autoHighlight
-												getOptionLabel={(option: any) =>
-													option.name ? option.name : ""
-												}
-												isOptionEqualToValue={(option, value) =>
-													option.id === value.holidayOfBranchId
-												}
-												value={
-													values?.holidayOfBranchId
-														? branchData?.find(
-																(option: any) =>
-																	option?.id === values?.holidayOfBranchId
-														  )
-														: {}
-												}
-												onChange={(e: any, r: any) => {
-													setFieldValue("holidayOfBranchId", r?.id);
-												}}
-												renderInput={(params) => (
-													<TextField
-														{...params}
-														placeholder="Select Branch"
-														inputProps={{
-															...params.inputProps,
-														}}
-													/>
-												)}
-											/>
-										</div>
-									) : null}
+									<div className="md:px-4 px-2 md:py-2 py-1">
+										<p className="text-theme font-semibold my-2">
+											Branch <span className="text-red-600">*</span>
+										</p>
+										<Autocomplete
+											sx={{ width: "100%" }}
+											options={branchData || []}
+											autoHighlight
+											getOptionLabel={(option: any) =>
+												option.name ? option.name : ""
+											}
+											isOptionEqualToValue={(option, value) =>
+												option.id === value.holidayOfBranchId
+											}
+											value={
+												values?.holidayOfBranchId
+													? branchData?.find(
+															(option: any) =>
+																option?.id === values?.holidayOfBranchId
+													  )
+													: {}
+											}
+											onChange={(e: any, r: any) => {
+												setFieldValue("holidayOfBranchId", r?.id);
+											}}
+											renderInput={(params) => (
+												<TextField
+													{...params}
+													placeholder="Select Branch"
+													inputProps={{
+														...params.inputProps,
+													}}
+												/>
+											)}
+										/>
+									</div>
+
 									<div className="md:px-4 px-2 md:py-2 py-1">
 										<div className="py-2">
 											<InputLabel htmlFor="startDate">

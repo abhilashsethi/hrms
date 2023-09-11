@@ -1,5 +1,6 @@
 import { Check, Close } from "@mui/icons-material";
 import {
+	Autocomplete,
 	Button,
 	CircularProgress,
 	Dialog,
@@ -27,9 +28,10 @@ interface Props {
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required("Meeting Name is Required"),
 	meetingStartTime: Yup.string().required("Start Time is required"),
-	meetingEndTime: Yup.string().required("End Time is required"),
+	// meetingEndTime: Yup.string().required("End Time is required"),
 	clientName: Yup.string().required("Client Name is required"),
 	clientEmail: Yup.string().required("Client Email is required"),
+	status: Yup.string().required("Meeting Status is required!"),
 	clientPhone: Yup.string().required("Client Phone is required"),
 	// clientCountry: Yup.string().required("Client Country is required"),
 	meetingPersonName: Yup.string().required("Members Visited is required"),
@@ -74,6 +76,7 @@ const EditMeetingDetails = ({
 		meetingPersonName: `${
 			meetingDetails?.meetingPersonName ? meetingDetails?.meetingPersonName : ""
 		}`,
+		status: meetingDetails?.status,
 	};
 
 	const { change } = useChange();
@@ -92,6 +95,7 @@ const EditMeetingDetails = ({
 					meetingDate: new Date(values?.meetingDate)?.toISOString(),
 					meetingStartTime: values?.meetingStartTime,
 					meetingEndTime: values?.meetingEndTime,
+					status: values?.status,
 				},
 			});
 
@@ -161,7 +165,6 @@ const EditMeetingDetails = ({
 							setFieldValue,
 						}) => (
 							<Form className="w-full">
-								{/* {console.log(values)} */}
 								<p className="font-medium text-gray-700 mb-2">Meeting Name</p>
 								<TextField
 									size="small"
@@ -276,6 +279,44 @@ const EditMeetingDetails = ({
 									error={touched.clientPhone && !!errors.clientPhone}
 									helperText={touched.clientPhone && errors.clientPhone}
 								/>
+								<div className="md:px-4 px-2 md:py-2 py-1">
+									<p className="font-medium text-gray-700 my-2">
+										Status <span className="text-red-600">*</span>
+									</p>
+
+									<Autocomplete
+										// sx={{ width: "100%" }}
+										options={Status_Type || []}
+										// autoHighlight
+										getOptionLabel={(option: any) =>
+											option.name ? option.name : ""
+										}
+										isOptionEqualToValue={
+											(option: any, value: any) =>
+												option.status === value.status
+											// console.log(option, value)
+										}
+										value={
+											values?.status
+												? Status_Type?.find(
+														(option: any) => option.status === values.status
+												  )
+												: {}
+										}
+										onChange={(e: any, r: any) => {
+											setFieldValue("status", r?.status);
+										}}
+										renderInput={(params) => (
+											<TextField
+												{...params}
+												placeholder="Select Status"
+												inputProps={{
+													...params.inputProps,
+												}}
+											/>
+										)}
+									/>
+								</div>
 								{/* <p className="font-medium text-gray-700 my-2">Client Country</p>
 								<TextField
 									size="small"
@@ -314,7 +355,11 @@ const EditMeetingDetails = ({
 										variant="contained"
 										disabled={loading}
 										startIcon={
-											loading ? <CircularProgress size={20} /> : <Check />
+											loading ? (
+												<CircularProgress size={20} color="secondary" />
+											) : (
+												<Check />
+											)
 										}
 									>
 										SUBMIT
@@ -333,4 +378,26 @@ export default EditMeetingDetails;
 const leavesType = [
 	{ id: 1, value: "First_Half" },
 	{ id: 2, value: "Second_Half" },
+];
+const Status_Type = [
+	{
+		id: 1,
+		name: "Ongoing",
+		status: "Ongoing",
+	},
+	{
+		id: 2,
+		name: "InPipeline",
+		status: "InPipeline",
+	},
+	{
+		id: 3,
+		name: "QuotationSent",
+		status: "QuotationSent",
+	},
+	{
+		id: 4,
+		name: "Closed",
+		status: "Closed",
+	},
 ];
