@@ -149,7 +149,7 @@ const AllMeetings = () => {
                 name="date"
                 type="date"
                 value={
-                  selectDate ? moment(selectDate).format("YYYY-MM-DD") : null
+                  selectDate ? moment(selectDate).format("YYYY-MM-DD") : ""
                 }
                 onChange={(e) => {
                   setSelectDate(new Date(e.target.value).toISOString());
@@ -172,7 +172,6 @@ const AllMeetings = () => {
           {meetingData?.length === 0 ? (
             <LoaderAnime text="No Meetings Available" />
           ) : null}
-          {meetingData?.length === 0 ? <LoaderAnime /> : null}
           <section className="mb-6">
             {Math.ceil(
               Number(pagination?.total || 1) / Number(pagination?.limit || 1)
