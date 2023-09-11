@@ -50,6 +50,7 @@ const UpdateAppointmentDetails = ({
       }`,
       reason: `${appointmentData?.reason ? appointmentData?.reason : ""}`,
       address: `${appointmentData?.address ? appointmentData?.address : ""}`,
+      status: `${appointmentData?.status ? appointmentData?.status : ""}`,
     },
     enableReinitialize: true,
     validationSchema: yup.object({
@@ -71,6 +72,7 @@ const UpdateAppointmentDetails = ({
       startDate: yup.string().required("Required!"),
       whomToVisitId: yup.string().required("Required!"),
       reason: yup.string().required("Required!"),
+      status: yup.string().required("Required!"),
     }),
     onSubmit: async (values) => {
       setLoading(true);
@@ -145,6 +147,56 @@ const UpdateAppointmentDetails = ({
             <div className="flex flex-col items-center w-full">
               <form onSubmit={formik.handleSubmit} className="w-full">
                 <div className="grid lg:grid-cols-2 gap-4 pb-4">
+                  <div className="w-full">
+                    <p className="text-theme font-semibold">
+                      Status <span className="text-red-600">*</span>
+                    </p>
+                    <Autocomplete
+                      fullWidth
+                      size="small"
+                      id="status"
+                      options={Status_Type || []}
+                      getOptionLabel={(option: any) =>
+                        option.name ? option.name : ""
+                      }
+                      isOptionEqualToValue={(option: any, value: any) =>
+                        option.value === value.value
+                      }
+                      value={
+                        formik.values?.status
+                          ? Status_Type?.find(
+                              (option: any) =>
+                                option.value === formik.values.status
+                            )
+                          : {}
+                      }
+                      onChange={(e: any, r: any) => {
+                        formik.setFieldValue("status", r?.value);
+                      }}
+                      renderOption={(props, option: any) => (
+                        <Box
+                          component="li"
+                          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                          {...props}
+                        >
+                          {option.name}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          placeholder="Status"
+                          onBlur={formik.handleBlur}
+                          error={
+                            formik.touched.status && !!formik.errors.status
+                          }
+                          helperText={
+                            formik.touched.status && formik.errors.status
+                          }
+                        />
+                      )}
+                    />
+                  </div>
                   <div className="w-full">
                     <p className="text-theme font-semibold">
                       Name <span className="text-red-600">*</span>
@@ -314,3 +366,15 @@ const UpdateAppointmentDetails = ({
 };
 
 export default UpdateAppointmentDetails;
+const Status_Type = [
+  {
+    id: 1,
+    name: "Completed",
+    value: "Completed",
+  },
+  {
+    id: 2,
+    name: "Pending",
+    value: "Pending",
+  },
+];
