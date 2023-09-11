@@ -81,3 +81,4 @@ export { default as ExitEmployeeMoreInfo } from "./ExitEmployeeMoreInfo";
 export { default as EditHoliday } from "./EditHoliday";
 export { default as EditShift } from "./EditShift";
 export { default as UpdateAppointmentDetails } from "./UpdateAppointmentDetails";
+export { default as ChangeAppointmentPhoto } from "./ChangeAppointmentPhoto";
