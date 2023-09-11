@@ -96,7 +96,11 @@ const MeetingData = () => {
 											Meeting End time :{" "}
 										</p>
 										{/* <AccessTime /> */}
-										<span className="text-sm md:text-base">{`${meetingDetails?.meetingEndTime}`}</span>
+										<span className="text-sm md:text-base">{`${
+											meetingDetails?.meetingEndTime
+												? meetingDetails?.meetingEndTime
+												: "---"
+										}`}</span>
 									</div>
 									<div className="py-1 group md:flex items-center gap-x-2 tracking-wide">
 										<p className="md:text-base text-sm font-semibold">

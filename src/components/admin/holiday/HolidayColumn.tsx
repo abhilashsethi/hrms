@@ -3,7 +3,7 @@ import { BorderColor, Delete, HolidayVillage } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { HeadStyle } from "components/core";
 import { EditHoliday } from "components/dialogues";
-import { useChange } from "hooks";
+import { useAuth, useChange } from "hooks";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { HOLIDAY } from "types";
@@ -13,6 +13,7 @@ interface Props {
 	mutate: () => void;
 }
 const HolidayColumn = ({ data, mutate }: Props) => {
+	const { user } = useAuth();
 	const [holidays, setHolidays] = useState<HOLIDAY>();
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 
@@ -105,68 +106,72 @@ const HolidayColumn = ({ data, mutate }: Props) => {
 						field: "endDate",
 						editable: "never",
 					},
-					{
-						title: "Actions",
-						width: "5%",
-						tooltip: "Actions",
-						headerStyle: {
-							textAlign: "center",
-						},
-						cellStyle: {
-							textAlign: "center",
-						},
-						render: (item) => {
-							return (
-								<div className="flex items-center justify-center gap-1">
-									<Tooltip title="Edit">
-										<Avatar
-											variant="rounded"
-											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-500 !p-0"
-											sx={{
-												mr: ".1vw",
-												padding: "0px !important",
-												backgroundColor: "Highlight",
-												cursor: "pointer",
-												color: "",
-												width: 30,
-												height: 30,
-											}}
-										>
-											<BorderColor
-												sx={{ padding: "0px !important" }}
-												fontSize="small"
-												onClick={() => {
-													setEditDetails((prev) => !prev), setHolidays(item);
-												}}
-											/>
-										</Avatar>
-									</Tooltip>
-									<Tooltip title="Delete">
-										<Avatar
-											variant="rounded"
-											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-500 !p-0"
-											sx={{
-												mr: "0.1vw",
-												padding: "0px !important",
-												backgroundColor: "Highlight",
-												cursor: "pointer",
-												color: "",
-												width: 30,
-												height: 30,
-											}}
-										>
-											<Delete
-												sx={{ padding: "0px !important" }}
-												fontSize="small"
-												onClick={() => handleDelete(item?.id)}
-											/>
-										</Avatar>
-									</Tooltip>
-								</div>
-							);
-						},
-						editable: "never",
-					},
+					user?.role?.name === "CEO"
+						? {
+								title: "Actions",
+								width: "5%",
+								tooltip: "Actions",
+								headerStyle: {
+									textAlign: "center",
+								},
+								cellStyle: {
+									textAlign: "center",
+								},
+								render: (item) => {
+									return (
+										<div className="flex items-center justify-center gap-1">
+											<Tooltip title="Edit">
+												<Avatar
+													variant="rounded"
+													className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-500 !p-0"
+													sx={{
+														mr: ".1vw",
+														padding: "0px !important",
+														backgroundColor: "Highlight",
+														cursor: "pointer",
+														color: "",
+														width: 30,
+														height: 30,
+													}}
+												>
+													<BorderColor
+														sx={{ padding: "0px !important" }}
+														fontSize="small"
+														onClick={() => {
+															setEditDetails((prev) => !prev),
+																setHolidays(item);
+														}}
+													/>
+												</Avatar>
+											</Tooltip>
+											<Tooltip title="Delete">
+												<Avatar
+													variant="rounded"
+													className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-500 !p-0"
+													sx={{
+														mr: "0.1vw",
+														padding: "0px !important",
+														backgroundColor: "Highlight",
+														cursor: "pointer",
+														color: "",
+														width: 30,
+														height: 30,
+													}}
+												>
+													<Delete
+														sx={{ padding: "0px !important" }}
+														fontSize="small"
+														onClick={() => handleDelete(item?.id)}
+													/>
+												</Avatar>
+											</Tooltip>
+										</div>
+									);
+								},
+								editable: "never",
+						  }
+						: // If the user is not a CEO, render an empty object for the "Actions" column
+						  {},
 				]}
 			/>
 		</section>

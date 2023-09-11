@@ -241,6 +241,11 @@ const ProjectBasicDetailsUpdate = ({
 													placeholder="Start Date"
 													id="startDate"
 													name="startDate"
+													inputProps={{
+														max: new Date(values?.endDate)
+															.toISOString()
+															.split("T")[0],
+													}}
 													value={moment(values?.startDate).format("YYYY-MM-DD")}
 													onChange={(e) => {
 														setFieldValue(

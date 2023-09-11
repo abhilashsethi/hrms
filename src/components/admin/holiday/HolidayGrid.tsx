@@ -1,7 +1,7 @@
 import { BorderColor, Delete } from "@mui/icons-material";
 import { Avatar, Tooltip } from "@mui/material";
 import { EditHoliday } from "components/dialogues";
-import { useChange } from "hooks";
+import { useAuth, useChange } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -13,6 +13,7 @@ interface Props {
 }
 
 const HolidayGrid = ({ data, mutate }: Props) => {
+	const { user } = useAuth();
 	const { change } = useChange();
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 	const [holidays, setHolidays] = useState<HOLIDAY>();
@@ -68,52 +69,57 @@ const HolidayGrid = ({ data, mutate }: Props) => {
 					>
 						<div className="relative">
 							<div className="absolute right-0 rounded-tl-lg top-[6.2rem] z-50 bg-gradient-to-r from-rose-100 to-teal-100 p-2">
-								<div className="flex">
-									<Tooltip title="Edit">
-										<Avatar
-											variant="rounded"
-											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-500 !p-0"
-											sx={{
-												mr: ".1vw",
-												padding: "0px !important",
-												backgroundColor: "Highlight",
-												cursor: "pointer",
-												color: "",
-												width: 30,
-												height: 30,
-											}}
-										>
-											<BorderColor
-												sx={{ padding: "0px !important" }}
-												fontSize="small"
-												onClick={() => {
-													setEditDetails((prev) => !prev), setHolidays(item);
+								{user?.role?.name === "CEO" ||
+								user?.role?.name === "COO" ||
+								user?.role?.name === "HR" ||
+								user?.role?.name === "DIRECTOR" ? (
+									<div className="flex">
+										<Tooltip title="Edit">
+											<Avatar
+												variant="rounded"
+												className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-blue-500 !p-0"
+												sx={{
+													mr: ".1vw",
+													padding: "0px !important",
+													backgroundColor: "Highlight",
+													cursor: "pointer",
+													color: "",
+													width: 30,
+													height: 30,
 												}}
-											/>
-										</Avatar>
-									</Tooltip>
-									<Tooltip title="Delete">
-										<Avatar
-											variant="rounded"
-											className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-500 !p-0"
-											sx={{
-												mr: "0.1vw",
-												padding: "0px !important",
-												backgroundColor: "Highlight",
-												cursor: "pointer",
-												color: "",
-												width: 30,
-												height: 30,
-											}}
-										>
-											<Delete
-												sx={{ padding: "0px !important" }}
-												fontSize="small"
-												onClick={() => handleDelete(item?.id)}
-											/>
-										</Avatar>
-									</Tooltip>
-								</div>
+											>
+												<BorderColor
+													sx={{ padding: "0px !important" }}
+													fontSize="small"
+													onClick={() => {
+														setEditDetails((prev) => !prev), setHolidays(item);
+													}}
+												/>
+											</Avatar>
+										</Tooltip>
+										<Tooltip title="Delete">
+											<Avatar
+												variant="rounded"
+												className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-500 !p-0"
+												sx={{
+													mr: "0.1vw",
+													padding: "0px !important",
+													backgroundColor: "Highlight",
+													cursor: "pointer",
+													color: "",
+													width: 30,
+													height: 30,
+												}}
+											>
+												<Delete
+													sx={{ padding: "0px !important" }}
+													fontSize="small"
+													onClick={() => handleDelete(item?.id)}
+												/>
+											</Avatar>
+										</Tooltip>
+									</div>
+								) : null}
 							</div>
 							<div
 								className={`h-36 bg-cover flex justify-center py-3 rounded-t-lg w-full border`}
