@@ -20,7 +20,7 @@ import {
 	LoaderAnime,
 	SkeletonLoader,
 } from "components/core";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import Link from "next/link";
@@ -29,6 +29,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { HOLIDAY } from "types";
 
 const AllHolidays = () => {
+	const { user } = useAuth();
 	const [isGrid, setIsGrid] = useState(true);
 	const [pageNumber, setPageNumber] = useState<number>(1);
 	const [holidayName, setHolidayName] = useState<string | null>(null);
@@ -41,7 +42,13 @@ const AllHolidays = () => {
 	} = useFetch<HOLIDAY[]>(
 		`holidays?page=${pageNumber}&limit=6&orderBy=createdAt:desc${
 			holidayName ? `&title=${holidayName}` : ""
-		}${selectStartDate ? `&startDate=${selectStartDate}` : ""}`
+		}${selectStartDate ? `&startDate=${selectStartDate}` : ""}${
+			user?.role?.name === "CEO" ||
+			user?.role?.name === "COO" ||
+			user?.role?.name === "DIRECTOR"
+				? ``
+				: `&branchId=${user?.employeeOfBranchId}`
+		}`
 	);
 	console.log(holidayData);
 	return (
@@ -71,15 +78,21 @@ const AllHolidays = () => {
 									<TableRowsRounded className={`${!isGrid && `!text-theme`}`} />
 								</div>
 							</IconButton>
-							<Link href={"/admin/holiday/create-holiday"}>
-								<Button
-									variant="contained"
-									className="!bg-theme"
-									startIcon={<Add />}
-								>
-									ADD HOLIDAY
-								</Button>
-							</Link>
+
+							{user?.role?.name === "CEO" ||
+							user?.role?.name === "COO" ||
+							user?.role?.name === "HR" ||
+							user?.role?.name === "DIRECTOR" ? (
+								<Link href={"/admin/holiday/create-holiday"}>
+									<Button
+										variant="contained"
+										className="!bg-theme"
+										startIcon={<Add />}
+									>
+										ADD HOLIDAY
+									</Button>
+								</Link>
+							) : null}
 						</div>
 					</div>
 

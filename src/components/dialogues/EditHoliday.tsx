@@ -12,7 +12,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { ErrorMessage, Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -45,6 +45,7 @@ const validationSchema = Yup.object().shape({
 	title: Yup.string().required("Required!"),
 });
 const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
+	const { user } = useAuth();
 	const [loading, setLoading] = useState(false);
 	const { data: branchData } = useFetch<any>(`branches`);
 	const initialValues = useMemo(() => {
@@ -60,7 +61,12 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 			description: holidayData?.description,
 			image: holidayData?.image,
 		};
-	}, [holidayData?.id, holidayData?.endDate, holidayData?.holidayOfBranchId]);
+	}, [
+		holidayData?.id,
+		holidayData?.endDate,
+		holidayData?.holidayOfBranchId,
+		holidayData?.title,
+	]);
 
 	const { change } = useChange();
 	const handleSubmit = async (values: HOLIDAY) => {
@@ -82,6 +88,7 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 						: new Date(values?.startDate)?.toISOString(),
 					title: values?.title,
 					description: values?.description,
+					branchId: values?.holidayOfBranchId,
 				},
 			});
 
@@ -150,42 +157,47 @@ const EditHoliday = ({ open, handleClose, holidayData, mutate }: Props) => {
 							<Form className="w-full">
 								{/* {console.log(values)} */}
 								<div className="grid lg:grid-cols-1">
-									<div className="md:px-4 px-2 md:py-2 py-1">
-										<p className="text-theme font-semibold my-2">
-											Branch <span className="text-red-600">*</span>
-										</p>
-										<Autocomplete
-											sx={{ width: "100%" }}
-											options={branchData || []}
-											autoHighlight
-											getOptionLabel={(option: any) =>
-												option.name ? option.name : ""
-											}
-											isOptionEqualToValue={(option, value) =>
-												option.id === value.holidayOfBranchId
-											}
-											value={
-												values?.holidayOfBranchId
-													? branchData?.find(
-															(option: any) =>
-																option.id === values.holidayOfBranchId
-													  )
-													: {}
-											}
-											onChange={(e: any, r: any) => {
-												setFieldValue("holidayOfBranchId", r?.id);
-											}}
-											renderInput={(params) => (
-												<TextField
-													{...params}
-													placeholder="Select Branch"
-													inputProps={{
-														...params.inputProps,
-													}}
-												/>
-											)}
-										/>
-									</div>
+									{user?.role?.name === "CEO" ||
+									user?.role?.name === "COO" ||
+									user?.role?.name === "HR" ||
+									user?.role?.name === "DIRECTOR" ? (
+										<div className="md:px-4 px-2 md:py-2 py-1">
+											<p className="text-theme font-semibold my-2">
+												Branch <span className="text-red-600">*</span>
+											</p>
+											<Autocomplete
+												sx={{ width: "100%" }}
+												options={branchData || []}
+												autoHighlight
+												getOptionLabel={(option: any) =>
+													option.name ? option.name : ""
+												}
+												isOptionEqualToValue={(option, value) =>
+													option.id === value.holidayOfBranchId
+												}
+												value={
+													values?.holidayOfBranchId
+														? branchData?.find(
+																(option: any) =>
+																	option?.id === values?.holidayOfBranchId
+														  )
+														: {}
+												}
+												onChange={(e: any, r: any) => {
+													setFieldValue("holidayOfBranchId", r?.id);
+												}}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														placeholder="Select Branch"
+														inputProps={{
+															...params.inputProps,
+														}}
+													/>
+												)}
+											/>
+										</div>
+									) : null}
 									<div className="md:px-4 px-2 md:py-2 py-1">
 										<div className="py-2">
 											<InputLabel htmlFor="startDate">
