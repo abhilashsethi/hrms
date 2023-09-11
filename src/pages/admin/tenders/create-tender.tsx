@@ -40,7 +40,7 @@ const CreateTender = () => {
     }
   };
   return (
-    <PanelLayout title="Create Tender - Admin Panel">
+    <PanelLayout title="Create Tender ">
       <section className="md:px-8 px-2 py-4">
         <AdminBreadcrumbs links={links} />
         <section>

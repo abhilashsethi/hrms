@@ -127,7 +127,7 @@ const MyAttendance = () => {
     }
   }, []);
   return (
-    <PanelLayout title="Today Attendance - Admin Panel">
+    <PanelLayout title="Today Attendance">
       <section className="md:px-8 px-3 py-4">
         <div className="mt-4 py-2 lg:flex justify-between">
           <AdminBreadcrumbs links={links} />

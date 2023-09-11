@@ -56,7 +56,7 @@ const TenderDashboard = () => {
     },
   ];
   return (
-    <PanelLayout title="Tenders Dashboard - Admin Panel">
+    <PanelLayout title="Tenders Dashboard ">
       {isLoading ? (
         <DashboardSkeletonLoading />
       ) : (

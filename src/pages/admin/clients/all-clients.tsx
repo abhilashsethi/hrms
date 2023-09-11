@@ -45,7 +45,7 @@ const AllClients = () => {
   );
   return (
     <>
-      <PanelLayout title="All Clients - Admin Panel">
+      <PanelLayout title="All Clients">
         <section className="lg:px-8 px-2">
           <div className="lg:flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />

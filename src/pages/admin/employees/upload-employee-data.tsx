@@ -57,7 +57,7 @@ const UploadEmployeeData = () => {
   };
 
   return (
-    <PanelLayout title="Create Employee - Admin Panel">
+    <PanelLayout title="Create Employee ">
       <section className="md:px-8 px-2 md:py-4 py-2">
         <div className="px-2 md:px-0">
           <AdminBreadcrumbs links={links} />

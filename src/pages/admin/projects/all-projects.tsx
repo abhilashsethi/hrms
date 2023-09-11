@@ -61,7 +61,7 @@ const AllProjects = () => {
   );
 
   return (
-    <PanelLayout title="All Projects - Admin Panel">
+    <PanelLayout title="All Projects ">
       <section className="md:px-8 px-4">
         <TechnologiesFilter
           open={isTech}

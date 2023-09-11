@@ -6,7 +6,7 @@ import PanelLayout from "layouts/panel";
 const Employees = () => {
   const { user } = useAuth();
   return (
-    <PanelLayout title="Employees Dashboard - Admin Panel">
+    <PanelLayout title="Employees Dashboard ">
       <>
         <div className="px-4 pt-4">
           <AdminBreadcrumbs links={links} />

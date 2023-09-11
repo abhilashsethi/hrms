@@ -13,7 +13,7 @@ const AllBankAccounts = () => {
   } = useFetch<QuotationBank[]>(`quotations/get-all/accounts`);
   return (
     <>
-      <PanelLayout title="All Bank Account - Admin Panel">
+      <PanelLayout title="All Bank Account ">
         <section className="md:px-8 px-2 py-4">
           <div className="flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />

@@ -12,15 +12,17 @@ const GuestsDashboard = () => {
     `guests/dashboard/details`
   );
   return (
-    <PanelLayout title="Guests Dashboard - Admin Panel">
+    <PanelLayout title="Guests Dashboard ">
       <section className="lg:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
-        {isLoading ? <DashboardSkeletonLoading />
-          : (
-            <>
-              <DashboardCardsGuest data={guestData} />
-              <DashboardChartsGuest data={guestData} />
-            </>)}
+        {isLoading ? (
+          <DashboardSkeletonLoading />
+        ) : (
+          <>
+            <DashboardCardsGuest data={guestData} />
+            <DashboardChartsGuest data={guestData} />
+          </>
+        )}
       </section>
     </PanelLayout>
   );

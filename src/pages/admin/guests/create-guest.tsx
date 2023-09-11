@@ -89,7 +89,7 @@ const CreateGuest = () => {
   ];
 
   return (
-    <PanelLayout title="Create Guest - Admin Panel">
+    <PanelLayout title="Create Guest ">
       <section className="md:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
         <section className="w-full py-4 flex justify-center items-center">

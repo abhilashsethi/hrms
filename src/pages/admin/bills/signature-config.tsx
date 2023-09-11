@@ -30,7 +30,7 @@ const SignatureConfig = () => {
     isLoading,
   } = useFetch<Props[]>(`signatures/get-all`);
   return (
-    <PanelLayout title="Signature configure - Admin Panel">
+    <PanelLayout title="Signature configure">
       <AddSignatureConfig
         open={isSignature}
         handleClose={() => setIsSignature(false)}

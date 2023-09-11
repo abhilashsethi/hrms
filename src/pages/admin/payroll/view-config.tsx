@@ -14,7 +14,7 @@ const ViewConfig = () => {
   );
 
   return (
-    <PanelLayout title="View Config - Admin Panel">
+    <PanelLayout title="View Config ">
       <AdminBreadcrumbs links={links} />
       <section className="w-full px-2 md:py-4 py-2 flex justify-center items-center">
         <div className="md:p-6 px-4 md:w-2/4 w-full rounded-xl border-b-4 bg-white shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">

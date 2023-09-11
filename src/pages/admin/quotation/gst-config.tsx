@@ -74,7 +74,7 @@ const GstConfig = () => {
   };
 
   return (
-    <PanelLayout title="GST configure - Admin Panel">
+    <PanelLayout title="GST configure ">
       <section className="lg:px-8 px-2 lg:py-4 py-2">
         <div className="px-2 lg:px-0">
           <AdminBreadcrumbs links={links} />

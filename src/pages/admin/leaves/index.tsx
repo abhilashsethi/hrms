@@ -3,7 +3,7 @@ import PanelLayout from "layouts/panel";
 
 const index = () => {
   return (
-    <PanelLayout title="All Leaves - Admin Panel">
+    <PanelLayout title="All Leaves ">
       <>
         <LeaveDashboard />
       </>

@@ -43,7 +43,7 @@ const AllDepartment = () => {
   );
 
   return (
-    <PanelLayout title="All Departments - Admin Panel">
+    <PanelLayout title="All Departments ">
       <section className="md:px-8 px-4 py-4">
         <CreateDepartment
           open={isCreate}

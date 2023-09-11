@@ -39,7 +39,7 @@ const AttendanceReport = () => {
     `attendances/${router?.query?.empId}?month=${router?.query?.month}`
   );
   return (
-    <PanelLayout title="Monthly Report - Admin Panel">
+    <PanelLayout title="Monthly Report ">
       <section className="md:px-8 px-2 py-4">
         <div className="pb-4">
           {user?.role?.name === "CEO" || user?.role?.name === "HR" ? (

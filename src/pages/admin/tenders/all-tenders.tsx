@@ -49,7 +49,7 @@ const AllTenders = () => {
   );
 
   return (
-    <PanelLayout title="All Tenders - Admin Panel">
+    <PanelLayout title="All Tenders ">
       <section className="md:px-8 px-4 py-4">
         <AdminBreadcrumbs links={links} />
         <div className="flex justify-end items-center">

@@ -9,16 +9,18 @@ const index = () => {
     `departments/dashboard/details`
   );
   return (
-    <PanelLayout title="All Departments - Admin Panel">
+    <PanelLayout title="All Departments ">
       <>
         <section className="lg:px-8 px-4 py-4">
           <AdminBreadcrumbs links={links} />
-          {isLoading ? <DashboardSkeletonLoading />
-            : (
-              <>
-                <DashboardCards data={departmentDashboard} />
-                <DashboardCharts data={departmentDashboard} />
-              </>)}
+          {isLoading ? (
+            <DashboardSkeletonLoading />
+          ) : (
+            <>
+              <DashboardCards data={departmentDashboard} />
+              <DashboardCharts data={departmentDashboard} />
+            </>
+          )}
         </section>
       </>
     </PanelLayout>

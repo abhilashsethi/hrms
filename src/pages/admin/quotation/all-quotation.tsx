@@ -40,7 +40,7 @@ const AllQuotation = () => {
   );
   return (
     <>
-      <PanelLayout title="All Quotation - Admin Panel">
+      <PanelLayout title="All Quotation ">
         <section className="md:px-8 px-2">
           <div className="md:flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />

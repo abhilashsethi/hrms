@@ -28,7 +28,7 @@ const MyMeetings = () => {
   );
   return (
     <>
-      <PanelLayout title="Meetings - Admin Panel">
+      <PanelLayout title="Meetings ">
         <section className="md:px-8 px-4">
           <div className="flex justify-between items-center py-4">
             <AdminBreadcrumbs links={links} />

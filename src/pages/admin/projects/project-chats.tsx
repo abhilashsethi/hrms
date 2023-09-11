@@ -3,7 +3,7 @@ import PanelLayout from "layouts/panel";
 
 const ProjectChats = () => {
   return (
-    <PanelLayout title="Project Chats - Admin Panel">
+    <PanelLayout title="Project Chats ">
       <section className="px-6 py-4">
         <AdminBreadcrumbs links={links} />
         <ChatSection />

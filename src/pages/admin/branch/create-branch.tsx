@@ -1,7 +1,4 @@
-import {
-  Check,
-  CloudUpload,
-} from "@mui/icons-material";
+import { Check, CloudUpload } from "@mui/icons-material";
 import {
   Autocomplete,
   Box,
@@ -46,12 +43,10 @@ const validationSchema = Yup.object().shape({
     )
     .min(6)
     .max(15),
-  email: Yup.string()
-    .email("Invalid email address"),
-
+  email: Yup.string().email("Invalid email address"),
 });
 
-const CreateBranch = () => { 
+const CreateBranch = () => {
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState(false);
   const { data: userData } = useFetch<User[]>(`users`);
@@ -61,10 +56,21 @@ const CreateBranch = () => {
     try {
       const photoUrls = [];
       for (const photo of values?.photos) {
-        const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
+        const url = await uploadFile(
+          photo?.file,
+          `${Date.now()}.${photo?.uniId}`
+        );
         photoUrls.push(url);
       }
-      const ticketText = { name: values?.name, managerId: values?.managerId, phone: values?.phone, email: values?.email, country: values?.country, location: values?.location, photos: photoUrls, }
+      const ticketText = {
+        name: values?.name,
+        managerId: values?.managerId,
+        phone: values?.phone,
+        email: values?.email,
+        country: values?.country,
+        location: values?.location,
+        photos: photoUrls,
+      };
       const res: any = await change(`branches`, {
         body: ticketText,
       });
@@ -86,7 +92,7 @@ const CreateBranch = () => {
   };
 
   return (
-    <PanelLayout title="Create Employee - Admin Panel">
+    <PanelLayout title="Create Employee">
       <section className="md:px-8 px-2 md:py-4 py-2">
         <div className="px-2 md:px-0">
           <AdminBreadcrumbs links={links} />
@@ -237,7 +243,7 @@ const CreateBranch = () => {
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="manager">
-                          Assign Manager  <span className="text-red-600">*</span>
+                          Assign Manager <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <Autocomplete
@@ -260,14 +266,11 @@ const CreateBranch = () => {
                         )}
                       />
                     </div>
-
                   </div>
                   {/* ----------------------------multiple image component------------------ */}
                   <div className="md:px-4 px-2 md:py-2 py-1">
                     <div className="py-2">
-                      <InputLabel htmlFor="image">
-                        Upload Images
-                      </InputLabel>
+                      <InputLabel htmlFor="image">Upload Images</InputLabel>
                     </div>
                     <div
                       onClick={() => imageRef?.current?.click()}

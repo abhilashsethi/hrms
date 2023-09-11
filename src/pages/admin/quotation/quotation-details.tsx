@@ -13,7 +13,7 @@ const QuotationDetails = () => {
     isLoading,
   } = useFetch<Quotation>(`quotations/${router?.query?.id}`);
   return (
-    <PanelLayout title="Quotation Details - Admin Panel">
+    <PanelLayout title="Quotation Details ">
       <section className="md:px-8 px-4 mx-auto">
         <div className="pb-4">
           <AdminBreadcrumbs links={links} />

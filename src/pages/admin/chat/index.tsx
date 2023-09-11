@@ -17,7 +17,7 @@ const Chats = () => {
   }, []);
 
   return (
-    <PanelLayout title="Chats - Admin Panel">
+    <PanelLayout title="Chats">
       <section className="p-2">
         <div className="h-[calc(100vh-70px)] overflow-hidden w-full rounded-md bg-white  shadow-md lg:flex hidden">
           <ChatLeftBar setChatLeftBar={setChatLeftBar} />
