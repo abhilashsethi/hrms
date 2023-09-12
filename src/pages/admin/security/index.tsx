@@ -25,8 +25,8 @@ const index = () => {
 						<DashboardSkeletonLoading />
 					) : (
 						<>
-							<SecurityDashboardCard data={dashboardData} />
-							<SecurityDashboardCharts data={dashboardData} />
+							<SecurityDashboardCard />
+							<SecurityDashboardCharts />
 						</>
 					)}
 				</section>

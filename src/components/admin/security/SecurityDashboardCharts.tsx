@@ -1,9 +1,34 @@
 import { BranchBarChart, ClientLineCharts } from "components/analytics";
+import { useAuth, useFetch } from "hooks";
 import { Quotation } from "types";
 interface Props {
 	data?: Quotation;
 }
+interface CARD_DATA {
+	totalSecurities: number;
+	totalAppointment: number;
+	pendingAppointment: number;
+	completedAppointment: number;
+}
+interface STAT_DATA {
+	appointmentCount: number;
+	month: string;
+}
+type DASHBOARD_CHART = {
+	dashboardData: STAT_DATA[];
+};
+
 const SecurityDashboardCharts = ({ data }: Props) => {
+	const { user } = useAuth();
+
+	const { data: dashboardData } = useFetch<DASHBOARD_CHART[]>(
+		`security/appointment-overview?branchId=${user?.employeeOfBranchId}`
+	);
+	console.log(dashboardData);
+	const { data: dashboardDataDonut } = useFetch<CARD_DATA>(
+		`security/dashboard-stat?branchId=${user?.employeeOfBranchId}`
+	);
+
 	return (
 		<div className="w-full">
 			<div className="grid lg:grid-cols-2 grid-cols-1 content-between gap-6">
@@ -13,17 +38,13 @@ const SecurityDashboardCharts = ({ data }: Props) => {
 					</p>
 					<BranchBarChart
 						labels={
-							data?.acceptedQuotationOfCurrentYear?.length
-								? data?.acceptedQuotationOfCurrentYear?.map(
-										(item) => item?.month
-								  )
+							dashboardData?.length
+								? dashboardData?.map((item: any) => item?.month)
 								: null
 						}
 						data={
-							data?.acceptedQuotationOfCurrentYear?.length
-								? data?.acceptedQuotationOfCurrentYear?.map(
-										(item) => item?.count
-								  )
+							dashboardData?.length
+								? dashboardData?.map((item: any) => item?.appointmentCount)
 								: null
 						}
 						type="bar"
@@ -34,11 +55,14 @@ const SecurityDashboardCharts = ({ data }: Props) => {
 					<p className="text-center text-lg font-bold">Appointments Overview</p>
 					<ClientLineCharts
 						labels={["Completed Appointments", "Pending Appointments"]}
-						series={
-							data?.allQuotationStatus?.length
-								? data?.allQuotationStatus?.map((item) => item?._count)
-								: null
-						}
+						series={[
+							dashboardDataDonut?.completedAppointment
+								? dashboardDataDonut?.completedAppointment
+								: null,
+							dashboardDataDonut?.pendingAppointment
+								? dashboardDataDonut?.pendingAppointment
+								: null,
+						]}
 						text=""
 						type="donut"
 						colors={[

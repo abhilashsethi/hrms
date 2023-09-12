@@ -238,7 +238,7 @@ export default ShiftConfig;
 
 const links = [
 	// { id: 1, page: "Payroll", link: "/admin/payroll" },
-	{ id: 2, page: "Gst Configure", link: "/admin/quotation/gst-config" },
+	{ id: 2, page: "Shift Configure", link: "/admin/security/shift-config" },
 ];
 
 const Shift_Type = [

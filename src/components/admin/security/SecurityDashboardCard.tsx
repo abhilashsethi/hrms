@@ -1,25 +1,26 @@
-import {
-	ACCEPTED_QUOTATION,
-	APPOINTMENT,
-	COMPLETED,
-	GUARD,
-	MODIFIED_QUOTATION,
-	PENDING,
-	REJECTED_QUOTATION,
-	TOTAL_QUOTATION,
-} from "assets/dashboard_Icons";
+import { APPOINTMENT, COMPLETED, GUARD, PENDING } from "assets/dashboard_Icons";
+import { useAuth, useFetch } from "hooks";
 import Link from "next/link";
-import { Quotation } from "types";
 
-interface Props {
-	data?: Quotation;
+interface CARD_DATA {
+	totalSecurities: number;
+	totalAppointment: number;
+	pendingAppointment: number;
+	completedAppointment: number;
 }
-const SecurityDashboardCard = ({ data }: Props) => {
+
+const SecurityDashboardCard = () => {
+	const { user } = useAuth();
+	const { data: dashboardData, isLoading } = useFetch<CARD_DATA>(
+		`security/dashboard-stat?branchId=${user?.employeeOfBranchId}`
+	);
 	const cards = [
 		{
 			id: 1,
 			name: "Total Securities",
-			count: data?.totalQuotation ? data?.totalQuotation : 0,
+			count: dashboardData?.totalSecurities
+				? dashboardData?.totalSecurities
+				: 0,
 			icon: <img src={GUARD.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-blue-600 to-cyan-400",
 			link: "/admin/assets/all-assets",
@@ -27,7 +28,9 @@ const SecurityDashboardCard = ({ data }: Props) => {
 		{
 			id: 2,
 			name: "Total Appointments",
-			count: data?.totalAcceptedQuotation ? data?.totalAcceptedQuotation : 0,
+			count: dashboardData?.totalAppointment
+				? dashboardData?.totalAppointment
+				: 0,
 			icon: <img src={APPOINTMENT.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-green-500 to-emerald-400",
 			link: "/admin/assets/all-assets",
@@ -35,7 +38,9 @@ const SecurityDashboardCard = ({ data }: Props) => {
 		{
 			id: 3,
 			name: "Pending Appointments",
-			count: data?.totalRejectedQuotations ? data?.totalRejectedQuotations : 0,
+			count: dashboardData?.pendingAppointment
+				? dashboardData?.pendingAppointment
+				: 0,
 			icon: <img src={PENDING.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-orange-500 to-yellow-400",
 			link: "/admin/assets/all-assets",
@@ -43,7 +48,9 @@ const SecurityDashboardCard = ({ data }: Props) => {
 		{
 			id: 4,
 			name: "Completed Appointments",
-			count: data?.totalModifiedQuotations ? data?.totalModifiedQuotations : 0,
+			count: dashboardData?.completedAppointment
+				? dashboardData?.completedAppointment
+				: 0,
 			icon: <img src={COMPLETED.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
 			link: "/admin/branch/all-branch",
