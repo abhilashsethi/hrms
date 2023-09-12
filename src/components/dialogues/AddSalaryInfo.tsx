@@ -77,11 +77,8 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 				setLoading(false);
 				return;
 			}
-			Swal.fire(
-				`Success`,
-				`Gross Salary added successfully for ${res?.results?.data?.name}`,
-				`success`
-			);
+			console.log(res);
+			Swal.fire(`Success`, `Gross Salary added successfully`, `success`);
 			mutate();
 			handleClose();
 			return;
@@ -265,7 +262,11 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 										variant="contained"
 										disabled={loading}
 										startIcon={
-											loading ? <CircularProgress size={20} /> : <Check />
+											loading ? (
+												<CircularProgress size={20} color="secondary" />
+											) : (
+												<Check />
+											)
 										}
 									>
 										SUBMIT
