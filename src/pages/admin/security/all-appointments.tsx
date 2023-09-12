@@ -180,6 +180,22 @@ const AllAppointments = () => {
                   )}
                 />
               ) : null}
+              <TextField
+                fullWidth
+                select
+                label="Ascending/Descending"
+                size="small"
+                value={isOrderBy ? isOrderBy : ""}
+                onChange={(e) => {
+                  setPageNumber(1), setIsOrderBy(e?.target?.value);
+                }}
+              >
+                {short.map((option) => (
+                  <MenuItem key={option.id} value={option.value}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </div>
           </div>
           {isLoading ? (
@@ -240,8 +256,6 @@ const links = [
   { id: 2, page: "All Appointments", link: "/admin/security/all-appointments" },
 ];
 const short = [
-  { id: 1, value: "name:asc", name: "Client Name Ascending" },
-  { id: 2, value: "name:desc", name: "Client Name Descending" },
   { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
   { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
