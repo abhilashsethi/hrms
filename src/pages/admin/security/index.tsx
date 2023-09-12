@@ -17,7 +17,7 @@ const index = () => {
 		`quotations/dashboard/info`
 	);
 	return (
-		<PanelLayout title="All Branches ">
+		<PanelLayout title="Security Dashboard">
 			<>
 				<section className="lg:px-8 px-4 py-4">
 					<AdminBreadcrumbs links={links} />
@@ -36,4 +36,4 @@ const index = () => {
 };
 
 export default index;
-const links = [{ id: 1, page: "Quotation", link: "/admin/quotation" }];
+const links = [{ id: 1, page: "Security", link: "/admin/security" }];
