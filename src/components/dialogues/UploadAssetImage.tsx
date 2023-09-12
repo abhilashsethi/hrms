@@ -44,7 +44,10 @@ const UploadAssetImage = ({
     try {
       const photoUrls = [];
       for (const photo of values?.photos) {
-        const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
+        const url = await uploadFile(
+          photo?.file,
+          `${Date.now()}.${photo?.uniId}`
+        );
         photoUrls.push(url);
       }
       const newPhotoArray = [...assetData?.photos, ...photoUrls];
@@ -66,7 +69,7 @@ const UploadAssetImage = ({
       handleCloseUpload();
       handleClose();
       // router?.push("/admin/branch/all-branch");
-      Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      Swal.fire(`Success`, `Updated Successfully!`, `success`);
       return;
     } catch (error) {
       console.log(error);
@@ -123,9 +126,7 @@ const UploadAssetImage = ({
                   {/* ----------------------------multiple image component------------------ */}
                   <div className="md:px-4 px-2 md:py-2 py-1">
                     <div className="py-2">
-                      <InputLabel htmlFor="image">
-                        Upload Images
-                      </InputLabel>
+                      <InputLabel htmlFor="image">Upload Images</InputLabel>
                     </div>
                     <div
                       onClick={() => imageRef?.current?.click()}
@@ -175,7 +176,9 @@ const UploadAssetImage = ({
                     variant="contained"
                     className="!bg-emerald-500"
                     disabled={loading}
-                    startIcon={loading ? <CircularProgress size={20} /> : <Check />}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
                   >
                     UPDATE
                   </Button>
