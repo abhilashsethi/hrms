@@ -82,7 +82,7 @@ const EmployeesColumn = ({ data, mutate, userDetails }: Props) => {
                 personalEmail: _?.email,
               })) as any)
         }
-        options={{ ...MuiTblOptions(), paging: false }}
+        options={{ ...MuiTblOptions("All Employees"), paging: false }}
         columns={[
           {
             title: "#",
