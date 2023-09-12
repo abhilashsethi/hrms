@@ -16,13 +16,12 @@ import {
   LoaderAnime,
 } from "components/core";
 import { CreateLeave } from "components/dialogues";
-import { useAuth, useFetch } from "hooks";
+import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import { Leave } from "types";
 
 const LeaveRequests = () => {
-  const { user } = useAuth();
   const [isGrid, setIsGrid] = useState(true);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [userName, setUsername] = useState<string | null>(null);
