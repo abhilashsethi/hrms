@@ -11,11 +11,21 @@ import { ErrorMessage, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
+import { User, APPOINTMENT } from "types";
 import { uploadFile } from "utils";
 import * as Yup from "yup";
+
+// Define the APPOINTMENT type
+
+// Define the User type
+// interface User {
+//   id: string;
+//   name: string;
+//   // Add other properties as needed
+// }
+
 const initialValues = {
 	name: "",
 	phone: "",
@@ -34,13 +44,10 @@ const initialValues = {
 const validationSchema = Yup.object().shape({
 	holidayOfBranchId: Yup.string().required("Required!"),
 	name: Yup.string()
-		.matches(
-			/^[A-Za-z ]+$/,
-			"First name must only contain alphabetic characters"
-		)
-		.min(2, "First name must be at least 2 characters")
-		.max(50, "First name must be less than 50 characters")
-		.required("First name is required!"),
+		.matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
+		.min(2, "Name must be at least 2 characters")
+		.max(50, "Name must be less than 50 characters")
+		.required("Name is required!"),
 
 	phone: Yup.string()
 		.required("Required!")
@@ -53,11 +60,15 @@ const validationSchema = Yup.object().shape({
 	email: Yup.string()
 		.email("Invalid email address")
 		.required("Email is required!"),
+	assignedUserId: Yup?.string()?.required("Required"),
 	address: Yup.string().required("Required!"),
 	startDate: Yup.string().required("Required!"),
 	startTime: Yup.string().required("Required!"),
+	endTime: Yup.string().required("Required!"),
 	status: Yup.string().required("Required!"),
+	reason: Yup.string().required("Required!"),
 	image: Yup.mixed()
+		?.required("Required")
 		.test("fileSize", "Image size is too large", (value: any) => {
 			if (value) {
 				const maxSize = 5 * 1024 * 1024; // Maximum size in bytes (5MB)
@@ -88,7 +99,7 @@ const CreateAppointment = () => {
 	const { data: branchData } = useFetch<any>(`branches`);
 	const { change, isChanging } = useChange();
 	const { data: userData } = useFetch<User[]>(`users`);
-	const handleSubmit = async (values: any) => {
+	const handleSubmit = async (values: APPOINTMENT) => {
 		console.log(values);
 
 		// const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
@@ -104,7 +115,7 @@ const CreateAppointment = () => {
 			const url =
 				values?.image &&
 				(await uploadFile(values?.image, `${Date.now()}.${uniId}`));
-			const res: any = await change(`appointments`, {
+			const res = await change(`appointments`, {
 				body: {
 					name: values?.name,
 					email: values?.email,
@@ -284,7 +295,7 @@ const CreateAppointment = () => {
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="startDate">
-													Appointment Start Date{" "}
+													Appointment Date{" "}
 													<span className="text-red-600">*</span>
 												</InputLabel>
 											</div>
@@ -428,7 +439,7 @@ const CreateAppointment = () => {
 									<div className="px-2 md:py-2 py-1">
 										<div className="md:py-2 py-1">
 											<InputLabel htmlFor="name">
-												Upload Holiday Image
+												Upload Image<span className="text-red-600">*</span>
 											</InputLabel>
 										</div>
 										<SingleImageUpload
