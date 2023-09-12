@@ -108,7 +108,7 @@ const AllAppointments = () => {
                 size="small"
                 id="searchTitle"
                 placeholder="Title"
-                value={searchTitle ? searchTitle : null}
+                value={searchTitle ? searchTitle : ""}
                 name="searchTitle"
                 onChange={(e) => {
                   setPageNumber(1), setSearchTitle(e.target.value);
