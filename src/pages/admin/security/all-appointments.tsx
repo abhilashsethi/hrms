@@ -45,7 +45,7 @@ const AllAppointments = () => {
       user?.role?.name === "DIRECTOR" ||
       user?.role?.name === "COO"
         ? ``
-        : `&branchId=${isBranchId}`
+        : `&branchId=${user?.employeeOfBranchId}`
     }`
   );
   return (

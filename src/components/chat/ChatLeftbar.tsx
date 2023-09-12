@@ -351,6 +351,8 @@ const GroupChats = ({ setChatLeftBar }: any) => {
     revalidateChatCount,
   } = useChatData();
 
+  const { user } = useAuth();
+
   const { socketRef } = useSocket();
 
   //searching and filtering done locally
@@ -381,7 +383,7 @@ const GroupChats = ({ setChatLeftBar }: any) => {
     <div className="h-[calc(100%)] overflow-y-auto">
       <ChatGroupCreate open={isCreate} onClose={() => setIsCreate(false)} />
       <div className="flex justify-between items-center">
-        <div className="border-2 w-[87%] flex gap-1 items-center px-2 rounded-md py-1">
+        <div className="border-2 w-full flex gap-1 items-center px-2 rounded-md py-1">
           <Search fontSize="small" />
           <input
             className="w-[85%] bg-white px-2 py-1 rounded-md text-sm"
@@ -391,30 +393,32 @@ const GroupChats = ({ setChatLeftBar }: any) => {
             onChange={(e) => setSearchTitle(e?.target?.value)}
           />
         </div>
-        <div className="lg:w-[10%]">
-          <IconButton onClick={handleClick} size="small">
-            <MoreVert />
-          </IconButton>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-          >
-            <MenuItem
-              onClick={() => {
-                setIsCreate(true);
-                handleClose();
+        {!user?.isClient ? (
+          <div className="lg:w-[10%]">
+            <IconButton onClick={handleClick} size="small">
+              <MoreVert />
+            </IconButton>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
               }}
             >
-              Create Group
-            </MenuItem>
-            {/* <MenuItem onClick={handleClose}>Settings</MenuItem> */}
-          </Menu>
-        </div>
+              <MenuItem
+                onClick={() => {
+                  setIsCreate(true);
+                  handleClose();
+                }}
+              >
+                Create Group
+              </MenuItem>
+              {/* <MenuItem onClick={handleClose}>Settings</MenuItem> */}
+            </Menu>
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-2 flex flex-col gap-1">
