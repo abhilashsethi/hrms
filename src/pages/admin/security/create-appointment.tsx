@@ -303,6 +303,9 @@ const CreateAppointment = () => {
 												size="small"
 												fullWidth
 												type="date"
+												inputProps={{
+													min: new Date().toISOString().split("T")[0],
+												}}
 												id="startDate"
 												name="startDate"
 												value={values.startDate}
