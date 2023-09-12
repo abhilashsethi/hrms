@@ -11,9 +11,9 @@ import { ErrorMessage, Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
-import { User, APPOINTMENT } from "types";
+import { APPOINTMENT, User } from "types";
 import { uploadFile } from "utils";
 import * as Yup from "yup";
 
