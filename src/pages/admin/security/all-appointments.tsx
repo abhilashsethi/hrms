@@ -183,7 +183,7 @@ const AllAppointments = () => {
               <TextField
                 fullWidth
                 select
-                label="Ascending/Descending"
+                label="Sorting"
                 size="small"
                 value={isOrderBy ? isOrderBy : ""}
                 onChange={(e) => {
