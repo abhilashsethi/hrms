@@ -50,3 +50,7 @@ export { default as TOTAL_BILLS } from "./total_bills.png";
 export { default as UNPAID_BILLS } from "./unpaid_bill.png";
 export { default as PAID_BILLS } from "./paid_bill.png";
 export { default as ADVANCE_BILLS } from "./advance_bill.png";
+export { default as APPOINTMENT } from "./appointment.png";
+export { default as GUARD } from "./guard.png";
+export { default as COMPLETED } from "./completed.png";
+export { default as CANCELLED } from "./cancelled.png";
