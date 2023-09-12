@@ -11,7 +11,7 @@ interface CARD_DATA {
 
 const SecurityDashboardCard = () => {
 	const { user } = useAuth();
-	const { data: dashboardData, isLoading } = useFetch<CARD_DATA>(
+	const { data: dashboardData } = useFetch<CARD_DATA>(
 		`security/dashboard-stat?branchId=${user?.employeeOfBranchId}`
 	);
 	const cards = [
@@ -23,7 +23,7 @@ const SecurityDashboardCard = () => {
 				: 0,
 			icon: <img src={GUARD.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-blue-600 to-cyan-400",
-			link: "/admin/assets/all-assets",
+			link: "",
 		},
 		{
 			id: 2,
@@ -33,7 +33,7 @@ const SecurityDashboardCard = () => {
 				: 0,
 			icon: <img src={APPOINTMENT.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-green-500 to-emerald-400",
-			link: "/admin/assets/all-assets",
+			link: "/admin/security/all-appointments",
 		},
 		{
 			id: 3,
@@ -43,7 +43,7 @@ const SecurityDashboardCard = () => {
 				: 0,
 			icon: <img src={PENDING.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-orange-500 to-yellow-400",
-			link: "/admin/assets/all-assets",
+			link: "/admin/security/all-appointments",
 		},
 		{
 			id: 4,
@@ -53,7 +53,7 @@ const SecurityDashboardCard = () => {
 				: 0,
 			icon: <img src={COMPLETED.src} className="w-16" alt="" />,
 			color: "bg-gradient-to-br from-[#ff5874] to-[#ff8196]",
-			link: "/admin/branch/all-branch",
+			link: "/admin/security/all-appointments",
 		},
 	];
 	return (

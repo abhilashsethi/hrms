@@ -1,9 +1,6 @@
 import { BranchBarChart, ClientLineCharts } from "components/analytics";
 import { useAuth, useFetch } from "hooks";
-import { Quotation } from "types";
-interface Props {
-	data?: Quotation;
-}
+
 interface CARD_DATA {
 	totalSecurities: number;
 	totalAppointment: number;
@@ -18,13 +15,12 @@ type DASHBOARD_CHART = {
 	dashboardData: STAT_DATA[];
 };
 
-const SecurityDashboardCharts = ({ data }: Props) => {
+const SecurityDashboardCharts = () => {
 	const { user } = useAuth();
 
 	const { data: dashboardData } = useFetch<DASHBOARD_CHART[]>(
 		`security/appointment-overview?branchId=${user?.employeeOfBranchId}`
 	);
-	console.log(dashboardData);
 	const { data: dashboardDataDonut } = useFetch<CARD_DATA>(
 		`security/dashboard-stat?branchId=${user?.employeeOfBranchId}`
 	);

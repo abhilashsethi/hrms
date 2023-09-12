@@ -12,7 +12,6 @@ import { SHIFT } from "types";
 import { MuiTblOptions } from "utils";
 
 const AllShifts = () => {
-	const [isLeave, setIsLeave] = useState<boolean>(false);
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 	const [editShiftData, setEditShiftData] = useState<SHIFT>();
 	const [pageNumber, setPageNumber] = useState<number>(1);
@@ -20,7 +19,6 @@ const AllShifts = () => {
 	const {
 		data: shiftData,
 		mutate,
-		isLoading,
 		pagination,
 	} = useFetch<any>(`security/shift?page=${pageNumber}&limit=6`);
 	console.log(shiftData);
@@ -54,8 +52,6 @@ const AllShifts = () => {
 			}
 		});
 	};
-
-	const router = useRouter();
 
 	return (
 		<>
