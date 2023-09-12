@@ -963,3 +963,16 @@ export interface APPOINTMENT {
 	photo?: string;
 	user?: User;
 }
+
+export interface Security {
+	agencyAddress: string;
+	agencyName: string;
+	branch: Branch;
+	createdAt: string;
+	isAgency: boolean;
+	shift: SHIFT;
+	user: User;
+	_id:{
+		$oid?: string;
+	};
+}
