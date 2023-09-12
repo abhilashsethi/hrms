@@ -9,7 +9,7 @@ import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
 import { AdminBreadcrumbs, SingleImageUpload } from "components/core";
 import { Check } from "@mui/icons-material";
 import PanelLayout from "layouts/panel";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useState } from "react";
 import { HOLIDAY } from "types";
 import Swal from "sweetalert2";
@@ -27,7 +27,7 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-	holidayOfBranchId: Yup.string().required("Required!"),
+	// holidayOfBranchId: Yup.string().required("Required!"),
 	startDate: Yup.string().required("Required!"),
 	endDate: Yup.string()
 		// .required("Required!")
@@ -67,6 +67,7 @@ const validationSchema = Yup.object().shape({
 
 const CreateHoliday = () => {
 	// const theme = useTheme();
+	const { user } = useAuth();
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
@@ -91,7 +92,12 @@ const CreateHoliday = () => {
 						: new Date(values?.startDate)?.toISOString(),
 					title: values?.title,
 					description: values?.description,
-					branchId: values?.holidayOfBranchId,
+					branchId:
+						user?.role?.name === "CEO" ||
+						user?.role?.name === "COO" ||
+						user?.role?.name === "DIRECTOR"
+							? values?.holidayOfBranchId
+							: user?.employeeOfBranchId,
 				},
 			});
 			setLoading(false);
@@ -147,40 +153,44 @@ const CreateHoliday = () => {
 										Create Holiday
 									</h1>
 									<div className="grid lg:grid-cols-1">
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="holidayOfBranchId">
-													Branch <span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
+										{user?.role?.name === "CEO" ||
+										user?.role?.name === "COO" ||
+										user?.role?.name === "DIRECTOR" ? (
+											<div className="md:px-4 px-2 md:py-2 py-1">
+												<div className="py-2">
+													<InputLabel htmlFor="holidayOfBranchId">
+														Branch
+													</InputLabel>
+												</div>
 
-											<Autocomplete
-												fullWidth
-												size="small"
-												id="holidayOfBranchId"
-												options={branchData || []}
-												onChange={(e: any, r: any) => {
-													setFieldValue("holidayOfBranchId", r?.id);
-												}}
-												getOptionLabel={(option: any) => option.name}
-												renderInput={(params) => (
-													<TextField
-														{...params}
-														// label="Role"
-														placeholder="Branch"
-														onBlur={handleBlur}
-														error={
-															touched.holidayOfBranchId &&
-															!!errors.holidayOfBranchId
-														}
-														helperText={
-															touched.holidayOfBranchId &&
-															errors.holidayOfBranchId
-														}
-													/>
-												)}
-											/>
-										</div>
+												<Autocomplete
+													fullWidth
+													size="small"
+													id="holidayOfBranchId"
+													options={branchData || []}
+													onChange={(e: any, r: any) => {
+														setFieldValue("holidayOfBranchId", r?.id);
+													}}
+													getOptionLabel={(option: any) => option.name}
+													renderInput={(params) => (
+														<TextField
+															{...params}
+															// label="Role"
+															placeholder="Branch"
+															onBlur={handleBlur}
+															error={
+																touched.holidayOfBranchId &&
+																!!errors.holidayOfBranchId
+															}
+															helperText={
+																touched.holidayOfBranchId &&
+																errors.holidayOfBranchId
+															}
+														/>
+													)}
+												/>
+											</div>
+										) : null}
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
 												<InputLabel htmlFor="startDate">
