@@ -923,20 +923,43 @@ export type SHIFT = {
 	};
 };
 
-export type APPOINTMENT = {
-	address: string;
-	branch: Branch;
-	branchId: string;
-	createdAt: string;
-	email: string;
-	id: string;
-	name: string;
-	phone: number;
-	photo: string;
-	reason: string;
-	startDate:string
-	status: string;
-	user: User
-	whomToVisitId:string
+// export type APPOINTMENT = {
+// 	address?: string;
+// 	branch?: Branch;
+// 	branchId?: string;
+// 	createdAt?: string;
+// 	email?: string;
+// 	id?: string;
+// 	name?: string;
+// 	phone?: number;
+// 	image?: File | null;
+// 	reason?: string;
+// 	startDate?: string;
+// 	status?: string;
+// 	user?: User;
+// 	whomToVisitId?: string;
+// 	holidayOfBranchId?: string;
+// 	startTime?: string;
+// 	endTime?: string;
+// 	assignedUserId?: string;
+// 	type?: string;
+// };
 
+export interface APPOINTMENT {
+	name: string;
+	phone: string;
+	email: string;
+	address: string;
+	startDate: string;
+	startTime: string;
+	endTime: string;
+	assignedUserId: string;
+	status: string;
+	image?: File | undefined;
+	holidayOfBranchId: string;
+	reason: string;
+	whomToVisitId?: string;
+	id?: string;
+	photo?: string;
+	user?: User;
 }

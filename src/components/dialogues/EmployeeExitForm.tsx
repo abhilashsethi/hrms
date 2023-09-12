@@ -180,7 +180,7 @@ const EmployeeExitForm = ({ open, handleClose, userId, mutate }: Props) => {
 						}) => (
 							<Form className="w-full">
 								{/* {console.log(values)} */}
-								<p className="font-medium text-gray-700">
+								<p className="font-medium text-gray-700 mb-1">
 									Select Status<span className="text-red-600">*</span>
 								</p>
 								<div className="w-full">
@@ -196,8 +196,8 @@ const EmployeeExitForm = ({ open, handleClose, userId, mutate }: Props) => {
 										renderInput={(params) => (
 											<TextField
 												{...params}
-												label="Status"
-												// placeholder="Selected Gender"
+												// label="Status"
+												placeholder="Selected Status"
 												onBlur={handleBlur}
 												error={touched.status && !!errors.status}
 												helperText={touched.status && errors.status}

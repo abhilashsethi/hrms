@@ -32,7 +32,7 @@ const cloudFront = new CloudFrontClient(awsCredentials);
 
 export { default as sample } from "./codeblocks";
 
-export const MuiTblOptions = () => {
+export const MuiTblOptions = (downloadTitle?: string) => {
   const options: Options<any> = {
     headerStyle: {
       whiteSpace: "nowrap",
@@ -60,11 +60,11 @@ export const MuiTblOptions = () => {
     exportMenu: [
       {
         label: "Export All Data In CSV",
-        exportFunc: (cols: any, data: any) => ExportCsv(cols, data, "AllData"),
+        exportFunc: (cols: any, data: any) => ExportCsv(cols, data, `${downloadTitle ? downloadTitle : "AllData"}`),
       },
       {
         label: "Export All Data In PDF",
-        exportFunc: (cols: any, data: any) => ExportPdf(cols, data, "AllData"),
+        exportFunc: (cols: any, data: any) => ExportPdf(cols, data, `${downloadTitle ? downloadTitle : "AllData"}`),
       },
     ],
   };

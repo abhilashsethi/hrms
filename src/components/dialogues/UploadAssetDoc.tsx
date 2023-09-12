@@ -46,7 +46,10 @@ const UploadAssetDoc = ({
     try {
       const docsUrls = [];
       for (const docLink of values?.uploadDoc) {
-        const url = await uploadFile(docLink?.file, `${Date.now()}.${docLink?.uniId}`);
+        const url = await uploadFile(
+          docLink?.file,
+          `${Date.now()}.${docLink?.uniId}`
+        );
         docsUrls.push({ link: url, docType: docLink?.uniId });
       }
       const newDocArray = [...assetData?.docs, ...docsUrls];
@@ -68,7 +71,7 @@ const UploadAssetDoc = ({
       handleCloseUpload();
       handleClose();
       // router?.push("/admin/branch/all-branch");
-      Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      Swal.fire(`Success`, `Updated Successfully!`, `success`);
       return;
     } catch (error) {
       console.log(error);
@@ -134,9 +137,7 @@ const UploadAssetDoc = ({
                       onChange={(event: any) => {
                         const files = Array.from(event.target.files);
                         const fileObjects = files.map((file: any) => {
-                          const uniId = file.type
-                            .split("/")[1]
-                            .split("+")[0]; // Get unique ID of the image
+                          const uniId = file.type.split("/")[1].split("+")[0]; // Get unique ID of the image
                           return {
                             file,
                             previewURL: URL.createObjectURL(file),
@@ -171,7 +172,9 @@ const UploadAssetDoc = ({
                     variant="contained"
                     className="!bg-emerald-500"
                     disabled={loading}
-                    startIcon={loading ? <CircularProgress size={20} /> : <Check />}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
                   >
                     UPDATE
                   </Button>

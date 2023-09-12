@@ -31,7 +31,7 @@ const ProfileDetails = () => {
     mutate,
     isLoading,
   } = useFetch<User>(`users/${user?.id}`);
-
+  console.log(employData);
   const { data: projectDetails } = useFetch<any>(
     `projects?${
       user?.id

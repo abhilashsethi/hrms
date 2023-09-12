@@ -78,7 +78,6 @@ const EmployDashboard = () => {
       link: "/admin/employees/all-employees",
     },
   ];
-
   return (
     <>
       <div className="md:flex gap-2 py-6">
