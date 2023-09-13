@@ -45,8 +45,8 @@ const ShiftConfig = () => {
 				method: "POST",
 				body: {
 					type: values?.type,
-					startTime: new Date(`${values?.startTime}`).toISOString(),
-					endTime: new Date(`${values?.endTime}`).toISOString(),
+					startTime: values?.startTime,
+					endTime: values?.endTime,
 					branchId: values?.shiftOfBranchId,
 				},
 			});
@@ -170,7 +170,7 @@ const ShiftConfig = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="datetime-local"
+												type="time"
 												// placeholder="% for startTime"
 												id="startTime"
 												name="startTime"
@@ -193,7 +193,7 @@ const ShiftConfig = () => {
 											<TextField
 												size="small"
 												fullWidth
-												type="datetime-local"
+												type="time"
 												// placeholder="% for PF"
 												id="endTime"
 												name="endTime"

@@ -19,10 +19,14 @@ const SecurityDashboardCharts = () => {
 	const { user } = useAuth();
 
 	const { data: dashboardData } = useFetch<DASHBOARD_CHART[]>(
-		`security/appointment-overview?branchId=${user?.employeeOfBranchId}`
+		`security/appointment-overview${
+			user?.role?.name === "CEO" ? "" : `?branchId=${user?.employeeOfBranchId}`
+		}`
 	);
 	const { data: dashboardDataDonut } = useFetch<CARD_DATA>(
-		`security/dashboard-stat?branchId=${user?.employeeOfBranchId}`
+		`security/dashboard-stat${
+			user?.role?.name === "CEO" ? "" : `?branchId=${user?.employeeOfBranchId}`
+		}`
 	);
 
 	return (

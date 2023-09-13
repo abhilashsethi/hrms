@@ -5,7 +5,6 @@ import { AdminBreadcrumbs, HeadStyle } from "components/core";
 import { EditShift } from "components/dialogues";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { SHIFT } from "types";
@@ -199,6 +198,5 @@ const AllShifts = () => {
 export default AllShifts;
 
 const links = [
-	{ id: 1, page: "Meetings", link: "/admin/meetings" },
-	{ id: 2, page: "All Meetings", link: "/admin/meetings/all-meetings" },
+	{ id: 2, page: "All Shifts", link: "/admin/security/all-shifts" },
 ];
