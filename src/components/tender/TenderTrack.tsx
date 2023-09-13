@@ -220,12 +220,12 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                   size="3.5rem"
                   photo={filteredMember?.member?.photo}
                 />
-                <div>
-                  <h1>{filteredMember?.member?.name}</h1>
-                  <h1 className="text-sm text-gray-600">
-                    {filteredMember?.member?.email}
-                  </h1>
-                </div>
+                <h1 className="break-all md:break-normal">
+                  {filteredMember?.member?.name}
+                </h1>
+                <h1 className="text-sm text-gray-600 break-all md:break-normal">
+                  {filteredMember?.member?.email}
+                </h1>
               </div>
               <div className="mt-2 md:flex grid justify-center gap-2">
                 <Link
