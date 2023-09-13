@@ -66,7 +66,6 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
       tenderData?.documentAddReason ? tenderData?.documentAddReason : ""
     }`,
   };
-  console.log(tenderData);
   const validationSchema = Yup.object().shape({});
   const [isDocument, setIsDocument] = useState<{
     dialogue: boolean;
