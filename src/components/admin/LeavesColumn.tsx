@@ -564,7 +564,15 @@ const IsSandwichLeave = ({
               fullWidth
               variant="contained"
               className="!bg-theme"
-              disabled={loading}
+              disabled={
+                loading ||
+                (!isValue && isTotalDay === "0") ||
+                isTotalDay === "" ||
+                isTotalDay === "0." ||
+                isTotalDay === "0.0" ||
+                dayValidationError !== "" ||
+                parseFloat(isTotalDay) < 0.1
+              }
               onClick={() => approveLeave(isCurrentData?.id)}
               startIcon={
                 loading ? (

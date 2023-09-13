@@ -81,6 +81,7 @@ export type Attendance = {
 	isWFH: boolean;
 	name: string;
 	photo: string;
+	role: string;
 };
 export type PayRoll = {
 	id: string;
@@ -962,4 +963,17 @@ export interface APPOINTMENT {
 	id?: string;
 	photo?: string;
 	user?: User;
+}
+
+export interface Security {
+	agencyAddress: string;
+	agencyName: string;
+	branch: Branch;
+	createdAt: string;
+	isAgency: boolean;
+	shift: SHIFT;
+	user: User;
+	_id:{
+		$oid?: string;
+	};
 }

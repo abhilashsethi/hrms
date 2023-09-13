@@ -380,7 +380,7 @@ const IsSandwichLeave = ({
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const { user } = useAuth();
-  const [isTotalDay, setTotalDay] = useState("0");
+  const [isTotalDay, setTotalDay] = useState("1");
   const [isValue, setIsValue] = useState(true);
   const [dayValidationError, setDayValidationError] = useState("");
 
@@ -402,7 +402,7 @@ const IsSandwichLeave = ({
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsValue(event.target.value === "paid");
-    setTotalDay("0");
+    setTotalDay("1");
   };
   const approveLeave = (id?: string) => {
     Swal.fire({
@@ -461,7 +461,7 @@ const IsSandwichLeave = ({
 
           Swal.fire(`Success`, `Status changed successfully!`, `success`);
           mutate();
-          setTotalDay("0");
+          setTotalDay("1");
           handleClose();
           return;
         } catch (error) {
@@ -586,13 +586,20 @@ const IsSandwichLeave = ({
                 />
               </div>
             )}
-
             <Button
               type="submit"
               fullWidth
               variant="contained"
               className="!bg-theme"
-              disabled={loading}
+              disabled={
+                loading ||
+                (!isValue && isTotalDay === "0") ||
+                isTotalDay === "" ||
+                isTotalDay === "0." ||
+                isTotalDay === "0.0" ||
+                dayValidationError !== "" ||
+                parseFloat(isTotalDay) < 0.1
+              }
               onClick={() => approveLeave(item?.id)}
               startIcon={
                 loading ? (
