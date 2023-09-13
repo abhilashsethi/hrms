@@ -78,9 +78,6 @@ const AssignMembers = ({ handleNext }: Props) => {
           memberId: values?.documentUserId,
           tenderId: tender?.id,
           isAllowedToAddDoc: true,
-          isAllowedToReviewTender: false,
-          isAllowedToSubmitTender: false,
-          isAllowedToTrackTender: false,
         },
       });
       setLoading(false);
@@ -107,10 +104,7 @@ const AssignMembers = ({ handleNext }: Props) => {
         body: {
           memberId: values?.reviewUserId,
           tenderId: tender?.id,
-          isAllowedToAddDoc: false,
           isAllowedToReviewTender: true,
-          isAllowedToSubmitTender: false,
-          isAllowedToTrackTender: false,
         },
       });
       setLoadingReview(false);
@@ -138,10 +132,7 @@ const AssignMembers = ({ handleNext }: Props) => {
         body: {
           memberId: values?.submissionUserId,
           tenderId: tender?.id,
-          isAllowedToAddDoc: false,
-          isAllowedToReviewTender: false,
           isAllowedToSubmitTender: true,
-          isAllowedToTrackTender: false,
         },
       });
       setLoadingSubmission(false);
@@ -169,9 +160,6 @@ const AssignMembers = ({ handleNext }: Props) => {
         body: {
           memberId: values?.trackUserId,
           tenderId: tender?.id,
-          isAllowedToAddDoc: false,
-          isAllowedToReviewTender: false,
-          isAllowedToSubmitTender: false,
           isAllowedToTrackTender: true,
         },
       });

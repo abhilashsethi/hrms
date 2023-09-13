@@ -292,7 +292,6 @@ const SecurityInformation = ({
                         SUBMIT
                       </Button>
                     </div>
-                    {/* <button type="submit">Submit</button> */}
                   </Form>
                 )}
               </Formik>
