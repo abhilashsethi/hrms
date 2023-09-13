@@ -28,6 +28,7 @@ const SecurityDashboardCharts = () => {
 			user?.role?.name === "CEO" ? "" : `?branchId=${user?.employeeOfBranchId}`
 		}`
 	);
+	console.log(dashboardDataDonut);
 
 	return (
 		<div className="w-full">
@@ -58,10 +59,10 @@ const SecurityDashboardCharts = () => {
 						series={[
 							dashboardDataDonut?.completedAppointment
 								? dashboardDataDonut?.completedAppointment
-								: null,
+								: "",
 							dashboardDataDonut?.pendingAppointment
 								? dashboardDataDonut?.pendingAppointment
-								: null,
+								: "",
 						]}
 						text=""
 						type="donut"
