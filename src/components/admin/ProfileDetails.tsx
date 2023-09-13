@@ -37,7 +37,7 @@ const ProfileDetails = () => {
   } = useFetch<User>(`users/${user?.id}`);
   const { data: securityData, mutate: securityMutate } = useFetch<Security>(
     `security?userId=${
-      employData?.role?.name === "SECURITY" ? router?.query?.id : undefined
+      employData?.role?.name === "SECURITY" ? user?.id : undefined
     }`
   );
   const { data: projectDetails } = useFetch<any>(

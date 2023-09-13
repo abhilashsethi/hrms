@@ -44,13 +44,14 @@ const SecurityInformation = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const [isSecurityAgency, setIsSecurityAgency] = useState(true);
+  const [isSecurityAgency, setIsSecurityAgency] = useState(
+    securityData?.isAgency
+  );
   const { data: securityShift } = useFetch<SHIFT[]>(`security/shift`);
   const initialValues = {
     agencyName: securityData?.agencyName || "",
     agencyAddress: securityData?.agencyAddress || "",
     shiftId: securityData?.shift?._id?.$oid || "",
-    isSecurityAgency: securityData?.isAgency || true,
   };
 
   const validationSchema = Yup.object().shape({
