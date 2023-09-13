@@ -40,12 +40,12 @@ const SecurityDashboardCharts = () => {
 						labels={
 							dashboardData?.length
 								? dashboardData?.map((item: any) => item?.month)
-								: null
+								: []
 						}
 						data={
 							dashboardData?.length
 								? dashboardData?.map((item: any) => item?.appointmentCount)
-								: null
+								: []
 						}
 						type="bar"
 						text=""
