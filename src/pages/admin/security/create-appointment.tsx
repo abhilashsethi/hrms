@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { AdminBreadcrumbs, SingleImageUpload } from "components/core";
 import { ErrorMessage, Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -92,6 +92,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const CreateAppointment = () => {
+	const { user } = useAuth();
 	// const theme = useTheme();
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
@@ -126,7 +127,12 @@ const CreateAppointment = () => {
 					status: values?.status,
 					photo: url,
 					reason: values?.reason,
-					branchId: values?.holidayOfBranchId,
+					branchId:
+						user?.role?.name === "CEO" ||
+						user?.role?.name === "COO" ||
+						user?.role?.name === "DIRECTOR"
+							? values?.holidayOfBranchId
+							: user?.employeeOfBranchId,
 					endTime: values?.endTime,
 				},
 			});
