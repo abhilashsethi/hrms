@@ -134,7 +134,9 @@ const AddSignatureConfig = ({ open, handleClose, mutate }: Props) => {
 								<div className="grid lg:grid-cols-1">
 									<div className="px-2 md:py-2 py-1">
 										<div className="md:py-2 py-1">
-											<InputLabel htmlFor="name">Name </InputLabel>
+											<InputLabel htmlFor="name">
+												Name<span className="text-red-500"> *</span>{" "}
+											</InputLabel>
 										</div>
 										<TextField
 											fullWidth
@@ -150,7 +152,10 @@ const AddSignatureConfig = ({ open, handleClose, mutate }: Props) => {
 									</div>
 									<div className="px-2 md:py-2 py-1">
 										<div className="md:py-2 py-1">
-											<InputLabel htmlFor="name">Upload Signature</InputLabel>
+											<InputLabel htmlFor="name">
+												Upload Signature{" "}
+												<span className="text-red-500"> *</span>
+											</InputLabel>
 										</div>
 										<SingleImageUpload
 											values={values}
