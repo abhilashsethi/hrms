@@ -16,6 +16,7 @@ const SecurityDashboardCard = () => {
 			user?.role?.name === "CEO" ? "" : `?branchId=${user?.employeeOfBranchId}`
 		}`
 	);
+	console.log(dashboardData);
 	const cards = [
 		{
 			id: 1,

@@ -20,7 +20,11 @@ const AllShifts = () => {
 		data: shiftData,
 		mutate,
 		pagination,
-	} = useFetch<any>(`security/shift?page=${pageNumber}&limit=6`);
+	} = useFetch<any>(
+		`security/shift?page=${pageNumber}&limit=6${
+			user?.role?.name === "CEO" ? "" : `&branchId=${user?.employeeOfBranchId}`
+		}`
+	);
 	console.log(shiftData);
 	const { change } = useChange();
 	const handleDelete = (id: string) => {

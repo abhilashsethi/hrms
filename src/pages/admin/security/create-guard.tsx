@@ -87,11 +87,16 @@ const validationSchema = Yup.object().shape({
 
 const CreateGuard = () => {
 	const [loading, setLoading] = useState(false);
+	const [selectedBranch, setSelectedBranch] = useState<string | undefined>("");
+	console.log({ selectedBranch });
 	const [isSecurityAgency, setIsSecurityAgency] = useState(true);
 	const { data: branchData } = useFetch<Branch[]>(`branches`);
 	const { data: roleData } = useFetch<Role[]>(`roles`);
 	const { data: departmentsData } = useFetch<Role[]>(`departments`);
-	const { data: securityShift } = useFetch<SHIFT[]>(`security/shift`);
+	const { data: securityShift } = useFetch<SHIFT[]>(
+		`security/shift?branchId=${selectedBranch}`
+	);
+	console.log(securityShift);
 	const { change } = useChange();
 	const handleOptionChange = (
 		event: ChangeEvent<HTMLInputElement>,
@@ -288,6 +293,7 @@ const CreateGuard = () => {
 													r: Branch | null
 												) => {
 													setFieldValue("branchId", r?.id || "");
+													setSelectedBranch(r?.id);
 												}}
 												getOptionLabel={(option: Branch) => option.name || ""} // Ensure a string is always returned
 												renderInput={(params) => (
