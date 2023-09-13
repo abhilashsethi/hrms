@@ -42,7 +42,7 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-	holidayOfBranchId: Yup.string().required("Required!"),
+	// holidayOfBranchId: Yup.string().required("Required!"),
 	name: Yup.string()
 		.matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
 		.min(2, "Name must be at least 2 characters")
@@ -450,9 +450,7 @@ const CreateAppointment = () => {
 									</div>
 									<div className="px-2 md:py-2 py-1">
 										<div className="md:py-2 py-1">
-											<InputLabel htmlFor="name">
-												Upload Image<span className="text-red-600">*</span>
-											</InputLabel>
+											<InputLabel htmlFor="name">Upload Image</InputLabel>
 										</div>
 										<SingleImageUpload
 											values={values}
