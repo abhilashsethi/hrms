@@ -6,7 +6,11 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   IconButton,
+  InputLabel,
+  Radio,
+  RadioGroup,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -23,7 +27,13 @@ interface Props {
   handleClose: () => void;
   securityData?: Security;
 }
-
+interface FormValues {
+  agencyAddress?: string;
+  agencyName?: string;
+  shiftId?: string;
+  isAgency?: boolean;
+}
+type ReqValue = Partial<FormValues>;
 const SecurityInformation = ({
   open,
   mutate,
@@ -32,6 +42,7 @@ const SecurityInformation = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const [isSecurityAgency, setIsSecurityAgency] = useState(true);
   const { data: securityShift } = useFetch<SHIFT[]>(`security/shift`);
 
   const initialValues = {
@@ -44,14 +55,49 @@ const SecurityInformation = ({
     agencyName: Yup.string()
       .min(2, "Agency name is too short")
       .max(50, "Agency name is too long"),
+    agencyAddress: Yup.string()
+      .min(4, "Agency address is too short")
+      .max(50, "Agency address is too long"),
+    shiftId: Yup.string().required("Required!"),
   });
+  const handleOptionChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    setFieldValue: Function
+  ) => {
+    const newValue = event.target.value === "YES";
+    setIsSecurityAgency(newValue);
+    if (!newValue) {
+      setFieldValue("agencyName", "");
+      setFieldValue("agencyAddress", "");
+    }
+  };
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      Swal.fire(`Info`, `Please Wait..., It will take Some Time!`, `info`);
+      const reqValue: ReqValue = Object.entries(values).reduce(
+        (acc: ReqValue, [key, value]: [string, any]) => {
+          if (value !== undefined) {
+            acc[key as keyof FormValues] = value;
+          }
+          return acc;
+        },
+        {} as ReqValue
+      );
+      if (isSecurityAgency) {
+        if (!values.agencyName || !values.agencyAddress) {
+          Swal.fire("Required!", "Agency details are required", "info");
+          setLoading(false);
+          return;
+        }
+        reqValue.isAgency = true;
+        reqValue.agencyName = values.agencyName;
+        reqValue.agencyAddress = values.agencyAddress;
+      } else {
+        reqValue.isAgency = false;
+      }
       const resData: any = await change(`security/${securityData?._id?.$oid}`, {
         method: "PATCH",
-        body: values,
+        body: reqValue,
       });
       setLoading(false);
       if (resData?.status !== 200) {
@@ -122,48 +168,81 @@ const SecurityInformation = ({
                   <Form className="w-full">
                     <div className="grid lg:grid-cols-2 gap-4">
                       {/* name */}
-                      <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Agency Name
+                      <div className="my-3 px-4">
+                        <p className="text-gray-500">
+                          Security Agency
+                          <span className="text-red-600">*</span>
                         </p>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          name="agencyName"
-                          placeholder="Enter Agency Name"
-                          value={values.agencyName}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.agencyName && !!errors.agencyName}
-                          helperText={
-                            (touched?.agencyName as any) &&
-                            (errors?.agencyName as any)
+                        <RadioGroup
+                          defaultValue={isSecurityAgency ? "YES" : "NO"}
+                          row
+                          name="isSecurityAgency"
+                          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                            handleOptionChange(e, setFieldValue)
                           }
-                        />
+                        >
+                          <FormControlLabel
+                            value="YES"
+                            control={<Radio />}
+                            label="YES"
+                          />
+                          <FormControlLabel
+                            value="NO"
+                            control={<Radio />}
+                            label="NO"
+                          />
+                        </RadioGroup>
+                        {isSecurityAgency ? (
+                          <>
+                            <div className="md:px-4 px-2 md:py-2 py-1">
+                              <p className="text-theme font-semibold my-2">
+                                Agency Name{" "}
+                                <span className="text-red-600">*</span>
+                              </p>
+                              <TextField
+                                fullWidth
+                                size="small"
+                                name="agencyName"
+                                placeholder="Enter Agency Name"
+                                value={values.agencyName}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={
+                                  touched.agencyName && !!errors.agencyName
+                                }
+                                helperText={
+                                  (touched?.agencyName as any) &&
+                                  (errors?.agencyName as any)
+                                }
+                              />
+                            </div>
+                            <div className="md:px-4 px-2 md:py-2 py-1">
+                              <p className="text-theme font-semibold my-2">
+                                Agency Address{" "}
+                                <span className="text-red-600">*</span>
+                              </p>
+                              <TextField
+                                name="agencyAddress"
+                                fullWidth
+                                size="small"
+                                placeholder="Enter Agency Address"
+                                value={values.agencyAddress}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={
+                                  touched.agencyAddress &&
+                                  !!errors.agencyAddress
+                                }
+                                helperText={
+                                  (touched.agencyAddress as any) &&
+                                  (errors.agencyAddress as any)
+                                }
+                              />
+                            </div>
+                          </>
+                        ) : null}
                       </div>
-
-                      {/* IFSC Code */}
-                      <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Agency Address
-                        </p>
-                        <TextField
-                          name="agencyAddress"
-                          fullWidth
-                          size="small"
-                          placeholder="Enter Agency Address"
-                          value={values.agencyAddress}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={
-                            touched.agencyAddress && !!errors.agencyAddress
-                          }
-                          helperText={
-                            (touched.agencyAddress as any) &&
-                            (errors.agencyAddress as any)
-                          }
-                        />
-                      </div>
+                      {/* shiftId */}
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">Shift</p>
                         <Autocomplete
