@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import EmailEditor, { EditorRef } from "react-email-editor";
 import Swal from "sweetalert2";
-import { EmailType, EmailUser, MailTemplate, User } from "types";
+import { Client, EmailType, EmailUser, MailTemplate, User } from "types";
 import { deleteFile, uploadFile } from "utils";
 import * as Yup from "yup";
 import ReplyToEmail from "./ReplyToEmail";
@@ -36,6 +36,11 @@ const CreateEmail = (templateId: any) => {
     `users?${pageLimit ? pageLimit + "&" : ""}` +
       (searchText ? `name=${searchText}` : "")
   );
+  const { data: clients, isValidating: clientLoading } = useFetch<Client[]>(
+    `clients?${pageLimit ? pageLimit + "&" : ""}` +
+      (searchText ? `name=${searchText}` : "")
+  );
+
   const { change, isChanging } = useChange();
   const { user } = useAuth();
   const { push, query } = useRouter();
@@ -271,7 +276,12 @@ const CreateEmail = (templateId: any) => {
               multiple
               fullWidth
               limitTags={2}
-              options={users?.filter((item) => item?.id !== user?.id) || []}
+              options={
+                [
+                  ...(users?.filter((item) => item?.id !== user?.id) || []),
+                  ...(clients?.filter((item) => item?.id !== user?.id) || []),
+                ] || []
+              }
               value={
                 Array.isArray(formik?.values?.recipients)
                   ? formik?.values?.recipients
@@ -375,15 +385,26 @@ const CreateEmail = (templateId: any) => {
                 option?.name === value?.name
               }
               options={
-                users?.filter(
-                  (item) =>
-                    ![
-                      user?.id,
-                      ...(Array.isArray(formik?.values?.recipients)
-                        ? formik?.values?.recipients?.map((item) => item?.id)
-                        : [formik?.values?.recipients]),
-                    ]?.includes(String(item?.id))
-                ) || []
+                [
+                  ...(users?.filter(
+                    (item) =>
+                      ![
+                        user?.id,
+                        ...(Array.isArray(formik?.values?.recipients)
+                          ? formik?.values?.recipients?.map((item) => item?.id)
+                          : [formik?.values?.recipients]),
+                      ]?.includes(String(item?.id))
+                  ) || []),
+                  ...(clients?.filter(
+                    (item) =>
+                      ![
+                        user?.id,
+                        ...(Array.isArray(formik?.values?.recipients)
+                          ? formik?.values?.recipients?.map((item) => item?.id)
+                          : [formik?.values?.recipients]),
+                      ]?.includes(String(item?.id))
+                  ) || []),
+                ] || []
               }
               getOptionLabel={(option: any) => option.name}
               filterSelectedOptions
@@ -453,18 +474,36 @@ const CreateEmail = (templateId: any) => {
               clearOnBlur={false}
               limitTags={2}
               options={
-                users?.filter(
-                  (item) =>
-                    ![
-                      user?.id,
-                      ...(Array.isArray(formik?.values?.recipients)
-                        ? formik?.values?.recipients?.map((item) => item?.id)
-                        : [formik?.values?.recipients]),
-                      ...(Array.isArray(formik?.values?.ccRecipients)
-                        ? formik?.values?.ccRecipients?.map((item) => item?.id)
-                        : [formik?.values?.ccRecipients]),
-                    ]?.includes(String(item?.id))
-                ) || []
+                [
+                  ...(users?.filter(
+                    (item) =>
+                      ![
+                        user?.id,
+                        ...(Array.isArray(formik?.values?.recipients)
+                          ? formik?.values?.recipients?.map((item) => item?.id)
+                          : [formik?.values?.recipients]),
+                        ...(Array.isArray(formik?.values?.ccRecipients)
+                          ? formik?.values?.ccRecipients?.map(
+                              (item) => item?.id
+                            )
+                          : [formik?.values?.ccRecipients]),
+                      ]?.includes(String(item?.id))
+                  ) || []),
+                  ...(clients?.filter(
+                    (item) =>
+                      ![
+                        user?.id,
+                        ...(Array.isArray(formik?.values?.recipients)
+                          ? formik?.values?.recipients?.map((item) => item?.id)
+                          : [formik?.values?.recipients]),
+                        ...(Array.isArray(formik?.values?.ccRecipients)
+                          ? formik?.values?.ccRecipients?.map(
+                              (item) => item?.id
+                            )
+                          : [formik?.values?.ccRecipients]),
+                      ]?.includes(String(item?.id))
+                  ) || []),
+                ] || []
               }
               value={
                 Array.isArray(formik?.values?.bccRecipients)

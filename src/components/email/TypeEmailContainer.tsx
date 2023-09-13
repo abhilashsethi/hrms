@@ -19,7 +19,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
-import { EmailType, User } from "types";
+import { Client, EmailType, User } from "types";
 import { deleteFile, uploadFile } from "utils";
 import * as Yup from "yup";
 
@@ -44,6 +44,9 @@ const TypeEmailContainer = ({
   const [searchText, setSearchText] = useState("");
   const { data: users, isValidating: userLoading } = useFetch<User[]>(
     `users?page=1&limit=20` + (searchText ? `&name=${searchText}` : "")
+  );
+  const { data: clients, isValidating: clientLoading } = useFetch<Client[]>(
+    `clients?page=1&limit=20` + (searchText ? `&name=${searchText}` : "")
   );
 
   const [selectedAutoComplete, setSelectedAutocomplete] = useState<any>();
@@ -199,7 +202,12 @@ const TypeEmailContainer = ({
               fullWidth
               value={selectedAutoComplete}
               isOptionEqualToValue={(option, value) => option?.id === value?.id}
-              options={users?.filter((item) => item?.id !== user?.id) || []}
+              options={
+                [
+                  ...(users?.filter((item) => item?.id !== user?.id) || []),
+                  ...(clients?.filter((item) => item?.id !== user?.id) || []),
+                ] || []
+              }
               getOptionLabel={(option: any) => option.username}
               onChange={(e, v) => {
                 formik?.setFieldValue(
