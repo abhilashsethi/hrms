@@ -597,6 +597,7 @@ const IsSandwichLeave = ({
                 (!isValue && isTotalDay === "0") ||
                 isTotalDay === "" ||
                 isTotalDay === "0." ||
+                isTotalDay === "0.0" ||
                 dayValidationError !== ""
               }
               onClick={() => approveLeave(item?.id)}
