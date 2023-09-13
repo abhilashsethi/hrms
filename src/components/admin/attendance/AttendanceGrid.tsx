@@ -54,6 +54,7 @@ const AttendanceGrid = ({
                 <MenuComponent
                   id={item?.userId}
                   wfh={item}
+                  item={item}
                   selectedDate={selectedDate}
                   mutate={mutate}
                   presentMutate={presentMutate}
@@ -139,6 +140,7 @@ export default AttendanceGrid;
 interface Props {
   id?: string;
   wfh?: Attendance;
+  item?: Attendance;
   mutate: () => void;
   absentMutate: () => void;
   presentMutate: () => void;
@@ -149,6 +151,7 @@ interface Props {
 const MenuComponent = ({
   id,
   wfh,
+  item,
   mutate,
   presentMutate,
   absentMutate,
@@ -250,21 +253,24 @@ const MenuComponent = ({
             Visit Profile
           </MenuItem>
         </Link>
-        {wfh?.status === "absent" && isToday && (
-          <>
-            {user?.role?.name === "CEO" ||
-            user?.role?.name === "HR" ||
-            user?.role?.name === "DIRECTOR" ||
-            user?.role?.name === "COO" ? (
-              <MenuItem onClick={() => handleWorkFromHome(wfh?.userId)}>
-                <ListItemIcon>
-                  <AddHomeWork fontSize="small" />
-                </ListItemIcon>
-                Work From Home
-              </MenuItem>
-            ) : null}
-          </>
-        )}
+        {item?.role?.name == "SECURITY"
+          ? null
+          : wfh?.status === "absent" &&
+            isToday && (
+              <>
+                {user?.role?.name === "CEO" ||
+                user?.role?.name === "HR" ||
+                user?.role?.name === "DIRECTOR" ||
+                user?.role?.name === "COO" ? (
+                  <MenuItem onClick={() => handleWorkFromHome(wfh?.userId)}>
+                    <ListItemIcon>
+                      <AddHomeWork fontSize="small" />
+                    </ListItemIcon>
+                    Work From Home
+                  </MenuItem>
+                ) : null}
+              </>
+            )}
       </Menu>
     </>
   );

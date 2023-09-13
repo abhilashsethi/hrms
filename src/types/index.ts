@@ -81,6 +81,7 @@ export type Attendance = {
 	isWFH: boolean;
 	name: string;
 	photo: string;
+	role: {name:string};
 };
 export type PayRoll = {
 	id: string;
