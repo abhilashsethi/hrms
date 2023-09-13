@@ -184,40 +184,44 @@ const CreateAppointment = () => {
 										Create Appointment
 									</h1>
 									<div className="grid lg:grid-cols-2">
-										<div className="md:px-4 px-2 md:py-2 py-1">
-											<div className="py-2">
-												<InputLabel htmlFor="holidayOfBranchId">
-													Branch <span className="text-red-600">*</span>
-												</InputLabel>
-											</div>
+										{user?.role?.name === "CEO" ||
+										user?.role?.name === "COO" ||
+										user?.role?.name === "DIRECTOR" ? (
+											<div className="md:px-4 px-2 md:py-2 py-1">
+												<div className="py-2">
+													<InputLabel htmlFor="holidayOfBranchId">
+														Branch <span className="text-red-600">*</span>
+													</InputLabel>
+												</div>
 
-											<Autocomplete
-												fullWidth
-												size="small"
-												id="holidayOfBranchId"
-												options={branchData || []}
-												onChange={(e: any, r: any) => {
-													setFieldValue("holidayOfBranchId", r?.id);
-												}}
-												getOptionLabel={(option: any) => option.name}
-												renderInput={(params) => (
-													<TextField
-														{...params}
-														// label="Role"
-														placeholder="Branch"
-														onBlur={handleBlur}
-														error={
-															touched.holidayOfBranchId &&
-															!!errors.holidayOfBranchId
-														}
-														helperText={
-															touched.holidayOfBranchId &&
-															errors.holidayOfBranchId
-														}
-													/>
-												)}
-											/>
-										</div>
+												<Autocomplete
+													fullWidth
+													size="small"
+													id="holidayOfBranchId"
+													options={branchData || []}
+													onChange={(e: any, r: any) => {
+														setFieldValue("holidayOfBranchId", r?.id);
+													}}
+													getOptionLabel={(option: any) => option.name}
+													renderInput={(params) => (
+														<TextField
+															{...params}
+															// label="Role"
+															placeholder="Branch"
+															onBlur={handleBlur}
+															error={
+																touched.holidayOfBranchId &&
+																!!errors.holidayOfBranchId
+															}
+															helperText={
+																touched.holidayOfBranchId &&
+																errors.holidayOfBranchId
+															}
+														/>
+													)}
+												/>
+											</div>
+										) : null}
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="md:py-2 py-1">
 												<InputLabel htmlFor="name">
