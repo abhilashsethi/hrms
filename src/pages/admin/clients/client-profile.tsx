@@ -7,15 +7,22 @@ const ClientProfile = () => {
   const links = [
     {
       id: 1,
-      page: "My Profile",
+      page: "Profile",
       link: `/admin/clients/client-profile?id=${user?.id}`,
     },
-    // {
-    //   id: 2,
-    //   page: "All Client",
-    //   link: "/admin/clients/all-clients",
-    // },
   ];
+
+  if (
+    user?.role?.name === "CEO" ||
+    user?.role?.name === "DIRECTOR" ||
+    user?.role?.name === "COO"
+  ) {
+    links.push({
+      id: 2,
+      page: "All Client",
+      link: "/admin/clients/all-clients",
+    });
+  }
   return (
     <PanelLayout title="Client Profile">
       <section className="lg:px-8 md:px-4 px-2 py-4">
