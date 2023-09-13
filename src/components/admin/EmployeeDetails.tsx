@@ -40,12 +40,11 @@ const EmployeeDetails = () => {
     `projects?memberId=${router?.query?.id}`
   );
 
-  const { data: securityData } = useFetch<Security>(
+  const { data: securityData, mutate: securityMutate } = useFetch<Security>(
     `security?userId=${
       employData?.role?.name === "SECURITY" ? router?.query?.id : undefined
     }`
   );
-  console.log(securityData);
 
   const SwitchBloodgroup = (bloodGroup: any) => {
     return (
@@ -261,7 +260,6 @@ const EmployeeDetails = () => {
       </section>
     );
   }
-  console.log(securityData);
   return (
     <section>
       <UpdateProfileHead
@@ -286,6 +284,7 @@ const EmployeeDetails = () => {
         open={isSecurity}
         handleClose={() => setIsSecurity(false)}
         mutate={mutate}
+        securityMutate={securityMutate}
         securityData={securityData}
       />
       <section className="mb-12 flex gap-3">

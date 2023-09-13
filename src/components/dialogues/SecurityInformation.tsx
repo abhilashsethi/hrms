@@ -25,6 +25,7 @@ interface Props {
   open: boolean;
   mutate: () => void;
   handleClose: () => void;
+  securityMutate: () => void;
   securityData?: Security;
 }
 interface FormValues {
@@ -39,16 +40,17 @@ const SecurityInformation = ({
   mutate,
   securityData,
   handleClose,
+  securityMutate,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const [isSecurityAgency, setIsSecurityAgency] = useState(true);
   const { data: securityShift } = useFetch<SHIFT[]>(`security/shift`);
-  console.log(securityData);
   const initialValues = {
     agencyName: securityData?.agencyName || "",
     agencyAddress: securityData?.agencyAddress || "",
     shiftId: securityData?.shift?._id?.$oid || "",
+    isSecurityAgency: securityData?.isAgency || true,
   };
 
   const validationSchema = Yup.object().shape({
@@ -112,6 +114,7 @@ const SecurityInformation = ({
       Swal.fire(`Success`, `Successfully Updated!`, `success`);
       handleClose();
       mutate();
+      securityMutate();
       setLoading(false);
       return;
     } catch (error) {

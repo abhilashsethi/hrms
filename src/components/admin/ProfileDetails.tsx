@@ -11,27 +11,35 @@ import {
 import {
   BankInformationUpdate,
   PersonalInformations,
+  SecurityInformation,
   UpdateProfileHead,
 } from "components/dialogues";
 import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 import { useMemo, useState } from "react";
-import { User } from "types";
+import { Security, User } from "types";
 import EmpAttendanceIndividual from "./EmpAttendanceIndividual";
 import EmployLeaves from "./EmployLeaves";
 import EmployProjects from "./EmployProjects";
+import { useRouter } from "next/router";
 
 const ProfileDetails = () => {
+  const router = useRouter();
   const { user } = useAuth();
   const [isDialogue, setIsDialogue] = useState(false);
   const [isPersonal, setIsPersonal] = useState(false);
+  const [isSecurity, setIsSecurity] = useState(false);
   const [isBank, setIsBank] = useState(false);
   const {
     data: employData,
     mutate,
     isLoading,
   } = useFetch<User>(`users/${user?.id}`);
-  console.log(employData);
+  const { data: securityData, mutate: securityMutate } = useFetch<Security>(
+    `security?userId=${
+      employData?.role?.name === "SECURITY" ? router?.query?.id : undefined
+    }`
+  );
   const { data: projectDetails } = useFetch<any>(
     `projects?${
       user?.id
@@ -231,6 +239,35 @@ const ProfileDetails = () => {
     ],
     [employData]
   );
+  const securityDetails = useMemo(
+    () => [
+      {
+        id: 1,
+        title: "Agency Address",
+        value: `${
+          securityData?.agencyAddress ? securityData?.agencyAddress : "---"
+        }`,
+      },
+      {
+        id: 2,
+        title: "Agency Name",
+        value: `${securityData?.agencyName ? securityData?.agencyName : "---"}`,
+      },
+      {
+        id: 3,
+        title: "Shift Type",
+        value: `${
+          securityData?.shift?.type ? securityData?.shift?.type : "---"
+        }`,
+      },
+      {
+        id: 4,
+        title: "Agency",
+        value: `${securityData?.isAgency ? "Yes" : "No"}`,
+      },
+    ],
+    [securityData]
+  );
   if (isLoading) {
     return (
       <section className="min-h-screen">
@@ -258,6 +295,13 @@ const ProfileDetails = () => {
         mutate={mutate}
         open={isBank}
         handleClose={() => setIsBank(false)}
+      />
+      <SecurityInformation
+        open={isSecurity}
+        handleClose={() => setIsSecurity(false)}
+        mutate={mutate}
+        securityMutate={securityMutate}
+        securityData={securityData}
       />
       <section className="mb-12 flex gap-3">
         <Grid container spacing={2}>
@@ -347,6 +391,32 @@ const ProfileDetails = () => {
                   </div>
                 ))}
               </section>
+              {/* ---------------------Security Details------------------------- */}
+              {employData?.role?.name === "SECURITY" && (
+                <section className="md:px-8 px-3 mt-2">
+                  <div className=" pb-2 flex justify-between items-center">
+                    <HeadText title="Security Details" />
+                    <Tooltip title="Edit">
+                      <IconButton onClick={() => setIsSecurity(true)}>
+                        <ICONS.Edit className="h-5 w-5" />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                  {securityDetails?.map((item) => (
+                    <div
+                      key={item?.id}
+                      className="md:flex grid gap-2 items-center font-medium py-1.5"
+                    >
+                      <div className="md:w-[30%] w-full">
+                        <p className="text-sm text-gray-600">{item?.title} :</p>
+                      </div>
+                      <div className="md:w-2/3 w-full break-all">
+                        <p className="text-sm">{item?.value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </section>
+              )}
             </div>
           </Grid>
           <Grid item lg={4}>
