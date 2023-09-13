@@ -12,7 +12,9 @@ interface CARD_DATA {
 const SecurityDashboardCard = () => {
 	const { user } = useAuth();
 	const { data: dashboardData } = useFetch<CARD_DATA>(
-		`security/dashboard-stat?branchId=${user?.employeeOfBranchId}`
+		`security/dashboard-stat${
+			user?.role?.name === "CEO" ? "" : `?branchId=${user?.employeeOfBranchId}`
+		}`
 	);
 	const cards = [
 		{

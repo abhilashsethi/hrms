@@ -19,11 +19,16 @@ const SecurityDashboardCharts = () => {
 	const { user } = useAuth();
 
 	const { data: dashboardData } = useFetch<DASHBOARD_CHART[]>(
-		`security/appointment-overview?branchId=${user?.employeeOfBranchId}`
+		`security/appointment-overview${
+			user?.role?.name === "CEO" ? "" : `?branchId=${user?.employeeOfBranchId}`
+		}`
 	);
 	const { data: dashboardDataDonut } = useFetch<CARD_DATA>(
-		`security/dashboard-stat?branchId=${user?.employeeOfBranchId}`
+		`security/dashboard-stat${
+			user?.role?.name === "CEO" ? "" : `?branchId=${user?.employeeOfBranchId}`
+		}`
 	);
+	console.log(dashboardDataDonut);
 
 	return (
 		<div className="w-full">
@@ -36,12 +41,12 @@ const SecurityDashboardCharts = () => {
 						labels={
 							dashboardData?.length
 								? dashboardData?.map((item: any) => item?.month)
-								: null
+								: []
 						}
 						data={
 							dashboardData?.length
 								? dashboardData?.map((item: any) => item?.appointmentCount)
-								: null
+								: []
 						}
 						type="bar"
 						text=""
@@ -54,10 +59,10 @@ const SecurityDashboardCharts = () => {
 						series={[
 							dashboardDataDonut?.completedAppointment
 								? dashboardDataDonut?.completedAppointment
-								: null,
+								: "",
 							dashboardDataDonut?.pendingAppointment
 								? dashboardDataDonut?.pendingAppointment
-								: null,
+								: "",
 						]}
 						text=""
 						type="donut"

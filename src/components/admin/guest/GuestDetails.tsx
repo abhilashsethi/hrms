@@ -1,120 +1,22 @@
-import { Grid, IconButton, Tooltip } from "@mui/material";
-import ICONS from "assets/icons";
-import {
-  CopyClipboard,
-  HeadText,
-  Loader,
-  PhotoViewer,
-  ViewEmployeeHead,
-} from "components/core";
-import {
-  BankInformationUpdate,
-  PersonalInformations,
-  UpdateProfileHead,
-} from "components/dialogues";
+import { Grid } from "@mui/material";
+import { Loader, PhotoViewer } from "components/core";
 import { useFetch } from "hooks";
-import moment from "moment";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { User } from "types";
 
 const GuestDetails = () => {
   const router = useRouter();
-  const [isDialogue, setIsDialogue] = useState(false);
-  const [isPersonal, setIsPersonal] = useState(false);
-  const [isBank, setIsBank] = useState(false);
   const {
     data: employData,
     mutate,
     isLoading,
   } = useFetch<User>(`users/${router?.query?.id}`);
-  const basicDetails = [
-    {
-      id: 1,
-      title: "Name",
-      value: `${employData?.name ? employData?.name : "---"}`,
-    },
-    {
-      id: 2,
-      title: "Email",
-      value: `${employData?.email ? employData?.email : "---"}`,
-      copy: true,
-    },
-    {
-      id: 3,
-      title: "Emp Id",
-      value: `${employData?.employeeID ? employData?.employeeID : "---"}`,
-      copy: true,
-    },
-
-    {
-      id: 4,
-      title: "Date Of Joining",
-      value: `${employData?.joiningDate
-          ? moment(employData?.joiningDate).format("ll")
-          : "---"
-        }`,
-    },
-    {
-      id: 5,
-      title: "Phone",
-      value: `${employData?.phone ? employData?.phone : "---"}`,
-      copy: true,
-    },
-    {
-      id: 6,
-      title: "Date Of Birth",
-      value: `${employData?.dob ? moment(employData?.dob).format("ll") : "---"
-        }`,
-    },
-    {
-      id: 7,
-      title: "Address",
-      value: `${employData?.address ? employData?.address : "---"}`,
-    },
-    {
-      id: 8,
-      title: "Gender",
-      value: `${employData?.gender ? employData?.gender : "---"}`,
-    },
-    {
-      id: 9,
-      title: "Blood Group",
-      value: `${employData?.bloodGroup ? employData?.bloodGroup : "---"}`,
-    },
-    {
-      id: 9,
-      title: "Department Id",
-      value: `${employData?.department?.name ? employData?.department?.name : "---"
-        }`,
-    },
-    {
-      id: 9,
-      title: "Wallet",
-      value: `${employData?.wallet ? employData?.wallet : "---"}`,
-    },
-  ];
 
   if (isLoading) {
     return <Loader />;
   }
   return (
     <section>
-      <UpdateProfileHead
-        mutate={mutate}
-        open={isDialogue}
-        handleClose={() => setIsDialogue(false)}
-      />
-      <PersonalInformations
-        mutate={mutate}
-        open={isPersonal}
-        handleClose={() => setIsPersonal(false)}
-      />
-      <BankInformationUpdate
-        mutate={mutate}
-        open={isBank}
-        handleClose={() => setIsBank(false)}
-      />
       <section className="mb-12 flex gap-3">
         <Grid
           alignItems={"center"}

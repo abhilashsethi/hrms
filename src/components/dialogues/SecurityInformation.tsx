@@ -25,6 +25,7 @@ interface Props {
   open: boolean;
   mutate: () => void;
   handleClose: () => void;
+  securityMutate: () => void;
   securityData?: Security;
 }
 interface FormValues {
@@ -39,12 +40,14 @@ const SecurityInformation = ({
   mutate,
   securityData,
   handleClose,
+  securityMutate,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const [isSecurityAgency, setIsSecurityAgency] = useState(true);
+  const [isSecurityAgency, setIsSecurityAgency] = useState(
+    securityData?.isAgency
+  );
   const { data: securityShift } = useFetch<SHIFT[]>(`security/shift`);
-  console.log(securityData);
   const initialValues = {
     agencyName: securityData?.agencyName || "",
     agencyAddress: securityData?.agencyAddress || "",
@@ -112,6 +115,7 @@ const SecurityInformation = ({
       Swal.fire(`Success`, `Successfully Updated!`, `success`);
       handleClose();
       mutate();
+      securityMutate();
       setLoading(false);
       return;
     } catch (error) {
@@ -288,7 +292,6 @@ const SecurityInformation = ({
                         SUBMIT
                       </Button>
                     </div>
-                    {/* <button type="submit">Submit</button> */}
                   </Form>
                 )}
               </Formik>

@@ -66,7 +66,7 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
       tenderData?.documentAddReason ? tenderData?.documentAddReason : ""
     }`,
   };
-
+  console.log(tenderData);
   const validationSchema = Yup.object().shape({});
   const [isDocument, setIsDocument] = useState<{
     dialogue: boolean;
@@ -213,8 +213,10 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
                   photo={filteredMember?.member?.photo}
                 />
                 <div>
-                  <h1>{filteredMember?.member?.name}</h1>
-                  <h1 className="text-sm text-gray-600">
+                  <h1 className="break-all md:break-normal">
+                    {filteredMember?.member?.name}
+                  </h1>
+                  <h1 className="text-sm text-gray-600 break-all md:break-normal">
                     {filteredMember?.member?.email}
                   </h1>
                 </div>

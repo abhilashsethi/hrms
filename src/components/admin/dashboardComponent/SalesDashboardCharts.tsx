@@ -13,6 +13,7 @@ const SalesDashboardCharts = ({ data }: Props) => {
 	const { data: dashboardData } = useFetch<any>(
 		`dashboards/sales/dashboard?userId=${user?.id}`
 	);
+	console.log(dashboardData);
 
 	return (
 		<div className="w-full">

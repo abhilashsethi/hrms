@@ -586,7 +586,6 @@ const IsSandwichLeave = ({
                 />
               </div>
             )}
-            {/* isPaidLeave: isValue, unpaidLeaveCount: Number(isTotalDay) */}
             <Button
               type="submit"
               fullWidth
@@ -597,7 +596,9 @@ const IsSandwichLeave = ({
                 (!isValue && isTotalDay === "0") ||
                 isTotalDay === "" ||
                 isTotalDay === "0." ||
-                dayValidationError !== ""
+                isTotalDay === "0.0" ||
+                dayValidationError !== "" ||
+                parseFloat(isTotalDay) < 0.1
               }
               onClick={() => approveLeave(item?.id)}
               startIcon={

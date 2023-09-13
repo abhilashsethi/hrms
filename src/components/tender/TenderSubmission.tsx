@@ -208,8 +208,10 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                   photo={filteredMember?.member?.photo}
                 />
                 <div>
-                  <h1>{filteredMember?.member?.name}</h1>
-                  <h1 className="text-sm text-gray-600">
+                  <h1 className="break-all md:break-normal">
+                    {filteredMember?.member?.name}
+                  </h1>
+                  <h1 className="text-sm text-gray-600 break-all md:break-normal">
                     {filteredMember?.member?.email}
                   </h1>
                 </div>
@@ -286,7 +288,7 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
       <div className="mt-14">
         <TenderLayout title="Documents">
           <div>
-            <div className="flex justify-end mb-2">
+            {/* <div className="flex justify-end mb-2">
               <Button
                 startIcon={<Add />}
                 variant="contained"
@@ -297,7 +299,7 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
               >
                 Add Document
               </Button>
-            </div>
+            </div> */}
             <div className="overflow-x-auto hidden md:block">
               <table className="w-full">
                 <tbody className="border-2">
@@ -355,7 +357,7 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                                   </IconButton>
                                 </a>
                               </Tooltip>
-                              <Tooltip title="Edit Document">
+                              {/* <Tooltip title="Edit Document">
                                 <IconButton
                                   size="small"
                                   onClick={() => {
@@ -372,7 +374,7 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                                 <IconButton size="small">
                                   <Delete onClick={() => handleDelete(item)} />
                                 </IconButton>
-                              </Tooltip>
+                              </Tooltip> */}
                             </div>
                           </td>
                         </tr>
@@ -431,7 +433,7 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                                     </IconButton>
                                   </a>
                                 </Tooltip>
-                                <Tooltip title="Edit Document">
+                                {/* <Tooltip title="Edit Document">
                                   <IconButton
                                     size="small"
                                     onClick={() => {
@@ -450,7 +452,7 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                                       onClick={() => handleDelete(item)}
                                     />
                                   </IconButton>
-                                </Tooltip>
+                                </Tooltip> */}
                               </div>
                             </div>
                           </div>

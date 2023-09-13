@@ -3,15 +3,15 @@ import { BorderColor, Delete, MeetingRoom } from "@mui/icons-material";
 import { Avatar, Pagination, Paper, Stack, Tooltip } from "@mui/material";
 import { AdminBreadcrumbs, HeadStyle } from "components/core";
 import { EditShift } from "components/dialogues";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { SHIFT } from "types";
 import { MuiTblOptions } from "utils";
 
 const AllShifts = () => {
+	const { user } = useAuth();
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 	const [editShiftData, setEditShiftData] = useState<SHIFT>();
 	const [pageNumber, setPageNumber] = useState<number>(1);
@@ -115,57 +115,61 @@ const AllShifts = () => {
 									field: "endTime",
 								},
 
-								{
-									title: "Actions",
-									cellStyle: {
-										textAlign: "right",
-									},
-									export: true,
-									// width: "18%",
-									// field: "pick",
-									render: (item) => (
-										<>
-											<div className="flex">
-												<Tooltip title="Edit">
-													<Avatar
-														// onClick={() => setOpenAddCustomerDrawer(row)}
-														onClick={() => {
-															setEditDetails((prev) => !prev),
-																setEditShiftData(item);
-														}}
-														variant="rounded"
-														className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-theme !p-0"
-														sx={{
-															mr: ".1vw",
-															padding: "0px !important",
-															backgroundColor: "Highlight",
-															cursor: "pointer",
-															color: "",
-														}}
-													>
-														<BorderColor sx={{ padding: "0px !important" }} />
-													</Avatar>
-												</Tooltip>
-												<Tooltip title="Delete">
-													<Avatar
-														onClick={() => handleDelete(item?._id?.$oid)}
-														variant="rounded"
-														className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-700 !p-0"
-														sx={{
-															mr: "0.1vw",
-															padding: "0px !important",
-															backgroundColor: "Highlight",
-															cursor: "pointer",
-															color: "",
-														}}
-													>
-														<Delete sx={{ padding: "0px !important" }} />
-													</Avatar>
-												</Tooltip>
-											</div>
-										</>
-									),
-								},
+								user?.role?.name === "CEO"
+									? {
+											title: "Actions",
+											cellStyle: {
+												textAlign: "right",
+											},
+											export: true,
+											// width: "18%",
+											// field: "pick",
+											render: (item) => (
+												<>
+													<div className="flex">
+														<Tooltip title="Edit">
+															<Avatar
+																// onClick={() => setOpenAddCustomerDrawer(row)}
+																onClick={() => {
+																	setEditDetails((prev) => !prev),
+																		setEditShiftData(item);
+																}}
+																variant="rounded"
+																className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-theme !p-0"
+																sx={{
+																	mr: ".1vw",
+																	padding: "0px !important",
+																	backgroundColor: "Highlight",
+																	cursor: "pointer",
+																	color: "",
+																}}
+															>
+																<BorderColor
+																	sx={{ padding: "0px !important" }}
+																/>
+															</Avatar>
+														</Tooltip>
+														<Tooltip title="Delete">
+															<Avatar
+																onClick={() => handleDelete(item?._id?.$oid)}
+																variant="rounded"
+																className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-red-700 !p-0"
+																sx={{
+																	mr: "0.1vw",
+																	padding: "0px !important",
+																	backgroundColor: "Highlight",
+																	cursor: "pointer",
+																	color: "",
+																}}
+															>
+																<Delete sx={{ padding: "0px !important" }} />
+															</Avatar>
+														</Tooltip>
+													</div>
+												</>
+											),
+									  }
+									: {},
 							]}
 						/>
 					</div>
@@ -199,6 +203,5 @@ const AllShifts = () => {
 export default AllShifts;
 
 const links = [
-	{ id: 1, page: "Meetings", link: "/admin/meetings" },
-	{ id: 2, page: "All Meetings", link: "/admin/meetings/all-meetings" },
+	{ id: 2, page: "All Shifts", link: "/admin/security/all-shifts" },
 ];
