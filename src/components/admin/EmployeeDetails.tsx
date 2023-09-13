@@ -403,7 +403,8 @@ const EmployeeDetails = () => {
             <div className="w-full h-full">
               <EmpAttendanceIndividual employData={employData} />
               <EmployLeaves employData={employData} />
-              {user?.role?.name === "HR" ? null : (
+              {employData?.role?.name === "HR" ||
+              employData?.role?.name === "SECURITY" ? null : (
                 <EmployProjects
                   employData={employData}
                   projectDetails={projectDetails}

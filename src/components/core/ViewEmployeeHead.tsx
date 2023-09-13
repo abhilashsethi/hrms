@@ -24,7 +24,6 @@ interface Props {
   mutate?: any;
 }
 const ViewEmployeeHead = ({ employData, mutate }: Props) => {
-  // console.log(employData)
   const { user } = useAuth();
   const [document, setDocument] = useState(false);
   const [projects, setProjects] = useState(false);
@@ -85,7 +84,7 @@ const ViewEmployeeHead = ({ employData, mutate }: Props) => {
     },
   ];
   const shortCuts =
-    user?.role?.name === "HR"
+    employData?.role?.name === "HR" || employData?.role?.name === "SECURITY"
       ? [...nonHRShortCuts]
       : [...nonHRShortCuts, ...hrShortCuts];
 
