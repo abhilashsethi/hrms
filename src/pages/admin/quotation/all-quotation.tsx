@@ -22,7 +22,7 @@ const AllQuotation = () => {
   const [clientName, setClientName] = useState<string | null>(null);
   const [quotationTitle, setQuotationTitle] = useState<string | null>(null);
   const [quotationNumber, setQuotationNumber] = useState<string | null>(null);
-  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string>("createdAt:desc");
   const [quotationStatus, setQuotationStatus] = useState<string | null>(null);
   const {
     data: quotationData,
@@ -30,7 +30,7 @@ const AllQuotation = () => {
     pagination,
     isLoading,
   } = useFetch<Quotation[]>(
-    `quotations?page=${pageNumber}&limit=6&orderBy=createdAt:desc${
+    `quotations?page=${pageNumber}&limit=6${
       clientName ? `&clientName=${clientName}` : ""
     }${quotationTitle ? `&quotationTitle=${quotationTitle}` : ""}${
       quotationNumber ? `&quotationNumber=${quotationNumber}` : ""
@@ -65,7 +65,7 @@ const AllQuotation = () => {
                   setClientName(null);
                   setQuotationTitle(null);
                   setQuotationNumber(null);
-                  setIsOrderBy(null);
+                  setIsOrderBy("createdAt:desc");
                   setQuotationStatus(null);
                 }}
               >
@@ -74,7 +74,7 @@ const AllQuotation = () => {
                     clientName != null ||
                     quotationNumber != null ||
                     quotationStatus != null ||
-                    isOrderBy != null ||
+                    isOrderBy != "createdAt:desc" ||
                     quotationTitle != null
                       ? `Remove Filters`
                       : `Filter`
@@ -83,7 +83,7 @@ const AllQuotation = () => {
                   {clientName != null ||
                   quotationNumber != null ||
                   quotationStatus != null ||
-                  isOrderBy != null ||
+                  isOrderBy != "createdAt:desc" ||
                   quotationTitle != null ? (
                     <Close className={"!text-white"} />
                   ) : (

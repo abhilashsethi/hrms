@@ -8,7 +8,7 @@ import {
   IconButton,
   InputLabel,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
@@ -38,27 +38,26 @@ const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
 
   const handleSubmit = async (values: any) => {
     setLoading(true);
-    console.log(values);
     try {
-      const res = await change(`tenders/add/note/to/tender?tenderId=${tenderData?.id}`, {
-        method: "PATCH",
-        body: {
-          description: values?.description,
-        },
-      });
+      const res = await change(
+        `tenders/add/note/to/tender?tenderId=${tenderData?.id}`,
+        {
+          method: "PATCH",
+          body: {
+            description: values?.description,
+          },
+        }
+      );
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `Note created successfully!`, `success`);
-      mutate()
-      handleClose()
+      Swal.fire(`Success`, `Note Created Successfully!`, `success`);
+      console.log(res);
+      mutate?.();
+      handleClose();
       return;
     } catch (error) {
       console.log(error);
@@ -75,9 +74,7 @@ const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle
-          id="customized-dialog-title"
-        >
+        <DialogTitle id="customized-dialog-title">
           <p className="text-center text-xl font-bold text-theme tracking-wide">
             CREATE NOTE
           </p>
@@ -104,16 +101,9 @@ const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
               enableReinitialize={true}
               onSubmit={handleSubmit}
             >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-              }) => (
+              {({ values, errors, touched, handleChange, handleBlur }) => (
                 <Form>
                   <div className="grid">
-
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="note">
@@ -135,7 +125,6 @@ const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
                         helperText={touched.description && errors.description}
                       />
                     </div>
-
                   </div>
                   <div className="flex justify-center md:py-4 py-2">
                     <Button
@@ -155,7 +144,6 @@ const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
               )}
             </Formik>
           </div>
-
         </DialogContent>
       </Dialog>
     </>
