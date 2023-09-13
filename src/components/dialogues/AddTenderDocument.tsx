@@ -7,14 +7,12 @@ import {
   DialogTitle,
   IconButton,
   InputLabel,
-  MenuItem,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
-import moment from "moment";
-import { useRef, useState } from "react";
+import { useChange } from "hooks";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
 import { uploadFile } from "utils";
@@ -27,47 +25,53 @@ interface Props {
   tenderData?: Tender;
 }
 
-const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => {
+const AddTenderDocument = ({
+  open,
+  handleClose,
+  mutate,
+  tenderData,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   interface InputField {
     title: string;
-    link: any;
+    photo: any;
   }
   const initialValues = {
     title: "",
-    link: "",
+    photo: null,
   };
 
   const validationSchema = Yup.object().shape({
-    link: Yup.string().required("Document is required!"),
+    photo: Yup.mixed().test(
+      "fileSize",
+      "File size is too large",
+      (value: any) => value && value.size <= 5000000
+    ),
     title: Yup.string().required("Document Name is required!"),
   });
   const handleSubmit = async (values: InputField) => {
     setLoading(true);
     try {
-      const uniId = values?.link?.split('.').pop();
-      const url = values?.link ? await uploadFile(
-        values?.link,
-        `${Date.now()}.${uniId}`
-      ) : undefined;
+      const url = values?.photo
+        ? await uploadFile(
+            values?.photo,
+            `${Date.now()}.${values?.photo?.name.split(".").at(-1)}`
+          )
+        : undefined;
+      console.log(url);
       const res = await change(`tenders/add-doc/to-tender`, {
-        body:
-          { title: values?.title, link: url, tenderId: tenderData?.id },
+        body: { title: values?.title, link: url, tenderId: tenderData?.id },
       });
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
       setLoading(false);
       Swal.fire(`Success`, `Document created successfully!`, `success`);
-      mutate()
-      handleClose()
+      mutate();
+      handleClose();
       setLoading(false);
       return;
     } catch (error) {
@@ -76,7 +80,6 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
     } finally {
       setLoading(false);
     }
-
   };
   return (
     <>
@@ -125,7 +128,6 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
               }) => (
                 <Form>
                   <div className="grid">
-
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="title">
@@ -155,14 +157,15 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
                         fullWidth
                         size="small"
                         type="file"
-                        name="link"
-                        value={values.link}
-                        onChange={handleChange}
+                        name="photo"
+                        onChange={(e: any) => {
+                          setFieldValue("photo", e.target.files[0]);
+                        }}
+                        // onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.link && !!errors.link}
-                        helperText={touched.link && errors.link}
+                        error={touched.photo && !!errors.photo}
+                        helperText={touched.photo && errors.photo}
                       />
-
                     </div>
                   </div>
                   <div className="flex justify-center md:py-4 py-2">
@@ -183,7 +186,6 @@ const AddTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => 
               )}
             </Formik>
           </div>
-
         </DialogContent>
       </Dialog>
     </>

@@ -63,7 +63,6 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
     const uniId = values?.image?.type.split("/")[1].split("+")[0];
     try {
       const url = await uploadFile(values?.image, `${Date.now()}.${uniId}`);
-      console.log(values?.image);
       const name = values.name;
       const res = await change(`technologies`, {
         body: { logo: url, name: name.charAt(0).toUpperCase() + name.slice(1) },

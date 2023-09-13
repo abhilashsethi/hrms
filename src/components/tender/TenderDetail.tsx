@@ -435,24 +435,33 @@ const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
                                   </IconButton>
                                 </a>
                               </Tooltip>
-                              <Tooltip title="Edit Document">
-                                <IconButton
-                                  size="small"
-                                  onClick={() => {
-                                    setIsUpdateDocument({
-                                      dialogue: true,
-                                      tenderData: item,
-                                    });
-                                  }}
-                                >
-                                  <Edit />
-                                </IconButton>
-                              </Tooltip>
-                              <Tooltip title="Delete Document">
-                                <IconButton size="small">
-                                  <Delete onClick={() => handleDelete(item)} />
-                                </IconButton>
-                              </Tooltip>
+                              {user?.role?.name === "CEO" ||
+                              user?.role?.name === "COO" ||
+                              user?.role?.name === "DIRECTOR" ||
+                              user?.role?.name === "BID MANAGER" ? (
+                                <>
+                                  <Tooltip title="Edit Document">
+                                    <IconButton
+                                      size="small"
+                                      onClick={() => {
+                                        setIsUpdateDocument({
+                                          dialogue: true,
+                                          tenderData: item,
+                                        });
+                                      }}
+                                    >
+                                      <Edit />
+                                    </IconButton>
+                                  </Tooltip>
+                                  <Tooltip title="Delete Document">
+                                    <IconButton size="small">
+                                      <Delete
+                                        onClick={() => handleDelete(item)}
+                                      />
+                                    </IconButton>
+                                  </Tooltip>
+                                </>
+                              ) : null}
                             </div>
                           </td>
                         </tr>
