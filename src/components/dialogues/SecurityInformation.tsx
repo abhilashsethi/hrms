@@ -44,7 +44,7 @@ const SecurityInformation = ({
   const { change } = useChange();
   const [isSecurityAgency, setIsSecurityAgency] = useState(true);
   const { data: securityShift } = useFetch<SHIFT[]>(`security/shift`);
-
+  console.log(securityData);
   const initialValues = {
     agencyName: securityData?.agencyName || "",
     agencyAddress: securityData?.agencyAddress || "",
@@ -109,10 +109,10 @@ const SecurityInformation = ({
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully Submitted!`, `success`);
+      Swal.fire(`Success`, `Successfully Updated!`, `success`);
       handleClose();
       mutate();
-
+      setLoading(false);
       return;
     } catch (error) {
       console.log(error);
