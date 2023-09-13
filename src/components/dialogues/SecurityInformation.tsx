@@ -1,3 +1,4 @@
+import { Check, Close } from "@mui/icons-material";
 import {
   Autocomplete,
   Button,
@@ -9,15 +10,12 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
-import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { Check, Close } from "@mui/icons-material";
 import Swal from "sweetalert2";
-import { Loader } from "components/core";
-import { SHIFT, Security, User } from "types";
+import { SHIFT, Security } from "types";
+import * as Yup from "yup";
 
 interface Props {
   open: boolean;
@@ -87,7 +85,7 @@ const SecurityInformation = ({
       >
         <DialogTitle id="customized-dialog-title">
           <p className="text-center text-md font-bold text-theme te tracking-wide">
-            Bank Information Update
+            Security Information Update
           </p>
           <IconButton
             aria-label="close"
@@ -180,7 +178,8 @@ const SecurityInformation = ({
                           value={
                             values.shiftId
                               ? securityShift?.find(
-                                  (option: any) => option.id === values.shiftId
+                                  (option: any) =>
+                                    option?._id?.$oid === values.shiftId
                                 )
                               : null
                           }

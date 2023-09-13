@@ -246,6 +246,11 @@ const EmployeeDetails = () => {
           securityData?.shift?.type ? securityData?.shift?.type : "---"
         }`,
       },
+      {
+        id: 4,
+        title: "Agency",
+        value: `${securityData?.isAgency ? "Yes" : "No"}`,
+      },
     ],
     [securityData]
   );
@@ -256,7 +261,7 @@ const EmployeeDetails = () => {
       </section>
     );
   }
-
+  console.log(securityData);
   return (
     <section>
       <UpdateProfileHead
