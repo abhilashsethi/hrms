@@ -253,7 +253,7 @@ const MenuComponent = ({
             Visit Profile
           </MenuItem>
         </Link>
-        {item?.role?.name == "SECURITY"
+        {item?.role == "SECURITY"
           ? null
           : wfh?.status === "absent" &&
             isToday && (
