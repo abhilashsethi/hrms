@@ -34,7 +34,12 @@ const validationSchema = Yup.object().shape({
 const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 	console.log(shiftData);
 	const [loading, setLoading] = useState(false);
+	const [selectedBranch, setSelectedBranch] = useState<string | undefined>("");
 	const { data: branchData } = useFetch<any>(`branches`);
+	const { data: securityShift } = useFetch<SHIFT[]>(
+		`security/shift?branchId=${selectedBranch}`
+	);
+	console.log(securityShift);
 	const initialValues = {
 		shiftOfBranchId: shiftData?.branchId?.$oid,
 		type: shiftData?.type,
@@ -147,6 +152,7 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 											}
 											onChange={(e: any, r: any) => {
 												setFieldValue("shiftOfBranchId", r?.id);
+												setSelectedBranch(r?.id);
 											}}
 											renderInput={(params) => (
 												<TextField
@@ -166,7 +172,7 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 
 										<Autocomplete
 											sx={{ width: "100%" }}
-											options={Shift_Type || []}
+											options={securityShift || []}
 											autoHighlight
 											getOptionLabel={(option: any) =>
 												option.name ? option.name : ""
@@ -177,7 +183,7 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 											}
 											value={
 												values?.type
-													? Shift_Type?.find(
+													? securityShift?.find(
 															(option: any) => option.type === values.type
 													  )
 													: {}
