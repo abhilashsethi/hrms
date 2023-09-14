@@ -63,7 +63,7 @@ const Notification = () => {
       console.log(error);
     }
   };
-  const handleDeleteAll = (id?: string) => {
+  const handleDeleteAll = () => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -75,7 +75,13 @@ const Notification = () => {
         confirmButtonText: "Yes, delete all!",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          Swal.fire(`Info`, "It will take some time", "info");
+          Swal.fire({
+            title: "Info",
+            text: "It will take some time",
+            icon: "info",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           const res = await change(`notifications//delete-all`, {
             method: "DELETE",
             body: {
@@ -100,7 +106,7 @@ const Notification = () => {
       console.log(error);
     }
   };
-  const handleReadAll = (id?: string) => {
+  const handleReadAll = () => {
     try {
       Swal.fire({
         title: "Are you sure?",
@@ -112,7 +118,13 @@ const Notification = () => {
         confirmButtonText: "Yes, read all!",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          Swal.fire(`Info`, "It will take some time", "info");
+          Swal.fire({
+            title: "Info",
+            text: "It will take some time",
+            icon: "info",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           const res = await change(`notifications/read/all`, {
             method: "PUT",
             body: {
@@ -172,69 +184,80 @@ const Notification = () => {
               <Loader />
             ) : (
               <>
-                <div className="flex py-4 justify-end gap-4">
-                  <Button
-                    className="!bg-green-600 text-white font-semibold"
-                    variant="contained"
-                    onClick={() => handleReadAll()}
-                  >
-                    Read All
-                  </Button>
-                  <Button
-                    className="!bg-red-600 text-white font-semibold"
-                    variant="contained"
-                    onClick={() => handleDeleteAll()}
-                  >
-                    Delete All
-                  </Button>
-                </div>
                 {notificationData?.length ? (
-                  notificationData?.map((item, index) => (
-                    <>
-                      <div
-                        key={item?.id}
-                        className={`flex hover:scale-105 cursor-pointer transition duration-500 ease-in-out my-4 shadow-md gap-6 rounded-lg overflow-hidden ${
-                          item?.readStatus ? "bg-white" : "bg-gray-200"
-                        }`}
+                  <>
+                    <div className="flex py-4 md:justify-end justify-center gap-4">
+                      <Button
+                        className="!bg-green-600 text-white font-semibold"
+                        variant="contained"
+                        onClick={() => handleReadAll()}
                       >
+                        Read All
+                      </Button>
+                      <Button
+                        className="!bg-red-600 text-white font-semibold"
+                        variant="contained"
+                        onClick={() => handleDeleteAll()}
+                      >
+                        Delete All
+                      </Button>
+                    </div>
+                    {notificationData?.map((item, index) => (
+                      <>
                         <div
-                          className={`flex flex-1 flex-col p-4 border-l-8 
+                          key={item?.id}
+                          className={`md:flex hover:scale-105 cursor-pointer transition duration-500 ease-in-out my-4 shadow-md gap-6 rounded-lg overflow-hidden ${
+                            item?.readStatus ? "bg-white" : "bg-gray-200"
+                          } border-l-8 
                       ${borderColors[index % borderColors.length]}`}
-                          onClick={() => {
-                            setNotification(true),
-                              setNotificationMsg(item),
-                              handleRead(item?.id);
-                          }}
                         >
-                          <span className="text-2xl">{item?.title}</span>
-                          <span className="text-xs">
-                            {item?.description?.length > 150
-                              ? item?.description?.slice(0, 150) + "..."
-                              : item?.description}
-                          </span>
-                        </div>
+                          <div
+                            className={`flex flex-1 flex-col p-4 `}
+                            onClick={() => {
+                              setNotification(true),
+                                setNotificationMsg(item),
+                                handleRead(item?.id);
+                            }}
+                          >
+                            <span className="md:text-2xl text-lg">
+                              {item?.title}
+                            </span>
+                            <span className="text-xs md:flex hidden">
+                              {item?.description?.length > 150
+                                ? item?.description?.slice(0, 150) + "..."
+                                : item?.description}
+                            </span>
+                            <span className="text-xs md:hidden flex">
+                              {item?.description?.length > 20
+                                ? item?.description?.slice(0, 20) + "..."
+                                : item?.description}
+                            </span>
+                          </div>
 
-                        <div className="grid gap-5 grid-cols-2 px-4 items-center text-xs uppercase tracking-wide font-semibold">
-                          <Tooltip title="Details">
-                            <IconButton
-                              onClick={() => {
-                                setNotification(true),
-                                  setNotificationMsg(item),
-                                  handleRead(item?.id);
-                              }}
-                            >
-                              <InfoRounded />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Delete">
-                            <IconButton onClick={() => handleDelete(item?.id)}>
-                              <DeleteRounded />
-                            </IconButton>
-                          </Tooltip>
+                          <div className="grid gap-5 grid-cols-2 px-4 items-center text-xs uppercase tracking-wide font-semibold">
+                            <Tooltip title="Details">
+                              <IconButton
+                                onClick={() => {
+                                  setNotification(true),
+                                    setNotificationMsg(item),
+                                    handleRead(item?.id);
+                                }}
+                              >
+                                <InfoRounded />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Delete">
+                              <IconButton
+                                onClick={() => handleDelete(item?.id)}
+                              >
+                                <DeleteRounded />
+                              </IconButton>
+                            </Tooltip>
+                          </div>
                         </div>
-                      </div>
-                    </>
-                  ))
+                      </>
+                    ))}
+                  </>
                 ) : (
                   <LoaderAnime text="No notification at this time" />
                 )}
