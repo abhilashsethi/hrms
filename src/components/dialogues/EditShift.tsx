@@ -69,9 +69,10 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 	const { change } = useChange();
 	const handleSubmit = async (values: SHIFT) => {
 		console.log(values);
+
 		try {
 			setLoading(true);
-
+			// if (!values?.type) return;
 			const res = await change(`security/shift/${shiftData?._id?.$oid}`, {
 				method: "PATCH",
 				body: {
@@ -171,6 +172,7 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 											}
 											onChange={(e: any, r: any) => {
 												setFieldValue("shiftOfBranchId", r?.id);
+												setFieldValue("type", "");
 												setSelectedBranch(r?.id);
 											}}
 											renderInput={(params) => (
@@ -227,7 +229,7 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 												)}
 											/>
 										) : (
-											<p>Please Add Shift</p>
+											<p className="text-red-500">Please Add Shift</p>
 										)}
 									</div>
 									<div className="lg:px-4 px-2 lg:py-2 py-1">
