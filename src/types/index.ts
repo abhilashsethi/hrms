@@ -978,3 +978,16 @@ export interface Security {
 		$oid?: string;
 	};
 }
+
+export interface NotificationData {
+  id: string;   
+  title:string
+  isRead:boolean
+  description:string
+  iconUrl:string
+  user: User;     
+  userId: string;   
+  readStatus: boolean;  
+  createdAt: string;
+  updatedAt: string;
+}
