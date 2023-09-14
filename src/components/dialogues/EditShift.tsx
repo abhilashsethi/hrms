@@ -189,36 +189,46 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 											Shift <span className="text-red-600">*</span>
 										</p>
 
-										<Autocomplete
-											sx={{ width: "100%" }}
-											options={securityShift || []}
-											autoHighlight
-											getOptionLabel={(option: any) =>
-												option?.type ? option?.type : ""
-											}
-											isOptionEqualToValue={(option: any, value: any) =>
-												option?.type === value?.type
-											}
-											value={
-												values?.type
-													? securityShift?.find(
-															(option: any) => option?.type === values?.type
-													  )
-													: {}
-											}
-											onChange={(e: any, r: any) => {
-												setFieldValue("type", r?.type);
-											}}
-											renderInput={(params) => (
-												<TextField
-													{...params}
-													placeholder="Select Shift"
-													inputProps={{
-														...params.inputProps,
-													}}
-												/>
-											)}
-										/>
+										{securityShift?.length ? (
+											<Autocomplete
+												sx={{ width: "100%" }}
+												options={securityShift || []}
+												autoHighlight
+												getOptionLabel={(option: any) =>
+													option?.type ? option?.type : ""
+												}
+												isOptionEqualToValue={(option: any, value: any) =>
+													option?.type === value?.type
+												}
+												value={
+													values?.type
+														? securityShift?.find(
+																(option: any) => option?.type === values?.type
+														  )
+														: {}
+												}
+												onChange={(e: any, r: any) => {
+													setFieldValue("type", r?.type);
+												}}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														error={touched.type && !!errors.type}
+														helperText={
+															<p className="text-red-600">
+																{`${errors?.type ? errors?.type : ""}`}
+															</p>
+														}
+														placeholder="Select Shift"
+														inputProps={{
+															...params.inputProps,
+														}}
+													/>
+												)}
+											/>
+										) : (
+											<p>Please Add Shift</p>
+										)}
 									</div>
 									<div className="lg:px-4 px-2 lg:py-2 py-1">
 										<div className="py-2">
