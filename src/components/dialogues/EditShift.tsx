@@ -234,7 +234,7 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 												className="text-blue-500"
 												href={"/admin/security/shift-config"}
 											>
-												Please Add Shift
+												Click here to add shift
 											</Link>
 										)}
 									</div>
