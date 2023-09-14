@@ -16,12 +16,12 @@ import Swal from "sweetalert2";
 import { NotificationData } from "types";
 
 const Notification = () => {
-  const [notification, setNotification] = useState<boolean>(false);
   const [notificationMsg, setNotificationMsg] = useState<NotificationData>();
+  const [notification, setNotification] = useState<boolean>(false);
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const { user } = useAuth();
   const { revalidateNotificationCount } = useNotificationData();
   const { change } = useChange();
+  const { user } = useAuth();
   const {
     data: notificationData,
     pagination,
