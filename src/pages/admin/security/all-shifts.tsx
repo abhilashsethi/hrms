@@ -93,7 +93,7 @@ const AllShifts = () => {
 									title: "#",
 									field: "sn",
 									editable: "never",
-									// width: "2%",
+									width: "2%",
 								},
 								{
 									title: "Branch",
