@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { SHIFT } from "types";
 import * as Yup from "yup";
@@ -35,17 +35,36 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 	console.log(shiftData);
 	const [loading, setLoading] = useState(false);
 	const [selectedBranch, setSelectedBranch] = useState<string | undefined>("");
+	const [initialValues, setInitialValue] = useState<{
+		shiftOfBranchId?: string;
+		type?: string;
+		startTime?: string;
+		endTime?: string;
+	}>({
+		shiftOfBranchId: "",
+		type: "",
+		startTime: "",
+		endTime: "",
+	});
 	const { data: branchData } = useFetch<any>(`branches`);
 	const { data: securityShift } = useFetch<SHIFT[]>(
 		`security/shift?branchId=${selectedBranch}`
 	);
 	console.log(securityShift);
-	const initialValues = {
-		shiftOfBranchId: shiftData?.branchId?.$oid,
-		type: shiftData?.type,
-		startTime: shiftData?.startTime,
-		endTime: shiftData?.endTime,
-	};
+
+	useEffect(() => {
+		if (!shiftData?._id?.$oid) return;
+		setSelectedBranch(shiftData?.branchData?.id);
+
+		setInitialValue({
+			shiftOfBranchId: shiftData?.branchData?.id,
+			type: shiftData?.type,
+			startTime: shiftData?.startTime,
+			endTime: shiftData?.endTime,
+		});
+	}, [shiftData]);
+
+	console.log({ initialValues });
 
 	const { change } = useChange();
 	const handleSubmit = async (values: SHIFT) => {
@@ -64,7 +83,7 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 			});
 
 			if (res?.status !== 200) throw new Error("Something went wrong");
-			Swal.fire(`Success`, "Holiday updated successfully!!", "success");
+			Swal.fire(`Success`, "Shift updated successfully!!", "success");
 			mutate();
 			handleClose();
 			setLoading(false);
@@ -175,16 +194,15 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 											options={securityShift || []}
 											autoHighlight
 											getOptionLabel={(option: any) =>
-												option.name ? option.name : ""
+												option?.type ? option?.type : ""
 											}
-											isOptionEqualToValue={
-												(option: any, value: any) => option.type === value.type
-												// console.log(option, value)
+											isOptionEqualToValue={(option: any, value: any) =>
+												option?.type === value?.type
 											}
 											value={
 												values?.type
 													? securityShift?.find(
-															(option: any) => option.type === values.type
+															(option: any) => option?.type === values?.type
 													  )
 													: {}
 											}

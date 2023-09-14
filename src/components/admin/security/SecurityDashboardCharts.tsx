@@ -20,15 +20,23 @@ const SecurityDashboardCharts = () => {
 
 	const { data: dashboardData } = useFetch<DASHBOARD_CHART[]>(
 		`security/appointment-overview${
-			user?.role?.name === "CEO" ? "" : `?branchId=${user?.employeeOfBranchId}`
+			user?.role?.name === "CEO" ||
+			user?.role?.name === "COO" ||
+			user?.role?.name === "DIRECTOR"
+				? ""
+				: `?branchId=${user?.employeeOfBranchId}`
 		}`
 	);
+	console.log(dashboardData);
 	const { data: dashboardDataDonut } = useFetch<CARD_DATA>(
 		`security/dashboard-stat${
-			user?.role?.name === "CEO" ? "" : `?branchId=${user?.employeeOfBranchId}`
+			user?.role?.name === "CEO" ||
+			user?.role?.name === "COO" ||
+			user?.role?.name === "DIRECTOR"
+				? ""
+				: `?branchId=${user?.employeeOfBranchId}`
 		}`
 	);
-	console.log(dashboardDataDonut);
 
 	return (
 		<div className="w-full">

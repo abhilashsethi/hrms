@@ -13,7 +13,11 @@ const SecurityDashboardCard = () => {
 	const { user } = useAuth();
 	const { data: dashboardData } = useFetch<CARD_DATA>(
 		`security/dashboard-stat${
-			user?.role?.name === "CEO" ? "" : `?branchId=${user?.employeeOfBranchId}`
+			user?.role?.name === "CEO" ||
+			user?.role?.name === "COO" ||
+			user?.role?.name === "DIRECTOR"
+				? ""
+				: `?branchId=${user?.employeeOfBranchId}`
 		}`
 	);
 	console.log(dashboardData);
