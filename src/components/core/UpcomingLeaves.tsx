@@ -2,6 +2,7 @@ import { HeadText } from "components/core";
 
 import { useState } from "react";
 import { useFetch } from "hooks";
+import { DEFAULTPROFILE } from "assets/home";
 
 const UpcomingLeaves = ({ data, employeeDetails }: any) => {
   const { data: leaveDetails } = useFetch<any>(`leaves/dashboard/details`);
@@ -79,7 +80,7 @@ const UpcomingLeaves = ({ data, employeeDetails }: any) => {
                   <div className="h-12 w-12 bg-slate-300 rounded-full overflow-hidden shadow-lg">
                     <img
                       className="h-full w-full object-cover"
-                      src={item?.photo}
+                      src={item?.photo ? item?.photo : DEFAULTPROFILE.src}
                       alt=""
                     />
                   </div>
@@ -88,15 +89,6 @@ const UpcomingLeaves = ({ data, employeeDetails }: any) => {
                     <p className="text-sm">{item?.role?.name}</p>
                   </div>
                 </div>
-                {/* <div className="flex justify-between items-center mt-2">
-									<div className="text-sm">
-									<p className="text-gray-400">4 Sep 2019</p>
-									<p className="font-semibold">Leave Date</p>
-								</div>
-									<span className="bg-green-200 text-green-600 border-[1px] border-green-400 px-3 py-1 rounded-md font-medium">
-										Approved
-									</span>
-								</div> */}
               </div>
             ))}
         </div>

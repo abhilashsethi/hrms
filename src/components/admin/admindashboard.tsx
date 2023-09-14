@@ -134,11 +134,15 @@ const AdminDashboard = () => {
               <div className="font-semibold flex justify-center py-4 pl-2 ">
                 <p>Last Week Employee's Report </p>
               </div>
-              <DailyAttendance
-                type="area"
-                data={employeeDetails?.lastWeekAttendanceArr}
-                totalUsers={employeeDetails?.totalUsers}
-              />
+              {employeeDetails?.lastWeekAttendanceArr?.length ? (
+                <DailyAttendance
+                  type="area"
+                  data={employeeDetails?.lastWeekAttendanceArr}
+                  totalUsers={employeeDetails?.totalUsers}
+                />
+              ) : (
+                <NoDatas title="No Attendance Data" />
+              )}
             </div>
           </div>
         </div>
@@ -269,57 +273,65 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-12 content-between gap-6  m-5 !mb-6">
         <div className="col-span-12 pt-9 w-full  gap-5 md:col-span-12 lg:col-span-6 !border-grey-500 rounded-xl !shadow-xl">
           <p className="font-semibold text-lg text-center">Tender Overview</p>
-          <GuestBarChart
-            labels={
-              dashboardDetails?.submittedTenderStatusWise?.length
-                ? dashboardDetails?.submittedTenderStatusWise?.map(
-                    (item: any) => item?.month
-                  )
-                : []
-            }
-            data={
-              dashboardDetails?.submittedTenderStatusWise?.length
-                ? dashboardDetails?.submittedTenderStatusWise?.map(
-                    (item: any) => item?.count
-                  )
-                : []
-            }
-            type="bar"
-            text=""
-          />
+          {dashboardDetails?.submittedTenderStatusWise?.length ? (
+            <GuestBarChart
+              labels={
+                dashboardDetails?.submittedTenderStatusWise?.length
+                  ? dashboardDetails?.submittedTenderStatusWise?.map(
+                      (item: any) => item?.month
+                    )
+                  : []
+              }
+              data={
+                dashboardDetails?.submittedTenderStatusWise?.length
+                  ? dashboardDetails?.submittedTenderStatusWise?.map(
+                      (item: any) => item?.count
+                    )
+                  : []
+              }
+              type="bar"
+              text=""
+            />
+          ) : (
+            <NoDatas title={"No  Tender Data"} />
+          )}
         </div>
         <div className="col-span-12 pt-9 w-full flex flex-col justify-center gap-5 md:col-span-12 lg:col-span-6 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-semibold text-lg text-center">Project Overview</p>
-          <GuestDonutChart
-            labels={
-              dashboardDetails?.projectsOverview?.length
-                ? dashboardDetails?.projectsOverview?.map(
-                    (item: any) => item?.status
-                  )
-                : []
-            }
-            series={
-              dashboardDetails?.projectsOverview?.length
-                ? dashboardDetails?.projectsOverview?.map(
-                    (item: any) => item?._count
-                  )
-                : []
-            }
-            text=""
-            type="donut"
-            colors={[
-              "#cddc39",
-              "#a855f7",
-              "#03a9f4",
-              "#ef4444",
-              "#3f51b5",
-              "#e91e63",
-              "#00bcd4",
-              "#ffeb3b",
-              "#76ff03",
-              "#2962ff",
-            ]}
-          />
+          {dashboardDetails?.projectsOverview?.length ? (
+            <GuestDonutChart
+              labels={
+                dashboardDetails?.projectsOverview?.length
+                  ? dashboardDetails?.projectsOverview?.map(
+                      (item: any) => item?.status
+                    )
+                  : []
+              }
+              series={
+                dashboardDetails?.projectsOverview?.length
+                  ? dashboardDetails?.projectsOverview?.map(
+                      (item: any) => item?._count
+                    )
+                  : []
+              }
+              text=""
+              type="donut"
+              colors={[
+                "#cddc39",
+                "#a855f7",
+                "#03a9f4",
+                "#ef4444",
+                "#3f51b5",
+                "#e91e63",
+                "#00bcd4",
+                "#ffeb3b",
+                "#76ff03",
+                "#2962ff",
+              ]}
+            />
+          ) : (
+            <NoDatas title={"No Project Data"} />
+          )}
         </div>
       </div>
     </>
