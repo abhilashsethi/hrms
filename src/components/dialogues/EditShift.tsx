@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange, useFetch } from "hooks";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { SHIFT } from "types";
@@ -229,7 +230,12 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 												)}
 											/>
 										) : (
-											<p className="text-red-500">Please Add Shift</p>
+											<Link
+												className="text-red-500"
+												href={"/admin/security/shift-config"}
+											>
+												Please Add Shift
+											</Link>
 										)}
 									</div>
 									<div className="lg:px-4 px-2 lg:py-2 py-1">
