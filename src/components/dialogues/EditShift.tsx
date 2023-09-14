@@ -78,7 +78,7 @@ const EditShift = ({ open, handleClose, shiftData, mutate }: Props) => {
 					type: values?.type,
 					startTime: values?.startTime,
 					endTime: values?.endTime,
-					branchId: shiftData?.branchId?.$oid,
+					branchId: values?.shiftOfBranchId,
 				},
 			});
 
