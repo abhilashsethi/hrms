@@ -300,6 +300,11 @@ const ProfileDetails = () => {
         open={isSecurity}
         handleClose={() => setIsSecurity(false)}
         mutate={mutate}
+        branchId={
+          employData?.employeeOfBranchId
+            ? employData?.employeeOfBranchId
+            : undefined
+        }
         securityMutate={securityMutate}
         securityData={securityData}
       />

@@ -27,6 +27,7 @@ interface Props {
   handleClose: () => void;
   securityMutate: () => void;
   securityData?: Security;
+  branchId?: string;
 }
 interface FormValues {
   agencyAddress?: string;
@@ -40,14 +41,16 @@ const SecurityInformation = ({
   mutate,
   securityData,
   handleClose,
+  branchId,
   securityMutate,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
-  const [isSecurityAgency, setIsSecurityAgency] = useState(
-    securityData?.isAgency
+  const [isSecurityAgency, setIsSecurityAgency] = useState(true);
+  const { data: securityShift } = useFetch<SHIFT[]>(
+    `security/shift?branchId=${branchId}`
   );
-  const { data: securityShift } = useFetch<SHIFT[]>(`security/shift`);
+
   const initialValues = {
     agencyName: securityData?.agencyName || "",
     agencyAddress: securityData?.agencyAddress || "",
@@ -178,7 +181,7 @@ const SecurityInformation = ({
                           <span className="text-red-600">*</span>
                         </p>
                         <RadioGroup
-                          defaultValue={isSecurityAgency ? "YES" : "NO"}
+                          defaultValue={securityData?.isAgency ? "YES" : "NO"}
                           row
                           name="isSecurityAgency"
                           onChange={(e: ChangeEvent<HTMLInputElement>) =>
