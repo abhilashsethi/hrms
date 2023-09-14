@@ -53,8 +53,8 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       id: 4,
       color: "bg-[#feb76f]",
       icon: <QuestionAnswer fontSize="medium" className="text-theme" />,
-      name: "Total Chats",
-      count: data?.totalChatCount || 0,
+      name: "This Year Approved Leave",
+      count: data?.thisYearApprovedLeaveCount || 0,
       link: "/admin/chat",
     },
   ];
@@ -109,7 +109,6 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       link: `/admin/support/create-support`,
     },
   ];
-
   return (
     <div className="md:flex grid gap-2 py-4">
       <div className="md:w-3/4 ">
