@@ -86,6 +86,7 @@ const AllShifts = () => {
 							}
 							options={{
 								...MuiTblOptions(),
+								paging: false,
 							}}
 							columns={[
 								{
