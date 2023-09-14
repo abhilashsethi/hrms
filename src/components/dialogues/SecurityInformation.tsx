@@ -27,6 +27,7 @@ interface Props {
   handleClose: () => void;
   securityMutate: () => void;
   securityData?: Security;
+  branchId?: string;
 }
 interface FormValues {
   agencyAddress?: string;
@@ -40,6 +41,7 @@ const SecurityInformation = ({
   mutate,
   securityData,
   handleClose,
+  branchId,
   securityMutate,
 }: Props) => {
   const [loading, setLoading] = useState(false);
@@ -47,7 +49,9 @@ const SecurityInformation = ({
   const [isSecurityAgency, setIsSecurityAgency] = useState(
     securityData?.isAgency
   );
-  const { data: securityShift } = useFetch<SHIFT[]>(`security/shift`);
+  const { data: securityShift } = useFetch<SHIFT[]>(
+    `security/shift?branchId=${branchId}`
+  );
   const initialValues = {
     agencyName: securityData?.agencyName || "",
     agencyAddress: securityData?.agencyAddress || "",

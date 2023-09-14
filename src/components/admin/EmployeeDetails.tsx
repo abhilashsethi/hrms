@@ -284,6 +284,9 @@ const EmployeeDetails = () => {
         open={isSecurity}
         handleClose={() => setIsSecurity(false)}
         mutate={mutate}
+        branchId={
+          employData?.employeeOfBranchId ? employData?.employeeOfBranchId : ""
+        }
         securityMutate={securityMutate}
         securityData={securityData}
       />
