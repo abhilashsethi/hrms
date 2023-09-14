@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Loader, LoaderAnime } from "components/core";
 import { NotificationInfo } from "components/dialogues";
-import { useAuth, useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch, useNotificationData } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -20,6 +20,7 @@ const Notification = () => {
   const [notificationMsg, setNotificationMsg] = useState<NotificationData>();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const { user } = useAuth();
+  const { revalidateNotificationCount } = useNotificationData();
   const { change } = useChange();
   const {
     data: notificationData,
@@ -55,6 +56,7 @@ const Notification = () => {
             return;
           }
           Swal.fire(`Success`, "Deleted Successfully!", "success");
+          revalidateNotificationCount();
           mutate();
           return;
         }
@@ -98,6 +100,7 @@ const Notification = () => {
             return;
           }
           Swal.fire(`Success`, "Deleted Successfully!", "success");
+          revalidateNotificationCount();
           mutate();
           return;
         }
@@ -140,6 +143,7 @@ const Notification = () => {
             );
             return;
           }
+          revalidateNotificationCount();
           mutate();
           return;
         }
@@ -164,6 +168,7 @@ const Notification = () => {
         );
         return;
       }
+      revalidateNotificationCount();
       mutate();
       return;
     } catch (error) {

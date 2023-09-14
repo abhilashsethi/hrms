@@ -20,6 +20,7 @@ import {
   useFCMToken,
   useMailData,
   useMenuItems,
+  useNotificationData,
   useSocket,
 } from "hooks";
 import Head from "next/head";
@@ -48,6 +49,8 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
   const { getUnreadChatCount, revalidateChatCount, selectedChatId } =
     useChatData();
   const { getUnreadMailCount, revalidateMailCount } = useMailData();
+  const { getUnreadNotificationCount, revalidateNotificationCount } =
+    useNotificationData();
   const { change } = useChange();
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => setAnchorEl(event.currentTarget);
@@ -84,6 +87,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
       //fetch current chat count
       revalidateChatCount();
       revalidateMailCount(user?.id);
+      revalidateNotificationCount();
     })();
   }, []);
 
@@ -289,13 +293,24 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
                   </Link>
                   <Link href={"/admin/notification"}>
                     <Tooltip title="Notifications">
-                      <p className="cursor-pointer group rounded-lg bg-[#bbcbff87] hover:bg-white transition-all ease-in-out duration-200 md:p-2 p-1 shadow-md">
-                        <img
-                          className="md:h-5 h-7 object-contain group-hover:scale-105 transition-all ease-in-out duration-200"
-                          src={NOTIFICATIONBELL.src}
-                          alt=""
-                        />
-                      </p>
+                      <Badge
+                        badgeContent={
+                          (getUnreadNotificationCount &&
+                            (getUnreadNotificationCount > 99
+                              ? "99+"
+                              : getUnreadNotificationCount)) ||
+                          undefined
+                        }
+                        color="warning"
+                      >
+                        <p className="cursor-pointer group rounded-lg bg-[#bbcbff87] hover:bg-white transition-all ease-in-out duration-200 md:p-2 p-1 shadow-md">
+                          <img
+                            className="md:h-5 h-7 object-contain group-hover:scale-105 transition-all ease-in-out duration-200"
+                            src={NOTIFICATIONBELL.src}
+                            alt=""
+                          />
+                        </p>
+                      </Badge>
                     </Tooltip>
                   </Link>
                 </div>

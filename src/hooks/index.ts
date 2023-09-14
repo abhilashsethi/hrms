@@ -3,6 +3,7 @@ export { default as useAuth } from "./useAuth";
 export { default as useSocket } from "./useSocket";
 export { default as useChatData } from "./useChatData";
 export { default as useMailData } from "./useMailData";
+export { default as useNotificationData } from "./useNotificationData";
 export { default as useIsVisible } from "./useIsVisible";
 export { default as useFCMToken } from "./useFCMToken";
 export { default as useForm } from "./useForm";
