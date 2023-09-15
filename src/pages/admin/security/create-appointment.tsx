@@ -26,73 +26,79 @@ import * as Yup from "yup";
 //   // Add other properties as needed
 // }
 
-const initialValues = {
-	name: "",
-	phone: "",
-	email: "",
-	address: "",
-	startDate: "",
-	startTime: "",
-	endTime: "",
-	assignedUserId: "",
-	status: "",
-	image: undefined,
-	holidayOfBranchId: "",
-	reason: "",
-};
-
-const validationSchema = Yup.object().shape({
-	holidayOfBranchId: Yup.string().required("Required!"),
-	name: Yup.string()
-		.matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
-		.min(2, "Name must be at least 2 characters")
-		.max(50, "Name must be less than 50 characters")
-		.required("Name is required!"),
-
-	phone: Yup.string()
-		.required("Required!")
-		.matches(
-			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-			"Phone number is not valid"
-		)
-		.min(6)
-		.max(15),
-	email: Yup.string()
-		.email("Invalid email address")
-		.required("Email is required!"),
-	assignedUserId: Yup?.string()?.required("Required"),
-	address: Yup.string().required("Required!"),
-	startDate: Yup.string().required("Required!"),
-	startTime: Yup.string().required("Required!"),
-	endTime: Yup.string().required("Required!"),
-	status: Yup.string().required("Required!"),
-	reason: Yup.string().required("Required!"),
-	image: Yup.mixed()
-		.test("fileSize", "Image size is too large", (value: any) => {
-			if (value) {
-				const maxSize = 5 * 1024 * 1024; // Maximum size in bytes (5MB)
-				return value.size <= maxSize;
-			}
-			return true;
-		})
-		.test("fileType", "Invalid file type", (value: any) => {
-			if (value) {
-				const supportedFormats = [
-					"image/jpeg",
-					"image/jpg",
-					"image/png",
-					"image/gif",
-					"image/svg+xml",
-				];
-				return supportedFormats.includes(value.type);
-			}
-			return true;
-		})
-		.nullable(),
-});
-
 const CreateAppointment = () => {
 	const { user } = useAuth();
+	const initialValues = {
+		branchRequired: ["CEO", "COO"]?.includes(String(user?.role?.name)) || false,
+		name: "",
+		phone: "",
+		email: "",
+		address: "",
+		startDate: "",
+		startTime: "",
+		endTime: "",
+		assignedUserId: "",
+		status: "",
+		image: undefined,
+		holidayOfBranchId: "",
+		reason: "",
+	};
+	const validationSchema = Yup.object().shape({
+		branchRequired: Yup.boolean(),
+		holidayOfBranchId: Yup.string().when("branchRequired", {
+			is: true,
+			then(schema) {
+				return schema.required("Required");
+			},
+		}),
+		name: Yup.string()
+			.matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
+			.min(2, "Name must be at least 2 characters")
+			.max(50, "Name must be less than 50 characters")
+			.required("Name is required!"),
+
+		phone: Yup.string()
+			.required("Required!")
+			.matches(
+				/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+				"Phone number is not valid"
+			)
+			.min(6)
+			.max(15),
+		email: Yup.string()
+			.email("Invalid email address")
+			.required("Email is required!"),
+		assignedUserId: Yup?.string()?.required("Required"),
+		address: Yup.string().required("Required!"),
+		startDate: Yup.string().required("Required!"),
+		startTime: Yup.string().required("Required!"),
+		endTime: Yup.string().required("Required!"),
+		status: Yup.string().required("Required!"),
+		reason: Yup.string().required("Required!"),
+		image: Yup.mixed()
+			.test("fileSize", "Image size is too large", (value: any) => {
+				if (value) {
+					const maxSize = 5 * 1024 * 1024; // Maximum size in bytes (5MB)
+					return value.size <= maxSize;
+				}
+				return true;
+			})
+			.test("fileType", "Invalid file type", (value: any) => {
+				if (value) {
+					const supportedFormats = [
+						"image/jpeg",
+						"image/jpg",
+						"image/png",
+						"image/gif",
+						"image/svg+xml",
+					];
+					return supportedFormats.includes(value.type);
+				}
+				return true;
+			})
+			.nullable(),
+	});
+
 	// const theme = useTheme();
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
