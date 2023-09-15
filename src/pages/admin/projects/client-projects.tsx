@@ -31,10 +31,8 @@ const ClientProjects = () => {
     pagination,
   } = useFetch<any>(
     `clients/get/all/projects/${user?.id}?page=${pageNumber}&limit=6${
-      projectName ? `&name=${projectName}` : ""
-    }${status ? `&projectStatus=${status}` : ""}${
-      bugStatus ? `&bugs=${bugStatus}` : ""
-    }`
+      projectName ? `&projectName=${projectName}` : ""
+    }${status ? `&status=${status}` : ""}`
   );
   console.log({ projectData });
   return (
