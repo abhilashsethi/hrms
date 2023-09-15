@@ -50,8 +50,6 @@ const DraftEmail = () => {
     setAnchorEl(null);
   };
 
-  const { user } = useAuth();
-
   const { push } = useRouter();
 
   const { data, isValidating, mutate, error } = useFetch<SentEmailData>(
@@ -256,15 +254,13 @@ const DraftEmail = () => {
                     onSelect={() => handleSelect(item?.id)}
                     key={item?.id}
                     isRead={true}
-                    userName={item?.receiver?.name}
+                    receiver={item?.receiver}
                     subject={item?.subject}
-                    email={item?.receiver?.username}
                     onclick={() =>
                       push(`/admin/email/create?draftId=${item?.id}`)
                     }
                     messageDate={item?.createdAt}
                     messages={item?.content}
-                    photo={item?.receiver?.photo}
                   />
                 ))
               ) : (

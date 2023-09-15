@@ -258,13 +258,11 @@ const SentEmail = () => {
                     onSelect={() => handleSelect(item?.id)}
                     key={item?.id}
                     isRead={true}
-                    userName={item?.receiver?.name}
+                    receiver={item?.receiver}
                     subject={item?.subject}
-                    email={item?.receiver?.username}
                     onclick={() => push(`/admin/email/${item?.id}`)}
                     messageDate={item?.sentAt || item?.createdAt}
                     messages={item?.content}
-                    photo={item?.receiver?.photo}
                   />
                 ))
               ) : (

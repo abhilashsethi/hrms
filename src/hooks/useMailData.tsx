@@ -11,8 +11,7 @@ const useMailData = create<ChatState>((set, get) => ({
     try {
       const token = getAccessToken();
       const response = await fetch(
-        BASE_URL +
-          `/emails/getMyInbox/${userId}?isRead=false&isReceiverDelete=false`,
+        BASE_URL + `/emails/inbox?isRead=false&isReceiverDelete=false`,
         {
           method: "GET",
           headers: {
