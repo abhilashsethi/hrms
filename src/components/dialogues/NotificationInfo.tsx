@@ -9,8 +9,8 @@ import {
 import { NotificationData } from "types";
 interface Props {
   open: boolean;
-  handleClose: any;
-  mutate?: any;
+  handleClose: () => void;
+  mutate: () => void;
   notificationMsg?: NotificationData;
 }
 

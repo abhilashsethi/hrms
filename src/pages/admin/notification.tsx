@@ -180,6 +180,7 @@ const Notification = () => {
       <PanelLayout title="Notification Requests ">
         <NotificationInfo
           open={notification}
+          mutate={mutate}
           handleClose={() => setNotification(false)}
           notificationMsg={notificationMsg}
         />
