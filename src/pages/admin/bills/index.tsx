@@ -4,13 +4,19 @@ import {
   BillsDashboardCharts,
 } from "components/admin/bills";
 import { AdminBreadcrumbs } from "components/core";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { Bills, BillsDashboard } from "types";
 
 const index = () => {
-  const { data: billDashboard, isLoading } =
-    useFetch<Bills>(`bills/dashboard/info`);
+  const { user } = useAuth();
+  const { data: billDashboard, isLoading } = useFetch<Bills>(
+    `bills/dashboard/info${
+      user?.role?.name === "ACCOUNTANT"
+        ? `?branchId=${user?.employeeOfBranchId}`
+        : ``
+    }`
+  );
   return (
     <PanelLayout title="All Bills">
       <>
