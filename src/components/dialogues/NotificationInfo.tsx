@@ -10,16 +10,10 @@ import { NotificationData } from "types";
 interface Props {
   open: boolean;
   handleClose: () => void;
-  mutate: () => void;
   notificationMsg?: NotificationData;
 }
 
-const NotificationInfo = ({
-  open,
-  handleClose,
-  mutate,
-  notificationMsg,
-}: Props) => {
+const NotificationInfo = ({ open, handleClose, notificationMsg }: Props) => {
   return (
     <Dialog
       onClose={handleClose}
