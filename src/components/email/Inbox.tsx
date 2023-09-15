@@ -37,7 +37,7 @@ const Inbox = () => {
   const { push } = useRouter();
   const { change } = useChange();
   const { data, isValidating, mutate, error } = useFetch<InboxDataType>(
-    `emails/getMyInbox/${user?.id}?page=${pageNo}&limit=20&isReceiverDelete=false` +
+    `emails/inbox/${user?.id}?page=${pageNo}&limit=20&isReceiverDelete=false` +
       (searchText?.trim()?.length ? `&userName=${searchText}` : "") +
       (typeof sortBy !== "undefined" ? `&isRead=${sortBy}` : "")
   );
