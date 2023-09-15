@@ -85,8 +85,8 @@ const AdminHome = () => {
               <>
                 <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <section className="lg:px-8 px-4 py-4">
-                  <MainManagerDashboardCards data={""} />
-                  <MainManagerDashboardCharts data={""} />
+                  <MainManagerDashboardCards />
+                  <MainManagerDashboardCharts />
                 </section>
               </>
             )}
@@ -99,8 +99,8 @@ const AdminHome = () => {
               <>
                 <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <section className="lg:px-8 px-4 py-4">
-                  <SalesDashboardCards data={""} />
-                  <SalesDashboardCharts data={""} />
+                  <SalesDashboardCards />
+                  <SalesDashboardCharts />
                 </section>
               </>
             )}
@@ -139,8 +139,8 @@ const AdminHome = () => {
               <>
                 <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <section className="lg:px-8 px-4 py-4">
-                  <ProjectManagerDashboardCards data={""} />
-                  <ProjectManagerDashboardCharts data={""} />
+                  <ProjectManagerDashboardCards />
+                  <ProjectManagerDashboardCharts />
                 </section>
               </>
             )}
@@ -153,8 +153,8 @@ const AdminHome = () => {
               <>
                 <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <section className="lg:px-8 px-4 py-4">
-                  <BidManagerDashboardCards data={""} />
-                  <BidManagerDashboardCharts data={""} />
+                  <BidManagerDashboardCards />
+                  <BidManagerDashboardCharts />
                 </section>
               </>
             )}
@@ -167,8 +167,8 @@ const AdminHome = () => {
               <>
                 <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <section className="lg:px-8 px-4 py-4">
-                  <BidDashboardCards data={""} />
-                  <BidDashboardCharts data={""} />
+                  <BidDashboardCards />
+                  <BidDashboardCharts />
                 </section>
               </>
             )}
@@ -181,8 +181,8 @@ const AdminHome = () => {
               <>
                 <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <section className="lg:px-8 px-4 py-4">
-                  <AccountantDashboardCards data={""} />
-                  <AccountantDashboardCharts data={""} />
+                  <AccountantDashboardCards />
+                  <AccountantDashboardCharts />
                 </section>
               </>
             )}
@@ -196,8 +196,8 @@ const AdminHome = () => {
                 <DashboardSkeletonLoading />
               ) : (
                 <>
-                  <MainClientDashboardCards data={""} />
-                  <MainClientDashboardCharts data={""} />
+                  <MainClientDashboardCards />
+                  <MainClientDashboardCharts />
                 </>
               )}
             </section>
