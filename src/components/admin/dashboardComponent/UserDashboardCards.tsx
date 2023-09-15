@@ -20,18 +20,28 @@ import { Leave } from "types";
 interface Props {
 	data?: any;
 }
+interface DASHBOARD_DATA {
+	currentMonthAttendanceCount: number;
+	totalAssetCount: number;
+	totalChatCount: number;
+	emailCount: number;
+}
 const UserDashboardCards = ({ data }: Props) => {
 	const { user } = useAuth();
 	const { data: leaveData } = useFetch<Leave[]>(
 		`leaves?${user?.id ? `userId=${user?.id}` : ""}`
 	);
+	const { data: dashboardData } = useFetch<DASHBOARD_DATA>(
+		`dashboards/default-dashboard-info`
+	);
+	console.log(dashboardData);
 	const cards = [
 		{
 			id: 1,
 			color: "bg-[#bbcbff]",
 			icon: <Mail fontSize="medium" className="text-theme" />,
 			name: "Total Email",
-			count: data?.totalInvolvedProjects || 0,
+			count: dashboardData?.emailCount || 0,
 			link: "/admin/email",
 		},
 		{
@@ -39,7 +49,7 @@ const UserDashboardCards = ({ data }: Props) => {
 			color: "bg-[#b9e9fd]",
 			icon: <FactCheck fontSize="medium" className="text-theme" />,
 			name: "Total Attendance This Month",
-			count: data?.currentMonthAttendanceCount || 0,
+			count: dashboardData?.currentMonthAttendanceCount || 0,
 			link: "/admin",
 		},
 		{
@@ -47,7 +57,7 @@ const UserDashboardCards = ({ data }: Props) => {
 			color: "bg-[#f6c8ff]",
 			icon: <WebAsset fontSize="medium" className="text-theme" />,
 			name: "Total Assets",
-			count: data?.totalAssignAssetCount || 0,
+			count: dashboardData?.totalAssetCount || 0,
 			link: "/admin",
 		},
 		{
@@ -55,7 +65,7 @@ const UserDashboardCards = ({ data }: Props) => {
 			color: "bg-[#feb76f]",
 			icon: <QuestionAnswer fontSize="medium" className="text-theme" />,
 			name: "Total Leaves This Year",
-			count: data?.totalChatCount || 0,
+			count: dashboardData?.totalChatCount || 0,
 			link: "/admin",
 		},
 	];

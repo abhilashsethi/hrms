@@ -323,6 +323,7 @@ export type Client = {
 	id: string;
 	name: string;
 	email: string;
+	username: string;
 	_count: { projects?: number; tickets?: string };
 	gender: string;
 	isBlocked: boolean;
@@ -980,14 +981,14 @@ export interface Security {
 }
 
 export interface NotificationData {
-  id: string;   
-  title:string
-  isRead:boolean
-  description:string
-  iconUrl:string
-  user: User;     
-  userId: string;   
-  readStatus: boolean;  
-  createdAt: string;
-  updatedAt: string;
+	id: string;
+	title: string;
+	isRead: boolean;
+	description: string;
+	iconUrl: string;
+	user: User;
+	userId: string;
+	readStatus: boolean;
+	createdAt: string;
+	updatedAt: string;
 }
