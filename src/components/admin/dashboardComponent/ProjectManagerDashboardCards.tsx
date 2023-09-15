@@ -16,13 +16,12 @@ import { NoDatas } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
-interface Props {
-  data?: any;
-}
-const ProjectManagerDashboardCards = ({ data }: Props) => {
+import { Leave, ManagerDashboard, Projects } from "types";
+
+const ProjectManagerDashboardCards = () => {
   const { user } = useAuth();
-  const { data: leavesData } = useFetch<any>(`leaves/manager/request`);
-  const { data: projectDashboard } = useFetch<any>(
+  const { data: leavesData } = useFetch<Leave[]>(`leaves/manager/request`);
+  const { data: projectDashboard } = useFetch<ManagerDashboard>(
     `dashboards/project/manager/dashboard/${user?.id}`
   );
   const router = useRouter();
@@ -40,7 +39,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
       color: "bg-[#b9e9fd]",
       icon: <PendingActions fontSize="medium" className="text-theme" />,
       name: "Total Pending Leave Requests",
-      count: projectDashboard?.totalLeaveCount || 0,
+      count: projectDashboard?.totalPendingLeaveCount || 0,
       link: "/admin/leaves/manager-leave-requests",
     },
     {
@@ -175,7 +174,7 @@ const ProjectManagerDashboardCards = ({ data }: Props) => {
             {leavesData?.length === 0 && (
               <NoDatas title="No leave Details yet!" />
             )}
-            {leavesData?.map?.((item: any, i: any) => {
+            {leavesData?.map?.((item, i) => {
               return (
                 <div key={i}>
                   <div className="border border-1 rounded-lg p-5 mb-2">

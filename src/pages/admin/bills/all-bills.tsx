@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { BillGrid } from "components/admin/bills";
 import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
-import { useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import { useState } from "react";
@@ -25,7 +25,7 @@ const AllBills = () => {
   const [BillStatus, setBillStatus] = useState<string | null>(null);
   const [selectDate, setSelectDate] = useState<string | null>(null);
   const [isOrderBy, setIsOrderBy] = useState<string | null>("createdAt:desc");
-  console.log({ selectDate });
+  const { user } = useAuth();
   const {
     data: billData,
     mutate,
@@ -38,6 +38,10 @@ const AllBills = () => {
       billNumber ? `&billNumber=${billNumber}` : ""
     }${selectDate ? `&dueDate=${selectDate}` : ""}${
       isOrderBy ? `&orderBy=${isOrderBy}` : ""
+    }${
+      user?.role?.name === "ACCOUNTANT"
+        ? `&branchId=${user?.employeeOfBranchId}`
+        : ``
     }`
   );
   return (

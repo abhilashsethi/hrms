@@ -55,7 +55,7 @@ const SentEmail = () => {
   const { push } = useRouter();
 
   const { data, isValidating, mutate, error } = useFetch<SentEmailData>(
-    `emails/get/sendMails/${user?.id}?isSend=true&page=${pageNo}&limit=20` +
+    `emails/get/send-mail/${user?.id}?isSend=true&page=${pageNo}&limit=20` +
       (searchText?.trim()?.length ? `&username=${searchText}` : "") +
       (sortBy ? `&sortBy=${sortBy}` : "")
   );

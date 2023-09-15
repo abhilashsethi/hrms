@@ -28,7 +28,7 @@ const Notification = () => {
     isLoading,
     mutate,
   } = useFetch<NotificationData[]>(
-    `notifications?page=${pageNumber}&limit=10&userId=${user?.id}`
+    `notifications?page=${pageNumber}&limit=10&userId=${user?.id}&orderBy=createdAt:asc`
   );
   const handleDelete = (id?: string) => {
     try {
@@ -180,7 +180,6 @@ const Notification = () => {
       <PanelLayout title="Notification Requests ">
         <NotificationInfo
           open={notification}
-          mutate={mutate}
           handleClose={() => setNotification(false)}
           notificationMsg={notificationMsg}
         />
@@ -307,5 +306,4 @@ const borderColors = [
   "border-gray-400",
   "border-pink-400",
   "border-cyan-400",
-  // Add more border color classes as needed
 ];

@@ -979,7 +979,6 @@ export interface Security {
 		$oid?: string;
 	};
 }
-
 export interface NotificationData {
 	id: string;
 	title: string;
@@ -991,4 +990,31 @@ export interface NotificationData {
 	readStatus: boolean;
 	createdAt: string;
 	updatedAt: string;
+}
+export interface ManagerDashboard{
+	totalProjectCount: number;
+	totalPendingLeaveCount: number;
+	totalBugsCount: number;
+	totalTechnologies: number;
+	allAttendanceMonthWise: Count[];
+	projectCountStatusWise: Count[];
+	ticketsCountAccordingProjects: Count[];
+}
+export interface Count{
+	count: number;
+	month: string;
+	status: string;
+	_id:string
+	_count: { status: number }
+	projectName: string;
+	ticketCount: string;
+
+}
+export interface SalesDashboard{
+	totalMeetingCount: number;
+	totalReceivedEmailCount: number;
+	totalAssignAssetCount: number;
+	totalChatCount: number;
+	currentYearAttendance: Count[];
+	meetingCounts: Count[];
 }
