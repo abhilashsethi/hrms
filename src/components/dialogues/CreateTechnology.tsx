@@ -30,7 +30,6 @@ const initialValues = {
 };
 const validationSchema = yup.object().shape({
   name: yup.string().required("Required!"),
-  //   image: yup.string().required("Required!"),
   image: yup
     .mixed()
     .required("Image is required!")
