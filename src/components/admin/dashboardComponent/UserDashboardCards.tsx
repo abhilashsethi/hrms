@@ -1,5 +1,4 @@
 import {
-	AccountTree,
 	Chat,
 	Email,
 	EventAvailable,

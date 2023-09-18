@@ -38,6 +38,7 @@ const ClientDetails = () => {
 	const { data: projectData } = useFetch<any>(
 		`projects?${router?.query?.id ? `&clientId=${router?.query?.id}` : ""}`
 	);
+	console.log(ticketsData);
 
 	const basicDetails = [
 		{
@@ -47,7 +48,7 @@ const ClientDetails = () => {
 		},
 		{
 			id: 2,
-			title: "Email",
+			title: "User Name",
 			value: (
 				<span className="break-all">
 					<CopyClipboard
@@ -70,7 +71,7 @@ const ClientDetails = () => {
 			value: `${clientData?.gender ? clientData?.gender : "---"}`,
 		},
 		{
-			id: 8,
+			id: 9,
 			title: "Country",
 			value: `${clientData?.country ? clientData?.country : "---"}`,
 		},

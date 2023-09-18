@@ -991,7 +991,7 @@ export interface NotificationData {
 	createdAt: string;
 	updatedAt: string;
 }
-export interface ManagerDashboard{
+export interface ManagerDashboard {
 	totalProjectCount: number;
 	totalPendingLeaveCount: number;
 	totalBugsCount: number;
@@ -1000,17 +1000,16 @@ export interface ManagerDashboard{
 	projectCountStatusWise: Count[];
 	ticketsCountAccordingProjects: Count[];
 }
-export interface Count{
+export interface Count {
 	count: number;
 	month: string;
 	status: string;
-	_id:string
-	_count: { status: number }
+	_id: string;
+	_count: { status: number };
 	projectName: string;
 	ticketCount: string;
-
 }
-export interface SalesDashboard{
+export interface SalesDashboard {
 	totalMeetingCount: number;
 	totalReceivedEmailCount: number;
 	totalAssignAssetCount: number;
