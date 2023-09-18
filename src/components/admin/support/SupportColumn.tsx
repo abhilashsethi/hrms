@@ -94,8 +94,12 @@ const SupportColumn = ({ data, mutate }: Props) => {
             ? data?.map((item, i: number) => ({
                 ...item,
                 sl: i + 1,
-                name: item?.reqUser?.name,
-                email: item?.reqUser?.email,
+                name: item?.reqUser
+                  ? item?.reqUser?.name
+                  : item?.reqClient?.name,
+                email: item?.reqUser
+                  ? item?.reqUser?.email
+                  : item?.reqClient?.email,
               }))
             : []
         }
