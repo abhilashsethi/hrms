@@ -116,7 +116,6 @@ const ViewPayrollDetails = () => {
 	// 	: [];
 	const totalLossOfPay =
 		(Gross_Salary / totalWorkingDay) * lossOfPay?.totalUnPaidLeave || 0;
-	console.log(totalLossOfPay);
 	const Configs = configData?.length ? configData[0] : null;
 
 	const Tds: any = salaryInfo?.tds;
@@ -225,9 +224,11 @@ const ViewPayrollDetails = () => {
 				name: "PF Contribution by Employee",
 				count: `${
 					Gross_Salary
-						? (Configs?.pfEmployee *
-								((Configs?.basicSalary * Gross_Salary) / 100)) /
-						  100
+						? (
+								(Configs?.pfEmployee *
+									((Configs?.basicSalary * Gross_Salary) / 100)) /
+								100
+						  ).toFixed(2)
 						: "---"
 				}`,
 			},
@@ -235,7 +236,9 @@ const ViewPayrollDetails = () => {
 				id: 2,
 				name: "ESI Contribution by Employee",
 				count: `${
-					Gross_Salary ? (Configs?.esiEmployee * Gross_Salary) / 100 : "---"
+					Gross_Salary
+						? ((Configs?.esiEmployee * Gross_Salary) / 100).toFixed(2)
+						: "---"
 				}`,
 			},
 			{
@@ -271,9 +274,11 @@ const ViewPayrollDetails = () => {
 				name: "PF Contribution by Employer",
 				count: `${
 					Gross_Salary
-						? (Configs?.pfEmployer *
-								((Configs?.basicSalary * Gross_Salary) / 100)) /
-						  100
+						? (
+								(Configs?.pfEmployer *
+									((Configs?.basicSalary * Gross_Salary) / 100)) /
+								100
+						  ).toFixed(2)
 						: "---"
 				}`,
 			},
@@ -281,7 +286,9 @@ const ViewPayrollDetails = () => {
 				id: 2,
 				name: "ESI Contribution by Employer",
 				count: `${
-					Gross_Salary ? (Configs?.esiEmployer * Gross_Salary) / 100 : "---"
+					Gross_Salary
+						? ((Configs?.esiEmployer * Gross_Salary) / 100).toFixed(2)
+						: "---"
 				}`,
 			},
 			{
@@ -391,7 +398,9 @@ const ViewPayrollDetails = () => {
 						: 0,
 					TotalDeductions: Gross_Salary ? Total_Deduction : 0,
 					GrossEarnings: Gross_Salary,
-					NetSalary: Gross_Salary ? Gross_Salary - Total_Deduction : 0,
+					NetSalary: Gross_Salary
+						? (Gross_Salary - Total_Deduction).toFixed(2)
+						: 0,
 					NetSalaryInWord: NumInWords(
 						Gross_Salary ? Gross_Salary - Total_Deduction : 0
 					),
