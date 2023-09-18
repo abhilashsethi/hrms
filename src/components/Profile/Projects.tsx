@@ -20,7 +20,7 @@ import { AWS, CSS, JAVASCRIPT, NEXTJS, REACT } from "assets/svgicons";
 import { PhotoViewer } from "components/core";
 import { ProjectAddLink, ProjectUpdate } from "components/dialogues";
 import { ProjectMembers, ProjectURLS } from "components/drawer";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
@@ -33,7 +33,7 @@ interface PROPS {
   userDetails?: any;
 }
 const Projects = ({ projectData, mutate, isLoading, userDetails }: PROPS) => {
-  console.log(projectData);
+  const { user } = useAuth();
   const [url, setUrl] = useState<{
     dialogue?: boolean;
     projectId?: string | null;
@@ -169,32 +169,33 @@ const Projects = ({ projectData, mutate, isLoading, userDetails }: PROPS) => {
                   Project URLs
                 </span>
               </div>
-
-              <div className="py-2 text-md ">
-                <div className="flex gap-6 items-center">
-                  <span className="text-sm font-semibold">Team :</span>
-                </div>
-                {!item?.involvedMembers?.length ? (
-                  <p>No Members assigned.</p>
-                ) : (
-                  <div className="flex gap-2 group items-center pt-2">
-                    <AvatarGroup
-                      className="!cursor-pointer"
-                      onClick={() => {
-                        setIsMembers(true), setIsProjectData(item);
-                      }}
-                      max={4}
-                    >
-                      {item?.involvedMembers?.map(
-                        (data: { name?: string; photo?: string }) => (
-                          <Avatar alt={data?.name} src={data?.photo || " "} />
-                        )
-                      )}
-                    </AvatarGroup>
-                    <span>{item?.Manager?.name}</span>
+              {user?.isClient ? null : (
+                <div className="py-2 text-md ">
+                  <div className="flex gap-6 items-center">
+                    <span className="text-sm font-semibold">Team :</span>
                   </div>
-                )}
-              </div>
+                  {!item?.involvedMembers?.length ? (
+                    <p>No Members assigned.</p>
+                  ) : (
+                    <div className="flex gap-2 group items-center pt-2">
+                      <AvatarGroup
+                        className="!cursor-pointer"
+                        onClick={() => {
+                          setIsMembers(true), setIsProjectData(item);
+                        }}
+                        max={4}
+                      >
+                        {item?.involvedMembers?.map(
+                          (data: { name?: string; photo?: string }) => (
+                            <Avatar alt={data?.name} src={data?.photo || " "} />
+                          )
+                        )}
+                      </AvatarGroup>
+                      <span>{item?.Manager?.name}</span>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="">
                 <span className="text-sm font-semibold">Technology Used:</span>
