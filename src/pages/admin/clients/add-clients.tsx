@@ -100,7 +100,7 @@ const AddClients = () => {
           return;
         }
         router?.push("/admin/clients/all-clients");
-        Swal.fire(`Success`, `You have successfully Created!`, `success`);
+        Swal.fire(`Success`, `Client successfully Added!`, `success`);
         return;
       } catch (error) {
         console.log(error);

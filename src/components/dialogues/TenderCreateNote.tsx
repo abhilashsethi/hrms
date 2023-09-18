@@ -56,7 +56,7 @@ const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
       }
       Swal.fire(`Success`, `Note Created Successfully!`, `success`);
       console.log(res);
-      mutate?.();
+      mutate();
       handleClose();
       return;
     } catch (error) {

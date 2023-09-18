@@ -17,7 +17,7 @@ const Meetings = () => {
   const { data: meetingData, mutate } = useFetch<any>(
     `meetings/dashboard/details`
   );
-
+  console.log(meetingData?.meetingStatusList);
   const cards = [
     {
       id: 1,
@@ -46,8 +46,9 @@ const Meetings = () => {
       icon: <AssignmentTurnedIn className="text-theme" />,
       count: meetingData?.meetingStatusList.length
         ? meetingData?.meetingStatusList
-            ?.filter((item: any) => item?.status === "Closed")
-            ?.map((item: any) => (item?._count ? item?._count : 0))
+            .filter((item: any) => item?.status === "Closed")
+            .map((item: any) => (item?._count ? item?._count : 0))
+            .reduce((acc: number, val: number) => acc + val, 0) // Sum the counts
         : 0,
       title: "Closed Meetings",
       bg: "from-emerald-500 to-emerald-300",
