@@ -61,7 +61,11 @@ const AddTenderReviewMember = ({
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully Created Member!`, `success`);
+      Swal.fire(
+        `Success`,
+        `You have successfully Assigned a Member!`,
+        `success`
+      );
       mutate();
       handleClose();
       return;

@@ -31,7 +31,7 @@ const AllTenders = () => {
   const [tenderNo, setTenderNo] = useState<string | null>(null);
   const [tenderName, setTenderName] = useState<string | null>(null);
   const [isSubmissionDate, setIsSubmissionDate] = useState<any>(null);
-  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string>("createdAt:desc");
   const [pageNumber, setPageNumber] = useState<number>(1);
   const {
     data: tenderData,
@@ -71,7 +71,7 @@ const AllTenders = () => {
           >
             <IconButton
               onClick={() => {
-                setIsOrderBy(null);
+                setIsOrderBy("createdAt:asc");
                 setTenderName(null);
                 setTenderNo(null);
                 setIsPortal(null);
@@ -84,7 +84,7 @@ const AllTenders = () => {
                   isSubmissionDate != null ||
                   isPortal != null ||
                   isCategory != null ||
-                  isOrderBy != null ||
+                  isOrderBy != "createdAt:desc" ||
                   tenderName != null ||
                   tenderNo != null
                     ? `Remove Filters`
@@ -94,7 +94,7 @@ const AllTenders = () => {
                 {isPortal != null ||
                 isSubmissionDate != null ||
                 isCategory != null ||
-                isOrderBy != null ||
+                isOrderBy != "createdAt:desc" ||
                 tenderName != null ||
                 tenderNo != null ? (
                   <Close className={"!text-white"} />

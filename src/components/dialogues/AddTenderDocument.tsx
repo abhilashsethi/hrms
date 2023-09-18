@@ -68,7 +68,7 @@ const AddTenderDocument = ({
         return;
       }
       setLoading(false);
-      Swal.fire(`Success`, `Document created successfully!`, `success`);
+      Swal.fire(`Success`, `Document added successfully!`, `success`);
       mutate();
       handleClose();
       setLoading(false);
