@@ -58,6 +58,18 @@ const ClientDetails = () => {
 				</span>
 			),
 		},
+		{
+			id: 3,
+			title: "Email",
+			value: (
+				<span className="break-all">
+					<CopyClipboard
+						value={`${clientData?.email ? clientData?.email : "---"}`}
+						isCut={false}
+					/>
+				</span>
+			),
+		},
 
 		{
 			id: 5,
