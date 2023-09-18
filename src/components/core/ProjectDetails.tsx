@@ -191,33 +191,39 @@ const ProjectDetails = () => {
                   </div>
                 ))}
               </div>
-              {!projectData?.involvedMembers?.length ? (
-                <div>
-                  <p>No Members assigned</p>
-                  <Button
-                    disabled={user?.isClient}
-                    onClick={() => setIsMembers(true)}
-                    variant="contained"
-                    className="bg-theme"
-                    size="small"
-                  >
-                    Assign Members
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex flex-col justify-center md:w-1/3 items-center">
-                  <h1 className="text-slate-600 font-semibold mt-4">TEAM</h1>
-                  <div
-                    onClick={() => setIsMembers(true)}
-                    className="flex justify-start mt-4"
-                  >
-                    <AvatarGroup className="!cursor-pointer" max={4}>
-                      {projectData?.involvedMembers?.map((data) => (
-                        <Avatar alt={data?.name} src={data?.photo || " "} />
-                      ))}
-                    </AvatarGroup>
-                  </div>
-                </div>
+              {user?.isClient ? null : (
+                <>
+                  {!projectData?.involvedMembers?.length ? (
+                    <div>
+                      <p>No Members assigned</p>
+                      <Button
+                        disabled={user?.isClient}
+                        onClick={() => setIsMembers(true)}
+                        variant="contained"
+                        className="bg-theme"
+                        size="small"
+                      >
+                        Assign Members
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col justify-center md:w-1/3 items-center">
+                      <h1 className="text-slate-600 font-semibold mt-4">
+                        TEAM
+                      </h1>
+                      <div
+                        onClick={() => setIsMembers(true)}
+                        className="flex justify-start mt-4"
+                      >
+                        <AvatarGroup className="!cursor-pointer" max={4}>
+                          {projectData?.involvedMembers?.map((data) => (
+                            <Avatar alt={data?.name} src={data?.photo || " "} />
+                          ))}
+                        </AvatarGroup>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
