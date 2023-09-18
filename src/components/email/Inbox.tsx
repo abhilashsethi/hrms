@@ -37,7 +37,7 @@ const Inbox = () => {
   const { push } = useRouter();
   const { change } = useChange();
   const { data, isValidating, mutate, error } = useFetch<InboxDataType>(
-    `emails/inbox/${user?.id}?page=${pageNo}&limit=20&isReceiverDelete=false` +
+    `emails/inbox?page=${pageNo}&limit=20&isReceiverDelete=false` +
       (searchText?.trim()?.length ? `&userName=${searchText}` : "") +
       (typeof sortBy !== "undefined" ? `&isRead=${sortBy}` : "")
   );
@@ -148,9 +148,8 @@ const Inbox = () => {
                     onSelect={() => handleSelect(item?.id)}
                     key={item?.id}
                     isRead={item?.isRead}
-                    userName={item?.sender?.name}
                     subject={item?.subject}
-                    email={item?.sender?.username}
+                    receiver={item?.receiver}
                     onclick={() => {
                       push(`/admin/email/${item?.id}`);
                       handleReadEmail(item?.id);
@@ -158,7 +157,6 @@ const Inbox = () => {
                     }}
                     messageDate={item?.sentAt || item?.createdAt}
                     messages={item?.content}
-                    photo={item?.sender?.photo}
                   />
                 ))
               ) : (

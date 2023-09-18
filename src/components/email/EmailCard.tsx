@@ -1,32 +1,28 @@
-import { Avatar, Checkbox } from "@mui/material";
+import { Avatar, Checkbox, AvatarGroup } from "@mui/material";
 import moment from "moment";
 import { useRouter } from "next/router";
-import { parseTextFromHtml } from "utils";
+import { EmailUser } from "types";
 
 const EmailCard = ({
   className,
   isRead,
-  email,
   subject,
   messageDate,
-  userName,
   onclick,
-  photo,
   messages,
   selected,
   onSelect,
+  receiver,
 }: {
   className?: string;
   isRead?: boolean;
-  email?: string;
   subject?: string;
   messageDate?: any;
-  userName?: string;
   onclick?: () => void;
-  photo?: string;
   messages?: string;
   selected?: boolean;
   onSelect?: () => any;
+  receiver: EmailUser[];
 }) => {
   const { push } = useRouter();
 
@@ -40,18 +36,42 @@ const EmailCard = ({
         <td className="px-5 py-5 lg:max-w-[22%] w-full text-sm">
           <div className="flex items-center gap-2 ">
             <Checkbox size="small" checked={selected} onClick={onSelect} />
-            <Avatar
-              src={photo}
-              alt={userName}
-              onClick={() => {
-                onclick ? onclick() : push(`/admin/email/${Date.now()}`);
-              }}
-            >
-              {userName?.[0]}
-            </Avatar>
+            <AvatarGroup total={receiver?.length}>
+              {receiver?.length > 5
+                ? receiver.slice(0, 5)?.map((item) => (
+                    <Avatar
+                      src={item?.photo}
+                      alt={item?.username}
+                      onClick={() => {
+                        onclick?.();
+                      }}
+                      sx={{ width: 24, height: 24 }}
+                    >
+                      {item?.name?.[0]}
+                    </Avatar>
+                  ))
+                : receiver?.map((item) => (
+                    <Avatar
+                      src={item?.photo}
+                      alt={item?.username}
+                      onClick={() => {
+                        onclick?.();
+                      }}
+                      sx={{ width: 24, height: 24 }}
+                    >
+                      {item?.name?.[0]}
+                    </Avatar>
+                  ))}
+            </AvatarGroup>
+
             <div className="ml-3">
               <p className="text-gray-900 text-xs whitespace-nowrap">
-                {userName}
+                {receiver?.length < 4
+                  ? receiver?.map((item) => item?.name)?.join(", ")
+                  : `${receiver
+                      ?.slice(0, 4)
+                      .map((item) => item?.name)
+                      ?.join(", ")} and ${receiver?.length - 4}more. `}
               </p>
               <p className="text-gray-600 min-w-fit text-xs break-all">
                 {moment(messageDate).format("LL")}
@@ -84,19 +104,41 @@ const EmailCard = ({
         <div className="md:px-5 py-5 lg:max-w-[22%] w-full text-sm">
           <div className="flex items-center gap-2 ">
             <Checkbox size="small" checked={selected} onClick={onSelect} />
-            <Avatar
-              src={photo}
-              alt={userName}
-              sizes="xs"
-              onClick={() => {
-                onclick ? onclick() : push(`/admin/email/${Date.now()}`);
-              }}
-            >
-              {userName?.[0]}
-            </Avatar>
+            <AvatarGroup total={receiver?.length}>
+              {receiver?.length > 5
+                ? receiver.slice(0, 5)?.map((item) => (
+                    <Avatar
+                      src={item?.photo}
+                      alt={item?.username}
+                      onClick={() => {
+                        onclick?.();
+                      }}
+                      sx={{ width: 24, height: 24 }}
+                    >
+                      {item?.name?.[0]}
+                    </Avatar>
+                  ))
+                : receiver?.map((item) => (
+                    <Avatar
+                      src={item?.photo}
+                      alt={item?.username}
+                      onClick={() => {
+                        onclick?.();
+                      }}
+                      sx={{ width: 24, height: 24 }}
+                    >
+                      {item?.name?.[0]}
+                    </Avatar>
+                  ))}
+            </AvatarGroup>
             <div className="">
               <p className="text-gray-900 text-xs whitespace-nowrap">
-                {userName}
+                {receiver?.length < 2
+                  ? receiver?.map((item) => item?.name)?.join(", ")
+                  : `${receiver
+                      ?.slice(0, 2)
+                      .map((item) => item?.name)
+                      ?.join(", ")} and ${receiver?.length - 2}more. `}
               </p>
               <p className="text-gray-600 min-w-fit text-xs break-all">
                 {moment(messageDate).format("ll")}

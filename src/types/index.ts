@@ -756,7 +756,7 @@ export type SentEmailType = {
 	content: string;
 	isRead: boolean;
 	isSend: boolean;
-	receiver: EmailUser;
+	receiver: EmailUser[];
 	subject: string;
 	attachments: string[];
 	id: string;
@@ -769,7 +769,7 @@ export type InboxEmailType = {
 	content: string;
 	isRead: boolean;
 	isSend: boolean;
-	receiver: EmailUser;
+	receiver: EmailUser[];
 	subject: string;
 	attachments: string[];
 	id: string;
@@ -784,7 +784,7 @@ export type EmailType = {
 	cc: EmailUser[];
 	content: string;
 	id: string;
-	receiver: EmailUser;
+	receiver: EmailUser[];
 	sender: EmailUser;
 	subject: string;
 	isSend: boolean;
@@ -992,6 +992,30 @@ export interface NotificationData {
 	updatedAt: string;
 }
 export interface ManagerDashboard {
+	totalProjectCount: number;
+	totalPendingLeaveCount: number;
+	totalBugsCount: number;
+	totalTechnologies: number;
+	allAttendanceMonthWise: Count[];
+	projectCountStatusWise: Count[];
+	ticketsCountAccordingProjects: Count[];
+}
+export interface Count {
+	count: number;
+	month: string;
+	status: string;
+	_id: string;
+	_count: { status: number };
+	projectName: string;
+	ticketCount: string;
+}
+export interface SalesDashboard {
+	totalMeetingCount: number;
+	totalReceivedEmailCount: number;
+	totalAssignAssetCount: number;
+	totalChatCount: number;
+	currentYearAttendance: Count[];
+	meetingCounts: Count[];
 	totalProjectCount: number;
 	totalPendingLeaveCount: number;
 	totalBugsCount: number;

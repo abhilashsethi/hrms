@@ -28,7 +28,7 @@ const Notification = () => {
     isLoading,
     mutate,
   } = useFetch<NotificationData[]>(
-    `notifications?page=${pageNumber}&limit=10&userId=${user?.id}&orderBy=createdAt:asc`
+    `notifications?page=${pageNumber}&limit=10&userId=${user?.id}&orderBy=createdAt:desc`
   );
   const handleDelete = (id?: string) => {
     try {

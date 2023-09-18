@@ -50,12 +50,10 @@ const DraftEmail = () => {
     setAnchorEl(null);
   };
 
-  const { user } = useAuth();
-
   const { push } = useRouter();
 
   const { data, isValidating, mutate, error } = useFetch<SentEmailData>(
-    `emails/get/draft-email/${user?.id}?page=${pageNo}&limit=20` +
+    `emails/get/draft-email?page=${pageNo}&limit=20` +
       (searchText?.trim()?.length ? `&username=${searchText}` : "") +
       (sortBy ? `&sortBy=${sortBy}` : "&sortBy=dsc")
   );
@@ -256,15 +254,13 @@ const DraftEmail = () => {
                     onSelect={() => handleSelect(item?.id)}
                     key={item?.id}
                     isRead={true}
-                    userName={item?.receiver?.name}
+                    receiver={item?.receiver}
                     subject={item?.subject}
-                    email={item?.receiver?.username}
                     onclick={() =>
                       push(`/admin/email/create?draftId=${item?.id}`)
                     }
                     messageDate={item?.createdAt}
                     messages={item?.content}
-                    photo={item?.receiver?.photo}
                   />
                 ))
               ) : (

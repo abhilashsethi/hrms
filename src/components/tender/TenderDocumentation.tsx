@@ -204,7 +204,7 @@ const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
       {tenderData?.members?.length ? (
         <>
           {filteredMember ? (
-            <div className="md:w-80 w-full rounded-md border-theme border-2 mt-3 md:p-4 p-2">
+            <div className="md:w-96 w-full rounded-md border-theme border-2 mt-3 md:p-4 p-2">
               <div className="md:mt-2 rounded-md p-2 md:flex grid justify-items-center gap-4 items-center">
                 <PhotoViewerSmall
                   name={filteredMember?.member?.name}
