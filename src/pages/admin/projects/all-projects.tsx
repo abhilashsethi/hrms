@@ -38,7 +38,7 @@ const AllProjects = () => {
   } = useFetch<any>(
     `projects?page=${pageNumber}&limit=6${
       projectName ? `&name=${projectName}` : ""
-    }${
+    }&orderBy=createdAt:asc${
       user?.role?.name === "CEO" ||
       user?.role?.name === "HR" ||
       user?.role?.name === "COO" ||

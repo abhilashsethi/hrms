@@ -111,16 +111,6 @@ const CreateEmail = (templateId: any) => {
             })
           );
         }
-        let draftQuery: any = {};
-
-        if (query?.draftId) {
-          draftQuery.receiverId =
-            Array.isArray(value?.recipients) && value?.recipients[0]?.id;
-        } else {
-          draftQuery.receiverIds =
-            Array.isArray(value?.recipients) &&
-            value?.recipients?.map((item: EmailUser) => item?.id);
-        }
 
         const editorData: { content?: string; json?: any } | undefined =
           ((templateId?.templateId !== "normal" ||
@@ -166,7 +156,9 @@ const CreateEmail = (templateId: any) => {
             : templateId?.templateId !== "normal"
             ? JSON.stringify(editorData?.json)
             : undefined,
-          ...draftQuery,
+          receiverIds:
+            Array.isArray(value?.recipients) &&
+            value?.recipients?.map((item: EmailUser) => item?.id),
         };
 
         const response = await change(
@@ -717,6 +709,7 @@ const CreateEmail = (templateId: any) => {
             <button
               className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg "
               onClick={() => {
+                formik?.setFieldValue("isDraft", false);
                 formik?.submitForm();
               }}
               disabled={isChanging}
