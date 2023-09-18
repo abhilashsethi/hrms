@@ -115,10 +115,6 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
                               if (file) {
                                 const newValues = [...values.inputFields];
                                 newValues[index].doc = file;
-                                // Update form values with the file object
-                                // This is necessary to include the file object in form data
-                                change(`inputFields[${index}].doc`, file);
-                                push({ ...values, inputFields: newValues });
                               }
                             }}
                             onBlur={handleBlur}
