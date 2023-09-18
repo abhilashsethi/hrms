@@ -69,35 +69,38 @@ const ChatHead = ({
 
   useEffect(() => {
     (() => {
-      if (!socketRef || !user?.id || !selectedChatId) return;
-      currentChatProfileDetails?.isPrivateGroup &&
-        socketRef.on(
-          `USER_DISCONNECT_${
-            currentChatProfileDetails?.chatMembers?.find(
-              (item) => item?.user?.id !== user?.id
-            )?.user?.id
-          }`,
-          (data) => {
-            console.log(
-              "running in --user disconnected                    ============================================================="
-            );
-            selectedChatId && revalidateChatProfileDetails(selectedChatId);
-          }
-        );
-      currentChatProfileDetails?.isPrivateGroup &&
-        socketRef.on(
-          `USER_CONNECTED_${
-            currentChatProfileDetails?.chatMembers?.find(
-              (item) => item?.user?.id !== user?.id
-            )?.user?.id
-          }`,
-          (data) => {
-            console.log(
-              "running in --user connected                    ============================================================="
-            );
-            selectedChatId && revalidateChatProfileDetails(selectedChatId);
-          }
-        );
+      if (!socketRef?.id || !user?.id || !selectedChatId) return;
+      socketRef.on(
+        `USER_DISCONNECT_${
+          currentChatProfileDetails?.chatMembers?.find(
+            (item) => item?.user?.id !== user?.id
+          )?.user?.id
+        }`,
+        (data) => {
+          console.log(
+            "running in --user disconnected                    ============================================================="
+          );
+          selectedChatId && revalidateChatProfileDetails(selectedChatId);
+        }
+      );
+      socketRef.on(
+        `USER_CONNECTED_${
+          currentChatProfileDetails?.chatMembers?.find(
+            (item) => item?.user?.id !== user?.id
+          )?.user?.id
+        }`,
+        (data) => {
+          console.log(
+            `running in --user connected                    =============================================================
+              USER_CONNECTED_${
+                currentChatProfileDetails?.chatMembers?.find(
+                  (item) => item?.user?.id !== user?.id
+                )?.user?.id
+              }`
+          );
+          selectedChatId && revalidateChatProfileDetails(selectedChatId);
+        }
+      );
       socketRef.on(`USER_IS_TYPING_${selectedChatId}`, (data) => {
         setTypingUser(
           currentChatProfileDetails?.chatMembers?.find(
@@ -115,13 +118,7 @@ const ChatHead = ({
         );
       });
     })();
-  }, [
-    socketRef,
-    selectedChatId,
-    user?.id,
-    currentChatProfileDetails?.isPrivateGroup,
-    currentChatProfileDetails?.chatMembers?.length,
-  ]);
+  }, [socketRef?.id, selectedChatId, user?.id]);
 
   const handleGroupAction = async (configId: number) => {
     try {

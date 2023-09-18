@@ -21,7 +21,7 @@ import {
   ChatSendImage,
 } from "components/dialogues";
 import { useAuth, useChange, useChatData, useSocket } from "hooks";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import ChatHead from "./ChatHead";
 
 import DefaultChatView from "./DefaultChatView";
@@ -39,10 +39,15 @@ interface Props {
 const ChatRightSection = ({ setChatLeftBar }: Props) => {
   const { currentChatProfileDetails } = useChatData();
 
+  const viewMailChat = useMemo(() => {
+    if (currentChatProfileDetails?.id) return true;
+    else return false;
+  }, [currentChatProfileDetails?.id]);
+
   return (
     <>
       <div className="lg:w-[68%] w-full h-full">
-        {!currentChatProfileDetails?.id ? (
+        {!viewMailChat ? (
           <DefaultChatView setChatLeftBar={setChatLeftBar} />
         ) : (
           <CurrentChatView setChatLeftBar={setChatLeftBar} />
