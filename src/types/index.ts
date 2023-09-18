@@ -1041,3 +1041,13 @@ export interface SalesDashboard {
 	currentYearAttendance: Count[];
 	meetingCounts: Count[];
 }
+
+export interface DefaultDashboard {
+	totalAssetCount: number;
+	totalLeaveCount: number;
+	currentMonthAttendanceCount: number;
+	currentYearAttendance: Count[];
+	leaveOverView: Count[];
+
+
+}
