@@ -45,6 +45,7 @@ const TypeEmailContainer = ({
   const { data: users, isValidating: userLoading } = useFetch<User[]>(
     `users?page=1&limit=20` + (searchText ? `&name=${searchText}` : "")
   );
+
   const { data: clients, isValidating: clientLoading } = useFetch<Client[]>(
     `clients?page=1&limit=20` + (searchText ? `&name=${searchText}` : "")
   );
@@ -130,6 +131,9 @@ const TypeEmailContainer = ({
               ? data?.receiver?.map((item) => item?.id)
               : [data?.sender?.id],
             replyId: value?.isForwarded ? undefined : data?.id,
+            cc: value?.isForwarded
+              ? undefined
+              : data?.cc?.map((item) => item?.id),
           },
         });
         if (response?.status !== 200) throw new Error(response?.results?.msg);

@@ -20,22 +20,16 @@ const ReplyToEmail = ({ data }: { data?: EmailType }) => {
             <p className="text-gray-800 min-w-fit text-sm font-bold ">
               {data?.sender?.name}
             </p>
-            <p className="text-gray-600 min-w-fit text-xs ">{data?.subject}</p>
+            <p className="text-gray-600 min-w-fit text-xs ">
+              {" "}
+              {moment(data?.sentAt).format("lll")}
+            </p>
           </div>
         </div>
       </div>
-      <div className="md:px-5 md:py-5 w-full md:text-sm text-xs">
-        <p
-          className="text-gray-900 break-words"
-          dangerouslySetInnerHTML={{
-            __html: data?.replyTo?.content || "",
-          }}
-        ></p>
-      </div>
+
       <div className="md:px-5 md:py-5 pb-2 min-w-fit text-sm">
-        <p className="text-gray-900 whitespace-nowrap">
-          {moment(data?.sentAt).format("lll")}
-        </p>
+        <p className="text-gray-900 whitespace-nowrap">{data?.subject}</p>
       </div>
     </div>
   );
