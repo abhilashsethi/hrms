@@ -105,32 +105,6 @@ const AdminHome = () => {
               </>
             )}
           </>
-        ) : user?.role?.name === "DIRECTOR" ? (
-          <>
-            {isLoading ? (
-              <DashboardSkeletonLoading />
-            ) : (
-              <>
-                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-                <section className="lg:px-8 px-4 py-4">
-                  <AdminDashboard />
-                </section>
-              </>
-            )}
-          </>
-        ) : user?.role?.name === "COO" ? (
-          <>
-            {isLoading ? (
-              <DashboardSkeletonLoading />
-            ) : (
-              <>
-                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-                <section className="lg:px-8 px-4 py-4">
-                  <AdminDashboard />
-                </section>
-              </>
-            )}
-          </>
         ) : user?.role?.name === "PROJECT MANAGER" ? (
           <>
             {isLoading ? (
@@ -210,8 +184,8 @@ const AdminHome = () => {
               <>
                 <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <section className="lg:px-8 px-4 py-4">
-                  <UserDashboardCards data={developerDetails} />
-                  <UserDashboardCharts data={developerDetails} />
+                  <UserDashboardCards />
+                  <UserDashboardCharts />
                 </section>
               </>
             )}
