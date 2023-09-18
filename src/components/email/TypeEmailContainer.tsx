@@ -127,7 +127,7 @@ const TypeEmailContainer = ({
             receiverIds: value?.forwardedToId?.length
               ? value?.forwardedToId
               : data?.sender?.id === user?.id
-              ? [data?.receiver?.id]
+              ? data?.receiver?.map((item) => item?.id)
               : [data?.sender?.id],
             replyId: value?.isForwarded ? undefined : data?.id,
           },
