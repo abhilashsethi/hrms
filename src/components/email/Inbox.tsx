@@ -42,6 +42,8 @@ const Inbox = () => {
       (typeof sortBy !== "undefined" ? `&isRead=${sortBy}` : "")
   );
 
+  console.log({ data });
+
   const handleSelect = (emailId: string) => {
     setSelectedEmails((prev) => {
       if (prev?.includes(emailId)) {
@@ -149,7 +151,7 @@ const Inbox = () => {
                     key={item?.id}
                     isRead={item?.isRead}
                     subject={item?.subject}
-                    receiver={item?.receiver}
+                    receiver={[item?.sender]}
                     onclick={() => {
                       push(`/admin/email/${item?.id}`);
                       handleReadEmail(item?.id);
