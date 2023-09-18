@@ -67,6 +67,7 @@ const AllRollColumn = ({ data, mutate }: Props) => {
 						render: (data) => {
 							return <div className="">{data?._count?.users}</div>;
 						},
+						editable: "never",
 					},
 					{
 						title: "Details",

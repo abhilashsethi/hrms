@@ -100,17 +100,12 @@ const ViewPayrollDetails = () => {
 		const year = joiningYear + index;
 		return { id: index, value: year.toString(), label: year.toString() };
 	});
-	// console.log(yearsArray);
 
-	// const { data: grossSalaryData, mutate: grossMutate } = useFetch<User>(
-	// 	`users/${router?.query?.id}`
-	// );
 	// Function to get total days in a month
 	function getDaysInMonth(year: number, month: number): number {
 		return new Date(year, month, 0).getDate();
 	}
 
-	// console.log(lossOfPay);
 	const totalDaysInMonth = getDaysInMonth(year, month);
 	const totalWorkingDay =
 		totalDaysInMonth === 31 ? 22 : totalDaysInMonth === 30 ? 21 : 20;
@@ -121,7 +116,6 @@ const ViewPayrollDetails = () => {
 	// 	: [];
 	const totalLossOfPay =
 		(Gross_Salary / totalWorkingDay) * lossOfPay?.totalUnPaidLeave || 0;
-
 	const Configs = configData?.length ? configData[0] : null;
 
 	const Tds: any = salaryInfo?.tds;
@@ -158,7 +152,13 @@ const ViewPayrollDetails = () => {
 		(Configs?.pfEmployee * ((Configs?.basicSalary * Gross_Salary) / 100)) / 100;
 	const esi = (Configs?.esiEmployee * Gross_Salary) / 100;
 	const Total_Deduction = Number(
-		(pf + esi + Professional_Tax?.tax + Tds_Monthly).toFixed(2)
+		(
+			pf +
+			esi +
+			Professional_Tax?.tax +
+			Tds_Monthly +
+			(totalLossOfPay ? totalLossOfPay : 0)
+		).toFixed(2)
 	);
 
 	const Employer_Pf =
@@ -224,9 +224,11 @@ const ViewPayrollDetails = () => {
 				name: "PF Contribution by Employee",
 				count: `${
 					Gross_Salary
-						? (Configs?.pfEmployee *
-								((Configs?.basicSalary * Gross_Salary) / 100)) /
-						  100
+						? (
+								(Configs?.pfEmployee *
+									((Configs?.basicSalary * Gross_Salary) / 100)) /
+								100
+						  ).toFixed(2)
 						: "---"
 				}`,
 			},
@@ -234,7 +236,9 @@ const ViewPayrollDetails = () => {
 				id: 2,
 				name: "ESI Contribution by Employee",
 				count: `${
-					Gross_Salary ? (Configs?.esiEmployee * Gross_Salary) / 100 : "---"
+					Gross_Salary
+						? ((Configs?.esiEmployee * Gross_Salary) / 100).toFixed(2)
+						: "---"
 				}`,
 			},
 			{
@@ -270,9 +274,11 @@ const ViewPayrollDetails = () => {
 				name: "PF Contribution by Employer",
 				count: `${
 					Gross_Salary
-						? (Configs?.pfEmployer *
-								((Configs?.basicSalary * Gross_Salary) / 100)) /
-						  100
+						? (
+								(Configs?.pfEmployer *
+									((Configs?.basicSalary * Gross_Salary) / 100)) /
+								100
+						  ).toFixed(2)
 						: "---"
 				}`,
 			},
@@ -280,7 +286,9 @@ const ViewPayrollDetails = () => {
 				id: 2,
 				name: "ESI Contribution by Employer",
 				count: `${
-					Gross_Salary ? (Configs?.esiEmployer * Gross_Salary) / 100 : "---"
+					Gross_Salary
+						? ((Configs?.esiEmployer * Gross_Salary) / 100).toFixed(2)
+						: "---"
 				}`,
 			},
 			{
@@ -292,7 +300,9 @@ const ViewPayrollDetails = () => {
 				id: 2,
 				name: "CTC",
 				count: `${
-					Gross_Salary ? Gross_Salary + Employer_Pf + Employer_Esi : "---"
+					Gross_Salary
+						? (Gross_Salary + Employer_Pf + Employer_Esi).toFixed(2)
+						: "---"
 				}`,
 			},
 		],
@@ -388,7 +398,9 @@ const ViewPayrollDetails = () => {
 						: 0,
 					TotalDeductions: Gross_Salary ? Total_Deduction : 0,
 					GrossEarnings: Gross_Salary,
-					NetSalary: Gross_Salary ? Gross_Salary - Total_Deduction : 0,
+					NetSalary: Gross_Salary
+						? (Gross_Salary - Total_Deduction).toFixed(2)
+						: 0,
 					NetSalaryInWord: NumInWords(
 						Gross_Salary ? Gross_Salary - Total_Deduction : 0
 					),

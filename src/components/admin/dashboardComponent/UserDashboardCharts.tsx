@@ -1,10 +1,13 @@
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
 
 import { NoDatas } from "components/core";
-interface Props {
-  data?: any;
-}
-const UserDashboardCharts = ({ data }: Props) => {
+import { useFetch } from "hooks";
+import { DefaultDashboard } from "types";
+
+const UserDashboardCharts = () => {
+  const { data: data } = useFetch<DefaultDashboard>(
+    `dashboards/default-dashboard-info`
+  );
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
@@ -12,35 +15,39 @@ const UserDashboardCharts = ({ data }: Props) => {
           <p className="font-bold text-lg text-center">
             This Year Attendance Overview
           </p>
-          <GuestBarChart
-            labels={
-              data?.currentYearAttendance?.length
-                ? data?.currentYearAttendance?.map((item: any) => item?.month)
-                : []
-            }
-            data={
-              data?.currentYearAttendance?.length
-                ? data?.currentYearAttendance?.map((item: any) => item?.count)
-                : []
-            }
-            type="bar"
-            text=""
-          />
+          {data?.currentYearAttendance?.length ? (
+            <GuestBarChart
+              labels={
+                data?.currentYearAttendance?.length
+                  ? data?.currentYearAttendance?.map((item: any) => item?.month)
+                  : []
+              }
+              data={
+                data?.currentYearAttendance?.length
+                  ? data?.currentYearAttendance?.map((item: any) => item?.count)
+                  : []
+              }
+              type="bar"
+              text=""
+            />
+          ) : (
+            <NoDatas title={"No Attendance This Year"} />
+          )}
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">
             This Year Leave Details
           </p>
-          {data?.allLeaveCount?.length ? (
+          {data?.leaveOverView?.length ? (
             <GuestDonutChart
               labels={
-                data?.allLeaveCount?.length
-                  ? data?.allLeaveCount?.map((item: any) => item?._id)
+                data?.leaveOverView?.length
+                  ? data?.leaveOverView?.map((item: any) => item?.status)
                   : []
               }
               series={
-                data?.allLeaveCount?.length
-                  ? data?.allLeaveCount?.map((item: any) => item?.totalCount)
+                data?.leaveOverView?.length
+                  ? data?.leaveOverView?.map((item: any) => item?._count)
                   : []
               }
               text=""
@@ -55,7 +62,7 @@ const UserDashboardCharts = ({ data }: Props) => {
           <p className="text-lg font-bold text-center">
             This Month Attendance Overview
           </p>
-          <GuestDonutChart
+          {/* <GuestDonutChart
             labels={
               data?.currentMonthPresentAndAbsent?.length
                 ? data?.currentMonthPresentAndAbsent?.map(
@@ -73,7 +80,7 @@ const UserDashboardCharts = ({ data }: Props) => {
             text=""
             type="donut"
             colors={["#25d366", "#E60023"]}
-          />
+          /> */}
         </div>
         <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Recent Mails</p>

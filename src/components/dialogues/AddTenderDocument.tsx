@@ -59,7 +59,6 @@ const AddTenderDocument = ({
             `${Date.now()}.${values?.photo?.name.split(".").at(-1)}`
           )
         : undefined;
-      console.log(url);
       const res = await change(`tenders/add-doc/to-tender`, {
         body: { title: values?.title, link: url, tenderId: tenderData?.id },
       });

@@ -62,6 +62,7 @@ const AllDepartmentColumn = ({ data, mutate }: Props) => {
 						render: (data) => {
 							return <div className="">{data?.totalMembers}</div>;
 						},
+						editable: "never",
 					},
 					{
 						title: "Details",

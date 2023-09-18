@@ -22,7 +22,7 @@ import {
   UserDashboardCards,
   UserDashboardCharts,
 } from "components/admin/dashboardComponent";
-import { useAuth, useFCMToken, useFetch } from "hooks";
+import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 
 const AdminHome = () => {
@@ -105,32 +105,6 @@ const AdminHome = () => {
               </>
             )}
           </>
-        ) : user?.role?.name === "DIRECTOR" ? (
-          <>
-            {isLoading ? (
-              <DashboardSkeletonLoading />
-            ) : (
-              <>
-                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-                <section className="lg:px-8 px-4 py-4">
-                  <AdminDashboard />
-                </section>
-              </>
-            )}
-          </>
-        ) : user?.role?.name === "COO" ? (
-          <>
-            {isLoading ? (
-              <DashboardSkeletonLoading />
-            ) : (
-              <>
-                <WelcomeUser title={`Welcome ${user?.role?.name}`} />
-                <section className="lg:px-8 px-4 py-4">
-                  <AdminDashboard />
-                </section>
-              </>
-            )}
-          </>
         ) : user?.role?.name === "PROJECT MANAGER" ? (
           <>
             {isLoading ? (
@@ -208,10 +182,11 @@ const AdminHome = () => {
               <DashboardSkeletonLoading />
             ) : (
               <>
+                {/* Dashboard Default  */}
                 <WelcomeUser title={`Welcome ${user?.role?.name}`} />
                 <section className="lg:px-8 px-4 py-4">
-                  <UserDashboardCards data={developerDetails} />
-                  <UserDashboardCharts data={developerDetails} />
+                  <UserDashboardCards />
+                  <UserDashboardCharts />
                 </section>
               </>
             )}

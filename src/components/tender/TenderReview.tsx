@@ -31,7 +31,7 @@ import Swal from "sweetalert2";
 import { Tender } from "types";
 import * as Yup from "yup";
 import TenderLayout from "./TenderLayout";
-import { deleteFile } from "utils";
+import { deleteFile, downloadFile } from "utils";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;
@@ -352,15 +352,18 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                           </td>
                           <td align="center" className="w-[20%] text-sm">
                             <div className="flex gap-1 py-2 justify-center">
-                              <Tooltip title="Download Document">
-                                <a
-                                  className="cursor-pointer flex flex-col items-center justify-center"
-                                  href={`${item?.link}`}
-                                >
-                                  <IconButton size="small">
-                                    <Download />
-                                  </IconButton>
-                                </a>
+                              <Tooltip
+                                title="Download Document"
+                                onClick={() =>
+                                  downloadFile(
+                                    item?.link,
+                                    item?.link?.split("/")?.at(-1) as any
+                                  )
+                                }
+                              >
+                                <IconButton size="small">
+                                  <Download />
+                                </IconButton>
                               </Tooltip>
                               {/* <Tooltip title="Edit Document">
                                 <IconButton
@@ -428,15 +431,18 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                             <div className="grid gap-2">
                               <span className=" font-semibold">Actions :</span>
                               <div className="flex gap-1 py-2 justify-center">
-                                <Tooltip title="Download Document">
-                                  <a
-                                    className="cursor-pointer flex flex-col items-center justify-center"
-                                    href={`${item?.link}`}
-                                  >
-                                    <IconButton size="small">
-                                      <Download />
-                                    </IconButton>
-                                  </a>
+                                <Tooltip
+                                  title="Download Document"
+                                  onClick={() =>
+                                    downloadFile(
+                                      item?.link,
+                                      item?.link?.split("/")?.at(-1) as any
+                                    )
+                                  }
+                                >
+                                  <IconButton size="small">
+                                    <Download />
+                                  </IconButton>
                                 </Tooltip>
                                 {/* <Tooltip title="Edit Document">
                                   <IconButton
