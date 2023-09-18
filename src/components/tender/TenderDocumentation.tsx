@@ -44,7 +44,7 @@ interface TenderDoc {
 }
 const TenderDocumentation = ({ mutate, tenderData, isLoading }: Props) => {
 	const { user } = useAuth();
-	const [showReason, setShowReason] = useState(true);
+	const [showReason, setShowReason] = useState(false);
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
 	const [isDocumentValue, setIsDocumentValue] = useState(
