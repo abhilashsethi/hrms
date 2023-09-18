@@ -1,8 +1,23 @@
-import { FileDownload, Info, InsertDriveFile } from "@mui/icons-material";
-import { Avatar, Chip, IconButton, Tooltip } from "@mui/material";
+import {
+  ArrowDropDown,
+  ExpandMore,
+  FileDownload,
+  Info,
+  InsertDriveFile,
+} from "@mui/icons-material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Avatar,
+  Chip,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { EmailType } from "types";
 import { downloadFile } from "utils";
 import ReplyToEmail from "./ReplyToEmail";
+import { useAuth } from "hooks";
 
 const EmailContainer = ({
   data,
@@ -11,42 +26,76 @@ const EmailContainer = ({
   data?: EmailType;
   printRef: any;
 }) => {
+  const { user } = useAuth();
+
   return (
     <>
       <div className="w-full flex flex-col  gap-4" ref={printRef}>
         {data?.replyTo?.id && <ReplyToEmail data={data} />}
 
         <div className="md:p-4 p-3 flex flex-wrap w-full bg-secondary-600 rounded-t-lg items-center gap-4 border-b border-white justify-between">
-          <div className="flex items-center w-11/12 gap-4 justify-start">
-            <Avatar
-              src={
-                data?.isSenderUser ? data?.receiver?.photo : data?.sender?.photo
-              }
-              alt={
-                data?.isSenderUser ? data?.receiver?.name : data?.sender?.name
-              }
-            >
-              {data?.isSenderUser
-                ? data?.receiver?.name[0]
-                : data?.sender?.name[0]}
+          <div className="flex items-start w-11/12 gap-4 justify-start">
+            <Avatar src={data?.sender?.photo} alt={data?.sender?.name}>
+              {data?.sender?.name[0]}
             </Avatar>
             <div className="flex flex-col">
               <h3 className="font-bold text-white tracking-wide">
-                {data?.isSenderUser ? data?.receiver?.name : data?.sender?.name}
+                {data?.sender?.name}
               </h3>
               <h3 className="font-medium text-xs md:block hidden text-gray-200">
-                {data?.isSenderUser
-                  ? data?.receiver?.username
-                  : data?.sender?.username}
+                {data?.sender?.username}
               </h3>
+              <div className="flex items-start gap-4">
+                <h3 className="font-medium text-xs py-4 md:block hidden text-gray-200">
+                  To
+                </h3>
+                <Accordion
+                  className="!bg-transparent !shadow-none"
+                  sx={{
+                    maxWidth: 300,
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMore className="!text-white" />}
+                    className="!bg-transparent !text-sm !text-white "
+                  >
+                    {data?.receiver
+                      ?.map((item) => item?.id)
+                      ?.includes(String(user?.id))
+                      ? "You"
+                      : data?.receiver && data?.receiver?.length > 1
+                      ? data?.receiver[0]?.name + ` and others`
+                      : data?.receiver[0]?.name}
+                  </AccordionSummary>
+                  <AccordionDetails className="flex flex-wrap gap-4 ">
+                    {data?.receiver?.map((item) => (
+                      <Chip
+                        key={item?.id}
+                        avatar={
+                          <Avatar alt={item?.name} src={item?.photo}>
+                            {item?.name[0]}
+                          </Avatar>
+                        }
+                        className="!bg-white"
+                        label={
+                          <div className="flex flex-col">
+                            <h3 className="text-xs font-bold tracking-wide">
+                              {item?.name}
+                            </h3>
+                            <h3 className="text-xs font-medium tracking-wide">
+                              {item?.username}
+                            </h3>
+                          </div>
+                        }
+                        variant="outlined"
+                      />
+                    ))}
+                  </AccordionDetails>
+                </Accordion>
+              </div>
               {/* Mobile View Start */}
               <h3 className="font-medium text-xs md:hidden block text-gray-200">
-                {data?.isSenderUser
-                  ? data?.receiver?.username?.length > 28
-                    ? data?.receiver?.username?.slice(0, 28) + "..."
-                    : data?.receiver?.username
-                  : data?.sender?.username &&
-                    data?.sender?.username?.length > 28
+                {data?.sender?.username && data?.sender?.username?.length > 28
                   ? data?.sender?.username?.slice(0, 28) + "..."
                   : data?.sender?.username}
               </h3>

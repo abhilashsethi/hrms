@@ -33,19 +33,18 @@ const EmailCard = ({
           isRead ? "bg-white" : "bg-theme/20"
         } `}
       >
-        <td className="px-5 py-5 lg:max-w-[22%] w-full text-sm">
-          <div className="flex items-center gap-2 ">
+        <td className="px-5 py-5  w-full text-sm">
+          <div className="flex items-center gap-2 w-full ">
             <Checkbox size="small" checked={selected} onClick={onSelect} />
             <AvatarGroup total={receiver?.length}>
-              {receiver?.length > 5
-                ? receiver.slice(0, 5)?.map((item) => (
+              {receiver?.length > 2
+                ? receiver.slice(0, 2)?.map((item) => (
                     <Avatar
                       src={item?.photo}
                       alt={item?.username}
                       onClick={() => {
                         onclick?.();
                       }}
-                      sx={{ width: 24, height: 24 }}
                     >
                       {item?.name?.[0]}
                     </Avatar>
@@ -57,21 +56,20 @@ const EmailCard = ({
                       onClick={() => {
                         onclick?.();
                       }}
-                      sx={{ width: 24, height: 24 }}
                     >
                       {item?.name?.[0]}
                     </Avatar>
                   ))}
             </AvatarGroup>
 
-            <div className="ml-3">
-              <p className="text-gray-900 text-xs whitespace-nowrap">
-                {receiver?.length < 4
-                  ? receiver?.map((item) => item?.name)?.join(", ")
-                  : `${receiver
-                      ?.slice(0, 4)
+            <div className="ml-3 min-w-[200px]">
+              <p className="text-gray-900 text-xs ">
+                {receiver?.length > 2
+                  ? `${receiver
+                      ?.slice(0, 2)
                       .map((item) => item?.name)
-                      ?.join(", ")} and ${receiver?.length - 4}more. `}
+                      ?.join(", ")} and ${receiver?.length - 2} more. `
+                  : receiver?.map((item) => item?.name)?.join(", ")}
               </p>
               <p className="text-gray-600 min-w-fit text-xs break-all">
                 {moment(messageDate).format("LL")}
@@ -82,7 +80,7 @@ const EmailCard = ({
         <td
           className="px-5 lg:py-5 w-full text-sm"
           onClick={() => {
-            onclick ? onclick() : push(`/admin/email/${Date.now()}`);
+            onclick && onclick();
           }}
         >
           <p className="text-gray-900 break-words">
@@ -101,12 +99,12 @@ const EmailCard = ({
           isRead ? "bg-white" : "bg-theme/20"
         } `}
       >
-        <div className="md:px-5 py-5 lg:max-w-[22%] w-full text-sm">
-          <div className="flex items-center gap-2 ">
+        <div className="md:px-5 py-5 lg:max-w-[25%] w-full text-sm">
+          <div className="flex items-center gap-2 w-full ">
             <Checkbox size="small" checked={selected} onClick={onSelect} />
             <AvatarGroup total={receiver?.length}>
-              {receiver?.length > 5
-                ? receiver.slice(0, 5)?.map((item) => (
+              {receiver?.length > 2
+                ? receiver.slice(0, 2)?.map((item) => (
                     <Avatar
                       src={item?.photo}
                       alt={item?.username}
@@ -131,14 +129,14 @@ const EmailCard = ({
                     </Avatar>
                   ))}
             </AvatarGroup>
-            <div className="">
-              <p className="text-gray-900 text-xs whitespace-nowrap">
-                {receiver?.length < 2
-                  ? receiver?.map((item) => item?.name)?.join(", ")
-                  : `${receiver
+            <div className="min-w-[100px] w-full">
+              <p className="text-gray-900 text-xs ">
+                {receiver?.length > 2
+                  ? `${receiver
                       ?.slice(0, 2)
                       .map((item) => item?.name)
-                      ?.join(", ")} and ${receiver?.length - 2}more. `}
+                      ?.join(", ")} and ${receiver?.length - 2} more. `
+                  : receiver?.map((item) => item?.name)?.join(", ")}
               </p>
               <p className="text-gray-600 min-w-fit text-xs break-all">
                 {moment(messageDate).format("ll")}

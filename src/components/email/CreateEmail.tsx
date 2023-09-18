@@ -52,7 +52,7 @@ const CreateEmail = (templateId: any) => {
 
   const formik = useFormik({
     initialValues: {
-      recipients: draftData?.receiver?.id ? [draftData?.receiver] : "",
+      recipients: draftData?.receiver?.length ? draftData?.receiver : "",
       ccRecipients: draftData?.cc?.length ? draftData?.cc : "",
       bccRecipients: draftData?.bcc?.length ? draftData?.bcc : "",
       subject: draftData?.subject ? draftData?.subject : "",

@@ -13,19 +13,12 @@ const ReplyToEmail = ({ data }: { data?: EmailType }) => {
     >
       <div className="md:px-5 px-3 py-5 md:max-w-[22%] w-full text-sm">
         <div className="flex items-center gap-2 ">
-          <Avatar
-            alt={data?.isSenderUser ? data?.sender?.name : data?.receiver?.name}
-            src={
-              data?.isSenderUser ? data?.sender?.photo : data?.receiver?.photo
-            }
-          >
-            {data?.isSenderUser
-              ? data?.sender?.name[0]
-              : data?.receiver?.name[0]}
+          <Avatar alt={data?.sender?.name} src={data?.sender?.photo}>
+            {data?.sender?.name[0]}
           </Avatar>
           <div className="md:ml-3 flex flex-col ">
             <p className="text-gray-800 min-w-fit text-sm font-bold ">
-              {data?.isSenderUser ? data?.sender?.name : data?.receiver?.name}
+              {data?.sender?.name}
             </p>
             <p className="text-gray-600 min-w-fit text-xs ">{data?.subject}</p>
           </div>
