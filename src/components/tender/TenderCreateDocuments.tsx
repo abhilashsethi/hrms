@@ -43,9 +43,11 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
     setLoading(true);
     try {
       for (const docs of values?.inputFields) {
-        const uniId = docs?.doc?.split(".").pop();
         const url = docs?.doc
-          ? await uploadFile(docs?.doc, `${Date.now()}.${uniId}`)
+          ? await uploadFile(
+              docs?.doc,
+              `${Date.now()}.${docs?.doc?.name.split(".").at(-1)}`
+            )
           : undefined;
         const res = await change(`tenders/add-doc/to-tender`, {
           body: { title: docs?.docTitle, link: url, tenderId: tender?.id },
@@ -105,20 +107,24 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
                             }
                           />
                           <h1 className="">Upload file </h1>
-                          <Field
-                            as={TextField}
-                            fullWidth
-                            size="small"
+                          <TextField
                             type="file"
                             name={`inputFields[${index}].doc`}
+                            onChange={(event: any) => {
+                              const file = event.target?.files[0];
+                              if (file) {
+                                const newValues = [...values.inputFields];
+                                newValues[index].doc = file;
+                                // Update form values with the file object
+                                // This is necessary to include the file object in form data
+                                change(`inputFields[${index}].doc`, file);
+                                push({ ...values, inputFields: newValues });
+                              }
+                            }}
                             onBlur={handleBlur}
                             error={
                               touched.inputFields?.[index]?.doc &&
                               !!(errors.inputFields?.[index] as InputField)?.doc
-                            }
-                            helperText={
-                              touched.inputFields?.[index]?.doc &&
-                              (errors.inputFields?.[index] as InputField)?.doc
                             }
                           />
                           <div className="flex md:justify-end w-full">
