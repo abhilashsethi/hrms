@@ -2,7 +2,7 @@ import { Check } from "@mui/icons-material";
 import { Button, CircularProgress, InputLabel, TextField } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
-import { useChange } from "hooks";
+import { useAuth, useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -19,14 +19,17 @@ const CreateSupport = () => {
   // const theme = useTheme();
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const { user } = useAuth();
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
     setLoading(true);
+    const requestBody = {
+      message: values.message,
+      ...(user?.isClient && { isClient: true }), // Add isClient if user?.isClient is true
+    };
     try {
       const res = await change(`supports`, {
-        body: {
-          message: values?.message,
-        },
+        body: requestBody,
       });
 
       setLoading(false);

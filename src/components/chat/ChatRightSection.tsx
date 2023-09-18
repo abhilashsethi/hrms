@@ -171,6 +171,7 @@ const CurrentChatView = ({
       userId: user?.id,
     });
   };
+
   useEffect(() => {
     if (!isTyping) return;
 

@@ -902,6 +902,7 @@ export type HOLIDAY = {
 export type Support = {
 	id?: string;
 	reqUser?: User;
+	reqClient?: User;
 	status?: string;
 	isResolved?: boolean;
 	createdAt?: string;

@@ -66,7 +66,7 @@ const ChatHead = ({
       groupOnly: false,
     },
   ];
-  1;
+
   useEffect(() => {
     (() => {
       if (!socketRef || !user?.id || !selectedChatId) return;
@@ -78,6 +78,9 @@ const ChatHead = ({
             )?.user?.id
           }`,
           (data) => {
+            console.log(
+              "running in --user disconnected                    ============================================================="
+            );
             selectedChatId && revalidateChatProfileDetails(selectedChatId);
           }
         );
@@ -89,6 +92,9 @@ const ChatHead = ({
             )?.user?.id
           }`,
           (data) => {
+            console.log(
+              "running in --user connected                    ============================================================="
+            );
             selectedChatId && revalidateChatProfileDetails(selectedChatId);
           }
         );
