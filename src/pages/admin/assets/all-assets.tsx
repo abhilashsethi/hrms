@@ -101,7 +101,6 @@ const AllAssets = () => {
             <ChooseBranchToViewAssets
               open={isView}
               handleClose={() => setIsView(false)}
-              mutate={mutate}
               setBranchId={setBranchId}
             />
             {branchId ? (

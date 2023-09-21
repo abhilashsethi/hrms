@@ -350,10 +350,10 @@ const UpdateProfileHead = ({
                           sx={{ width: "100%" }}
                           options={roles || []}
                           autoHighlight
-                          getOptionLabel={(option) =>
-                            option.name ? option.name : ""
+                          getOptionLabel={(option: any) =>
+                            option?.name ? option?.name : ""
                           }
-                          isOptionEqualToValue={(option, value) =>
+                          isOptionEqualToValue={(option: any, value) =>
                             option.id === value.roleId
                           }
                           value={
@@ -388,7 +388,7 @@ const UpdateProfileHead = ({
                           getOptionLabel={(option: any) =>
                             option.name ? option.name : ""
                           }
-                          isOptionEqualToValue={(option, value) =>
+                          isOptionEqualToValue={(option: any, value) =>
                             option.id === value.employeeOfBranchId
                           }
                           value={
@@ -437,7 +437,7 @@ const UpdateProfileHead = ({
                           getOptionLabel={(option: any) =>
                             option.name ? option.name : ""
                           }
-                          isOptionEqualToValue={(option, value) =>
+                          isOptionEqualToValue={(option: any, value) =>
                             option.id === value.departmentId
                           }
                           value={

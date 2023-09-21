@@ -22,14 +22,12 @@ import * as Yup from "yup";
 interface Props {
   open: boolean;
   handleClose: () => void;
-  mutate: () => void;
   setBranchId?: any;
 }
 
 const ChooseBranchToViewAssets = ({
   open,
   handleClose,
-  mutate,
   setBranchId,
 }: Props) => {
   const [loading, setLoading] = useState(false);
