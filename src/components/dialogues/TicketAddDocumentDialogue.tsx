@@ -11,19 +11,18 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useAuth, useChange, useFetch } from "hooks";
-import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { useChange } from "hooks";
+import { useState } from "react";
 import Swal from "sweetalert2";
+import { Tickets } from "types";
 import { uploadFile } from "utils";
 import * as Yup from "yup";
 
 interface Props {
 	open: boolean;
-	handleClose: any;
-	details?: any;
-	mutate?: any;
-	ticketsData?: any;
+	handleClose: () => void;
+	mutate: () => void;
+	ticketsData?: Tickets;
 }
 const initialValues = {
 	// title: "",
