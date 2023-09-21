@@ -14,8 +14,9 @@ import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import router from "next/router";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import Swal from "sweetalert2";
+import { Branch, Role } from "types";
 import * as Yup from "yup";
 const initialValues = {
   firstName: "",
@@ -63,24 +64,38 @@ const validationSchema = Yup.object().shape({
   employeeOfBranchId: Yup.string().required("Branch name is required!"),
   joiningDate: Yup.string().required("Joining date is required!"),
 });
-
+interface FormValues {
+  firstName?: string;
+  lastName?: string;
+  countryCode?: string;
+  email?: string;
+  phone?: string;
+  departmentId?: string;
+  roleId?: string;
+  employeeOfBranchId?: string;
+  joiningDate?: Date | null;
+}
+type ReqValue = Partial<FormValues>;
 const CreateEmployee = () => {
   const [loading, setLoading] = useState(false);
-  const { data: departmentsData } = useFetch<any>(`departments`);
-  const { data: roleData, isLoading, mutate } = useFetch<any>(`roles`);
-  const { data: branchData } = useFetch<any>(`branches`);
-  const { change, isChanging } = useChange();
-  const handleSubmit = async (values: any) => {
-    const reqValue = Object.entries(values).reduce((acc: any, [key, value]) => {
-      if (value) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
+  const { data: departmentsData } = useFetch<Role[]>(`departments`);
+  const { data: roleData } = useFetch<Role[]>(`roles`);
+  const { data: branchData } = useFetch<Branch[]>(`branches`);
+  const { change } = useChange();
+  const handleSubmit = async (values: ReqValue) => {
+    const reqValue = Object.entries(values).reduce(
+      (acc: ReqValue, [key, value]: [string, any]) => {
+        if (value) {
+          acc[key as keyof FormValues] = value;
+        }
+        return acc;
+      },
+      {} as ReqValue
+    );
 
     try {
       setLoading(true);
-      const res: any = await change(`users`, {
+      const res = await change(`users`, {
         body: reqValue,
       });
       setLoading(false);
@@ -205,10 +220,15 @@ const CreateEmployee = () => {
                         size="small"
                         id="employeeOfBranchId"
                         options={branchData || []}
-                        onChange={(e: any, r: any) => {
+                        onChange={(
+                          e: SyntheticEvent<Element, Event>,
+                          r: Branch | null
+                        ) => {
                           setFieldValue("employeeOfBranchId", r?.id);
                         }}
-                        getOptionLabel={(option: any) => option.name}
+                        getOptionLabel={(option) =>
+                          option.name ? option?.name : ""
+                        }
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -300,10 +320,15 @@ const CreateEmployee = () => {
                         size="small"
                         id="roleId"
                         options={roleData || []}
-                        onChange={(e: any, r: any) => {
+                        onChange={(
+                          e: SyntheticEvent<Element, Event>,
+                          r: Role | null
+                        ) => {
                           setFieldValue("roleId", r?.id);
                         }}
-                        getOptionLabel={(option: any) => option.name}
+                        getOptionLabel={(option) =>
+                          option.name ? option?.name : ""
+                        }
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -328,10 +353,15 @@ const CreateEmployee = () => {
                         size="small"
                         id="departmentId"
                         options={departmentsData || []}
-                        onChange={(e: any, r: any) => {
+                        onChange={(
+                          e: SyntheticEvent<Element, Event>,
+                          r: Role | null
+                        ) => {
                           setFieldValue("departmentId", r?.id);
                         }}
-                        getOptionLabel={(option: any) => option.name}
+                        getOptionLabel={(option) =>
+                          option.name ? option?.name : ""
+                        }
                         renderInput={(params) => (
                           <TextField
                             {...params}

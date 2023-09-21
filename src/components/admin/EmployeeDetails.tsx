@@ -17,7 +17,7 @@ import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useState, useMemo } from "react";
-import { Security, User } from "types";
+import { Projects, Security, User } from "types";
 import EmpAttendanceIndividual from "./EmpAttendanceIndividual";
 import EmployProjects from "./EmployProjects";
 import EmployLeaves from "./EmployLeaves";
@@ -36,7 +36,7 @@ const EmployeeDetails = () => {
     mutate,
     isLoading,
   } = useFetch<User>(`users/${router?.query?.id}`);
-  const { data: projectDetails } = useFetch<any>(
+  const { data: projectDetails } = useFetch<Projects>(
     `projects?memberId=${router?.query?.id}`
   );
 
