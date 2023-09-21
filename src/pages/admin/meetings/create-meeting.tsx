@@ -345,7 +345,9 @@ const CreateMeeting = () => {
                           ) => {
                             setFieldValue("clientName", r?.name);
                           }}
-                          getOptionLabel={(option: any) => option.name}
+                          getOptionLabel={(option) =>
+                            option.name ? option?.name : ""
+                          }
                           renderInput={(params) => (
                             <TextField
                               {...params}

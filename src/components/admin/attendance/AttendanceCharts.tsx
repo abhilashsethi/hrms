@@ -1,13 +1,14 @@
 import { DailyAttendance, DonutChart } from "components/analytics";
 import { useFetch } from "hooks";
-import { Attendance } from "types";
+import { Attendance, AttendanceDashboard, User, UserDashboard } from "types";
 interface Props {
   absentData?: Attendance[];
   presentData?: Attendance[];
 }
 const AttendanceCharts = ({ absentData, presentData }: Props) => {
-  const { data: employeeDetails } = useFetch<any>(`users/dashboard/details`);
-  console.log(employeeDetails);
+  const { data: employeeDetails } = useFetch<AttendanceDashboard>(
+    `users/dashboard/details`
+  );
   return (
     <>
       <div className="grid grid-cols-12 py-2 content-between gap-6 !mb-6">

@@ -129,6 +129,12 @@ export interface UserDashboard {
 	_count: number;
 	name: string;
 }
+export interface AttendanceDashboard {
+	totalUsers: number;
+	_count: number;
+	name: string;
+	lastWeekAttendanceArr: UserDashboard[];
+}
 export type User = {
 	firstName?: string;
 	lastName?: string;
