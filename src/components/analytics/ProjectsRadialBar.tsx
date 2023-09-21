@@ -8,6 +8,7 @@ type Props = {
 	radialLabel?: string[];
 	className?: string;
 	totalReturn?: number;
+	mutate?: any;
 };
 
 export default function ProjectsRadialBar({
@@ -16,6 +17,7 @@ export default function ProjectsRadialBar({
 	className = "",
 	title,
 	totalReturn,
+	mutate,
 }: //   totals = [],
 //   categories = [],
 Props) {

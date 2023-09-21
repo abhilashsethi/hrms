@@ -5,6 +5,7 @@ import { AdminBreadcrumbs, LoaderAnime, SkeletonLoader } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useState } from "react";
+import { User } from "types";
 
 const ExEmployees = () => {
   const { user } = useAuth();
@@ -17,7 +18,7 @@ const ExEmployees = () => {
     mutate,
     isLoading,
     pagination,
-  } = useFetch<any>(
+  } = useFetch<User[]>(
     `employee-exit?page=${pageNumber}&limit=8&orderBy=createdAt:desc`
   );
   // console.log(employeeExitData);
@@ -35,7 +36,7 @@ const ExEmployees = () => {
       <section className="md:px-8 px-4">
         <div className="flex flex-col md:flex-row w-full md:justify-between justify-start items-start md:items-center md:py-4 py-2">
           <div className="md:w-auto w-full">
-            <AdminBreadcrumbs links={links as any} />
+            <AdminBreadcrumbs links={links} />
           </div>
         </div>
 

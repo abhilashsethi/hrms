@@ -6,10 +6,12 @@ import { Form, Formik } from "formik";
 import { useChange } from "hooks";
 import PanelLayout from "layouts/panel";
 import router from "next/router";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
-
+interface FormValues {
+  files: File | null;
+}
 const initialValues = {
   files: null,
 };
@@ -20,16 +22,18 @@ const validationSchema = Yup.object().shape({
 
 const UploadEmployeeData = () => {
   const theme = useTheme();
-  const [isFile, setIsFile] = useState(null);
+  const [isFile, setIsFile] = useState<File | null | undefined>(null);
   const [loading, setLoading] = useState(false);
   const { change, isChanging } = useChange();
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: FormValues) => {
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append("files", values?.files);
+      if (values.files) {
+        formData.append("files", values.files);
+      }
 
-      const res: any = await change(`users/upload`, {
+      const res = await change(`users/upload`, {
         isFormData: true,
         body: formData,
       });
@@ -90,22 +94,16 @@ const UploadEmployeeData = () => {
                     fullWidth
                     placeholder="Choose Document"
                     //   value={values?.files}
-                    onChange={(e: any) => {
-                      setFieldValue("files", e?.target?.files[0]);
-                      setIsFile(e?.target?.files[0]);
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      const file = e?.target?.files?.[0];
+                      setFieldValue("files", file);
+                      setIsFile(file);
                     }}
                     onBlur={handleBlur}
                     error={touched.files && !!errors.files}
                     helperText={touched.files && errors.files}
                   />
-                  {/* <EmployeeDataUpload
-                    values={values}
-                    setImageValue={(event: any) => {
-                      setFieldValue("image", event.currentTarget.files[0]);
-                    }}
-                  >
-                    <ErrorMessage name="image" />
-                  </EmployeeDataUpload> */}
+
                   <div className="flex justify-center mt-4">
                     <Button
                       type="submit"

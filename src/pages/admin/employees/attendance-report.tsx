@@ -10,6 +10,7 @@ import { useAuth, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import moment from "moment";
 import { useRouter } from "next/router";
+import { Attendance, AttendanceData } from "types";
 import { MuiTblOptions } from "utils";
 
 const AttendanceReport = () => {
@@ -35,7 +36,7 @@ const AttendanceReport = () => {
       link: `/admin/employees/my-profile`,
     },
   ];
-  const { data: attendanceData, isLoading } = useFetch<any>(
+  const { data: attendanceData, isLoading } = useFetch<Attendance[]>(
     `attendances/${router?.query?.empId}?month=${router?.query?.month}`
   );
   return (
@@ -65,12 +66,12 @@ const AttendanceReport = () => {
                 data={
                   !attendanceData
                     ? []
-                    : (attendanceData?.map((_: any, i: number) => ({
+                    : attendanceData?.map((_: Attendance, i: number) => ({
                         ..._,
                         sl: i + 1,
                         in: moment(_?.inTime).format("hh:mm A"),
                         out: moment(_?.outTime).format("hh:mm A"),
-                      })) as any)
+                      }))
                 }
                 options={{ ...MuiTblOptions() }}
                 columns={[

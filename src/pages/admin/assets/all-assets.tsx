@@ -35,7 +35,7 @@ const AllAssets = () => {
   const [isView, setIsView] = useState(false);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [userName, setUsername] = useState<string | null>(null);
-  const [isOrderBy, setIsOrderBy] = useState<string | null>(null);
+  const [isOrderBy, setIsOrderBy] = useState<string>("createdAt:desc");
   const [isBrand, setIsBrand] = useState<string | null>(null);
   const [isBranch, setIsBranch] = useState<string | null>(null);
   const [isModel, setIsModel] = useState<string | null>(null);
@@ -66,7 +66,7 @@ const AllAssets = () => {
     isLoading,
     pagination,
   } = useFetch<ASSET[]>(
-    `assets?page=${pageNumber}&limit=8${userName ? `&name=${userName}` : ""}${
+    `assets?page=${pageNumber}&limit=6${userName ? `&name=${userName}` : ""}${
       isOrderBy ? `&orderBy=${isOrderBy}` : ""
     }${isBrand ? `&brandName=${isBrand}` : ""}${
       isBranch ? `&branchName=${isBranch}` : ""
@@ -101,7 +101,6 @@ const AllAssets = () => {
             <ChooseBranchToViewAssets
               open={isView}
               handleClose={() => setIsView(false)}
-              mutate={mutate}
               setBranchId={setBranchId}
             />
             {branchId ? (
@@ -163,7 +162,7 @@ const AllAssets = () => {
                       >
                         <IconButton
                           onClick={() => {
-                            setIsOrderBy(null);
+                            setIsOrderBy("createdAt:desc");
                             setUsername(null);
                             setIsBrand(null);
                             setIsBranch(null);
@@ -172,7 +171,7 @@ const AllAssets = () => {
                         >
                           <Tooltip
                             title={
-                              isOrderBy != null ||
+                              isOrderBy != "createdAt:desc" ||
                               userName != null ||
                               isBrand != null ||
                               isBranch != null ||
@@ -181,7 +180,7 @@ const AllAssets = () => {
                                 : `Filter`
                             }
                           >
-                            {isOrderBy != null ||
+                            {isOrderBy != "createdAt:desc" ||
                             userName != null ||
                             isBrand != null ||
                             isBranch != null ||
@@ -362,7 +361,7 @@ const AllAssets = () => {
                   >
                     <IconButton
                       onClick={() => {
-                        setIsOrderBy(null);
+                        setIsOrderBy("createdAt:desc");
                         setUsername(null);
                         setIsBrand(null);
                         setIsBranch(null);
@@ -371,7 +370,7 @@ const AllAssets = () => {
                     >
                       <Tooltip
                         title={
-                          isOrderBy != null ||
+                          isOrderBy != "createdAt:desc" ||
                           userName != null ||
                           isBrand != null ||
                           isBranch != null ||
@@ -380,7 +379,7 @@ const AllAssets = () => {
                             : `Filter`
                         }
                       >
-                        {isOrderBy != null ||
+                        {isOrderBy != "createdAt:desc" ||
                         userName != null ||
                         isBrand != null ||
                         isBranch != null ||

@@ -8,11 +8,11 @@ import {
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import CountrySelector from "components/core/CountrySelector";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikValues } from "formik";
 import { useAuth, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import Swal from "sweetalert2";
 import { Client } from "types";
 import * as Yup from "yup";
@@ -53,7 +53,6 @@ interface FormValues {
 const CreateMeeting = () => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [isBillType, setIsBillType] = useState<string>("");
   const { change } = useChange();
   const router = useRouter();
 
@@ -102,7 +101,7 @@ const CreateMeeting = () => {
 
   const { data: clients } = useFetch<Client[]>(`clients`);
 
-  const handleSubmit = async (values: any, { resetForm }: any) => {
+  const handleSubmit = async (values: FormikValues, { resetForm }: any) => {
     setLoading(true);
     try {
       const resData = {
@@ -340,9 +339,11 @@ const CreateMeeting = () => {
                           size="small"
                           id="clientName"
                           options={clients || []}
-                          onChange={(e: any, r: any) => {
+                          onChange={(
+                            e: SyntheticEvent<Element, Event>,
+                            r: Client | null
+                          ) => {
                             setFieldValue("clientName", r?.name);
-                            setIsBillType(r?.value);
                           }}
                           getOptionLabel={(option: any) => option.name}
                           renderInput={(params) => (
