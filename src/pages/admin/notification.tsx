@@ -62,7 +62,11 @@ const Notification = () => {
         }
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
     }
   };
   const handleDeleteAll = () => {
@@ -106,7 +110,11 @@ const Notification = () => {
         }
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
     }
   };
   const handleReadAll = () => {
@@ -149,7 +157,11 @@ const Notification = () => {
         }
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
     }
   };
   const handleRead = async (id?: string) => {
@@ -172,7 +184,11 @@ const Notification = () => {
       mutate();
       return;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
     }
   };
   return (

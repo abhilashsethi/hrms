@@ -274,7 +274,11 @@ const CardContent = ({ item, mutate }: Props) => {
         }
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
     }
   };
   return (

@@ -56,14 +56,17 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
     assetData?: any;
   }>({ dialogue: false, assetData: null });
   const initialValues = {
-    branchId: `${assetData?.assetOfBranch?.id ? assetData?.assetOfBranch?.id : ""}`,
+    branchId: `${
+      assetData?.assetOfBranch?.id ? assetData?.assetOfBranch?.id : ""
+    }`,
     assetType: `${assetData?.assetType ? assetData?.assetType : ""}`,
     assetName: `${assetData?.name ? assetData?.name : ""}`,
     modelNo: `${assetData?.modelName ? assetData?.modelName : ""}`,
-    purchaseDate: `${assetData?.dateOfPurchase
-      ? moment(assetData?.dateOfPurchase).format("YYYY-MM-DD")
-      : ""
-      }`,
+    purchaseDate: `${
+      assetData?.dateOfPurchase
+        ? moment(assetData?.dateOfPurchase).format("YYYY-MM-DD")
+        : ""
+    }`,
     billAmount: `${assetData?.billAmount ? assetData?.billAmount : ""}`,
     brandName: `${assetData?.brandName ? assetData?.brandName : ""}`,
     marketPrice: `${assetData?.marketPrice ? assetData?.marketPrice : ""}`,
@@ -120,7 +123,11 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
       Swal.fire(`Success`, `Updated Successfully!`, `success`);
       return;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoading(false);
     } finally {
       setLoading(false);
@@ -140,7 +147,9 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
         try {
           Swal.fire("", "Please Wait...", "info");
           await deleteFile(String(data?.split("/").reverse()[0]));
-          const updatedPhotos = assetData?.photos.filter((photo: any) => photo !== data);
+          const updatedPhotos = assetData?.photos.filter(
+            (photo: any) => photo !== data
+          );
           const res = await change(`assets/${assetData?.id}`, {
             method: "PATCH",
             body: { photos: updatedPhotos },
@@ -158,7 +167,11 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
           handleClose();
           return;
         } catch (error) {
-          console.log(error);
+          if (error instanceof Error) {
+            Swal.fire(`Error`, error?.message, `error`);
+          } else {
+            Swal.fire(`Error`, "Something Went Wrong", `error`);
+          }
         }
       }
     });
@@ -177,7 +190,9 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
         try {
           Swal.fire("", "Please Wait...", "info");
           await deleteFile(String(data?.link?.split("/").reverse()[0]));
-          const updatedDocs = assetData?.docs.filter((doc: any) => doc?.link !== data?.link);
+          const updatedDocs = assetData?.docs.filter(
+            (doc: any) => doc?.link !== data?.link
+          );
           const res = await change(`assets/${assetData?.id}`, {
             method: "PATCH",
             body: { docs: updatedDocs },
@@ -195,7 +210,11 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
           handleClose();
           return;
         } catch (error) {
-          console.log(error);
+          if (error instanceof Error) {
+            Swal.fire(`Error`, error?.message, `error`);
+          } else {
+            Swal.fire(`Error`, "Something Went Wrong", `error`);
+          }
         }
       }
     });
@@ -276,7 +295,8 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="role">
-                          Select Asset Type <span className="text-red-600">*</span>
+                          Select Asset Type{" "}
+                          <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
@@ -318,8 +338,8 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                         value={
                           values?.branchId
                             ? branchData?.find(
-                              (option: any) => option.id === values.branchId
-                            )
+                                (option: any) => option.id === values.branchId
+                              )
                             : {}
                         }
                         onChange={(e: any, r: any) => {
@@ -387,7 +407,8 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="purchaseDate">
-                          Date Of Purchase <span className="text-red-600">*</span>
+                          Date Of Purchase{" "}
+                          <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
                       <TextField
@@ -498,116 +519,133 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
               )}
             </Formik>
           </div>
-          {assetData?.docs?.length ?
-            (
-              <>
-                <div className="w-full">
-                  <div className="flex justify-between pt-4 gap-2">
-                    <HeadText title="Documents" />
-                    <button
-                      onClick={() => setIsDocUpload({ dialogue: true, assetData: assetData })}
-                      className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">
-                      Add More Document
-                    </button>
-                  </div>
+          {assetData?.docs?.length ? (
+            <>
+              <div className="w-full">
+                <div className="flex justify-between pt-4 gap-2">
+                  <HeadText title="Documents" />
+                  <button
+                    onClick={() =>
+                      setIsDocUpload({ dialogue: true, assetData: assetData })
+                    }
+                    className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                  >
+                    Add More Document
+                  </button>
                 </div>
-                <div className="grid lg:grid-cols-2 gap-4 py-4">
-                  {assetData?.docs?.map((data: any, k: any) => (
-                    <div
-                      key={k}
-                      className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
-                    >
-                      <a href={data?.link}>
-                        <img src={PDF.src} alt="" />
-                      </a>
-                      <div className="flex justify-between gap-1 pt-4 pb-2">
-                        <button
-                          onClick={() => {
-                            setIsDocUpdate({ dialogue: true, docData: data });
-                          }}
-                          className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
-                        >
-                          Edit
-                        </button>
-                        <button onClick={() => handleDeleteDoc(data, assetData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
-                          Delete
-                        </button>
-                      </div>
+              </div>
+              <div className="grid lg:grid-cols-2 gap-4 py-4">
+                {assetData?.docs?.map((data: any, k: any) => (
+                  <div
+                    key={k}
+                    className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
+                  >
+                    <a href={data?.link}>
+                      <img src={PDF.src} alt="" />
+                    </a>
+                    <div className="flex justify-between gap-1 pt-4 pb-2">
+                      <button
+                        onClick={() => {
+                          setIsDocUpdate({ dialogue: true, docData: data });
+                        }}
+                        className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteDoc(data, assetData)}
+                        className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded"
+                      >
+                        Delete
+                      </button>
                     </div>
-                  ))}
-                </div>
-              </>
-            )
-            :
-            (
-              <>
-                <HeadText title="Documents" />
-                <div className="w-full py-4">
-                  <div className="grid justify-center justify-items-center pt-4 gap-2">
-                    <p>No Document Available</p>
-                    <button
-                      onClick={() => setIsDocUpload({ dialogue: true, assetData: assetData })}
-                      className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Add Documents</button>
                   </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <HeadText title="Documents" />
+              <div className="w-full py-4">
+                <div className="grid justify-center justify-items-center pt-4 gap-2">
+                  <p>No Document Available</p>
+                  <button
+                    onClick={() =>
+                      setIsDocUpload({ dialogue: true, assetData: assetData })
+                    }
+                    className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                  >
+                    Add Documents
+                  </button>
                 </div>
-              </>
-            )}
-          {assetData?.photos?.length ?
-            (
-              <>
-                <div className="w-full">
-                  <div className="flex justify-between pt-4 gap-2">
-                    <HeadText title="Images" />
-                    <button onClick={() =>
-                      setIsUpload({ dialogue: true, assetData: assetData })}
-                      className=
-                      "bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">
-                      Add More Images
-                    </button>
-                  </div>
+              </div>
+            </>
+          )}
+          {assetData?.photos?.length ? (
+            <>
+              <div className="w-full">
+                <div className="flex justify-between pt-4 gap-2">
+                  <HeadText title="Images" />
+                  <button
+                    onClick={() =>
+                      setIsUpload({ dialogue: true, assetData: assetData })
+                    }
+                    className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                  >
+                    Add More Images
+                  </button>
                 </div>
-                <div className="grid lg:grid-cols-2 gap-4 py-4">
-                  {assetData?.photos?.map((data: any, k: any) => (
-                    <div
-                      key={k}
-                      className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
-                    >
-                      <img
-                        className="lg:h-48 md:h-36 w-full object-cover object-center 
+              </div>
+              <div className="grid lg:grid-cols-2 gap-4 py-4">
+                {assetData?.photos?.map((data: any, k: any) => (
+                  <div
+                    key={k}
+                    className="px-2 py-2 shadow-lg bg-slate-200 rounded-lg"
+                  >
+                    <img
+                      className="lg:h-48 md:h-36 w-full object-cover object-center 
                         transition duration-500 ease-in-out transform group-hover:scale-105"
-                        src={data}
-                        alt="Branch"
-                      />
-                      <div className="flex justify-between gap-1 pt-4 pb-2">
-                        <button
-                          onClick={() => {
-                            setIsUpdate({ dialogue: true, imageData: data });
-                          }}
-                          className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
-                        >
-                          Edit
-                        </button>
-                        <button onClick={() => handleDelete(data, assetData)} className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded">
-                          Delete
-                        </button>
-                      </div>
+                      src={data}
+                      alt="Branch"
+                    />
+                    <div className="flex justify-between gap-1 pt-4 pb-2">
+                      <button
+                        onClick={() => {
+                          setIsUpdate({ dialogue: true, imageData: data });
+                        }}
+                        className="bg-theme hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(data, assetData)}
+                        className="bg-red-600 hover:bg-red-700 px-4 py-1 text-white font-semibold rounded"
+                      >
+                        Delete
+                      </button>
                     </div>
-                  ))}
-                </div>
-              </>
-            )
-            :
-            (
-              <>
-                <HeadText title="Images" />
-                <div className="w-full py-4">
-                  <div className="grid justify-center justify-items-center pt-4 gap-2">
-                    <p>No Image Available</p>
-                    <button onClick={() => setIsUpload({ dialogue: true, assetData: assetData })} className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded">Add Images</button>
                   </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <HeadText title="Images" />
+              <div className="w-full py-4">
+                <div className="grid justify-center justify-items-center pt-4 gap-2">
+                  <p>No Image Available</p>
+                  <button
+                    onClick={() =>
+                      setIsUpload({ dialogue: true, assetData: assetData })
+                    }
+                    className="bg-theme-500 hover:bg-theme-600 px-4 py-1 text-white font-semibold rounded"
+                  >
+                    Add Images
+                  </button>
                 </div>
-              </>
-            )}
+              </div>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </>

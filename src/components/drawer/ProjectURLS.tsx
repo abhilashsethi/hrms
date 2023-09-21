@@ -98,12 +98,20 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
             Swal.fire(`Removed!`, `Deleted Successfully`, `success`);
             return;
           } catch (error) {
-            console.log(error);
+            if (error instanceof Error) {
+              Swal.fire(`Error`, error?.message, `error`);
+            } else {
+              Swal.fire(`Error`, "Something Went Wrong", `error`);
+            }
           }
         }
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
     }
   };
 
@@ -132,7 +140,11 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
         setIsCreate(false);
         return;
       } catch (error) {
-        console.log(error);
+        if (error instanceof Error) {
+          Swal.fire(`Error`, error?.message, `error`);
+        } else {
+          Swal.fire(`Error`, "Something Went Wrong", `error`);
+        }
         setLoading(false);
       } finally {
         setLoading(false);

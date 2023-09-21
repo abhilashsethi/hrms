@@ -91,7 +91,11 @@ const AssignMembers = ({ handleNext }: Props) => {
       setLoading(false);
       setIsDisable(true);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoading(false);
     } finally {
       setLoading(false);
@@ -118,7 +122,11 @@ const AssignMembers = ({ handleNext }: Props) => {
       setIsDisableReview(true);
       setLoadingReview(false);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoadingReview(false);
     } finally {
       setLoadingReview(false);
@@ -146,7 +154,11 @@ const AssignMembers = ({ handleNext }: Props) => {
       setIsDisableSubmission(true);
       setLoadingSubmission(false);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoadingSubmission(false);
     } finally {
       setLoadingSubmission(false);
@@ -174,7 +186,11 @@ const AssignMembers = ({ handleNext }: Props) => {
       handleNext();
       setLoadingFinal(false);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoadingFinal(false);
     } finally {
       setLoadingFinal(false);

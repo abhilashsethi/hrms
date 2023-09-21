@@ -9,7 +9,7 @@ import {
   InputLabel,
   MenuItem,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useChange } from "hooks";
@@ -25,18 +25,26 @@ interface Props {
   tenderData?: Tender;
 }
 
-const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props) => {
+const UpdateTenderFeeDetails = ({
+  open,
+  handleClose,
+  mutate,
+  tenderData,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const initialValues = {
     tenderFees: tenderData?.tenderFees ? tenderData?.tenderFees : 0,
-    feesPaymentMode: `${tenderData?.feesPaymentMode ? tenderData?.feesPaymentMode : ""}`,
+    feesPaymentMode: `${
+      tenderData?.feesPaymentMode ? tenderData?.feesPaymentMode : ""
+    }`,
   };
 
   const validationSchema = Yup.object().shape({
     feesPaymentMode: Yup.string().required("Payment Mode is required!"),
-    tenderFees: Yup.number().required('Tender Fees is required!')
-      .positive('Must be a positive number'),
+    tenderFees: Yup.number()
+      .required("Tender Fees is required!")
+      .positive("Must be a positive number"),
   });
 
   const handleSubmit = async (values: any) => {
@@ -51,20 +59,24 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
       });
       setLoading(false);
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `Tender fee details updated successfully!`, `success`);
-      mutate()
-      handleClose()
+      Swal.fire(
+        `Success`,
+        `Tender fee details updated successfully!`,
+        `success`
+      );
+      mutate();
+      handleClose();
       return;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoading(false);
     } finally {
       setLoading(false);
@@ -132,8 +144,12 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
                         value={values.feesPaymentMode}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={touched.feesPaymentMode && !!errors.feesPaymentMode}
-                        helperText={touched.feesPaymentMode && errors.feesPaymentMode}
+                        error={
+                          touched.feesPaymentMode && !!errors.feesPaymentMode
+                        }
+                        helperText={
+                          touched.feesPaymentMode && errors.feesPaymentMode
+                        }
                       >
                         {feesPaymentMode.map((option) => (
                           <MenuItem key={option.id} value={option.title}>
@@ -180,7 +196,6 @@ const UpdateTenderFeeDetails = ({ open, handleClose, mutate, tenderData }: Props
               )}
             </Formik>
           </div>
-
         </DialogContent>
       </Dialog>
     </>

@@ -9,7 +9,7 @@ import {
   InputLabel,
   MenuItem,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import { SingleDocUpdate } from "components/core";
 import { ErrorMessage, Form, Formik } from "formik";
@@ -34,7 +34,12 @@ interface Props {
   tenderData?: TenderDoc;
 }
 
-const UpdateTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) => {
+const UpdateTenderDocument = ({
+  open,
+  handleClose,
+  mutate,
+  tenderData,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { change } = useChange();
@@ -55,63 +60,73 @@ const UpdateTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) 
     setLoading(true);
     try {
       if (tenderData?.link !== values?.docs) {
-        const uniId = values?.docs?.name?.split('.').pop();
-        const url = values?.docs ? await uploadFile(
-          values?.docs,
-          `${Date.now()}.${uniId}`
-        ) : undefined;
+        const uniId = values?.docs?.name?.split(".").pop();
+        const url = values?.docs
+          ? await uploadFile(values?.docs, `${Date.now()}.${uniId}`)
+          : undefined;
         if (tenderData?.id) {
           await deleteFile(String(tenderData?.link?.split("/").reverse()[0]));
         }
-        const res = await change(`tenders/update-doc/of-tender/${tenderData?.id}`, {
-          method: "PATCH",
-          body:
-            { title: values?.title, link: url, tenderId: router?.query?.id },
-        });
+        const res = await change(
+          `tenders/update-doc/of-tender/${tenderData?.id}`,
+          {
+            method: "PATCH",
+            body: {
+              title: values?.title,
+              link: url,
+              tenderId: router?.query?.id,
+            },
+          }
+        );
         if (res?.status !== 200) {
-          Swal.fire(
-            "Error",
-            res?.results?.msg || "Unable to Submit",
-            "error"
-          );
+          Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
           setLoading(false);
           return;
         }
         setLoading(false);
-        Swal.fire(`Success`, `Tender document updated successfully!`, `success`);
-        mutate()
-        handleClose()
+        Swal.fire(
+          `Success`,
+          `Tender document updated successfully!`,
+          `success`
+        );
+        mutate();
+        handleClose();
         setLoading(false);
         return;
       }
 
-      const res = await change(`tenders/update-doc/of-tender/${tenderData?.id}`, {
-        method: "PATCH",
-        body:
-          { title: values?.title, link: values?.docs, tenderId: router?.query?.id },
-      });
+      const res = await change(
+        `tenders/update-doc/of-tender/${tenderData?.id}`,
+        {
+          method: "PATCH",
+          body: {
+            title: values?.title,
+            link: values?.docs,
+            tenderId: router?.query?.id,
+          },
+        }
+      );
       if (res?.status !== 200) {
-        Swal.fire(
-          "Error",
-          res?.results?.msg || "Unable to Submit",
-          "error"
-        );
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
         setLoading(false);
         return;
       }
       setLoading(false);
       Swal.fire(`Success`, `Tender document updated successfully!`, `success`);
-      mutate()
-      handleClose()
+      mutate();
+      handleClose();
       setLoading(false);
       return;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoading(false);
     } finally {
       setLoading(false);
     }
-
   };
   return (
     <>
@@ -160,12 +175,9 @@ const UpdateTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) 
               }) => (
                 <Form>
                   <div className="grid">
-
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="title">
-                          Document Title
-                        </InputLabel>
+                        <InputLabel htmlFor="title">Document Title</InputLabel>
                       </div>
                       <TextField
                         size="small"
@@ -182,9 +194,7 @@ const UpdateTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) 
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="title">
-                          Document
-                        </InputLabel>
+                        <InputLabel htmlFor="title">Document</InputLabel>
                       </div>
                       <SingleDocUpdate
                         values={values}
@@ -214,7 +224,6 @@ const UpdateTenderDocument = ({ open, handleClose, mutate, tenderData }: Props) 
               )}
             </Formik>
           </div>
-
         </DialogContent>
       </Dialog>
     </>

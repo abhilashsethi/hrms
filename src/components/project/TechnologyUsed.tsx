@@ -59,12 +59,20 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
             Swal.fire(`Removed!`, `Technology Deleted Successfully`, `success`);
             return;
           } catch (error) {
-            console.log(error);
+            if (error instanceof Error) {
+              Swal.fire(`Error`, error?.message, `error`);
+            } else {
+              Swal.fire(`Error`, "Something Went Wrong", `error`);
+            }
           }
         }
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
     }
   };
   const handleSubmit = async (values: any) => {
@@ -88,7 +96,11 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
         setIsUpdate(false);
         return;
       } catch (error) {
-        console.log(error);
+        if (error instanceof Error) {
+          Swal.fire(`Error`, error?.message, `error`);
+        } else {
+          Swal.fire(`Error`, "Something Went Wrong", `error`);
+        }
         setLoading(false);
       } finally {
         setLoading(false);

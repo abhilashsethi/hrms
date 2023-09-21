@@ -45,7 +45,10 @@ const UploadBranchImage = ({
     try {
       const photoUrls = [];
       for (const photo of values?.photos) {
-        const url = await uploadFile(photo?.file, `${Date.now()}.${photo?.uniId}`);
+        const url = await uploadFile(
+          photo?.file,
+          `${Date.now()}.${photo?.uniId}`
+        );
         photoUrls.push(url);
       }
 
@@ -72,7 +75,11 @@ const UploadBranchImage = ({
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoading(false);
     } finally {
       setLoading(false);
@@ -126,9 +133,7 @@ const UploadBranchImage = ({
                   {/* ----------------------------multiple image component------------------ */}
                   <div className="md:px-4 px-2 md:py-2 py-1">
                     <div className="py-2">
-                      <InputLabel htmlFor="image">
-                        Upload Images
-                      </InputLabel>
+                      <InputLabel htmlFor="image">Upload Images</InputLabel>
                     </div>
                     <div
                       onClick={() => imageRef?.current?.click()}
@@ -178,7 +183,9 @@ const UploadBranchImage = ({
                     variant="contained"
                     className="!bg-emerald-500"
                     disabled={loading}
-                    startIcon={loading ? <CircularProgress size={20} /> : <Check />}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
                   >
                     UPDATE
                   </Button>
