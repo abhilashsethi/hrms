@@ -84,7 +84,7 @@ const Notification = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          const res = await change(`notifications//delete-all`, {
+          const res = await change(`notifications/delete-all`, {
             method: "DELETE",
             body: {
               userId: user?.id,
