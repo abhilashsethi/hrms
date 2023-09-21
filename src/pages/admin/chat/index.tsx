@@ -1,5 +1,4 @@
 import { useChatData } from "hooks";
-
 import { ChatLeftBar, ChatRightSection } from "components/chat";
 import PanelLayout from "layouts/panel";
 import { useEffect, useState } from "react";

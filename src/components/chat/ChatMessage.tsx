@@ -97,17 +97,15 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
                 ) : data?.replyTo?.category === "audio" ? (
                   <AudioFormat data={data?.replyTo} />
                 ) : (
-                  <p className="tracking-wide min-w-fit break-all whitespace-pre-line break-words ">
-                    {data?.text}
-                  </p>
+                  <p className="tracking-wide min-w-fit  ">{data?.text}</p>
                 )}
               </div>
             </div>
           ) : null}
-          <div className="w-full bg-blue-100 py-2 px-4 md:tracking-wide rounded-md text-sm">
+          <div className="w-full md:tracking-wide rounded-md text-sm">
             <div>
               {data?.category === "text" ? (
-                <p className="tracking-wide min-w-fit break-all whitespace-pre-line break-words ">
+                <p className="tracking-wide min-w-fit py-2 px-4 bg-blue-100 rounded-md">
                   {data?.text}
                 </p>
               ) : data?.category === "image" ? (
@@ -121,7 +119,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
               ) : data?.category === "audio" ? (
                 <AudioFormat data={data} />
               ) : (
-                <p className="tracking-wide min-w-fit break-all whitespace-pre-line break-words ">
+                <p className="tracking-wide min-w-fit bg-blue-100 py-2 px-4 rounded-md">
                   {data?.text}
                 </p>
               )}
@@ -190,7 +188,7 @@ const DocFormat = ({ data }: { data?: IChatMessages }) => {
           </Tooltip>
         </div>
       </div>
-      <p className="tracking-wide min-w-fit break-all whitespace-pre-line  break-words ">
+      <p className="tracking-wide min-w-fit break-all whitespace-pre-line  ">
         {data?.text}
       </p>
     </>
