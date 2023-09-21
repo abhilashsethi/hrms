@@ -77,7 +77,7 @@ const ChatGroupCreate = ({ open, onClose }: Props) => {
       }
 
       onClose();
-      Swal.fire(`Success`, `Created Successfully!`, `success`);
+      Swal.fire(`Success`, `Group Created Successfully!`, `success`);
       resetForm();
       reValidateGroupChat();
       return;

@@ -238,13 +238,17 @@ const ChatSendAudio = ({ open, handleClose, sendId }: Props) => {
           </div>
 
           <Button
-            type="submit"
+            type="reset"
             variant="contained"
-            className="!bg-theme"
+            className="!bg-red-500"
             disabled={loading}
-            startIcon={loading ? <CircularProgress size={20} /> : <Send />}
+            onClick={() => {
+              formik.resetForm();
+              handleClose();
+              setIsFile(null);
+            }}
           >
-            SEND AUDIO
+            Cancel
           </Button>
         </form>
       </DialogContent>
