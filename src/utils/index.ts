@@ -181,7 +181,7 @@ export async function uploadFile(file: File, path: string) {
     );
     return `${Public_AWS_S3_URL}/${path}`;
   } catch (error) {
-    console.log(error);
+    throw error
   }
 }
 export async function deleteFile(path: string) {
@@ -204,7 +204,7 @@ export async function deleteFile(path: string) {
       })
     );
   } catch (error) {
-    console.log(error);
+    throw error
   }
 }
 

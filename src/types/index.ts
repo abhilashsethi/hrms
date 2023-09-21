@@ -966,6 +966,7 @@ export interface APPOINTMENT {
 	id?: string;
 	photo?: string;
 	user?: User;
+	countryCode?: string;
 }
 
 export interface Security {

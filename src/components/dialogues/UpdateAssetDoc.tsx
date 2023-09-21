@@ -52,7 +52,11 @@ const UpdateAssetDoc = ({
         return;
       }
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoading(false);
     } finally {
       setLoading(false);
@@ -117,7 +121,9 @@ const UpdateAssetDoc = ({
                     variant="contained"
                     className="!bg-emerald-500"
                     disabled={loading}
-                    startIcon={loading ? <CircularProgress size={20} /> : <Check />}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
                   >
                     UPDATE
                   </Button>

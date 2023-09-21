@@ -66,7 +66,11 @@ const TenderCreateLaststep = () => {
       Swal.fire(`Success`, `Tender created successfully!`, `success`);
       return;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoading(false);
     } finally {
       setLoading(false);

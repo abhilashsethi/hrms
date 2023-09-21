@@ -640,7 +640,11 @@ const MoreMenu = ({ data, profileData }: MenuProps) => {
           Swal.fire(`Success`, "Member removed!", "success");
           return;
         } catch (error) {
-          console.log(error);
+          if (error instanceof Error) {
+            Swal.fire(`Error`, error?.message, `error`);
+          } else {
+            Swal.fire(`Error`, "Something Went Wrong", `error`);
+          }
         } finally {
         }
       }
@@ -675,7 +679,11 @@ const MoreMenu = ({ data, profileData }: MenuProps) => {
           Swal.fire(`Success`, "Created as admin", "success");
           return;
         } catch (error) {
-          console.log(error);
+          if (error instanceof Error) {
+            Swal.fire(`Error`, error?.message, `error`);
+          } else {
+            Swal.fire(`Error`, "Something Went Wrong", `error`);
+          }
         } finally {
         }
       }
@@ -743,7 +751,11 @@ const MoreMenuAdmin = ({ data, profileData }: MenuProps) => {
           Swal.fire(`Success`, "Member removed!", "success");
           return;
         } catch (error) {
-          console.log(error);
+          if (error instanceof Error) {
+            Swal.fire(`Error`, error?.message, `error`);
+          } else {
+            Swal.fire(`Error`, "Something Went Wrong", `error`);
+          }
         } finally {
         }
       }
@@ -778,7 +790,11 @@ const MoreMenuAdmin = ({ data, profileData }: MenuProps) => {
           Swal.fire(`Success`, "Updated as user", "success");
           return;
         } catch (error) {
-          console.log(error);
+          if (error instanceof Error) {
+            Swal.fire(`Error`, error?.message, `error`);
+          } else {
+            Swal.fire(`Error`, "Something Went Wrong", `error`);
+          }
         } finally {
         }
       }

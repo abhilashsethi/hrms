@@ -18,10 +18,12 @@ import { countries } from "schemas/Countries";
 import { uploadFile } from "utils";
 import router from "next/router";
 import { User } from "types";
+import CountrySelector from "components/core/CountrySelector";
 const initialValues = {
   name: "",
   phone: "",
   email: "",
+  countryCode: "91",
   country: "",
   location: "",
   managerId: "",
@@ -44,6 +46,7 @@ const validationSchema = Yup.object().shape({
     .min(6)
     .max(15),
   email: Yup.string().email("Invalid email address"),
+  countryCode: Yup.string().required("Country Code Required."),
 });
 
 const CreateBranch = () => {
@@ -68,6 +71,7 @@ const CreateBranch = () => {
         phone: values?.phone,
         email: values?.email,
         country: values?.country,
+        countryCode: values?.countryCode,
         location: values?.location,
         photos: photoUrls,
       };
@@ -84,7 +88,11 @@ const CreateBranch = () => {
       Swal.fire(`Success`, `You have successfully Created!`, `success`);
       return;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
       setLoading(false);
     } finally {
       setLoading(false);
@@ -222,22 +230,38 @@ const CreateBranch = () => {
                       />
                     </div>
 
-                    <div className="md:px-4 px-2 md:py-2 py-1">
+                    <div className=" md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="phone">Phone</InputLabel>
                       </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        placeholder="Phone"
-                        id="phone"
-                        name="phone"
-                        value={values.phone}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.phone && !!errors.phone}
-                        helperText={touched.phone && errors.phone}
-                      />
+                      <div className="md:flex grid justify-center gap-2 items-center">
+                        <div className=" w-full md:w-1/4 lg:w-32">
+                          <CountrySelector
+                            className="bg-white border border-gray-400"
+                            defaultValue="91"
+                            name="countryCode"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.countryCode}
+                            error={touched.countryCode && !!errors.countryCode}
+                            helperText={
+                              touched.countryCode && errors.countryCode
+                            }
+                          />
+                        </div>
+                        <TextField
+                          size="small"
+                          fullWidth
+                          placeholder="Phone"
+                          id="phone"
+                          name="phone"
+                          value={values.phone}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.phone && !!errors.phone}
+                          helperText={touched.phone && errors.phone}
+                        />
+                      </div>
                     </div>
 
                     <div className="md:px-4 px-2 md:py-2 py-1">

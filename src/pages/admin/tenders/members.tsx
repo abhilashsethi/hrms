@@ -9,7 +9,9 @@ import { User } from "types";
 import { deleteFile } from "utils";
 
 const Members = () => {
-  const { data: employees, mutate } = useFetch<User[]>(`users?departmentName=BID`);
+  const { data: employees, mutate } = useFetch<User[]>(
+    `users?departmentName=BID`
+  );
   const { change } = useChange();
   const handleDelete = async (user: User) => {
     try {
@@ -40,7 +42,11 @@ const Members = () => {
         }
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
     }
   };
   return (
