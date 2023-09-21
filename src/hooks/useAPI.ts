@@ -44,7 +44,7 @@ export const useFetch = <T>(path: string, options?: useFetchOptions) => {
 			return fetch(args, { headers }).then((_) => _.json());
 		},
 		{
-			revalidateOnFocus: false,
+			revalidateOnFocus: true,
 		}
 	);
 	return {

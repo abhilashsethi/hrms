@@ -24,7 +24,7 @@ const ProjectDashBoard = () => {
 	const { data: projectData, mutate } = useFetch<any>(
 		`projects/dashboard/details`
 	);
-
+	console.log(projectData);
 	useEffect(() => {
 		const demo = projectData?.yearWiseProjectCounts?.map((item: any) => {
 			return {
@@ -32,8 +32,9 @@ const ProjectDashBoard = () => {
 				data: [item?.data[0]?.count ? item?.data[0]?.count : 0],
 			};
 		});
+
 		setReqData(demo);
-	}, [projectData?.yearWiseProjectCounts]);
+	}, [projectData?.yearWiseProjectCounts, projectData?.totalProjects]);
 
 	const cards = [
 		{
@@ -160,6 +161,7 @@ const ProjectDashBoard = () => {
 									]}
 									totalReturn={projectData?.totalProjects}
 									title=""
+									mutate={mutate}
 								/>
 							)}
 						</div>

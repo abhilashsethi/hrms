@@ -10,7 +10,7 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
-import { ErrorMessage, Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik, FormikValues } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
 import { useChange } from "hooks";
@@ -20,10 +20,10 @@ import { uploadFile } from "utils";
 
 interface Props {
 	open: boolean;
-	handleClose: any;
-	mutate?: any;
-	resetForm?: any;
+	handleClose: () => void;
+	mutate: () => void;
 }
+
 const initialValues = {
 	name: "",
 	image: null,
@@ -54,10 +54,10 @@ const validationSchema = yup.object().shape({
 			return true;
 		}),
 });
-const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
+const CreateTechnology = ({ open, handleClose, mutate }: Props) => {
 	const [loading, setLoading] = useState(false);
 	const { change } = useChange();
-	const handleSubmit = async (values: any) => {
+	const handleSubmit = async (values: FormikValues) => {
 		setLoading(true);
 		const uniId = values?.image?.type.split("/")[1].split("+")[0];
 		try {
@@ -166,7 +166,11 @@ const CreateTechnology = ({ open, handleClose, mutate, resetForm }: Props) => {
 									className="!bg-theme"
 									disabled={loading}
 									startIcon={
-										loading ? <CircularProgress size={20} /> : <Check />
+										loading ? (
+											<CircularProgress size={20} color="secondary" />
+										) : (
+											<Check />
+										)
 									}
 								>
 									CREATE TECHNOLOGY
