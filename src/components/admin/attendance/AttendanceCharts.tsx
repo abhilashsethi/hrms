@@ -1,6 +1,6 @@
 import { DailyAttendance, DonutChart } from "components/analytics";
 import { useFetch } from "hooks";
-import { Attendance, AttendanceDashboard, User, UserDashboard } from "types";
+import { Attendance, AttendanceDashboard } from "types";
 interface Props {
   absentData?: Attendance[];
   presentData?: Attendance[];
