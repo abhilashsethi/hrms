@@ -21,8 +21,8 @@ import * as Yup from "yup";
 
 interface Props {
   open: boolean;
-  handleClose: any;
-  mutate?: any;
+  handleClose: () => void;
+  mutate: () => void;
   setBranchId?: any;
 }
 
@@ -34,8 +34,6 @@ const ChooseBranchToViewAssets = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const { data: branchData } = useFetch<Branch[]>(`branches`);
-
-  console.log(branchData);
 
   const validationSchema = Yup.object().shape({
     branchId: Yup.string().required("Branch is required!"),
