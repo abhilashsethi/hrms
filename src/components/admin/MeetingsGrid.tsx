@@ -20,26 +20,10 @@ import moment from "moment";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
+import { MEETING_DATA } from "types";
 
-interface ARRAY {
-  id?: string;
-  address?: string;
-  title?: string;
-  clientEmail?: string;
-  clientName?: string;
-  clientPhone?: string;
-  meetingDate?: string;
-  meetingEndTime?: string;
-  meetingStartTime?: string;
-  meetingPersonName?: string;
-  status?: string;
-  purpose?: string;
-  lat?: number;
-  lng?: number;
-  countryCode?: number;
-}
 interface Props {
-  data?: ARRAY[];
+  data?: MEETING_DATA[];
   mutate: () => void;
 }
 
@@ -182,7 +166,11 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 
 export default MeetingsGrid;
 
-const CardComponent = ({ items, mutate }: any) => {
+interface CARD {
+  items: MEETING_DATA;
+  mutate: () => void;
+}
+const CardComponent = ({ items, mutate }: CARD) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {
