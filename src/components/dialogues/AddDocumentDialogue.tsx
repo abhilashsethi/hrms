@@ -73,7 +73,7 @@ const AddDocumentDialogue = ({
 					return;
 				}
 				mutate();
-				Swal.fire(`Success`, "Document Added successfully!!", "success");
+				Swal.fire(`Success`, "Document Added Successfully!!", "success");
 				handleClose();
 				return;
 			}
