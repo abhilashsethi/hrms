@@ -288,7 +288,9 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
                       className="bg-white border border-gray-400"
                       defaultValue="91"
                       name="countryCode"
-                      onChange={formik.handleChange}
+                      onChange={(e: any, r: any) => {
+                        formik.setFieldValue("countryCode", r?.phone);
+                      }}
                       onBlur={formik.handleBlur}
                       value={formik.values.countryCode}
                       error={

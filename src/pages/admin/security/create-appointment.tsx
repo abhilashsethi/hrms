@@ -48,7 +48,7 @@ const CreateAppointment = () => {
       .matches(/^[A-Za-z ]+$/, "Name must only contain alphabetic characters")
       .min(2, "Name must be at least 2 characters")
       .max(50, "Name must be less than 50 characters")
-      .required("Name is required!"),
+      .required("Required!"),
 
     phone: Yup.string()
       .required("Required!")
@@ -58,16 +58,14 @@ const CreateAppointment = () => {
       )
       .min(6)
       .max(15),
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required!"),
+    email: Yup.string().email("Invalid email address").required("Required!"),
     assignedUserId: Yup?.string()?.required("Required"),
     address: Yup.string().required("Required!"),
     startDate: Yup.string().required("Required!"),
     startTime: Yup.string().required("Required!"),
     endTime: Yup.string().required("Required!"),
     status: Yup.string().required("Required!"),
-    countryCode: Yup.string().required("Country Code Required."),
+    countryCode: Yup.string().required("Required."),
     reason: Yup.string().required("Required!"),
     image: Yup.mixed()
       .test("fileSize", "Image size is too large", (value: any) => {
@@ -93,7 +91,6 @@ const CreateAppointment = () => {
       .nullable(),
   });
 
-  // const theme = useTheme();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { data: branchData } = useFetch<any>(`branches`);
@@ -259,37 +256,40 @@ const CreateAppointment = () => {
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="phone">
+                          Country Code <span className="text-red-600">*</span>
+                        </InputLabel>
+                      </div>
+                      <CountrySelector
+                        className="bg-white border border-gray-400"
+                        defaultValue="91"
+                        name="countryCode"
+                        onChange={(e: any, r: any) => {
+                          setFieldValue("countryCode", r?.phone);
+                        }}
+                        onBlur={handleBlur}
+                        value={values.countryCode}
+                        error={touched.countryCode && !!errors.countryCode}
+                        helperText={touched.countryCode && errors.countryCode}
+                      />
+                    </div>
+                    <div className="md:px-4 px-2 md:py-2 py-1">
+                      <div className="py-2">
+                        <InputLabel htmlFor="phone">
                           Phone <span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
-                      <div className="md:flex grid justify-center gap-2 items-center">
-                        <div className=" w-full md:w-1/4 lg:w-32">
-                          <CountrySelector
-                            className="bg-white border border-gray-400"
-                            defaultValue="91"
-                            name="countryCode"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.countryCode}
-                            error={touched.countryCode && !!errors.countryCode}
-                            helperText={
-                              touched.countryCode && errors.countryCode
-                            }
-                          />
-                        </div>
-                        <TextField
-                          size="small"
-                          fullWidth
-                          placeholder="Phone"
-                          id="phone"
-                          name="phone"
-                          value={values.phone}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.phone && !!errors.phone}
-                          helperText={touched.phone && errors.phone}
-                        />
-                      </div>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        placeholder="Phone"
+                        id="phone"
+                        name="phone"
+                        value={values.phone}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.phone && !!errors.phone}
+                        helperText={touched.phone && errors.phone}
+                      />
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">

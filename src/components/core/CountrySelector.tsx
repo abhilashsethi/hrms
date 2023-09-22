@@ -1,34 +1,16 @@
-// import { countries } from "configs";
-
-import {
-  Autocomplete,
-  Box,
-  FormHelperText,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, Box, FormHelperText, TextField } from "@mui/material";
 import { countries } from "schemas/Countries";
 
-const CountrySelector = ({
-  name,
-  onChange,
-  onBlur,
-  value,
-  defaultValue,
-  className,
-  error,
-  helperText,
-}: any) => {
+const CountrySelector = ({ onChange, value, error, helperText }: any) => {
   return (
     <>
       <Autocomplete
-        // sx={{ width: "33%" }}
         options={countries}
         size="small"
         autoHighlight
-        getOptionLabel={(option) => `${`+` + option.phone}`}
+        getOptionLabel={(option) => `${"+" + option.phone}`}
         onChange={onChange}
+        value={value && countries?.find((option) => option.phone === value)}
         renderOption={(props, option) => (
           <Box
             component="li"
@@ -56,6 +38,9 @@ const CountrySelector = ({
           />
         )}
       />
+      {error ? (
+        <FormHelperText error={true}>{helperText}</FormHelperText>
+      ) : null}
       {/* <Select
         defaultValue={defaultValue}
         name={name}
@@ -70,10 +55,10 @@ const CountrySelector = ({
             + {item.phone}
           </MenuItem>
         ))}
-      </Select> */}
+      </Select>
       {error ? (
         <FormHelperText error={true}>{helperText}</FormHelperText>
-      ) : null}
+      ) : null} */}
     </>
   );
 };
