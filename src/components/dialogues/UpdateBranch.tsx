@@ -50,7 +50,9 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
       email: `${branchData?.email ? branchData?.email : ""}`,
       phone: `${branchData?.phone ? branchData?.phone : 0}`,
       country: `${branchData?.country ? branchData?.country : ""}`,
-      countryCode: `${branchData?.countryCode ? branchData?.countryCode : ""}`,
+      countryCode: `${
+        branchData?.countryCode ? branchData?.countryCode : "91"
+      }`,
       location: `${branchData?.location ? branchData?.location : ""}`,
       managerId: `${branchData?.managerId ? branchData?.managerId : ""}`,
       photos: branchData?.photos ? branchData?.photos : [],

@@ -75,7 +75,7 @@ const EditMeetingDetails = ({
     }`,
     countryCode: meetingDetails?.countryCode
       ? meetingDetails?.countryCode
-      : "91" || null,
+      : "91",
     // clientCountry: "",
     meetingPersonName: `${
       meetingDetails?.meetingPersonName ? meetingDetails?.meetingPersonName : ""
