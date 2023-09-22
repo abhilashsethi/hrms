@@ -370,6 +370,7 @@ export type Branch = {
 	createdAt?: Date;
 	updatedAt?: Date;
 	country?: string;
+	countryCode?: string;
 	count?: number;
 	employeesCount?: number;
 	branchName?: string;

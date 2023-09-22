@@ -216,8 +216,13 @@ const MoreOption = ({ item, mutate }: PROPS) => {
               </p>
             </Tooltip>
             <p className="text-gray-500 flex items-start">
+              {/* {item?.countryCode ? item?.countryCode : null} */}
               <RenderIconRow
-                value={item?.phone || "---"}
+                value={
+                  (item?.countryCode
+                    ? item?.countryCode + "-" + item?.phone
+                    : "" + item?.phone) || "---"
+                }
                 isPhone
                 longText={false}
               />
