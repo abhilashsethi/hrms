@@ -86,7 +86,6 @@ const validationSchema = Yup.object().shape({
   shiftId: Yup.string().required("Required!"),
   roleId: Yup.string().required("Required!"),
   departmentId: Yup.string().required("Required!"),
-  countryCode: Yup.string().required("Country Code Required."),
 });
 
 const CreateGuard = () => {
@@ -395,7 +394,7 @@ const CreateGuard = () => {
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
                         <InputLabel htmlFor="phoneNumber">
-                          Country Code <span className="text-red-600">*</span>
+                          Country Code
                         </InputLabel>
                       </div>
                       <CountrySelector

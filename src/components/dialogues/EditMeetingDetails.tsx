@@ -273,33 +273,31 @@ const EditMeetingDetails = ({
                   error={touched.clientEmail && !!errors.clientEmail}
                   helperText={touched.clientEmail && errors.clientEmail}
                 />
+                <p className="font-medium text-gray-700 my-2">Country Code</p>
+                <CountrySelector
+                  className="bg-white border border-gray-400 py-4"
+                  defaultValue="91"
+                  name="countryCode"
+                  onChange={(e: any, r: any) => {
+                    setFieldValue("countryCode", r?.phone);
+                  }}
+                  onBlur={handleBlur}
+                  value={values.countryCode}
+                  error={touched.countryCode && !!errors.countryCode}
+                  helperText={touched.countryCode && errors.countryCode}
+                />
                 <p className="font-medium text-gray-700 my-2">Client Phone</p>
-                <div className="md:flex grid justify-center gap-2 items-center">
-                  <div className=" w-full md:w-1/4 lg:w-32">
-                    <CountrySelector
-                      className="bg-white border border-gray-400 py-4"
-                      defaultValue="91"
-                      name="countryCode"
-                      onChange={(e: any, r: any) => {
-                        setFieldValue("countryCode", r?.phone);
-                      }}
-                      onBlur={handleBlur}
-                      value={values.countryCode}
-                      error={touched.countryCode && !!errors.countryCode}
-                      helperText={touched.countryCode && errors.countryCode}
-                    />
-                  </div>
-                  <TextField
-                    fullWidth
-                    placeholder="Client Phone"
-                    name="clientPhone"
-                    value={values.clientPhone}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.clientPhone && !!errors.clientPhone}
-                    helperText={touched.clientPhone && errors.clientPhone}
-                  />
-                </div>
+                <TextField
+                  fullWidth
+                  placeholder="Client Phone"
+                  name="clientPhone"
+                  value={values.clientPhone}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.clientPhone && !!errors.clientPhone}
+                  helperText={touched.clientPhone && errors.clientPhone}
+                />
+
                 <div className="">
                   <p className="font-medium text-gray-700 my-2">
                     Status <span className="text-red-600">*</span>

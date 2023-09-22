@@ -65,7 +65,6 @@ const CreateAppointment = () => {
     startTime: Yup.string().required("Required!"),
     endTime: Yup.string().required("Required!"),
     status: Yup.string().required("Required!"),
-    countryCode: Yup.string().required("Required."),
     reason: Yup.string().required("Required!"),
     image: Yup.mixed()
       .test("fileSize", "Image size is too large", (value: any) => {
@@ -111,6 +110,7 @@ const CreateAppointment = () => {
           address: values?.address,
           startDate: new Date(values?.startDate)?.toISOString(),
           startTime: values?.startTime,
+          countryCode: values?.countryCode,
           whomToVisitId: values?.assignedUserId,
           status: values?.status,
           photo: url,
@@ -255,9 +255,7 @@ const CreateAppointment = () => {
                     </div>
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="phone">
-                          Country Code <span className="text-red-600">*</span>
-                        </InputLabel>
+                        <InputLabel htmlFor="phone">Country Code</InputLabel>
                       </div>
                       <CountrySelector
                         className="bg-white border border-gray-400"

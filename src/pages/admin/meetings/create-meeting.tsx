@@ -83,7 +83,6 @@ const CreateMeeting = () => {
       "Meeting Person Name is required!"
     ),
     clientName: Yup.string().required("Client Name is required!"),
-    countryCode: Yup.string().required("Country Code Required."),
     status: Yup.string().required("Meeting Status is required!"),
     lat: Yup.string()
       .matches(

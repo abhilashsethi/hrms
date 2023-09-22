@@ -194,8 +194,11 @@ const AppointmentsGrid = ({ data, mutate }: Props) => {
                     <p className="font-semibold text-base text-blue-600">
                       Phone :
                     </p>
+                    {item?.countryCode ? item?.countryCode : "--------"}
                     <p className="text-sm md:text-base text-gray-700">
-                      {item?.phone}
+                      {item?.countryCode
+                        ? item?.countryCode + "-" + item?.phone
+                        : "" + item?.phone || "---"}
                     </p>
                   </div>
                   <div className="flex items-center gap-2 py-2 md:py-0">

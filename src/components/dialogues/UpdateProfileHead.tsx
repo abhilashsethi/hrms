@@ -49,7 +49,6 @@ const validationSchema = Yup.object().shape({
     .email("Invalid email address")
     .required("Personal Email Required!"),
   // employeeID: Yup.string().required("Employee ID is required!"),
-  countryCode: Yup.string().required("Country Code Required."),
   employeeOfBranchId: Yup.string().required("Branch is Required."),
   phone: Yup.string().required("Phone No is required!"),
   dob: Yup.string()
@@ -236,30 +235,28 @@ const UpdateProfileHead = ({
                           }
                         />
                       </div>
-
+                      <div className="w-full">
+                        <p className="text-theme font-semibold my-2">
+                          Country Code
+                        </p>
+                        <CountrySelector
+                          className="bg-white border border-gray-400 py-4"
+                          defaultValue="91"
+                          name="countryCode"
+                          onChange={(e: any, r: any) => {
+                            setFieldValue("countryCode", r?.phone);
+                          }}
+                          onBlur={handleBlur}
+                          value={values.countryCode}
+                          error={touched.countryCode && !!errors.countryCode}
+                          helperText={touched.countryCode && errors.countryCode}
+                        />
+                      </div>
                       <div className="w-full">
                         <p className="text-theme font-semibold my-2">
                           Phone No <span className="text-red-600">*</span>
                         </p>
                         <div className="md:flex grid justify-center gap-2 items-center">
-                          <div className=" w-full md:w-1/4 lg:w-32">
-                            <CountrySelector
-                              className="bg-white border border-gray-400 py-4"
-                              defaultValue="91"
-                              name="countryCode"
-                              onChange={(e: any, r: any) => {
-                                setFieldValue("countryCode", r?.phone);
-                              }}
-                              onBlur={handleBlur}
-                              value={values.countryCode}
-                              error={
-                                touched.countryCode && !!errors.countryCode
-                              }
-                              helperText={
-                                touched.countryCode && errors.countryCode
-                              }
-                            />
-                          </div>
                           <TextField
                             fullWidth
                             name="phone"
