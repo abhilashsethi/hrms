@@ -27,9 +27,9 @@ interface Props {
 }
 
 const validationSchema = Yup.object().shape({
-	title: Yup.string().required("Document title is Required"),
+	title: Yup.string().required("Document title is required"),
 	// type: Yup.string().required("Document type is Required"),
-	link: Yup.string().required("Choose Document"),
+	link: Yup.string().required("Choose document"),
 });
 const AddDocumentDialogue = ({
 	open,
