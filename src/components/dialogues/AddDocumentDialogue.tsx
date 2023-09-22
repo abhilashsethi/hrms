@@ -28,7 +28,7 @@ interface Props {
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required("Document title is Required"),
-	type: Yup.string().required("Document type is Required"),
+	// type: Yup.string().required("Document type is Required"),
 	link: Yup.string().required("Choose Document"),
 });
 const AddDocumentDialogue = ({
@@ -42,7 +42,7 @@ const AddDocumentDialogue = ({
 	const initialValues = {
 		title: "",
 		link: null,
-		type: "",
+		// type: "",
 	};
 
 	const { change } = useChange();
@@ -65,7 +65,7 @@ const AddDocumentDialogue = ({
 					body: {
 						title: values.title,
 						link: url,
-						docType: values.type,
+						// docType: values.type,
 					},
 				});
 				if (res?.status !== 200) {
@@ -137,7 +137,7 @@ const AddDocumentDialogue = ({
 									error={touched.title && !!errors.title}
 									helperText={touched.title && errors.title}
 								/>
-								<p className="font-medium text-gray-700 my-2">
+								{/* <p className="font-medium text-gray-700 my-2">
 									Document Type <span className="text-red-600">*</span>
 								</p>
 								<div className="w-full">
@@ -159,7 +159,7 @@ const AddDocumentDialogue = ({
 											</MenuItem>
 										))}
 									</TextField>
-								</div>
+								</div> */}
 
 								<p className="font-medium text-gray-700 my-2">
 									Choose File <span className="text-red-600">*</span>
@@ -206,6 +206,6 @@ const AddDocumentDialogue = ({
 export default AddDocumentDialogue;
 
 const types = [
-	{ id: 1, value: "pdf", name: "PDF" },
+	{ id: 1, value: "pdf", name: "DOCUMENT" },
 	{ id: 2, value: "img", name: "IMAGE" },
 ];

@@ -175,7 +175,7 @@ const DeleteButton = ({ id, mutate }: ButtonProps) => {
 						Swal.fire("Error", "Something went wrong!", "error");
 					}
 					mutate();
-					Swal.fire("Success", "Deleted successfully!", "success");
+					Swal.fire("Success", "Deleted Successfully!", "success");
 				}
 			} catch (error) {
 				if (error instanceof Error) {

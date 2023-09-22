@@ -54,3 +54,4 @@ export { default as APPOINTMENT } from "./appointment.png";
 export { default as GUARD } from "./guard.png";
 export { default as COMPLETED } from "./completed.png";
 export { default as CANCELLED } from "./cancelled.png";
+export { default as WORD } from "./word.png";

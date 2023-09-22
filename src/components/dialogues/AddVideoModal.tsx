@@ -62,7 +62,7 @@ const AddVideoModal = ({ open, handleClose, mutate }: Props) => {
 				return;
 			}
 			mutate();
-			Swal.fire(`Success`, "Video Added successfully!!", "success");
+			Swal.fire(`Success`, "Video Added Successfully!!", "success");
 			setLoading(false);
 			handleClose();
 			return;
