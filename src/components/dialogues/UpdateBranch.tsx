@@ -21,6 +21,7 @@ import * as yup from "yup";
 import UpdateBranchImage from "./UpdateBranchImage";
 import UploadBranchImage from "./UploadBranchImage";
 import { Branch, User } from "types";
+import CountrySelector from "components/core/CountrySelector";
 
 interface Props {
   open: boolean;
@@ -49,6 +50,7 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
       email: `${branchData?.email ? branchData?.email : ""}`,
       phone: `${branchData?.phone ? branchData?.phone : 0}`,
       country: `${branchData?.country ? branchData?.country : ""}`,
+      countryCode: `${branchData?.countryCode ? branchData?.countryCode : ""}`,
       location: `${branchData?.location ? branchData?.location : ""}`,
       managerId: `${branchData?.managerId ? branchData?.managerId : ""}`,
       photos: branchData?.photos ? branchData?.photos : [],
@@ -91,6 +93,7 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
             name: values?.name,
             email: values?.email ? values?.email : null,
             phone: values?.phone ? values?.phone : null,
+            countryCode: values?.countryCode,
             country: values?.country,
             location: values?.location,
             managerId: values?.managerId,
@@ -280,7 +283,26 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
                     />
                   </div>
                   <div className="w-full">
+                    <p className="text-theme font-semibold">Country Code</p>
+                    <CountrySelector
+                      className="bg-white border border-gray-400"
+                      defaultValue="91"
+                      name="countryCode"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.countryCode}
+                      error={
+                        formik.touched.countryCode &&
+                        !!formik.errors.countryCode
+                      }
+                      helperText={
+                        formik.touched.countryCode && formik.errors.countryCode
+                      }
+                    />
+                  </div>
+                  <div className="w-full">
                     <p className="text-theme font-semibold">Phone</p>
+
                     <TextField
                       size="small"
                       fullWidth

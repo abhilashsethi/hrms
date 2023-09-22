@@ -129,6 +129,12 @@ export interface UserDashboard {
 	_count: number;
 	name: string;
 }
+export interface AttendanceDashboard {
+	totalUsers: number;
+	_count: number;
+	name: string;
+	lastWeekAttendanceArr: UserDashboard[];
+}
 export type User = {
 	firstName?: string;
 	lastName?: string;
@@ -364,6 +370,7 @@ export type Branch = {
 	createdAt?: Date;
 	updatedAt?: Date;
 	country?: string;
+	countryCode?: string;
 	count?: number;
 	employeesCount?: number;
 	branchName?: string;
@@ -597,6 +604,7 @@ export interface MeetingProps {
 	meetingPersonName?: string;
 	status?: string;
 	purpose?: string;
+	countryCode?: number;
 	lat?: number;
 	lng?: number;
 }
@@ -874,6 +882,7 @@ export interface MEETING_DATA {
 	clientPhone: string;
 	createdAt: string;
 	id: string;
+	countryCode: number;
 	lat: number;
 	lng: number;
 	meetingDate: string;

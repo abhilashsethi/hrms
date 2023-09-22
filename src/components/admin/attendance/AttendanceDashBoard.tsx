@@ -64,7 +64,7 @@ const AttendanceDashBoard = () => {
           className="text-theme group-hover:text-white shadow-xl rounded-lg"
         />
       ),
-      count: "34",
+      count: "340",
       title: "Today Present",
     },
     {

@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
-import { ErrorMessage, Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik, FormikValues } from "formik";
 import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRef, useState } from "react";
@@ -54,7 +54,7 @@ const CreateBranch = () => {
   const [loading, setLoading] = useState(false);
   const { data: userData } = useFetch<User[]>(`users`);
   const { change } = useChange();
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: FormikValues) => {
     setLoading(true);
     try {
       const photoUrls = [];
@@ -75,7 +75,7 @@ const CreateBranch = () => {
         location: values?.location,
         photos: photoUrls,
       };
-      const res: any = await change(`branches`, {
+      const res = await change(`branches`, {
         body: ticketText,
       });
       setLoading(false);

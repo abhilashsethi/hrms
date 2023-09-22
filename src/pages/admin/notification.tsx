@@ -42,7 +42,13 @@ const Notification = () => {
         confirmButtonText: "Yes, delete it!",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          Swal.fire(`Info`, "It will take some time", "info");
+          Swal.fire({
+            title: "Info",
+            text: "It will take some time",
+            icon: "info",
+            showConfirmButton: false,
+            timer: 1000,
+          });
           const res = await change(`notifications/${id}`, {
             method: "DELETE",
           });

@@ -20,23 +20,10 @@ import moment from "moment";
 import Link from "next/link";
 import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
+import { MEETING_DATA } from "types";
 
-interface ARRAY {
-  id?: string;
-  address?: string;
-  title?: string;
-  clientEmail?: string;
-  clientName?: string;
-  clientPhone?: string;
-  meetingDate?: string;
-  meetingEndTime?: string;
-  meetingStartTime?: string;
-  meetingPersonName?: string;
-  status?: string;
-  purpose?: string;
-}
 interface Props {
-  data?: ARRAY[];
+  data?: MEETING_DATA[];
   mutate: () => void;
 }
 
@@ -51,7 +38,7 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
             (a: any, b: any) =>
               (new Date(b?.createdAt) as any) - (new Date(a?.createdAt) as any)
           )
-          ?.map((items: any) => (
+          ?.map((items) => (
             <div
               className="relative border-2 border-b-theme py-4 bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide shadow-xl"
               key={items?.id}
@@ -115,12 +102,21 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
                     {items?.clientEmail ? items?.clientEmail : "---"}
                   </p>
                 </div>
+                {items?.countryCode && items?.clientPhone ? (
+                  <div className="md:flex gap-2 py-2 md:py-0">
+                    <p className="font-semibold text-base">Country Code :</p>
+                    <p className="text-sm md:text-base">
+                      {items?.countryCode ? items?.countryCode : ""}
+                    </p>
+                  </div>
+                ) : null}
                 <div className="md:flex gap-2 py-2 md:py-0">
                   <p className="font-semibold text-base">Client Phone :</p>
                   <p className="text-sm md:text-base">
                     {items?.clientPhone ? items?.clientPhone : "---"}
                   </p>
                 </div>
+
                 <div className="md:flex gap-2 py-2 md:py-0">
                   <p className="font-semibold text-base">Member Name :</p>
                   <p className="text-sm md:text-base">
@@ -170,7 +166,11 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
 
 export default MeetingsGrid;
 
-const CardComponent = ({ items, mutate }: any) => {
+interface CARD {
+  items: MEETING_DATA;
+  mutate: () => void;
+}
+const CardComponent = ({ items, mutate }: CARD) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: MouseEvent<HTMLElement>) => {

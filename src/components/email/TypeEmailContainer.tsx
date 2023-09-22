@@ -33,7 +33,7 @@ const TypeEmailContainer = ({
 }: {
   forwardedTo?: boolean;
   open?: boolean;
-  onClose?: (arg: any) => void;
+  onClose?: (arg: boolean) => void;
   data?: EmailType;
 }) => {
   const attachRef = useRef<HTMLInputElement | null>(null);
@@ -219,6 +219,7 @@ const TypeEmailContainer = ({
                   v?.map((item) => item?.id)
                 );
                 setSelectedAutocomplete(v);
+                setSearchText("");
               }}
               renderInput={(params) => (
                 <TextField

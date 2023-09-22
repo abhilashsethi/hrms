@@ -45,8 +45,6 @@ const AllBranch = () => {
     }${isOrderBy ? `&orderBy=${isOrderBy}` : ""}`
   );
 
-  console.log(branchData);
-
   return (
     <PanelLayout title="All Branches">
       <section className="lg:px-8 px-2 py-4">

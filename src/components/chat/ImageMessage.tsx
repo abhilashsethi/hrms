@@ -19,7 +19,7 @@ const ImageMessage = ({ data }: Props) => {
         handleClose={() => setIsPreview(false)}
         activePreview={String(data?.link)}
       />
-      <div className="h-52 w-full relative group">
+      <div className="h-52 w-full relative group min-w-fit py-2 px-4 bg-blue-100 rounded-md">
         <img
           className="h-full w-full rounded-md object-cover"
           src={data?.link}
@@ -32,7 +32,8 @@ const ImageMessage = ({ data }: Props) => {
           <Visibility className="!text-white" />
         </div>
       </div>
-      <div className="flex justify-end mt-2">
+      <div className="flex min-w-fit justify-between px-2 mt-1">
+        <p className="tracking-wide ">{data?.text}</p>
         <Tooltip title="Download">
           <Link href={data?.link} target="_blank">
             <IconButton size="small">
@@ -41,9 +42,6 @@ const ImageMessage = ({ data }: Props) => {
           </Link>
         </Tooltip>
       </div>
-      <p className="tracking-wide min-w-fit break-all  whitespace-pre-line break-words ">
-        {data?.text}
-      </p>
     </>
   );
 };

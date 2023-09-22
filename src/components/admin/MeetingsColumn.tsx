@@ -26,25 +26,12 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import { MouseEvent, useState } from "react";
 import Swal from "sweetalert2";
+import { MEETING_DATA } from "types";
 import { MuiTblOptions } from "utils";
 
-interface ARRAY {
-  id?: string;
-  title?: string;
-  address?: string;
-  clientEmail?: string;
-  clientName?: string;
-  clientPhone?: string;
-  meetingDate?: string;
-  meetingEndTime?: string;
-  meetingStartTime?: string;
-  meetingPersonName?: string;
-  status?: string;
-  purpose?: string;
-}
 interface Props {
-  data?: ARRAY[];
-  mutate?: any;
+  data?: MEETING_DATA[];
+  mutate: () => void;
 }
 
 const MeetingsColumn = ({ data, mutate }: Props) => {
@@ -82,9 +69,7 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
       }
     });
   };
-
   const router = useRouter();
-
   return (
     <>
       <div className="mt-6">
@@ -97,7 +82,7 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
           data={
             !data?.length
               ? []
-              : data?.map((_: any, i: number) => ({
+              : data?.map((_, i: number) => ({
                   ..._,
                   sn: i + 1,
                   meetingDate: moment(_?.meetingDate).format("DD/MM/YYYY"),
@@ -139,6 +124,21 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
               searchable: true,
               field: "clientPhone",
               render: (data) => (data?.clientPhone ? data?.clientPhone : "---"),
+            },
+            {
+              title: "Country Code",
+              tooltip: "Country Code",
+              searchable: true,
+              field: "countryCode",
+              render: (data) => (
+                <>
+                  {data?.countryCode && data?.clientPhone ? (
+                    <span>{data?.countryCode ? data?.countryCode : "---"}</span>
+                  ) : (
+                    "---"
+                  )}
+                </>
+              ),
             },
             {
               title: "Meeting Date",
