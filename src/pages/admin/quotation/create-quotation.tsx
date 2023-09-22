@@ -404,7 +404,7 @@ const CreateQuotation = () => {
 										</FieldArray>
 										<div className="my-3 px-4">
 											<p className="text-gray-500">
-												Please Choose Tax Option{" "}
+												Please Choose Tax Option
 												<span className="text-red-600">*</span>
 											</p>
 											<RadioGroup
