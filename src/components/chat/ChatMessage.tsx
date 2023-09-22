@@ -152,7 +152,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
           {data?.reactedUsers?.length ? (
             <div
               onClick={() => setIsReactions(true)}
-              className="absolute cursor-pointer bottom-[-22px] left-[5px] shadow-md bg-white border-[1px] rounded-full py-0.5 px-2"
+              className="absolute cursor-pointer bottom-[-10px] left-[5px] shadow-md bg-white border-[1px] rounded-full py-0.5 px-2"
             >
               {data?.reactedUsers?.map((curElm: any) => (
                 <span key={curElm?.id}>{curElm?.reaction}</span>
@@ -169,7 +169,7 @@ export default ChatMessage;
 const DocFormat = ({ data }: { data?: IChatMessages }) => {
   return (
     <>
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center min-w-fit py-2 px-4 bg-blue-100 rounded-md">
         <img className="h-12 object-contain" src={CHATDOC.src} alt="" />
         <div className="md:flex grid w-4/5 justify-between items-center">
           <h1 className="md:block hidden">{data?.link?.split("/")?.at(-1)}</h1>
@@ -203,7 +203,7 @@ const CodeFormat = ({ data }: CodeMsgProps) => {
   const [language, changeLanguage] = useState("jsx");
   const [lineNumbers, toggleLineNumbers] = useState(true);
   return (
-    <div className="md:w-full w-48">
+    <div className="md:w-full w-48 min-w-fit py-2 px-4 bg-blue-100 rounded-md">
       <CopyBlock
         language={language}
         text={data?.text}
@@ -278,7 +278,7 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
   const handleDelete = async () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You want to remove this member!",
+      text: "You want to remove this chat!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -386,10 +386,10 @@ const ReactEmoji = ({ data, activeProfile }: EmojiProps) => {
 
 const LinkFormat = ({ data }: any) => {
   return (
-    <div className="md:flex gap-2 items-start">
+    <div className="md:flex gap-2 items-start py-2 px-4 bg-blue-100 rounded-md ">
       <InsertLink />
       <Link target="_blank" href={data?.text}>
-        <h1 className="cursor-pointer min-w-fit break-all whitespace-pre-line">
+        <h1 className="cursor-pointer min-w-fit break-all  whitespace-pre-line">
           {data?.text}
         </h1>
       </Link>
@@ -398,7 +398,7 @@ const LinkFormat = ({ data }: any) => {
 };
 const AudioFormat = ({ data }: any) => {
   return (
-    <div className="md:flex gap-2 items-start">
+    <div className="md:flex gap-2 items-start py-2 px-4 bg-blue-100 rounded-md">
       <audio controls src={data?.link} className="w-full h-9 min-w-[200px]">
         <a href={data?.link}> Download audio </a>
       </audio>

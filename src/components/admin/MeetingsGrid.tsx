@@ -34,6 +34,9 @@ interface ARRAY {
   meetingPersonName?: string;
   status?: string;
   purpose?: string;
+  lat?: number;
+  lng?: number;
+  countryCode?: number;
 }
 interface Props {
   data?: ARRAY[];
@@ -51,7 +54,7 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
             (a: any, b: any) =>
               (new Date(b?.createdAt) as any) - (new Date(a?.createdAt) as any)
           )
-          ?.map((items: any) => (
+          ?.map((items) => (
             <div
               className="relative border-2 border-b-theme py-4 bg-white w-full rounded-xl flex flex-col gap-2 tracking-wide shadow-xl"
               key={items?.id}
@@ -119,6 +122,12 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
                   <p className="font-semibold text-base">Client Phone :</p>
                   <p className="text-sm md:text-base">
                     {items?.clientPhone ? items?.clientPhone : "---"}
+                  </p>
+                </div>
+                <div className="md:flex gap-2 py-2 md:py-0">
+                  <p className="font-semibold text-base">Country Code :</p>
+                  <p className="text-sm md:text-base">
+                    {items?.countryCode ? items?.countryCode : "---"}
                   </p>
                 </div>
                 <div className="md:flex gap-2 py-2 md:py-0">
