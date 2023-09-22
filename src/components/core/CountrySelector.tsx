@@ -1,6 +1,13 @@
 // import { countries } from "configs";
 
-import { FormHelperText, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  FormHelperText,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { countries } from "schemas/Countries";
 
 const CountrySelector = ({
@@ -15,7 +22,41 @@ const CountrySelector = ({
 }: any) => {
   return (
     <>
-      <Select
+      <Autocomplete
+        // sx={{ width: "33%" }}
+        options={countries}
+        size="small"
+        autoHighlight
+        getOptionLabel={(option) => `${`+` + option.phone}`}
+        onChange={onChange}
+        renderOption={(props, option) => (
+          <Box
+            component="li"
+            sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+            {...props}
+          >
+            <img
+              loading="lazy"
+              width="20"
+              src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+              srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+              alt=""
+            />
+            ({option.code}) +{option.phone}
+          </Box>
+        )}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Country Code"
+            inputProps={{
+              ...params.inputProps,
+              autoComplete: "new-password",
+            }}
+          />
+        )}
+      />
+      {/* <Select
         defaultValue={defaultValue}
         name={name}
         onChange={onChange}
@@ -29,7 +70,7 @@ const CountrySelector = ({
             + {item.phone}
           </MenuItem>
         ))}
-      </Select>
+      </Select> */}
       {error ? (
         <FormHelperText error={true}>{helperText}</FormHelperText>
       ) : null}

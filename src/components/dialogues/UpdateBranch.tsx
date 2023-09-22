@@ -283,39 +283,38 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
                     />
                   </div>
                   <div className="w-full">
+                    <p className="text-theme font-semibold">Country Code</p>
+                    <CountrySelector
+                      className="bg-white border border-gray-400"
+                      defaultValue="91"
+                      name="countryCode"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.countryCode}
+                      error={
+                        formik.touched.countryCode &&
+                        !!formik.errors.countryCode
+                      }
+                      helperText={
+                        formik.touched.countryCode && formik.errors.countryCode
+                      }
+                    />
+                  </div>
+                  <div className="w-full">
                     <p className="text-theme font-semibold">Phone</p>
-                    <div className="md:flex grid justify-center gap-2 items-center">
-                      <div className="w-full md:w-1/4 lg:w-32">
-                        <CountrySelector
-                          className="bg-white border border-gray-400"
-                          defaultValue="91"
-                          name="countryCode"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.countryCode}
-                          error={
-                            formik.touched.countryCode &&
-                            !!formik.errors.countryCode
-                          }
-                          helperText={
-                            formik.touched.countryCode &&
-                            formik.errors.countryCode
-                          }
-                        />
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        type="number"
-                        placeholder="Phone"
-                        name="phone"
-                        value={formik.values.phone}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        error={formik.touched.phone && !!formik.errors.phone}
-                        helperText={formik.touched.phone && formik.errors.phone}
-                      />
-                    </div>
+
+                    <TextField
+                      size="small"
+                      fullWidth
+                      type="number"
+                      placeholder="Phone"
+                      name="phone"
+                      value={formik.values.phone}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.phone && !!formik.errors.phone}
+                      helperText={formik.touched.phone && formik.errors.phone}
+                    />
                   </div>
                   <div className="w-full">
                     <p className="text-theme font-semibold">Email</p>
