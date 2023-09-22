@@ -82,9 +82,7 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
       }
     });
   };
-
   const router = useRouter();
-
   return (
     <>
       <div className="mt-6">
@@ -139,6 +137,21 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
               searchable: true,
               field: "clientPhone",
               render: (data) => (data?.clientPhone ? data?.clientPhone : "---"),
+            },
+            {
+              title: "Country Code",
+              tooltip: "Country Code",
+              searchable: true,
+              field: "countryCode",
+              render: (data) => (
+                <>
+                  {data?.countryCode && data?.clientPhone ? (
+                    <span>{data?.countryCode ? data?.countryCode : "---"}</span>
+                  ) : (
+                    "---"
+                  )}
+                </>
+              ),
             },
             {
               title: "Meeting Date",

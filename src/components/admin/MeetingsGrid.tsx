@@ -118,18 +118,21 @@ const MeetingsGrid = ({ data, mutate }: Props) => {
                     {items?.clientEmail ? items?.clientEmail : "---"}
                   </p>
                 </div>
+                {items?.countryCode && items?.clientPhone ? (
+                  <div className="md:flex gap-2 py-2 md:py-0">
+                    <p className="font-semibold text-base">Country Code :</p>
+                    <p className="text-sm md:text-base">
+                      {items?.countryCode ? items?.countryCode : ""}
+                    </p>
+                  </div>
+                ) : null}
                 <div className="md:flex gap-2 py-2 md:py-0">
                   <p className="font-semibold text-base">Client Phone :</p>
                   <p className="text-sm md:text-base">
                     {items?.clientPhone ? items?.clientPhone : "---"}
                   </p>
                 </div>
-                <div className="md:flex gap-2 py-2 md:py-0">
-                  <p className="font-semibold text-base">Country Code :</p>
-                  <p className="text-sm md:text-base">
-                    {items?.countryCode ? items?.countryCode : "---"}
-                  </p>
-                </div>
+
                 <div className="md:flex gap-2 py-2 md:py-0">
                   <p className="font-semibold text-base">Member Name :</p>
                   <p className="text-sm md:text-base">

@@ -603,6 +603,7 @@ export interface MeetingProps {
 	meetingPersonName?: string;
 	status?: string;
 	purpose?: string;
+	countryCode?: number;
 	lat?: number;
 	lng?: number;
 }
@@ -880,6 +881,7 @@ export interface MEETING_DATA {
 	clientPhone: string;
 	createdAt: string;
 	id: string;
+	countryCode: number;
 	lat: number;
 	lng: number;
 	meetingDate: string;
