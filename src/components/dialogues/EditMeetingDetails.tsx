@@ -280,7 +280,9 @@ const EditMeetingDetails = ({
                       className="bg-white border border-gray-400 py-4"
                       defaultValue="91"
                       name="countryCode"
-                      onChange={handleChange}
+                      onChange={(e: any, r: any) => {
+                        setFieldValue("countryCode", r?.phone);
+                      }}
                       onBlur={handleBlur}
                       value={values.countryCode}
                       error={touched.countryCode && !!errors.countryCode}

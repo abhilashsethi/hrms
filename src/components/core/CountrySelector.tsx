@@ -23,12 +23,12 @@ const CountrySelector = ({
   return (
     <>
       <Autocomplete
-        // sx={{ width: "33%" }}
         options={countries}
         size="small"
         autoHighlight
-        getOptionLabel={(option) => `${`+` + option.phone}`}
+        getOptionLabel={(option) => `${"+" + option.phone}`}
         onChange={onChange}
+        value={value && countries?.find((option) => option.phone === value)}
         renderOption={(props, option) => (
           <Box
             component="li"
@@ -56,6 +56,9 @@ const CountrySelector = ({
           />
         )}
       />
+      {error ? (
+        <FormHelperText error={true}>{helperText}</FormHelperText>
+      ) : null}
       {/* <Select
         defaultValue={defaultValue}
         name={name}
@@ -71,9 +74,9 @@ const CountrySelector = ({
           </MenuItem>
         ))}
       </Select> */}
-      {error ? (
+      {/* {error ? (
         <FormHelperText error={true}>{helperText}</FormHelperText>
-      ) : null}
+      ) : null} */}
     </>
   );
 };
