@@ -1,25 +1,7 @@
-// import { countries } from "configs";
-
-import {
-  Autocomplete,
-  Box,
-  FormHelperText,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, Box, FormHelperText, TextField } from "@mui/material";
 import { countries } from "schemas/Countries";
 
-const CountrySelector = ({
-  name,
-  onChange,
-  onBlur,
-  value,
-  defaultValue,
-  className,
-  error,
-  helperText,
-}: any) => {
+const CountrySelector = ({ onChange, value, error, helperText }: any) => {
   return (
     <>
       <Autocomplete
@@ -73,8 +55,8 @@ const CountrySelector = ({
             + {item.phone}
           </MenuItem>
         ))}
-      </Select> */}
-      {/* {error ? (
+      </Select>
+      {error ? (
         <FormHelperText error={true}>{helperText}</FormHelperText>
       ) : null} */}
     </>
