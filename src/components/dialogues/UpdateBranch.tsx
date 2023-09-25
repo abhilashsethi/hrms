@@ -48,11 +48,9 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
     initialValues: {
       name: `${branchData?.name ? branchData?.name : ""}`,
       email: `${branchData?.email ? branchData?.email : ""}`,
-      phone: `${branchData?.phone ? branchData?.phone : 0}`,
+      phone: `${branchData?.phone ? branchData?.phone : ""}`,
       country: `${branchData?.country ? branchData?.country : ""}`,
-      countryCode: `${
-        branchData?.countryCode ? branchData?.countryCode : null
-      }`,
+      countryCode: branchData?.countryCode ? branchData?.countryCode : null,
       location: `${branchData?.location ? branchData?.location : ""}`,
       managerId: `${branchData?.managerId ? branchData?.managerId : ""}`,
       photos: branchData?.photos ? branchData?.photos : [],
@@ -60,7 +58,6 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
     enableReinitialize: true,
     validationSchema: yup.object({
       country: yup.string().required("Country name is required!"),
-      countryCode: yup.string().required("Country code is required!"),
       location: yup.string().required("Location is required!"),
       managerId: yup.string().required("Manager is required!"),
       name: yup
@@ -81,22 +78,13 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const reqValue = Object.entries(values).reduce(
-          (acc: any, [key, value]) => {
-            if (key !== "link" && value) {
-              acc[key] = value;
-            }
-            return acc;
-          },
-          {}
-        );
         const res = await change(`branches/${branchData?.id}`, {
           method: "PATCH",
           body: {
             name: values?.name,
-            email: values?.email ? values?.email : null,
-            phone: values?.phone ? values?.phone : null,
-            countryCode: values?.countryCode,
+            email: values?.email,
+            phone: values?.phone,
+            countryCode: values?.countryCode ? values?.countryCode : "",
             country: values?.country,
             location: values?.location,
             managerId: values?.managerId,
@@ -286,9 +274,7 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
                     />
                   </div>
                   <div className="w-full">
-                    <p className="text-theme font-semibold">
-                      Country Code <span className="text-red-600">*</span>
-                    </p>
+                    <p className="text-theme font-semibold">Country Code</p>
                     <CountrySelector
                       className="bg-white border border-gray-400"
                       defaultValue="91"
