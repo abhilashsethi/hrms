@@ -64,6 +64,7 @@ const CreateAppointment = () => {
     startDate: Yup.string().required("Required!"),
     startTime: Yup.string().required("Required!"),
     endTime: Yup.string().required("Required!"),
+    countryCode: Yup.string().required("Required."),
     status: Yup.string().required("Required!"),
     reason: Yup.string().required("Required!"),
     image: Yup.mixed()

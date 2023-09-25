@@ -35,7 +35,6 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required!"),
-  countryCode: Yup.string().required("Country Code Required."),
   phone: Yup.string()
     .matches(
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
@@ -47,6 +46,7 @@ const validationSchema = Yup.object().shape({
   gender: Yup.string().required("Gender is required!"),
   designation: Yup.string().required("Designation is required!"),
   visitInfo: Yup.string().required("Visit information is required"),
+  countryCode: Yup.string().required("Country code required."),
 });
 
 const CreateGuest = () => {

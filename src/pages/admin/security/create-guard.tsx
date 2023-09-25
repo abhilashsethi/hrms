@@ -85,6 +85,7 @@ const validationSchema = Yup.object().shape({
   joiningDate: Yup.string().required("Required!"),
   shiftId: Yup.string().required("Required!"),
   roleId: Yup.string().required("Required!"),
+  countryCode: Yup.string().required("Required."),
   departmentId: Yup.string().required("Required!"),
 });
 

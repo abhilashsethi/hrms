@@ -59,7 +59,8 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
     },
     enableReinitialize: true,
     validationSchema: yup.object({
-      country: yup.string().required("Country Name is required!"),
+      country: yup.string().required("Country name is required!"),
+      countryCode: yup.string().required("Country code is required!"),
       location: yup.string().required("Location is required!"),
       managerId: yup.string().required("Manager is required!"),
       name: yup

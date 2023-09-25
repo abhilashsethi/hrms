@@ -10,7 +10,9 @@ const CountrySelector = ({ onChange, value, error, helperText }: any) => {
         autoHighlight
         getOptionLabel={(option) => `${"+" + option.phone}`}
         onChange={onChange}
-        value={value && countries?.find((option) => option.phone === value)}
+        value={
+          value ? countries.find((option) => option.phone === value) : null
+        }
         renderOption={(props, option) => (
           <Box
             component="li"

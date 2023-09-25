@@ -74,6 +74,7 @@ const UpdateAppointmentDetails = ({
       email: yup.string().email("Invalid email address"),
       address: yup.string().required("Required!"),
       startDate: yup.string().required("Required!"),
+      countryCode: yup.string().required("Required!"),
       whomToVisitId: yup.string().required("Required!"),
       reason: yup.string().required("Required!"),
       status: yup.string().required("Required!"),

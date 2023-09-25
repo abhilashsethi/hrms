@@ -31,7 +31,7 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  country: Yup.string().required("Country Name is required!"),
+  country: Yup.string().required("Country name is required!"),
   location: Yup.string().required("Location is required!"),
   managerId: Yup.string().required("Manager is required!"),
   name: Yup.string()
@@ -46,7 +46,7 @@ const validationSchema = Yup.object().shape({
     .min(6)
     .max(15),
   email: Yup.string().email("Invalid email address"),
-  countryCode: Yup.string().required("Country Code Required."),
+  countryCode: Yup.string().required("Country code Required."),
 });
 
 const CreateBranch = () => {

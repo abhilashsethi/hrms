@@ -62,6 +62,7 @@ const validationSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password Must Match!")
     .required("Confirm password is required!"),
+  countryCode: Yup.string().required("Country code required."),
   image: Yup.mixed().test(
     "fileType",
     "Only image files are allowed",

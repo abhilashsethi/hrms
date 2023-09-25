@@ -27,15 +27,15 @@ interface Props {
 }
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required("Meeting Name is Required"),
-  meetingStartTime: Yup.string().required("Start Time is required"),
-  // meetingEndTime: Yup.string().required("End Time is required"),
-  clientName: Yup.string().required("Client Name is required"),
-  clientEmail: Yup.string().required("Client Email is required"),
-  status: Yup.string().required("Meeting Status is required!"),
-  clientPhone: Yup.string().required("Client Phone is required"),
-  // clientCountry: Yup.string().required("Client Country is required"),
-  meetingPersonName: Yup.string().required("Members Visited is required"),
+  title: Yup.string().required("Meeting Name Is Required"),
+  meetingStartTime: Yup.string().required("Start Time Is Required"),
+  // meetingEndTime: Yup.string().required("End Time Is required"),
+  clientName: Yup.string().required("Client Name Is Required"),
+  clientEmail: Yup.string().required("Client Email Is Required"),
+  status: Yup.string().required("Meeting Status Is Required!"),
+  clientPhone: Yup.string().required("Client Phone Is Required"),
+  countryCode: Yup.string().required("Country Code Is Required"),
+  meetingPersonName: Yup.string().required("Members Visited Is Required"),
 });
 const EditMeetingDetails = ({
   open,
@@ -51,7 +51,6 @@ const EditMeetingDetails = ({
   const { data: meetingDetails, isLoading } = useFetch<MeetingProps>(
     `meetings/${meetingId}`
   );
-  console.log(meetingDetails);
 
   const initialValues = {
     title: `${meetingDetails?.title ? meetingDetails?.title : ""}`,
@@ -281,6 +280,7 @@ const EditMeetingDetails = ({
                   defaultValue="91"
                   name="countryCode"
                   onChange={(e: any, r: any) => {
+                    handleChange(e);
                     setFieldValue("countryCode", r?.phone);
                   }}
                   onBlur={handleBlur}
@@ -385,10 +385,7 @@ const EditMeetingDetails = ({
 };
 
 export default EditMeetingDetails;
-const leavesType = [
-  { id: 1, value: "First_Half" },
-  { id: 2, value: "Second_Half" },
-];
+
 const Status_Type = [
   {
     id: 1,
