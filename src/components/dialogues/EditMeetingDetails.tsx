@@ -22,7 +22,7 @@ import * as Yup from "yup";
 interface Props {
 	open: boolean;
 	handleClose: () => void;
-	meetingId: () => void;
+	meetingId: string | string[] | undefined;
 	mutate: () => void;
 }
 
