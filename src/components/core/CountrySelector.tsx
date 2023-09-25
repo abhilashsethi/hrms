@@ -1,7 +1,13 @@
 import { Autocomplete, Box, FormHelperText, TextField } from "@mui/material";
 import { countries } from "schemas/Countries";
 
-const CountrySelector = ({ onChange, value, error, helperText }: any) => {
+const CountrySelector = ({
+  onChange,
+  value,
+  error,
+  helperText,
+  onBlur,
+}: any) => {
   return (
     <>
       <Autocomplete
@@ -37,12 +43,15 @@ const CountrySelector = ({ onChange, value, error, helperText }: any) => {
               ...params.inputProps,
               autoComplete: "new-password",
             }}
+            onBlur={onBlur}
+            error={error && !!error}
+            helperText={helperText && helperText}
           />
         )}
       />
-      {error ? (
+      {/* {error ? (
         <FormHelperText error={true}>{helperText}</FormHelperText>
-      ) : null}
+      ) : null} */}
       {/* <Select
         defaultValue={defaultValue}
         name={name}
