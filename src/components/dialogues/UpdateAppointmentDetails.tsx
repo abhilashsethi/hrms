@@ -11,6 +11,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import CountrySelector from "components/core/CountrySelector";
 import { useFormik } from "formik";
 import { useChange, useFetch } from "hooks";
 import moment from "moment";
@@ -51,6 +52,9 @@ const UpdateAppointmentDetails = ({
       reason: `${appointmentData?.reason ? appointmentData?.reason : ""}`,
       address: `${appointmentData?.address ? appointmentData?.address : ""}`,
       status: `${appointmentData?.status ? appointmentData?.status : ""}`,
+      countryCode: `${
+        appointmentData?.countryCode ? appointmentData?.countryCode : "91"
+      }`,
     },
     enableReinitialize: true,
     validationSchema: yup.object({
@@ -217,7 +221,26 @@ const UpdateAppointmentDetails = ({
                       helperText={formik.touched.name && formik.errors.name}
                     />
                   </div>
-
+                  <div className="w-full">
+                    <p className="text-theme font-semibold">Country Code</p>
+                    <CountrySelector
+                      className="bg-white border border-gray-400"
+                      defaultValue="91"
+                      name="countryCode"
+                      onChange={(e: any, r: any) => {
+                        formik.setFieldValue("countryCode", r?.phone);
+                      }}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.countryCode}
+                      error={
+                        formik.touched.countryCode &&
+                        !!formik.errors.countryCode
+                      }
+                      helperText={
+                        formik.touched.countryCode && formik.errors.countryCode
+                      }
+                    />
+                  </div>
                   <div className="w-full">
                     <p className="text-theme font-semibold">Phone</p>
                     <TextField
