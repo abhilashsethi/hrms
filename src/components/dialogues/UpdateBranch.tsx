@@ -78,16 +78,6 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const reqValue = Object.entries(values).reduce(
-          (acc: any, [key, value]) => {
-            if (key !== "link" && value) {
-              acc[key] = value;
-            }
-            return acc;
-          },
-          {}
-        );
-        console.log(reqValue);
         const res = await change(`branches/${branchData?.id}`, {
           method: "PATCH",
           body: {
