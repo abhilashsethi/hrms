@@ -77,6 +77,7 @@ const validationSchema = Yup.object().shape({
 
       return selectedDate <= minAgeDate;
     }),
+  countryCode: Yup.string().required("Country code required."),
   roleId: Yup.string().required("Role is required!"),
   departmentId: Yup.string().required("Department Id is required!"),
   gender: Yup.string().required("Gender is required!"),
