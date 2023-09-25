@@ -17,7 +17,7 @@ import Swal from "sweetalert2";
 import * as Yup from "yup";
 const initialValues = {
   name: "",
-  countryCode: "91",
+  countryCode: null,
   phone: "",
   email: "",
   gender: "",

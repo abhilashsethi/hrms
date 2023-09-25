@@ -51,7 +51,7 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
       phone: `${branchData?.phone ? branchData?.phone : 0}`,
       country: `${branchData?.country ? branchData?.country : ""}`,
       countryCode: `${
-        branchData?.countryCode ? branchData?.countryCode : "91"
+        branchData?.countryCode ? branchData?.countryCode : null
       }`,
       location: `${branchData?.location ? branchData?.location : ""}`,
       managerId: `${branchData?.managerId ? branchData?.managerId : ""}`,
@@ -285,7 +285,9 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
                     />
                   </div>
                   <div className="w-full">
-                    <p className="text-theme font-semibold">Country Code</p>
+                    <p className="text-theme font-semibold">
+                      Country Code <span className="text-red-600">*</span>
+                    </p>
                     <CountrySelector
                       className="bg-white border border-gray-400"
                       defaultValue="91"

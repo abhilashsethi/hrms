@@ -53,7 +53,7 @@ const UpdateAppointmentDetails = ({
       address: `${appointmentData?.address ? appointmentData?.address : ""}`,
       status: `${appointmentData?.status ? appointmentData?.status : ""}`,
       countryCode: `${
-        appointmentData?.countryCode ? appointmentData?.countryCode : "91"
+        appointmentData?.countryCode ? appointmentData?.countryCode : null
       }`,
     },
     enableReinitialize: true,
@@ -222,7 +222,9 @@ const UpdateAppointmentDetails = ({
                     />
                   </div>
                   <div className="w-full">
-                    <p className="text-theme font-semibold">Country Code</p>
+                    <p className="text-theme font-semibold">
+                      Country Code <span className="text-red-600">*</span>
+                    </p>
                     <CountrySelector
                       className="bg-white border border-gray-400"
                       defaultValue="91"

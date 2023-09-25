@@ -21,7 +21,7 @@ import * as Yup from "yup";
 const initialValues = {
 	firstName: "",
 	lastName: "",
-	countryCode: "91",
+	countryCode: null,
 	phone: "",
 	email: "",
 	roleId: "",
@@ -53,8 +53,7 @@ const validationSchema = Yup.object().shape({
 			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
 			"Phone number is not valid"
 		)
-		.min(6)
-		.max(15),
+		.min(10),
 	email: Yup.string()
 		.email("Invalid email address")
 		.required("Email is required!")
@@ -70,7 +69,7 @@ const validationSchema = Yup.object().shape({
 interface FormValues {
 	firstName?: string;
 	lastName?: string;
-	countryCode?: string;
+	countryCode?: string | null;
 	email?: string;
 	phone?: string;
 	departmentId?: string;
@@ -252,7 +251,9 @@ const CreateEmployee = () => {
 										</div>
 										<div className="md:px-4 px-2 md:py-2 py-1">
 											<div className="py-2">
-												<InputLabel htmlFor="phone">Country Code</InputLabel>
+												<InputLabel htmlFor="phone">
+													Country Code <span className="text-red-600">*</span>
+												</InputLabel>
 											</div>
 											<CountrySelector
 												className="bg-white border border-gray-400"
