@@ -53,7 +53,8 @@ const validationSchema = Yup.object().shape({
 			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
 			"Phone number is not valid"
 		)
-		.min(10),
+		.min(6)
+		.max(15),
 	email: Yup.string()
 		.email("Invalid email address")
 		.required("Email is required!")
