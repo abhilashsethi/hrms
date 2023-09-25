@@ -23,7 +23,7 @@ const initialValues = {
   name: "",
   phone: "",
   email: "",
-  countryCode: "91",
+  countryCode: null,
   country: "",
   location: "",
   managerId: "",
@@ -231,7 +231,9 @@ const CreateBranch = () => {
                     </div>
                     <div className=" md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2">
-                        <InputLabel htmlFor="phone">Country Code</InputLabel>
+                        <InputLabel htmlFor="phone">
+                          Country Code <span className="text-red-600">*</span>
+                        </InputLabel>
                       </div>
                       <CountrySelector
                         className="bg-white border border-gray-400"

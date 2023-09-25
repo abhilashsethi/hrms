@@ -21,7 +21,7 @@ import * as Yup from "yup";
 const initialValues = {
   firstName: "",
   lastName: "",
-  countryCode: "91",
+  countryCode: null,
   phone: "",
   email: "",
   gender: "",
@@ -303,7 +303,9 @@ const AddClients = () => {
 
                   <div className="px-4 py-2">
                     <div className="py-2">
-                      <InputLabel htmlFor="phone">Phone</InputLabel>
+                      <InputLabel htmlFor="phone">
+                        Phone <span className="text-red-600">*</span>
+                      </InputLabel>
                     </div>
                     <div className="md:flex grid gap-2 justify-center items-center">
                       <div className=" w-full md:w-1/4 lg:w-32">

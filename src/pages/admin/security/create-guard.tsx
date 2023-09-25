@@ -33,7 +33,7 @@ interface FormValues {
   roleId: string;
   departmentId: string;
   isAgency?: boolean;
-  countryCode?: string;
+  countryCode?: string | null;
 }
 type ReqValue = Partial<FormValues>;
 const initialValues = {
@@ -48,7 +48,7 @@ const initialValues = {
   agencyName: "",
   shiftId: "",
   roleId: "",
-  countryCode: "91",
+  countryCode: null,
   departmentId: "",
 };
 
