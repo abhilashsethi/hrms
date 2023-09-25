@@ -82,7 +82,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
         enableReinitialize={true}
         validationSchema={validationSchema}
       >
-        {({ values, errors, handleBlur, touched }) => (
+        {({ values, errors, handleBlur, touched, setFieldValue }) => (
           <Form>
             <div className="w-full my-6 py-6 md:px-20 flex justify-center">
               <FieldArray name="inputFields">
@@ -114,11 +114,13 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
                           <TextField
                             type="file"
                             name={`inputFields[${index}].doc`}
+                            
                             onChange={(event: any) => {
                               const file = event.target?.files[0];
                               if (file) {
                                 const newValues = [...values.inputFields];
                                 newValues[index].doc = file;
+                                setFieldValue("inputFields", newValues);
                               }
                             }}
                             onBlur={handleBlur}
