@@ -1059,6 +1059,5 @@ export interface DefaultDashboard {
 	currentMonthAttendanceCount: number;
 	currentYearAttendance: Count[];
 	leaveOverView: Count[];
-
-
+	totalEmailCount: number;
 }
