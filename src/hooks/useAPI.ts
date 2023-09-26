@@ -15,7 +15,7 @@ export const getAccessToken = () => {
 // export const BASE_URL: "https://api.yardone.live/api/v1" = `https://api.yardone.live/api/v1`;
 export const BASE_URL = Public_BASE_URL;
 // export const BASE_URL: "https://surround-festivals-payday-scary.trycloudflare.com/api/v1" = `https://surround-festivals-payday-scary.trycloudflare.com/api/v1`;
-// export const BASE_URL: "http://192.168.1.236:8080/api/v1" = `http://192.168.1.236:8080/api/v1`;
+// export const BASE_URL: "http://192.168.1.252:8080/api/v1" = `http://192.168.1.252:8080/api/v1`;
 
 type useFetchOptions = {
 	BASE_URL: typeof BASE_URL | "/api";
@@ -45,6 +45,35 @@ export const useFetch = <T>(path: string, options?: useFetchOptions) => {
 		},
 		{
 			revalidateOnFocus: true,
+		}
+	);
+	return {
+		...data,
+		response: data,
+		success: data.data?.success,
+		msg: data.data?.msg,
+		data: data.data?.data,
+		pagination: data?.data?.pagination,
+	};
+};
+
+export const useFetch_Fun = <T>(path: string, options?: useFetchOptions) => {
+	const url = options?.BASE_URL || BASE_URL;
+	const token = getAccessToken();
+	const data = useSWR<{
+		data?: T;
+		success: boolean;
+		msg: string;
+		pagination?: { total: number; page?: string; limit?: string };
+	}>(
+		path?.includes("undefined") ? null : `${url}/${path}`,
+		(args: any) => {
+			const headers: HeadersInit = {};
+			if (token) headers["x-access-token"] = token;
+			return fetch(args, { headers }).then((_) => _.json());
+		},
+		{
+			revalidateOnFocus: false,
 		}
 	);
 	return {
