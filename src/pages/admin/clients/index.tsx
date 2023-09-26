@@ -12,7 +12,7 @@ const index = () => {
 	const { data: clientData, isLoading } = useFetch<Client>(
 		`clients/dashboard/details`
 	);
-
+	console.log(clientData);
 	return (
 		<PanelLayout title="Clients Dashboard ">
 			<div className="px-4 pt-4">
