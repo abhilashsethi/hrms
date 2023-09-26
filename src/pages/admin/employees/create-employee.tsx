@@ -67,8 +67,8 @@ const validationSchema = Yup.object().shape({
 	countryCode: Yup.string()
 		.required("Country code required.")
 		.matches(
-			/^\d{0,5}$/, // Regex pattern for up to 5 digits for the extension
-			"Invalid extension. Please enter up to 5 digits."
+			/^[0-9]+$/, // Regex pattern to match only numbers
+			"This field should contain only numbers"
 		),
 	joiningDate: Yup.string().required("Joining date is required!"),
 });
