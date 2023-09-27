@@ -5,10 +5,10 @@ import { EmailType } from "types";
 
 const ReplyToEmail = ({ data }: { data?: EmailType }) => {
   const { push } = useRouter();
-
+  console.log(data);
   return (
     <div
-      onClick={() => push(`/admin/email/${data?.id}`)}
+      onClick={() => push(`/admin/email/${data?.replyTo?.id}`)}
       className={`flex-col flex md:flex-row border-b cursor-pointer border-gray-200 bg-themeBlue rounded-md shadow-lg  w-full items-center `}
     >
       <div className="md:px-5 px-3 py-5 md:max-w-[22%] w-full text-sm">
