@@ -27,7 +27,11 @@ const EmployeeProfile = () => {
         <span
           className={`flex items-center px-4 py-1 border-[1px] justify-center font-semibold ${
             eventInfo.event.title === "PRESENT"
-              ? `bg-emerald-200 text-green-500 border-green-400`
+              ? ` ${
+                  eventInfo.event?.extendedProps?.WFH
+                    ? "bg-green-200 text-green-500 border-green-400"
+                    : "text-green-500 border-green-400 bg-emerald-200"
+                } `
               : `bg-red-200 text-red-500 border-red-400`
           }`}
         >
@@ -78,22 +82,20 @@ const EmployeeProfile = () => {
   }
 
   useEffect(() => {
-    if (!attendanceData) return;
-    // Filter and format the events based on the current month
-    const currentMonthEvents = attendanceData
-      .filter((item) => {
-        const eventMonth = moment(item?.date).month();
-        const currentMonth = moment(activeMonth).month();
-        return eventMonth === currentMonth;
-      })
-      .map((item) => ({
-        ...item,
-        title: "PRESENT",
-        date: `${moment(item?.date).format("YYYY-MM-DD")}`,
-      }));
+    // Function to update the screen width state
+    const updateScreenWidth = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
-    setAttendances(currentMonthEvents);
-  }, [attendanceData, activeMonth]);
+    // Check if window is available (client-side) before adding the event listener
+    if (typeof window !== "undefined") {
+      updateScreenWidth();
+      window.addEventListener("resize", updateScreenWidth);
+      return () => {
+        window.removeEventListener("resize", updateScreenWidth);
+      };
+    }
+  }, []);
   const links = [
     {
       id: 2,
@@ -152,7 +154,7 @@ const EmployeeProfile = () => {
                   eventContent={renderEventContent}
                   events={attendances}
                   datesSet={(dateInfo) =>
-                    setActiveMonth(dateInfo?.view?.currentStart?.getMonth())
+                    setActiveMonth(dateInfo?.view?.currentStart)
                   }
                 />
               </div>
