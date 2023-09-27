@@ -152,7 +152,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
           {data?.reactedUsers?.length ? (
             <div
               onClick={() => setIsReactions(true)}
-              className="absolute cursor-pointer bottom-[-10px] left-[5px] shadow-md bg-white border-[1px] rounded-full py-0.5 px-2"
+              className="absolute cursor-pointer bottom-[-20px] left-[5px] shadow-md bg-white border-[1px] rounded-full py-0.5 px-2"
             >
               {data?.reactedUsers?.map((curElm: any) => (
                 <span key={curElm?.id}>{curElm?.reaction}</span>
