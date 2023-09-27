@@ -17,7 +17,7 @@ const EmployeeProfile = () => {
 	const [activeMonth, setActiveMonth] = useState<Date | null | number>(null);
 	const router = useRouter();
 	const [attendances, setAttendances] = useState<AttendanceData[]>([]);
-	const [monthName, setMonthName] = useState<any>("");
+	const [monthName, setMonthName] = useState<number | null>();
 	const { data: attendanceData, isLoading } = useFetch<Attendance[]>(
 		`attendances/${router?.query?.id}`
 	);
@@ -80,20 +80,22 @@ const EmployeeProfile = () => {
 	}
 
 	useEffect(() => {
-		// Function to update the screen width state
-		const updateScreenWidth = () => {
-			setIsMobile(window.innerWidth < 768);
-		};
+		if (!attendanceData) return;
+		// Filter and format the events based on the current month
+		const currentMonthEvents = attendanceData
+			.filter((item) => {
+				const eventMonth = moment(item?.date).month();
+				const currentMonth = moment(activeMonth).month();
+				return eventMonth === currentMonth;
+			})
+			.map((item) => ({
+				...item,
+				title: "PRESENT",
+				date: `${moment(item?.date).format("YYYY-MM-DD")}`,
+			}));
 
-		// Check if window is available (client-side) before adding the event listener
-		if (typeof window !== "undefined") {
-			updateScreenWidth();
-			window.addEventListener("resize", updateScreenWidth);
-			return () => {
-				window.removeEventListener("resize", updateScreenWidth);
-			};
-		}
-	}, []);
+		setAttendances(currentMonthEvents);
+	}, [attendanceData, activeMonth]);
 	const links = [
 		{
 			id: 2,
@@ -133,7 +135,7 @@ const EmployeeProfile = () => {
 							<div className="mb-4 md:flex py-2 justify-between">
 								<HeadText title="Month wise attendance" />
 								<Link
-									href={`/admin/employees/attendance-report?empId=${router?.query?.id}&month=${activeMonth}`}
+									href={`/admin/employees/attendance-report?empId=${router?.query?.id}&month=${monthName}`}
 								>
 									<Button
 										variant="contained"
@@ -151,9 +153,10 @@ const EmployeeProfile = () => {
 									weekends={true}
 									eventContent={renderEventContent}
 									events={attendances}
-									datesSet={(dateInfo) =>
-										setActiveMonth(dateInfo?.view?.currentStart)
-									}
+									datesSet={(dateInfo) => {
+										setActiveMonth(dateInfo?.view?.currentStart),
+											setMonthName(dateInfo?.view?.currentStart?.getMonth());
+									}}
 								/>
 							</div>
 						</div>
