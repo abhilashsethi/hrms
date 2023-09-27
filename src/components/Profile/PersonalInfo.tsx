@@ -27,7 +27,7 @@ const PersonalInfo = () => {
 						<>
 							<div className="flex justify-between">
 								<h1 className="text-xl font-medium py-2">
-									Personal Informations
+									Personal Information
 								</h1>
 								<div className="py-2 px-2">
 									<ICONS.Edit
