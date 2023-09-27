@@ -450,7 +450,7 @@ const CreateAssets = () => {
 													</div>
 												</div>
 												<div className="md:col-span-2 col-span-1 py-3">
-													<p className="text-gray-500 mb-2">UploaI Docs</p>
+													<p className="text-gray-500 mb-2">Upload Docs</p>
 													{/* ----------------------------multiple Docs component------------------ */}
 													<div
 														onClick={() => docsRef?.current?.click()}
