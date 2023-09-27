@@ -80,22 +80,20 @@ const EmployeeProfile = () => {
 	}
 
 	useEffect(() => {
-		if (!attendanceData) return;
-		// Filter and format the events based on the current month
-		const currentMonthEvents = attendanceData
-			.filter((item) => {
-				const eventMonth = moment(item?.date).month();
-				const currentMonth = moment(activeMonth).month();
-				return eventMonth === currentMonth;
-			})
-			.map((item) => ({
-				...item,
-				title: "PRESENT",
-				date: `${moment(item?.date).format("YYYY-MM-DD")}`,
-			}));
+		// Function to update the screen width state
+		const updateScreenWidth = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
 
-		setAttendances(currentMonthEvents);
-	}, [attendanceData, activeMonth]);
+		// Check if window is available (client-side) before adding the event listener
+		if (typeof window !== "undefined") {
+			updateScreenWidth();
+			window.addEventListener("resize", updateScreenWidth);
+			return () => {
+				window.removeEventListener("resize", updateScreenWidth);
+			};
+		}
+	}, []);
 	const links = [
 		{
 			id: 2,
@@ -154,7 +152,7 @@ const EmployeeProfile = () => {
 									eventContent={renderEventContent}
 									events={attendances}
 									datesSet={(dateInfo) =>
-										setActiveMonth(dateInfo?.view?.currentStart?.getMonth())
+										setActiveMonth(dateInfo?.view?.currentStart)
 									}
 								/>
 							</div>
