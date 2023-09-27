@@ -205,8 +205,7 @@ const CardContent = ({ item, mutate, signature }: any) => {
 					</div>
 					<div className="py-2">
 						<img
-							className="w-full object-cover object-center 
-                        transition duration-500 ease-in-out transform group-hover:scale-105"
+							className="w-full object-cover object-center transition duration-500 ease-in-out transform group-hover:scale-105"
 							src={item?.link}
 							alt="signature"
 						/>
