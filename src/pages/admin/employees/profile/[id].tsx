@@ -17,6 +17,7 @@ const EmployeeProfile = () => {
 	const [activeMonth, setActiveMonth] = useState<Date | null | number>(null);
 	const router = useRouter();
 	const [attendances, setAttendances] = useState<AttendanceData[]>([]);
+	const [monthName, setMonthName] = useState<any>("");
 	const { data: attendanceData, isLoading } = useFetch<Attendance[]>(
 		`attendances/${router?.query?.id}`
 	);
