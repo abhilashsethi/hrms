@@ -19,9 +19,7 @@ const DashboardSkeletonLoading = () => {
 						/>
 					</div>
 					<div className="flex flex-col md:gap-2 gap-1">
-						<span className="md:text-xl text-lg font-semibold text-gray-900">
-							YardOne
-						</span>
+						<span className="md:text-xl text-lg font-semibold text-gray-900"></span>
 						<span className="text-sm md:text-base">
 							{moment(new Date()).format("lll")}
 						</span>

@@ -382,6 +382,12 @@ const UpdateProfileHead = ({
 															inputProps={{
 																...params.inputProps,
 															}}
+															error={touched.roleId && !!errors.roleId}
+															helperText={
+																<p className="text-red-600">
+																	{`${errors?.roleId ? errors?.roleId : ""}`}
+																</p>
+															}
 														/>
 													)}
 												/>
@@ -476,6 +482,18 @@ const UpdateProfileHead = ({
 															inputProps={{
 																...params.inputProps,
 															}}
+															error={
+																touched.departmentId && !!errors.departmentId
+															}
+															helperText={
+																<p className="text-red-600">
+																	{`${
+																		errors?.departmentId
+																			? errors?.departmentId
+																			: ""
+																	}`}
+																</p>
+															}
 														/>
 													)}
 												/>
