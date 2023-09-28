@@ -141,15 +141,17 @@ const Cards = () => {
                   }}
                 />
               )}
-              <TextField
-                fullWidth
-                size="small"
-                placeholder="Guest Name"
-                value={guestName ? guestName : ""}
-                onChange={(e) => {
-                  setPageNumber(1), setGuestName(e?.target?.value);
-                }}
-              />
+              {router?.query?.isEmployee ? null : (
+                <TextField
+                  fullWidth
+                  size="small"
+                  placeholder="Guest Name"
+                  value={guestName ? guestName : ""}
+                  onChange={(e) => {
+                    setPageNumber(1), setGuestName(e?.target?.value);
+                  }}
+                />
+              )}
               <TextField
                 fullWidth
                 size="small"
