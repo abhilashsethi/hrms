@@ -1,6 +1,6 @@
 import { Tooltip } from "@mui/material";
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
-import { PhotoViewer } from "components/core";
+import { NoDatas, PhotoViewer } from "components/core";
 import { useAuth, useFetch } from "hooks";
 import moment from "moment";
 import Link from "next/link";
@@ -23,64 +23,78 @@ const MainClientDashboardCharts = ({ data }: Props) => {
       <div className="grid lg:grid-cols-2 content-between gap-6">
         <div className="px-2 py-4 w-full bg-white flex flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
           <p className="font-bold text-lg text-center">Ticket Issue Details</p>
-          <GuestBarChart
-            labels={
-              clientData?.ticketsCountAccordingProjects?.length
-                ? clientData?.ticketsCountAccordingProjects?.map(
-                    (item) => item?.projectName
-                  )
-                : []
-            }
-            data={
-              clientData?.ticketsCountAccordingProjects?.length
-                ? clientData?.ticketsCountAccordingProjects?.map(
-                    (item) => item?.ticketCount
-                  )
-                : []
-            }
-            type="bar"
-            text=""
-          />
+          {clientData?.ticketsCountAccordingProjects?.length ? (
+            <GuestBarChart
+              labels={
+                clientData?.ticketsCountAccordingProjects?.length
+                  ? clientData?.ticketsCountAccordingProjects?.map(
+                      (item) => item?.projectName
+                    )
+                  : []
+              }
+              data={
+                clientData?.ticketsCountAccordingProjects?.length
+                  ? clientData?.ticketsCountAccordingProjects?.map(
+                      (item) => item?.ticketCount
+                    )
+                  : []
+              }
+              type="bar"
+              text=""
+            />
+          ) : (
+            <NoDatas title="No Tickets" />
+          )}
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">
             Tickets Status Overview
           </p>
-          <GuestDonutChart
-            labels={
-              clientData?.ticketCounts?.length
-                ? clientData?.ticketCounts?.map((item) => item?.name)
-                : []
-            }
-            series={
-              clientData?.ticketCounts?.length
-                ? clientData?.ticketCounts?.map((item) => item?.count)
-                : []
-            }
-            text=""
-            type="pie"
-            colors={["#BD33B5", "#005d32"]}
-          />
+          {clientData?.ticketCounts?.length ? (
+            <GuestDonutChart
+              labels={
+                clientData?.ticketCounts?.length
+                  ? clientData?.ticketCounts?.map((item) => item?.name)
+                  : []
+              }
+              series={
+                clientData?.ticketCounts?.length
+                  ? clientData?.ticketCounts?.map((item) => item?.count)
+                  : []
+              }
+              text=""
+              type="pie"
+              colors={["#BD33B5", "#005d32"]}
+            />
+          ) : (
+            <NoDatas title="No Tickets" />
+          )}
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">
             Current Month Projects Overview
           </p>
-          <GuestDonutChart
-            labels={
-              clientData?.projectCountStatusWise?.length
-                ? clientData?.projectCountStatusWise?.map((item) => item?._id)
-                : []
-            }
-            series={
-              clientData?.projectCountStatusWise?.length
-                ? clientData?.projectCountStatusWise?.map((item) => item?.count)
-                : []
-            }
-            text=""
-            type="donut"
-            colors={["#25d366", "#BD33B5", "#BD0309"]}
-          />
+          {clientData?.projectCountStatusWise?.length ? (
+            <GuestDonutChart
+              labels={
+                clientData?.projectCountStatusWise?.length
+                  ? clientData?.projectCountStatusWise?.map((item) => item?._id)
+                  : []
+              }
+              series={
+                clientData?.projectCountStatusWise?.length
+                  ? clientData?.projectCountStatusWise?.map(
+                      (item) => item?.count
+                    )
+                  : []
+              }
+              text=""
+              type="donut"
+              colors={["#25d366", "#BD33B5", "#BD0309"]}
+            />
+          ) : (
+            <NoDatas title="No Projects" />
+          )}
         </div>
         <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Recent Projects</p>
