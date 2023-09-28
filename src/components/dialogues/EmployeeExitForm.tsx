@@ -15,6 +15,7 @@ import {
 	TextField,
 	Tooltip,
 } from "@mui/material";
+import { WORD } from "assets/dashboard_Icons";
 import { PDF } from "assets/home";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useAuth, useChange } from "hooks";
@@ -76,7 +77,7 @@ const EmployeeExitForm = ({ open, handleClose, userId, mutate }: Props) => {
 		try {
 			Swal.fire({
 				title: "Are you sure?",
-				text: "You want to Exit?",
+				text: "You want to exit?",
 				icon: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#3085d6",
@@ -357,7 +358,7 @@ const EmployeeExitForm = ({ open, handleClose, userId, mutate }: Props) => {
 												<div className="" key={index}>
 													<img
 														className="w-20 object-contain"
-														src={PDF.src}
+														src={WORD.src}
 														alt={`Image ${index + 1}`}
 													/>
 												</div>
