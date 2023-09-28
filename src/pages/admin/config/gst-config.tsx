@@ -11,9 +11,15 @@ import { QuotationGst } from "types";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-  Igst: Yup.number().required("% For GST is required !"),
-  Cgst: Yup.number().required("% For CGST is required !"),
-  Sgst: Yup.number().required("% For SGST is required !"),
+  Igst: Yup.number()
+    .required("% For GST is required !")
+    .positive("Value must be a positive number!"),
+  Cgst: Yup.number()
+    .required("% For CGST is required !")
+    .positive("Value must be a positive number!"),
+  Sgst: Yup.number()
+    .required("% For SGST is required !")
+    .positive("Value must be a positive number!"),
 });
 
 const GstConfig = () => {
@@ -53,7 +59,7 @@ const GstConfig = () => {
       mutate();
       Swal.fire(
         `Success`,
-        `Gst Configuration Update Successfully !`,
+        `GST Configuration Update Successfully !`,
         `success`
       );
       return;

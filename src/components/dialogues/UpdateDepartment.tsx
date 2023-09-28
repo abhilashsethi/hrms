@@ -36,7 +36,12 @@ const UpdateDepartment = ({
       name: `${departmentData?.name ? departmentData?.name : ""}`,
     },
     enableReinitialize: true,
-    validationSchema: yup.object({ name: yup.string().required("Required!") }),
+    validationSchema: yup.object({
+      name: yup
+        .string()
+        .required("Required!")
+        .matches(/^[A-Z\s]+$/, "Must contain only capital letters and spaces"),
+    }),
     onSubmit: async (values) => {
       setLoading(true);
       try {
