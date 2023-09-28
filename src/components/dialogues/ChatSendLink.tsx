@@ -138,7 +138,7 @@ const ChatSendLink = ({ open, handleClose, sendId }: Props) => {
         <div className="md:w-[27rem] w-full md:px-4 px-2 tracking-wide flex flex-col gap-3 text-sm py-2">
           <TextField
             fullWidth
-            placeholder="InsertLink"
+            placeholder="Insert Link"
             value={isLink ? isLink : ""}
             onChange={(e: any) => setIsLink(e.target.value)}
             error={isError}

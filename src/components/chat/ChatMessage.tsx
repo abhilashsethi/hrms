@@ -203,16 +203,18 @@ const CodeFormat = ({ data }: CodeMsgProps) => {
   const [language, changeLanguage] = useState("jsx");
   const [lineNumbers, toggleLineNumbers] = useState(true);
   return (
-    <div className="md:w-full w-48 min-w-fit py-2 px-4 bg-blue-100 rounded-md">
-      <CopyBlock
-        language={language}
-        text={data?.text}
-        showLineNumbers={lineNumbers}
-        theme={dracula}
-        wrapLines={true}
-        codeBlock
-        className="min-w-fit !break-all whitespace-pre-line"
-      />
+    <div className="md:w-full w-56 max-w-fit py-2 px-4 bg-blue-100 rounded-md">
+      <div>
+        <CopyBlock
+          language={language}
+          text={data?.text}
+          showLineNumbers={lineNumbers}
+          theme={dracula}
+          wrapLines={true}
+          codeBlock
+          className="!min-w-fit !break-all whitespace-pre-line"
+        />
+      </div>
     </div>
   );
 };
