@@ -31,9 +31,7 @@ const CreateRole = ({ open, handleClose, mutate }: Props) => {
       name: yup
         .string()
         .required("Required!")
-        .test("is-uppercase", "Must contain only capital letters", (value) => {
-          return /^[A-Z]+$/.test(value);
-        }),
+        .matches(/^[A-Z\s]+$/, "Must contain only capital letters and spaces"),
     }),
     onSubmit: async (values) => {
       setLoading(true);
