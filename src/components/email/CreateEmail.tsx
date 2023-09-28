@@ -8,6 +8,7 @@ import {
 import {
   Autocomplete,
   Avatar,
+  Button,
   Chip,
   FormHelperText,
   IconButton,
@@ -29,6 +30,7 @@ const ReactQuill = dynamic(import("react-quill"), { ssr: false });
 
 const CreateEmail = (templateId: any) => {
   const [pageLimit, setPageLimit] = useState<number | undefined>(20);
+  const [isBtnLoading, setIsLoading] = useState(false);
   const [isRendered, setIsRendered] = useState(false);
   const [searchText, setSearchText] = useState("");
   const attachRef = useRef<HTMLInputElement | null>(null);
@@ -79,6 +81,7 @@ const CreateEmail = (templateId: any) => {
     onSubmit: async (value) => {
       let attachmentUrl: string[] = [];
       let validAttachments: any[] = [];
+      setIsLoading(true);
       try {
         if (value?.attachments?.length) {
           await Promise.all(
@@ -106,6 +109,7 @@ const CreateEmail = (templateId: any) => {
                   resolve(true);
                 } catch (error) {
                   reject(error);
+                  setIsLoading(false);
                 }
               });
             })
@@ -125,6 +129,7 @@ const CreateEmail = (templateId: any) => {
                 });
               } catch (error) {
                 re({});
+                setIsLoading(false);
               }
             }))) ||
           undefined;
@@ -180,10 +185,12 @@ const CreateEmail = (templateId: any) => {
           showConfirmButton: false,
           timer: 1500,
         });
+        setIsLoading(false);
 
         push(value?.isDraft ? `/admin/email/drafts` : `/admin/email/sent`);
       } catch (error) {
         //if images are already uploaded and then error thrown delete uploaded files
+        setIsLoading(false);
 
         if (attachmentUrl?.length) {
           await Promise.all(
@@ -194,6 +201,7 @@ const CreateEmail = (templateId: any) => {
                   resolve(true);
                 } catch (error) {
                   reject(error);
+                  setIsLoading(false);
                 }
               });
             })
@@ -208,6 +216,7 @@ const CreateEmail = (templateId: any) => {
           });
           return;
         }
+        setIsLoading(false);
         Swal.fire({
           title: "Error",
           text: "Something went wrong!.Try again.",
@@ -706,17 +715,17 @@ const CreateEmail = (templateId: any) => {
 
         <div className="flex items-center gap-4 py-4 w-full justify-between mt-14 flex-wrap">
           <div className="flex gap-4 items-center justify-center md:justify-start w-full flex-wrap">
-            <button
+            <Button
+              disabled={isBtnLoading}
               className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg "
               onClick={() => {
                 formik?.setFieldValue("isDraft", false);
                 formik?.submitForm();
               }}
-              disabled={isChanging}
             >
               <Send />
               <span className="text-sm hidden md:flex ">Send Email</span>
-            </button>
+            </Button>
             <input
               type="file"
               name="attachments"

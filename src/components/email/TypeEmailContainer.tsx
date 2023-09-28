@@ -44,7 +44,7 @@ const TypeEmailContainer = ({
   const { push } = useRouter();
   const [selectedAutoComplete, setSelectedAutocomplete] = useState<any>();
   const [searchText, setSearchText] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const { data: users, isValidating: userLoading } = useFetch<User[]>(
     `users?page=1&limit=20` + (searchText ? `&name=${searchText}` : "")
   );
@@ -74,6 +74,7 @@ const TypeEmailContainer = ({
     }),
     onSubmit: async (value) => {
       let attachmentUrl: string[] = [];
+      setIsLoading(true);
       try {
         //if attachments are present then upload the file and get ur
         if (value?.attachments?.length) {
@@ -94,6 +95,7 @@ const TypeEmailContainer = ({
                   resolve(true);
                 } catch (error) {
                   reject(error);
+                  setIsLoading(false);
                 }
               });
             })
@@ -146,6 +148,7 @@ const TypeEmailContainer = ({
           showConfirmButton: false,
           timer: 1500,
         });
+        setIsLoading(false);
 
         push(value?.isDraft ? `/admin/email/drafts` : `/admin/email/sent`);
       } catch (error) {
@@ -160,6 +163,7 @@ const TypeEmailContainer = ({
                   resolve(true);
                 } catch (error) {
                   reject(error);
+                  setIsLoading(false);
                 }
               });
             })
@@ -178,6 +182,7 @@ const TypeEmailContainer = ({
           text: "Something went wrong!.Try again.",
           icon: "error",
         });
+        setIsLoading(false);
       }
     },
   });
@@ -331,15 +336,16 @@ const TypeEmailContainer = ({
 
       <div className="flex items-center gap-4 py-4 md:mt-5 mt-10 w-full justify-between">
         <div className="flex gap-4 items-center">
-          <button
+          <Button
+            variant="contained"
             className="flex gap-4 items-center hover:scale-95 transition-all border border-blue-500 ease-in-out duration-300 hover:bg-blue-600 justify-center bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg "
             onClick={formik?.submitForm}
             type="submit"
-            disabled={isChanging}
+            disabled={isLoading}
           >
             <Send />
             <span className="text-sm hidden md:flex">Send Email</span>
-          </button>
+          </Button>
           <input
             type="file"
             name="attachments"
