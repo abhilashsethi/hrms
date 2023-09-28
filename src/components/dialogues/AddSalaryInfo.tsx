@@ -86,7 +86,7 @@ const AddSalaryInfo = ({ open, handleClose, userId, mutate }: Props) => {
 				return;
 			}
 			console.log(res);
-			Swal.fire(`Success`, `Gross Salary added successfully`, `success`);
+			Swal.fire(`Success`, `Gross salary added successfully`, `success`);
 			mutate();
 			handleClose();
 			return;
