@@ -113,7 +113,7 @@ const CardAssign = ({ open, onClose, cardId, mutate }: Props) => {
         anchor="right"
         open={open}
         onClose={() => {
-          onClose && onClose(), setSearchedUser([]);
+          onClose && onClose(), setSearchedUser(users);
         }}
       >
         <Container className={classes.container} style={{ marginTop: "1rem" }}>
