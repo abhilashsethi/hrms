@@ -32,7 +32,12 @@ const UpdateRole = ({ open, roleData, handleClose, mutate, id }: Props) => {
   const formik = useFormik({
     initialValues: { name: `${roleData?.name ? roleData?.name : ""}` },
     enableReinitialize: true,
-    validationSchema: yup.object({ name: yup.string().required("Required!") }),
+    validationSchema: yup.object({
+      name: yup
+        .string()
+        .required("Required!")
+        .matches(/^[A-Z\s]+$/, "Must contain only capital letters and spaces"),
+    }),
     onSubmit: async (values) => {
       setLoading(true);
       try {
