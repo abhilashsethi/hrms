@@ -71,6 +71,7 @@ const AttendanceReport = () => {
                         sl: i + 1,
                         in: moment(_?.inTime).format("hh:mm A"),
                         out: moment(_?.outTime).format("hh:mm A"),
+                        date: moment(_?.date).format(""),
                       }))
                 }
                 options={{ ...MuiTblOptions() }}
