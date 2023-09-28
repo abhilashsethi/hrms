@@ -56,7 +56,13 @@ const SelectMembers = ({ open, onClose, setSelectedMembers }: Props) => {
 
 	return (
 		<>
-			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
+			<Drawer
+				anchor="right"
+				open={open}
+				onClose={() => {
+					onClose && onClose(), setSearchedUser(users);
+				}}
+			>
 				<Container
 					style={{
 						width: "30vw",

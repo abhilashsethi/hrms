@@ -62,7 +62,9 @@ const CreateQuotation = () => {
 	};
 	const validationSchema = Yup.object().shape({
 		clientName: Yup.string().required("Client name is required!"),
-		clientEmail: Yup.string().email().required("Client email is required!"),
+		clientEmail: Yup.string()
+			.email("Enter a valid email")
+			.required("Client email is required!"),
 		clientAddress: Yup.string().required("Client address is required!"),
 		quotationTitle: Yup.string().required("Quotation title is required!"),
 		branchId: Yup.string().required("Branch is required!"),

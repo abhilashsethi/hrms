@@ -41,9 +41,16 @@ const SelectManager = ({ open, onClose, setSelectedManager }: Props) => {
 		}
 	}, [users, searchTerm]);
 	console.log(searchedUser);
+	console.log(users);
 	return (
 		<>
-			<Drawer anchor="right" open={open} onClose={() => onClose && onClose()}>
+			<Drawer
+				anchor="right"
+				open={open}
+				onClose={() => {
+					onClose && onClose(), setSearchedUser([]);
+				}}
+			>
 				<Container
 					style={{
 						width: "30vw",
