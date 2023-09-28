@@ -25,27 +25,74 @@ interface Props {
 	ptTax?: any;
 }
 const validationSchema = Yup.object().shape({
-	basicSalary: Yup.number().required("% For Basic Salary is required !"),
-	hra: Yup.number().required("% For HRA is required !"),
-	employeePf: Yup.number().required(
-		"% For PF (Employee contribution) is required !"
-	),
-	employerPf: Yup.number().required(
-		"% For PF (Employer contribution) is required !"
-	),
-	employerEsi: Yup.number().required(
-		"% For ESI(Employer contribution) is required !"
-	),
-	employeeEsi: Yup.number().required(
-		"% For ESI(Employee contribution) is required !"
-	),
-	conveyance: Yup.number().required("Conveyance allowances is required !"),
-	medical: Yup.number().required("Medical allowances is required !"),
-	startGrossSalary1: Yup.number().required("Fill this field !"),
-	endGrossSalary1: Yup.number().required("Fill this field !"),
-	professionalTax1: Yup.number().required("Fill this field !"),
-	professionalTax2: Yup.number().required("Fill this field !"),
-	professionalTax3: Yup.number().required("Fill this field !"),
+	basicSalary: Yup.number()
+		.required("% For Basic Salary is required !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	hra: Yup.number()
+		.required("% For HRA is required !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	employeePf: Yup.number()
+		.required("% For PF (Employee contribution) is required !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	employerPf: Yup.number()
+		.required("% For PF (Employer contribution) is required !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	employerEsi: Yup.number()
+		.required("% For ESI(Employer contribution) is required !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	employeeEsi: Yup.number()
+		.required("% For ESI(Employee contribution) is required !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	conveyance: Yup.number()
+		.required("Conveyance allowances is required !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	medical: Yup.number()
+		.required("Medical allowances is required !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	startGrossSalary1: Yup.number()
+		.required("Fill this field !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	endGrossSalary1: Yup.number()
+		.required("Fill this field !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	startGrossSalary2: Yup.number()
+		.required("Fill this field !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	endGrossSalary2: Yup.number()
+		.required("Fill this field !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	startGrossSalary3: Yup.number()
+		.required("Fill this field !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	endGrossSalary3: Yup.number()
+		.required("Fill this field !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	professionalTax1: Yup.number()
+		.required("Fill this field !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	professionalTax2: Yup.number()
+		.required("Fill this field !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
+	professionalTax3: Yup.number()
+		.required("Fill this field !")
+		.positive("Value must be a positive number")
+		.integer("Value must be an integer"),
 });
 
 const UpdateProfileHead = ({
