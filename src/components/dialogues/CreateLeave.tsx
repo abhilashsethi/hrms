@@ -34,15 +34,7 @@ interface Props {
 
 const validationSchema = Yup.object({
   userId: Yup.string().required("Select an employee"),
-  startDate: Yup.string()
-    .required("Please enter date")
-    .test("minimum-date", "You Can apply leave only 1 day before!", (value) => {
-      const currentDate = new Date();
-      const selectedDate = new Date(value);
-      const minDate = new Date();
-      minDate.setDate(currentDate.getDate());
-      return selectedDate >= minDate;
-    }),
+  startDate: Yup.string().required("Please enter date"),
   reason: Yup.string().required("Required!"),
   type: Yup.string().required("Required!"),
 });
@@ -299,7 +291,7 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
                       fullWidth
                       placeholder="Date"
                       inputProps={{
-                        min: today.toISOString().split("T")[0],
+                        min: moment().format("YYYY-MM-DD"),
                         max: "9999-12-31",
                       }}
                       type="date"
@@ -370,6 +362,9 @@ const CreateLeave = ({ open, handleClose, mutate }: Props) => {
                         fullWidth
                         name="startDate"
                         type="date"
+                        inputProps={{
+                          min: moment().format("YYYY-MM-DD"),
+                        }}
                         placeholder="Date"
                         value={values.startDate}
                         onChange={handleChange}
