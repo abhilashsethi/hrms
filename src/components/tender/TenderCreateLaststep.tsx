@@ -24,7 +24,13 @@ interface Props {
 
 const validationSchema = Yup.object().shape({
   tenderPaymentMode: Yup.string().required("Required!"),
-  tenderFees: Yup.string().required("Required!"),
+  tenderFees: Yup.number()
+    .required("Required!")
+    .min(0, "Tender fees must be a positive number")
+    .positive("Tender fees must be a positive number"),
+  EmdAmount: Yup.number()
+    .min(0, "Tender fees must be a positive number")
+    .positive("Tender fees must be a positive number"),
 });
 
 const TenderCreateLaststep = () => {
