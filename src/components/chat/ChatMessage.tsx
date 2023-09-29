@@ -97,7 +97,9 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
                 ) : data?.replyTo?.category === "audio" ? (
                   <AudioFormat data={data?.replyTo} />
                 ) : (
-                  <p className="tracking-wide min-w-fit  ">{data?.text}</p>
+                  <p className="tracking-wide max-w-fit break-all ">
+                    {data?.text}
+                  </p>
                 )}
               </div>
             </div>
@@ -119,7 +121,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
               ) : data?.category === "audio" ? (
                 <AudioFormat data={data} />
               ) : (
-                <p className="tracking-wide min-w-fit bg-blue-100 py-2 px-4 rounded-md">
+                <p className="tracking-wide max-w-fit break-all bg-blue-100 py-2 px-4 rounded-md">
                   {data?.text}
                 </p>
               )}
