@@ -86,7 +86,7 @@ const EmployeeDetails = () => {
 				id: 19,
 				title: "Email",
 				value: employData?.username ? employData?.username : "---",
-				copy: true,
+				copy: employData?.username ? true : false,
 				isCut: false,
 			},
 			{
@@ -345,7 +345,7 @@ const EmployeeDetails = () => {
 											<p className="text-sm text-gray-600">{item?.title} :</p>
 										</div>
 										<div className="md:w-2/3 w-full break-all">
-											<EmployeeProfileCopyLink value={item?.value} />
+											{item?.value}
 										</div>
 									</div>
 								))}
