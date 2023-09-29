@@ -82,12 +82,22 @@ const EmailCard = ({
             </div>
           </div>
         </td>
-        <td className="px-5 lg:py-5 w-full text-sm">
+        <td
+          className="px-5 lg:py-5 w-full text-sm"
+          onClick={() => {
+            onclick && onclick();
+          }}
+        >
           <p className="text-gray-900 break-words">
             {(subject && subject) || "No subject"}
           </p>
         </td>
-        <td className="px-5 lg:py-5 min-w-fit w-full lg:w-fit  text-sm">
+        <td
+          className="px-5 lg:py-5 min-w-fit w-full lg:w-fit  text-sm"
+          onClick={() => {
+            onclick && onclick();
+          }}
+        >
           <p className="text-gray-900 whitespace-nowrap">
             {moment(messageDate).format("HH:mm A")}
           </p>
