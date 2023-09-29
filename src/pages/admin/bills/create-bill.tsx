@@ -87,7 +87,9 @@ const CreateBills = () => {
 				.shape({
 					description: Yup.string().required("Description is required"),
 					sac: Yup.mixed().required("SAC code is required"),
-					amount: Yup.mixed().required("Amount is required"),
+					amount: Yup.number()
+						.required("Amount is required")
+						.positive("Amount must be a positive number"),
 				})
 				.nullable()
 		),
