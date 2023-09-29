@@ -152,7 +152,13 @@ const LoginAuth = () => {
 													>
 														{item.label}
 													</label>
-													<div className="flex items-center border-b border-black justify-between w-full">
+													<div
+														className={`flex items-center ${
+															props.meta.error
+																? "border-red-500"
+																: "border-black"
+														} border-b justify-between w-full`}
+													>
 														<input
 															id={item.name}
 															name={item.name}
@@ -192,11 +198,18 @@ const LoginAuth = () => {
 									))}
 									<div className="flex flex-col items-start justify-between w-full gap-4">
 										<div className="flex items-center">
-											<Checkbox onClick={() => setIsChecked(!isChecked)} />
-											<p className="text-sm font-semibold">
+											<Checkbox
+												id="clientCheckbox" // Add an ID to the checkbox
+												onClick={() => setIsChecked(!isChecked)}
+											/>
+											<label
+												htmlFor="clientCheckbox" // Use the same ID as the checkbox
+												className="text-sm font-semibold cursor-pointer"
+											>
 												Check this box if you are a client
-											</p>
+											</label>
 										</div>
+
 										<div className="w-full">
 											<Button
 												fullWidth
