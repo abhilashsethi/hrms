@@ -365,7 +365,7 @@ const IsSandwichLeave = ({
 
     if (inputValue === "" || /^\d+(\.\d*)?$/.test(inputValue)) {
       const numericValue = parseInt(inputValue, 10);
-      if (inputValue === "" || (numericValue >= 0 && numericValue <= 12)) {
+      if (inputValue === "" || numericValue >= 0) {
         setTotalDay(inputValue);
         setDayValidationError("");
       } else {
@@ -579,7 +579,7 @@ const IsSandwichLeave = ({
                 isTotalDay === "0." ||
                 isTotalDay === "0.0" ||
                 dayValidationError !== "" ||
-                parseFloat(isTotalDay) < 0.1
+                parseFloat(isTotalDay) < 0.5
               }
               onClick={() => approveLeave(isCurrentData?.id)}
               startIcon={
