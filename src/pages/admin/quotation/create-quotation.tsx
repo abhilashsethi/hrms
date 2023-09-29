@@ -74,7 +74,9 @@ const CreateQuotation = () => {
 				.shape({
 					description: Yup.string().required("Description is required"),
 					qty: Yup.string().required("Qty is required"),
-					cost: Yup.mixed().required("Cost is required"),
+					cost: Yup.number()
+						.required("Cost is required")
+						.positive("Cost must be a positive number"),
 				})
 				.nullable()
 		),
