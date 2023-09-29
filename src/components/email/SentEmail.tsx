@@ -135,9 +135,11 @@ const SentEmail = () => {
             onClick={handleAllClicked}
           />{" "}
           <span className="text-gray-800/20">|</span>
-          <IconButton onClick={handleDeleteEmail}>
-            <Delete />
-          </IconButton>
+          {selectedEmails?.length ? (
+            <IconButton onClick={handleDeleteEmail}>
+              <Delete />
+            </IconButton>
+          ) : null}
           <IconButton
             onClick={() => {
               mutate?.();

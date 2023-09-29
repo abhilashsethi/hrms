@@ -33,14 +33,14 @@ const EmailCard = ({
           isRead ? "bg-white" : "bg-theme/20"
         } `}
       >
-        <td
-          className="px-5 py-5  w-full text-sm"
-          onClick={() => {
-            onclick && onclick();
-          }}
-        >
-          <div className="flex items-center gap-2 w-full ">
-            <Checkbox size="small" checked={selected} onClick={onSelect} />
+        <td className="flex gap-2 px-5 py-5  w-full text-sm">
+          <Checkbox size="small" checked={selected} onClick={onSelect} />
+          <div
+            className="flex items-center gap-2 w-full  "
+            onClick={() => {
+              onclick && onclick();
+            }}
+          >
             <AvatarGroup total={receiver?.length}>
               {receiver?.length > 2
                 ? receiver.slice(0, 2)?.map((item) => (
