@@ -33,7 +33,12 @@ const EmailCard = ({
           isRead ? "bg-white" : "bg-theme/20"
         } `}
       >
-        <td className="px-5 py-5  w-full text-sm">
+        <td
+          className="px-5 py-5  w-full text-sm"
+          onClick={() => {
+            onclick && onclick();
+          }}
+        >
           <div className="flex items-center gap-2 w-full ">
             <Checkbox size="small" checked={selected} onClick={onSelect} />
             <AvatarGroup total={receiver?.length}>
@@ -77,12 +82,7 @@ const EmailCard = ({
             </div>
           </div>
         </td>
-        <td
-          className="px-5 lg:py-5 w-full text-sm"
-          onClick={() => {
-            onclick && onclick();
-          }}
-        >
+        <td className="px-5 lg:py-5 w-full text-sm">
           <p className="text-gray-900 break-words">
             {(subject && subject) || "No subject"}
           </p>
