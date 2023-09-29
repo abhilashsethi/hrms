@@ -401,11 +401,11 @@ const IsSandwichLeave = ({
 
     if (inputValue === "" || /^\d+(\.\d*)?$/.test(inputValue)) {
       const numericValue = parseInt(inputValue, 10);
-      if (inputValue === "" || (numericValue >= 0 && numericValue <= 12)) {
+      if (inputValue === "" || numericValue >= 0) {
         setTotalDay(inputValue);
         setDayValidationError("");
       } else {
-        setDayValidationError("Value must be between 0 and 12");
+        setDayValidationError("Value must be between greater than 0");
       }
     } else {
       setDayValidationError("Please enter a valid number");

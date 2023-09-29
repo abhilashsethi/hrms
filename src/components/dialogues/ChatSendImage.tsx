@@ -47,7 +47,7 @@ const ChatSendImage = ({ open, handleClose, sendId }: Props) => {
         .required("Please select an image")
         .test(
           "fileType",
-          "Only image(s) files are allowed",
+          "Only image files are allowed",
           (value: any) =>
             value?.length &&
             Array.from(value)?.every((item: any) =>
