@@ -105,7 +105,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
           <div className="w-full md:tracking-wide rounded-md text-sm">
             <div>
               {data?.category === "text" ? (
-                <p className="tracking-wide min-w-fit py-2 px-4 bg-blue-100 rounded-md">
+                <p className=" max-w-fit break-all py-2 px-4 bg-blue-100 rounded-md">
                   {data?.text}
                 </p>
               ) : data?.category === "image" ? (
