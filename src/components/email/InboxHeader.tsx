@@ -64,7 +64,11 @@ const InboxHeader = ({
       <div className="flex flex-wrap lg:flex-nowrap justify-center gap-2 items-center">
         <Checkbox
           size="small"
-          checked={selectedEmails?.length === allEmails?.length}
+          checked={
+            selectedEmails?.length
+              ? selectedEmails?.length === allEmails?.length
+              : false
+          }
           onClick={handleAllClicked}
         />{" "}
         <span className="text-gray-800/20">|</span>

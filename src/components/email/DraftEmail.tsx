@@ -127,7 +127,11 @@ const DraftEmail = () => {
         <div className="flex gap-2 items-center">
           <Checkbox
             size="small"
-            checked={data?.allSendEmails?.length === selectedEmails?.length}
+            checked={
+              data?.allSendEmails?.length
+                ? data?.allSendEmails?.length === selectedEmails?.length
+                : false
+            }
             onClick={handleAllClicked}
           />{" "}
           <span className="text-gray-800/20">|</span>
