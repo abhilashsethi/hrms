@@ -82,14 +82,19 @@ const CreateMeeting = () => {
     meetingPersonName: Yup.string().required(
       "Meeting Person Name is Required!"
     ),
+    clientEmail: Yup.string().email("Enter a valid email"),
     countryCode: Yup.string().required("Country Code required"),
     clientName: Yup.string().required("Client Name is Required!"),
+    clientPhone: Yup.string()
+      .min(6, "Phone number must be at least 6")
+      .max(15, "Phone number must be at most 15"),
     status: Yup.string().required("Meeting Status is Required!"),
     lat: Yup.string()
       .matches(
         /^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}$/,
         "Latitude must be a valid decimal number"
       )
+
       .required("Latitude is required"),
     lon: Yup.string()
       .matches(
