@@ -81,7 +81,7 @@ const CreateBills = () => {
 	const validationSchema = Yup.object().shape({
 		billType: Yup.string().required("Bill type is required!"),
 		branchId: Yup.string().required("Branch is required!"),
-		invoiceDate: Yup.string().required("invoice date is required!"),
+		invoiceDate: Yup.string().required("Invoice date is required!"),
 		inputFields: Yup.array().of(
 			Yup.object()
 				.shape({
