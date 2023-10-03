@@ -27,7 +27,9 @@ interface Props {
 const validationSchema = Yup.object().shape({
   description: Yup.string().required("Description is required"),
   qty: Yup.string().required("Quantity is required!"),
-  cost: Yup.string().required("Cost is required!"),
+  cost: Yup.number()
+    .required("Cost is required")
+    .positive("Cost must be a positive number"),
 });
 const EditAdditionalQuotationDetails = ({
   open,
