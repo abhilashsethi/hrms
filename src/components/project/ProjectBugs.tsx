@@ -51,17 +51,6 @@ const ProjectBugs = ({ projectId }: Props) => {
 			<ViewScreenshot />
 			<div className=" pb-2 mb-2 border-b-2">
 				<div className="md:flex grid items-center md:justify-between gap-4 w-full ">
-					<div className="">
-						<Button
-							onClick={() => setIsCreate(true)}
-							size="small"
-							className="!bg-cyan-500"
-							variant="contained"
-							startIcon={<Add />}
-						>
-							ADD NEW
-						</Button>
-					</div>
 					<div className="flex justify-between md:w-2/3 w-full gap-2">
 						<div className="w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme">
 							<IconButton
@@ -97,6 +86,17 @@ const ProjectBugs = ({ projectId }: Props) => {
 								</MenuItem>
 							))}
 						</TextField>
+					</div>
+					<div className="">
+						<Button
+							onClick={() => setIsCreate(true)}
+							size="small"
+							className="!bg-cyan-500"
+							variant="contained"
+							startIcon={<Add />}
+						>
+							ADD NEW
+						</Button>
 					</div>
 				</div>
 			</div>
@@ -254,9 +254,9 @@ const CardComponent = ({
 						) : (
 							"---"
 						)}
-						<div className="md:flex hidden">
+						{/* <div className="md:flex hidden">
 							<ProfileImage id={item?.detectedBy?.id} />
-						</div>
+						</div> */}
 						<div className="flex justify-between">
 							<div className="md:flex text-slate-600">
 								{item?.createdAt ? moment(item?.createdAt).format("ll") : null}
