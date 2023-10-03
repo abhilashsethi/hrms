@@ -128,7 +128,7 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 						</div>
 					</div>
 					<Formik initialValues={initialValues} onSubmit={handleSubmit}>
-						{({ values, handleBlur, setFieldValue }) => (
+						{({ values, handleBlur, setFieldValue, setFieldTouched }) => (
 							<Form>
 								<div className="mt-8">
 									<ReactQuill
@@ -136,14 +136,14 @@ const TicketDetails = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 										theme="snow"
 										value={values.text}
 										onChange={(value) => setFieldValue("text", value)}
-										onBlur={handleBlur("text")}
+										onBlur={() => setFieldTouched("text", true)}
 										className="lg:h-[150px] w-full bg-white"
 									/>
 									<div className="flex md:pt-0 pt-4 justify-end items-end w-full pr-2">
 										<Button
 											type="submit"
 											variant="contained"
-											className="!bg-emerald-500 "
+											className="!bg-emerald-500"
 											disabled={loading}
 											startIcon={
 												loading ? <CircularProgress size={20} /> : <Send />
