@@ -42,21 +42,13 @@ const ProjectCreateTask = ({
   id,
   projectData,
 }: Props) => {
-  const { data: employeesData } = useFetch<User[]>(`users`);
+  const { data: employeesData } = useFetch<User[]>(
+    `users?projectId=${projectData?.id}`
+  );
+  console.log(employeesData);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const [isMembers, setIsMembers] = useState<User[]>([]);
-  useEffect(() => {
-    if (employeesData) {
-      const projectMember = employeesData
-        ?.filter(
-          (item: User) =>
-            item?.role?.name === "DEVELOPER" && item?.isBlocked === false
-        )
-        ?.map((item: User) => item);
-      setIsMembers(projectMember);
-    }
-  }, [employeesData]);
 
   const initialValues = {
     title: "",
@@ -192,7 +184,9 @@ const ProjectCreateTask = ({
                         <div>
                           <Autocomplete
                             multiple
-                            options={isMembers ? (isMembers as any) : []}
+                            options={
+                              employeesData ? (employeesData as any) : []
+                            }
                             size="small"
                             getOptionLabel={(option: any) => option.name}
                             onChange={(e, r) =>
