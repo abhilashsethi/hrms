@@ -183,7 +183,7 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
           {projectData?.technologies?.map((item: any) => (
             <div
               key={item?.id}
-              className="px-4 py-4 relative mt-3 bg-red-400 rounded-md shadow-jubilation"
+              className="px-4 py-4 relative mt-3  rounded-md shadow-jubilation"
             >
               {user?.role?.name === "CEO" ||
               user?.role?.name === "DIRECTOR" ||
