@@ -61,7 +61,7 @@ const AddTenderTrackMember = ({
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully Created Member!`, `success`);
+      Swal.fire(`Success`, `You Have Successfully Created Member!`, `success`);
       mutate();
       handleClose();
       return;

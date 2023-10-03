@@ -42,7 +42,7 @@ const ProjectSupport = () => {
           </Button>
         ) : null}
       </div>
-      <div className="grid gap-3">
+      <div className="grid max-h-[30rem] overflow-scroll gap-3">
         {ticketsData?.map((data) => (
           <div
             key={data?.id}
