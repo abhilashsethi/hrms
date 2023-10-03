@@ -251,7 +251,9 @@ const CardComponent = ({
 									</IconButton>
 								</Tooltip>
 							</span>
-						) : null}
+						) : (
+							"---"
+						)}
 						<div className="md:flex hidden">
 							<ProfileImage id={item?.detectedBy?.id} />
 						</div>
@@ -274,14 +276,14 @@ const CardComponent = ({
 					</div>
 				</div>
 				{isDescription ? (
-					<div className="md:flex grid md:gap-2 md:justify-between items-end">
+					<div className="md:flex grid md:gap-6 md:justify-between items-start">
 						<div className="transition-all ease-in-out duration-200 md:w-[90%] w-full">
 							<h1 className="text-sm font-semibold text-gray-600">
 								Description :
 							</h1>
 							<p className="text-sm py-3 text-justify">{item?.description}</p>
 						</div>
-						<div className="transition-all ease-in-out duration-200 md:w-[90%] w-full">
+						<div className="transition-all ease-in-out duration-200 md:w-[50%] w-full">
 							<h1 className="text-sm font-semibold text-gray-600">
 								Detected By :
 							</h1>
