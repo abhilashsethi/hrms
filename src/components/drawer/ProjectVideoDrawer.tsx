@@ -136,16 +136,6 @@ const ProjectVideoDrawer = ({ open, onClose }: Props) => {
 
 export default ProjectVideoDrawer;
 
-const docs = [
-  { id: 1, title: "Doc 53426", img: PDF.src },
-  { id: 2, title: "Document432", img: DOC.src },
-  { id: 3, title: "CSV4536", img: XLS.src },
-  { id: 4, title: "DCIM356.", img: IMG.src },
-  { id: 5, title: "traac12", img: DOC.src },
-  { id: 6, title: "JPGJHHJ11", img: PDF.src },
-  { id: 7, title: "hghgug", img: PDF.src },
-];
-
 interface ButtonProps {
   id?: string | null | undefined;
   mutate?: any;

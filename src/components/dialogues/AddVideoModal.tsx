@@ -30,6 +30,7 @@ const validationSchema = Yup.object().shape({
 const AddVideoModal = ({ open, handleClose, mutate }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [fileSizeError, setFileSizeError] = useState(false);
 
   const initialValues = {
     title: "",
@@ -133,13 +134,27 @@ const AddVideoModal = ({ open, handleClose, mutate }: Props) => {
                   fullWidth
                   name="link"
                   size="small"
+                  inputProps={{ accept: "video/*" }}
                   placeholder="Choose Video File"
-                  onChange={(e: any) =>
-                    setFieldValue("link", e?.target?.files[0])
-                  }
+                  onChange={(e: any) => {
+                    const selectedFile = e?.target?.files[0];
+                    if (selectedFile && selectedFile.size > 2 * 1024 * 1024) {
+                      // File size exceeds 2MB, set error state
+                      setFileSizeError(true);
+                      // Clear the file input to reset the selected file
+                      e.target.value = null;
+                    } else {
+                      // File size is within limit, clear error state and set the selected file
+                      setFileSizeError(false);
+                      setFieldValue("link", selectedFile);
+                    }
+                  }}
                   onBlur={handleBlur}
-                  error={touched.link && !!errors.link}
-                  helperText={touched.link && errors.link}
+                  error={fileSizeError || (touched.link && !!errors.link)}
+                  helperText={
+                    (fileSizeError && "File size exceeds 2MB.") ||
+                    (touched.link && errors.link)
+                  }
                 />
 
                 <div className="flex justify-center mt-4">
