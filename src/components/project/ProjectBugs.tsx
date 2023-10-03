@@ -100,7 +100,7 @@ const ProjectBugs = ({ projectId }: Props) => {
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-col">
+			<div className="flex flex-col max-h-80 overflow-scroll">
 				{isLoading ? <p>Loading....</p> : null}
 				{projectData?.length ? (
 					projectData?.map((item: any, i: any) => (
