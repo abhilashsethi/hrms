@@ -107,7 +107,7 @@ const ProjectDetails = () => {
     },
     {
       id: 3,
-      title: "Gmail",
+      title: "Email",
       value: `${projectData?.gmail ? projectData?.gmail : `---`}`,
       icon: <Google fontSize="small" />,
     },

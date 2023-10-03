@@ -14,6 +14,7 @@ import PanelLayout from "layouts/panel";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { NotificationData } from "types";
+import { clock } from "utils";
 
 const Notification = () => {
   const [notificationMsg, setNotificationMsg] = useState<NotificationData>();
@@ -30,6 +31,7 @@ const Notification = () => {
   } = useFetch<NotificationData[]>(
     `notifications?page=${pageNumber}&limit=10&userId=${user?.id}&orderBy=createdAt:desc`
   );
+  console.log(notificationData);
   const handleDelete = (id?: string) => {
     try {
       Swal.fire({
@@ -250,8 +252,8 @@ const Notification = () => {
                               {item?.title}
                             </span>
                             <span className="text-xs md:flex hidden">
-                              {item?.description?.length > 150
-                                ? item?.description?.slice(0, 150) + "..."
+                              {item?.description?.length > 140
+                                ? item?.description?.slice(0, 140) + "..."
                                 : item?.description}
                             </span>
                             <span className="text-xs md:hidden flex">
@@ -260,7 +262,12 @@ const Notification = () => {
                                 : item?.description}
                             </span>
                           </div>
-
+                          <div className="flex justify-end justify-items-center items-center px-2">
+                            <span className="text-sm">
+                              {" "}
+                              {clock(item?.createdAt).fromNow()}
+                            </span>
+                          </div>
                           <div className="grid gap-5 grid-cols-2 px-4 items-center text-xs uppercase tracking-wide font-semibold">
                             <Tooltip title="Details">
                               <IconButton
