@@ -343,6 +343,7 @@ export type Client = {
 	ticketsCountAccordingProjects?: ClientDashboard[];
 	projectCountStatusWise?: ClientDashboard[];
 	ticketCounts?: ClientDashboard[];
+	countryCode?: string
 };
 export type ClientDashboard = {
 	projectName?: string;
