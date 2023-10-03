@@ -100,7 +100,7 @@ const ProjectBugs = ({ projectId }: Props) => {
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-col max-h-[26.7rem] overflow-scroll">
+			<div className="flex flex-col max-h-[30rem] overflow-scroll">
 				{isLoading ? <p>Loading....</p> : null}
 				{projectData?.length ? (
 					projectData?.map((item: any, i: any) => (
@@ -259,7 +259,7 @@ const CardComponent = ({
 						</div> */}
 						<div className="flex justify-between">
 							<div className="md:flex text-slate-600">
-								{item?.createdAt ? moment(item?.createdAt).format("lll") : null}
+								{item?.createdAt ? moment(item?.createdAt).format("ll") : null}
 							</div>
 							<IconButton
 								onClick={() => setIsDescription((prev) => !prev)}
