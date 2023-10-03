@@ -72,7 +72,7 @@ const UploadBranchImage = ({
       MainMutate();
       handleClose();
       router?.push("/admin/branch/all-branch");
-      Swal.fire(`Success`, `You have successfully Created!`, `success`);
+      Swal.fire(`Success`, `You have successfully created!`, `success`);
       return;
     } catch (error) {
       if (error instanceof Error) {
