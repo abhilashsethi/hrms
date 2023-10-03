@@ -46,7 +46,6 @@ const ProjectCreateTask = ({
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const [isMembers, setIsMembers] = useState<User[]>([]);
-  console.log(projectData);
   useEffect(() => {
     if (employeesData) {
       const projectMember = employeesData

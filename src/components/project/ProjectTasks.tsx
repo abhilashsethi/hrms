@@ -210,9 +210,3 @@ const ProjectTasks = () => {
 };
 
 export default ProjectTasks;
-
-const cards = [
-  { id: 1, title: "Scanned Cards UI for guests section", status: "ONGOING" },
-  { id: 2, title: "Scanned Cards UI for guests section", status: "COMPLETED" },
-  { id: 3, title: "Scanned Cards UI for guests section", status: "COMPLETED" },
-];
