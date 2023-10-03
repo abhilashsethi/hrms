@@ -44,7 +44,7 @@ const ProjectDetails = () => {
     isLoading,
   } = useFetch<Projects>(`projects/${router?.query?.id}`);
 
-  const shortCuts: shortCutTypes[] = [
+  const allShortCuts: shortCutTypes[] = [
     {
       id: 1,
       icon: <LinkRounded />,
@@ -70,20 +70,40 @@ const ProjectDetails = () => {
       onClick: () => setIsVideo(true),
     },
   ];
+  const clientShortCuts: shortCutTypes[] = [
+    {
+      id: 1,
+      icon: <LinkRounded />,
+      title: "Project URLs",
+      onClick: () => setIsURL(true),
+    },
+    {
+      id: 2,
+      icon: <Forum />,
+      title: "Chats",
+      onClick: () => router?.push(`/admin/chat`),
+    },
+  ];
+  const shortCuts = user?.isClient
+    ? [...clientShortCuts]
+    : [...clientShortCuts, ...allShortCuts];
+
   const BasicData = [
     {
       id: 1,
       title: "Created",
-      value: `${moment(projectData?.startDate).format("ll")}`,
+      value: `${
+        projectData?.startDate
+          ? moment(projectData?.startDate).format("ll")
+          : "---"
+      }`,
       icon: <Event fontSize="small" />,
     },
     {
       id: 2,
       title: "Deadline",
       value: `${
-        projectData?.endDate
-          ? moment(projectData?.endDate).format("ll")
-          : `Not specified`
+        projectData?.endDate ? moment(projectData?.endDate).format("ll") : `---`
       }`,
       icon: <Event fontSize="small" />,
     },

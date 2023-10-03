@@ -134,7 +134,12 @@ const ProjectDocuments = ({ open, onClose }: Props) => {
                         {item?.title?.slice(0, 9)}
                         {item?.title?.length > 9 ? "..." : null}
                       </p>
-                      <DeleteButton id={item?.id} mutate={mutate} />
+                      {user?.role?.name === "CEO" ||
+                      user?.role?.name === "COO" ||
+                      user?.role?.name === "DIRECTOR" ||
+                      user?.role?.name === "PROJECT MANAGER" ? (
+                        <DeleteButton id={item?.id} mutate={mutate} />
+                      ) : null}
                     </div>
                   ))
               ) : (

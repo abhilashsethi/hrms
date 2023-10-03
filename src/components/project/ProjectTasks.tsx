@@ -25,7 +25,6 @@ const ProjectTasks = () => {
     mutate,
     isLoading,
   } = useFetch<any>(`projects/${router?.query?.id}`);
-  console.log(projectData);
   const handleDelete = (id: any) => {
     Swal.fire({
       title: "Are you sure?",
@@ -70,6 +69,7 @@ const ProjectTasks = () => {
         open={isCreate}
         mutate={mutate}
         handleClose={() => setIsCreate(false)}
+        projectData={projectData}
       />
 
       {user?.role?.name === "CEO" ||

@@ -17,7 +17,7 @@ import { useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { User } from "types";
+import { Projects, User } from "types";
 import * as Yup from "yup";
 
 interface Props {
@@ -25,6 +25,7 @@ interface Props {
   handleClose: () => void;
   mutate: () => void;
   id: string | string[] | undefined;
+  projectData: Projects;
 }
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required!"),
@@ -34,12 +35,18 @@ const validationSchema = Yup.object().shape({
   assignedUserIds: Yup.array().required("Required field!"),
 });
 
-const ProjectCreateTask = ({ open, handleClose, mutate, id }: Props) => {
+const ProjectCreateTask = ({
+  open,
+  handleClose,
+  mutate,
+  id,
+  projectData,
+}: Props) => {
   const { data: employeesData } = useFetch<User[]>(`users`);
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
   const [isMembers, setIsMembers] = useState<User[]>([]);
-
+  console.log(projectData);
   useEffect(() => {
     if (employeesData) {
       const projectMember = employeesData
