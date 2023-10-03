@@ -179,11 +179,11 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
         </>
       )}
       {projectData?.technologies?.length ? (
-        <div className="py-4 grid lg:grid-cols-3 gap-3 flex-wrap">
+        <div className="py-4 grid lg:grid-cols-2 gap-3 flex-wrap">
           {projectData?.technologies?.map((item: any) => (
             <div
               key={item?.id}
-              className="px-4 py-4 relative mt-3 rounded-md shadow-jubilation"
+              className="px-4 py-4 relative mt-3 bg-red-400 rounded-md shadow-jubilation"
             >
               {user?.role?.name === "CEO" ||
               user?.role?.name === "DIRECTOR" ||
@@ -203,7 +203,9 @@ const TechnologyUsed = ({ projectData, mutate }: Props) => {
                   src={item?.logo}
                   alt="photo"
                 />
-                <h3 className="text-sm font-semibold">{item?.name}</h3>
+                <h3 className="text-sm font-semibold text-center ">
+                  {item?.name}
+                </h3>
               </div>
             </div>
           ))}
