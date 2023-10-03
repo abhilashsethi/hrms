@@ -84,9 +84,7 @@ const ProjectDetails = () => {
       onClick: () => router?.push(`/admin/chat`),
     },
   ];
-  const shortCuts = user?.isClient
-    ? [...clientShortCuts]
-    : [...clientShortCuts, ...allShortCuts];
+  const shortCuts = user?.isClient ? [...clientShortCuts] : [...allShortCuts];
 
   const BasicData = [
     {
