@@ -15,7 +15,7 @@ const EmployLeaves = ({ employData }: Props) => {
 
   return (
     <section className="w-full p-6 rounded-lg bg-white shadow-xl mt-4">
-      <HeadText title="Employee Leaves" />
+      <HeadText title="Total Applied Leaves" />
       <div className="flex flex-col gap-2 items-center">
         <div className="mt-4">
           <div className="flex gap-4 justify-center py-1">
