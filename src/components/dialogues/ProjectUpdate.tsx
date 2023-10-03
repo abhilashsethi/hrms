@@ -110,7 +110,7 @@ const ProjectUpdate = ({ open, handleClose, mutate, id }: Props) => {
 					sx={{ p: 2, minWidth: "40rem !important" }}
 				>
 					<p className="text-center text-md font-bold text-theme te tracking-wide">
-						UPDATE PROJECT
+						UPDATE PROJECTss
 					</p>
 					<IconButton
 						aria-label="close"
