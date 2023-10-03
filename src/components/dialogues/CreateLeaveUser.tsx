@@ -374,7 +374,7 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
                       >
                         {variants.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
-                            {option.value}
+                            {option.name}
                           </MenuItem>
                         ))}
                       </TextField>
@@ -432,8 +432,8 @@ const CreateLeaveUser = ({ open, handleClose, mutate }: Props) => {
 
 export default CreateLeaveUser;
 const variants = [
-  { id: 1, value: "FirstHalf" },
-  { id: 2, value: "SecondHalf" },
+  { id: 1, value: "FirstHalf", name: "First Half" },
+  { id: 2, value: "SecondHalf", name: "Second Half" },
 ];
 const types = [
   { id: 1, value: "Casual" },
