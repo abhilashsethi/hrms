@@ -31,7 +31,7 @@ const ViewPayrollDetails = () => {
   const [yearStatus, setYearStatus] = useState(
     new Date().getFullYear().toString()
   );
-  const [selectMonth, setSelectMonth] = useState(
+  const [selectMonth, setSelectMonth] = useState<any>(
     new Date().getMonth().toString()
   );
 
@@ -331,14 +331,13 @@ const ViewPayrollDetails = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
+      const monthName = monthNames[selectMonth - 1];
       const res = await downloadFile({
         url: `/payrolls/createPdf`,
         method: "POST",
         body: {
-          salaryMonth: `${new Date().toLocaleString("default", {
-            month: "long",
-          })}`,
-          companyName: "Searchingyard Pvt. Ltd",
+          salaryMonth: monthName,
+          companyName: "SearchingYard Group",
           employeeName: employData?.name,
           employeeCode: employData?.employeeID,
 
@@ -597,4 +596,18 @@ const monthSelect = [
   { id: 11, value: "Nov", label: "Nov" },
   { id: 12, value: "Dec", label: "Dec" },
   // { id: 4, value: null, label: "All" },
+];
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
