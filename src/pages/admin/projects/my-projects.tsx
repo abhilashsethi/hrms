@@ -35,7 +35,7 @@ const MyProjects = () => {
     isLoading,
     pagination,
   } = useFetch<any>(
-    `projects?page=${pageNumber}&limit=6${
+    `projects?page=${pageNumber}&limit=6&orderBy=createdAt:asc${
       projectName ? `&name=${projectName}` : ""
     }${status ? `&projectStatus=${status}` : ""}${
       user?.id
