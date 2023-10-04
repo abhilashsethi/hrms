@@ -668,6 +668,12 @@ export const PageList = [
     icon: <ICONS.Create_Announcement />,
     name: "Create Announcements",
   },
+  {
+    id: 87,
+    value: "/admin/leads",
+    icon: <ICONS.Create_Announcement />,
+    name: "Leads",
+  },
 
   // { id: 49, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
   // { id: 50, value: "/admin/leaves", icon: <ICONS.Dashboard_1 />, name: "Leaves Dashboard" },
