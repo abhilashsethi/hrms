@@ -6,6 +6,7 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
+import moment from "moment";
 import { NotificationData } from "types";
 interface Props {
   open: boolean;
@@ -41,8 +42,23 @@ const NotificationInfo = ({ open, handleClose, notificationMsg }: Props) => {
         </IconButton>
       </DialogTitle>
       <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
-        <div className="md:w-[40rem] w-[72vw] md:px-4 px-2   text-justify">
-          <span className="text-lg">{notificationMsg?.description}</span>
+        <div className="md:w-[40rem] w-[72vw] md:px-4 px-2 text-justify">
+          <div className="py-1">
+            <span className="text-lg font-semibold px-1">Title: </span>
+            <span>{notificationMsg?.title}</span>
+          </div>
+          <div className="py-1">
+            <span className="text-lg font-semibold px-1">Description: </span>
+            <span className="">{notificationMsg?.description}</span>
+          </div>
+          <div className="py-1">
+            <span className="text-lg font-semibold px-1">Sent At: </span>
+            <span className="">
+              {notificationMsg?.createdAt
+                ? moment(notificationMsg?.createdAt).format("LLL")
+                : "---"}
+            </span>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
