@@ -64,9 +64,7 @@ const validationSchema = Yup.object().shape({
 	startGrossSalary3: Yup.number()
 		.required("Fill this field !")
 		.positive("Value must be a positive number"),
-	endGrossSalary3: Yup.number()
-		.required("Fill this field !")
-		.positive("Value must be a positive number"),
+	endGrossSalary3: Yup.number().positive("Value must be a positive number"),
 	professionalTax1: Yup.number().required("Fill this field !"),
 	professionalTax2: Yup.number()
 		.required("Fill this field !")
