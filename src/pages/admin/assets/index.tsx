@@ -16,7 +16,6 @@ const index = () => {
 
   const { data: dashboardData, isLoading: dashboardDataLoading } =
     useFetch<ASSET_DASHBOARD>(`assets/dashboard/details`);
-  console.log(dashboardData);
   return (
     <PanelLayout title="All Branches ">
       <>

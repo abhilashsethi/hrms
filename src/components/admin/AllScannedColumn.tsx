@@ -131,12 +131,12 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
                   validFrom: _?.userId
                     ? "---"
                     : _?.guestId
-                    ? _?.validFrom
+                    ? moment(_?.validFrom).format("lll")
                     : "---",
                   validTill: _?.userId
                     ? "---"
                     : _?.guestId
-                    ? _?.validTill
+                    ? moment(_?.validTill).format("lll")
                     : "---",
                   userType: _?.userId
                     ? "Employee"
@@ -144,6 +144,12 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
                     ? "Guest"
                     : "---",
                   userID: _?.userId ? _?.user?.employeeID : "---",
+                  updatedAtData: _?.updatedAt
+                    ? clock(_?.updatedAt).fromNow()
+                    : "---",
+                  createdAtData: _?.createdAt
+                    ? moment(_?.createdAt).format("ll")
+                    : "---",
                 })) as Card[])
           }
           options={{ ...MuiTblOptions(), paging: false }}
@@ -338,26 +344,14 @@ const AllScannedColumn = ({ data, user, mutate }: Props) => {
             },
             {
               title: "Last Updated",
-              field: "updatedAt",
-              render: (data) => {
-                return (
-                  <span className="text-xs">
-                    {clock(data.updatedAt).fromNow()}
-                  </span>
-                );
-              },
+              field: "updatedAtData",
+
               editable: "never",
             },
             {
               title: "Created",
-              field: "createdAt",
-              render: (data) => {
-                return (
-                  <span className="text-xs">
-                    {new Date(data.createdAt).toDateString()}
-                  </span>
-                );
-              },
+              field: "createdAtData",
+
               editable: "never",
             },
           ]}

@@ -51,7 +51,6 @@ const ChooseAssetHistory = ({
 
   const handleSubmit = async (values: any) => {
     try {
-      console.log(values);
       handleClose();
       setProjects(true);
     } catch (error) {
