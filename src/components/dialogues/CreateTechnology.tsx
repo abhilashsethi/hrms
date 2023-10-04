@@ -35,7 +35,7 @@ const validationSchema = yup.object().shape({
 		.required("Image is required!")
 		.test("fileSize", "Image size is too large", (value: any) => {
 			if (value) {
-				const maxSize = 300 * 1024; // Maximum size in bytes (300KB)
+				const maxSize = 2 * 1024 * 1024; // Maximum size in bytes (300KB)
 				return value.size <= maxSize;
 			}
 			return true;

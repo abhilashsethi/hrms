@@ -57,7 +57,7 @@ const Projects = ({ projectData, mutate, isLoading, userDetails }: PROPS) => {
 				onClose={() => setIsMembers(false)}
 			/>
 			{isLoading && (
-				<div className="w-full flex gap-2 mb-4">
+				<div className="grid gap-6 lg:grid-cols-3 pb-8">
 					{skeletons?.map((item) => (
 						<div key={item?.id}>
 							<SkeletonsStructure key={item?.id} />
@@ -372,7 +372,7 @@ const skeletons = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
 const SkeletonsStructure = () => {
 	return (
-		<div className="w-1/3 px-4">
+		<div className="w-full px-4">
 			<div className="h-full w-full border-2 rounded-md p-4">
 				<div className="flex gap-2 items-center">
 					<Skeleton variant="circular" width={22} height={22} />

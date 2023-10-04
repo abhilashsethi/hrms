@@ -46,8 +46,8 @@ const SingleImageUpload = ({
 						/>
 					)}
 				</div>
-				<p>Upload Image (200 * 300)</p>
-				<p>{message ? message : "Maximum size : 200kb"}</p>
+				{/* <p>Upload Image (200 * 300)</p> */}
+				<p>{message ? message : ""}</p>
 				<CloudUpload fontSize="large" color="primary" />
 			</div>
 		</div>
