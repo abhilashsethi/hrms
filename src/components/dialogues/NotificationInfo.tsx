@@ -55,7 +55,7 @@ const NotificationInfo = ({ open, handleClose, notificationMsg }: Props) => {
             <span className="text-lg font-semibold px-1">Sent At: </span>
             <span className="">
               {notificationMsg?.createdAt
-                ? moment(notificationMsg?.createdAt).format("LL")
+                ? moment(notificationMsg?.createdAt).format("LLL")
                 : "---"}
             </span>
           </div>
