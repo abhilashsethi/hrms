@@ -136,6 +136,7 @@ const TenderCreateDocuments = ({ handleNext }: Props) => {
 															touched.inputFields?.[index]?.doc &&
 															(errors.inputFields?.[index] as InputField)?.doc
 														}
+														inputProps={{ accept: ".pdf,.png,.jpg" }}
 													/>
 													<div className="flex md:justify-end w-full">
 														<Button
