@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { ProjectCreateTask, UpdateTaskStatus } from "components/dialogues";
+import { ProjectTaskMembers } from "components/drawer";
 import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -17,6 +18,8 @@ const ProjectTasks = () => {
   const { user } = useAuth();
   const { change } = useChange();
   const [isCreate, setIsCreate] = useState(false);
+  const [isMembers, setIsMembers] = useState(false);
+  const [isTaskData, setTaskData] = useState();
   const [isItemId, setItemId] = useState("");
   const [isUpdate, setIsUpdate] = useState(false);
   const router = useRouter();
@@ -70,6 +73,12 @@ const ProjectTasks = () => {
         mutate={mutate}
         handleClose={() => setIsCreate(false)}
         projectData={projectData}
+      />
+      <ProjectTaskMembers
+        projectData={isTaskData}
+        open={isMembers}
+        onClose={() => setIsMembers(false)}
+        mutate={mutate}
       />
 
       {user?.role?.name === "CEO" ||
@@ -161,7 +170,13 @@ const ProjectTasks = () => {
                       <p>No Members assigned.</p>
                     ) : (
                       <div className="flex gap-2 group items-center pt-2">
-                        <AvatarGroup className="!cursor-pointer" max={4}>
+                        <AvatarGroup
+                          className="!cursor-pointer"
+                          max={4}
+                          onClick={() => {
+                            setIsMembers(true), setTaskData(item);
+                          }}
+                        >
                           {item?.assignedUsers?.map(
                             (data: { name?: string; photo?: string }) => (
                               <Avatar
