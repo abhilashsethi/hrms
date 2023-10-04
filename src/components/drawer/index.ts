@@ -22,3 +22,4 @@ export { default as ChatReactions } from "./ChatReactions";
 export { default as ChatSeen } from "./ChatSeen";
 export { default as RoleWisePageAccess } from "./RoleWisePageAccess";
 export { default as ExitEmployeeDetails } from "./ExitEmployeeDetails";
+export { default as ProjectTaskMembers } from "./ProjectTaskMembers";
