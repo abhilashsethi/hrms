@@ -106,7 +106,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
 
       setLoading(false);
 
-      Swal.fire(`Success`, `You have successfully Downloaded!`, `success`);
+      Swal.fire(`Success`, `You have successfully downloaded!`, `success`);
       return;
     } catch (error) {
       if (error instanceof Error) {

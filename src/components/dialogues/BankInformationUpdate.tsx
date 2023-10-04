@@ -73,7 +73,7 @@ const BankInformationUpdate = ({
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully Submitted!`, `success`);
+      Swal.fire(`Success`, `You have successfully submitted!`, `success`);
       handleClose();
       mutate();
 

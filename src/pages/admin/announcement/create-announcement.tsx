@@ -47,7 +47,7 @@ const CreateAnnouncement = () => {
         setLoading(false);
         return;
       }
-      Swal.fire(`Success`, `You have successfully Submitted!`, `success`);
+      Swal.fire(`Success`, `You have successfully submitted!`, `success`);
       resetForm();
 
       return;

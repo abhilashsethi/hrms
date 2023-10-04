@@ -63,7 +63,7 @@ const AddTenderReviewMember = ({
       }
       Swal.fire(
         `Success`,
-        `You have successfully Assigned a Member!`,
+        `You have successfully assigned a member!`,
         `success`
       );
       mutate();
