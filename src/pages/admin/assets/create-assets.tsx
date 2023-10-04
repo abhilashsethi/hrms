@@ -410,6 +410,7 @@ const CreateAssets = () => {
 															ref={imageRef}
 															type="file"
 															multiple
+															accept="image/*"
 															onChange={(
 																event: ChangeEvent<HTMLInputElement>
 															) => {
