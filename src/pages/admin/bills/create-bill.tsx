@@ -108,6 +108,8 @@ const CreateBills = () => {
 	const { data: quotation } = useFetch<Quotation[]>(`quotations`);
 	const { data: branch } = useFetch<Branch[]>(`branches`);
 	const handleSubmit = async (values: any) => {
+		console.log(values?.gst);
+
 		setLoading(true);
 		try {
 			const transformedArray = values?.inputFields.map(
@@ -145,6 +147,8 @@ const CreateBills = () => {
 							isSgst: isSgst,
 							works: transformedArray,
 							invoiceDate: values?.invoiceDate,
+							clientGstNumber: values?.clientGSTNumber,
+							isGst: values?.gst,
 						},
 					});
 					setLoading(false);
@@ -175,6 +179,7 @@ const CreateBills = () => {
 						works: transformedArray,
 						invoiceDate: values?.invoiceDate,
 						isGst: values?.gst,
+						// clientGstNumber: values?.clientGSTNumber,
 					},
 				});
 				setLoading(false);
@@ -289,6 +294,7 @@ const CreateBills = () => {
 							isCgst: isCgst,
 							isSgst: isSgst,
 							isGst: values?.gst,
+							clientGstNumber: values?.clientGSTNumber,
 						},
 					});
 					setLoading(false);

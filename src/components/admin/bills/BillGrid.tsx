@@ -138,6 +138,7 @@ const BillGrid = ({ data, mutate }: Props) => {
 						key={item?.id}
 						className="relative w-full rounded-xl flex space-y-4 flex-col gap-2 tracking-wide shadow-xl"
 					>
+						{/* {console.log(item)} */}
 						<div className="relative">
 							{item?.status ? (
 								<p className="absolute top-2 z-50 rounded-r-xl bg-green-500 text-white text-sm px-2 pr-3 py-1 font-semibold">
