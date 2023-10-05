@@ -36,6 +36,7 @@ interface FormValues {
 	quotationTitle?: string;
 	dueDate?: Date;
 	billType?: string;
+	gst?: string;
 	clientGSTNumber?: string;
 	text?: string;
 	invoiceNumber?: string;
@@ -58,6 +59,7 @@ const CreateBills = () => {
 	const { change } = useChange();
 	const [salaryInfoModal, setSalaryInfoModal] = useState<boolean>(false);
 	const [isBillType, setIsBillType] = useState<string>("");
+	const [isGST, setIsGST] = useState<string>("");
 	const [editDetails, setEditDetails] = useState<boolean>(false);
 	const [isEmdValue, setIsEmdValue] = useState(false);
 	const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -77,9 +79,11 @@ const CreateBills = () => {
 		clientGSTNumber: "",
 		text: "",
 		branchId: "",
+		gst: "",
 	};
 	const validationSchema = Yup.object().shape({
 		billType: Yup.string().required("Bill type is required!"),
+		gst: Yup.string().required("GST option is required!"),
 		branchId: Yup.string().required("Branch is required!"),
 		invoiceDate: Yup.string().required("Invoice date is required!"),
 		inputFields: Yup.array().of(
@@ -165,11 +169,12 @@ const CreateBills = () => {
 						clientEmail: isClientEmail,
 						clientName: isClientName,
 						dueDate: new Date(values?.dueDate).toISOString(),
-						clientAddress: values?.clientAddress,
+						clientAddress: isClientAddress,
 						quotationTitle: values?.quotationTitle,
 						isIgst: isGstValue,
 						works: transformedArray,
 						invoiceDate: values?.invoiceDate,
+						isGst: values?.gst,
 					},
 				});
 				setLoading(false);
@@ -283,6 +288,7 @@ const CreateBills = () => {
 							invoiceDate: values?.invoiceDate,
 							isCgst: isCgst,
 							isSgst: isSgst,
+							isGst: values?.gst,
 						},
 					});
 					setLoading(false);
@@ -521,32 +527,89 @@ const CreateBills = () => {
 															}
 														/>
 													</div>
-												</div>
-												<div className="md:px-4 px-2 md:py-2 py-1">
-													<div className="md:py-2 py-1">
-														<InputLabel htmlFor="clientGSTNumber">
-															Client GST Number{" "}
-															<span className="text-red-600">*</span>
-														</InputLabel>
+													<div className="lg:px-4 px-2 py-2">
+														<div className="py-2">
+															<InputLabel htmlFor="billType">
+																GST <span className="text-red-600">*</span>
+															</InputLabel>
+														</div>
+
+														<Autocomplete
+															fullWidth
+															size="small"
+															id="gst"
+															options={GST || []}
+															onChange={(e: any, r: any) => {
+																setFieldValue("gst", r?.value);
+																setIsGST(r?.value);
+															}}
+															getOptionLabel={(option: any) => option.name}
+															renderInput={(params) => (
+																<TextField
+																	{...params}
+																	label="Choose GST Option"
+																	// placeholder="Selected Gender"
+																	onBlur={handleBlur}
+																	error={touched.gst && !!errors.gst}
+																	helperText={touched.gst && errors.gst}
+																/>
+															)}
+														/>
 													</div>
-													<TextField
-														fullWidth
-														size="small"
-														id="clientGSTNumber"
-														// placeholder="clientGSTNumber"
-														name="clientGSTNumber"
-														value={values.clientGSTNumber}
-														onChange={handleChange}
-														onBlur={handleBlur}
-														error={
-															touched.clientGSTNumber &&
-															!!errors.clientGSTNumber
-														}
-														helperText={
-															touched.clientGSTNumber && errors.clientGSTNumber
-														}
-													/>
 												</div>
+												{isGST ? (
+													<>
+														<div className="my-3 px-4">
+															<p className="text-gray-500">
+																Please choose tax option{" "}
+																<span className="text-red-600">*</span>
+															</p>
+															<RadioGroup
+																defaultValue={isEmdValue ? "IGST" : "SGST"}
+																row
+																name="isEmdValue"
+																onChange={handleOptionChange}
+															>
+																<FormControlLabel
+																	value="IGST"
+																	control={<Radio />}
+																	label="IGST"
+																/>
+																<FormControlLabel
+																	value="SGST"
+																	control={<Radio />}
+																	label="SGST & CGST"
+																/>
+															</RadioGroup>
+														</div>
+														<div className="md:px-4 px-2 md:py-2 py-1">
+															<div className="md:py-2 py-1">
+																<InputLabel htmlFor="clientGSTNumber">
+																	Client GST Number{" "}
+																	<span className="text-red-600">*</span>
+																</InputLabel>
+															</div>
+															<TextField
+																fullWidth
+																size="small"
+																id="clientGSTNumber"
+																// placeholder="clientGSTNumber"
+																name="clientGSTNumber"
+																value={values.clientGSTNumber}
+																onChange={handleChange}
+																onBlur={handleBlur}
+																error={
+																	touched.clientGSTNumber &&
+																	!!errors.clientGSTNumber
+																}
+																helperText={
+																	touched.clientGSTNumber &&
+																	errors.clientGSTNumber
+																}
+															/>
+														</div>
+													</>
+												) : null}
 												<div className="md:px-4 px-2 md:py-2 py-1">
 													<div className="md:py-2 py-1">
 														<InputLabel htmlFor="dueDate">
@@ -789,32 +852,7 @@ const CreateBills = () => {
 															}
 														/>
 													</div>
-													<div className="md:px-4 px-2 md:py-2 py-1">
-														<div className="md:py-2 py-1">
-															<InputLabel htmlFor="clientGSTNumber">
-																Client GST Number{" "}
-																<span className="text-red-600">*</span>
-															</InputLabel>
-														</div>
-														<TextField
-															fullWidth
-															size="small"
-															id="clientGSTNumber"
-															// placeholder="clientGSTNumber"
-															name="clientGSTNumber"
-															value={values.clientGSTNumber}
-															onChange={handleChange}
-															onBlur={handleBlur}
-															error={
-																touched.clientGSTNumber &&
-																!!errors.clientGSTNumber
-															}
-															helperText={
-																touched.clientGSTNumber &&
-																errors.clientGSTNumber
-															}
-														/>
-													</div>
+
 													<div className="md:px-4 px-2 md:py-2 py-1">
 														<div className="md:py-2 py-1">
 															<InputLabel htmlFor="clientAddress">
@@ -842,6 +880,88 @@ const CreateBills = () => {
 														/>
 													</div>
 												</div>
+												<div className="lg:px-4 px-2 py-2">
+													<div className="py-2">
+														<InputLabel htmlFor="billType">
+															GST <span className="text-red-600">*</span>
+														</InputLabel>
+													</div>
+
+													<Autocomplete
+														fullWidth
+														size="small"
+														id="gst"
+														options={GST || []}
+														onChange={(e: any, r: any) => {
+															setFieldValue("gst", r?.value);
+															setIsGST(r?.value);
+														}}
+														getOptionLabel={(option: any) => option.name}
+														renderInput={(params) => (
+															<TextField
+																{...params}
+																label="Choose GST Option"
+																// placeholder="Selected Gender"
+																onBlur={handleBlur}
+																error={touched.gst && !!errors.gst}
+																helperText={touched.gst && errors.gst}
+															/>
+														)}
+													/>
+												</div>
+												{isGST ? (
+													<>
+														<div className="my-3 px-4">
+															<p className="text-gray-500">
+																Please choose tax option{" "}
+																<span className="text-red-600">*</span>
+															</p>
+															<RadioGroup
+																defaultValue={isEmdValue ? "IGST" : "SGST"}
+																row
+																name="isEmdValue"
+																onChange={handleOptionChange}
+															>
+																<FormControlLabel
+																	value="IGST"
+																	control={<Radio />}
+																	label="IGST"
+																/>
+																<FormControlLabel
+																	value="SGST"
+																	control={<Radio />}
+																	label="SGST & CGST"
+																/>
+															</RadioGroup>
+														</div>
+														<div className="md:px-4 px-2 md:py-2 py-1">
+															<div className="md:py-2 py-1">
+																<InputLabel htmlFor="clientGSTNumber">
+																	Client GST Number{" "}
+																	<span className="text-red-600">*</span>
+																</InputLabel>
+															</div>
+															<TextField
+																fullWidth
+																size="small"
+																id="clientGSTNumber"
+																// placeholder="clientGSTNumber"
+																name="clientGSTNumber"
+																value={values.clientGSTNumber}
+																onChange={handleChange}
+																onBlur={handleBlur}
+																error={
+																	touched.clientGSTNumber &&
+																	!!errors.clientGSTNumber
+																}
+																helperText={
+																	touched.clientGSTNumber &&
+																	errors.clientGSTNumber
+																}
+															/>
+														</div>
+													</>
+												) : null}
 											</div>
 										) : null}
 										<FieldArray name="inputFields">
@@ -1001,6 +1121,19 @@ const Bill_Type = [
 		id: 3,
 		name: "Paid Bill",
 		value: "Paid",
+	},
+];
+
+const GST = [
+	{
+		id: 1,
+		name: "YES",
+		value: true,
+	},
+	{
+		id: 2,
+		name: "NO",
+		value: false,
 	},
 ];
 //  Unpaid or Advance or Paid

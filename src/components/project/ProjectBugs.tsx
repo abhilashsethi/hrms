@@ -259,7 +259,7 @@ const CardComponent = ({
 						</div> */}
 						<div className="flex justify-between">
 							<div className="md:flex text-slate-600">
-								{item?.createdAt ? moment(item?.createdAt).format("ll") : null}
+								{item?.createdAt ? moment(item?.createdAt).format("lll") : null}
 							</div>
 							<IconButton
 								onClick={() => setIsDescription((prev) => !prev)}
