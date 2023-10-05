@@ -259,7 +259,7 @@ const CardComponent = ({
 						</div> */}
 						<div className="flex justify-between">
 							<div className="md:flex text-slate-600">
-								{item?.createdAt ? moment(item?.createdAt).format("lll") : null}
+								{item?.createdAt ? moment(item?.createdAt).format("ll") : null}
 							</div>
 							<IconButton
 								onClick={() => setIsDescription((prev) => !prev)}
@@ -308,9 +308,6 @@ const CardComponent = ({
 
 const ProfileImage = ({ id }: any) => {
 	const { data: personData } = useFetch<User>(`users/${id}`);
-
-	console.log(personData);
-
 	return (
 		<Tooltip title={personData?.name}>
 			<PhotoViewerSmall

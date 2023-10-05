@@ -55,7 +55,7 @@ const MainEmployeeDashboardCards = ({ data }: Props) => {
       icon: <QuestionAnswer fontSize="medium" className="text-theme" />,
       name: "This Year Approved Leave",
       count: data?.thisYearApprovedLeaveCount || 0,
-      link: "/admin/chat",
+      link: "/admin/leaves/my-leaves",
     },
   ];
   const Quick_Access = [
