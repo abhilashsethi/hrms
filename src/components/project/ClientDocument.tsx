@@ -131,7 +131,12 @@ const ClientDocument = ({ projectData, mutate }: Props) => {
 														alt="doc"
 													/>
 												</Link>
-												<h3 className="text-sm font-semibold">{item?.title}</h3>
+												<h3 className="text-sm font-semibold">
+													{" "}
+													{item?.title.length > 7
+														? `${item?.title.slice(0, 7)}...`
+														: item?.title}
+												</h3>
 											</div>
 										</Link>
 									</div>
