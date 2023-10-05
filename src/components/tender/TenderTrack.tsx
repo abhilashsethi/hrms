@@ -25,13 +25,14 @@ import {
   UpdateTenderDocument,
 } from "components/dialogues";
 import { Form, Formik } from "formik";
-import { useAuth, useChange } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Tender } from "types";
 import { clock, deleteFile } from "utils";
 import * as Yup from "yup";
 import TenderLayout from "./TenderLayout";
+import { useRouter } from "next/router";
 interface Props {
   tenderData?: Tender;
   mutate: () => void;
@@ -45,6 +46,7 @@ interface TenderDoc {
 const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
   const { user } = useAuth();
   const { change } = useChange();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isDocumentValue, setIsDocumentValue] = useState(
     tenderData?.isAllDocumentsAdded
@@ -79,6 +81,11 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
     dialogue: boolean;
     tenderData?: TenderDoc;
   }>({ dialogue: false, tenderData: {} });
+  const {
+    data: dataMain,
+    mutate: noteMutate,
+    isLoading: LoadingNote,
+  } = useFetch<Tender>(`tenders/${router?.query?.id}`);
   const handleRemove = async (item: Tender) => {
     try {
       Swal.fire({
@@ -226,6 +233,7 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
         open={isCreateNote?.dialogue}
         handleClose={() => setIsCreateNote({ dialogue: false })}
         mutate={mutate}
+        noteMutate={noteMutate}
       />
 
       <h1 className="text-theme font-semibold">Assigned Member</h1>
@@ -645,7 +653,9 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
               </Button>
             </div>
             <div className="border-2 py-4 px-2 grid gap-2 md:h-[96] h-80 overflow-scroll w-full rounded-md p-2">
-              {tenderData?.notes?.length ? (
+              {LoadingNote ? (
+                <>Loading...</>
+              ) : tenderData?.notes?.length ? (
                 <>
                   {tenderData?.notes
                     ?.sort(
@@ -746,7 +756,9 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
               </Button>
             </div>
             <div className="border-2 py-4 px-2 grid gap-2 md:h-[96] h-80 overflow-scroll w-full rounded-md p-2">
-              {tenderData?.notes?.length ? (
+              {LoadingNote ? (
+                <>Loading...</>
+              ) : tenderData?.notes?.length ? (
                 <>
                   {tenderData?.notes
                     ?.sort(

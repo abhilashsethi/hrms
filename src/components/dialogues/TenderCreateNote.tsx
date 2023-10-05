@@ -21,10 +21,17 @@ interface Props {
   open: boolean;
   handleClose: () => void;
   mutate: () => void;
+  noteMutate: () => void;
   tenderData?: Tender;
 }
 
-const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
+const TenderCreateNote = ({
+  open,
+  handleClose,
+  noteMutate,
+  mutate,
+  tenderData,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
 
@@ -55,8 +62,8 @@ const TenderCreateNote = ({ open, handleClose, mutate, tenderData }: Props) => {
         return;
       }
       Swal.fire(`Success`, `Note Created Successfully!`, `success`);
-      console.log(res);
       mutate();
+      noteMutate();
       handleClose();
       return;
     } catch (error) {
