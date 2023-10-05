@@ -298,7 +298,7 @@ const ProjectMembers = ({ open, onClose, projectData, mutate }: Props) => {
 													type="submit"
 													size="small"
 													variant="contained"
-													className="!bg-theme"
+													className={`${loading ? "bg-gray-300" : "bg-theme"}`}
 													disabled={loading || !values?.managerId}
 													startIcon={
 														loading ? <CircularProgress size={20} /> : <Check />
