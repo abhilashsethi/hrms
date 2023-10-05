@@ -30,7 +30,6 @@ const EmployeeDetails = () => {
   const [isPersonal, setIsPersonal] = useState(false);
   const [isBank, setIsBank] = useState(false);
   const [isSecurity, setIsSecurity] = useState(false);
-
   const {
     data: employData,
     mutate,
