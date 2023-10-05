@@ -194,6 +194,13 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
       </section>
     );
   }
+
+  const isCEOOrCOO =
+    user?.role?.name === "CEO" ||
+    user?.role?.name === "COO" ||
+    user?.role?.name === "DIRECTOR" ||
+    user?.role?.name === "BID MANAGER";
+
   return (
     <section>
       <UpdateTenderDocument
@@ -370,19 +377,20 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                               </p>
                             </div>
                           </td>
-                          <td align="center" className="w-[20%] text-sm">
-                            <div className="flex gap-1 py-2 justify-center">
-                              <Tooltip title="Download Document">
-                                <a
-                                  className="cursor-pointer flex flex-col items-center justify-center"
-                                  href={`${item?.link}`}
-                                >
-                                  <IconButton size="small">
-                                    <Download />
-                                  </IconButton>
-                                </a>
-                              </Tooltip>
-                              {/* <Tooltip title="Edit Document">
+                          {isCEOOrCOO ? (
+                            <td align="center" className="w-[20%] text-sm">
+                              <div className="flex gap-1 py-2 justify-center">
+                                <Tooltip title="Download Document">
+                                  <a
+                                    className="cursor-pointer flex flex-col items-center justify-center"
+                                    href={`${item?.link}`}
+                                  >
+                                    <IconButton size="small">
+                                      <Download />
+                                    </IconButton>
+                                  </a>
+                                </Tooltip>
+                                {/* <Tooltip title="Edit Document">
                                 <IconButton
                                   size="small"
                                   onClick={() => {
@@ -400,8 +408,43 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                                   <Delete onClick={() => handleDelete(item)} />
                                 </IconButton>
                               </Tooltip> */}
-                            </div>
-                          </td>
+                              </div>
+                            </td>
+                          ) : filteredMember &&
+                            filteredMember?.member?.name === user?.name ? (
+                            <td align="center" className="w-[20%] text-sm">
+                              <div className="flex gap-1 py-2 justify-center">
+                                <Tooltip title="Download Document">
+                                  <a
+                                    className="cursor-pointer flex flex-col items-center justify-center"
+                                    href={`${item?.link}`}
+                                  >
+                                    <IconButton size="small">
+                                      <Download />
+                                    </IconButton>
+                                  </a>
+                                </Tooltip>
+                                {/* <Tooltip title="Edit Document">
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    setIsUpdateDocument({
+                                      dialogue: true,
+                                      tenderData: item,
+                                    });
+                                  }}
+                                >
+                                  <Edit />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Delete Document">
+                                <IconButton size="small">
+                                  <Delete onClick={() => handleDelete(item)} />
+                                </IconButton>
+                              </Tooltip> */}
+                              </div>
+                            </td>
+                          ) : null}
                         </tr>
                       ))}
                     </>
@@ -444,21 +487,23 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                               </span>
                               <span>{item?.title}</span>
                             </div>
-
-                            <div className="grid gap-2">
-                              <span className=" font-semibold">Actions :</span>
-                              <div className="flex gap-1 py-2 justify-center">
-                                <Tooltip title="Download Document">
-                                  <a
-                                    className="cursor-pointer flex flex-col items-center justify-center"
-                                    href={`${item?.link}`}
-                                  >
-                                    <IconButton size="small">
-                                      <Download />
-                                    </IconButton>
-                                  </a>
-                                </Tooltip>
-                                {/* <Tooltip title="Edit Document">
+                            {isCEOOrCOO ? (
+                              <div className="grid gap-2">
+                                <span className=" font-semibold">
+                                  Actions :
+                                </span>
+                                <div className="flex gap-1 py-2 justify-center">
+                                  <Tooltip title="Download Document">
+                                    <a
+                                      className="cursor-pointer flex flex-col items-center justify-center"
+                                      href={`${item?.link}`}
+                                    >
+                                      <IconButton size="small">
+                                        <Download />
+                                      </IconButton>
+                                    </a>
+                                  </Tooltip>
+                                  {/* <Tooltip title="Edit Document">
                                   <IconButton
                                     size="small"
                                     onClick={() => {
@@ -478,8 +523,48 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                                     />
                                   </IconButton>
                                 </Tooltip> */}
+                                </div>
                               </div>
-                            </div>
+                            ) : filteredMember &&
+                              filteredMember?.member?.name === user?.name ? (
+                              <div className="grid gap-2">
+                                <span className=" font-semibold">
+                                  Actions :
+                                </span>
+                                <div className="flex gap-1 py-2 justify-center">
+                                  <Tooltip title="Download Document">
+                                    <a
+                                      className="cursor-pointer flex flex-col items-center justify-center"
+                                      href={`${item?.link}`}
+                                    >
+                                      <IconButton size="small">
+                                        <Download />
+                                      </IconButton>
+                                    </a>
+                                  </Tooltip>
+                                  {/* <Tooltip title="Edit Document">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => {
+                                      setIsUpdateDocument({
+                                        dialogue: true,
+                                        tenderData: item,
+                                      });
+                                    }}
+                                  >
+                                    <Edit />
+                                  </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Delete Document">
+                                  <IconButton size="small">
+                                    <Delete
+                                      onClick={() => handleDelete(item)}
+                                    />
+                                  </IconButton>
+                                </Tooltip> */}
+                                </div>
+                              </div>
+                            ) : null}
                           </div>
                         </div>
                       </div>
@@ -497,105 +582,209 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
           </div>
         </TenderLayout>
       </div>
-
-      <div className="md:w-1/2 w-full mt-4">
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          enableReinitialize={true}
-          onSubmit={handleSubmit}
-        >
-          {({ values, errors, touched, handleChange, handleBlur }) => (
-            <Form>
-              <h1 className="font-semibold">Update Status </h1>
-              <TextField
-                className="!mt-4"
-                select
-                fullWidth
-                defaultValue="Disqualified"
-                id="status"
-                name="status"
-                value={values.status}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.status && !!errors.status}
-                helperText={touched.status && errors.status}
-              >
-                {statuses.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <div className="flex mt-2 mb-2">
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  startIcon={
-                    loading ? <CircularProgress size={20} /> : <Check />
-                  }
-                  variant="contained"
-                  className="!bg-green-500"
-                >
-                  Update
-                </Button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
-      <div className="md:w-1/2 w-full mt-4">
-        <div className="flex justify-between items-center mb-2">
-          <h1 className="font-semibold">Notes</h1>
-          <Button
-            startIcon={<Create />}
-            variant="contained"
-            className="!bg-theme"
-            onClick={() => {
-              setIsCreateNote({ dialogue: true, tenderData: tenderData });
-            }}
-          >
-            Create Note
-          </Button>
-        </div>
-        <div className="border-2 py-4 px-2 grid gap-2 md:h-[96] h-80 overflow-scroll w-full rounded-md p-2">
-          {tenderData?.notes?.length ? (
-            <>
-              {tenderData?.notes
-                ?.sort(
-                  (a: any, b: any) =>
-                    (new Date(b?.createdAt) as any) -
-                    (new Date(a?.createdAt) as any)
-                )
-                ?.map((item) => (
-                  <div key={item?.id}>
-                    <div className="w-full p-4 border-[1px] border-theme rounded-md">
-                      <p className="text-sm tracking-wide">
-                        {item?.description}
-                      </p>
-                      <div className="flex justify-between items-end">
-                        <div className="flex gap-1 justify-start">
-                          <Tooltip title="Delete">
-                            <IconButton size="small">
-                              <Delete onClick={() => handleDelete(item)} />
-                            </IconButton>
-                          </Tooltip>
-                        </div>
-                        <span className="text-xs">
-                          {clock(item?.createdAt).fromNow()}
-                        </span>
-                      </div>
-                    </div>
+      {isCEOOrCOO ? (
+        <>
+          <div className="md:w-1/2 w-full mt-4">
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              enableReinitialize={true}
+              onSubmit={handleSubmit}
+            >
+              {({ values, errors, touched, handleChange, handleBlur }) => (
+                <Form>
+                  <h1 className="font-semibold">Update Status </h1>
+                  <TextField
+                    className="!mt-4"
+                    select
+                    fullWidth
+                    defaultValue="Disqualified"
+                    id="status"
+                    name="status"
+                    value={values.status}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.status && !!errors.status}
+                    helperText={touched.status && errors.status}
+                  >
+                    {statuses.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <div className="flex mt-2 mb-2">
+                    <Button
+                      type="submit"
+                      disabled={loading}
+                      startIcon={
+                        loading ? <CircularProgress size={20} /> : <Check />
+                      }
+                      variant="contained"
+                      className="!bg-green-500"
+                    >
+                      Update
+                    </Button>
                   </div>
-                ))}
-            </>
-          ) : (
-            <div className="grid justify-center justify-items-center px-4 py-4">
-              <p>No Note Available</p>
+                </Form>
+              )}
+            </Formik>
+          </div>
+          <div className="md:w-1/2 w-full mt-4">
+            <div className="flex justify-between items-center mb-2">
+              <h1 className="font-semibold">Notes</h1>
+              <Button
+                startIcon={<Create />}
+                variant="contained"
+                className="!bg-theme"
+                onClick={() => {
+                  setIsCreateNote({ dialogue: true, tenderData: tenderData });
+                }}
+              >
+                Create Note
+              </Button>
             </div>
-          )}
-        </div>
-      </div>
+            <div className="border-2 py-4 px-2 grid gap-2 md:h-[96] h-80 overflow-scroll w-full rounded-md p-2">
+              {tenderData?.notes?.length ? (
+                <>
+                  {tenderData?.notes
+                    ?.sort(
+                      (a: any, b: any) =>
+                        (new Date(b?.createdAt) as any) -
+                        (new Date(a?.createdAt) as any)
+                    )
+                    ?.map((item) => (
+                      <div key={item?.id}>
+                        <div className="w-full p-4 border-[1px] border-theme rounded-md">
+                          <p className="text-sm tracking-wide">
+                            {item?.description}
+                          </p>
+                          <div className="flex justify-between items-end">
+                            <div className="flex gap-1 justify-start">
+                              <Tooltip title="Delete">
+                                <IconButton size="small">
+                                  <Delete onClick={() => handleDelete(item)} />
+                                </IconButton>
+                              </Tooltip>
+                            </div>
+                            <span className="text-xs">
+                              {clock(item?.createdAt).fromNow()}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </>
+              ) : (
+                <div className="grid justify-center justify-items-center px-4 py-4">
+                  <p>No Note Available</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      ) : filteredMember && filteredMember?.member?.name === user?.name ? (
+        <>
+          <div className="md:w-1/2 w-full mt-4">
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              enableReinitialize={true}
+              onSubmit={handleSubmit}
+            >
+              {({ values, errors, touched, handleChange, handleBlur }) => (
+                <Form>
+                  <h1 className="font-semibold">Update Status </h1>
+                  <TextField
+                    className="!mt-4"
+                    select
+                    fullWidth
+                    defaultValue="Disqualified"
+                    id="status"
+                    name="status"
+                    value={values.status}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.status && !!errors.status}
+                    helperText={touched.status && errors.status}
+                  >
+                    {statuses.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <div className="flex mt-2 mb-2">
+                    <Button
+                      type="submit"
+                      disabled={loading}
+                      startIcon={
+                        loading ? <CircularProgress size={20} /> : <Check />
+                      }
+                      variant="contained"
+                      className="!bg-green-500"
+                    >
+                      Update
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
+          <div className="md:w-1/2 w-full mt-4">
+            <div className="flex justify-between items-center mb-2">
+              <h1 className="font-semibold">Notes</h1>
+              <Button
+                startIcon={<Create />}
+                variant="contained"
+                className="!bg-theme"
+                onClick={() => {
+                  setIsCreateNote({ dialogue: true, tenderData: tenderData });
+                }}
+              >
+                Create Note
+              </Button>
+            </div>
+            <div className="border-2 py-4 px-2 grid gap-2 md:h-[96] h-80 overflow-scroll w-full rounded-md p-2">
+              {tenderData?.notes?.length ? (
+                <>
+                  {tenderData?.notes
+                    ?.sort(
+                      (a: any, b: any) =>
+                        (new Date(b?.createdAt) as any) -
+                        (new Date(a?.createdAt) as any)
+                    )
+                    ?.map((item) => (
+                      <div key={item?.id}>
+                        <div className="w-full p-4 border-[1px] border-theme rounded-md">
+                          <p className="text-sm tracking-wide">
+                            {item?.description}
+                          </p>
+                          <div className="flex justify-between items-end">
+                            <div className="flex gap-1 justify-start">
+                              <Tooltip title="Delete">
+                                <IconButton size="small">
+                                  <Delete onClick={() => handleDelete(item)} />
+                                </IconButton>
+                              </Tooltip>
+                            </div>
+                            <span className="text-xs">
+                              {clock(item?.createdAt).fromNow()}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </>
+              ) : (
+                <div className="grid justify-center justify-items-center px-4 py-4">
+                  <p>No Note Available</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      ) : null}
     </section>
   );
 };

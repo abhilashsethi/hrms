@@ -66,10 +66,8 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
     billOfBranchId: `${data?.billOfBranchId ? data?.billOfBranchId : ""}`,
     invoiceDate: data?.invoiceDate
       ? moment(data?.invoiceDate).format("YYYY-MM-DD")
-      : new Date(),
-    dueDate: data?.dueDate
-      ? moment(data?.dueDate).format("YYYY-MM-DD")
-      : new Date(),
+      : "",
+    dueDate: data?.dueDate ? moment(data?.dueDate).format("YYYY-MM-DD") : "",
   };
   const { change } = useChange();
   const handleSubmit = async (values: BillsInput) => {
@@ -307,6 +305,10 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
                     type="date"
                     placeholder="Invoice Date"
                     name="invoiceDate"
+                    inputProps={{
+                      min: "2000-01-01",
+                      max: "9999-12-31",
+                    }}
                     value={values.invoiceDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -328,6 +330,10 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
                     value={values.dueDate}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    inputProps={{
+                      min: "2000-01-01",
+                      max: "9999-12-31",
+                    }}
                     error={touched.dueDate && !!errors.dueDate}
                     helperText={touched.dueDate && errors.dueDate}
                   />

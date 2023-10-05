@@ -175,7 +175,7 @@ export const downloadFile = async ({
 		window.URL.revokeObjectURL(fileUrl);
 
 		// notify.success("File downloaded successfully.");
-		Swal.fire(`Success`, `You have successfully Downloaded!`, `success`);
+		Swal.fire(`Success`, `You have successfully downloaded!`, `success`);
 	} catch (error) {
 		if (error instanceof Error) {
 			// notify.error(error?.message);

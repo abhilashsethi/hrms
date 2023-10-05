@@ -181,6 +181,13 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
       }
     }
   };
+
+  const isCEOOrCOO =
+    user?.role?.name === "CEO" ||
+    user?.role?.name === "COO" ||
+    user?.role?.name === "DIRECTOR" ||
+    user?.role?.name === "BID MANAGER";
+
   if (isLoading) {
     return (
       <section className="min-h-screen">
@@ -188,6 +195,7 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
       </section>
     );
   }
+
   return (
     <section>
       <UpdateTenderDocument
@@ -357,22 +365,23 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                               </p>
                             </div>
                           </td>
-                          <td align="center" className="w-[20%] text-sm">
-                            <div className="flex gap-1 py-2 justify-center">
-                              <Tooltip
-                                title="Download Document"
-                                onClick={() =>
-                                  downloadFile(
-                                    item?.link,
-                                    item?.link?.split("/")?.at(-1) as any
-                                  )
-                                }
-                              >
-                                <IconButton size="small">
-                                  <Download />
-                                </IconButton>
-                              </Tooltip>
-                              {/* <Tooltip title="Edit Document">
+                          {isCEOOrCOO ? (
+                            <td align="center" className="w-[20%] text-sm">
+                              <div className="flex gap-1 py-2 justify-center">
+                                <Tooltip
+                                  title="Download Document"
+                                  onClick={() =>
+                                    downloadFile(
+                                      item?.link,
+                                      item?.link?.split("/")?.at(-1) as any
+                                    )
+                                  }
+                                >
+                                  <IconButton size="small">
+                                    <Download />
+                                  </IconButton>
+                                </Tooltip>
+                                {/* <Tooltip title="Edit Document">
                                 <IconButton
                                   size="small"
                                   onClick={() => {
@@ -390,8 +399,46 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                                   <Delete onClick={() => handleDelete(item)} />
                                 </IconButton>
                               </Tooltip> */}
-                            </div>
-                          </td>
+                              </div>
+                            </td>
+                          ) : filteredMember &&
+                            filteredMember?.member?.name === user?.name ? (
+                            <td align="center" className="w-[20%] text-sm">
+                              <div className="flex gap-1 py-2 justify-center">
+                                <Tooltip
+                                  title="Download Document"
+                                  onClick={() =>
+                                    downloadFile(
+                                      item?.link,
+                                      item?.link?.split("/")?.at(-1) as any
+                                    )
+                                  }
+                                >
+                                  <IconButton size="small">
+                                    <Download />
+                                  </IconButton>
+                                </Tooltip>
+                                {/* <Tooltip title="Edit Document">
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    setIsUpdateDocument({
+                                      dialogue: true,
+                                      tenderData: item,
+                                    });
+                                  }}
+                                >
+                                  <Edit />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Delete Document">
+                                <IconButton size="small">
+                                  <Delete onClick={() => handleDelete(item)} />
+                                </IconButton>
+                              </Tooltip> */}
+                              </div>
+                            </td>
+                          ) : null}
                         </tr>
                       ))}
                     </>
@@ -434,24 +481,26 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                               </span>
                               <span>{item?.title}</span>
                             </div>
-
-                            <div className="grid gap-2">
-                              <span className=" font-semibold">Actions :</span>
-                              <div className="flex gap-1 py-2 justify-center">
-                                <Tooltip
-                                  title="Download Document"
-                                  onClick={() =>
-                                    downloadFile(
-                                      item?.link,
-                                      item?.link?.split("/")?.at(-1) as any
-                                    )
-                                  }
-                                >
-                                  <IconButton size="small">
-                                    <Download />
-                                  </IconButton>
-                                </Tooltip>
-                                {/* <Tooltip title="Edit Document">
+                            {isCEOOrCOO ? (
+                              <div className="grid gap-2">
+                                <span className=" font-semibold">
+                                  Actions :
+                                </span>
+                                <div className="flex gap-1 py-2 justify-center">
+                                  <Tooltip
+                                    title="Download Document"
+                                    onClick={() =>
+                                      downloadFile(
+                                        item?.link,
+                                        item?.link?.split("/")?.at(-1) as any
+                                      )
+                                    }
+                                  >
+                                    <IconButton size="small">
+                                      <Download />
+                                    </IconButton>
+                                  </Tooltip>
+                                  {/* <Tooltip title="Edit Document">
                                   <IconButton
                                     size="small"
                                     onClick={() => {
@@ -471,8 +520,51 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                                     />
                                   </IconButton>
                                 </Tooltip> */}
+                                </div>
                               </div>
-                            </div>
+                            ) : filteredMember &&
+                              filteredMember?.member?.name === user?.name ? (
+                              <div className="grid gap-2">
+                                <span className=" font-semibold">
+                                  Actions :
+                                </span>
+                                <div className="flex gap-1 py-2 justify-center">
+                                  <Tooltip
+                                    title="Download Document"
+                                    onClick={() =>
+                                      downloadFile(
+                                        item?.link,
+                                        item?.link?.split("/")?.at(-1) as any
+                                      )
+                                    }
+                                  >
+                                    <IconButton size="small">
+                                      <Download />
+                                    </IconButton>
+                                  </Tooltip>
+                                  {/* <Tooltip title="Edit Document">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => {
+                                      setIsUpdateDocument({
+                                        dialogue: true,
+                                        tenderData: item,
+                                      });
+                                    }}
+                                  >
+                                    <Edit />
+                                  </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Delete Document">
+                                  <IconButton size="small">
+                                    <Delete
+                                      onClick={() => handleDelete(item)}
+                                    />
+                                  </IconButton>
+                                </Tooltip> */}
+                                </div>
+                              </div>
+                            ) : null}
                           </div>
                         </div>
                       </div>
@@ -491,52 +583,53 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
           </div>
         </TenderLayout>
       </div>
-
-      <div className="md:w-1/2 w-full mt-4">
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          enableReinitialize={true}
-          onSubmit={handleSubmit}
-        >
-          {({ values, errors, touched, handleChange, handleBlur }) => (
-            <Form>
-              <h1 className="font-semibold">Update Status </h1>
-              <TextField
-                className="!mt-4"
-                select
-                fullWidth
-                id="status"
-                name="status"
-                value={values.status}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.status && !!errors.status}
-                helperText={touched.status && errors.status}
-              >
-                {statuses.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <div className="flex mt-2 mb-2">
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  startIcon={
-                    loading ? <CircularProgress size={20} /> : <Check />
-                  }
-                  variant="contained"
-                  className="!bg-green-500"
+      {filteredMember && filteredMember?.member?.name === user?.name ? (
+        <div className="md:w-1/2 w-full mt-4">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+          >
+            {({ values, errors, touched, handleChange, handleBlur }) => (
+              <Form>
+                <h1 className="font-semibold">Update Status </h1>
+                <TextField
+                  className="!mt-4"
+                  select
+                  fullWidth
+                  id="status"
+                  name="status"
+                  value={values.status}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.status && !!errors.status}
+                  helperText={touched.status && errors.status}
                 >
-                  Update
-                </Button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
+                  {statuses.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <div className="flex mt-2 mb-2">
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
+                    variant="contained"
+                    className="!bg-green-500"
+                  >
+                    Update
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      ) : null}
     </section>
   );
 };

@@ -182,7 +182,7 @@ const ReturnAsset = ({
       }
       mutate();
       assignMutate();
-      Swal.fire(`Success`, `You have successfully Returned!`, `success`);
+      Swal.fire(`Success`, `You have successfully returned!`, `success`);
       handleClose();
       return;
     } catch (error) {
