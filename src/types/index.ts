@@ -544,6 +544,7 @@ export interface Bills {
 	isCgst?: boolean;
 	isIgst?: boolean;
 	isSgst?: boolean;
+	isGst?: boolean;
 	status?: string;
 	sgstPercent?: number;
 	cgstPercent?: number;
