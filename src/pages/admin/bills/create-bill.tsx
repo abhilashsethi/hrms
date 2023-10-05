@@ -535,9 +535,7 @@ const CreateBills = () => {
                           </div>
                           <div className="lg:px-4 px-2 py-2">
                             <div className="py-2">
-                              <InputLabel htmlFor="billType">
-                                GST <span className="text-red-600">*</span>
-                              </InputLabel>
+                              <InputLabel htmlFor="billType">GST</InputLabel>
                             </div>
 
                             <Autocomplete
