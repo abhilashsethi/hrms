@@ -83,3 +83,4 @@ export { default as EditShift } from "./EditShift";
 export { default as UpdateAppointmentDetails } from "./UpdateAppointmentDetails";
 export { default as ChangeAppointmentPhoto } from "./ChangeAppointmentPhoto";
 export { default as SecurityInformation } from "./SecurityInformation";
+export { default as SelectBankAccount } from "./SelectBankAccount";
