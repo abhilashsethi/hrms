@@ -585,7 +585,53 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
           </div>
         </TenderLayout>
       </div>
-      {filteredMember && filteredMember?.member?.name === user?.name ? (
+      {isCEOOrCOO ? (
+        <div className="md:w-1/2 w-full mt-4">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            enableReinitialize={true}
+            onSubmit={handleSubmit}
+          >
+            {({ values, errors, touched, handleChange, handleBlur }) => (
+              <Form>
+                <h1 className="font-semibold">Update Status </h1>
+                <TextField
+                  className="!mt-4"
+                  select
+                  fullWidth
+                  id="status"
+                  name="status"
+                  value={values.status}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.status && !!errors.status}
+                  helperText={touched.status && errors.status}
+                >
+                  {statuses.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <div className="flex mt-2 mb-2">
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
+                    variant="contained"
+                    className="!bg-green-500"
+                  >
+                    Update
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      ) : filteredMember && filteredMember?.member?.name === user?.name ? (
         <div className="md:w-1/2 w-full mt-4">
           <Formik
             initialValues={initialValues}
