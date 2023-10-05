@@ -193,7 +193,11 @@ const ViewPayrollDetails = () => {
         name: "HRA",
         count: `${
           Configs?.basicSalary
-            ? (Configs?.hra * Configs?.basicSalary) / 100
+            ? (Configs?.hra *
+                (Gross_Salary
+                  ? (Configs?.basicSalary * Gross_Salary) / 100
+                  : 0)) /
+              100
             : "---"
         }`,
       },
