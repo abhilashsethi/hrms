@@ -257,18 +257,20 @@ const TenderTrack = ({ mutate, tenderData, isLoading }: Props) => {
                 </div>
               </div>
               <div className="mt-2 md:flex grid justify-center gap-2">
-                <Link
-                  href={`/admin/employees/profile/${filteredMember?.member?.id}`}
-                >
-                  <Button
-                    variant="contained"
-                    className="!bg-theme"
-                    size="small"
-                    startIcon={<Person />}
+                {isCEOOrCOO ? (
+                  <Link
+                    href={`/admin/employees/profile/${filteredMember?.member?.id}`}
                   >
-                    View Details
-                  </Button>
-                </Link>
+                    <Button
+                      variant="contained"
+                      className="!bg-theme"
+                      size="small"
+                      startIcon={<Person />}
+                    >
+                      View Details
+                    </Button>
+                  </Link>
+                ) : null}
                 {user?.role?.name === "CEO" ||
                 user?.role?.name === "BID MANAGER" ? (
                   <Button
