@@ -119,7 +119,10 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
     initialValues: { title: "", link: "" },
     validationSchema: yup.object({
       title: yup.string().required("Required!"),
-      link: yup.string().required("Required!"),
+      link: yup
+        .string()
+        .required("Required!")
+        .matches(/^(ftp|http|https):\/\/[^ "]+$/, "Enter a valid URL"),
     }),
     onSubmit: async (values) => {
       const reqData = { links: [{ title: values?.title, link: values?.link }] };

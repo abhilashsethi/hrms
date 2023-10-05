@@ -235,7 +235,7 @@ const UpdateBranch = ({ open, handleClose, MainMutate, branchId }: Props) => {
                         option.name ? option.name : ""
                       }
                       isOptionEqualToValue={(option: any, value: any) =>
-                        option.id === value.userId
+                        option?.id === value?.userId
                       }
                       value={
                         formik.values?.managerId
