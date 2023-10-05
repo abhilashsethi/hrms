@@ -281,7 +281,7 @@ const CreateBranch = () => {
                         onChange={(e: any, r: any) => {
                           setFieldValue("managerId", r?.id);
                         }}
-                        getOptionLabel={(option: any) => option.name}
+                        getOptionLabel={(option: any) => option?.name}
                         renderInput={(params) => (
                           <TextField
                             {...params}
