@@ -29,7 +29,12 @@ interface Props {
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required!"),
   // email: Yup.string().required("Email is required!"),
-  phone: Yup.string().required("Phone No is required!"),
+  phone: Yup.string()
+    .required("Phone number is required!")
+    .matches(
+      /^\d{6,15}$/,
+      "Phone number is not valid. It should be 6 to 15 digits ."
+    ),
   gender: Yup.string().required("Gender is required!"),
 });
 
