@@ -29,6 +29,7 @@ const MyProjects = () => {
   const handleChange = (event: any) => {
     setStatus(event.target.value);
   };
+
   const {
     data: projectData,
     mutate,
