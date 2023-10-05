@@ -50,7 +50,7 @@ const AllBranchGrid = ({ data, mutate }: Props) => {
   return (
     <>
       <section className="py-6 ">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 items-center justify-center">
+        <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 items-center justify-center">
           {data?.map((item, index) => (
             <div key={index}>
               <MoreOption item={item} mutate={mutate} />
