@@ -524,6 +524,31 @@ const CreateBills = () => {
 												</div>
 												<div className="md:px-4 px-2 md:py-2 py-1">
 													<div className="md:py-2 py-1">
+														<InputLabel htmlFor="clientGSTNumber">
+															Client GST Number{" "}
+															<span className="text-red-600">*</span>
+														</InputLabel>
+													</div>
+													<TextField
+														fullWidth
+														size="small"
+														id="clientGSTNumber"
+														// placeholder="clientGSTNumber"
+														name="clientGSTNumber"
+														value={values.clientGSTNumber}
+														onChange={handleChange}
+														onBlur={handleBlur}
+														error={
+															touched.clientGSTNumber &&
+															!!errors.clientGSTNumber
+														}
+														helperText={
+															touched.clientGSTNumber && errors.clientGSTNumber
+														}
+													/>
+												</div>
+												<div className="md:px-4 px-2 md:py-2 py-1">
+													<div className="md:py-2 py-1">
 														<InputLabel htmlFor="dueDate">
 															Due Date <span className="text-red-600">*</span>
 														</InputLabel>
@@ -761,6 +786,32 @@ const CreateBills = () => {
 															}
 															helperText={
 																touched.clientEmail && errors.clientEmail
+															}
+														/>
+													</div>
+													<div className="md:px-4 px-2 md:py-2 py-1">
+														<div className="md:py-2 py-1">
+															<InputLabel htmlFor="clientGSTNumber">
+																Client GST Number{" "}
+																<span className="text-red-600">*</span>
+															</InputLabel>
+														</div>
+														<TextField
+															fullWidth
+															size="small"
+															id="clientGSTNumber"
+															// placeholder="clientGSTNumber"
+															name="clientGSTNumber"
+															value={values.clientGSTNumber}
+															onChange={handleChange}
+															onBlur={handleBlur}
+															error={
+																touched.clientGSTNumber &&
+																!!errors.clientGSTNumber
+															}
+															helperText={
+																touched.clientGSTNumber &&
+																errors.clientGSTNumber
 															}
 														/>
 													</div>
