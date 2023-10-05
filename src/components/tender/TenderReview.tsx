@@ -195,6 +195,12 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
       </section>
     );
   }
+  const isCEOOrCOO =
+    user?.role?.name === "CEO" ||
+    user?.role?.name === "COO" ||
+    user?.role?.name === "DIRECTOR" ||
+    user?.role?.name === "BID MANAGER";
+
   return (
     <section>
       <AddTenderDocument
@@ -365,21 +371,22 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                             </div>
                           </td>
                           <td align="center" className="w-[20%] text-sm">
-                            <div className="flex gap-1 py-2 justify-center">
-                              <Tooltip
-                                title="Download Document"
-                                onClick={() =>
-                                  downloadFile(
-                                    item?.link,
-                                    item?.link?.split("/")?.at(-1) as any
-                                  )
-                                }
-                              >
-                                <IconButton size="small">
-                                  <Download />
-                                </IconButton>
-                              </Tooltip>
-                              {/* <Tooltip title="Edit Document">
+                            {isCEOOrCOO ? (
+                              <div className="flex gap-1 py-2 justify-center">
+                                <Tooltip
+                                  title="Download Document"
+                                  onClick={() =>
+                                    downloadFile(
+                                      item?.link,
+                                      item?.link?.split("/")?.at(-1) as any
+                                    )
+                                  }
+                                >
+                                  <IconButton size="small">
+                                    <Download />
+                                  </IconButton>
+                                </Tooltip>
+                                {/* <Tooltip title="Edit Document">
                                 <IconButton
                                   size="small"
                                   onClick={() => {
@@ -397,7 +404,43 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                                   <Delete onClick={() => handleDelete(item)} />
                                 </IconButton>
                               </Tooltip> */}
-                            </div>
+                              </div>
+                            ) : filteredMember &&
+                              filteredMember?.member?.name === user?.name ? (
+                              <div className="flex gap-1 py-2 justify-center">
+                                <Tooltip
+                                  title="Download Document"
+                                  onClick={() =>
+                                    downloadFile(
+                                      item?.link,
+                                      item?.link?.split("/")?.at(-1) as any
+                                    )
+                                  }
+                                >
+                                  <IconButton size="small">
+                                    <Download />
+                                  </IconButton>
+                                </Tooltip>
+                                {/* <Tooltip title="Edit Document">
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    setIsUpdateDocument({
+                                      dialogue: true,
+                                      tenderData: item,
+                                    });
+                                  }}
+                                >
+                                  <Edit />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Delete Document">
+                                <IconButton size="small">
+                                  <Delete onClick={() => handleDelete(item)} />
+                                </IconButton>
+                              </Tooltip> */}
+                              </div>
+                            ) : null}
                           </td>
                         </tr>
                       ))}
@@ -442,23 +485,26 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                               <span>{item?.title}</span>
                             </div>
 
-                            <div className="grid gap-2">
-                              <span className=" font-semibold">Actions :</span>
-                              <div className="flex gap-1 py-2 justify-center">
-                                <Tooltip
-                                  title="Download Document"
-                                  onClick={() =>
-                                    downloadFile(
-                                      item?.link,
-                                      item?.link?.split("/")?.at(-1) as any
-                                    )
-                                  }
-                                >
-                                  <IconButton size="small">
-                                    <Download />
-                                  </IconButton>
-                                </Tooltip>
-                                {/* <Tooltip title="Edit Document">
+                            {isCEOOrCOO ? (
+                              <div className="grid gap-2">
+                                <span className=" font-semibold">
+                                  Actions :
+                                </span>
+                                <div className="flex gap-1 py-2 justify-center">
+                                  <Tooltip
+                                    title="Download Document"
+                                    onClick={() =>
+                                      downloadFile(
+                                        item?.link,
+                                        item?.link?.split("/")?.at(-1) as any
+                                      )
+                                    }
+                                  >
+                                    <IconButton size="small">
+                                      <Download />
+                                    </IconButton>
+                                  </Tooltip>
+                                  {/* <Tooltip title="Edit Document">
                                   <IconButton
                                     size="small"
                                     onClick={() => {
@@ -478,8 +524,51 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
                                     />
                                   </IconButton>
                                 </Tooltip> */}
+                                </div>
                               </div>
-                            </div>
+                            ) : filteredMember &&
+                              filteredMember?.member?.name === user?.name ? (
+                              <div className="grid gap-2">
+                                <span className=" font-semibold">
+                                  Actions :
+                                </span>
+                                <div className="flex gap-1 py-2 justify-center">
+                                  <Tooltip
+                                    title="Download Document"
+                                    onClick={() =>
+                                      downloadFile(
+                                        item?.link,
+                                        item?.link?.split("/")?.at(-1) as any
+                                      )
+                                    }
+                                  >
+                                    <IconButton size="small">
+                                      <Download />
+                                    </IconButton>
+                                  </Tooltip>
+                                  {/* <Tooltip title="Edit Document">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => {
+                                      setIsUpdateDocument({
+                                        dialogue: true,
+                                        tenderData: item,
+                                      });
+                                    }}
+                                  >
+                                    <Edit />
+                                  </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Delete Document">
+                                  <IconButton size="small">
+                                    <Delete
+                                      onClick={() => handleDelete(item)}
+                                    />
+                                  </IconButton>
+                                </Tooltip> */}
+                                </div>
+                              </div>
+                            ) : null}
                           </div>
                         </div>
                       </div>
@@ -499,83 +588,159 @@ const TenderReview = ({ mutate, tenderData, isLoading }: Props) => {
           </div>
         </TenderLayout>
       </div>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        enableReinitialize={true}
-        onSubmit={handleSubmit}
-      >
-        {({ values, errors, touched, handleChange, handleBlur }) => (
-          <Form>
-            <div className="mt-4">
-              <h1 className="font-semibold">All documents correct ? </h1>
-              <div className="flex gap-2 items-center">
-                <RadioGroup
-                  defaultValue={
-                    tenderData?.isAllDocumentsCorrect ? "Yes" : "No"
-                  }
-                  row
-                  name="isAllDocumentsCorrect"
-                  onChange={handleOptionChange}
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                >
-                  <FormControlLabel
-                    value="Yes"
-                    control={<Radio />}
-                    label="Yes"
-                  />
-                  <FormControlLabel value="No" control={<Radio />} label="No" />
-                </RadioGroup>
-              </div>
-            </div>
-            <div className="md:w-1/2 w-full">
-              {showReason ? null : (
-                <>
-                  <h1 className="font-semibold">Reason </h1>
-                  <TextField
-                    multiline
-                    fullWidth
-                    rows={3}
-                    placeholder="Reason"
-                    className="mt-2"
-                    id="documentAddReason"
-                    name="documentAddReason"
-                    value={values.documentAddReason}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={
-                      touched.documentAddReason && !!errors.documentAddReason
+      {isCEOOrCOO ? (
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
+        >
+          {({ values, errors, touched, handleChange, handleBlur }) => (
+            <Form>
+              <div className="mt-4">
+                <h1 className="font-semibold">All documents correct ? </h1>
+                <div className="flex gap-2 items-center">
+                  <RadioGroup
+                    defaultValue={
+                      tenderData?.isAllDocumentsCorrect ? "Yes" : "No"
                     }
-                    helperText={
-                      touched.documentAddReason && errors.documentAddReason
-                    }
-                  />
-                </>
-              )}
-              <div className="flex mt-2 mb-2">
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  startIcon={
-                    loading ? <CircularProgress size={20} /> : <Check />
-                  }
-                  variant="contained"
-                  className="!bg-green-500"
-                >
-                  Update
-                </Button>
+                    row
+                    name="isAllDocumentsCorrect"
+                    onChange={handleOptionChange}
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                  >
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
+                  </RadioGroup>
+                </div>
               </div>
-            </div>
-          </Form>
-        )}
-      </Formik>
+              <div className="md:w-1/2 w-full">
+                {showReason ? null : (
+                  <>
+                    <h1 className="font-semibold">Reason </h1>
+                    <TextField
+                      multiline
+                      fullWidth
+                      rows={3}
+                      placeholder="Reason"
+                      className="mt-2"
+                      id="documentAddReason"
+                      name="documentAddReason"
+                      value={values.documentAddReason}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        touched.documentAddReason && !!errors.documentAddReason
+                      }
+                      helperText={
+                        touched.documentAddReason && errors.documentAddReason
+                      }
+                    />
+                  </>
+                )}
+                <div className="flex mt-2 mb-2">
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
+                    variant="contained"
+                    className="!bg-green-500"
+                  >
+                    Update
+                  </Button>
+                </div>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      ) : filteredMember && filteredMember?.member?.name === user?.name ? (
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          enableReinitialize={true}
+          onSubmit={handleSubmit}
+        >
+          {({ values, errors, touched, handleChange, handleBlur }) => (
+            <Form>
+              <div className="mt-4">
+                <h1 className="font-semibold">All documents correct ? </h1>
+                <div className="flex gap-2 items-center">
+                  <RadioGroup
+                    defaultValue={
+                      tenderData?.isAllDocumentsCorrect ? "Yes" : "No"
+                    }
+                    row
+                    name="isAllDocumentsCorrect"
+                    onChange={handleOptionChange}
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                  >
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
+                  </RadioGroup>
+                </div>
+              </div>
+              <div className="md:w-1/2 w-full">
+                {showReason ? null : (
+                  <>
+                    <h1 className="font-semibold">Reason </h1>
+                    <TextField
+                      multiline
+                      fullWidth
+                      rows={3}
+                      placeholder="Reason"
+                      className="mt-2"
+                      id="documentAddReason"
+                      name="documentAddReason"
+                      value={values.documentAddReason}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        touched.documentAddReason && !!errors.documentAddReason
+                      }
+                      helperText={
+                        touched.documentAddReason && errors.documentAddReason
+                      }
+                    />
+                  </>
+                )}
+                <div className="flex mt-2 mb-2">
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    startIcon={
+                      loading ? <CircularProgress size={20} /> : <Check />
+                    }
+                    variant="contained"
+                    className="!bg-green-500"
+                  >
+                    Update
+                  </Button>
+                </div>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      ) : null}
     </section>
   );
 };
 
 export default TenderReview;
-
-const documents = [
-  { id: 1, name: "Financial Document", doc: "alldata.csv" },
-  { id: 2, name: "Tender Agreement", doc: "agreements.csv" },
-];
