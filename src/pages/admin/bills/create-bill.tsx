@@ -130,10 +130,7 @@ const CreateBills = () => {
           Swal.fire(`info`, `Client address is required!`, `info`);
           return;
         }
-        if (!values?.gst) {
-          Swal.fire(`info`, `Gst is required!`, `info`);
-          return;
-        }
+
         if (isCgst) {
           const resData = await change(`bills`, {
             body: {
@@ -277,10 +274,7 @@ const CreateBills = () => {
           Swal.fire(`info`, `Client address is required!`, `info`);
           return;
         }
-        if (!values?.gst) {
-          Swal.fire(`info`, `Gst is required!`, `info`);
-          return;
-        }
+
         if (!isAdvanceId) {
           Swal.fire(`info`, `Client name is required!`, `info`);
           return;
