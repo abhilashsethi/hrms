@@ -71,11 +71,13 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
         ? moment(billData?.dueDate).format("ll")
         : "Not Specified",
     },
-    {
-      id: 8,
-      title: "Tax",
-      value: billData?.isIgst ? "IGST" : "CGST & SGST",
-    },
+    billData?.isGst
+      ? {
+          id: 8,
+          title: "Tax",
+          value: billData?.isIgst ? "IGST" : "CGST & SGST",
+        }
+      : null,
   ];
   const handleDelete = (item?: Bills) => {
     try {
@@ -123,6 +125,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
       </section>
     );
   }
+  console.log(billData);
   return (
     <section>
       <EditBasicBillDetails
