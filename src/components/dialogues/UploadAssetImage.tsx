@@ -140,6 +140,7 @@ const UploadAssetImage = ({
                         className="hidden"
                         ref={imageRef}
                         type="file"
+                        accept="image/*"
                         multiple
                         onChange={(event: any) => {
                           const files = Array.from(event.target.files);
