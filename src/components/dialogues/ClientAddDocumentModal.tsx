@@ -63,7 +63,7 @@ const ClientAddDocumentModal = ({
 				confirmButtonText: "Yes, Add",
 			}).then(async (result) => {
 				if (result.isConfirmed) {
-					Swal.fire(`Info`, "It will take some time", "info");
+					setLoading(true);
 					const url = await uploadFile(values?.link, `${Date.now()}.${dtype}`);
 					const res = await change(`projects/add-client-doc`, {
 						method: "POST",
@@ -75,7 +75,6 @@ const ClientAddDocumentModal = ({
 							projectId: projectData?.id,
 						},
 					});
-					setLoading(false);
 					if (res?.status !== 200) {
 						Swal.fire(`Error`, "Something went wrong!", "error");
 						setLoading(false);
@@ -84,6 +83,7 @@ const ClientAddDocumentModal = ({
 					mutate();
 					Swal.fire(`Success`, "Document Added Successfully!!", "success");
 					handleClose();
+					setLoading(false);
 					return;
 				}
 			});

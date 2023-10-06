@@ -29,7 +29,8 @@ interface Props {
 const ProjectBugs = ({ projectId }: Props) => {
 	const router = useRouter();
 	const [bugStatus, setBugStatus] = useState(null);
-
+	const [detectedBy, setDetectedBy] = useState<string | null>(null);
+	const [isOrderBy, setIsOrderBy] = useState<string>("createdAt:desc");
 	const [isCreate, setIsCreate] = useState(false);
 	const {
 		data: projectData,
@@ -38,7 +39,9 @@ const ProjectBugs = ({ projectId }: Props) => {
 	} = useFetch<any>(
 		`projects/all-bugs/of-project?projectId=${router?.query?.id}${
 			bugStatus ? `&status=${bugStatus}` : ""
-		}&orderBy=createdAt:desc`
+		}${detectedBy ? `&detectedByName=${detectedBy}` : ""}${
+			isOrderBy ? `&orderBy=${isOrderBy}` : ""
+		}`
 	);
 	return (
 		<section>
@@ -55,13 +58,23 @@ const ProjectBugs = ({ projectId }: Props) => {
 						<div className="w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme">
 							<IconButton
 								onClick={() => {
+									setIsOrderBy("createdAt:desc");
 									setBugStatus(null);
+									setDetectedBy(null);
 								}}
 							>
 								<Tooltip
-									title={bugStatus !== null ? `Remove Filters` : `Filter`}
+									title={
+										bugStatus !== null ||
+										detectedBy !== null ||
+										isOrderBy !== "createdAt:desc"
+											? `Remove Filters`
+											: `Filter`
+									}
 								>
-									{bugStatus !== null ? (
+									{bugStatus !== null ||
+									detectedBy !== null ||
+									isOrderBy !== "createdAt:desc" ? (
 										<Close className={"!text-white"} />
 									) : (
 										<FilterListRounded className={"!text-white"} />
@@ -83,6 +96,33 @@ const ProjectBugs = ({ projectId }: Props) => {
 							{bugSelects?.map((option: any) => (
 								<MenuItem key={option.id} value={option.value}>
 									{option.label}
+								</MenuItem>
+							))}
+						</TextField>
+						<TextField
+							fullWidth
+							size="small"
+							id="detectedBy"
+							placeholder="Detected by"
+							value={detectedBy ? detectedBy : ""}
+							name="detectedBy"
+							onChange={(e) => {
+								setDetectedBy(e.target.value);
+							}}
+						/>
+						<TextField
+							fullWidth
+							select
+							// label="Ascending/Descending"
+							size="small"
+							value={isOrderBy ? isOrderBy : ""}
+							onChange={(e) => {
+								setIsOrderBy(e?.target?.value);
+							}}
+						>
+							{short.map((option) => (
+								<MenuItem key={option.id} value={option.value}>
+									{option.name}
 								</MenuItem>
 							))}
 						</TextField>
@@ -259,7 +299,7 @@ const CardComponent = ({
 						</div> */}
 						<div className="flex justify-between">
 							<div className="md:flex text-slate-600">
-								{item?.createdAt ? moment(item?.createdAt).format("ll") : null}
+								{item?.createdAt ? moment(item?.createdAt).format("lll") : null}
 							</div>
 							<IconButton
 								onClick={() => setIsDescription((prev) => !prev)}
@@ -324,4 +364,10 @@ const bugSelects = [
 	{ id: 3, value: "Ongoing", label: "Ongoing" },
 	{ id: 4, value: "Fixed", label: "Fixed" },
 	{ id: 5, value: "Reviewed", label: "Reviewed" },
+];
+const short = [
+	// { id: 1, value: "name:asc", name: "Name Ascending" },
+	// { id: 2, value: "name:desc", name: "Name Descending" },
+	{ id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
+	{ id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
