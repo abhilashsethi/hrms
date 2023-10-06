@@ -110,11 +110,11 @@ const AddMoreField = ({ open, handleClose, setFields }: Props) => {
                   <Button
                     type="submit"
                     variant="contained"
-                    className="!bg-theme"
+                    className={`${loading ? "!bg-gray-300" : "bg-theme"}`}
                     disabled={loading}
                     startIcon={
                       loading ? (
-                        <CircularProgress size={20} color="warning" />
+                        <CircularProgress size={20} color="secondary" />
                       ) : (
                         <Done />
                       )

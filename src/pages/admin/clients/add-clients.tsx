@@ -377,9 +377,13 @@ const AddClients = () => {
                     type="submit"
                     variant="contained"
                     disabled={loading}
-                    className="!bg-theme !px-10 !py-3 hover:!bg-sky-800 hover:!shadow-xl"
+                    className={`${loading ? "!bg-gray-300" : "bg-theme"}`}
                     startIcon={
-                      loading ? <CircularProgress size={20} /> : <Check />
+                      loading ? (
+                        <CircularProgress size={20} color="secondary" />
+                      ) : (
+                        <Check />
+                      )
                     }
                   >
                     Submit

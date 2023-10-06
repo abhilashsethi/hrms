@@ -565,7 +565,7 @@ const ViewPayrollDetails = () => {
                   <Button
                     type="submit"
                     variant="contained"
-                    className="!bg-theme hover:!scale-95 ease-in-out transition-all duration-300"
+                    className={`${loading ? "!bg-gray-300" : "bg-theme"}`}
                     disabled={loading || !Gross_Salary}
                     startIcon={
                       loading ? (

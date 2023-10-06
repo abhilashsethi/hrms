@@ -237,10 +237,14 @@ const ProjectURLS = ({ open, onClose, id }: Props) => {
                     type="submit"
                     variant="contained"
                     disabled={loading}
-                    className="!bg-emerald-600"
+                    className={`${loading ? "!bg-gray-300" : "bg-theme"}`}
                     size="small"
                     startIcon={
-                      loading ? <CircularProgress size={20} /> : <Check />
+                      loading ? (
+                        <CircularProgress size={20} color="secondary" />
+                      ) : (
+                        <Check />
+                      )
                     }
                   >
                     SUBMIT

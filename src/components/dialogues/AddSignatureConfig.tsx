@@ -176,11 +176,11 @@ const AddSignatureConfig = ({ open, handleClose, mutate }: Props) => {
                   <Button
                     type="submit"
                     variant="contained"
-                    className="!bg-theme"
+                    className={`${loading ? "!bg-gray-300" : "bg-theme"}`}
                     disabled={loading}
                     startIcon={
                       loading ? (
-                        <CircularProgress size={20} color="warning" />
+                        <CircularProgress size={20} color="secondary" />
                       ) : (
                         <Settings />
                       )

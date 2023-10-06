@@ -217,7 +217,9 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                   <Button
                     type="submit"
                     variant="contained"
-                    className="!bg-theme hover:!scale-95 ease-in-out transition-all duration-300"
+                    className={`hover:!scale-95 ease-in-out transition-all duration-300 ${
+                      loading ? "!bg-gray-300" : "bg-theme"
+                    }`}
                     disabled={loading && isActive === item?.id}
                     startIcon={
                       loading && isActive === item?.id ? (

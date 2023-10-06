@@ -190,7 +190,7 @@ const AddSignatureConfig = ({ open, handleClose, mutate, data }: Props) => {
                   <Button
                     type="submit"
                     variant="contained"
-                    className="!bg-theme"
+                    className={`${loading ? "!bg-gray-300" : "bg-theme"}`}
                     disabled={loading}
                     startIcon={
                       loading ? (

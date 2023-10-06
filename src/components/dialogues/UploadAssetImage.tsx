@@ -178,10 +178,14 @@ const UploadAssetImage = ({
                     type="submit"
                     fullWidth
                     variant="contained"
-                    className="!bg-emerald-500"
+                    className={`${loading ? "!bg-gray-300" : "bg-theme"}`}
                     disabled={loading}
                     startIcon={
-                      loading ? <CircularProgress size={20} /> : <Check />
+                      loading ? (
+                        <CircularProgress size={20} color="secondary" />
+                      ) : (
+                        <Check />
+                      )
                     }
                   >
                     UPDATE

@@ -154,10 +154,14 @@ const ChooseBranchToViewAssets = ({
                   <Button
                     type="submit"
                     variant="contained"
-                    className="!bg-theme"
+                    className={`${loading ? "!bg-gray-300" : "bg-theme"}`}
                     disabled={loading}
                     startIcon={
-                      loading ? <CircularProgress size={20} /> : <Check />
+                      loading ? (
+                        <CircularProgress size={20} color="secondary" />
+                      ) : (
+                        <Check />
+                      )
                     }
                   >
                     Submit

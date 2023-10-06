@@ -619,10 +619,14 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                     type="submit"
                     disabled={loading}
                     startIcon={
-                      loading ? <CircularProgress size={20} /> : <Check />
+                      loading ? (
+                        <CircularProgress size={20} color="secondary" />
+                      ) : (
+                        <Check />
+                      )
                     }
                     variant="contained"
-                    className="!bg-green-500"
+                    className={`${loading ? "!bg-gray-300" : "bg-theme"}`}
                   >
                     Update
                   </Button>
@@ -665,10 +669,14 @@ const TenderSubmission = ({ mutate, tenderData, isLoading }: Props) => {
                     type="submit"
                     disabled={loading}
                     startIcon={
-                      loading ? <CircularProgress size={20} /> : <Check />
+                      loading ? (
+                        <CircularProgress size={20} color="secondary" />
+                      ) : (
+                        <Check />
+                      )
                     }
                     variant="contained"
-                    className="!bg-green-500"
+                    className={`${loading ? "!bg-gray-300" : "bg-theme"}`}
                   >
                     Update
                   </Button>
