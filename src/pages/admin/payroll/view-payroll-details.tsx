@@ -66,7 +66,9 @@ const ViewPayrollDetails = () => {
   const { data: employData, mutate } = useFetch<User>(
     `users/${router?.query?.id}`
   );
-  const { data: bonus } = useFetch<any>(`bonus/${router?.query?.id}`);
+  const { data: bonus } = useFetch<any>(
+    `bonus/${router?.query?.id}?month=${selectMonth}&year=${yearStatus}`
+  );
   console.log(bonus);
   const { data: getMonthYearSalary, isLoading } = useFetch<any>(
     `user-salaryinfo/get-by-userId-and-month-and-year?userId=${router?.query?.id}&month=${selectMonth}&year=${yearStatus}`
@@ -224,13 +226,11 @@ const ViewPayrollDetails = () => {
         name: "Special Allowance",
         count: `${Gross_Salary ? Special_Allowance : "---"}`,
       },
-      bonus?.salaryBonus
-        ? {
-            id: 2,
-            name: "Bonus",
-            count: `${bonus?.salaryBonus ? bonus?.salaryBonus : "---"}`,
-          }
-        : null,
+      {
+        id: 2,
+        name: "Bonus",
+        count: `${bonus?.salaryBonus ? bonus?.salaryBonus : "---"}`,
+      },
     ],
     [Gross_Salary]
   );
