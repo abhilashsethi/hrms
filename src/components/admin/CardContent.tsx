@@ -4,10 +4,8 @@ import {
   ExitToApp,
   InfoRounded,
   MoreVertRounded,
-  Savings,
 } from "@mui/icons-material";
 import {
-  Grid,
   IconButton,
   ListItemIcon,
   Menu,
@@ -24,42 +22,8 @@ import { MouseEvent, useState, ChangeEvent } from "react";
 import Swal from "sweetalert2";
 import { User } from "types";
 import { deleteFile } from "utils";
-interface ARRAY {
-  id?: string;
-}
-interface Props {
-  data?: ARRAY[];
-  mutate?: any;
-  userDetails?: any;
-}
-const EmplyeesGrid = ({ data, mutate, userDetails }: Props) => {
-  return (
-    <section className="md:my-8 my-4">
-      <Grid
-        container
-        spacing={{
-          xs: 1,
-          sm: 2,
-          md: 2,
-        }}
-      >
-        {data?.map((item) => (
-          <Grid key={item?.id} item lg={3} sm={12} md={12} xs={12}>
-            <CardContent
-              item={item}
-              mutate={mutate}
-              userDetails={userDetails}
-            />
-          </Grid>
-        ))}
-      </Grid>
-    </section>
-  );
-};
 
-export default EmplyeesGrid;
-
-const CardContent = ({ item, mutate, userDetails }: any) => {
+export const CardContent = ({ item, mutate, userDetails }: any) => {
   const [userId, setUserId] = useState("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
