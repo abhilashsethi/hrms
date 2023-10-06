@@ -86,9 +86,12 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
       .required("Asset Name is required!"),
     modelNo: Yup.string().required("Model No is required!"),
     purchaseDate: Yup.string().required("Purchase date is required!"),
-    billAmount: Yup.number().required("Bill amount is required!"),
+    billAmount: Yup.number()
+      .required("Bill amount is required!")
+      .moreThan(0, "Bill amount be greater than zero"),
 
     serialNo: Yup.string().required("Serial No. is required!"),
+    marketPrice: Yup.number().moreThan(0, "Market Price be greater than zero"),
   });
 
   const handleSubmit = async (values: any) => {
@@ -434,12 +437,29 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                       <TextField
                         size="small"
                         fullWidth
-                        type="number"
+                        onChange={(e) => {
+                          // Allow only numeric input
+                          const value = e.target.value.replace(/[^0-9]/g, "");
+                          handleChange({
+                            target: {
+                              name: "billAmount",
+                              value,
+                            },
+                          });
+                        }}
+                        InputProps={{
+                          inputProps: {
+                            min: 0,
+                          },
+                          onPaste: (e) => {
+                            // Prevent paste action
+                            e.preventDefault();
+                          },
+                        }}
                         // placeholder="Phone"
                         id="billAmount"
                         name="billAmount"
                         value={values.billAmount}
-                        onChange={handleChange}
                         onBlur={handleBlur}
                         error={touched.billAmount && !!errors.billAmount}
                         helperText={touched.billAmount && errors.billAmount}
@@ -475,7 +495,25 @@ const UpdateAssets = ({ open, handleClose, mutate, assetData }: Props) => {
                         id="marketPrice"
                         name="marketPrice"
                         value={values.marketPrice}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          // Allow only numeric input
+                          const value = e.target.value.replace(/[^0-9]/g, "");
+                          handleChange({
+                            target: {
+                              name: "marketPrice",
+                              value,
+                            },
+                          });
+                        }}
+                        InputProps={{
+                          inputProps: {
+                            min: 0,
+                          },
+                          onPaste: (e) => {
+                            // Prevent paste action
+                            e.preventDefault();
+                          },
+                        }}
                         onBlur={handleBlur}
                         error={touched.marketPrice && !!errors.marketPrice}
                         helperText={touched.marketPrice && errors.marketPrice}

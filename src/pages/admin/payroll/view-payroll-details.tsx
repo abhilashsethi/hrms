@@ -66,7 +66,9 @@ const ViewPayrollDetails = () => {
   const { data: employData, mutate } = useFetch<User>(
     `users/${router?.query?.id}`
   );
-  const { data: bonus } = useFetch<User>(`bonus/${router?.query?.id}`);
+  const { data: bonus } = useFetch<any>(
+    `bonus/${router?.query?.id}?month=${selectMonth}&year=${yearStatus}`
+  );
   console.log(bonus);
   const { data: getMonthYearSalary, isLoading } = useFetch<any>(
     `user-salaryinfo/get-by-userId-and-month-and-year?userId=${router?.query?.id}&month=${selectMonth}&year=${yearStatus}`
@@ -224,6 +226,11 @@ const ViewPayrollDetails = () => {
         name: "Special Allowance",
         count: `${Gross_Salary ? Special_Allowance : "---"}`,
       },
+      {
+        id: 2,
+        name: "Bonus",
+        count: `${bonus?.salaryBonus ? bonus?.salaryBonus : "---"}`,
+      },
     ],
     [Gross_Salary]
   );
@@ -270,7 +277,13 @@ const ViewPayrollDetails = () => {
         id: 5,
         name: "Net Salary",
         count: `${
-          Gross_Salary ? (Gross_Salary - Total_Deduction)?.toFixed(2) : "---"
+          Gross_Salary
+            ? (
+                Gross_Salary -
+                Total_Deduction +
+                (bonus?.salaryBonus ? bonus?.salaryBonus : 0)
+              )?.toFixed(2)
+            : "---"
         }`,
       },
     ],
@@ -346,6 +359,7 @@ const ViewPayrollDetails = () => {
         url: `/payrolls/createPdf`,
         method: "POST",
         body: {
+          userId: router?.query?.id,
           salaryMonth: monthName,
           companyName: "SearchingYard Group",
           employeeName: employData?.name,
@@ -366,10 +380,17 @@ const ViewPayrollDetails = () => {
           bankAcNo: employData?.accountNo ? employData?.accountNo : "--",
           UAN: employData?.uanNumber ? employData?.uanNumber : "--",
           payslipNo: "9",
+          TDS: Gross_Salary ? Tds_Monthly?.toFixed(2) : 0,
           basicSalary: Gross_Salary
             ? (Configs?.basicSalary * Gross_Salary) / 100
             : 0,
-          HRA: Gross_Salary ? (Configs?.hra * Gross_Salary) / 100 : 0,
+          HRA: Configs?.basicSalary
+            ? (Configs?.hra *
+                (Gross_Salary
+                  ? (Configs?.basicSalary * Gross_Salary) / 100
+                  : 0)) /
+              100
+            : 0, ///HRA
           conveyance: Configs?.conveyanceAllowances,
           medicalAllowance: Configs?.medicalAllowances,
           specialAllowance: Special_Allowance ? Special_Allowance : 0,
@@ -388,14 +409,16 @@ const ViewPayrollDetails = () => {
           TrainingIncentive: "0.00",
           EmployeeReferralBonus: "0.00",
           Arrear: "0.00",
-          bonus: "0.00",
+
           SalaryAdvance: "0.00",
           InterestOfSalaryAdvance: "0.00",
           OtherAdvance: "0.00",
           PFEmployee: Gross_Salary
-            ? (Configs?.pfEmployee *
-                ((Configs?.basicSalary * Gross_Salary) / 100)) /
-              100
+            ? (
+                (Configs?.pfEmployee *
+                  ((Configs?.basicSalary * Gross_Salary) / 100)) /
+                100
+              ).toFixed(2)
             : 0,
           ESIEmployee: Gross_Salary
             ? (Configs?.esiEmployee * Gross_Salary) / 100
@@ -408,7 +431,11 @@ const ViewPayrollDetails = () => {
           TotalDeductions: Gross_Salary ? Total_Deduction : 0,
           GrossEarnings: Gross_Salary,
           NetSalary: Gross_Salary
-            ? (Gross_Salary - Total_Deduction).toFixed(2)
+            ? (
+                Gross_Salary -
+                Total_Deduction +
+                (bonus?.salaryBonus ? bonus?.salaryBonus : 0)
+              )?.toFixed(2)
             : 0,
           NetSalaryInWord: NumInWords(
             Gross_Salary ? Gross_Salary - Total_Deduction : 0
@@ -522,7 +549,7 @@ const ViewPayrollDetails = () => {
                           <p className="text-gray-700">{item?.name} :</p>
                           <span className="text-blue-700">
                             <CurrencyRupee fontSize="small" />
-                            {item.count}
+                            {item?.count}
                           </span>
                         </div>
                       ))}
