@@ -61,6 +61,7 @@ const BankAccountConfig = () => {
         setLoading(false);
         return;
       }
+      resetForm();
       Swal.fire(`Success`, `Bank account created Successfully !`, `success`);
       return;
     } catch (error) {

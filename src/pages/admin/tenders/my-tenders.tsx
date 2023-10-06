@@ -21,7 +21,7 @@ const MyTenders = () => {
     isLoading,
     pagination,
   } = useFetch<Tender[]>(
-    `tenders/all-tender/by-memberId?userId=${user?.id}&page=${pageNumber}&limit=8`
+    `tenders/all-tender/by-memberId?userId=${user?.id}&page=${pageNumber}&limit=8&orderBy=createdAt:desc`
   );
   return (
     <PanelLayout title="My Tenders ">
