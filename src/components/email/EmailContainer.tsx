@@ -148,12 +148,12 @@ const EmailContainer = ({
           <h3 className="font-bold tracking-wide text-gray-900 text-2xl">
             {data?.subject}
           </h3>
-          <p
+          <span
             className="font-medium text-gray-600 tracking-wide text-sm overflow-scroll"
             dangerouslySetInnerHTML={{
               __html: String(data?.content),
             }}
-          ></p>
+          ></span>
         </div>
         {data?.attachments?.length ? (
           <h3 className="font-medium tracking-wide px-4">Attachments -</h3>
