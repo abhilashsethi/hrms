@@ -1,4 +1,4 @@
-import { Check, Close, Delete } from "@mui/icons-material";
+import { Check, Close } from "@mui/icons-material";
 import {
   Button,
   CircularProgress,
@@ -10,13 +10,12 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { Field, FieldArray, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useChange } from "hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import * as Yup from "yup";
 import Swal from "sweetalert2";
-import { DatePicker } from "@mui/lab";
+import * as Yup from "yup";
 interface Props {
   open: boolean;
   handleClose: any;
@@ -40,22 +39,22 @@ const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
   const router = useRouter();
 
   const initialValues = {
-    grossSalary: "",
-    kpi: 0,
-    tds: "",
-    salaryInfoNewFields: null,
+    bonos: "",
     month: "",
+    year: new Date().getFullYear(),
   };
   const validationSchema = Yup.object().shape({
-    grossSalary: Yup.number().required("Required"),
-    kpi: Yup.number().required("Required"),
-    tds: Yup.number()
-      .positive("Value must be a positive number")
-      .integer("Value must be an integer")
-      .min(0, "Value must be greater than or equal to 0")
-      .max(99, "Value must be less than or equal to 99")
-      .required("This field is required"),
+    bonos: Yup.number()
+      .required("Required")
+      .positive("Bonos must be a positive number")
+      .moreThan(0, "Bonos must be greater than zero"),
   });
+  const currentYear = new Date().getFullYear();
+  const recentYears = Array.from(
+    { length: 10 },
+    (_, index) => currentYear - index
+  );
+
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
@@ -102,7 +101,7 @@ const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
     >
       <DialogTitle id="customized-dialog-title">
         <p className="text-center text-xl font-bold text-theme tracking-wide">
-          ADD SALARY INFO
+          ADD BONOS INFO
         </p>
         <IconButton
           aria-label="close"
@@ -136,43 +135,81 @@ const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
               setFieldValue,
             }) => (
               <Form className="w-full">
-                <p className="font-medium text-gray-700 mb-2">Select Month</p>
-                <TextField
-                  fullWidth
-                  name="month"
-                  select
-                  label="Select Month"
-                  size="small"
-                  value={selectMonth ? selectMonth : ""}
-                  onChange={handleMonthChange}
-                >
-                  {monthSelect?.map((option: any) => (
-                    <MenuItem key={option.id} value={option.id}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                <DatePicker label={'"year"'} openTo="year" />
-                <DatePicker
-                  label={'"month"'}
-                  openTo="month"
-                  views={["year", "month", "day"]}
-                />
-                <p className="font-medium text-gray-700 mb-2">
-                  Add Bonos <span className="text-red-600">*</span>
-                </p>
-                <TextField
-                  size="small"
-                  fullWidth
-                  type="number"
-                  placeholder="Gross Salary"
-                  name="grossSalary"
-                  value={values.grossSalary}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.grossSalary && !!errors.grossSalary}
-                  helperText={touched.grossSalary && errors.grossSalary}
-                />
+                <div className="py-1">
+                  <p className="font-medium text-gray-700 mb-2">
+                    Select Month <span className="text-red-600">*</span>
+                  </p>
+                  <TextField
+                    fullWidth
+                    name="month"
+                    select
+                    size="small"
+                    value={selectMonth ? selectMonth : ""}
+                    onChange={handleMonthChange}
+                  >
+                    {monthSelect?.map((option: any) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+                <div className="py-1">
+                  <p className="font-medium text-gray-700 mb-2">
+                    Select Year <span className="text-red-600">*</span>
+                  </p>
+                  <TextField
+                    fullWidth
+                    name="year"
+                    select
+                    size="small"
+                    value={values.year || ""}
+                    onChange={(event) =>
+                      setFieldValue("year", event.target.value)
+                    }
+                  >
+                    {recentYears.map((year) => (
+                      <MenuItem key={year} value={year}>
+                        {year}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+
+                <div className="py-1">
+                  <p className="font-medium text-gray-700 mb-2">
+                    Add Bonos <span className="text-red-600">*</span>
+                  </p>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    placeholder="Add Bonos"
+                    name="bonos"
+                    value={values.bonos}
+                    onChange={(e) => {
+                      // Allow only numeric input
+                      const value = e.target.value.replace(/[^0-9]/g, "");
+                      handleChange({
+                        target: {
+                          name: "bonos",
+                          value,
+                        },
+                      });
+                    }}
+                    InputProps={{
+                      inputProps: {
+                        min: 0,
+                      },
+                      onPaste: (e) => {
+                        // Prevent paste action
+                        e.preventDefault();
+                      },
+                    }}
+                    onBlur={handleBlur}
+                    error={touched.bonos && !!errors.bonos}
+                    helperText={touched.bonos && errors.bonos}
+                  />
+                </div>
 
                 <div className="flex justify-center mt-4">
                   <Button
