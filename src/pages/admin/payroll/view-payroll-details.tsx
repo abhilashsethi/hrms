@@ -66,6 +66,8 @@ const ViewPayrollDetails = () => {
   const { data: employData, mutate } = useFetch<User>(
     `users/${router?.query?.id}`
   );
+  const { data: bonus } = useFetch<User>(`bonus/${router?.query?.id}`);
+  console.log(bonus);
   const { data: getMonthYearSalary, isLoading } = useFetch<any>(
     `user-salaryinfo/get-by-userId-and-month-and-year?userId=${router?.query?.id}&month=${selectMonth}&year=${yearStatus}`
   );

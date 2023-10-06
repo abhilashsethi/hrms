@@ -27,7 +27,7 @@ interface InputField {
   value?: number;
 }
 
-const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
+const AddBonus = ({ open, handleClose, userId, mutate }: Props) => {
   const [loading, setLoading] = useState(false);
   const [selectMonth, setSelectMonth] = useState(
     new Date().getMonth().toString()
@@ -39,15 +39,15 @@ const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
   const router = useRouter();
 
   const initialValues = {
-    bonos: "",
+    bonus: "",
     month: "",
     year: new Date().getFullYear(),
   };
   const validationSchema = Yup.object().shape({
-    bonos: Yup.number()
+    bonus: Yup.number()
       .required("Required")
-      .positive("Bonos must be a positive number")
-      .moreThan(0, "Bonos must be greater than zero"),
+      .positive("Bonus must be a positive number")
+      .moreThan(0, "Bonus must be greater than zero"),
   });
   const currentYear = new Date().getFullYear();
   const recentYears = Array.from(
@@ -59,14 +59,12 @@ const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
     setLoading(true);
     try {
       const ticketText = {
-        grossSalary: values?.grossSalary,
-        kpi: values?.kpi,
-        tds: values?.tds,
-        userId: userId,
-        month: selectMonth ? selectMonth : new Date()?.getMonth(),
+        salaryBonus: Number(values?.bonus),
+        month: selectMonth ? Number(selectMonth) : new Date()?.getMonth(),
         year: new Date()?.getFullYear(),
+        userId: userId,
       };
-      const res = await change(`user-salaryInfo`, {
+      const res = await change(`bonus`, {
         method: "POST",
         body: ticketText,
       });
@@ -77,7 +75,7 @@ const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
         return;
       }
       console.log(res);
-      Swal.fire(`Success`, `Gross salary added successfully`, `success`);
+      Swal.fire(`Success`, `Bonus added successfully`, `success`);
       mutate();
       handleClose();
       return;
@@ -101,7 +99,7 @@ const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
     >
       <DialogTitle id="customized-dialog-title">
         <p className="text-center text-xl font-bold text-theme tracking-wide">
-          ADD BONOS INFO
+          ADD BONUS INFO
         </p>
         <IconButton
           aria-label="close"
@@ -178,20 +176,20 @@ const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
 
                 <div className="py-1">
                   <p className="font-medium text-gray-700 mb-2">
-                    Add Bonos <span className="text-red-600">*</span>
+                    Add Bonus <span className="text-red-600">*</span>
                   </p>
                   <TextField
                     size="small"
                     fullWidth
-                    placeholder="Add Bonos"
-                    name="bonos"
-                    value={values.bonos}
+                    placeholder="Add Bonus"
+                    name="bonus"
+                    value={values.bonus}
                     onChange={(e) => {
                       // Allow only numeric input
                       const value = e.target.value.replace(/[^0-9]/g, "");
                       handleChange({
                         target: {
-                          name: "bonos",
+                          name: "bonus",
                           value,
                         },
                       });
@@ -206,8 +204,8 @@ const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
                       },
                     }}
                     onBlur={handleBlur}
-                    error={touched.bonos && !!errors.bonos}
-                    helperText={touched.bonos && errors.bonos}
+                    error={touched.bonus && !!errors.bonus}
+                    helperText={touched.bonus && errors.bonus}
                   />
                 </div>
 
@@ -237,7 +235,7 @@ const AddBonos = ({ open, handleClose, userId, mutate }: Props) => {
   );
 };
 
-export default AddBonos;
+export default AddBonus;
 
 const monthSelect = [
   { id: 1, value: "Jan", label: "Jan" },

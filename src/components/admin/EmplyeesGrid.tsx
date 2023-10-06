@@ -229,6 +229,7 @@ const CardContent = ({ item, mutate, userDetails }: any) => {
               </MenuItem>
               <MenuItem
                 onClick={() => {
+                  setUserId(item?.id);
                   setIsAddBonos((prev) => !prev);
                   handleClose;
                 }}
