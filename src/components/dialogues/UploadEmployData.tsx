@@ -123,7 +123,8 @@ const UploadEmployData = ({ open, handleClose, mutate }: Props) => {
 									name="files"
 									size="small"
 									fullWidth
-									placeholder="Choose Document"
+									placeholder="Choose CSV Document"
+									inputProps={{ accept: ".csv" }}
 									//   value={values?.files}
 									onChange={(e: any) => {
 										setFieldValue("files", e?.target?.files[0]);
