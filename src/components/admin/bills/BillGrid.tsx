@@ -21,6 +21,7 @@ interface Props {
 }
 
 const BillGrid = ({ data, mutate }: Props) => {
+	console.log(data);
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
 	const [isActive, setIsActive] = useState<string | undefined>("");
