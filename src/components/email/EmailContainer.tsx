@@ -18,6 +18,7 @@ import { EmailType } from "types";
 import { downloadFile } from "utils";
 import ReplyToEmail from "./ReplyToEmail";
 import { useAuth } from "hooks";
+import { useEffect } from "react";
 
 const EmailContainer = ({
   data,
@@ -27,6 +28,39 @@ const EmailContainer = ({
   printRef: any;
 }) => {
   const { user } = useAuth();
+  useEffect(() => {
+    const handleLinkClick = (event: any) => {
+      const target = event.target;
+
+      // Check if the clicked element is a link (anchor)
+      if (target.tagName.toLowerCase() === "a") {
+        const href = target.getAttribute("href");
+        if (href) {
+          window.location.href = href; // Redirect to the link's href
+        }
+      }
+    };
+
+    const spanElement = document.getElementById("contentSpan");
+
+    if (spanElement) {
+      const links = spanElement.querySelectorAll("a");
+
+      links.forEach((link) => {
+        link.classList.add("text-theme"); // Apply your custom link styles
+
+        // Attach a click event listener to handle link clicks
+        link.addEventListener("click", handleLinkClick);
+      });
+
+      return () => {
+        // Cleanup event listeners when the component is unmounted
+        links.forEach((link) => {
+          link.removeEventListener("click", handleLinkClick);
+        });
+      };
+    }
+  }, [data]);
 
   return (
     <>
@@ -149,6 +183,7 @@ const EmailContainer = ({
             {data?.subject}
           </h3>
           <span
+            id="contentSpan"
             className="font-medium text-gray-600 tracking-wide text-sm overflow-scroll"
             dangerouslySetInnerHTML={{
               __html: String(data?.content),
