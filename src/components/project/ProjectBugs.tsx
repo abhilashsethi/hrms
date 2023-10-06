@@ -196,7 +196,7 @@ const CardComponent = ({
 	const [isDescription, setIsDescription] = useState(false);
 	const [isScreenshot, setIsScreenshot] = useState(false);
 	const { change } = useChange();
-	const handleDelete = (id: any) => {
+	const handleDelete = (id: string) => {
 		Swal.fire({
 			title: "Are you sure?",
 			text: "You want to delete!",

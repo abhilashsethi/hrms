@@ -8,6 +8,10 @@ import {
 } from "@mui/icons-material";
 import { Avatar, Button, CircularProgress, Tooltip } from "@mui/material";
 import { BAG, INVOICE } from "assets/home";
+import {
+	SelectBankAccount,
+	SelectBankAccountBills,
+} from "components/dialogues";
 import { downloadFile, useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -18,13 +22,16 @@ import { NumInWords } from "utils";
 interface Props {
 	data: Bills[];
 	mutate: () => void;
+	item?: any;
 }
 
-const BillGrid = ({ data, mutate }: Props) => {
+const BillGrid = ({ data, mutate, item }: Props) => {
 	console.log(data);
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
 	const [isActive, setIsActive] = useState<string | undefined>("");
+	const [bankAccount, setBankAccount] = useState<boolean>(false);
+	const [bankDetails, setBankDetails] = useState<any>();
 	const router = useRouter();
 	const { data: bankAccountsDetails } = useFetch<any>(
 		`quotations/get-all/accounts`
@@ -68,71 +75,14 @@ const BillGrid = ({ data, mutate }: Props) => {
 		}
 	};
 
-	const handleSubmit = async (item?: Bills) => {
-		setLoading(true);
-		setIsActive(item?.id);
-		console.log(item);
-		try {
-			const res = await downloadFile({
-				url: `/bills/generate/bill/pdf`,
-				method: "POST",
-				body: {
-					invoiceNumber: item?.billNumber,
-					invoiceDate: moment(item?.invoiceDate).format("DD/MM/YYYY"),
-					clientGstNumber: item?.clientGstNumber,
-					billType: item?.billType,
-					status: item?.status,
-					dueDate: item?.dueDate
-						? moment(item?.dueDate).format("DD/MM/YYYY")
-						: "---",
-					clientName: item?.clientName,
-					clientAddress: item?.clientAddress,
-					gstNumber: "18JAKSDAJ45",
-					works: item?.works,
-					gst: item?.gst,
-					igstVal: item?.igstVal,
-					cgstVal: item?.cgstVal,
-					sgstVal: item?.sgstVal,
-					isIgst: item?.isIgst,
-					isCgst: item?.isCgst,
-					isSgst: item?.isSgst,
-					total: item?.total,
-					igstPercent: item?.igstPercent,
-					cgstPercent: item?.cgstPercent,
-					sgstPercent: item?.sgstPercent,
-					grandTotal: item?.grandTotal,
-					termsAndConditions: item?.termsAndConditions,
-					bankAccount1: bankAccountsDetails[0],
-					cinNumber: "U72501OR2018PTC029550",
-					companyName: "SearchingYard Software Private Limited",
-					address: "House No - MIG III, 423, LaneNumber-20",
-					nearBy: "Near AMRI Hospital Road",
-					place: "Khandagiri,Bhubaneswar-751030",
-					panNumber: "ABACS8623B",
-					gstVal: item?.gstVal,
-					grandTotalInWord: NumInWords(item?.grandTotal ? item?.grandTotal : 0),
-				},
-			});
-			console.log(res);
-			setLoading(false);
-			// if (res?.status !== 200) throw new Error("Something went wrong");
-			Swal.fire(`Success`, "Download successfully!!", "success");
-			setLoading(false);
-			return;
-		} catch (error) {
-			if (error instanceof Error) {
-				Swal.fire(`Error`, error?.message, `error`);
-			} else {
-				Swal.fire(`Error`, "Something Went Wrong", `error`);
-			}
-			setLoading(false);
-		} finally {
-			setLoading(false);
-		}
-	};
-
 	return (
 		<>
+			<SelectBankAccountBills
+				open={bankAccount}
+				handleClose={() => setBankAccount(false)}
+				mutate={mutate}
+				item={bankDetails}
+			/>
 			<div className="grid py-4 gap-6 lg:grid-cols-3">
 				{data?.map((item) => (
 					<div
@@ -289,7 +239,9 @@ const BillGrid = ({ data, mutate }: Props) => {
 												<Download />
 											)
 										}
-										onClick={() => handleSubmit(item)}
+										onClick={() => {
+											setBankAccount(true), setBankDetails(item);
+										}}
 									>
 										Download Bills
 									</Button>

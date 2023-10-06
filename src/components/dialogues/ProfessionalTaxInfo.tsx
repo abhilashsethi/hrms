@@ -65,9 +65,8 @@ const validationSchema = Yup.object().shape({
 		.required("Fill this field !")
 		.positive("Value must be a positive number"),
 	endGrossSalary3: Yup.number().positive("Value must be a positive number"),
-	professionalTax1: Yup.number()
-		.required("Fill this field !")
-		.positive("Value must be a positive number"),
+	professionalTax1: Yup.number().required("Fill this field !"),
+	// .positive("Value must be a positive number")
 	professionalTax2: Yup.number()
 		.required("Fill this field !")
 		.positive("Value must be a positive number"),
@@ -500,7 +499,28 @@ const UpdateProfileHead = ({
 														id="professionalTax1"
 														name="professionalTax1"
 														value={values.professionalTax1}
-														onChange={handleChange}
+														onChange={(e) => {
+															// Allow only numeric input
+															const value = e.target.value.replace(
+																/[^0-9]/g,
+																""
+															);
+															handleChange({
+																target: {
+																	name: "professionalTax1",
+																	value,
+																},
+															});
+														}}
+														InputProps={{
+															inputProps: {
+																min: 0,
+															},
+															onPaste: (e) => {
+																// Prevent paste action
+																e.preventDefault();
+															},
+														}}
 														onBlur={handleBlur}
 														error={
 															touched.professionalTax1 &&

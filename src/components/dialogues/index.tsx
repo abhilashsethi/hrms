@@ -85,3 +85,4 @@ export { default as ChangeAppointmentPhoto } from "./ChangeAppointmentPhoto";
 export { default as SecurityInformation } from "./SecurityInformation";
 export { default as SelectBankAccount } from "./SelectBankAccount";
 export { default as AddBonos } from "./AddBonos";
+export { default as SelectBankAccountBills } from "./SelectBankAccountBills";
