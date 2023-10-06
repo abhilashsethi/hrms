@@ -51,8 +51,10 @@ const TenderCreateLaststep = () => {
   const handleSubmit = async (values: Props) => {
     setLoading(true);
     try {
+      console.log(values?.EmdAmount);
+      // return;
       const resData = {
-        EmdAmount: Number(values?.EmdAmount === 0 ? values?.EmdAmount : null),
+        EmdAmount: Number(values?.EmdAmount),
         tenderFees: Number(values?.tenderFees),
         isEmdExemption: isEmdValue,
         feesPaymentMode: values?.tenderPaymentMode,
