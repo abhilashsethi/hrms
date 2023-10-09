@@ -175,7 +175,7 @@ const EmployeesColumn = ({ data, mutate, userDetails }: Props) => {
                       <Receipt className="!text-white" />
                     </div>
                   </Tooltip>
-                  <Tooltip title="Add Bonos ">
+                  <Tooltip title="Add Bonus ">
                     <div
                       onClick={() => {
                         setUserId(item?.id);

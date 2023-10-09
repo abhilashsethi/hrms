@@ -306,7 +306,7 @@ const AddClients = () => {
                   <div className="px-4 py-2">
                     <div className="py-2">
                       <InputLabel htmlFor="phone">
-                        Phone <span className="text-red-600">*</span>
+                        Country Code <span className="text-red-600">*</span>
                       </InputLabel>
                     </div>
                     <CountrySelector

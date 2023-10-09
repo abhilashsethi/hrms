@@ -161,35 +161,40 @@ const CreateGuest = () => {
                     <div className="px-4 py-2">
                       <div className="py-2">
                         <InputLabel htmlFor="phone">
+                          Country Code<span className="text-red-600">*</span>
+                        </InputLabel>
+                      </div>
+                      <CountrySelector
+                        className="bg-white border border-gray-400"
+                        defaultValue="91"
+                        name="countryCode"
+                        onChange={(e: any, r: any) => {
+                          setFieldValue("countryCode", r?.phone);
+                        }}
+                        onBlur={handleBlur}
+                        value={values.countryCode}
+                        error={touched.countryCode && !!errors.countryCode}
+                        helperText={touched.countryCode && errors.countryCode}
+                      />
+                    </div>
+                    <div className="px-4 py-2">
+                      <div className="py-2">
+                        <InputLabel htmlFor="phone">
                           Phone<span className="text-red-600">*</span>
                         </InputLabel>
                       </div>
-                      <div className="md:flex grid gap-2 justify-center items-center">
-                        <div className=" w-full md:w-1/4 lg:w-32">
-                          <CountrySelector
-                            className="bg-white border border-gray-400"
-                            defaultValue="91"
-                            name="countryCode"
-                            onChange={(e: any, r: any) => {
-                              setFieldValue("countryCode", r?.phone);
-                            }}
-                            onBlur={handleBlur}
-                            value={values.countryCode}
-                          />
-                        </div>
-                        <TextField
-                          size="small"
-                          fullWidth
-                          placeholder="Phone"
-                          id="phone"
-                          name="phone"
-                          value={values.phone}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={touched.phone && !!errors.phone}
-                          helperText={touched.phone && errors.phone}
-                        />
-                      </div>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        placeholder="Phone"
+                        id="phone"
+                        name="phone"
+                        value={values.phone}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={touched.phone && !!errors.phone}
+                        helperText={touched.phone && errors.phone}
+                      />
                     </div>
                     <div className="px-4 py-2">
                       <div className="py-2">
