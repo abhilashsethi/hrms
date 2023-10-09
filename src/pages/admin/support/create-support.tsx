@@ -12,7 +12,10 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-  message: Yup.string().required("Required!"),
+  message: Yup.string()
+    .trim() // Remove leading and trailing whitespaces
+    .required("Required!")
+    .matches(/\S/, "Message cannot be empty or contain only whitespace"), // Ensure at least one non-whitespace character
 });
 
 const CreateSupport = () => {

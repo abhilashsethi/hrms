@@ -7,7 +7,7 @@ import {
   Stack,
   Tooltip,
 } from "@mui/material";
-import { Loader, LoaderAnime } from "components/core";
+import { HeadStyle, HeadText, Loader, LoaderAnime } from "components/core";
 import { NotificationInfo } from "components/dialogues";
 import { useAuth, useChange, useFetch, useNotificationData } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -208,6 +208,14 @@ const Notification = () => {
           notificationMsg={notificationMsg}
         />
         <section className="md:px-8 px-4 md:py-8 py-4">
+          <div className="py-2">
+            <div className="flex gap-2 items-center">
+              <div
+                className={`h-3 w-3 rounded-sm bg-gradient-to-r from-blue-500 to-blue-300`}
+              ></div>
+              <p className="font-semibold text-xl">Notification</p>
+            </div>
+          </div>
           <Container>
             {isLoading ? (
               <Loader />
