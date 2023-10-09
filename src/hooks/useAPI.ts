@@ -166,12 +166,18 @@ export const downloadFile = async ({
 		});
 
 		if (response?.status !== 200) throw new Error("Download failed.");
-
+		console.log(response.headers.get("Content-Type") === "application/pdf");
 		//convert to blob
 		const blob = await response.blob();
 
 		const fileUrl = window.URL.createObjectURL(blob);
-		window.open(fileUrl, "", "height=800");
+
+		// Create a temporary anchor element to trigger the download
+		const downloadLink = document.createElement("a");
+		downloadLink.href = fileUrl;
+		downloadLink.download = `${Date.now()}.pdf`; // Specify the desired file name
+		downloadLink.click();
+
 		window.URL.revokeObjectURL(fileUrl);
 
 		// notify.success("File downloaded successfully.");
