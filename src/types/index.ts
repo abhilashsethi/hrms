@@ -1063,3 +1063,15 @@ export interface DefaultDashboard {
 	leaveOverView: Count[];
 	totalEmailCount: number;
 }
+
+export type LeadsData = {
+	id?: string;
+	countryCode: number;
+	email: string;
+	message: string;
+	name?: string;
+	phone?: number;
+	subject?: string;
+	createdAt?: string;
+	updatedAt?: string;
+};
