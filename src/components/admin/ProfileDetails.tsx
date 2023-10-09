@@ -348,14 +348,16 @@ const ProfileDetails = () => {
               </section>
               {/* --------------Personal Details---------------------- */}
               <section className="md:px-8 px-3">
-                <div className=" pb-2 flex justify-between items-center">
-                  <HeadText title="Personal Details" />
-                  <Tooltip title="Edit">
-                    <IconButton onClick={() => setIsPersonal(true)}>
-                      <ICONS.Edit className="h-5 w-5" />
-                    </IconButton>
-                  </Tooltip>
-                </div>
+                {user?.role?.name === "CEO" || user?.role?.name === "COO" ? (
+                  <div className=" pb-2 flex justify-between items-center">
+                    <HeadText title="Personal Details" />
+                    <Tooltip title="Edit">
+                      <IconButton onClick={() => setIsPersonal(true)}>
+                        <ICONS.Edit className="h-5 w-5" />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                ) : null}
                 {personalDetails?.map((item) => (
                   <div
                     key={item?.id}
