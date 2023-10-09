@@ -16,7 +16,6 @@ const Leads = () => {
     pagination,
     isLoading,
   } = useFetch<LeadsData[]>(`leads?orderBy=createdAt:desc`);
-  console.log(leadData);
   return (
     <PanelLayout title="Leads">
       <section className="md:px-8 px-2 py-4">
