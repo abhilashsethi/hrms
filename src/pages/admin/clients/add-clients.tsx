@@ -52,7 +52,9 @@ const validationSchema = Yup.object().shape({
       "Phone number is not valid"
     )
     .min(6)
-    .max(15),
+    .max(15)
+    .required("Phone is required!"),
+
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required!"),
@@ -301,39 +303,44 @@ const AddClients = () => {
                       }}
                     />
                   </div>
-
                   <div className="px-4 py-2">
                     <div className="py-2">
                       <InputLabel htmlFor="phone">
                         Phone <span className="text-red-600">*</span>
                       </InputLabel>
                     </div>
-                    <div className="md:flex grid gap-2 justify-center items-center">
-                      <div className=" w-full md:w-1/4 lg:w-32">
-                        <CountrySelector
-                          className="bg-white border border-gray-400"
-                          defaultValue="91"
-                          name="countryCode"
-                          onChange={(e: any, r: any) => {
-                            setFieldValue("countryCode", r?.phone);
-                          }}
-                          onBlur={handleBlur}
-                          value={values.countryCode}
-                        />
-                      </div>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        placeholder="Phone"
-                        id="phone"
-                        name="phone"
-                        value={values.phone}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.phone && !!errors.phone}
-                        helperText={touched.phone && errors.phone}
-                      />
+                    <CountrySelector
+                      className="bg-white border border-gray-400"
+                      defaultValue="91"
+                      name="countryCode"
+                      onChange={(e: any, r: any) => {
+                        setFieldValue("countryCode", r?.phone);
+                      }}
+                      onBlur={handleBlur}
+                      value={values.countryCode}
+                      error={touched.countryCode && !!errors.countryCode}
+                      helperText={touched.countryCode && errors.countryCode}
+                    />
+                  </div>
+                  <div className="px-4 py-2">
+                    <div className="py-2">
+                      <InputLabel htmlFor="phone">
+                        Phone <span className="text-red-600">*</span>
+                      </InputLabel>
                     </div>
+
+                    <TextField
+                      size="small"
+                      fullWidth
+                      placeholder="Phone"
+                      id="phone"
+                      name="phone"
+                      value={values.phone}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.phone && !!errors.phone}
+                      helperText={touched.phone && errors.phone}
+                    />
                   </div>
                   <div className="px-4 py-2">
                     <div className="py-2">
