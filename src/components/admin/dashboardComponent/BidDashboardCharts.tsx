@@ -1,5 +1,6 @@
 import { TENDERCARD } from "assets/home";
 import { GuestBarChart, GuestDonutChart } from "components/analytics";
+import { NoDatas } from "components/core";
 
 import { useAuth, useFetch } from "hooks";
 import moment from "moment";
@@ -97,7 +98,7 @@ const BidDashboardCharts = ({ data }: Props) => {
         <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Recent Tenders</p>
           <div className="grid lg:grid-cols-2 grid-cols-1 lg:px-8 px-2 py-4 gap-4">
-            {tenderData?.length &&
+            {tenderData?.length ? (
               tenderData
                 ?.slice(0, 4)
 
@@ -171,7 +172,10 @@ const BidDashboardCharts = ({ data }: Props) => {
                       </div>
                     </div>
                   </Link>
-                ))}
+                ))
+            ) : (
+              <NoDatas title="No Tenders Found" />
+            )}
           </div>
         </div>
       </div>
