@@ -24,49 +24,57 @@ const BidDashboardCharts = ({ data }: Props) => {
           <p className="font-bold text-lg text-center">
             This Year Attendance Overview
           </p>
-          <GuestBarChart
-            labels={
-              dashboardData?.monthWiseTenderCount?.length
-                ? dashboardData?.monthWiseTenderCount?.map(
-                    (item) => item?.month
-                  )
-                : []
-            }
-            data={
-              dashboardData?.monthWiseTenderCount?.length
-                ? dashboardData?.monthWiseTenderCount?.map(
-                    (item) => item?.tenderCount
-                  )
-                : []
-            }
-            type="bar"
-            text=""
-          />
+          {dashboardData?.monthWiseTenderCount?.length ? (
+            <GuestBarChart
+              labels={
+                dashboardData?.monthWiseTenderCount?.length
+                  ? dashboardData?.monthWiseTenderCount?.map(
+                      (item) => item?.month
+                    )
+                  : []
+              }
+              data={
+                dashboardData?.monthWiseTenderCount?.length
+                  ? dashboardData?.monthWiseTenderCount?.map(
+                      (item) => item?.tenderCount
+                    )
+                  : []
+              }
+              type="bar"
+              text=""
+            />
+          ) : (
+            <NoDatas title="No Attendance Found" />
+          )}
         </div>
         <div className="w-full px-2 py-4 flex flex-col bg-white justify-center !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">
             This Year Leave Details
           </p>
           {/* {data?.allLeaveCount?.length ? ( */}
-          <GuestDonutChart
-            labels={
-              dashboardData?.thisYearLeaveDetails?.length
-                ? dashboardData?.thisYearLeaveDetails?.map(
-                    (item) => item?.status
-                  )
-                : []
-            }
-            series={
-              dashboardData?.thisYearLeaveDetails?.length
-                ? dashboardData?.thisYearLeaveDetails?.map(
-                    (item) => item?._count
-                  )
-                : []
-            }
-            text=""
-            type="pie"
-            colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
-          />
+          {dashboardData?.thisYearLeaveDetails?.length ? (
+            <GuestDonutChart
+              labels={
+                dashboardData?.thisYearLeaveDetails?.length
+                  ? dashboardData?.thisYearLeaveDetails?.map(
+                      (item) => item?.status
+                    )
+                  : []
+              }
+              series={
+                dashboardData?.thisYearLeaveDetails?.length
+                  ? dashboardData?.thisYearLeaveDetails?.map(
+                      (item) => item?._count
+                    )
+                  : []
+              }
+              text=""
+              type="pie"
+              colors={["#cddc39", "#a855f7", "#03a9f4", "#ef4444"]}
+            />
+          ) : (
+            <NoDatas title="No leave Found" />
+          )}
           {/* ) : (
             <NoDatas title={"No Leave Taken"} />
           )} */}
@@ -75,25 +83,29 @@ const BidDashboardCharts = ({ data }: Props) => {
           <p className="text-lg font-bold text-center">
             Tender status Overview
           </p>
-          <GuestDonutChart
-            labels={
-              dashboardData?.tenderCountStatusWise?.length
-                ? dashboardData?.tenderCountStatusWise?.map(
-                    (item) => item?.status
-                  )
-                : []
-            }
-            series={
-              dashboardData?.tenderCountStatusWise?.length
-                ? dashboardData?.tenderCountStatusWise?.map(
-                    (item) => item?.count
-                  )
-                : []
-            }
-            text=""
-            type="donut"
-            colors={["#25d366", "#E60023", "#a855f7"]}
-          />
+          {dashboardData?.tenderCountStatusWise?.length ? (
+            <GuestDonutChart
+              labels={
+                dashboardData?.tenderCountStatusWise?.length
+                  ? dashboardData?.tenderCountStatusWise?.map(
+                      (item) => item?.status
+                    )
+                  : []
+              }
+              series={
+                dashboardData?.tenderCountStatusWise?.length
+                  ? dashboardData?.tenderCountStatusWise?.map(
+                      (item) => item?.count
+                    )
+                  : []
+              }
+              text=""
+              type="donut"
+              colors={["#25d366", "#E60023", "#a855f7"]}
+            />
+          ) : (
+            <NoDatas title="No Tenders Found" />
+          )}
         </div>
         <div className="w-full px-2 py-4 bg-white !border-gray-500 rounded-xl !shadow-xl">
           <p className="text-lg font-bold text-center">Recent Tenders</p>
