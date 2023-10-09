@@ -201,7 +201,7 @@ export const CardContent = ({ item, mutate, userDetails }: any) => {
                 <ListItemIcon>
                   <Savings fontSize="small" />
                 </ListItemIcon>
-                Add Bonos
+                Add Bonus
               </MenuItem>
               <MenuItem
                 onClick={() => {
