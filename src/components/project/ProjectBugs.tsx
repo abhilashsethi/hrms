@@ -86,7 +86,7 @@ const ProjectBugs = ({ projectId }: Props) => {
               fullWidth
               className=""
               select
-              label="Bug status"
+              label="Status"
               size="small"
               value={bugStatus}
               onChange={(e: any) => {
@@ -230,7 +230,6 @@ const CardComponent = ({
       }
     });
   };
-  console.log(item);
   return (
     <>
       <ViewScreenshot
