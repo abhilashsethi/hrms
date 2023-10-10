@@ -189,9 +189,7 @@ const UpdateClient = ({ open, handleClose, mutate }: Props) => {
                       </div>
 
                       <div className="w-full">
-                        <p className="text-theme font-semibold my-2">
-                          Country <span className="text-red-600">*</span>
-                        </p>
+                        <p className="text-theme font-semibold my-2">Country</p>
                         <Autocomplete
                           options={countries}
                           autoHighlight
