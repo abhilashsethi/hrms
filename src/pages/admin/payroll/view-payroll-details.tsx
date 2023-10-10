@@ -50,7 +50,8 @@ const ViewPayrollDetails = () => {
 	const { change } = useChange();
 	const currentDate = new Date();
 	const year: number = currentDate.getFullYear();
-	const month: number = currentDate.getMonth() + 1; // January is 0, so we add 1 to get the current month.
+	const month: number = currentDate.getMonth(); // January is 0, so we add 1 to get the current month.
+	console.log(month);
 	// Function to get total days in a month
 	const { data: lossOfPay } = useFetch<any>(
 		`leaves/loss-of-pay/${router?.query?.id}?month=${month}&year=${year}`
