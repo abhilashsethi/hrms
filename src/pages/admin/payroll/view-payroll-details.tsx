@@ -271,6 +271,11 @@ const ViewPayrollDetails = () => {
 				count: `${Gross_Salary ? Tds_Monthly?.toFixed(2) : "---"}`,
 			},
 			{
+				id: 6,
+				name: "LOP",
+				count: `${totalLossOfPay ? totalLossOfPay?.toFixed(2) : "---"}`,
+			},
+			{
 				id: 4,
 				name: "Total Deduction",
 				count: `${Gross_Salary ? Total_Deduction?.toFixed(2) : "---"}`,
@@ -466,6 +471,7 @@ const ViewPayrollDetails = () => {
 			setLoading(false);
 		}
 	};
+	console.log(totalLossOfPay);
 	// const handleSubmit = async (values:any) => {
 	// 	console.log(values)
 	// }
