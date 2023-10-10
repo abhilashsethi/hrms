@@ -26,16 +26,13 @@ interface Props {
 }
 
 const BillGrid = ({ data, mutate, item }: Props) => {
-  console.log(data);
   const { change } = useChange();
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState<string | undefined>("");
   const [bankAccount, setBankAccount] = useState<boolean>(false);
   const [bankDetails, setBankDetails] = useState<any>();
   const router = useRouter();
-  const { data: bankAccountsDetails } = useFetch<any>(
-    `quotations/get-all/accounts`
-  );
+
   const handleDelete = (id?: string) => {
     try {
       Swal.fire({

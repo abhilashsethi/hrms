@@ -27,6 +27,11 @@ interface Props {
   data?: Bills[];
   item?: any;
 }
+interface Signature {
+  id?: string;
+  name?: string;
+  link?: string;
+}
 
 const SelectBankAccountBills = ({
   open,
@@ -44,18 +49,19 @@ const SelectBankAccountBills = ({
   };
   const validationSchema = Yup.object().shape({
     account: Yup.string().required("Bank account is required!"),
+    signature: Yup.string().required("Signature is required!"),
   });
   const initialValues = {
     account: "",
+    signature: "",
   };
 
   const { data: bankData, isLoading } = useFetch<QuotationBank[]>(
     `quotations/get-all/accounts`
   );
-  const { data: bankAccountsDetails, mutate: bankAccountMutate } =
-    useFetch<any>(`quotations/get-all/accounts`);
-
+  const { data: signature } = useFetch<Signature[]>(`signatures/get-all`);
   const handleSubmit = async (values: any) => {
+    console.log(values);
     setLoading(true);
     setIsActive(item?.id);
     try {
@@ -89,6 +95,7 @@ const SelectBankAccountBills = ({
           grandTotal: item?.grandTotal,
           termsAndConditions: item?.termsAndConditions,
           bankAccount1: values?.account,
+          signatureId: values?.id,
           cinNumber: "U72501OR2018PTC029550",
           companyName: "SearchingYard Software Private Limited",
           address: "House No - MIG III, 423, LaneNumber-20",
@@ -182,6 +189,34 @@ const SelectBankAccountBills = ({
                       ? bankData.map((option) => (
                           <MenuItem key={option.bankName} value={option.id}>
                             {option.bankName}, <span>{option?.branchName}</span>
+                          </MenuItem>
+                        ))
+                      : "Please Add Bank Details..."}
+                  </TextField>
+                </div>
+                <div className="px-4 py-2">
+                  <div className="py-2">
+                    <InputLabel htmlFor="signature">
+                      Choose Signature
+                      <span className="text-red-500">*</span>
+                    </InputLabel>
+                  </div>
+                  <TextField
+                    size="small"
+                    select
+                    fullWidth
+                    name="signature"
+                    placeholder="Choose Signature"
+                    value={values.signature}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.signature && !!errors.signature}
+                    helperText={touched.signature && errors.signature}
+                  >
+                    {signature?.length
+                      ? signature.map((option) => (
+                          <MenuItem key={option.id} value={option.id}>
+                            {option.name}, <span>{option?.name}</span>
                           </MenuItem>
                         ))
                       : "Please Add Bank Details..."}
