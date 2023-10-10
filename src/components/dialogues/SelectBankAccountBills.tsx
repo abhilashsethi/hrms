@@ -95,7 +95,7 @@ const SelectBankAccountBills = ({
           grandTotal: item?.grandTotal,
           termsAndConditions: item?.termsAndConditions,
           bankAccount1: values?.account,
-          signatureId: values?.id,
+          signatureId: values?.signature,
           cinNumber: "U72501OR2018PTC029550",
           companyName: "SearchingYard Software Private Limited",
           address: "House No - MIG III, 423, LaneNumber-20",
