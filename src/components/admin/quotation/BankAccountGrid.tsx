@@ -106,7 +106,7 @@ const QuotationGrid = ({ mutate, data }: Props) => {
               </p>
               <div className="absolute right-0 rounded-tl-lg top-24 z-50 p-2">
                 <div className="flex">
-                  <Tooltip title="Status">
+                  {/* <Tooltip title="Status">
                     <Avatar
                       variant="rounded"
                       className="!mr-0.5 !ml-0.5 !cursor-pointer !bg-gray-300 !p-0"
@@ -126,7 +126,7 @@ const QuotationGrid = ({ mutate, data }: Props) => {
                         onChange={(e) => handleBlock(e, item?.id)}
                       />
                     </Avatar>
-                  </Tooltip>
+                  </Tooltip> */}
                   <Tooltip title="Delete">
                     <Avatar
                       variant="rounded"
