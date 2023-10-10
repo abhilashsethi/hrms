@@ -195,7 +195,7 @@ const SelectBankAccountBills = ({
                     {bankData?.length
                       ? bankData.map((option) => (
                           <MenuItem key={option.bankName} value={option.id}>
-                            {option.bankName}
+                            {option.bankName}, <span>{option?.branchName}</span>
                           </MenuItem>
                         ))
                       : "Please Add Bank Details..."}
@@ -224,7 +224,7 @@ const SelectBankAccountBills = ({
                       {signature?.length
                         ? signature.map((option) => (
                             <MenuItem key={option.id} value={option.id}>
-                              {option.name}, <span>{option?.name}</span>
+                              {option.name}
                             </MenuItem>
                           ))
                         : "Please Add Bank Details..."}

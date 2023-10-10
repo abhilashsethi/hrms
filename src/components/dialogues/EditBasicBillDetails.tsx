@@ -71,6 +71,9 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
   };
   const { change } = useChange();
   const handleSubmit = async (values: BillsInput) => {
+    console.log({ isCgst });
+    console.log(isSgst);
+    console.log({ isGstValue });
     setLoading(true);
     try {
       if (isCgst) {
@@ -118,6 +121,8 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
           invoiceDate: new Date(values?.invoiceDate)?.toISOString(),
           dueDate: new Date(values?.dueDate)?.toISOString(),
           isIgst: isGstValue,
+          isCgst: isCgst,
+          isSgst: isSgst,
         },
       });
       setLoading(false);

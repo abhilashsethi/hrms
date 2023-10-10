@@ -44,7 +44,6 @@ const AllBills = () => {
         : ``
     }`
   );
-  console.log(billData);
   return (
     <>
       <PanelLayout title="All Bills">
