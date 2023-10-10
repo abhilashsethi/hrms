@@ -55,6 +55,7 @@ const ViewPayrollDetails = () => {
 	const { data: lossOfPay } = useFetch<any>(
 		`leaves/loss-of-pay/${router?.query?.id}?month=${month}&year=${year}`
 	);
+	//   console.log(lossOfPay);
 	const { data: configData, mutate: payRollMutate } = useFetch<any>(
 		`payrolls/getAllPayrollConfigs`
 	);
@@ -69,7 +70,7 @@ const ViewPayrollDetails = () => {
 	const { data: bonus } = useFetch<any>(
 		`bonus/${router?.query?.id}?month=${selectMonth}&year=${yearStatus}`
 	);
-	console.log(bonus);
+	//   console.log(bonus);
 	const { data: getMonthYearSalary, isLoading } = useFetch<any>(
 		`user-salaryinfo/get-by-userId-and-month-and-year?userId=${router?.query?.id}&month=${selectMonth}&year=${yearStatus}`
 	);

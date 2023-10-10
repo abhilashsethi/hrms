@@ -17,7 +17,7 @@ import {
 import { LoaderAnime, PhotoViewerSmall } from "components/core";
 import { ProjectCreateBug, UpdateBugStatus } from "components/dialogues";
 import ViewScreenshot from "components/dialogues/ViewScreenshot";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -86,7 +86,7 @@ const ProjectBugs = ({ projectId }: Props) => {
               fullWidth
               className=""
               select
-              label="Bug status"
+              label="Status"
               size="small"
               value={bugStatus}
               onChange={(e: any) => {
@@ -196,6 +196,7 @@ const CardComponent = ({
   const [isDescription, setIsDescription] = useState(false);
   const [isScreenshot, setIsScreenshot] = useState(false);
   const { change } = useChange();
+  const { user } = useAuth();
   const handleDelete = (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -230,7 +231,6 @@ const CardComponent = ({
       }
     });
   };
-  console.log(item);
   return (
     <>
       <ViewScreenshot
@@ -338,12 +338,17 @@ const CardComponent = ({
                   <IconButton onClick={() => setIsUpdate(true)} size="small">
                     <Edit />
                   </IconButton>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleDelete(item?.id)}
-                  >
-                    <Delete className="!text-red-500" />
-                  </IconButton>
+                  {user?.role?.name === "CEO" ||
+                  user?.role?.name === "COO" ||
+                  user?.role?.name === "DIRECTOR" ||
+                  user?.role?.name === "PROJECT MANAGER" ? (
+                    <IconButton
+                      size="small"
+                      onClick={() => handleDelete(item?.id)}
+                    >
+                      <Delete className="!text-red-500" />
+                    </IconButton>
+                  ) : null}
                 </div>
               </div>
             ) : null}
