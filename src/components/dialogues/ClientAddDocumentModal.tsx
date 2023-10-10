@@ -26,7 +26,12 @@ interface Props {
 }
 
 const validationSchema = Yup.object().shape({
-	title: Yup.string().required("Document title is required"),
+	title: Yup.string()
+		.trim() // Remove leading and trailing whitespace
+		.required("Document title is required")
+		.test("not-only-spaces", "Title cannot be empty spaces", (value) => {
+			return value.trim() !== ""; // Check if the trimmed value is not an empty string
+		}),
 	link: Yup.string().required("Document is required"),
 	// type: Yup.string().required("Document type is required"),
 });
