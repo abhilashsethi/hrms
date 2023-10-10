@@ -275,6 +275,8 @@ const CardComponent = ({
                       ? `bg-yellow-400`
                       : item?.status === "Ongoing"
                       ? `bg-blue-400`
+                      : item?.status === "NotNeeded"
+                      ? `bg-red-600`
                       : item?.status === "Reviewed"
                       ? `bg-black`
                       : `bg-slate-600`
