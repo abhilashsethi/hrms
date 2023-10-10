@@ -159,6 +159,6 @@ const links = [
 const short = [
   { id: 1, value: "name:asc", name: "Name Ascending" },
   { id: 2, value: "name:desc", name: "Name Descending" },
-  { id: 3, value: "createdAt:desc", name: "CreatedAt Ascending" },
-  { id: 4, value: "createdAt:asc", name: "CreatedAt Descending" },
+  { id: 3, value: "createdAt:asc", name: "CreatedAt Ascending" },
+  { id: 4, value: "createdAt:desc", name: "CreatedAt Descending" },
 ];
