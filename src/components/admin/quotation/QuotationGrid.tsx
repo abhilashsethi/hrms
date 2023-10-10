@@ -197,7 +197,7 @@ const QuotationGrid = ({ data, mutate }: Props) => {
                   </div>
                   <div className="md:flex grid items-center md:gap-2 py-1 md:py-0">
                     <p className="font-semibold text-base text-blue-600">
-                      Quotation Number :
+                      Quotation No. :
                     </p>
                     <p className="text-sm md:text-base text-gray-700">
                       {item?.quotationNumber}
