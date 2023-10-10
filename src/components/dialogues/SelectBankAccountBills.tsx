@@ -49,7 +49,7 @@ const SelectBankAccountBills = ({
   };
   const validationSchema = Yup.object().shape({
     account: Yup.string().required("Bank account is required!"),
-    signature: Yup.string().required("Signature is required!"),
+    // signature: Yup.string().required("Signature is required!"),
   });
   const initialValues = {
     account: "",
@@ -65,6 +65,13 @@ const SelectBankAccountBills = ({
     setLoading(true);
     setIsActive(item?.id);
     try {
+      if (item?.billType === "Paid" || item?.billType === "Advance") {
+        if (values?.signature === "") {
+          Swal.fire("Info", "Signature is required!", "info");
+          setLoading(false);
+          return;
+        }
+      }
       const res = await downloadFile({
         url: `/bills/generate/bill/pdf`,
         method: "POST",
@@ -95,7 +102,7 @@ const SelectBankAccountBills = ({
           grandTotal: item?.grandTotal,
           termsAndConditions: item?.termsAndConditions,
           bankAccount1: values?.account,
-          signatureId: values?.id,
+          signatureId: values?.signature,
           cinNumber: "U72501OR2018PTC029550",
           companyName: "SearchingYard Software Private Limited",
           address: "House No - MIG III, 423, LaneNumber-20",
@@ -194,34 +201,36 @@ const SelectBankAccountBills = ({
                       : "Please Add Bank Details..."}
                   </TextField>
                 </div>
-                <div className="px-4 py-2">
-                  <div className="py-2">
-                    <InputLabel htmlFor="signature">
-                      Choose Signature
-                      <span className="text-red-500">*</span>
-                    </InputLabel>
+                {item?.billType === "Unpaid" ? null : (
+                  <div className="px-4 py-2">
+                    <div className="py-2">
+                      <InputLabel htmlFor="signature">
+                        Choose Signature
+                        <span className="text-red-500">*</span>
+                      </InputLabel>
+                    </div>
+                    <TextField
+                      size="small"
+                      select
+                      fullWidth
+                      name="signature"
+                      placeholder="Choose Signature"
+                      value={values.signature}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.signature && !!errors.signature}
+                      helperText={touched.signature && errors.signature}
+                    >
+                      {signature?.length
+                        ? signature.map((option) => (
+                            <MenuItem key={option.id} value={option.id}>
+                              {option.name}, <span>{option?.name}</span>
+                            </MenuItem>
+                          ))
+                        : "Please Add Bank Details..."}
+                    </TextField>
                   </div>
-                  <TextField
-                    size="small"
-                    select
-                    fullWidth
-                    name="signature"
-                    placeholder="Choose Signature"
-                    value={values.signature}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.signature && !!errors.signature}
-                    helperText={touched.signature && errors.signature}
-                  >
-                    {signature?.length
-                      ? signature.map((option) => (
-                          <MenuItem key={option.id} value={option.id}>
-                            {option.name}, <span>{option?.name}</span>
-                          </MenuItem>
-                        ))
-                      : "Please Add Bank Details..."}
-                  </TextField>
-                </div>
+                )}
 
                 <div className="flex justify-center mt-4">
                   <Button
