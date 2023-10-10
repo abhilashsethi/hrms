@@ -43,6 +43,10 @@ const validationSchema = Yup.object().shape({
       "Only image files are allowed",
       (value: any) => !value || (value && value.type.startsWith("image/"))
     ),
+  link: Yup.string().matches(
+    /^(ftp|http|https):\/\/[^ "]+$/,
+    "Enter a valid URL"
+  ),
 });
 
 const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
@@ -56,6 +60,7 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
     assignedUserIds: [],
     detectedBy: "",
     pictures: null,
+    link: "",
   };
   const handleSubmit = async (values: any) => {
     const dtype = values?.pictures && values?.pictures?.type.split("/")[1];
@@ -72,9 +77,10 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
               title: values?.title,
               description: values?.description,
               pictures: url ? [`${url}`] : [],
-              status: values?.status,
+              status: values?.status ? values?.status : "Open",
               detectedById: values?.detectedBy,
               projectId: id,
+              link: values?.link ? values?.link : undefined,
             },
           ],
         },
@@ -225,7 +231,24 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
                           ))}
                         </TextField>
                       </div>
-                      <div className="px-4">
+                      <div className="px-4 py-2">
+                        <div className="py-2">
+                          <InputLabel htmlFor="name">Link</InputLabel>
+                        </div>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          id="link"
+                          placeholder="Link"
+                          name="link"
+                          value={values.link}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.link && !!errors.link}
+                          helperText={touched.link && errors.link}
+                        />
+                      </div>
+                      <div className="px-4 py-2">
                         <h1 className="my-2 font-semibold">
                           Upload Screenshot
                         </h1>
@@ -252,6 +275,7 @@ const ProjectCreateBug = ({ open, handleClose, mutate, id }: Props) => {
                           />
                         )}
                       </div>
+
                       <div className="px-4 py-2">
                         <div className="py-2">
                           <InputLabel htmlFor="name">
@@ -306,4 +330,5 @@ const statuses = [
   { id: 3, value: "Ongoing" },
   { id: 4, value: "Fixed" },
   { id: 4, value: "Reviewed" },
+  { id: 5, value: "NotNeeded" },
 ];

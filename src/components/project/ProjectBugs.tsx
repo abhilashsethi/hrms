@@ -19,6 +19,7 @@ import { ProjectCreateBug, UpdateBugStatus } from "components/dialogues";
 import ViewScreenshot from "components/dialogues/ViewScreenshot";
 import { useAuth, useChange, useFetch } from "hooks";
 import moment from "moment";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -176,6 +177,7 @@ interface Props {
     title?: string;
     status?: string;
     description?: string;
+    link?: string;
     bugs?: any;
     pictures?: any;
     id?: any;
@@ -325,6 +327,20 @@ const CardComponent = ({
                   <p className="text-sm py-3 text-justify">
                     {item?.description}
                   </p>
+                  <h1 className="text-sm font-semibold text-gray-600">
+                    Link :
+                  </h1>
+                  {item?.link ? (
+                    <Link
+                      href={item?.link ? item?.link : ""}
+                      target="_blank"
+                      className="text-sm py-3 text-justify text-theme hover:underline"
+                    >
+                      {item?.link}
+                    </Link>
+                  ) : (
+                    <span>No Link Available</span>
+                  )}
                 </div>
                 <div className="transition-all ease-in-out duration-200 md:w-[50%] w-full">
                   <h1 className="text-sm font-semibold text-gray-600">
