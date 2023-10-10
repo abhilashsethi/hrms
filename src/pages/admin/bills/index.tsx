@@ -17,6 +17,7 @@ const index = () => {
         : ``
     }`
   );
+  console.log(billDashboard);
   return (
     <PanelLayout title="All Bills">
       <>
