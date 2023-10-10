@@ -275,7 +275,7 @@ const CreateQuotation = () => {
 													size="small"
 													id="branchId"
 													options={Branch || []}
-													onChange={(e: any, r: any) => {
+													onChange={(e, r) => {
 														setFieldValue("branchId", r?.id);
 													}}
 													getOptionLabel={(option: any) => option.name}
