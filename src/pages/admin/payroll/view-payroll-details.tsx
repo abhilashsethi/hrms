@@ -368,7 +368,7 @@ const ViewPayrollDetails = () => {
         url: `/payrolls/createPdf`,
         method: "POST",
         body: {
-          userId: router?.query?.id,
+          bonus: bonus?.salaryBonus ? bonus?.salaryBonus : 0,
           salaryMonth: monthName,
           companyName: "SearchingYard Group",
           employeeName: employData?.name,
