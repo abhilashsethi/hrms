@@ -7,18 +7,14 @@ import {
 	Person,
 } from "@mui/icons-material";
 import { Avatar, Button, CircularProgress, Tooltip } from "@mui/material";
-import { BAG, GST_ICON, INVOICE } from "assets/home";
-import {
-	SelectBankAccount,
-	SelectBankAccountBills,
-} from "components/dialogues";
-import { downloadFile, useChange, useFetch } from "hooks";
+import { GST_ICON, INVOICE } from "assets/home";
+import { SelectBankAccountBills } from "components/dialogues";
+import { useChange } from "hooks";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { Bills } from "types";
-import { NumInWords } from "utils";
 interface Props {
 	data: Bills[];
 	mutate: () => void;
@@ -26,6 +22,7 @@ interface Props {
 }
 
 const BillGrid = ({ data, mutate, item }: Props) => {
+	console.log(data);
 	const { change } = useChange();
 	const [loading, setLoading] = useState(false);
 	const [isActive, setIsActive] = useState<string | undefined>("");
