@@ -1,19 +1,75 @@
-import { Add, Campaign, DeleteRounded, InfoRounded } from "@mui/icons-material";
-import { Button, Container, IconButton, Tooltip } from "@mui/material";
+import {
+  Add,
+  Campaign,
+  Check,
+  DeleteRounded,
+  InfoRounded,
+} from "@mui/icons-material";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { LoaderAnime } from "components/core";
 import { NotificationInfo } from "components/dialogues";
+import { useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
+import moment from "moment";
 import Link from "next/link";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { Announcement, Bills } from "types";
 
 const AllAnnouncement = () => {
   const [notification, setNotification] = useState<boolean>(false);
+  const [notificationMsg, setNotificationMsg] = useState<Announcement>();
+  const [loading, setLoading] = useState(false);
+  const { change } = useChange();
+  const {
+    data: announcements,
+    mutate,
+    isLoading,
+    pagination,
+  } = useFetch<Announcement[]>(`announcement?orderBy=createdAt:desc`);
+  const handleSend = async (item: any) => {
+    setLoading(true);
+    try {
+      const resData = {
+        status: "Published",
+      };
+      const res = await change(`announcement/${item?.id}`, {
+        body: resData,
+      });
+
+      setLoading(false);
+      if (res?.status !== 200) {
+        Swal.fire("Error", res?.results?.msg || "Unable to Submit", "error");
+        setLoading(false);
+        return;
+      }
+      mutate();
+      Swal.fire(`Success`, `Sent successfully!`, `success`);
+      return;
+    } catch (error) {
+      if (error instanceof Error) {
+        Swal.fire(`Error`, error?.message, `error`);
+      } else {
+        Swal.fire(`Error`, "Something Went Wrong", `error`);
+      }
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <PanelLayout title="Announcements">
         <NotificationInfo
           open={notification}
           handleClose={() => setNotification(false)}
+          notificationMsg={notificationMsg}
         />
         <section className="md:px-8 px-4 md:py-8 py-4">
           <div className="flex justify-end">
@@ -43,17 +99,43 @@ const AllAnnouncement = () => {
                     <div className="flex justify-between items-center">
                       <span className="text-lg">
                         <Campaign className="text-theme mr-2" />
-                        Announcement
+                        {item?.title}
                       </span>
-                      <span className="text-xs text-gray-500">08/08/2023</span>
-                      <span className="text-xs text-gray-500">Published</span>
+                      <span className="text-xs text-gray-500">
+                        {moment(item?.createdAt).fromNow()}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {item?.status === "Published" ? (
+                          "Published"
+                        ) : (
+                          <Button
+                            variant="contained"
+                            className="!bg-theme"
+                            onClick={() => handleSend(item)}
+                            disabled={loading}
+                            startIcon={
+                              loading ? (
+                                <CircularProgress color="secondary" size={20} />
+                              ) : (
+                                <Check />
+                              )
+                            }
+                          >
+                            Send
+                          </Button>
+                        )}
+                      </span>
                     </div>
                     {/* <span className="text-xs">{item?.desc}</span> */}
                   </div>
 
                   <div className="grid gap-5 grid-cols-2 px-4 items-center text-xs uppercase tracking-wide font-semibold">
                     <Tooltip title="Details">
-                      <IconButton onClick={() => setNotification(true)}>
+                      <IconButton
+                        onClick={() => {
+                          setNotification(true), setNotificationMsg(item);
+                        }}
+                      >
                         <InfoRounded className="text-theme" />
                       </IconButton>
                     </Tooltip>

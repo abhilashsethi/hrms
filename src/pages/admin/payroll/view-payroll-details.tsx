@@ -242,7 +242,7 @@ const ViewPayrollDetails = () => {
     () => [
       {
         id: 1,
-        name: "PF Cont. by Emp.",
+        name: "PF Cont. by Empl.",
         count: `${
           Gross_Salary
             ? (
@@ -255,7 +255,7 @@ const ViewPayrollDetails = () => {
       },
       {
         id: 2,
-        name: "ESI Cont. by Emp.",
+        name: "ESI Cont. by Empl.",
         count: `${
           Gross_Salary
             ? ((Configs?.esiEmployee * Gross_Salary) / 100).toFixed(2)
@@ -303,7 +303,7 @@ const ViewPayrollDetails = () => {
     () => [
       {
         id: 1,
-        name: "PF Cont. by Emp.",
+        name: "PF Cont. by Empr.",
         count: `${
           Gross_Salary
             ? (
@@ -316,7 +316,7 @@ const ViewPayrollDetails = () => {
       },
       {
         id: 2,
-        name: "ESI Cont. by Emp.",
+        name: "ESI Cont. by Empr.",
         count: `${
           Gross_Salary
             ? ((Configs?.esiEmployer * Gross_Salary) / 100).toFixed(2)
@@ -368,7 +368,7 @@ const ViewPayrollDetails = () => {
         url: `/payrolls/createPdf`,
         method: "POST",
         body: {
-          userId: router?.query?.id,
+          bonus: bonus?.salaryBonus ? bonus?.salaryBonus : 0,
           salaryMonth: monthName,
           companyName: "SearchingYard Group",
           employeeName: employData?.name,

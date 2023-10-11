@@ -562,6 +562,18 @@ export interface Bills {
 	billOfBranch?: Branch;
 	billOfBranchId?: string;
 }
+export interface Announcement{
+	id?: string;
+	title?: string;
+	description?: string;
+	createdAt?: Date | string;
+	updatedAt?: Date | string;
+	status?: string
+	branchId?: string;
+	departmentId?: string;
+	roleId?: string;
+
+}
 export interface QuotationBank {
 	id?: string;
 	bankName?: string;
