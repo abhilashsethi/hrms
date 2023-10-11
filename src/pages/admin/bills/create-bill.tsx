@@ -286,7 +286,7 @@ const CreateBills = () => {
 						body: {
 							billType: values?.billType,
 							quotationId: isAdvanceId,
-							dueDate: null,
+							// dueDate: null,
 							billOfBranchId: values?.branchId,
 							clientName: isClientName,
 							clientEmail: isClientEmail,
@@ -316,7 +316,7 @@ const CreateBills = () => {
 				const res = await change(`bills`, {
 					body: {
 						billType: values?.billType,
-						dueDate: null,
+						// dueDate: null,
 						billOfBranchId: values?.branchId,
 						quotationId: isAdvanceId,
 						clientEmail: isClientEmail,
@@ -325,6 +325,7 @@ const CreateBills = () => {
 						works: transformedArray,
 						invoiceDate: values?.invoiceDate,
 						isIgst: isGstValue,
+						isGst: values?.gst,
 					},
 				});
 				setLoading(false);
