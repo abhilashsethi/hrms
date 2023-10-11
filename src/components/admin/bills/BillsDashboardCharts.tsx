@@ -4,26 +4,21 @@ interface Props {
   data?: Bills;
 }
 const BillsDashboardCharts = ({ data }: Props) => {
+  console.log(data);
   return (
     <div className="w-full">
       <div className="grid lg:grid-cols-2 content-between gap-6">
         <div className="px-2 py-4 w-full flex bg-white flex-col justify-center gap-2 !border-gray-500 rounded-xl !shadow-xl">
-          <p className="font-bold text-lg text-center">
-            Current Year Bills Overview
-          </p>
+          <p className="font-bold text-lg text-center">Bills Overview</p>
           <BranchBarChart
             labels={
-              data?.currentYearBillCountMonthWise?.length
-                ? data?.currentYearBillCountMonthWise?.map(
-                    (item) => item?.month
-                  )
+              data?.typeWiseBillCount?.length
+                ? data?.typeWiseBillCount?.map((item) => item?.billType)
                 : null
             }
             data={
-              data?.currentYearBillCountMonthWise?.length
-                ? data?.currentYearBillCountMonthWise?.map(
-                    (item) => item?.count
-                  )
+              data?.typeWiseBillCount?.length
+                ? data?.typeWiseBillCount?.map((item) => item?._count)
                 : null
             }
             type="bar"

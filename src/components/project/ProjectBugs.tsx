@@ -275,6 +275,8 @@ const CardComponent = ({
                       ? `bg-yellow-400`
                       : item?.status === "Ongoing"
                       ? `bg-blue-400`
+                      : item?.status === "NotNeeded"
+                      ? `bg-red-600`
                       : item?.status === "Reviewed"
                       ? `bg-black`
                       : `bg-slate-600`
@@ -393,6 +395,7 @@ const bugSelects = [
   { id: 3, value: "Ongoing", label: "Ongoing" },
   { id: 4, value: "Fixed", label: "Fixed" },
   { id: 5, value: "Reviewed", label: "Reviewed" },
+  { id: 6, value: "NotNeeded", label: "NotNeeded" },
 ];
 const short = [
   // { id: 1, value: "name:asc", name: "Name Ascending" },

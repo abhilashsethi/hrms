@@ -61,6 +61,7 @@ const SelectBankAccountBills = ({
   );
   const { data: signature } = useFetch<Signature[]>(`signatures/get-all`);
   const handleSubmit = async (values: any) => {
+    console.log({ item });
     console.log(values);
     setLoading(true);
     setIsActive(item?.id);
@@ -95,6 +96,7 @@ const SelectBankAccountBills = ({
           isIgst: item?.isIgst,
           isCgst: item?.isCgst,
           isSgst: item?.isSgst,
+          isGst: item?.isGst,
           total: item?.total,
           igstPercent: item?.igstPercent,
           cgstPercent: item?.cgstPercent,
@@ -224,7 +226,7 @@ const SelectBankAccountBills = ({
                       {signature?.length
                         ? signature.map((option) => (
                             <MenuItem key={option.id} value={option.id}>
-                              {option.name}, <span>{option?.name}</span>
+                              {option.name}
                             </MenuItem>
                           ))
                         : "Please Add Bank Details..."}
