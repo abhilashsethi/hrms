@@ -44,7 +44,7 @@ const validationSchema = Yup.object().shape({
 	clientEmail: Yup.string().email().required("Client email is required!"),
 	clientAddress: Yup.string().required("Client address is required!"),
 	invoiceDate: Yup.string().required("Invoice Date is required!"),
-	dueDate: Yup.string().required("Invoice Due Date is required!"),
+	// dueDate: Yup.string().required("Invoice Due Date is required!"),
 	billOfBranchId: Yup.string().required("Branch name is required!"),
 });
 const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
@@ -87,7 +87,10 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
 						clientAddress: values?.clientAddress,
 						billOfBranchId: values?.billOfBranchId,
 						invoiceDate: new Date(values?.invoiceDate)?.toISOString(),
-						dueDate: new Date(values?.dueDate)?.toISOString(),
+						dueDate:
+							data?.billType === "Advance"
+								? undefined
+								: new Date(values?.dueDate)?.toISOString(),
 						isCgst: isCgst,
 						isSgst: isSgst,
 						isIgst: isGstValue,
@@ -119,7 +122,10 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
 					billOfBranchId: values?.billOfBranchId,
 					clientAddress: values?.clientAddress,
 					invoiceDate: new Date(values?.invoiceDate)?.toISOString(),
-					dueDate: new Date(values?.dueDate)?.toISOString(),
+					dueDate:
+						data?.billType === "Advance"
+							? undefined
+							: new Date(values?.dueDate)?.toISOString(),
 					isIgst: isGstValue,
 					isCgst: isCgst,
 					isSgst: isSgst,
@@ -325,28 +331,30 @@ const EditBasicBillDetails = ({ open, handleClose, mutate, data }: Props) => {
 										helperText={touched.invoiceDate && errors.invoiceDate}
 									/>
 								</div>
-								<div className="my-4">
-									<p className="font-medium text-gray-700 mt-2">
-										Enter Invoice Due Date
-										<span className="text-red-600">*</span>
-									</p>
-									<TextField
-										size="small"
-										fullWidth
-										type="date"
-										placeholder="Invoice Due Date"
-										name="dueDate"
-										value={values.dueDate}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										inputProps={{
-											min: "2000-01-01",
-											max: "9999-12-31",
-										}}
-										error={touched.dueDate && !!errors.dueDate}
-										helperText={touched.dueDate && errors.dueDate}
-									/>
-								</div>
+								{data?.billType === "Advance" ? null : (
+									<div className="my-4">
+										<p className="font-medium text-gray-700 mt-2">
+											Enter Invoice Due Date
+											<span className="text-red-600">*</span>
+										</p>
+										<TextField
+											size="small"
+											fullWidth
+											type="date"
+											placeholder="Invoice Due Date"
+											name="dueDate"
+											value={values.dueDate}
+											onChange={handleChange}
+											onBlur={handleBlur}
+											inputProps={{
+												min: "2000-01-01",
+												max: "9999-12-31",
+											}}
+											error={touched.dueDate && !!errors.dueDate}
+											helperText={touched.dueDate && errors.dueDate}
+										/>
+									</div>
+								)}
 								{data?.isGst ? (
 									<div className="my-3 px-4">
 										<p className="text-gray-500">
