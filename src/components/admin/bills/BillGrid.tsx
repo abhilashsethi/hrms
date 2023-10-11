@@ -169,7 +169,7 @@ const BillGrid = ({ data, mutate, item }: Props) => {
 										{item?.clientAddress}
 									</p>
 								</div>
-								<div className="md:flex grid md:gap-2 py-1 md:py-0 -ml-1 justify-start items-center">
+								<div className="md:flex grid py-1 md:py-0 -ml-1 justify-start items-center">
 									{/* <img className="w-7" src={BAG.src} alt="" /> */}
 									<p className="text-sm text-gray-700">
 										<img
