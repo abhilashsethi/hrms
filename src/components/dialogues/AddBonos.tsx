@@ -61,7 +61,7 @@ const AddBonus = ({ open, handleClose, userId, mutate }: Props) => {
       const ticketText = {
         salaryBonus: Number(values?.bonus),
         month: selectMonth ? Number(selectMonth) : new Date()?.getMonth(),
-        year: new Date()?.getFullYear(),
+        year: values?.year,
         userId: userId,
       };
       const res = await change(`bonus`, {
