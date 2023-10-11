@@ -178,7 +178,7 @@ const CreateBills = () => {
 						works: transformedArray,
 						invoiceDate: values?.invoiceDate,
 						isGst: values?.gst,
-						// clientGstNumber: values?.clientGSTNumber,
+						clientGstNumber: values?.clientGSTNumber,
 					},
 				});
 				setLoading(false);
@@ -326,6 +326,7 @@ const CreateBills = () => {
 						invoiceDate: values?.invoiceDate,
 						isIgst: isGstValue,
 						isGst: values?.gst,
+						clientGstNumber: values?.clientGSTNumber,
 					},
 				});
 				setLoading(false);
