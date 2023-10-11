@@ -1,5 +1,17 @@
-import { Add, Campaign, DeleteRounded, InfoRounded } from "@mui/icons-material";
-import { Button, Container, IconButton, Tooltip } from "@mui/material";
+import {
+  Add,
+  Campaign,
+  Check,
+  DeleteRounded,
+  InfoRounded,
+} from "@mui/icons-material";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { LoaderAnime } from "components/core";
 import { NotificationInfo } from "components/dialogues";
 import { useChange, useFetch } from "hooks";
@@ -37,6 +49,7 @@ const AllAnnouncement = () => {
         setLoading(false);
         return;
       }
+      mutate();
       Swal.fire(`Success`, `Sent successfully!`, `success`);
       return;
     } catch (error) {
@@ -99,6 +112,14 @@ const AllAnnouncement = () => {
                             variant="contained"
                             className="!bg-theme"
                             onClick={() => handleSend(item)}
+                            disabled={loading}
+                            startIcon={
+                              loading ? (
+                                <CircularProgress color="secondary" size={20} />
+                              ) : (
+                                <Check />
+                              )
+                            }
                           >
                             Send
                           </Button>
