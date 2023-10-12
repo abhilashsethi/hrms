@@ -41,7 +41,7 @@ const AdminHome = () => {
 				user?.role?.name === "DIRECTOR" ||
 				user?.role?.name === "COO" ? (
 					<>
-						{!isLoading ? (
+						{isLoading ? (
 							<DashboardSkeletonLoading />
 						) : (
 							<>
