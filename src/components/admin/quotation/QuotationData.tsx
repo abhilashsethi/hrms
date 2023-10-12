@@ -88,7 +88,13 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
               quotationId: quotationData?.id,
             },
           });
-
+          if (id) {
+            const res = await change(`quotations/${quotationData?.id}`, {
+              method: "PATCH",
+            });
+            mutate();
+            return;
+          }
           if (res?.status !== 200) {
             Swal.fire(
               "Error",

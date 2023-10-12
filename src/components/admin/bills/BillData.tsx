@@ -103,6 +103,7 @@ const BillData = ({ billData, mutate, isLoading }: Props) => {
             const res = await change(`bills/${billData?.id}`, {
               method: "PATCH",
             });
+            mutate();
             return;
           }
           if (res?.status !== 200) {
