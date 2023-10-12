@@ -136,7 +136,7 @@ const ClientDetails = ({ projectData, mutate }: Props) => {
 										value={clientData?.find(
 											(option: any) => option.name === values.clientId
 										)}
-										onChange={(e: any, r: any) => {
+										onChange={(e, r) => {
 											setFieldValue("clientId", r.id);
 											setClientId(r.id);
 										}}
