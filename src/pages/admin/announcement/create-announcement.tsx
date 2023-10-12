@@ -51,6 +51,19 @@ const CreateAnnouncement = () => {
     console.log(values);
     setLoading(true);
     try {
+      if (
+        checked === false &&
+        values?.departmentId === "" &&
+        values?.roleId === ""
+      ) {
+        Swal.fire(
+          "Info",
+          "At Least Chose One Department, Role or For All",
+          "info"
+        );
+        setLoading(false);
+        return;
+      }
       const resData = {
         title: values?.title,
         description: values?.message,
