@@ -226,7 +226,7 @@ const CreateAnnouncement = () => {
                               <TextField
                                 {...params}
                                 // label="Department Name"
-                                placeholder="Department Name"
+                                placeholder="Role Name"
                                 onBlur={handleBlur}
                                 error={touched.roleId && !!errors.roleId}
                                 helperText={touched.roleId && errors.roleId}
