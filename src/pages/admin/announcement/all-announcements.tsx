@@ -138,15 +138,12 @@ const AllAnnouncement = () => {
             <div className="px-2 md:px-0">
               <AdminBreadcrumbs links={links} />
             </div>
-            <Link href="">
+            <Link href="/admin/announcement/create-announcement">
               <Button
                 fullWidth
                 className="!bg-theme"
                 variant="contained"
                 startIcon={<Add />}
-                onClick={() =>
-                  router?.push("/admin/announcement/create-announcement")
-                }
               >
                 ADD ANNOUNCEMENT
               </Button>
@@ -173,33 +170,35 @@ const AllAnnouncement = () => {
                             <Campaign className="text-theme mr-2" />
                             {item?.title}
                           </span>
-                          <span className="text-xs text-gray-500">
-                            {moment(item?.createdAt).fromNow()}
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            {item?.status === "Published" ? (
-                              "Published"
-                            ) : (
-                              <Button
-                                variant="contained"
-                                className="!bg-theme"
-                                onClick={() => handleSend(item)}
-                                disabled={loading}
-                                startIcon={
-                                  loading ? (
-                                    <CircularProgress
-                                      color="secondary"
-                                      size={20}
-                                    />
-                                  ) : (
-                                    <Check />
-                                  )
-                                }
-                              >
-                                Send
-                              </Button>
-                            )}
-                          </span>
+                          <div className="flex gap-4 justify-end">
+                            <span className="text-xs text-gray-500">
+                              {moment(item?.createdAt).fromNow()}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              {item?.status === "Published" ? (
+                                "Published"
+                              ) : (
+                                <Button
+                                  variant="contained"
+                                  className="!bg-theme"
+                                  onClick={() => handleSend(item)}
+                                  disabled={loading}
+                                  startIcon={
+                                    loading ? (
+                                      <CircularProgress
+                                        color="secondary"
+                                        size={20}
+                                      />
+                                    ) : (
+                                      <Check />
+                                    )
+                                  }
+                                >
+                                  Send
+                                </Button>
+                              )}
+                            </span>
+                          </div>
                         </div>
                         {/* <span className="text-xs">{item?.desc}</span> */}
                       </div>
