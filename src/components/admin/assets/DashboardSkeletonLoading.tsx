@@ -8,10 +8,6 @@ const DashboardSkeletonLoading = () => {
 			<div className="w-full bg-white py-4 px-4 border-t-[1px] shadow-sm">
 				<div className="flex gap-4 tracking-wide items-center">
 					<div className="md:h-20 h-14 md:w-20 w-14 rounded-xl flex justify-center items-center shadow-lg">
-						{/* <Avatar
-            src={user?.photo || " "}
-            className="cursor-pointer !bg-theme"
-          /> */}
 						<PhotoViewer
 							size="3.5rem"
 							photo={DEFAULTIMG.src}
