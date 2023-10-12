@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { AdminBreadcrumbs } from "components/core";
 import { Form, Formik } from "formik";
-import { useChange, useFetch } from "hooks";
+import { useAuth, useChange, useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
 import { useRouter } from "next/router";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
@@ -36,13 +36,14 @@ const CreateAnnouncement = () => {
   // const theme = useTheme();
   const [loading, setLoading] = useState(false);
   const { change } = useChange();
+  const { user } = useAuth();
   const [isAnnouncement, setIsAnnouncement] = useState<string>("");
   const { data: departmentsData } = useFetch<Role[]>(`departments`);
   const { data: roleData } = useFetch<Role[]>(`roles`);
   const { data: branchData } = useFetch<Role[]>(`branches`);
   const router = useRouter();
   const [checked, setChecked] = useState(false);
-
+  console.log({ checked });
   const handleChangeCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
@@ -131,38 +132,50 @@ const CreateAnnouncement = () => {
                         helperText={touched.title && errors.title}
                       />
                     </div>
-                    <div className="md:px-4 px-2 md:py-2 py-1">
-                      <div className="py-2">
-                        <InputLabel htmlFor="branchId">
-                          Choose Branch <span className="text-red-600">*</span>
-                        </InputLabel>
+                    {user?.role?.name === "CEO" ||
+                    user?.role?.name === "DIRECTOR" ||
+                    user?.role?.name === "COO" ? (
+                      <div className="md:px-4 px-2 md:py-2 py-1">
+                        <div className="py-2">
+                          <InputLabel htmlFor="branchId">
+                            Choose Branch{" "}
+                            <span className="text-red-600">*</span>
+                          </InputLabel>
+                        </div>
+                        <Autocomplete
+                          fullWidth
+                          size="small"
+                          id="branchId"
+                          options={branchData || []}
+                          onChange={(
+                            e: SyntheticEvent<Element, Event>,
+                            r: Role | null
+                          ) => {
+                            setFieldValue(
+                              "branchId",
+                              user?.role?.name === "CEO" ||
+                                user?.role?.name === "DIRECTOR" ||
+                                user?.role?.name === "COO"
+                                ? r?.id
+                                : user?.employeeOfBranchId
+                            );
+                          }}
+                          getOptionLabel={(option) =>
+                            option.name ? option?.name : ""
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              // label="Department Name"
+                              placeholder="Department Name"
+                              onBlur={handleBlur}
+                              error={touched.branchId && !!errors.branchId}
+                              helperText={touched.branchId && errors.branchId}
+                            />
+                          )}
+                        />
                       </div>
-                      <Autocomplete
-                        fullWidth
-                        size="small"
-                        id="branchId"
-                        options={branchData || []}
-                        onChange={(
-                          e: SyntheticEvent<Element, Event>,
-                          r: Role | null
-                        ) => {
-                          setFieldValue("branchId", r?.id);
-                        }}
-                        getOptionLabel={(option) =>
-                          option.name ? option?.name : ""
-                        }
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            // label="Department Name"
-                            placeholder="Department Name"
-                            onBlur={handleBlur}
-                            error={touched.branchId && !!errors.branchId}
-                            helperText={touched.branchId && errors.branchId}
-                          />
-                        )}
-                      />
-                    </div>
+                    ) : null}
                     <div className="md:px-4 px-2 md:py-2 py-1">
                       <div className="py-2 flex gap-4 items-center">
                         <Checkbox
@@ -191,7 +204,7 @@ const CreateAnnouncement = () => {
                               e: SyntheticEvent<Element, Event>,
                               r: Role | null
                             ) => {
-                              setFieldValue("roleId", checked ? r?.id : "");
+                              setFieldValue("roleId", checked ? "" : r?.id);
                             }}
                             getOptionLabel={(option) =>
                               option.name ? option?.name : ""
@@ -225,7 +238,7 @@ const CreateAnnouncement = () => {
                             ) => {
                               setFieldValue(
                                 "departmentId",
-                                checked ? r?.id : ""
+                                checked ? "" : r?.id
                               );
                             }}
                             getOptionLabel={(option) =>
@@ -337,7 +350,11 @@ const CreateAnnouncement = () => {
 export default CreateAnnouncement;
 
 const links = [
-  { id: 1, page: "Support", link: "/admin/support/create-support" },
+  {
+    id: 1,
+    page: "Create Announcement",
+    link: "/admin/announcement/create-announcement",
+  },
 ];
 const Status_Type = [
   {
