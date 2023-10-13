@@ -235,7 +235,7 @@ const LeavesColumn = ({ data, mutate }: Props) => {
                 }))
           }
           options={{
-            ...MuiTblOptions(),
+            ...MuiTblOptions("Leave Requests"),
             paging: false,
           }}
           columns={[
@@ -282,6 +282,7 @@ const LeavesColumn = ({ data, mutate }: Props) => {
               title: "Details",
               tooltip: "Details",
               field: "status",
+              export: false,
               render: (item) => {
                 {
                   return (
