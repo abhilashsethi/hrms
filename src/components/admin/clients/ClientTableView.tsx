@@ -31,6 +31,7 @@ const ClientTableView = ({ data, mutate }: Props) => {
         data={
           data
             ? data?.map((item, i: number) => ({
+                sn: i + 1,
                 id: item?.id,
                 name: item?.name,
                 email: item?.email,
