@@ -205,7 +205,7 @@ const CreateGuest = () => {
                       <TextField
                         size="small"
                         fullWidth
-                        placeholder="designation"
+                        placeholder="Designation"
                         id="designation"
                         name="designation"
                         value={values.designation}
@@ -234,8 +234,7 @@ const CreateGuest = () => {
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label="Select Gender"
-                            placeholder="Selected Gender"
+                            placeholder="Select Gender"
                             onBlur={handleBlur}
                             error={touched.gender && !!errors.gender}
                             helperText={touched.gender && errors.gender}
