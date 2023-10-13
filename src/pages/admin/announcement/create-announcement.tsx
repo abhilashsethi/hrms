@@ -56,11 +56,7 @@ const CreateAnnouncement = () => {
         values?.departmentId === "" &&
         values?.roleId === ""
       ) {
-        Swal.fire(
-          "Info",
-          "At Least Chose One Department, Role or For All",
-          "info"
-        );
+        Swal.fire("Info", "At Least Chose One Department, Role or All", "info");
         setLoading(false);
         return;
       }

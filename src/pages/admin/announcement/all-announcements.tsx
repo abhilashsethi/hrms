@@ -125,6 +125,7 @@ const AllAnnouncement = () => {
       }
     }
   };
+  console.log({ announcements });
   return (
     <>
       <PanelLayout title="Announcements">
