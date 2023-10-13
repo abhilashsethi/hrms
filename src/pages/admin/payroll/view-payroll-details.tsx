@@ -296,7 +296,7 @@ const ViewPayrollDetails = () => {
         }`,
       },
     ],
-    [Gross_Salary]
+    [Gross_Salary, bonus]
   );
 
   const ctc = useMemo(
