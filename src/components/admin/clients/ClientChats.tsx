@@ -1,6 +1,6 @@
 import { Add, Delete } from "@mui/icons-material";
 import { Button, CircularProgress, Tooltip } from "@mui/material";
-import { IMG, PDF } from "assets/home";
+import { DOC, IMG, PDF } from "assets/home";
 import { RenderIconRow } from "components/common";
 import { HeadText, PhotoViewer, ReverseIOSSwitch } from "components/core";
 import { TicketAddDocumentDialogue } from "components/dialogues";
@@ -120,11 +120,7 @@ const ClientChats = ({ ticketsData, mutateTicket, ticketLoading }: Props) => {
 								{ticketsData?.documents?.map((docData) => (
 									<div key={docData?.docId} className="cursor-pointer">
 										<a href={docData?.link}>
-											<img
-												className="w-12"
-												src={docData?.filetype === "pdf" ? PDF.src : IMG.src}
-												alt=""
-											/>
+											<img className="w-12" src={DOC.src} alt="" />
 										</a>
 										<p className="text-xs">doc_1002...</p>
 										<DeleteButton

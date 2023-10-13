@@ -31,7 +31,7 @@ const initialValues = {
 };
 const validationSchema = Yup.object().shape({
 	// title: Yup.string().required("Document title is Required"),
-	type: Yup.string().required("Choose document type"),
+	// type: Yup.string().required("Choose document type"),
 	link: Yup.string().required("Choose Document"),
 });
 const TicketAddDocumentDialogue = ({
@@ -52,7 +52,7 @@ const TicketAddDocumentDialogue = ({
 				method: "PATCH",
 				body: {
 					// title: values.title,
-					filetype: values.type,
+					filetype: "pdf",
 					link: url,
 				},
 			});
@@ -139,7 +139,7 @@ const TicketAddDocumentDialogue = ({
 									error={touched.title && !!errors.title}
 									helperText={touched.title && errors.title}
 								/> */}
-								<p className="font-medium text-gray-700 my-2">
+								{/* <p className="font-medium text-gray-700 my-2">
 									Document Type <span className="text-red-500">*</span>
 								</p>
 								<div className="w-full">
@@ -161,9 +161,11 @@ const TicketAddDocumentDialogue = ({
 											</MenuItem>
 										))}
 									</TextField>
-								</div>
+								</div> */}
 
-								<p className="font-medium text-gray-700 my-2">Choose File</p>
+								<p className="font-medium text-gray-700 my-2">
+									Choose File <span className="text-red-500">*</span>
+								</p>
 								<input
 									type="file"
 									name="link"
