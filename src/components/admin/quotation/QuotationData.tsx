@@ -27,6 +27,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
   const [AddadditionDetails, setAddAdditionDetails] = useState<boolean>(false);
   const [termsAndConditionDetails, setTermsAndConditionDetails] =
     useState<boolean>(false);
+  console.log({ quotationData });
   const basicDetails = [
     {
       id: 1,
@@ -52,6 +53,11 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
       id: 5,
       title: "Quotation Number",
       value: quotationData?.quotationNumber,
+    },
+    {
+      id: 5,
+      title: "Cost",
+      value: quotationData?.grandTotal,
     },
     {
       id: 6,
@@ -92,6 +98,7 @@ const QuotationData = ({ quotationData, mutate, isLoading }: Props) => {
             const res = await change(`quotations/${quotationData?.id}`, {
               method: "PATCH",
             });
+            console.log({ res });
             mutate();
             return;
           }

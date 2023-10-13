@@ -60,7 +60,7 @@ const MainHrDashboardCards = () => {
       icon: <ExitToApp fontSize="medium" className="text-white" />,
       title: "Leaves",
       color: "bg-[#673ab7]",
-      link: "/admin/leaves/all-leaves",
+      link: "/admin/leaves/leave-requests",
     },
     {
       id: 2,
