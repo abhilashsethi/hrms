@@ -107,7 +107,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
           <div className="w-full md:tracking-wide rounded-md text-sm">
             <div>
               {data?.category === "text" ? (
-                <p className=" max-w-fit break-all py-2 px-4 bg-blue-100 rounded-md">
+                <p className=" min-w-fit break-all py-2 px-4 bg-blue-100 rounded-md">
                   {data?.text}
                 </p>
               ) : data?.category === "image" ? (
@@ -121,7 +121,7 @@ const ChatMessage = ({ data, activeProfile }: textProps) => {
               ) : data?.category === "audio" ? (
                 <AudioFormat data={data} />
               ) : (
-                <p className="tracking-wide max-w-fit break-all bg-blue-100 py-2 px-4 rounded-md">
+                <p className="tracking-wide min-w-fit break-all bg-blue-100 py-2 px-4 rounded-md">
                   {data?.text}
                 </p>
               )}
