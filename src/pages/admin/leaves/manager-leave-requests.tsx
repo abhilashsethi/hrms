@@ -1,18 +1,18 @@
 import { Close, FilterListRounded } from "@mui/icons-material";
 import {
-  IconButton,
-  MenuItem,
-  Pagination,
-  Stack,
-  TextField,
-  Tooltip,
+	IconButton,
+	MenuItem,
+	Pagination,
+	Stack,
+	TextField,
+	Tooltip,
 } from "@mui/material";
 import { LeavesColumnManager, LeavesGrid } from "components/admin";
 import {
-  AdminBreadcrumbs,
-  GridAndList,
-  Loader,
-  LoaderAnime,
+	AdminBreadcrumbs,
+	GridAndList,
+	Loader,
+	LoaderAnime,
 } from "components/core";
 import { useFetch } from "hooks";
 import PanelLayout from "layouts/panel";
@@ -20,34 +20,34 @@ import { useState } from "react";
 import { Leave } from "types";
 
 const ManagerLeaveRequests = () => {
-  const [isGrid, setIsGrid] = useState(true);
-  const [pageNumber, setPageNumber] = useState<number>(1);
-  const [userName, setUsername] = useState<string | null>(null);
-  const [empId, setEmpId] = useState<string | null>(null);
-  const [leaveType, setLeaveType] = useState<string | null>(null);
-  const [leaveStatus, setLeaveStatus] = useState<string | null>(null);
-  const {
-    data: leavesData,
-    mutate,
-    pagination,
-    isLoading,
-  } = useFetch<Leave[]>(
-    `leaves/manager/request?page=${pageNumber}&limit=8${
-      userName ? `&employeeName=${userName}` : ""
-    }${empId ? `&employeeID=${empId}` : ""}${
-      leaveStatus ? `&status=${leaveStatus}` : ""
-    }${leaveType ? `&type=${leaveType}` : ""}&orderBy=createdAt:asc`
-  );
-  return (
-    <PanelLayout title="Leave Requests ">
-      <section className="md:px-8 px-4 py-2">
-        <div className="flex justify-between items-center py-4 md:flex-row flex-col">
-          <AdminBreadcrumbs links={links} />
-          <div className="flex gap-4 items-center">
-            <GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
-          </div>
-        </div>
-        <div className="md:flex gap-4 justify-between w-full py-2">
+	const [isGrid, setIsGrid] = useState(true);
+	const [pageNumber, setPageNumber] = useState<number>(1);
+	const [userName, setUsername] = useState<string | null>(null);
+	const [empId, setEmpId] = useState<string | null>(null);
+	const [leaveType, setLeaveType] = useState<string | null>(null);
+	const [leaveStatus, setLeaveStatus] = useState<string | null>(null);
+	const {
+		data: leavesData,
+		mutate,
+		pagination,
+		isLoading,
+	} = useFetch<Leave[]>(
+		`leaves/manager/request?page=${pageNumber}&limit=8${
+			userName ? `&employeeName=${userName}` : ""
+		}${empId ? `&employeeID=${empId}` : ""}${
+			leaveStatus ? `&status=${leaveStatus}` : ""
+		}${leaveType ? `&type=${leaveType}` : ""}&orderBy=createdAt:asc`
+	);
+	return (
+		<PanelLayout title="Leave Requests ">
+			<section className="md:px-8 px-4 py-2">
+				<div className="flex justify-between items-center py-4 md:flex-row flex-col">
+					<AdminBreadcrumbs links={links} />
+					<div className="flex gap-4 items-center">
+						<GridAndList isGrid={isGrid} setIsGrid={setIsGrid} />
+					</div>
+				</div>
+				{/* <div className="md:flex gap-4 justify-between w-full py-2">
           <div
             className={`w-10 h-10 flex justify-center items-center rounded-md shadow-lg bg-theme
                 `}
@@ -133,82 +133,82 @@ const ManagerLeaveRequests = () => {
               ))}
             </TextField>
           </div>
-        </div>
-        {isLoading ? (
-          <div className="w-full h-[80vh]">
-            <Loader />
-          </div>
-        ) : (
-          <>
-            {isGrid ? (
-              <>
-                {leavesData?.length ? (
-                  <LeavesGrid data={leavesData} mutate={mutate} />
-                ) : (
-                  <LoaderAnime text="No Request Available right now" />
-                )}
-              </>
-            ) : (
-              <LeavesColumnManager data={leavesData} mutate={mutate} />
-            )}
-          </>
-        )}
+        </div> */}
+				{isLoading ? (
+					<div className="w-full h-[80vh]">
+						<Loader />
+					</div>
+				) : (
+					<>
+						{isGrid ? (
+							<>
+								{leavesData?.length ? (
+									<LeavesGrid data={leavesData} mutate={mutate} />
+								) : (
+									<LoaderAnime text="No Request Available right now" />
+								)}
+							</>
+						) : (
+							<LeavesColumnManager data={leavesData} mutate={mutate} />
+						)}
+					</>
+				)}
 
-        <section className="mb-6">
-          {Math.ceil(
-            Number(pagination?.total || 1) / Number(pagination?.limit || 1)
-          ) > 1 ? (
-            <div className="flex justify-center md:py-8 py-4">
-              <Stack spacing={2}>
-                <Pagination
-                  count={Math.ceil(
-                    Number(pagination?.total || 1) /
-                      Number(pagination?.limit || 1)
-                  )}
-                  onChange={(e, v: number) => {
-                    setPageNumber(v);
-                  }}
-                  page={pageNumber}
-                  variant="outlined"
-                />
-              </Stack>
-            </div>
-          ) : null}
-        </section>
-      </section>
-    </PanelLayout>
-  );
+				<section className="mb-6">
+					{Math.ceil(
+						Number(pagination?.total || 1) / Number(pagination?.limit || 1)
+					) > 1 ? (
+						<div className="flex justify-center md:py-8 py-4">
+							<Stack spacing={2}>
+								<Pagination
+									count={Math.ceil(
+										Number(pagination?.total || 1) /
+											Number(pagination?.limit || 1)
+									)}
+									onChange={(e, v: number) => {
+										setPageNumber(v);
+									}}
+									page={pageNumber}
+									variant="outlined"
+								/>
+							</Stack>
+						</div>
+					) : null}
+				</section>
+			</section>
+		</PanelLayout>
+	);
 };
 
 export default ManagerLeaveRequests;
 
 const links = [
-  {
-    id: 2,
-    page: "Leave Requests",
-    link: "/admin/leaves/manager-leave-requests",
-  },
+	{
+		id: 2,
+		page: "Leave Requests",
+		link: "/admin/leaves/manager-leave-requests",
+	},
 ];
 
 const statuses = [
-  {
-    id: 1,
-    value: "Pending",
-    label: "Pending",
-  },
-  {
-    id: 2,
-    value: "Approved",
-    label: "Approved",
-  },
-  {
-    id: 3,
-    value: "Rejected",
-    label: "Rejected",
-  },
+	{
+		id: 1,
+		value: "Pending",
+		label: "Pending",
+	},
+	{
+		id: 2,
+		value: "Approved",
+		label: "Approved",
+	},
+	{
+		id: 3,
+		value: "Rejected",
+		label: "Rejected",
+	},
 ];
 
 const types = [
-  { id: 1, value: "Casual", label: "Casual" },
-  { id: 2, value: "Sick", label: "Sick" },
+	{ id: 1, value: "Casual", label: "Casual" },
+	{ id: 2, value: "Sick", label: "Sick" },
 ];

@@ -34,3 +34,4 @@ export { default as MAIL } from "./mail.png";
 export { default as NEW_MAIL } from "./newMail.png";
 export { default as DOCUMENT } from "./docs.png";
 export { default as GST_ICON } from "./gst-icon.png";
+export { default as TENDER } from "./tender.png";
