@@ -236,7 +236,7 @@ const ViewPayrollDetails = () => {
         count: `${bonus?.salaryBonus ? bonus?.salaryBonus : "---"}`,
       },
     ],
-    [Gross_Salary]
+    [Gross_Salary, bonus]
   );
   const deduction = useMemo(
     () => [
@@ -296,7 +296,7 @@ const ViewPayrollDetails = () => {
         }`,
       },
     ],
-    [Gross_Salary]
+    [Gross_Salary, bonus]
   );
 
   const ctc = useMemo(
