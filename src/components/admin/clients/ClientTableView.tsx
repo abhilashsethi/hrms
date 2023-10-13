@@ -54,7 +54,7 @@ const ClientTableView = ({ data, mutate }: Props) => {
         columns={[
           {
             title: "#",
-            field: "sl",
+            field: "sn",
             editable: "never",
             width: "2%",
           },
