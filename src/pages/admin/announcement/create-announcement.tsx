@@ -65,9 +65,17 @@ const CreateAnnouncement = () => {
         description: values?.message,
         status: values?.announcementStatus,
         branchId: values?.branchId,
+
         isAll: checked,
-        departmentId: values?.departmentId ? values?.departmentId : undefined,
-        roleId: values?.roleId ? values?.roleId : undefined,
+        departmentId: values?.departmentId
+          ? values?.departmentId?.id
+          : undefined,
+
+        departmentName: values?.departmentId
+          ? values?.departmentId?.name
+          : undefined,
+        roleId: values?.roleId ? values?.roleId?.id : undefined,
+        roleName: values?.roleId ? values?.roleId?.name : undefined,
       };
       const res = await change(`announcement`, {
         body: resData,
@@ -213,7 +221,7 @@ const CreateAnnouncement = () => {
                               e: SyntheticEvent<Element, Event>,
                               r: Role | null
                             ) => {
-                              setFieldValue("roleId", checked ? "" : r?.id);
+                              setFieldValue("roleId", checked ? "" : r);
                             }}
                             getOptionLabel={(option) =>
                               option.name ? option?.name : ""
@@ -245,10 +253,7 @@ const CreateAnnouncement = () => {
                               e: SyntheticEvent<Element, Event>,
                               r: Role | null
                             ) => {
-                              setFieldValue(
-                                "departmentId",
-                                checked ? "" : r?.id
-                              );
+                              setFieldValue("departmentId", checked ? "" : r);
                             }}
                             getOptionLabel={(option) =>
                               option.name ? option?.name : ""
