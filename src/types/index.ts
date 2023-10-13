@@ -343,7 +343,7 @@ export type Client = {
 	ticketsCountAccordingProjects?: ClientDashboard[];
 	projectCountStatusWise?: ClientDashboard[];
 	ticketCounts?: ClientDashboard[];
-	countryCode?: string
+	countryCode?: string;
 };
 export type ClientDashboard = {
 	projectName?: string;
@@ -562,17 +562,16 @@ export interface Bills {
 	billOfBranch?: Branch;
 	billOfBranchId?: string;
 }
-export interface Announcement{
+export interface Announcement {
 	id?: string;
 	title?: string;
 	description?: string;
 	createdAt?: Date | string;
 	updatedAt?: Date | string;
-	status?: string
+	status?: string;
 	branchId?: string;
 	departmentId?: string;
 	roleId?: string;
-
 }
 export interface QuotationBank {
 	id?: string;

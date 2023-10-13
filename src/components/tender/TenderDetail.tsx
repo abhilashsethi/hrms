@@ -27,6 +27,7 @@ interface TenderDoc {
 	id?: string;
 }
 const TenderDetail = ({ tenderData, isLoading, mutate }: Props) => {
+	console.log(tenderData);
 	const { user } = useAuth();
 	const { change } = useChange();
 	const basicDetails = [
