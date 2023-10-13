@@ -86,3 +86,4 @@ export { default as SecurityInformation } from "./SecurityInformation";
 export { default as SelectBankAccount } from "./SelectBankAccount";
 export { default as AddBonos } from "./AddBonos";
 export { default as SelectBankAccountBills } from "./SelectBankAccountBills";
+export { default as AnnouncementData } from "./AnnouncementData";

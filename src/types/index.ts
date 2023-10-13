@@ -572,6 +572,9 @@ export interface Announcement {
 	branchId?: string;
 	departmentId?: string;
 	roleId?: string;
+	isAll?: boolean;
+	departmentName?: string;
+	roleName?: string;
 }
 export interface QuotationBank {
 	id?: string;
