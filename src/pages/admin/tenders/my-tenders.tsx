@@ -135,7 +135,7 @@ const CardContent = ({ item, mutate, tenderId }: Props) => {
 		<>
 			<div className="w-full h-full rounded-lg overflow-hidden shadow-sleek">
 				<div
-					className={`h-28 w-full flex justify-center items-center relative bg-[#76DCC7]`}
+					className={`h-28 w-full flex justify-center items-center relative  bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500`}
 				>
 					<div
 						className={`px-4 py-0.5 rounded-r-full absolute top-[10px] left-0 ${
@@ -180,11 +180,7 @@ const CardContent = ({ item, mutate, tenderId }: Props) => {
 							</Tooltip>
 						) : null}
 					</div>
-					<img
-						className="h-12 object-contain "
-						src={TENDERCARD.src}
-						alt="icon"
-					/>
+					<img className="h-16 object-contain " src={TENDER.src} alt="icon" />
 				</div>
 				<div className="bg-white p-4">
 					<h1 className="font-semibold text-sm">{item?.title}</h1>
