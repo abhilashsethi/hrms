@@ -90,7 +90,8 @@ const MeetingsColumn = ({ data, mutate }: Props) => {
                 }))
           }
           options={{
-            ...MuiTblOptions(),
+            ...MuiTblOptions("Meetings"),
+            paging: false,
           }}
           columns={[
             {
