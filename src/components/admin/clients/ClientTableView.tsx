@@ -3,27 +3,53 @@ import { PeopleRounded, PersonRounded } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import { CopyClipboard, HeadStyle } from "components/core";
 import { useChange } from "hooks";
+import moment from "moment";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import { Client } from "types";
 import { MuiTblOptions, clock, getDataWithSL } from "utils";
 interface ARRAY {
   id?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  name?: string;
+  email?: string;
+  _count?: { tickets?: number; projects?: number };
 }
 interface Props {
-  data?: ARRAY[];
+  data?: Client[];
   mutate?: any;
 }
 const ClientTableView = ({ data, mutate }: Props) => {
   const { change, isChanging } = useChange();
-
 
   return (
     <section className="lg:px-8 px-2 my-8">
       <MaterialTable
         title={<HeadStyle name="All Clients" icon={<PeopleRounded />} />}
         isLoading={!data}
-        data={data ? getDataWithSL<any>(data) : []}
-        options={{ ...MuiTblOptions(), selection: false, paging: false }}
+        data={
+          data
+            ? data?.map((item, i: number) => ({
+                id: item?.id,
+                name: item?.name,
+                email: item?.email,
+                ticket: item?._count?.tickets,
+                project: item?._count?.projects,
+                updatedAtData: item?.updatedAt
+                  ? clock(item?.updatedAt).fromNow()
+                  : "---",
+                createdAtData: item?.createdAt
+                  ? moment(item?.createdAt).format("ll")
+                  : "---",
+              }))
+            : []
+        }
+        options={{
+          ...MuiTblOptions("All Clients"),
+          selection: false,
+          paging: false,
+        }}
         columns={[
           {
             title: "#",
@@ -42,35 +68,26 @@ const ClientTableView = ({ data, mutate }: Props) => {
             tooltip: "Email",
             field: "email",
             editable: "never",
-            render: ({ email }) => <CopyClipboard value={email} />,
           },
 
           {
             title: "Total Ticket",
             tooltip: "Total Ticket",
             editable: "never",
-            render: (data) => (
-              <>
-                <p>{data?._count?.tickets}</p>
-              </>
-            ),
+            field: "ticket",
           },
           {
             title: "Total Project",
             tooltip: "Total project",
             editable: "never",
-            render: (data) => (
-              <>
-                <p>{data?._count?.projects}</p>
-              </>
-            ),
+            field: "project",
           },
           {
             title: "Details",
             tooltip: "Details",
-            render: (item) => {
+            render: (data) => {
               return (
-                <Link href={`/admin/clients/client-profile?id=${item?.id}`}>
+                <Link href={`/admin/clients/client-profile?id=${data?.id}`}>
                   <Tooltip title="Details">
                     <div className="text-sm bg-gradient-to-r from-blue-500 to-blue-400 h-8 w-8 rounded-md flex justify-center items-center cursor-pointer">
                       <PersonRounded className="!text-white" />
@@ -83,15 +100,13 @@ const ClientTableView = ({ data, mutate }: Props) => {
           },
           {
             title: "Last Updated",
-            field: "updatedAt",
-            render: (data) => clock(data.updatedAt).fromNow(),
+            field: "updatedAtData",
             editable: "never",
           },
 
           {
             title: "Created",
-            field: "createdAt",
-            render: (data) => new Date(data.createdAt).toDateString(),
+            field: "createdAtData",
             editable: "never",
           },
         ]}
