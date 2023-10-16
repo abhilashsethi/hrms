@@ -44,10 +44,10 @@ const validationSchema = Yup.object().shape({
 });
 const EditQuotationDetails = ({ open, handleClose, mutate, data }: Props) => {
   const [isStatus, setIsStatus] = useState("");
-  const [isCgst, setIsCgst] = useState(true);
-  const [isSgst, setIsSgst] = useState(true);
+  const [isCgst, setIsCgst] = useState(data?.isCgst);
+  const [isSgst, setIsSgst] = useState(data?.isSgst);
   const [loading, setLoading] = useState(false);
-  const [isGstValue, setIsGstValue] = useState(false);
+  const [isGstValue, setIsGstValue] = useState(data?.isIgst);
   const { data: Branch } = useFetch<Branch[]>(`branches`);
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsGstValue(event.target.value === "IGST");
