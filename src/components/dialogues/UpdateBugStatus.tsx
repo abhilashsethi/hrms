@@ -25,7 +25,9 @@ interface Props {
 	mutate?: any;
 	id?: any;
 }
-const validationSchema = Yup.object().shape({});
+const validationSchema = Yup.object().shape({
+	description: Yup.string().required("Description is required"),
+});
 
 const UpdateBugStatus = ({ open, handleClose, mutate, id }: Props) => {
 	const [bugData, setBugData] = useState<any>({});
