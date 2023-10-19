@@ -52,7 +52,7 @@ const CreateBills = () => {
 	const [isClientAddress, setIsClientAddress] = useState("");
 	const [isCgst, setIsCgst] = useState(false);
 	const [isSgst, setIsSgst] = useState(false);
-	const [isGstValue, setIsGstValue] = useState(false);
+	const [isGstValue, setIsGstValue] = useState(true);
 	const [fields, setFields] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const ReactQuill = dynamic(import("react-quill"), { ssr: false });
@@ -149,6 +149,7 @@ const CreateBills = () => {
 							quotationTitle: values?.quotationTitle,
 							isCgst: isCgst,
 							isSgst: isSgst,
+							isIgst: isGstValue,
 							works: transformedArray,
 							invoiceDate: values?.invoiceDate,
 							clientGstNumber: values?.clientGSTNumber,
@@ -180,6 +181,8 @@ const CreateBills = () => {
 						clientAddress: isClientAddress,
 						quotationTitle: values?.quotationTitle,
 						isIgst: isGstValue,
+						isCgst: isCgst,
+						isSgst: isSgst,
 						works: transformedArray,
 						invoiceDate: values?.invoiceDate,
 						isGst: values?.gst,
@@ -230,6 +233,7 @@ const CreateBills = () => {
 							invoiceDate: values?.invoiceDate,
 							isCgst: isCgst,
 							isSgst: isSgst,
+							isIgst: isGstValue,
 							isGst: true,
 						},
 					});
@@ -259,6 +263,8 @@ const CreateBills = () => {
 						clientAddress: values?.clientAddress,
 						works: transformedArray,
 						termsAndConditions: values?.text,
+						isCgst: isCgst,
+						isSgst: isSgst,
 						isIgst: isGstValue,
 						clientGstNumber: values?.clientGSTNumber,
 						invoiceDate: values?.invoiceDate,
@@ -300,6 +306,7 @@ const CreateBills = () => {
 							invoiceDate: values?.invoiceDate,
 							isCgst: isCgst,
 							isSgst: isSgst,
+							isIgst: isGstValue,
 							isGst: values?.gst,
 							clientGstNumber: values?.clientGSTNumber,
 						},
@@ -329,6 +336,8 @@ const CreateBills = () => {
 						clientAddress: values?.clientAddress,
 						works: transformedArray,
 						invoiceDate: values?.invoiceDate,
+						isCgst: isCgst,
+						isSgst: isSgst,
 						isIgst: isGstValue,
 						isGst: values?.gst,
 						clientGstNumber: values?.clientGSTNumber,
@@ -578,9 +587,9 @@ const CreateBills = () => {
 																<span className="text-red-600">*</span>
 															</p>
 															<RadioGroup
-																defaultValue={isEmdValue ? "IGST" : "SGST"}
+																defaultValue={isGstValue ? "IGST" : "SGST"}
 																row
-																name="isEmdValue"
+																name="isGstValue"
 																onChange={handleOptionChange}
 															>
 																<FormControlLabel
@@ -766,9 +775,9 @@ const CreateBills = () => {
 														<span className="text-red-600">*</span>
 													</p>
 													<RadioGroup
-														defaultValue={isEmdValue ? "IGST" : "SGST"}
+														defaultValue={isGstValue ? "IGST" : "SGST"}
 														row
-														name="isEmdValue"
+														name="isGstValue"
 														onChange={handleOptionChange}
 													>
 														<FormControlLabel
@@ -930,9 +939,9 @@ const CreateBills = () => {
 																<span className="text-red-600">*</span>
 															</p>
 															<RadioGroup
-																defaultValue={isEmdValue ? "IGST" : "SGST"}
+																defaultValue={isGstValue ? "IGST" : "SGST"}
 																row
-																name="isEmdValue"
+																name="isGstValue"
 																onChange={handleOptionChange}
 															>
 																<FormControlLabel
