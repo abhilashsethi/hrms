@@ -253,7 +253,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
 												badgeContent={
 													(getUnreadMailCount &&
 														(getUnreadMailCount > 99
-															? "99+"
+															? "10+"
 															: getUnreadMailCount)) ||
 													undefined
 												}
@@ -275,7 +275,7 @@ const PanelLayout = ({ children, title = "YardOne" }: Props) => {
 												badgeContent={
 													(getUnreadChatCount &&
 														(getUnreadChatCount > 99
-															? "99+"
+															? "10+"
 															: getUnreadChatCount)) ||
 													undefined
 												}
